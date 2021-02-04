@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Berechnen der Bestandsverf&#252;gbarkeit f&#252;r Einzelhandelskan&#228;le | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Berechnen der Bestandsverf&#252;gbarkeit f&#252;r Einzelhandelskan&#228;le | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="calculate-inventory-availability-for-retail-channels" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="27">Berechnen der Bestandsverfügbarkeit für Einzelhandelskanäle</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="articles_de/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="31">In diesem Thema wird beschrieben, wie ein Unternehmen Microsoft Dynamics 365 Commerce verwenden kann, um die geschätzte Verfügbarkeit von Produkten im Online- und Shop-Kanal anzuzeigen.</p>
+<h2 id="accuracy-of-calculation" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="33">Genauigkeit der Berechnung</h2>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="35">Commerce verwendet mehrere Server und Datenbanken, um Skalierbarkeit und Leistung zu gewährleisten. Daher ist es wichtig, dass Sie sich darüber im Klaren sind, dass die verfügbaren Bestandswerte, die über die POS-Anwendung (Point of Sale), die Anwendungs-Programmierschnittstellen (APIs) für die Verfügbarkeit des E-Commerce-Bestands und die verfügbaren Bestandsseiten in Commerce Headquarters bereitgestellt werden, möglicherweise nicht zu 100 Prozent in Echtzeit korrekt sind. Wenn Transaktionen, die für Produkte im Online- oder Store-Kanal erstellt werden, noch nicht mit dem Server und der Datenbank von Commerce Headquarters synchronisiert wurden, zeigen die Seiten für den vorliegenden Bestand in Commerce Headquarters möglicherweise keinen genauen Echtzeit-Bestandswert für diese Produkte an. Wenn Sie Ihr Unternehmen umgekehrt so konfiguriert haben, dass Benutzer in Commerce Headquarters oder in anderen integrierten Anwendungen den Bestand in einem Geschäft oder einem Online-Lager verkaufen, empfangen, zurückgeben oder anderweitig anpassen können, verfügt die Verkaufsstelle oder der Online-Kanal möglicherweise nicht über alle Informationen, die erforderlich sind, um einen genauen Echtzeit-Bestandswert für Artikel anzuzeigen.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="37">In diesem Thema werden die Datensynchronisationsprozesse erläutert, die häufig ausgeführt werden können, um die Latenzzeit der Daten zwischen Anwendungen oder Kanälen zu begrenzen. Es ist jedoch wichtig, dass Sie verstehen, dass alle verfügbaren Daten, die während des Betriebstages zur Verfügung gestellt werden, als Schätzwert betrachtet werden. Wenn Sie daher versuchen, die von der Anwendung bereitgestellten Bestandsinformationen mit dem tatsächlichen physischen Bestand in den Regalen zu vergleichen, oder wenn Sie versuchen, die in der Kasse angezeigten Bestandswerte mit den Bestandsdaten zu vergleichen, die Sie für dasselbe Lager in Commerce Headquarters finden, können die Werte abweichen. Diese Differenz wird während des Betriebstages erwartet und sollte nicht als Problem betrachtet werden. Wenn Sie Daten prüfen und sicherstellen möchten, dass die Werte, die in den Bestandsverfügbarkeits-APIs und in Commerce Headquarters bereitgestellt werden, mit den tatsächlichen physischen Einheiten übereinstimmen, die Sie in Ihrem Geschäft oder in den Regalen Ihres Lagers vorfinden, sollten Sie dies am besten tun, nachdem die Channel-Operationen für den Tag gestoppt und alle Transaktionen zwischen Commerce Headquarters und dem Channel korrekt synchronisiert wurden.</p>
+<h2 id="use-inventory-lookup-apis-for-e-commerce-inventory-availability-requests" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="39">Verwenden Sie APIs zur Bestandsabfrage für Anfragen zur Verfügbarkeit von E-Commerce-Beständen.</h2>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="41">Sie können die folgenden APIs verwenden, um die Bestandsverfügbarkeit für ein Produkt anzuzeigen, wenn Ihre Kunden auf einer E-Commerce-Website einkaufen.</p>
+<ul sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="43">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="43"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="43">GetEstimatedAvailabilty</strong> – Verwenden Sie diese API, um die Bestandsverfügbarkeit für den Artikel im Lager des E-Commerce-Kanals oder in allen Lagern anzuzeigen, die mit der Konfiguration der Erfüllungsgruppe für den E-Commerce-Kanal verknüpft sind. Diese API kann auch für Lager in einem bestimmten Suchbereich oder Radius verwendet werden, basierend auf Längen- und Breitengraddaten.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="44"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="44">GetEstimatedProductWarehouseAvailability</strong> - Verwenden Sie diese API, um den Bestand für einen Artikel aus einem bestimmten Lager anzufordern. Sie können sie beispielsweise verwenden, um die Bestandsverfügbarkeit in Szenarien anzuzeigen, die eine Auftragsabholung beinhalten.</li>
+</ul>
+<div class="NOTE" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="46">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="47">Diese APIs ersetzen die APIs <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="47">GetProductAvailabilities</strong> und <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="47">GetAvailableInventoryNearby</strong> in Dynamics 365 Retail Version 10.0.7 und früher.</p>
+</div>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="49">Beide APIs rufen Daten vom Commerce-Server ab und liefern eine Schätzung des verfügbaren Bestands für eine bestimmte Kombination aus einem Produkt oder einer Produktvariante und einem Lager. Obwohl andere APIs, die auf dem Commerce-Server verfügbar sind, direkt an Commerce Headquarters gehen können, um vorrätige Mengen für Produkte abzurufen, empfehlen wir nicht, dass sie in einer E-Commerce-Umgebung verwendet werden, da diese häufigen Anfragen potenzielle Leistungsprobleme und die damit verbundenen Auswirkungen auf die Commerce Headquarters Server haben können. Wenn der vorrätige Bestand über den Commerce-Server berechnet wird, ist es wahrscheinlicher, dass die Berechnung den Bestand einschließt, der in den letzten E-Commerce-Transaktionen verkauft wurde, die noch nicht mit Commerce Headquarters synchronisiert wurden. Auch wenn Commerce Headquarters möglicherweise nicht über Informationen über diese Transaktionen verfügt, sind die Daten auf dem Commerce-Server und in der Channel-Datenbank vorhanden. Daher werden die Daten berücksichtigt und können dazu beitragen, eine genauere Schätzung des verfügbaren Bestands eines Produkts zu liefern.</p>
+<h3 id="get-started-with-e-commerce-calculated-inventory-availability" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="51">Beginnen Sie mit der berechneten Verfügbarkeit des E-Commerce-Bestands</h3>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="53">Bevor Sie die beiden zuvor genannten APIs verwenden, müssen Sie die Funktion <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="53">Optimierte Berechnung der Produktverfügbarkeit</strong> über den Arbeitsbereich <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="53">Funktionsverwaltung</strong> in der Handelszentrale aktivieren.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="55">Bevor die APIs die bestmögliche Schätzung der Bestandsverfügbarkeit für einen Artikel berechnen können, muss ein periodischer Snapshot der Bestandsverfügbarkeit von Commerce Headquarters verarbeitet und an die Datenbank des Vertriebskanals gesendet werden, die die E-Commerce Commerce Scale Unit verwendet. Der Snapshot stellt die Informationen dar, die Commerce Headquarters über die Bestandsverfügbarkeit für eine bestimmte Kombination aus einem Produkt oder einer Produktvariante und einem Lager hat. Er kann Bestandsanpassungen oder -bewegungen enthalten, die durch Lagereingänge oder durch Lieferungen oder andere Prozesse in Commerce Headquarters verursacht werden und über die der E-Commerce-Kanal nur aufgrund des Synchronisierungsprozesses Informationen hat.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="57">Der Datenbank-Snapshot, den der Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="57">Produktverfügbarkeit</strong> erstellt, berechnet nur die Bestandstransaktionen, die zum Zeitpunkt der Erstellung des Snapshots in Commerce Headquarters verarbeitet und gebucht wurden. Wenn der Bestand für ein Produkt in einem Ladenlager durch einen Cash-and-Carry- oder asynchronen Kundenauftragsverkauf in der POS-Anwendung verkauft wurde, verfügt Commerce Headquarters nicht sofort über Informationen über die entsprechende Bestandsausgabetransaktion für den Verkauf. Informationen über den Bestand, der für diese Art von Ladenverkäufen verkauft wird, liegen erst dann vor, wenn der P-Job die entsprechende Transaktion aus der Vertriebskanal-Datenbank des Ladens in Commerce Headquarters hochlädt und der entsprechende Kundenauftrag durch die Auszugsbuchung oder die Einzelzulaufbuchungsvorgänge erstellt wird. Durch den Prozess der Auftragserstellung in Commerce Headquarters werden die zugehörigen Bestandstransaktionen erstellt. Bei Bestellungen über den E-Commerce-Kanal verfügt Commerce Headquarters erst dann über Informationen zu den Bestandstransaktionen, wenn die Transaktionen über den P-Job an Commerce Headquarters gesendet werden und der Bestellsynchronisationsprozess abgeschlossen ist. Daher ist es wichtig, dass Sie sich darüber im Klaren sind, dass der Wert der Bestandsaufnahme, der im Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="57">Produktverfügbarkeit</strong> bereitgestellt wird, aufgrund der konstanten Verkaufsverarbeitung, die über verteilte Server erfolgt, möglicherweise nicht zu 100 Prozent in Echtzeit korrekt ist.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="59">Führen Sie die folgenden Schritte aus, um einen Snapshot des Inventars in Commerce Headquarters zu erstellen.</p>
+<ol sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="61">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="61">Gehen Sie zu <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="61">Retail and Commerce &gt; Retail and Commerce IT &gt; Produkte und Bestand &gt; Produktverfügbarkeit</strong>.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="62">Wählen Sie <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="62">OK</strong>, um den Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="62">Produktverfügbarkeit</strong> auszuführen. Sie können diesen Job auch so einplanen, dass er im Batch ausgeführt wird.</li>
+</ol>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="64">Nachdem der Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="64">Produktverfügbarkeit</strong> ausgeführt wurde, müssen die erfassten Daten an die Datenbanken des E-Commerce-Kanals weitergeleitet werden, sodass der neueste Bestandsabgleich von Commerce Headquarters bei der Berechnung des geschätzten Lagerbestands berücksichtigt werden kann.</p>
+<ol sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="66">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="66">Gehen Sie zu <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="66">Retail and Commerce &gt; Retail and Commerce IT &gt; Vertriebsplan</strong>.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="67">Führen Sie den Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="67">1130</strong> (<strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="67">Produktverfügbarkeit</strong>) aus, um die Momentaufnahmedaten, die der Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="67">Produktverfügbarkeit</strong> von Commerce Headquarters erstellt hat, mit Ihren Kanaldatenbanken zu synchronisieren.</li>
+</ol>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="69">Wenn die Bestandsverfügbarkeit von der API <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="69">GetEstimatedAvailabilty</strong> oder <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="69">GetEstimatedProductWarehouseAvailability</strong> angefordert wird, wird eine Berechnung durchgeführt, um die bestmögliche Schätzung des Bestands für das Produkt zu erhalten. Die Berechnung bezieht sich auf alle E-Commerce-Kundenbestellungen, die in der Kanaldatenbank enthalten sind, aber nicht in den Momentaufnahmedaten enthalten waren, die der 1130-Job geliefert hat. Diese Logik wird ausgeführt, indem die zuletzt verarbeitete Bestandstransaktion von Commerce Headquarters verfolgt und mit den Transaktionen in der Kanaldatenbank verglichen wird. Sie liefert eine Basislinie für die kanalseitige Berechnungslogik, sodass die zusätzlichen Bestandsbewegungen, die bei Verkaufstransaktionen von Kundenbestellungen in der E-Commerce-Kanaldatenbank aufgetreten sind, in den geschätzten Bestandswert, den die API liefert, einbezogen werden können.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="71">Die kanalseitige Berechnungslogik liefert einen geschätzten physisch verfügbaren Wert und einen verfügbaren Gesamtwert für das angeforderte Produkt und das Lager. Die Werte können auf Ihrer E-Commerce-Site angezeigt werden, wenn Sie dies wünschen, oder sie können verwendet werden, um andere Geschäftslogik auf Ihrer E-Commerce-Site auszulösen. So können Sie beispielsweise eine Meldung „nicht vorrätig“ anstelle der tatsächlich verfügbaren Menge anzeigen, die die API übergeben hat.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="73">Die Berechnungslogik, die die kanalseitigen e-Commerce-APIs für den geschätzten Bestandswert verwenden, kann den Bestand nur auf der Grundlage von Kundenbestellungen bewerten, die in der Kanaldatenbank erstellt, aber noch nicht synchronisiert und in Commerce Headquarters gebucht wurden. Wenn Ihre Vertriebskanal-Datenbank auch Transaktionsdaten für Cash-and-Carry-Verkäufe für filialspezifische Läger enthält, werden die Cash-and-Carry-Verkäufe nicht in die kanalseitige E-Commerce-Berechnung für diese Lager berücksichtigt.</p>
+<h2 id="configure-the-inventory-lookup-operation-in-the-pos-channel" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="75">Konfigurieren Sie den Bestandssuchevorgang im POS-Kanal.</h2>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="77">In Retail Version 10.0.9 und früher verwendete die Operation <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="77">Bestandsabfrage</strong> von POS aus einen Echtzeit-Serviceaufruf an Commerce Headquarters, um Bestandsinformationen für das ausgewählte Produkt zu erhalten, und zwar sowohl für den aktuellen Laden des Benutzers als auch für alle anderen Läden, die als Teil der Channel-Konfiguration für den Laden für die Fulfillment-Gruppe konfiguriert sind. In der Commerce-Version 10.0.10 und höher können Sie die Echtzeit-Serviceanrufe an Commerce Headquarters ausschalten. Stattdessen können Sie die kanalseitige Berechnung auf dem Commerce-Server verwenden, um den physisch verfügbaren Bestand für die Filiale und alle anderen Standorte zu ermitteln, die in der Auftragserfüllungsgruppe definiert sind. Diese kanalseitig berechnete Bestandskonfiguration ist auch für Standorte nützlich, an denen die Internetverbindung unzuverlässig ist, da Sie nicht online sein müssen, um Bestandsabfragen von Commerce Headquarters zu erhalten.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="79">Wenn die kanalseitige Berechnung korrekt konfiguriert und verwaltet wird, kann sie eine zuverlässigere Schätzung des aktuellen Ladenbestands liefern, da sie die Transaktionsdaten verwendet, die in der Datenbank des Commerce-Kanals enthalten sind, über die Headquarters aber möglicherweise noch keine Informationen hat. Wenn Sie beispielsweise den vorhandenen Echtzeit-Serviceabruf für Bestandsabfragen in POS verwenden, verfügt Commerce Headquarters wahrscheinlich noch nicht über Informationen über einen Cash-and-Carry-Verkauf, der gerade für ein Produkt stattgefunden hat. Daher wird der aktuelle Bestandswert, den Commerce Headquarters für dieses Produkt zurückgibt, wahrscheinlich den aktuellen Bestand des Ladens um eine Einheit übersteigen. Wenn Sie jedoch die kanalseitige Berechnung verwenden, kann der Mitnahmeverkauf in die Berechnung einbezogen und vom angezeigten Bestandswert abgezogen werden. Obwohl die Werte, die sowohl die kanalseitige Berechnung als auch der Echtzeit-Serviceabruf liefern, nur Schätzungen des aktuellen Bestands sind, ist der Wert, den die kanalseitige Berechnung liefert, für das aktuelle Geschäft viel wahrscheinlicher.</p>
+<h3 id="get-started-with-pos-channel-side-calculated-inventory-availability" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="81">Beginnen Sie mit der kanalseitigen Berechnung der Bestandsverfügbarkeit am POS</h3>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="83">Um die kanalseitige Berechnungslogik zu verwenden und Echtzeitserviceaufrufe für Bestandssuchen in der POS-Anwendung zu deaktivieren, müssen Sie zuerst die Option <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="83">Optimierte Berechnung der Produktverfügbarkeit</strong> über den Arbeitsbereich <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="83">Funktionsverwaltung</strong> in der Handelszentrale aktivieren. Zusätzlich zur Aktivierung der Funktion müssen Sie Änderungen am <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="83">Funktionsprofil</strong> vornehmen.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="85">Führen Sie die folgenden Schritte aus, um das <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="85">Funktionsprofil</strong> zu ändern:</p>
+<ol sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="87">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="87">Gehen Sie zu <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="87">Retail und Commerce &gt; Kanaleinrichtung &gt; POS-Einrichtung &gt; POS-Profile &gt; Funktionsprofile</strong>.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="88">Wählen Sie ein Funktionsprofil aus.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Ändern Sie auf den Inforegister <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Funktionen</strong> im Abschnitt <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Verfügbarkeitsberechnung</strong> von <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Verfügbarkeitsberechnungsmodus</strong> von <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Echtzeitdienst</strong> auf <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="89">Kanal</strong>. Standardmäßig verwenden alle Funktionsprofile Echtzeit-Serviceabrufe. Daher müssen Sie den Wert dieses Feldes ändern, wenn Sie die kanalseitige Berechnungslogik verwenden möchten. Jedes Einzelhandelsgeschäft, das mit dem ausgewählten Funktionsprofil verknüpft ist, ist von dieser Änderung betroffen.</li>
+</ol>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="91">Anschließend müssen Sie die Änderungen am Kanal über den Verteilungsplanungsprozess synchronisieren, indem Sie die folgenden Schritte ausführen:</p>
+<ol sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="93">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="93">Gehen Sie zu <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="93">Retail and Commerce &gt; Retail and Commerce IT &gt; Vertriebsplan</strong>.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="94">Führen Sie den Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="94">1070</strong> (<strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="94">Kanalkonfiguration</strong>) aus.</li>
+</ol>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="96">Nach Abschluss der Konfiguration verwenden die Informationen, die über den physisch verfügbaren Bestand bereitgestellt werden, keinen Echtzeit-Serviceabruf mehr, wenn ein Benutzer in der POS-Anwendung den Vorgang <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="96">Bestandssuche</strong> verwendet (Standard- und Matrixansicht). Stattdessen werden die Daten über den physisch verfügbaren Bestand für die aktuelle Filiale und alle Filialen in der Erfüllungsgruppe auf der Grundlage des letzten bekannten Snapshots berechnet, der von Headquarters an die Kanaldatenbank geliefert wurde. Der Momentaufnahmewert wird durch die kanalseitige Berechnung weiter verfeinert, um den physisch verfügbaren Wert auf der Grundlage zusätzlicher Verkaufs- oder Retourentransaktionen anzupassen, die für das ausgewählte Produkt in der Kanaldatenbank vorhanden sind und die in der letzten synchronisierten Momentaufnahme aus dem Auftrag 1130 nicht enthalten waren. Wenn die Vertriebskanal-Datenbank keine Transaktionsdaten für eines der Lager oder Geschäfte in der Erfüllungsgruppe enthält, enthält sie keine zusätzlichen Transaktionen, die in eine Neuberechnung des Wertes einbezogen werden können. Die beste Schätzung des verfügbaren Bestands, der für diese Lager oder Geschäfte angezeigt werden kann, sind daher die Daten aus dem letzten bekannten Snapshot von Commerce Headquarters.</p>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="98">Die Bildschirme <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="98">Auftragserfüllung</strong> von POS nutzen auch die Berechnung auf der Kanalseite, um den verfügbaren Bestand für Artikel anzuzeigen, wenn eine Zeile zur Auftragserfüllung ausgewählt wird und ein Benutzer das Panel <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="98">Details</strong> für den verfügbaren Bestand für den ausgewählten Artikel anzeigt.</p>
+<h2 id="optimize-your-inventory-data" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="100">Optimieren Sie Ihre Bestandsdaten</h2>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="102">Um die bestmögliche Schätzung des Bestands zu gewährleisten, ist es wichtig, dass Sie die folgenden Commerce-Batch-Jobs verwenden und diese häufig ausführen:</p>
+<ul sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="104">
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="104"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="104">P-Job</strong> - Der P-Job ist auf der Seite <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="104">Verteilungspläne</strong> zu finden und sollte häufig ausgeführt werden. Dieser Job bringt e-Commerce-Bestellungen, asynchrone Kundenbestellungen, die von POS erstellt wurden, und Cash-and-Carry-Bestellungen, die von POS aus den Channel-Datenbanken erstellt wurden, in Commerce Headquarters, damit sie weiter verarbeitet werden können. Solange diese Daten nicht vom Channel zu Commerce Headquarters synchronisiert sind, verfügt Commerce Headquarters über keine Informationen über Bestandsanpassungen der Produkte in den Lagern, die sich aus diesen Transaktionen ergeben.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="105"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="105">Bestellungen synchronisieren</strong> - Dieser Job verarbeitet die rohen Transaktionsdaten in Commerce Headquarters, die der P-Job zur Verfügung stellt, und konvertiert E-Commerce- und asynchrone Kundenbestellungstransaktionen in Kundenaufträge in Commerce Headquarters. Bis dieser Job verarbeitet und die Kundenaufträge erstellt sind, werden keine Bestandstransaktionen erstellt. Daher werden die Transaktionen bei der Bestandsaufnahme in Commerce Headquarters nicht berücksichtigt.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="106"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="106">Transaktionsaufstellungen im Batch berechnen</strong> - Bei Cash-and-Carry-Transaktionen, die im Geschäft erstellt werden, stellt der Einzelzulaufsbuchungsprozess sicher, dass der Bestand, der mit den Verkäufen in Zusammenhang steht, effizient aktualisiert wird. Um die effizienteste Verarbeitung von Bestandstransaktionen für Cash-and-Carry-Bestellungen zu erhalten, stellen Sie sicher, dass Sie Ihr System so konfigurieren, dass <a href="https://docs.microsoft.com/dynamics365/commerce/trickle-feed" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="106">Einzelzulaufsbuchung</a> verwendet wird.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="107"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="107">Posttransaktionsauszüge im Batch</strong> - Dieser Job ist auch für die Einzelzulaufsbuchung erforderlich. Er folgt auf den Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="107">Transaktionale Anweisungen im Batch</strong> berechnen. Dieser Job bucht die berechneten Auszüge systematisch, sodass Kundenaufträge für Cash-and-Carry-Verkäufe in Commerce Headquarters erstellt werden, und Commerce Headquarters den Bestand Ihres Geschäfts genauer widerspiegeln.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="108"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="108">Produktverfügbarkeit</strong> - Dieser Job erstellt die Momentaufnahme des Bestands in Commerce Headquarters.</li>
+<li sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="109"><strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="109">1130 (Produktverfügbarkeit)</strong> - Dieser Job ist auf der Seite <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="109">Vertriebspläne</strong> zu finden und sollte unmittelbar nach dem Job <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="109">Produktverfügbarkeit</strong> ausgeführt werden. Mit diesem Job werden die Bestandsdaten von Commerce Headquarters zu den Vertriebskanal-Datenbanken transportiert.</li>
+</ul>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="111">Es wird empfohlen, diese Batchaufträge nicht zu häufig (alle paar Minuten) auszuführen. Häufige Ausführungen überlasten die Commerce-Zentralverwaltung (HQ) und können möglicherweise die Leistung beeinträchtigen. Im Allgemeinen empfiehlt es sich, die Produktverfügbarkeit und 1130 Jobs stündlich auszuführen und P-Jobs zu planen, Aufträge zu synchronisieren und Aufträge im Zusammenhang mit Feeding-Posts mit derselben oder einer höheren Häufigkeit durchzuführen.</p>
+<div class="NOTE" sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="113">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="114">Wenn die kanalseitige Bestandsverfügbarkeitsberechnung verwendet wird, um eine Bestandsverfügbarkeitsanforderung mit Hilfe der E-Commerce-APIs oder der neuen kanalseitigen POS-Bestandslogik zu stellen, verwendet die Berechnung aus Leistungsgründen einen Cache, um festzustellen, ob genügend Zeit verstrichen ist, um die erneute Ausführung der Berechnungslogik zu rechtfertigen. Der Standard-Cache ist auf 60 Sekunden eingestellt. Sie haben beispielsweise die kanalseitige Berechnung für Ihr Geschäft aktiviert und den verfügbaren Bestand für ein Produkt auf der Seite <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="114">Bestandssuche</strong> angezeigt. Wenn dann eine Einheit des Produkts verkauft wird, zeigt die Seite <strong sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="114">Bestandsabfrage</strong> den reduzierten Bestand erst dann an, wenn der Cache geleert wurde. Nachdem Benutzer Transaktionen in POS gebucht haben, sollten sie 60 Sekunden warten, bevor sie überprüfen, ob der verfügbare Bestand reduziert wurde.</p>
+</div>
+<p sourcefile="articles_de/commerce/calculated-inventory-retail-channels.md" sourcestartlinenumber="116">Wenn Ihr Geschäftsszenario eine geringere Cache-Zeit erfordert, wenden Sie sich an Ihren Produktsupportvertreter, um Hilfe zu erhalten.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles_de/commerce/calculated-inventory-retail-channels.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

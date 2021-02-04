@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unterst&#252;tzen parametrisierter Aufrufe von ER-Datenquellen des Typs &#8222;Berechnetes Feld&#8220; | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Unterst&#252;tzen parametrisierter Aufrufe von ER-Datenquellen des Typs &#8222;Berechnetes Feld&#8220; | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    <meta property="docfx:rel" content="../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="support-parameterized-calls-of-er-data-sources-of-the-calculated-field-type" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="26">Unterstützen parametrisierter Aufrufe von ER-Datenquellen des Typs „Berechnetes Feld“</h1>
+
+[!include[banner](../includes/banner.md)]
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="30">In diesem Thema wird erläutert, wie Sie eine Datenquelle für die elektronische Berichterstellung (Electronic Reporting, ER) mithilfe des Typs <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="30">Berechnetes Feld</strong> entwerfen können. Diese Datenquelle enthält ggf. einen ER-Ausdruck, der bei Ausführung durch die Werte der Parameterargumente gesteuert werden kann, die in einer Bindung konfiguriert sind, die diese Datenquelle aufruft. Wenn Sie parametrisierte Aufrufe einer solchen Datenquelle konfigurieren, können Sie eine einzelne Datenquelle in vielen Bindungen wiederverwenden, wodurch die Gesamtanzahl der Datenquellen verringert wird, die in ER-Modellzuordnungen oder in ER-Formaten konfiguriert werden müssen. Außerdem wird die konfigurierte ER-Komponente vereinfacht, wodurch sich die Instandhaltungskosten sowie die Kosten für die Verwendung durch andere Verbraucher verringern.</p>
+<h2 id="prerequisites" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="32">Voraussetzungen</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="33">Um die Beispiele in diesem Thema abzuschließen, müssen Sie den folgenden Zugriff haben:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="35">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="35"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="35">Zugreifen auf eine dieser Rollen:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="37">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="37">Entwickler für elektronische Berichterstellung</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="38">Funktionaler Berater für elektronische Berichterstellung</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="39">Systemadministrator</li>
+</ul>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="41"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="41">Zugriff auf die Regulatory Configuration Services (RCS), die für denselben Mandanten wie Finance and Operations bereitgestellt wurden, für eine der folgenden Rollen:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="43">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="43">Entwickler für elektronische Berichterstellung</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="44">Funktionaler Berater für elektronische Berichterstellung</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="45">Systemadministrator</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="47">Sie müssen auch die folgenden Dateien herunterladen und lokal speichern.</p>
+<table sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49">
+<thead>
+<tr sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49">
+<th sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49">Inhalt</strong></th>
+<th sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="49">Dateiname</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="51">
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="51">Beispiel-EB-Datenmodell-Konfiguration</td>
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="51"><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="51">Model to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="52">
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="52">Beispiel-EB-Metadatenkonfiguration</td>
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="52"><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="52">Metadata to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="53">
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="53">Beispiel-EB-Modellzuordnungskonfiguration</td>
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="53"><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="53">Mapping to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+<tr sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="54">
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="54">Beispiel-EB-Formatkonfiguration</td>
+<td sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="54"><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="54">Format to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sign-in-to-your-rcs-instance" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="56">Anmelden bei Ihrer RCS-Instanz</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="57">In diesem Beispiel erstellen Sie eine Konfiguration für die Musterfirma Litware, Inc. Zunächst müssen Sie im RCS die Schritte in der Prozedur <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="57">Konfigurationsanbieter anlegen durchführen und als aktiv markieren</a>:</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="59">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="59"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="59">Wählen Sie im Standard-Dashboard <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="59">Elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="60"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="60">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="60">Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="61"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="61">Importieren Sie die heruntergeladenen Konfigurationen in der folgenden Reihenfolge in RCS: Datenmodell, Metadaten, Modellzuordnung, Format. Führen Sie die folgenden Schritte für jede ER-Konfiguration aus:</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="63">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="63">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="63">Wechselkurs</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="64">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="64">Aus XML-Datei laden</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="65">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="65">Durchsuchen</strong> und dann die erforderliche EB-Konfiguration im XML-Format aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="66">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="66">OK</strong> aus.</li>
+</ol>
+</li>
+</ol>
+<h2 id="review-the-provided-er-solution" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="68">Überprüfen der bereitgestellten ER-Lösung</h2>
+<h3 id="review-model-mapping" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="70">Überprüfen der Modellzuordnung</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="72">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="72"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="72">Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="72">Modell zum Ermitteln parametrisierter Aufrufe</strong>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="73"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="73">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="73">Zuordnung zum Ermitteln parametrisierter Aufrufe</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="74"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="74">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="74">Designer</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="75"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="75">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="75">Designer</strong> aus.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="77">Diese ER-Modellzuordnung ist für die folgenden Aktionen vorgesehen:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="79">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="79"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="79">Holen Sie sich die Liste der Steuercodes (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="79">Steuern</strong> Datenquelle), die sich in der Tabelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="79">Steuertabelle</strong> befinden.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="80"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="80">Holen Sie sich die Liste der Steuertransaktionen (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="80">Trans</strong> Datenquelle), die sich in der Tabelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="80">TaxTrans</strong> befinden:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="82">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="82"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="82">Gruppieren Sie die Liste der abgerufenen Transaktionen (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="82">GR</strong>-Datenquelle) nach Steuercode.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="83"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="83">Berechnen Sie für gruppierte Transaktionen nach aggregierten Werten pro Steuercode:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="85">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="85">Summe der Steuerbasiswerte</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="86">Summe der Steuerwerte</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="87">Mindestwert des angewendeten Steuersatzes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="89">Die Modellzuordnung in dieser Konfiguration implementiert das Basisdatenmodell für alle EB-Formate, für die dieses Modell erstellt und in Finance and Operations ausgeführt werden. Demzufolge wird der Inhalt der <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="89">Steuer</strong>- und <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="89">GR</strong>-Datenquellen für ER-Formate wie abstrakte Datenquellen bereitgestellt.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="91"><img src="media/er-calculated-field-type-01.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="91" alt="Seite „Modellzuordnungsdesigner“ mit Steuer- und GR-Datenquellen"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="93"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="93">Schließen Sie die Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="93">Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="94"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="94">Schließen Sie die Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="94">Modellzuordnung</strong>.</p>
+</li>
+</ol>
+<h3 id="review-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="96">Überprüfen des Formats</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="98">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="98"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="98">Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="98">Modell zum Ermitteln parametrisierter Aufrufe</strong>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="99"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="99">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="99">Format zum Ermitteln parametrisierter Anrufe</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="100"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="100">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="100">Designer</strong> aus. Dieses ER-Format ist für die folgenden Aktionen vorgesehen:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="102">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="102">Generieren Sie einen Steuerauszug im XML-Format.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="103">Stellen Sie die folgenden Besteuerungsstufen im Steuerauszug dar: „Regulär“, „Reduziert“ und „Keine“.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="104">Stellen Sie mehrere Details für jedes Besteuerungsniveau dar, die jeweils eine andere Anzahl von Details auf jeder Stufe aufweisen.</li>
+</ul>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="106"><img src="media/er-calculated-field-type-02.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="106" alt="Formatdesignerseite"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="108"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="108">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="108">Zuordnung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="109"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="109">Erweitern Sie die Elemente <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="109">Modell</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="109">Daten,</strong> und <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="109">Zusammenfassung</strong>.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Das berechnete Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Model.Data.Summary.Level</strong> enthält den Ausdruck, der den Code des Besteuerungsniveaus (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Regulär</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Reduziert</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Kein,</strong> oder <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Sonstige</strong>) als Textwert für jeden Steuercode zurückgibt, der zur Laufzeit aus der Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="111">Model.Data.Summary</strong> abgerufen werden kann.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="113"><img src="media/er-calculated-field-type-03.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="113" alt="Seite „Formatdesigner“ mit Details des Datenmodells „Modell zum Lernern parametrisierter Aufrufe“"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="115"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="115">Erweitern Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="115">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="115">Data2</strong>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="116"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="116">Erweitern Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="116">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="116">Data2.Summary2</strong>.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="118">Die Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="118">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="118">Data2.Summary2</strong> ist zum Gruppieren der Transaktionsdetails der Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="118">Model.Data.Summary</strong> nach Besteuerungsniveau (die vom berechneten Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="118">Model.Data.Summary.Level</strong> zurückgegeben werden) und zum Berechnen der Aggregationen konfiguriert.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="120"><img src="media/er-calculated-field-type-04.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="120" alt="Die Seite „Formatdesigner“ mit Details der Datenquelle „Model.Data2.Summary2“"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Überprüfen Sie die berechneten Felder <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Model</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Data2.Level1</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Model</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Data2.Level2</strong> und <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Model</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Data2.Level3.</strong> Diese berechneten Felder werden verwendet, um die Datensatzliste <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Model</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="122">Data2.Summary2</strong> zu filtern und nur Datensätze zurückzugeben, die ein bestimmtes Besteuerungsniveau darstellen.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="123"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="123">Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="123">Format-Designer</strong> schließen.</p>
+</li>
+</ol>
+<h2 id="create-a-derived-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="125">Erstellen eines abgeleiteten Formats</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Sie können das bereitgestellte Format verbessern, indem Sie ein berechnetes Feld hinzufügen, um das erforderliche Besteuerungsniveau zu filtern, anstatt die vorhandenen drei Felder zu verwenden: <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Data2.Level1</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Data2.Level2</strong> und <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Modell</strong>.<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="126">Data2.Level3</strong>. Das erforderliche Besteuerungsniveau kann an dem Ort festgelegt werden, an dieses neue berechnete Feld aufgerufen wird.</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="128">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="128">Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="128">Modell zum Ermitteln parametrisierter Aufrufe</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="129">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="129">Format zum Ermitteln parametrisierter Anrufe</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="130">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="130">Konfiguration erstellen</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="131">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="131">Von Name ableiten: Formatieren zum Ermitteln parametrisierter Aufrufe, Microsoft</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="132">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="132">Name</strong> den Text <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="132">Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> ein.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="133">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="133">Konfiguration erstellen</strong> aus.</li>
+</ol>
+<h2 id="configure-a-parameterized-calculated-field-that-returns-a-list-of-records" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="135">Konfigurieren eines parametrisierten berechneten Felds, das eine Liste der Datensätze zurückgibt</h2>
+<h3 id="start-adding-a-new-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="137">Hinzufügen eines neuen berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="139">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="139">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="139">Designer</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="140">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="140">Erweitern/Reduzieren</strong> aus, um alle Formatelemente zu erweitern.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="141">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="141">Zuordnung</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="142">Erweitern Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="142">Model</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="143">Wählen Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="143">Modell.Data2</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="144">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="144">Hinzufügen</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="145">Wählen Sie das Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="145">Funktionen\Berechnet</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="146">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="146">Name</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="146">Ebenen</strong> ein.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="147">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="147">Formel bearbeiten</strong> aus.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="149">Definieren eines Parameters für das Hinzufügen eines berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="151">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="151"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="151">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="151">Parameter</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="152"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="152">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="152">Neu</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="153"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="153">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="153">Name</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="153">Besteuerungsniveau</strong> ein.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="154"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="154">Wählen Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="154">Typ</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="154">Zeichenfolge</strong> aus.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="156">Es können nur primitive Datentypen verwendet werden, um das Argument des Parametertyps anzugeben. Daher können die Typen <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="156">Datensatzliste</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="156">Datensatz</strong> und <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="156">Enumeration</strong> nicht für diesen Zweck verwendet werden.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="158">Für ein einzelnes berechnetes Feld können maximal 8 Parameter angegeben werden.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="160"><img src="media/er-calculated-field-type-05.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="160" alt="Liste der Parameterdatenquellen"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="162"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="162">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="162">OK</strong>.</p>
+</li>
+</ol>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="164">Durch das Hinzufügen dieses Parameters legen Sie die Bedingung fest, die vorliegen muss, um dieses berechnete Feld aufzurufen. Wenn Sie dieses berechnete Feld aufrufen, müssen Sie das Argument des Paramaters <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="164">Besteuerungsniveau</strong> als Wert mit dem Format <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="164">Zeichenfolge</strong> angeben.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="166">Stellen Sie sicher, dass Sie Parameter nur für die berechneten Felder definieren, die sich in einem Container (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="166">Datensatzliste</strong>, <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="166">Datensatz</strong> oder <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="166">Container</strong>) befinden.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="168">Der konfigurierte Parameter ist in der Liste der Datenquellen für dieses berechnete Feld verfügbar. Sie können dem konfigurierten Ausdruck den Parameter hinzuzufügen, indem Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="168">Datenquelle hinzufügen</strong> auswählen.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="170"><img src="media/er-calculated-field-type-06.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="170" alt="Datenquellenfelder"></p>
+<h3 id="define-an-expression-for-adding-a-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="172">Definieren eines Ausdrucks für das Hinzufügen eines berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="174">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="174"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="174">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="174">Formel</strong> Folgendes ein:</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="176"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="176">WHERE(@.Summary2, @.Summary2.grouped.Level =</strong></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="178"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="178">Wählen Sie den Parameter <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="178">Besteuerungsniveau</strong> in der Liste der Datenquellen aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="179"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="179">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="179">Datenquelle hinzufügen</strong> aus:</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="180"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="180">Stellen Sie den Ausdruck im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="180">Formel</strong> folgendermaßen fertig:</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="182"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="182">WHERE(@.Summary2, @.Summary2.grouped.Level = 'Taxation Level')</strong></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="184"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="184">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="184">Speichern</strong>.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="186"><img src="media/er-calculated-field-type-07.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="186" alt="Informationen zu Datenquellenfeldern"></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="188"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="188">Schließen Sie die Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="188">Formeldesigner</strong>.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="190">Abschließen des Hinzufügens eines neuen berechneten Felds</h3>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="192">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="192">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="192">OK</strong>.</li>
+</ul>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="194">Für das konfigurierte, parametrisierte berechnete Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="194">Ebenen</strong> auf der Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="194">Formatdesigner</strong> ist ein Argument vom Typ <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="194">Zeichenfolge</strong> erforderlich.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="196"><img src="media/er-calculated-field-type-08.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="196" alt="Erweiterte Liste der Ebenen des berechneten Felds"></p>
+<h3 id="use-the-configured-calculated-field-for-binding-format-elements" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="198">Verwenden Sie das berechnete Feld für konfigurierte verbindliche Formatelemente</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="200">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="200"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="200">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="200">Model.Data2.Levels</strong> aus, um das konfigurierte berechnete Feld auszuwählen.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="201"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="201">Wählen Sie das Formatelement <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="201">Statement.Taxation.Regular</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="202"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="202">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="202">Bindung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="203"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="203">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="203">Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="203">Level1</strong> durch die neue Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="203">Ebenen</strong> in allen geschachtelten Formatelementen des ausgewählten Formatelements zu bestätigen.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="205">Die angewendete Bindung wurde als Aufruf des parametrisierten berechneten Felds erstellt. Standardmäßig wird der Name des gebundenen Formatelements als Argument für das parametrisierte berechnete Feld unter den folgenden Bedingungen erstellt:</p>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="207">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="207">Das berechnete Feld ist für die Verwendung eines einzelnen Parameters konfiguriert.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="208">Der Datentyp dieses Parameters ist als <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="208">Zeichenfolge</strong> definiert.</li>
+</ul>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="210">Wenn der Name des gebundenen Formatelements leer ist, wird der Datenquellenname dieses Elements in der angewendeten Bindung verwendet.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="212"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="212">Wählen Sie das Formatelement <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="212">Statement.Taxation.Reduced</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="213"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="213">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="213">Bindung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="214"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="214">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="214">Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="214">Level2</strong> durch die neue Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="214">Ebenen</strong> in allen geschachtelten Formatelementen unter dem ausgewählten Formatelement zu bestätigen.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="215"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="215">Wählen Sie das Formatelement <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="215">Statement.Taxation.None</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="216"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="216">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="216">Bindung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="217"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="217">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="217">Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="217">Level3</strong> durch die neue Datenquelle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="217">Ebenen</strong> in allen geschachtelten Formatelementen unter dem ausgewählten Formatelement zu bestätigen.</p>
+</li>
+</ol>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="219">Wenn Sie das Argument des parametrisierten berechneten Felds für das XML-Element angeben, das das Besteuerungsniveau darstellt (z. B. <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="219">Model.Data2.Levels(&quot;Reduced&quot;)</strong> als Textwert), müssen Sie diesen Schritt nicht für die geschachtelten XML-Attribute ausführen. Deren Bindungen übernehmen den Wert des auf der übergeordneten Ebene zugeordneten Arguments (<strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="219">Model.Data2.Levels.aggregated.Base</strong>, nicht <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="219">Model.Data2.Levels(&quot;Reduced&quot;).aggregated.Base</strong>).</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="221">Wiederkehrende Aufrufe von parametrisierten berechneten Feldern werden nicht unterstützt.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="223">Sie können <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="223">Formel bearbeiten</strong> auswählen und das standardmäßig übernommene Argument des parametrisierten berechneten Felds in der ausgewählten Bindung ändern. Wenn dieses Argument nicht vorhanden ist, kann dies zu Fehlern während der Laufzeit kommen. Benutzer werden über solch eine Situation informiert, wenn das aktuelle Format überprüft wird.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="225"><img src="media/er-calculated-field-type-10.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="225" alt="Benachrichtigung zu Überprüfungswarnungen"></p>
+<h2 id="configure-a-parameterized-calculated-field-to-return-a-record" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="227">Konfigurieren eines parametrisierten berechneten Felds für die Rückgabe eines Datensatzes</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="228">Wenn ein parametrisiertes berechnetes Feld einen Datensatz zurückgibt, müssen Sie die Bindung einzelner Felder dieses Datensatzes zu Formatelementen unterstützen. In solchen Fällen ist keine übergeordnete Bindung vorhanden, die den Wert eines Arguments zum Aufrufen eines parametrisierten berechneten Felds enthält. Dieser Wert muss in der Bindung des Felds einen einzelnen Datensatz definiert werden.</p>
+<h3 id="start-adding-a-new-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="230">Hinzufügen eines neuen berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="232">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="232">Wählen Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="232">Modell.Data2</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="233">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="233">Hinzufügen</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="234">Wählen Sie das Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="234">Funktionen\Berechnet</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="235">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="235">Name</strong> die Bezeichnung <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="235">LevelRecord</strong> ein.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="236">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="236">Formel bearbeiten</strong> aus.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="238">Definieren eines Parameters für das Hinzufügen eines berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="240">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="240">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="240">Parameter</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="241">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="241">Neu</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="242">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="242">Name</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="242">Besteuerungsniveau</strong> ein.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="243">Wählen Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="243">Typ</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="243">Zeichenfolge</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="244">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="244">OK</strong>.</li>
+</ol>
+<h3 id="define-an-expression-for-adding-a-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="246">Definieren eines Ausdrucks für das Hinzufügen eines berechneten Felds</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="248">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="248"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="248">Geben Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="248">Formel</strong> Folgendes ein:</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="250"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="250">FIRSTORNULL(@.Levels(</strong></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="252"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="252">Wählen Sie den Parameter <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="252">Taxation Level</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="253"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="253">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="253">Datenquelle hinzufügen</strong> aus:</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="254"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="254">Hängen Sie im Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="254">Formel</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="254">'Taxation Level'))</strong> an die Eingabe in Schritt 1 an, um den Ausdruck abzuschließen:</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="256"><strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="256">FIRSTORNULL(@.Levels('Taxation Level'))</strong></p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="258"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="258">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="258">Speichern</strong>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="259"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="259">Schließen Sie die Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="259">Formeldesigner</strong>.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="261">Abschließen des Hinzufügens eines neuen berechneten Felds</h3>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="263">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="263">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="263">OK</strong>.</li>
+</ul>
+<h3 id="use-the-configured-calculated-field-to-bind-format-elements" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="265">Verwenden des konfigurierten berechneten Felds zum Binden von Formatelementen</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="267">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="267">Erweitern Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="267">Model.Data2.LevelRecord</strong>, um das konfigurierte berechnete Feld auszuwählen.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="268">Erweitern Sie den Container <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="268">Model.Data2.LevelRecord.aggregated</strong> des konfigurierten berechneten Felds.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="269">Wählen Sie das Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="269">Model.Data2.LevelRecord.aggregated.Base</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="270">Wählen Sie das Formatelement <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="270">Statement.Taxation.None</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="271">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="271">Bindung aufheben</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="272">Wählen Sie das Formatelement <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="272">Statement.Taxation.None.Base</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="273">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="273">Bindung</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="274">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="274">Formel bearbeiten</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="275">Ändern Sie den Ausdruck in <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="275">Model.Data2.LevelRecord(&quot;None&quot;).aggregated.Base</strong>.</li>
+</ol>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="277"><img src="media/er-calculated-field-type-11.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="277" alt="Aktualisierter Ausdruck"></p>
+<h2 id="remove-calculated-fields-that-are-not-used" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="279">Entfernen von berechneten Feldern, die nicht verwendet werden</h2>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="281">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="281">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="281">Model.Data2.Level1</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="282">Wählen Sei <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="282">Löschen</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="283">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="283">Model.Data2.Level2</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="284">Wählen Sei <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="284">Löschen</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="285">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="285">Model.Data2.Level3</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="286">Wählen Sei <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="286">Löschen</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="287">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="287">Speichern</strong>.</li>
+</ol>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="289">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="290">Sie haben dasselbe berechnete Feld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="290">Model.Data2.Levels</strong> mehrmals in Formatbindungen verwendet. Es ist viel einfacher, ein einzelnes berechnetes Feld zu verwenden und beizubehalten, anstatt diesen Schritt für mehrere ähnliche Felder auszuführen.</p>
+</div>
+<ol start="8" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="292">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="292">Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="292">Format-Designer</strong> schließen.</li>
+</ol>
+<h2 id="complete-adjusted-version-of-a-derived-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="294">Abschließen der angepassten Version eines abgeleiteten Formats</h2>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="296">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="296">Wählen Sie im Inforegister <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="296">Versions</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="296">Status ändern</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="297">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="297">Abgeschlossen</strong> aus.</li>
+</ol>
+<h2 id="export-completed-version-of-a-derived-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="299">Exportieren der abgeschlossenen Version eines abgeleiteten Formats</h2>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="301">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="301">Wählen Sie in der Konfigurationsstruktur <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="301">Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="302">Wählen Sie im Inforegister <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="302">Versionen</strong> die abgeschlossene Version 1.1.1 aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="303">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="303">Wechselkurs</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="304">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="304">Als XML-Datei exportieren</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="305">Speichern Sie die lokal heruntergeladene Konfiguration im XML-Format.</li>
+</ol>
+<h2 id="test-er-formats" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="307">Testen von ER-Formaten</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="308">Sie können die anfänglichen und verbesserten ER-Formate ausführen, um sicherzustellen, dass parametrisierte berechnete Felder, die konfiguriert sind, ordnungsgemäß funktionieren.</p>
+<h3 id="import-er-configurations" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="310">ER Konfigurationen importieren</h3>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="311">Sie können überprüfte Konfigurationen aus RCS importieren, indem Sie das ER-Repository des Typs <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="311">RCS</strong> verwenden. Wenn Sie die Schritte im Thema <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/rcs-download-configurations" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="311">Importieren von elektronischen Berichtskonfigurationen (ER-Konfigurationen) aus Regulatory Configuration Services (RCS) (This is an external link)</a> bereits durchgeführt haben, verwenden Sie das konfigurierte ER-Repository, um die zuvor in diesem Thema beschriebenen Konfigurationen in Ihre Umgebung zu importieren. Andernfalls führen Sie die folgenden Schritte aus:</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="313">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="313"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="313">Wählen Sie das Unternehmen <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="313">DEMF</strong> und im Standard-Dashboard die Option <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="313">Elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="314"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="314">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="314">Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="315"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="315">Importieren Sie die Konfigurationen aus dem Microsoft Download Center in der folgenden Reihenfolge: Datenmodell, Modellzuordnung, Format. Führen Sie die folgenden Schritte für jede ER-Konfiguration aus:</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="317">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="317">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="317">Wechselkurs</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="318">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="318">Aus XML-Datei laden</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="319">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="319">Durchsuchen</strong> aus, um die erforderliche EB-Konfiguration im XML-Format auszuwählen.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="320">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="320">OK</strong>.</li>
+</ol>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="322"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="322">Importieren Sie die aus RCS exportierte abgeschlossene Version 1.1.1 des Formats <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="322">Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong>:</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="324">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="324">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="324">Wechselkurs</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="325">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="325">Aus XML-Datei laden</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="326">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="326">Durchsuchen</strong> aus, um die lokal gespeicherte Datei <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="326">Format zum Ermitteln parametrisierter Anrufe (benutzerdefiniert)</strong> im XML-Format auszuwählen.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="327">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="327">OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="run-er-formats" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="329">Ausführen von ER-Formaten</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="331">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="331">Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="331">Modell zum Ermitteln parametrisierter Aufrufe</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="332">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="332">Format zum Ermitteln parametrisierter Anrufe</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="333">Wählen Sie im oberen Menüband <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="333">Ausführen</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="334">Speichern Sie das lokal generierte Ergebnis.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="335">Wählen Sie das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="335">Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="336">Wählen Sie im oberen Menüband <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="336">Ausführen</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="337">Speichern Sie das generierte Ergebnis lokal.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="338">Vergleichen Sie den Inhalt der generierten Ergebnisse.</li>
+</ol>
+<h2 id="additional-resources" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="340">Zusätzliche Ressourcen</h2>
+<ul sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="342">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="342"><a href="general-electronic-reporting-formula-designer.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="342">Formeldesigner in der elektronischen Berichterstellung (EB)</a></li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="343"><a href="er-calculated-field-ds-performance.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md" sourcestartlinenumber="343">Verbessern Sie die Leistung von EB-Lösungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzufügen</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles_de/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

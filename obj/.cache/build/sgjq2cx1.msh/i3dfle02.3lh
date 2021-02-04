@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="enable-azure-data-lake-storage-in-a-dynamics-365-commerce-environment" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="29">Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="33">In diesem Thema wird das Aktivieren und Testen von Azure Data Lake Storage für eine Dynamics 365 Commerce-Umgebung erläutert. Dies ist eine Grundvoraussetzung für die Aktivierung von Produktempfehlungen.</p>
+<h2 id="overview" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="35">Übersicht</h2>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="37">Bei der Dynamics 365 Commerce-Lösung werden alle Produkt- und Transaktionsinformationen im Entitätsspeicher der Umgebung nachverfolgt. Um diese Daten für andere Dynamics 365-Dienste wie Datenanalyse, Business Intelligence und personalisierte Empfehlungen zugänglich zu machen, muss die Umgebung mit einer kundeneigenen Azure Data Lake Storage Gen 2 Lösung verbunden werden.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="39">Da Azure Data Lake Storage in einer Umgebung konfiguriert ist, werden alle erforderlichen Daten aus dem Entitätsspeicher gespiegelt, während sie weiterhin geschützt sind und vom Kunden gesteuert werden können.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="41">Wenn Produktempfehlungen oder personalisierte Empfehlungen auch in der Umgebung aktiviert sind, erhält der Produktempfehlungsstapel Zugriff auf den dedizierten Ordner in Azure Data Lake Storage, um die Kundendaten abzurufen und Empfehlungen basierend auf diesen zu berechnen.</p>
+<h2 id="prerequisites" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="43">Voraussetzungen</h2>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="45">Kunden müssen Azure Data Lake Storage in einem Azure-Abonnement konfiguriert haben, dessen Inhaber sie sind. Dieses Thema behandelt nicht den Kauf eines Azure-Abonnements oder die Einrichtung eines Azure Data Lake Storage fähigen Speicherkontos.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="47">Weitere Informationen zu Azure Data Lake Storage finden Sie in der <a href="https://azure.microsoft.com/pricing/details/storage/data-lake" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="47">offiziellen Gen2 Azure Data Lake Storage</a>-Dokumentation.</p>
+<h2 id="configuration-steps" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="49">Konfigurationsschritte</h2>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="51">Dieser Abschnitt behandelt die Konfigurationsschritte, die zum Aktivieren von Azure Data Lake Storage in einer Umgebung erforderlich sind, und bezieht sich auf Produktempfehlungen.
+Eine ausführlichere Übersicht über die zum Aktivieren von Azure Data Lake Storage erforderlichen Schritte finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/entity-store-data-lake" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="52">Stellen Sie den Entity Store als Data Lake zur Verfügung (This is an external link)</a>.</p>
+<h3 id="enable-azure-data-lake-storage-in-the-environment" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="54">Aktivieren Sie Azure Data Lake Storage in der Umgebung</h3>
+<ol sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="56">
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="56">Melden Sie sich beim Back-Office-Portal der Umgebung an.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="57">Suchen Sie nach <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="57">Systemparameter</strong> und navigieren Sie zur Registerkarte <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="57">Datenverbindungen</strong>.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="58">Setzen Sie <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="58">Integration von Data Lake aktivieren</strong> auf <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="58">Ja</strong>.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="59">Setzen Sie <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="59">Data Lake schrittweise aktualisieren</strong> auf <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="59">Ja</strong>.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="60">Geben Sie die folgenden erforderlichen Informationen ein:
+<ol sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="61">
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="61"><strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="61">Anwendungs-ID</strong> // <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="61">Anwendungsschlüssel</strong> // <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="61">DNS-Name</strong> – Erforderlich, um eine Verbindung zu KeyVault herzustellen, in dem der Azure Data Lake Storage Schlüssel gespeichert ist.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="62"><strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="62">Schlüsselname</strong> – Der geheime Schlüssel, der in KeyVault gespeichert und zur Azure Data Lake Storage Authentifizierung verwendet wird.</li>
+</ol>
+</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="63">Speichern Sie Ihre Änderungen in der oberen linken Ecke der Seite.</li>
+</ol>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="65">Das folgende Bild zeigt ein Beispiel für eine Azure Data Lake Storage Konfiguration.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="67"><img src="media/exampleADLSConfig1.png" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="67" alt="Beispiel einer Azure Data Lake Storage Konfiguration"></p>
+<h3 id="test-the-azure-data-lake-storage-connection" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="69">Testen Sie die Azure Data Lake Storage Verbindung</h3>
+<ol sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="71">
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="71">Testen Sie die Verbindung zu KeyVault mit dem Link <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="71">Azure Key Vault testen</strong>.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="72">Testen Sie die Verbindung zu Azure Data Lake Storage mit dem Link <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="72">Azure Storage testen</strong>.</li>
+</ol>
+<div class="NOTE" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="74">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="75">Wenn die Tests fehlschlagen, überprüfen Sie noch einmal, ob alle oben hinzugefügten KeyVault-Informationen korrekt sind, und versuchen Sie es dann erneut.</p>
+</div>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="77">Sobald die Verbindungstests erfolgreich sind, müssen Sie die automatische Aktualisierung für den Entitätsspeicher aktivieren.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="79">Gehen Sie folgendermaßen vor, um die automatische Aktualisierung für den Entitätsspeicher zu aktivieren.</p>
+<ol sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="81">
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="81">Suchen Sie nach <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="81">Entitätsspeicher</strong>.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="82">Navigieren Sie in der Liste auf der linken Seite zum <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="82">RetailSales</strong>-Eintrag, und wählen Sie <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="82">Bearbeiten</strong> aus.</li>
+<li sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="83">Vergewissern Sie sich, dass <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="83">Automatische Aktualisierung aktiviert</strong> auf <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="83">Ja</strong> gesetzt ist, und wählen Sie <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="83">Aktualisieren</strong> und dann <strong sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="83">Speichern</strong> aus.</li>
+</ol>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="85">Die folgende Abbildung zeigt ein Beispiel für einen Entitätsspeicher mit aktivierter automatischer Aktualisierung.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="87"><img src="media/exampleADLSConfig2.png" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="87" alt="Beispiel eines Entitätsspeichers mit aktivierter automatischer Aktualisierung"></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="89">Azure Data Lake Storage ist jetzt für die Umgebung konfiguriert.</p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="91">Ist die Konfiguration noch nicht vollständig, befolgen Sie für die Umgebung die Schritte <a href="enable-product-recommendations.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="91">Produktempfehlungen und -personalisierung aktivieren</a>.</p>
+<h2 id="additional-resources" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="93">Zusätzliche Ressourcen</h2>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="95"><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/entity-store-data-lake" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="95">Entitätsspeicher als Data Lake zur Verfügung stellen (This is an external link)</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="97"><a href="product-recommendations.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="97">Überblick über Produktempfehlungen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="99"><a href="enable-product-recommendations.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="99">Produktempfehlungen aktivieren</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="101"><a href="personalized-recommendations.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="101">Personalisierte Empfehlungen aktivieren</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="103"><a href="personalization-gdpr.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="103">Personalisierte Empfehlungen kündigen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="105"><a href="shop-similar-looks.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="105">Die Empfehlungen „Produkte mit ähnlichem Aussehen kaufen“ aktivieren</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="107"><a href="product.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="107">Produktempfehlungen in POS hinzufügen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="109"><a href="add-recommendations-control-pos-screen.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="109">Empfehlungen dem Transaktionsbildschirm hinzufügen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="111"><a href="modify-product-recommendation-results.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="111">Anpassung der Ergebnisse der AI-ML-Empfehlungen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="113"><a href="create-editorial-recommendation-lists.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="113">Manuell kuratierte Empfehlungen erstellen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="115"><a href="product-recommendations-demo-data.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="115">Empfehlungen mit Demodaten erstellen</a></p>
+<p sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="117"><a href="faq-recommendations.html" sourcefile="articles_de/commerce/enable-ADLS-environment.md" sourcestartlinenumber="117">Produktempfehlungs-FAQs</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles_de/commerce/enable-ADLS-environment.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

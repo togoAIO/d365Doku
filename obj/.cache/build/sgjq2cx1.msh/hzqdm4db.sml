@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>NO-00003 Customer and vendor payment formats | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="NO-00003 Customer and vendor payment formats | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../TOC.html">
+    
+    <meta property="docfx:rel" content="../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="no-00003-customer-and-vendor-payment-formats" sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="28">NO-00003 Customer and vendor payment formats</h1>
+
+
+<p sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="32">This task walks you through setting up and maintaining Norwegian payment IDs.</p>
+<p sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="36">A payment identification (ID) is a unique identifier for customer payments that are settled electronically. It can be divided into different parts, such as the customer account number, invoice number, prefix, suffix, and external reference. When you receive a payment from a customer, the payment ID identifies the payment transaction for a sales invoice that is received from a bank.</p>
+<p sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="40">This task was created using the demo data company DEMF with the country/region of legal entity primary address updated to be Norway.</p>
+<h2 id="set-up-payment-ids" sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="43">Set up payment IDs</h2>
+<ol sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="44">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="44">Go to Accounts receivable &gt; Payments setup &gt; Payment ID.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="45">Click New.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="46">In the Payment ID type field, type a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="47">In the Name field, type a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="48">In the Payment ID length field, enter a number.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="49">In the Account from position field, enter a number.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="50">In the Account to position field, enter a number.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="51">In the Invoice from position field, enter a number.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="52">In the Invoice to position field, enter a number.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="53">In the Modulo field, select 'Modulo 10'.
+<ul sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="54">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="54">Select the modulo check method to calculate the check number. The last digit of a payment ID is reserved for the check number to verify that the payment ID is valid. The following options are available:     - Modulo 10 – The total length of the payment ID is divided by 10. The remainder is the check number.   - Modulo 11 – The total length of the payment ID is divided by 11. The remainder is the check number.   - (None) – No check number is calculated.</li>
+</ul>
+</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="55">Click Save.
+<ul sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="56">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="56">After saving the record, you can preview the selected payment ID in the Payment ID test field.</li>
+</ul>
+</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="57">Go to Accounts receivable &gt; Payments setup &gt; Payment ID per country/region.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="58">Click New.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="59">In the Country/region field, enter or select a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="60">In the Payment ID type field, enter or select a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="61">Click Save.</li>
+</ol>
+<h2 id="attach-the-payment-id" sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="63">Attach the payment ID</h2>
+<ol sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="64">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="64">Go to Accounts receivable &gt; Customers &gt; All customers.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="65">Use the Quick Filter to find records. For example, filter on the Account field with a value of 'DE-010'.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="66">In the list, click the link in the selected row.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="67">Expand the Payment defaults section.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="68">Click Edit.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="69">In the Payment ID type field, enter or select a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="70">Click Save.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="71">Go to Accounts receivable &gt; Payments setup &gt; Methods of payment.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="72">Use the Quick Filter to find records. For example, filter on the Method of payment field with a value of 'ELECTRONIC'.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="73">Click Edit.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="74">Expand the Payment control section.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="75">In the Payment ID type field, enter or select a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="76">Click Save.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="77">Go to Accounts receivable &gt; Setup &gt; Customer groups.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="78">Click Edit.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="79">In the Payment ID type field, enter or select a value.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="80">Click Save.</li>
+</ol>
+<h2 id="update-the-payment-id" sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="82">Update the payment ID</h2>
+<ol sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="83">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="83">Go to Accounts receivable &gt; Periodic tasks &gt; Update invoice payment ID.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="84">Select the Delete payment ID check box to delete the payment ID information from all documents
+<ul sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="85">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="85">This option should be used only when you want to remove or update Payment IDs for documents that got Payment IDs assigned. You will be offered a dialog to delete Payment ID from specific type of documents.</li>
+</ul>
+</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="86">Select Yes in the Update invoice payment ID field.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="87">Click OK.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="88">Click Yes.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="89">Click Yes.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="90">Click Yes.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="91">Click Yes.</li>
+</ol>
+<h2 id="view-the-payment-id" sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="93">View the payment ID</h2>
+<ol sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="94">
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="94">Go to Accounts receivable &gt; Inquiries and reports &gt; Invoices &gt; Invoice journal.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="95">Click Show filters.</li>
+<li sourcefile="articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md" sourcestartlinenumber="96">Apply the following filters: Enter a filter value of &quot;&quot; on the &quot;Payment ID&quot; field using the &quot;is not&quot; filter operator.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/finance/localizations/tasks/no-00003-customer-vendor-payment-formats.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

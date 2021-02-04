@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einzelvorgang zur Eingangsbereinigung bei der Lagerortverwaltung | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einzelvorgang zur Eingangsbereinigung bei der Lagerortverwaltung | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="warehouse-management-on-hand-entries-cleanup-job" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="26">Einzelvorgang zur Eingangsbereinigung bei der Lagerortverwaltung</h1>
+
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="28">Die Leistung von Abfragen, die zur Berechnung des Lagerbestands verwendet werden, wird durch die Anzahl der Datensätze in den beteiligten Tabellen beeinflusst. Eine Möglichkeit zur Verbesserung der Leistung besteht darin, die Anzahl der Datensätze zu verringern, die die Datenbank berücksichtigen muss.</p>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="30">In diesem Thema wird der Bereinigungsjob für vorhandene Einträge beschrieben, mit dem nicht benötigte Datensätze in den Tabellen InventSum und WHSInventReserve gelöscht werden. In diesen Tabellen werden Informationen zu Artikeln gespeichert, die für die Lagerverwaltungsverarbeitung aktiviert sind. (Diese Elemente werden als WHS-Elemente bezeichnet.) Das Löschen dieser Datensätze kann die Leistung der vorhandenen Berechnungen erheblich verbessern.</p>
+<h2 id="what-the-cleanup-job-does" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="32">Was macht der Bereinigungsjob</h2>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="34">Der Bereinigungsjob für vorhandene Einträge löscht alle Datensätze in den Tabellen WHSInventReserve und InventSum, in denen sich alle Feldwerte befinden <em sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="34">0</em> (Null). Diese Datensätze können gelöscht werden, da sie nicht zu den verfügbaren Informationen beitragen. Der Job löscht nur Datensätze, die unter der Ebene <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="34">Standort</strong> liegen.</p>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="36">Wenn eine negative Inventur zulässig ist, kann der Bereinigungsjob möglicherweise nicht alle relevanten Einträge löschen. Der Grund für diese Einschränkung ist, dass der Job ein spezielles Szenario zulassen muss, in dem eine Kennzeichnung mehrere Seriennummern hat und eine dieser Seriennummern negativ geworden ist. Beispielsweise verfügt das System Null verfügbar auf Kennzeichenebene, wenn ein Kennzeichen +1 Stück der Seriennummer 1 und –1 Stück der Seriennummer 2 enthält. In diesem speziellen Szenario führt der Job eine Löschung mit der Breite zuerst durch, wobei versucht wird, zuerst von den niedrigeren Ebenen zu löschen.</p>
+<h2 id="schedule-and-configure-the-cleanup-job" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="38">Planen und konfigurieren Sie den Bereinigungsjob</h2>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="40">Der Bereinigungsjob für vorhandene Einträge ist unter <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="40">Bestandsverwaltung &gt; Periodische Aufgaben &gt; Bereinigen &gt; Bereinigung der Lagereinträge</strong> verfügbar. Verwenden Sie die Standardjobeinstellungen, um den Umfang und den Zeitplan für die Ausführung des Jobs zu steuern. Darüber hinaus stehen folgenden Einstellungen zur Verfügung:</p>
+<ul sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="42">
+<li sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="42"><strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="42">Löschen, wenn für diese vielen Tage nicht aktualisiert</strong> – Geben Sie die Mindestanzahl von Tagen ein, die der Job warten soll, bevor ein vorhandener Eintrag gelöscht wird, der auf Null gesunken ist. Verwenden Sie diese Einstellung, um das Risiko zu verringern, dass noch verwendete Einträge gelöscht werden. Wenn Sie möchten, dass die Bereinigung so schnell wie möglich erfolgt, geben Sie entweder <em sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="42">0</em> (Null) ein oder lassen Sie das Feld leer.</li>
+<li sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="43"><strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="43">Maximale Ausführungszeit (Stunden)</strong> – Geben Sie die maximale Ausführungszeit des Bereinigungsjobs in Stunden ein. Wenn der Auftrag nicht vor Ablauf dieser Zeit abgeschlossen wird, speichert er die bisher abgeschlossene Arbeit und schließt sich dann selbst. Diese Funktion ist besonders relevant für Implementierungen mit hohem Lagerbestand. In diesen Fällen sollten Sie den Job so planen, dass er zu Zeiten ausgeführt wird, in denen die Systemlast so gering wie möglich ist. Wenn Sie möchten, dass der Stapeljob so lange ausgeführt wird, bis er abgeschlossen ist, geben Sie entweder <em sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="43">0</em> (Null) ein oder lassen Sie das Feld leer. Diese Einstellung ist nur verfügbar, wenn die zugehörige Funktion <a href="#max-execution-time" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="43">in Ihrem System eingeschaltet</a> wurde.</li>
+</ul>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="45">Obwohl Sie den Job während der regulären Geschäftszeiten ausführen können, empfehlen wir, ihn außerhalb der Arbeitszeiten auszuführen. Auf diese Weise können Sie Konflikte vermeiden, die auftreten können, wenn ein Benutzer mit einem Datensatz arbeitet, der ebenfalls bereinigt wird.</p>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="47">Wenn der Einzelvorgang versucht, einen Datensatz für ein Element zu löschen, während dieser Datensatz von einem anderen Benutzer verwendet wird, tritt entweder für den Bereinigungsvorgang oder für den Benutzer ein Deadlock-Fehler auf.</p>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="49">Wenn der Einzelauftrag ausgeführt wird, hat er eine Festschreibungsgröße von 100. Mit anderen Worten, es wird versucht, einmal pro 100 Löschungen eine Bestätigung durchzuführen. Da einige Löschvorgänge jedoch satzbasiert sind, kann es Szenarien geben, in denen mehr als 100 Datensätze in derselben Transaktion gelöscht werden können. Daher können manchmal immer noch Sperreneskalationen auftreten.</p>
+<h2 id="possible-user-impact" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="51">Mögliche Auswirkungen auf den Benutzer</h2>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="53">Benutzer sind möglicherweise betroffen, wenn der Bereinigungsjob für vorhandene Einträge alle Datensätze für eine bestimmte Ebene (z. B. die Kennzeichenebene) löscht. In diesem Fall funktioniert die Funktionalität zum Anzeigen, dass das Inventar zuvor auf einer Kennzeichnung verfügbar war, möglicherweise nicht wie erwartet arbeitet, da die entsprechenden verfügbaren Einträge nicht mehr verfügbar sind. (Diese Funktion überprüft die Bedingung <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="53">Menge &lt;&gt; 0</strong> in dem die <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="53">Dimensionsanzeige</strong> Einstellungen, wenn Benutzer vorhandene Informationen anzeigen.) Die Leistungsverbesserung, die der Bereinigungsvorgang bietet, sollte diesen kleinen Funktionsverlust jedoch ausgleichen.</p>
+<h2 id="make-the-maximum-execution-time-setting-available" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="55"><a name="max-execution-time"></a>Stellen Sie die Einstellung maximale Ausführungszeit zur Verfügung</h2>
+<p sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="57">Standardmäßig ist die Einstellung <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="57">Maximale Ausführungszeit</strong> nicht verfügbar. Wenn Sie es verwenden möchten, müssen Sie die <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html" sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="57">Funktionsverwaltung</a> verwenden, um die zugehörige Funktion in Ihrem System zu aktivieren. Im Arbeitsbereich <strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="57">Funktionsverwaltung</strong> ist die Funktion wie folgt aufgeführt:</p>
+<ul sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="59">
+<li sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="59"><strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="59">Module:</strong> <em sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="59">Lagerortverwaltung</em></li>
+<li sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="60"><strong sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="60">Funktionsname:</strong> <em sourcefile="articles_de/supply-chain/warehousing/onhand-cleanup.md" sourcestartlinenumber="60">Maximale Ausführungszeit für den Bereinigungsvorgang für Lagereinträge</em></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles_de/supply-chain/warehousing/onhand-cleanup.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Currency data-type migration for dual-write | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Currency data-type migration for dual-write | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="currency-data-type-migration-for-dual-write" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="31">Currency data-type migration for dual-write</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="37">You can increase the number of decimal places that are supported for currency values to a maximum of 10. The default limit is four decimal places. By increasing the number of decimal places, you help prevent data loss when you use dual-write to sync data. The increase in the number of decimal places is an opt-in change. To implement it, you must request assistance from Microsoft.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="39">The process of changing the number of decimal places has two steps:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="41">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="41">Request migration from Microsoft.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="42">Change the number of decimal places in Dataverse.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="44">The Finance and Operations app and Dataverse must support the same number of decimal places in currency values. Otherwise, data loss can occur when this information is synced between apps. The migration process reconfigures the way that currency and exchange rate values are stored, but it doesn't change any data. After the migration is completed, the number of decimal places for currency codes and pricing can be increased, and the data that users enter and view can have more decimal precision.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="46">Migration is optional. If you might benefit from support for more decimal places, we recommend that you consider migration. Organizations that don't require values that have more than four decimal places don't have to migrate.</p>
+<h2 id="requesting-migration-from-microsoft" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="48">Requesting migration from Microsoft</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="50">Storage for existing currency columns in Dataverse can't support more than four decimal places. Therefore, during the migration process, currency values are copied to new internal columns in the database. This process occurs continuously until all data has been migrated. Internally, at the end of migration, the new storage types replace the old storage types, but the data values are unchanged. The currency columns can then support up to 10 decimal places. During the migration process, Dataverse can continue to be used without interruption.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="52">At the same time, exchange rates are modified so that they support up to 12 decimal places instead of the current limit of 10. This change is required so that the number of decimal places is the same in both the Finance and Operations app and Dataverse.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="54">Migration doesn't change any data. After the currency and exchange rate columns are converted, admins can configure the system to use up to 10 decimal places for currency columns by specifying the number of decimal places for each transaction currency and for pricing.</p>
+<h3 id="request-a-migration" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="56">Request a migration</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="58">To make this feature available, email **CDSExpandDecimal@microsoft.com**, and include the following information:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="60">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="60"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="60">Subject:</strong> Request to enable expanded decimal support for &lt;organizationID&gt;</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="61"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="61">Body:</strong> I would like to enable expanded decimal support for my org &lt;organizationID&gt;.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="63">A Microsoft representative will contact you within two to three business days for the next steps.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="65">When you request a migration, you should be aware of the following details and plan for them accordingly:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="67">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="67">The time that is required to migrate the data depends the amount of data in the system. Migration of large databases can take several days.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="68">The size of the database temporarily increases while the migration is running, because additional space is needed for indexes. Most of the additional space is freed when the migration is completed.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="69">During the migration process, if errors occur that prevent the migration from being completed, the system raise alerts to Microsoft Support, so that Support staff can intervene. However, even if errors occur during the migration, Dataverse remains fully available for regular use.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="70">The migration process isn't reversible.</li>
+</ul>
+<h2 id="changing-the-number-of-decimal-places" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="72">Changing the number of decimal places</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="74">After the migration is completed, Dataverse can store numbers that have more decimal places. Admins can choose how many decimal places are used for specific currency codes and for pricing. Users of Microsoft Power Apps, Power BI, and Power Automate can then view and use numbers that have more decimal places.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="76">To make this change, you must update the following settings in Power Apps:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="78">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="78"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="78">System Settings: Currency precision for pricing</strong> – The <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="78">Set the currency precision that is used for pricing throughout the system</strong> column defines how the currency will behave for the organization when <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="78">Pricing Precision</strong> is selected.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="79"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="79">Business Management: Currencies</strong> – The <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="79">Currency Precision</strong> column lets you specify a custom number of decimal places for a specific currency. There is a fallback to the organization-wide setting.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="81">There are some limitations:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="83">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="83">You can't configure the currency column on a table.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="84">You can specify more than four decimal places only at the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="84">Pricing</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="84">Transaction Currency</strong> levels.</li>
+</ul>
+<h3 id="system-settings-currency-precision-for-pricing" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="86">System Settings: Currency precision for pricing</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="88">After migration is completed, admins can set the currency precision. Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="88">Settings &gt; Administration</strong>, and select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="88">System Settings</strong>. Then, on the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="88">General</strong> tab, change the value of the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="88">Set the currency precision that is used for pricing throughout the system</strong> column, as shown in the following illustration.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="90"><img src="media/currency-system-settings.png" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="90" alt="System settings for currency"></p>
+<h3 id="business-management-currencies" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="92">Business Management: Currencies</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="94">If you require that the currency precision for a specific currency differ from the currency precision that is used for pricing, you can change it. Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="94">Settings &gt; Business Management</strong>, select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="94">Currencies</strong>, and select the currency to change. Then set the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="94">Currency Precision</strong> column to the number of decimal places that you want, as shown in the following illustration.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="96"><img src="media/specific-currency.png" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="96" alt="Currency settings for a specific locale"></p>
+<h3 id="tables-currency-column" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="98">tables: Currency column</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md" sourcestartlinenumber="100">The number of decimal places that can be configured for specific currency columns is limited to four.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/fin-ops-core/dev-itpro/data-entities/dual-write/currrency-decimal-places.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

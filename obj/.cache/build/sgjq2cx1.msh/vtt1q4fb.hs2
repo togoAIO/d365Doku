@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Retail transaction consistency checker | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Retail transaction consistency checker | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="retail-transaction-consistency-checker" sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="31">Retail transaction consistency checker</h1>
+
+
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="35">This topic describes the transaction consistency checker functionality in Microsoft Dynamics 365 Commerce. The consistency checker identifies and isolates inconsistent transactions before they are picked up by the statement posting process.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="37">When a statement is posted, posting can fail due to inconsistent data in the commerce transaction tables. The data issue may be caused by unforeseen issues in the point of sale (POS) application, or if transactions were incorrectly imported from third-party POS systems. Examples of how these inconsistencies may appear include:</p>
+<ul sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="39">
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="39">The transaction total on the header table does not match the transaction total on the lines.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="40">The line count on the header table does not match with the number of lines in the transaction table.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="41">Taxes on the header table do not match the tax amount on the lines.</li>
+</ul>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="43">When inconsistent transactions are picked up by the statement posting process, inconsistent sales invoices and payment journals are created, and the entire statement posting process fails as a result. Recovering the statements from such a state involves complex data fixes across multiple transaction tables. The transaction consistency checker prevents such issues.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="45">The following chart illustrates the posting process with the transaction consistency checker.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="47"><img src="media/validchecker.png" sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="47" alt="Statement posting process with transaction consistency checker" title="Statement posting process with retail transaction consistency checker"></p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="49">The <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="49">Validate store transactions</strong> batch process checks the consistency of the commerce transaction tables for the following scenarios.</p>
+<ul sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="51">
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="51"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="51">Customer account</strong> – Validates that the customer account in the transaction tables exists in the HQ customer master.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="52"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="52">Line count</strong> – Validates that the number of lines, as captured on the transaction header table, matches the number of lines in the sales transaction tables.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="53"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="53">Price includes tax</strong> – Validates that the <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="53">Price includes tax</strong> parameter is consistent across transaction lines and the price on the sales line is in accordance with price includes tax and tax exempt configuration.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="54"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="54">Payment amount</strong> - Validates that the payment records match the payment amount on the header, while also factoring in the configuration for penny rounding in General Ledger.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="55"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="55">Gross amount</strong> – Validates that the gross amount on the header is the sum of the net amounts on the lines plus the tax amount, while also factoring in the configuration for penny rounding in General Ledger.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="56"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="56">Net amount</strong> – Validates that the net amount on the header is the sum of the net amounts on the lines, while also factoring in the configuration for penny rounding in General Ledger.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="57"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="57">Under / Over payment</strong> – Validates that the difference between the gross amount on the header and the payment amount doesn't exceed the maximum underpayment/overpayment configuration, while also factoring in the configuration for penny rounding in General Ledger.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="58"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="58">Discount amount</strong> – Validates that the discount amount on the discount tables and the discount amount on the transaction line tables are consistent, and that the discount amount on the header is the sum of the discount amounts on the lines, while also factoring in the configuration for penny rounding in General Ledger.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="59"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="59">Line discount</strong> – Validates that the line discount on the transaction line is the sum of all the lines in the discount table that corresponds to the transaction line.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="60"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="60">Gift card item</strong> – Commerce doesn't support the return of gift card items. However, the balance on a gift card can be cashed out. Any gift card item that is processed as a return line instead of a cash-out line fails the statement posting process. The validation process for gift card items helps guarantee that the only return gift card line items on the transaction tables are gift card cash-out lines.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="61"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="61">Negative price</strong> – Validates that there are no negative price transaction lines.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="62"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="62">Item &amp; Variant</strong> – Validates that items and variants on the transaction lines exist in the item and variant master file.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="63"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="63">Tax amount</strong> - Validates that tax records match the tax amounts on the lines.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="64"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="64">Serial number</strong> - Validates that the serial number is present in the transaction lines for items that are controlled by serial number.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="65"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="65">Sign</strong> - Validates that the sign on the quantity and the net amount are the same in all the transaction lines.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="66"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="66">Business date</strong> - Validates that the financial periods for all the business dates for the transactions are open.</li>
+<li sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="67"><strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="67">Charges</strong> - Validates that the header and line charge amount is in accordance with price, including tax and tax exempt configuration.</li>
+</ul>
+<h2 id="set-up-the-consistency-checker" sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="69">Set up the consistency checker</h2>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="71">Configure the &quot;Validate store transactions&quot; batch process, at <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="71">Retail and Commerce &gt; Retail and Commerce IT &gt; POS posting</strong>, for periodic runs. The batch job can be scheduled based on store organization hierarchy, similar to how the &quot;Calculate statement in batch&quot; and &quot;Post statement in batch&quot; processes are set up. We recommend that you configure this batch process to run multiple times in a day and schedule it so that it runs at the end of every P-job execution.</p>
+<h2 id="results-of-validation-process" sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="73">Results of validation process</h2>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="75">The results of the validation check by the batch process are tagged on the appropriate transaction. The <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="75">Validation status</strong> field on the transaction record is either set to <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="75">Successful</strong> or <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="75">Error</strong>, and the date of the last validation run appears on the <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="75">Last validation time</strong> field.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="77">To view more descriptive error text relating to a validation failure, select the relevant store transaction record and click the <strong sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="77">Validation errors</strong> button.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="79">Transactions that fail the validation check and transactions that have not yet been validated will not be pulled into statements. During the &quot;Calculate statement&quot; process, users will be notified if there are transactions that could have been included in the statement but weren't.</p>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="81">If a validation error is found, the only way to fix the error is to contact Microsoft Support. In a future release, capability will be added so that users can fix the records that failed through the user interface. Logging and auditing capabilities will also be made available to trace the history of the modifications.</p>
+<div class="NOTE" sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="83">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/valid-checker.md" sourcestartlinenumber="84">Additional validation rules to support more scenarios will be added in a future release.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/commerce/valid-checker.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

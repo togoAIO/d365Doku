@@ -64,6 +64,6 @@
 |  2  | second |
 |  3  | third  |
 
-![Kitten](..\images\img1.jpg "A cute kitten")
-![Example Picture](..\images\picture1.png "Example Picture")
+![Kitten](./media/img1.jpg "A cute kitten")
+![Example Picture](./media/picture1.png "Example Picture")
 

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Create rules for Optimization advisor | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Create rules for Optimization advisor | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="create-rules-for-optimization-advisor" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="33">Create rules for Optimization advisor</h1>
+
+
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="37">This topic explains how to create new rules for <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="37">Optimization advisor</strong>. For example, you can create a new rule that identifies which Request for Quotations (RFQ) cases have an empty title. Using titles on cases makes them easily identifiable and searchable. While quite simple, this example shows what can be achieved with optimization rules.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="39">A <em sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="39">rule</em> is a check on application data. If the condition that the rule evaluates is met, opportunities to optimize processes or improve data are created. The opportunities can be acted upon and, optionally, the impact of the actions can be measured.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">To create a new rule for the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">Optimization advisor</strong>, add a new class that extends the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">SelfHealingRule</strong> abstract class, implements the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">IDiagnosticsRule</strong> interface, and is decorated by the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">DiagnosticRule</strong> attribute. The class must also have a method decorated with the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">DiagnosticsRuleSubscription</strong> attribute. By convention, that is done on the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">opportunityTitle</strong> method, which will be discussed later. This new class can be added to a custom model with a dependency on the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">SelfHealingRules</strong> model. In the following example, the rule being implemented is called <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="41">RFQTitleSelfHealingRule</strong>.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="43">[DiagnosticsRule] 
+public final class RFQTitleSelfHealingRule extends SelfHealingRule implements IDiagnosticsRule 
+{ 
+… 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="51">The <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="51">SelfHealingRule</strong> abstract class has abstract methods that must be implemented in inheriting classes. The core is the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="51">evaluate</strong> method, which returns a list of the opportunities identified by the rule. Opportunities can be per legal entity or can apply to the whole system.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="53">protected List evaluate() 
+{ 
+    List results = new List(Types::Record); 
+    
+    DataArea dataArea; 
+
+    while select id from dataArea 
+        where !dataArea.isVirtual 
+    { 
+        changecompany(dataArea.id) 
+        { 
+            container result = this.findRFQCasesWithEmptyTitle(); 
+
+            if (conLen(result) &gt; 0) 
+            { 
+                SelfHealingOpportunity opportunity = this.getOpportunityForCompany(dataArea.Id); 
+                opportunity.EvaluationState = SelfHealingEvaluationState::Evaluated; 
+                opportunity.Data = result; 
+                opportunity.OpportunityDate = DateTimeUtil::utcNow(); 
+                
+                results.addEnd(opportunity); 
+            } 
+        } 
+    } 
+    
+    return results; 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">The method shown above loops over companies and selects RFQ cases with empty titles in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">findRFQCasesWithEmptyTitle</strong> method. If at least one such case is found, then a company-specific opportunity is created with the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">getOpportunityForCompany</strong> method. Notice that the field <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">Data</strong> in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">SelfHealingOpportunity</strong> table is of type <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">Container</strong>, and can therefore contain any data relevant to the logic specific to this rule. Setting <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="83">OpportunityDate</strong> with the current timestamp registers the time of the latest evaluation of the opportunity.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="85">Opportunities can also be cross-company. In this case, the loop over companies is not necessary and the opportunity must be created with the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="85">getOpportunityAcrossCompanies</strong> method.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="87">The following code shows the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="87">findRFQCasesWithEmptyTitle</strong> method, which returns the IDs of the RFQ cases that have empty titles.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="89">private container findRFQCasesWithEmptyTitle() 
+{ 
+    container result; 
+
+    PurchRFQCaseTable rfqCase; 
+    while select RFQCaseId from rfqCase 
+        where rfqCase.Name == '' 
+    { 
+        result += rfqCase.RFQCaseId; 
+    } 
+    
+    return result; 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="105">Two more methods that must be implemented are <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="105">opportunityTitle</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="105">opportunityDetails</strong>. The former returns a short title for the opportunity, the latter returns a detailed description of the opportunity, which can also include data.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="107">The title returned by <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="107">opportunityTitle</strong> appears under the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="107">Optimization opportunity</strong> column in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="107">Optimization advisor</strong> workspace. It also appears as the header of the side pane showing more information about the opportunity. By convention, this method is decorated with the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="107">DiagnosticRuleSubscription</strong> attribute, which takes the following arguments:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109">
+<li sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109"><p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109">Diagnostic area</strong> – An enum of type <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109">DiagnosticArea</strong> that describes what area of the application the rule belongs to, such as <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="109">DiagnosticArea::SCM</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111"><p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111">Rule name</strong> – A string with the rule name. This will appear under the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111">Rule name</strong> column in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111">Dianostics validation rule</strong> form (<strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="111">DiagnosticsValidationRuleMaintain</strong>).</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="113"><p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="113"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="113">Run frequency</strong> – An enum of type <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="113">DiagnosticRunFrequency</strong> that describes how often the rule should be run, such as <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="113">DiagnosticRunFrequency::Daily</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115"><p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115">Rule description</strong> – A string with a more detailed description of the rule. This will appear under the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115">Rule description</strong> column in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115">Dianostics validation rule</strong> form (<strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="115">DiagnosticsValidationRuleMaintain</strong>).</p>
+</li>
+</ul>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="117">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="118">The <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="118">DiagnosticRuleSubscription</strong> attribute is required for the rule to work. Typically, it is used on <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="118">opportunityTitle</strong>, but it can decorate any method of the class.</p>
+</div>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="120">The following is an example implementation. Raw strings are used for simplicity, but a correct implementation requires labels.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="122">[DiagnosticsRuleSubscription(DiagnosticsArea::SCM, 
+                             'Assign titles to Request for Quotation cases', 
+                             DiagnosticsRunFrequency::Daily,  
+                             'This rule detects Requests for Quotation with empty titles.')] 
+public str opportunityTitle() 
+{ 
+    return 'Assign titles to Request for Quotation cases'; 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="133">The description returned by <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="133">opportunityDetails</strong> appears on the side pane showing more information about the opportunity. This takes the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="133">SelfHealingOpportunity</strong> argument, which is <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="133">Data</strong> field that can be used to provide more details about the opportunity. In the example, the method returns the IDs of the RFQ cases with an empty title.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="135">public str opportunityDetails(SelfHealingOpportunity _opportunity) 
+{ 
+    str details = ''; 
+    container opportunityData = _opportunity.Data; 
+    int affectedRFQCasesCount = conLen(opportunityData); 
+
+    if (affectedRFQCasesCount != 0) 
+    { 
+        details = 'The following Request for Quotation cases have an empty title:\n'; 
+        for (int i = 1; i &lt;= affectedRFQCasesCount ; i++) 
+        { 
+            PurchRFQCaseId rfqCaseId = conPeek(opportunityData, i); 
+            details += rfqCaseId + '\n'; 
+        } 
+    } 
+
+    return details; 
+}
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="156">The two remaining abstract methods to implement are <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="156">provideHealingAction</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="156">securityMenuItem</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158">provideHealingAction</strong> returns true if a healing action is provided, otherwise, it returns false. If true is returned, the method <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158">performAction</strong> must be implemented, or an error will be thrown. The <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158">performAction</strong> method takes a <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158">SelfHealingOpportunity</strong> argument, in which the data can be used for the action. In the example, the action opens the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="158">PurchRFQCaseTableListPage</strong>, for manual correction.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="160">public boolean providesHealingAction() 
+{ 
+    return true; 
+} 
+
+protected void performAction(SelfHealingOpportunity _opportunity) 
+{ 
+    new MenuFunction(menuItemDisplayStr(PurchRFQCaseTableListPage), MenuItemType::Display).run(); 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="172">Depending on the specifics of the rule, it might be possible to take an automatic action using the opportunity data. In this example, the system could generate titles for RFQ cases automatically.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="174"><strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="174">securityMenuItem</strong> returns the name of an action menu item such that the rule is only visible to users who can access the action menu item. Security might require that specific rules and opportunities are accessible only to authorized users. In the example, only users with access to <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="174">PurchRFQCaseTitleAction</strong> can view the opportunity. Notice that this action menu item was created for this example, and was added as an entry point for the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="174">PurchRFQCaseTableMaintain</strong> security privilege.</p>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="176">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="177">The menu item must be an action menu item for security to work correctly. Other menu item types, such as <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="177">Display menu items</strong> will not work correctly.</p>
+</div>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="179">public MenuName securityMenuItem() 
+{ 
+    return menuItemActionStr(PurchRFQCaseTitleAction); 
+}
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="186">After the rule has compiled, execute the following job to have it display in the user interface (UI).</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="188">class ScanNewRulesJob 
+{         
+    public static void main(Args _args) 
+    {         
+        SysExtensionCache::clearAllScopes(); 
+        var controller = new DiagnosticsRuleController(); 
+        controller.runOperation(); 
+    } 
+} 
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">The rule will display in the <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Diagnostics validation rule</strong> form, available from <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">System administration</strong> &gt; <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Periodic tasks</strong> &gt; <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Maintain diagnostics validation rule</strong>. To have it evaluated, go to <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">System administration</strong> &gt; <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Periodic tasks</strong> &gt; <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Schedule diagnostics validation rule</strong>, select the frequency of the rule, such as <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Daily</strong>. Click <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">OK</strong>. Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">System administration</strong> &gt; <strong sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="200">Optimization advisor</strong> to view the new opportunity.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="202">The following example is a code snippet with the skeleton of a rule including all the required methods and attributes. It helps you get started with writing new rules. The labels and action menu items that are used in the example are only used for demonstration purpose.</p>
+<pre><code class="lang-xpp" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="204">[DiagnosticsRuleAttribute]
+public final class SkeletonSelfHealingRule extends SelfHealingRule implements IDiagnosticsRule
+{
+    [DiagnosticsRuleSubscription(DiagnosticsArea::SCM,
+                                 &quot;@SkeletonRuleLabels:SkeletonRuleTitle&quot;, // Label with the title of the rule
+                                 DiagnosticsRunFrequency::Monthly,
+                                 &quot;@SkeletonRuleLabels:SkeletonRuleDescription&quot;)] // Label with a description of the rule
+    public str opportunityTitle()
+    {
+        // Return a label with the title of the opportunity
+        return &quot;@SkeletonRuleLabels:SkeletonOpportunityTitle&quot;;
+    }
+
+    public str opportunityDetails(SelfHealingOpportunity _opportunity)
+    {
+        str details = &quot;&quot;;
+
+        // Use _opportunity.data to provide details on the opportunity
+
+        return details;
+    }
+
+    protected List evaluate()
+    {
+        List results = new List(Types::Record);
+
+        // Write here the core logic of the rule
+
+        // When creating an opportunity, use:
+        //     * this.getOpportunityForCompany() for company specific opportunities
+        //     * this.getOpportunityAcrossCompanies() for cross-company opportunities
+
+        return results;
+    }
+
+    public boolean providesHealingAction()
+    {
+        return true;
+    }
+
+    protected void performAction(SelfHealingOpportunity _opportunity)
+    {
+        // Place here the code that performs the healing action
+
+        // To open a form, use the following:
+        // new MenuFunction(menuItemDisplayStr(SkeletonRuleDisplayMenuItem), MenuItemType::Display).run();
+    }
+
+    public MenuName securityMenuItem()
+    {
+        return menuItemActionStr(SkeletonRuleActionMenuItem);
+    }
+
+}
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="261">For more information, watch the short YouTube video: <a href="https://www.youtube.com/watch?v=MRsAzgFCUSQ" sourcefile="articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md" sourcestartlinenumber="261">Optimization advisor in Dynamics 365 for Finance and Operations</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/fin-ops-core/dev-itpro/sysadmin/create-rules-optimization-advisor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

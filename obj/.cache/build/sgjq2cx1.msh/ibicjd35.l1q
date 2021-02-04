@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mehrwertsteuerberechnung f&#252;r allgemeine Erfassungspositionen | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Mehrwertsteuerberechnung f&#252;r allgemeine Erfassungspositionen | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="sales-tax-calculation-on-general-journal-lines" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="28">Mehrwertsteuerberechnung für allgemeine Erfassungspositionen</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/finance/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="articles_de/finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="31">In diesem Thema wird erläutert, wie die Mehrwertsteuer für verschiedene Kontotypen (Kreditorenkonto, Debitorenkonto, Sachkonto und Projekt) in allgemeinen Erfassungspositionen berechnet werden.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="33">Der Prozess kann in drei Schritte unterteilt werden:</p>
+<ul sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="35">
+<li sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="35"><p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="35">Ermitteln der Mehrwertsteuerart.</p>
+</li>
+<li sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="37"><p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="37">Festlegen des Mehrwertsteuerbetrags, der in einer temporären Mehrwertsteuertabelle gespeichert wird.</p>
+</li>
+<li sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="39"><p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="39">Bestimmen des Mehrwertsteuerbetrags und des Kontos für den Beleg.</p>
+</li>
+</ul>
+<h2 id="determine-the-sales-tax-direction" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="41">Ermitteln der Mehrwertsteuerart</h2>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="43">Die Methode, mit der die Mehrwertsteuerart bestimmt wird, hängt von der Art des Kontos im Beleg ab. Die Mehrwertsteuerart wird durch die Kombination aus Kontenart und Mehrwertsteuercodes bestimmt. In den folgenden Abschnitten sind die Möglichkeiten ausführlicher aufgeführt.</p>
+<h3 id="account-type-is-project" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="45">Kontotyp ist Projekt</h3>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="47">Wenn ein Beleg eine Erfassungsposition hat, in der die Kontenart <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="47">Projekt</strong> ausgewählt ist, gilt für alle Erfassungspositionen im Beleg die gleiche Steuerart. Die folgende Abbildung zeigt die Regel. Folgende Punkte zeigen die möglichen Steuerarten für Projektkonten.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="49">•   Wenn der Mehrwertsteuercode Verbrauchssteuer ist, ist auch die Mehrwert-Steuerart Verbrauchssteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="51">•   Wenn der Mehrwertsteuercode Steuerbefreiung ist, ist die Mehrwertsteuerart Steuerfreier Einkauf.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="53">•   Wenn der Mehrwertsteuercode innergemeinschaftliche Mehrwertsteuer ist, ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="55">•   Wenn der Mehrwertsteuercode Verlagerung der Steuerschuld ist, ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="57">Andernfalls ist die Mehrwertsteuerart Vorsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="59">Das folgende Diagramm veranschaulicht diese Regel grafisch.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="61"><img src="media/Sales-Tax-Direction-Vendor.jpg" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="61" alt="Steuerartmöglichkeiten für Projektkonten"></p>
+<h3 id="account-type-is-vendor" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="63">Der Kontentyp ist Kreditor.</h3>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="65">Wenn ein Beleg eine Erfassungsposition hat, in der die Kontenart <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="65">Kreditor</strong> ausgewählt ist, gilt für alle Erfassungspositionen im Beleg die gleiche Steuerart. Folgende Punkte zeigen die möglichen Steuerarten für Kreditorenkonten.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="67">•   Wenn der Mehrwertsteuercode Verbrauchssteuer ist, ist auch die Mehrwert-Steuerart Verbrauchssteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="69">•   Wenn der Mehrwertsteuercode Steuerbefreiung ist, ist die Mehrwertsteuerart Steuerfreier Einkauf.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="71">•   Wenn der Mehrwertsteuercode innergemeinschaftliche Mehrwertsteuer ist, ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="73">•   Wenn der Mehrwertsteuercode Verlagerung der Steuerschuld ist, ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="75">Andernfalls ist die Mehrwertsteuerart Vorsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="77">Das folgende Diagramm veranschaulicht diese Regel grafisch.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="79"><img src="media/Sales-Tax-Direction-Vendor.jpg" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="79" alt="Steuerartmöglichkeiten für Kreditorenkonten"></p>
+<h3 id="account-type-is-customer" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="81">Kontotyp ist Debitor</h3>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="83">Wenn ein Beleg eine Erfassungsposition hat, in der die Kontenart <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="83">Debitor</strong> ausgewählt ist, gilt für alle Erfassungspositionen im Beleg die gleiche Steuerart. Folgende Punkte zeigen die möglichen Steuerarten für Debitorenkonten.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="85">•   Wenn der Mehrwertsteuercode Steuerbefreiung ist, ist die Mehrwertsteuerart Steuerfreier Einkauf.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="87">•   Wenn der Mehrwertsteuercode innergemeinschaftliche Mehrwertsteuer ist, ist die Mehrwertsteuerart Vorsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="89">•   Wenn der Mehrwertsteuercode Verlagerung der Steuerschuld ist, ist die Mehrwertsteuerart Vorsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="91">Andernfalls ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="93">Das folgende Diagramm veranschaulicht diese Regel grafisch.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="95"><img src="media/Sales-Tax-Direction-Customer.jpg" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="95" alt="Steuerartmöglichkeiten für Debitorenkonten"></p>
+<h3 id="account-type-is-ledger" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="97">Kontentyp ist Sachkonto</h3>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="99">Die folgende Abbildung zeigt die Regel an, die angewendet werden soll, wenn nur ein Beleg Erfassungspositionen aufweist, in denen die Kontenart <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="99">Sachkonto</strong> ausgewählt ist. Folgende Punkte zeigen die möglichen Steuerarten für Sachkonten.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="101">•   Wenn der Mehrwertsteuercode Verbrauchssteuer ist, ist auch die Mehrwert-Steuerart Verbrauchssteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="103">•   Wenn der Mehrwertsteuercode Steuerbefreiung ist, ist die Mehrwertsteuerart Steuerfreier Einkauf.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="105">Wenn der Erfassungsbetrag andernfalls Soll (positiv) ist, ist die Mehrwertsteuerart Vorsteuer; wenn der Erfassungsbetrag Gutschrift (negativ) ist, ist die Mehrwertsteuerart Mehrwertsteuer.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="107">Das folgende Diagramm veranschaulicht diese Regel grafisch.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="109"><img src="media/Sales-Tax-Direction-Ledger.jpg" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="109" alt="Steuerartmöglichkeiten für Sachkonten"></p>
+<h4 id="override-the-sales-tax-direction" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="111">Überschreiben der Mehrwertsteuerart</h4>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="113">Sie können die Mehrwertsteuerart überschreiben, wenn der Beleg nur Positionen enthält, in denen die Kontenart <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="113">Sachkonto</strong> ausgewählt ist.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="115">Navigieren Sie zu <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="115">Hauptbuch &gt; Kontenplan &gt; Konten &gt; Hauptkonten</strong> und wählen Sie das Inforegister <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="115">Juristische Person überschreibt</strong> aus.</p>
+<h2 id="determine-the-sales-tax-amount" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="117">Ermitteln des Mehrwertsteuerbetrags</h2>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="119">Dieser Abschnitt beschreibt, wie das Vorzeichen des Mehrwertsteuerbetrags berechnet wird.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="121"><img src="media/sales-tax-amount-sign.jpg" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="121" alt="Seite „Mehrwertsteuerbuchungen“"></p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="123">Die folgende Tabelle zeigt die generische Regel zum Bestimmen der Vorzeichen von Mehrwertsteuerbeträgen in der temporären Mehrwertsteuertabelle.</p>
+<table sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="125">
+<thead>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="125">
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="125">Erfassungspositionbetrag</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="125">Mehrwertsteuerart</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="125">Mehrwertsteuerbetrag-Zeichen</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="127">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="127">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="127">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="127">Positiv</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="128">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="128">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="128">Mehrwertsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="128">Negativ</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="129">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="129">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="129">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="129">Negativ</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Mehrwertsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Positiv</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Es gibt eine Sonderregelung für Belege, die nur Positionen <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Projekt</strong> oder <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Sachkonto</strong> besitzen, wenn eine Mehrwertsteuergruppe und eine Artikel-Mehrwertsteuergruppe in der Position <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Sachkonto</strong> ausgewählt wurde. Diese Regel wird durch Aktivieren der unabhängigen Mehrwertsteuerberechnungsfunktion für allgemeine Erfassungen gesteuert. Wenn diese Funktion deaktiviert wird, verwendet der Steuerbetrag der <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Sachkonto</strong>-Position die Soll-/Kreditrichtung der Position <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Projekt</strong>. Wenn diese Funktion deaktiviert wird, verwendet der Steuerbetrag <strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Sachkonto</strong>-Position seine eigene Soll-/Kreditrichtung. Die folgenden Tabellen zeigen die Regel für jedes Szenario an.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134"><strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134">Regel, wenn die Funktion aktiviert ist.</strong></p>
+<table sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="136">
+<thead>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="136">
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="136">Erfassungspositionsbetrag des Projekts</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="136">Mehrwertsteuerart</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="136">Mehrwertsteuerbetrag-Zeichen</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="138">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="138">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="138">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="138">Positiv</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139">Negativ</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141"><strong sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">Regel, wenn die Funktion deaktiviert ist.</strong></p>
+<table sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">
+<thead>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Erfassungspositionsbetrag des Sachkontos</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Mehrwertsteuerart</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Mehrwertsteuerbetrag-Zeichen</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="145">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="145">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="145">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="145">Positiv</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146">Negativ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="determine-the-sales-tax-amount-and-account-on-the-voucher" sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">Bestimmen des Mehrwertsteuerbetrags und des Kontos für den Beleg</h2>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="150">Wenn Sie Mehrwertsteuern buchen, wird das Hauptkonto aus dem Sachkontobuchungsgruppenprofil abgerufen. Wenn Mehrwertsteuer zu erstatten ist, verwendet das System das Konto für die Vorsteuer, das im Profil angegeben wird. Wenn Mehrwertsteuer zu zahlen sind, verwendet das System das Konto für die Mehrwertsteuer, das im Profil angegeben wird.</p>
+<p sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="152">Die allgemeine Regel wird in der folgenden Tabelle veranschaulicht.</p>
+<table sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">
+<thead>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">Mehrwertsteuerart</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">Mehrwertsteuerbetrag-Zeichen</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">Mehrwertsteuerkonto</th>
+<th sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="154">Belegbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="156">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="156">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="156">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="156">Vorsteuerkonten</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="156">Positiv (Soll)</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">Vorsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">Vorsteuerkonten</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">Negativ (Haben)</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="158">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="158">Mehrwertsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="158">Positiv</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="158">Mehrwertsteuerkonten</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="158">Negativ (Haben)</td>
+</tr>
+<tr sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Mehrwertsteuer</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Negativ</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Mehrwertsteuerkonten</td>
+<td sourcefile="articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Positiv (Soll)</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles_de/finance/general-ledger/sales-tax-calculation-on-general-journal.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

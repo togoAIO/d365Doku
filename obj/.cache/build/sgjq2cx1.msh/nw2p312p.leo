@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Comparison of cloud and on-premises features | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Comparison of cloud and on-premises features | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    <meta property="docfx:rel" content="../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="comparison-of-cloud-and-on-premises-features" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="31">Comparison of cloud and on-premises features</h1>
+
+
+<p sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="35">This topic shows a comparison of features available in cloud vs. on-premises for the following applications:</p>
+<ul sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="37">
+<li sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="37"><a href="cloud-prem-comparison.html#dynamics-365-finance" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="37">Dynamics 365 Finance</a></li>
+<li sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="38"><a href="cloud-prem-comparison.html#dynamics-365-supply-chain-management" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="38">Dynamics 365 Supply Chain Management</a></li>
+<li sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="39"><a href="cloud-prem-comparison.html#dynamics-365-commerce" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="39">Dynamics 365 Commerce</a></li>
+<li sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="40"><a href="cloud-prem-comparison.html#dynamics-365-human-resources" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="40">Dynamics 365 Human Resources</a></li>
+</ul>
+<p sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="42">Information about the <a href="cloud-prem-comparison.html#development-and-administration-features" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="42">development and administration features</a> is included, as well.</p>
+<p sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="44">The following tables list the application areas. Cloud and on-premises support is listed for the feature as a whole. Where specific features differ from the area overall, the features are listed on a separate line in the Feature column.</p>
+<h2 id="dynamics-365-finance" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="46">Dynamics 365 Finance</h2>
+<table sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">
+<thead>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">Area</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">Feature</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">Cloud</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="48">On-premises</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="50">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="50">Compliance and certifications</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="50"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="50">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="50">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="51">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="51"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="51">SOC 1 Type 1 certification</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="51">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="51">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="52">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="52">Data management and integration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="52"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="52">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="52">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="53">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="53"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="53">Export data to your own data warehouse</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="53">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="53">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="54">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="54"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="54">Enable the export of incremental updates to a data entity</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="54">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="54">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="55">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="55"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="55">Data integrations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="55">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="55">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="56">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="56">Document management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="56"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="56">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="56">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="57">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="57">Financial management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="57"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="57">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="57">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="58">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="58">Help</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="58"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="58">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="58">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="59">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="59">Human resources</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="59"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="59">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="59">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="60">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="60">Intelligence</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="60"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="60">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="60">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="61">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="61"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="61">Electronic reporting (ER)</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="61">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="61">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="62">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="62"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="62">ER: Integration with LCS</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="62">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="62">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="63">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="63"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="63">ER: Integration with SharePoint</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="63">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="63">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="64">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="64"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="64">ER: Integration with Regulatory Configuration Services (RCS)</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="64">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="64">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="65">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="65"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="65">ER: Uses local file system as storage of ER configurations accessible via ER repositories</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="65">No</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="65">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="66">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="66"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="66">Integration with PowerBI.com</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="66">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="66">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="67">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="67"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="67">Integration with PowerBI Desktop</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="67">No</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="67">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="68">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="68"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="68">Analytical workspaces</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="68">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="68">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="69">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="69"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="69">Intelligent business process: Recommendations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="69">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="69">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="70">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="70"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="70">Authoring Power BI reports with OData using Power BI desktop or Excel PowerQuery tools</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="70">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="70">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="71">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="71"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="71">SQL Server Reporting Services (SSRS) supports scaling out</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="71">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="71">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="72">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="72"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="72">Telemetry is transferred into the cloud</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="72">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="72">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="73">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="73">Lifecycle services</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="73"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="73">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="73">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="74">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="74"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="74">Configurable business processes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="74">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="74">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="75">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="75">Localizations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="75"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="75">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="75">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="76">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="76">Mobile app, workspaces, and platform</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="76"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="76">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="76">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="77">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="77">Office integration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="77"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="77">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="77">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="78">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="78">Organization administration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="78"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="78">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="78">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="79">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="79">Payroll</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="79"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="79">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="79">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="80">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="80"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="80">Direct deposit</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="80">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="80">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="81">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="81">Project management and accounting</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="81"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="81">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="81">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="82">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="82">Security</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="82"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="82">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="82">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="83">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="83">Service management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="83"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="83">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="83">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="84">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="84">Web client</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="84"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="84">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="84">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="85">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="85"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="85">Task recorder - Save or load task recordings from the BPM library</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="85">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="85">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="86">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="86">Support</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="86"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="86">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="86">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="87">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="87"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="87">Access to Support via the Help &amp; Support menu</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="87">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="87">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="88">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="88"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="88">Business events</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="88">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="88">Yes (either internet connectivity is required or custom endpoints must be implemented to send/receive business events within intranet)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dynamics-365-supply-chain-management" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="90">Dynamics 365 Supply Chain Management</h2>
+<table sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">
+<thead>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">Area</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">Feature</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">Cloud</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="92">On-premises</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="94">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="94">Asset management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="94"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="94">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="94">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="95">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="95">Compliance and certifications</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="95"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="95">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="95">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="96">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="96"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="96">SOC 1 Type 1 certification</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="96">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="96">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="97">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="97">Cost accounting</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="97"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="97">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="97">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="98">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="98"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="98">Cost accounting content pack for Power BI</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="98">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="98">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="99">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="99"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="99">Cost accounting workspace for mobile app</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="99">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="99">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="100">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="100">Cost management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="100"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="100">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="100">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="101">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="101"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="101">Cost management content pack for Power BI</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="101">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="101">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="102">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="102">Data management and integration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="102"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="102">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="102">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="103">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="103"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="103">Configuration-driven extension</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="103">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="103">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="104">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="104"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="104">Export data to your own data warehouse</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="104">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="104">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="105">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="105"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="105">Enable the export of incremental updates to a data entity</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="105">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="105">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="106">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="106"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="106">Data integrations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="106">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="106">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="107">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="107">Document management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="107"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="107">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="107">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="108">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="108">Help</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="108"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="108">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="108">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="109">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="109">Intelligence</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="109"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="109">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="109">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="110">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="110"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="110">Electronic reporting (ER)</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="110">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="110">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="111">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="111"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="111">ER: Integration with LCS</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="111">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="111">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="112">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="112"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="112">ER: Integration with SharePoint</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="112">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="112">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="113">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="113"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="113">ER: Integration with Regulatory Configuration Services (RCS)</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="113">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="113">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="114">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="114"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="114">ER: Uses local file system as storage of ER configurations accessible via ER repositories</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="114">No</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="114">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="115">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="115"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="115">Integration with PowerBI.com</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="115">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="115">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="116">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="116"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="116">Integration with PowerBI Desktop</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="116">No</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="116">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="117">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="117"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="117">Analytical workspaces</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="117">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="117">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="118">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="118"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="118">Intelligent business process: Recommendations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="118">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="118">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="119">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="119"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="119">Authoring Power BI reports with OData using Power BI desktop or Excel PowerQuery tools</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="119">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="119">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="120">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="120"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="120">SQL Server Reporting Services (SSRS) supports scaling out</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="120">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="120">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="121">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="121"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="121">Telemetry is transferred into the cloud</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="121">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="121">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="122">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="122">Inventory management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="122"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="122">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="122">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="123">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="123">Lifecycle services</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="123"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="123">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="123">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="124">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="124"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="124">Configurable business processes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="124">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="124">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="125">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="125">Localizations</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="125"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="125">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="125">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="126">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="126">Manufacturing</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="126"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="126">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="126">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="127">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="127">Master planning and forecasting</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="127"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="127">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="127">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="128">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="128">Planning optimization</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="128"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="128">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="128">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="129">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="129">Mobile app, workspaces, and platform</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="129"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="129">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="129">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="130">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="130">Office integration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="130"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="130">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="130">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="131">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="131">Organization administration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="131"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="131">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="131">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="132">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="132">Procurement and sourcing</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="132"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="132">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="132">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="133">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="133"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="133">Punch-out to external catalog from purchase requisition</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="133">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="133">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="134">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="134"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="134">Purchase spend analysis Power BI reports</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="134">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="134">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="135">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="135">Product information management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="135"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="135">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="135">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="136">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="136">Product master data</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="136"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="136">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="136">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="137">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="137">Production</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="137"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="137">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="137">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="138">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="138"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="138">Production performance Power BI reports</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="138">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="138">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="139">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="139">Project management and accounting</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="139"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="139">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="139">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="140">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="140">Sales</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="140"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="140">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="140">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="141">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="141"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="141">Sales and profitability performance Power BI reports</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="141">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="141">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="142">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="142">Security</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="142"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="142">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="142">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="143">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="143">Service management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="143"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="143">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="143">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="144">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="144">Supply chain management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="144"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="144">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="144">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="145">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="145">Transportation management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="145"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="145">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="145">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="146">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="146">Vendor collaboration</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="146"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="146">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="146">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="147">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="147">Warehouse management</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="147"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="147">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="147">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="148">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="148"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="148">Mobile warehouse app</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="148">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="148">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="149">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="149"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="149">Warehousing Power BI reports</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="149">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="149">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="150">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="150">Web client</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="150"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="150">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="150">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="151">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="151"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="151">Task recorder - Save or load task recordings from the BPM library</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="151">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="151">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="152">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="152">Support</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="152"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="152">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="152">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="153">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="153"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="153">Access to Support via the Help &amp; Support menu</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="153">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="153">No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dynamics-365-commerce" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="155">Dynamics 365 Commerce</h2>
+<p sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="157">To see a list of capabilities that are available in on-premises deployments, see <a href="../../../retail/retail-onprem.md" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="157">Commerce capabilities that are available in on-premises deployments</a>.</p>
+<h2 id="dynamics-365-human-resources" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="159">Dynamics 365 Human Resources</h2>
+<table sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">
+<thead>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">Area</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">Feature</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">Cloud</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="161">On-premises</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="163">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="163">All Human Resources areas</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="163">All Human Resources features</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="163">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="163">No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="development-and-administration-features" sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="165">Development and administration features</h2>
+<table sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">
+<thead>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">Area</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">Feature</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">Cloud</strong></th>
+<th sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167"><strong sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="167">On-premises</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="169">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="169">Build and test</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="169"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="169">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="169">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="170">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="170">Extensibility</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="170"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="170">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="170">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="171">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="171">Monitoring and telemetry</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="171"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="171">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="171">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="172">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="172">Platform compatibility</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="172"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="172">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="172">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="173">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="173">Servicing</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="173"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="173">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="173">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="174">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="174"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="174">Servicing environments</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="174">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="174">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="175">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="175">Trace Parser</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="175"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="175">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="175">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="176">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="176">PerfTimer</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="176"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="176">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="176">Yes*</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="177">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="177">Upgrade</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="177"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="177">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="177">Yes</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="178">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="178"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="178">Upgrade</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="178">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="178">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="179">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="179"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="179">Upgrade and support for previous versions</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="179">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="179">No</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="180">
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="180">Visual Studio development</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="180"></td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="180">Yes</td>
+<td sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="180">Yes</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md" sourcestartlinenumber="182">* In on-premises environments, PerfTimer only shows results for the client.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/fin-ops-core/fin-ops/get-started/cloud-prem-comparison.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

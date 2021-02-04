@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Use JOIN data sources in ER model mappings to get data from multiple application tables | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Use JOIN data sources in ER model mappings to get data from multiple application tables | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    <meta property="docfx:rel" content="../../../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="use-join-data-sources-to-get-data-from-multiple-application-tables-in-electronic-reporting-er-model-mappings" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="32">Use JOIN data sources to get data from multiple application tables in Electronic reporting (ER) model mappings</h1>
+
+
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">While configuring Electronic reporting (ER) model mappings or formats, you can <a href="#review" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">add</a> required data sources of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">Join</strong> type. At design time, a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">Join</strong> data source is configured as a set of several data sources each of which returns a list of records. For every data source except the first one, you need to define necessary conditions to join records of the current and previous data sources. At runtime, a configured data source of <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">Join</strong> type <a href="#executeERformat" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="36">returns</a> a single joined list of records containing fields from the records of nested data sources.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="38">The following types of joins are currently supported:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="40">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="40">Outer (left) join:
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="41">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="41">Join all records of the first (left-most) data source and then any matching in accordance to configured conditions records of the second (right-most) data source.</li>
+</ul>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="42">Inner (right) join:
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="43">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="43">Join only records of the first (left-most) data source and only records of the second (right-most) data source matching to each other in accordance to configured conditions.</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="45">In the configured <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="45">Join</strong> data source, when all data sources are the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="45">Table records</strong> type, execution of the Join data source can be <a href="#analyze" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="45">performed at the database level</a> using a single SQL statement. This statement reduces the number of database calls, which improves model-mapping performance. Otherwise, execution of <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="45">Join data</strong> source is performed in memory.</p>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="47">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="48">Using the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="48">VALUEIN</strong> function in ER expressions that specify conditions for joining records in data sources of Join type is not supported yet. Visit the <a href="general-electronic-reporting-formula-designer.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="48">Formula designer in Electronic reporting</a> page for more details about this function.</p>
+</div>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="50">To learn more about this feature, complete the example in this topic.</p>
+<h2 id="example-use-join-data-sources-in-er-model-mappings" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="52">Example: Use JOIN data sources in ER model mappings</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="54">The following steps explain how the System administrator or Electronic reporting developer can configure an Electronic reporting (ER) model mapping to get data from multiple application tables at once by using data sources of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="54">Join</strong> type to improve data access performance. These steps can be performed for any company of Dynamics 365 Finance or Regulatory Configuration Services (RCS).</p>
+<h3 id="prerequisites" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="56">Prerequisites</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="58">To complete the examples in this topic, you must have access to one of the following depending on what service is used to compete these steps:</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="60"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="60">Access to Finance for one of the following roles:</strong></p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="62">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="62">Electronic reporting developer</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="63">Electronic reporting functional consultant</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="64">System administrator</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="66"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="66">Access to RCS for one of the following roles:</strong></p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="68">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="68">Electronic reporting developer</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="69">Electronic reporting functional consultant</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="70">System administrator</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="72">You also must first complete the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="72">Create a configuration provider and mark it as active</a> procedure.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="74">In advance, you must also download from <a href="https://go.microsoft.com/fwlink/?linkid=000000" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="74">Microsoft Download Center</a> and save locally the following sample ER configuration files:</p>
+<table sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76">
+<thead>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76">
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76">Content description</strong></th>
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="76">File name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="78">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="78">Sample <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="78">ER data model</strong> configuration file, which is used as the data source for the examples.</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="78"><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="78">Model to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="79">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="79">Sample <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="79">ER model mapping</strong> configuration file, which implements the ER data model for the examples.</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="79"><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="79">Mapping to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="80">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="80">Sample <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="80">ER format</strong> configuration file. This file describes the data to populate the ER format component for the examples.</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="80"><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="80">Format to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="activate-a-configurations-provider" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="82">Activate a configurations provider</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="84">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="84"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="84">Access either Finance or RCS in the first session of your web browser.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="85"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="85">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="85">Organization administration &gt; Workspaces &gt; Electronic reporting</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">Localization configurations</strong> page, in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">Configuration providers</strong> section, make sure that the configuration provider for the <a href="http://www.litware.com" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">Litware, Inc.</a> sample company is listed, and that it's marked as <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">Active</strong>. If you don't see this configuration provider, follow the steps in <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="86">Create a configuration provider and mark it as active</a> procedure.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="88"><img src="media/GER-JoinDS-ActiveProvider.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="88" alt="Electronic reporting workspace"></p>
+</li>
+</ol>
+<h3 id="import-sample-er-configuration-files" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="90">Import sample ER configuration files</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="92">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="92"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="92">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="92">Reporting configurations</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="93"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="93">Import the ER data model configuration file.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="94">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="94">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="94">Exchange</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="95">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="95">Load from XML file</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="96">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="96">Browse</strong> to find the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="96">Model to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="97">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="97">OK</strong>.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="98"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="98">Import the ER model-mapping configuration file.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="99">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="99">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="99">Exchange</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="100">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="100">Load from XML file</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="101">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="101">Browse</strong> to find the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="101">Mapping to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="102">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="102">OK</strong>.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="103"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="103">Import the ER format configuration file.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="104">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="104">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="104">Exchange</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="105">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="105">Load from XML file</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="106">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="106">Browse</strong> to find the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="106">Format to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="107">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="107">OK</strong>.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="108"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="108">In the configurations tree, expand the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="108">Model to learn JOIN data sources</strong> item as well as other model items (when available).</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="109"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="109">Observe the list of ER configurations in the tree as well as version details on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="109">Versions</strong> fast tab – they will be used as the source of data for your sample report.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="111"><img src="media/GER-JoinDS-ConfigurationsTree.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="111" alt="Electronic reporting configurations page"></p>
+</li>
+</ol>
+<h3 id="turn-on-execution-trace-options" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="113">Turn on execution trace options</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="115">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="115"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="115">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="115">CONFIGURATIONS</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="116"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="116">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="116">User parameters</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="117"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="117">Set execution trace parameters as shown on the screenshot below.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="119"><img src="media/GER-JoinDS-Parameters.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="119" alt="Electronic reporting user parameters page"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="121">With these parameters turned on, for every execution of the imported ER format file, the execution trace will be generated. Using details of generated execution trace, you can analyze the execution of ER format and ER model-mapping components. Visit the <a href="trace-execution-er-troubleshoot-perf.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="121">Trace execution of ER format to troubleshoot performance issues</a> page for more details about ER execution trace feature.</p>
+</li>
+</ol>
+<h3 id="review-er-model-mapping-part-1" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="123">Review ER model mapping (part 1)</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="125">Review settings of the ER model-mapping component. The component is configured to access information about versions of ER configurations, details of configurations and configuration providers without using data sources of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="125">Join</strong> type.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="127">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="127"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="127">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="127">Mapping to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="128"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="128">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="128">Designer</strong> to open the list of mappings.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="129"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="129">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="129">Designer</strong> to review the mapping details.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="130"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="130">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="130">Show details</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="131"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="131">In the configurations tree, expand the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="131">Set1</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="131">Set1.Details</strong> data model items:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Details: Record list = Versions</strong> indicates that the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Set1.Details</strong> item is bound to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Versions</strong> data source returning records of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">ERSolutionVersionTable</strong> table. Each record of this table represents a single version of an ER configuration. The content of this table is presented in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Versions</strong> fast tab on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="133">Configurations</strong> page.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="134">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="134">ConfigurationVersion: String = @.PublicVersionNumber</strong> means that the value of the public version of each ER configuration’s version is taken from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="134">PublicVersionNumber</strong> field of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="134">ERSolutionVersionTable</strong> table and placed to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="134">ConfigurationVersion</strong> item.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">ConfigurationTitle: String = @.'&gt;Relations'.Solution.Name</strong> indicates that the name of an ER configuration is taken from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">Name</strong> field of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">ERSolutionTable</strong> table assessing by using the many-to-one relation (<strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">'&gt;Relations'</strong>) between the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">ERSolutionVersionTable</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">ERSolutionTable</strong> tables. Names of ER configurations of the current application instance are presented in the configurations tree on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="135">Configurations</strong> page.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">@.'&gt;Relations'.Solution.'&gt;Relations'.SolutionVendor.Name</strong> means that the name of the configuration provider that owns the current configuration is taken from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">Name</strong> field of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">ERVendorTable</strong> table assessing by using the many-to-one relation between <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">ERSolutionTable</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">ERVendorTable</strong> tables. Names of ER configuration providers are presented in the configurations tree on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">Configurations</strong> page on the page header for each configuration. The entire list of ER configuration providers can be found on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="136">Organization administration &gt; Electronic reporting &gt; Configuration provider</strong> table page.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="138"><img src="media/GER-JoinDS-Set1Review.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="138" alt="ER model mapping designer page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="140"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="140">In the configurations tree, expand the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="140">Set1.Summary</strong> data model item:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">VersionsNumber: Integer = VersionsSummary.aggregated.VersionsNumber</strong> indicates that the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">Set1.Summary.VersionsNumber</strong> item is bound to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">VersionsNumber</strong> aggregation field of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">VersionsSummary</strong> data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">GroupBy</strong> type that was configured to return the number of records of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">ERSolutionVersionTable</strong> table via the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="142">Versions</strong> data source.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="144"><img src="media/GER-JoinDS-Set1GroupByReview.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="144" alt="GROUPBY data source parameters page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="146"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="146">Close the page.</p>
+</li>
+</ol>
+<h3 id="review" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="148"> Review ER model mapping (part 2)</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="150">Review settings of the ER model-mapping component. The component is configured to access information about versions of ER configurations, details of configurations and configuration providers with using a data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="150">Join</strong> type.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">In the configurations tree, expand the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Set2</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Set2.Details</strong> data model items. The binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Details: Record list = Details</strong> indicates that the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Set2.Details</strong> item is bound to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Details</strong> data source configured as the data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="152">Join</strong> type.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="154"><img src="media/GER-JoinDS-Set2Review.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="154" alt="ER model mapping designer page"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="156">The <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="156">Join</strong> data source can be added by selecting the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="156">Functions\Join</strong> data source:</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="158"><img src="media/GER-JoinDS-AddJoinDS.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="158" alt="ER model mapping designer page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="160"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="160">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="160">Detail</strong>s data source.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="161"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="161">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="161">Edit</strong> in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="161">Data sources</strong> pane.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="162"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="162">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="162">Edit join</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="163"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="163">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="163">Show details</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="165"><img src="media/GER-JoinDS-JoinDSEditor.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="165" alt="JOIN data source parameters page"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">This page is used to design the required data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">Join type</strong>. At runtime, this data source will create a single joined list of records from the data sources in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">Joined list</strong> grid. Join of records will start from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">ConfigurationProviders</strong> data source that is in the grid as a first one (the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">Type</strong> column is blank for it). Records of every other data source will be joined consequently to records of the parent data source based on its order in this grid. Every joining data source must be configured as a data source nested under a target data source (<code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">1Versions</code> data source is nested under <code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">1Configurations</code> one; <code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">1Configurations</code> data source is nested under <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">ConfigurationProviders</strong> one). Each configured data source must contain the conditions for the join. In the data source for this particular <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="167">Join</strong>, the following joins are defined:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">Each record of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">ConfigurationProviders</strong> data source (referred to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">ERVendorTable</strong> table) is joined with only records of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">1Configurations</strong> one (referred to in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">ERSolutionTable</strong> table) having the same value in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">SolutionVendor</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">RecId</strong> fields. The <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="169">Inner join</strong> type is used for this join as well as the following conditions for matching records:</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="171">FILTER (Configurations, Configurations.SolutionVendor = ConfigurationProviders.RecId)</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">Each record of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">1Configurations</strong> data source (referred to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">ERSolutionTable</strong> table) is joined with the only records of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">1Versions</strong> one (referred to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">ERSolutionVersionTable</strong> table) having the same value in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">Solution</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">RecId</strong> fields. <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="173">Inner join</strong> type is used for this join as well as the following conditions for matching records:</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="175">FILTER (ConfigurationVersions, ConfigurationVersions.Solution = ConfigurationProviders.'1Configurations'.RecId)</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="177">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="177"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="177">Execute</strong> option is configured as <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="177">Query</strong> meaning that this join data source will be executed at runtime on database level as a direct SQL call.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="179">For joining records of data sources representing application tables, you can specify join conditions by using pairs of fields other than ones that describe existing in AOT relations between these tables. This type of join can be configured to execute at the database level as well.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="181"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="181">Close the page.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="182"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="182">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="182">Cancel</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="183"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="183">In the configurations tree, expand the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="183">Set2.Summary</strong> data model item:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">Binding <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">VersionsNumber: Integer = DetailsSummary.aggregated.VersionsNumber</strong> indicates that the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">Set2.Summary.VersionsNumber</strong> item is bound to the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">VersionsNumber</strong> aggregation field of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">DetailsSummary</strong> data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">GroupBy</strong> type that was configured to return the number of joined records of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">Details</strong> data source of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="185">Join</strong> type.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">The <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">Execution</strong> location option is configured as <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">Query</strong> meaning that this <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">GroupBy</strong> data source will be run at runtime as a direct SQL call at the database level. This behavior is possible because the base data source <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">Details</strong> of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="186">Join</strong> type is configured as executed at the database level.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="188"><img src="media/GER-JoinDS-Set2GroupByReview.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="188" alt="GROUPBY data source parameters page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="190"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="190">Close the page.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="191"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="191">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="191">Cancel</strong>.</p>
+</li>
+</ol>
+<h3 id="executeERformat" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="193"> Execute ER format</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="195">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="195"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="195">Access Finance or RCS in the second session of your web browser using same credentials and company as in the first session.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="196"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="196">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="196">Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="197"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="197">Expand <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="197">Model to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="198"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="198">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="198">Format to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="199"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="199">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="199">Designer</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="200"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="200">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="200">Show details</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="201"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="201">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="201">Mapping</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="202"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="202">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="202">Expand/Collapse</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="204">This format is designed to populate a generated text file with a new line for every version of an ER configuration (<strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="204">Version</strong> sequence). Each generated line will contain the name of a configuration provider owning the current configuration, the configuration name, and the configuration version separated by semicolon mark. The final line of generated file will contain the number of discovered versions of ER configurations (<strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="204">Summary</strong> sequence).</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="206"><img src="media/GER-JoinDS-FormatReview.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="206" alt="ER format designer page"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="208">The <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="208">Data</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="208">Summary</strong> data sources are used to populate configuration version details to the generated file:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="210">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="210">Information from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="210">Set1</strong> data model is used when you choose <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="210">No</strong> for the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="210">Selector</strong> data source at runtime on the user dialog page when running ER format.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="211">Information from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="211">Set2</strong> data model is used when you choose <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="211">Yes</strong> for the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="211">Selector</strong> data source at runtime on the user dialog page.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="213"><img src="media/GER-JoinDS-FormatMappingReview.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="213" alt="ER format designer page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="215"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="215">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="215">Run</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="216"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="216">On the dialog page, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="216">No</strong> in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="216">Use JOIN data source</strong> field.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="217"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="217">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="217">OK</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="218"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="218">Review generated file.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="220"><img src="media/GER-JoinDS-Set1Run.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="220" alt="ER user dialog page"></p>
+</li>
+</ol>
+<h4 id="analyze-er-format-execution-trace" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="222">Analyze ER format execution trace</h4>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="224">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="224"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="224">In the first session of Finance or RCS, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="224">Designer</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="225"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="225">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="225">Performance trac</strong>e.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="226"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="226">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="226">Performance trace</strong> grid, select the top-most record of the latest execution trace of an ER format that used the current model mapping component.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="227"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="227">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="227">OK</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="229">Execution statistics informs you about duplicated calls to application tables:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="231">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="231"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="231">ERSolutionTable</strong> has been called as many times as you have configuration version records in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="231">ERSolutionVersionTable</strong> table, while the number of such calls could be reduced in times for performance improvement.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="232"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="232">ERVendorTable</strong> has been called twice for every configuration version record that was discovered in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="232">ERSolutionVersionTable</strong> table, while the number of such calls could be reduced as well.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="234"><img src="media/GER-JoinDS-Set1Run2.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="234" alt="ER model mapping designer page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="236"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="236">Close the page.</p>
+</li>
+</ol>
+<h3 id="execute-er-format" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="238">Execute ER format</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="240">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="240"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="240">Switch to your web browser tab with the second session of Finance or RCS.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="241"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="241">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="241">Run</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="242"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="242">On the dialog page, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="242">Yes</strong> in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="242">Use JOIN data source</strong> field.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="243"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="243">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="243">OK</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="244"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="244">Review generated file.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="246"><img src="media/GER-JoinDS-Set2Run.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="246" alt="ER user dialog page"></p>
+</li>
+</ol>
+<h4 id="analyze" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="248"> Analyze ER format execution trace</h4>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="250">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="250"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="250">In the first session of Finance or RCS, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="250">Designer</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="251"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="251">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="251">Performance trace</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="252"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="252">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="252">Performance trace</strong> grid, select top-most record representing the latest execution trace of an ER format that used the current model mapping component.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="253"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="253">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="253">OK</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="255">Statistics informs you about the following:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="257">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="257">Application database has been called once to get records from <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="257">ERVendorTable</strong>, <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="257">ERSolutionTable</strong>, and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="257">ERSolutionVersionTable</strong> tables to access required fields.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="259"><img src="media/GER-JoinDS-Set2Run2.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="259" alt="ER model mapping designer page"></p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="261">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="261">Application database has been called once to calculate the number of configuration versions by using joins that were configured in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="261">Details</strong> data source.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="263"><img src="media/GER-JoinDS-Set2Run3.PNG" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="263" alt="ER model mapping designer page"></p>
+</li>
+</ol>
+<h2 id="limitations" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="265">Limitations</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">As you can see from the example in this topic, the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">JOIN</strong> data source can be built from several data sources that describe the individual datasets of the records that must eventually be joined. You can configure those data sources by using the built-in ER <a href="er-functions-list-filter.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">FILTER</a> function. When you configure the data source so that it's called beyond the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">JOIN</strong> data source, you can use company ranges as part of the condition for data selection. The initial implementation of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">JOIN</strong> data source doesn't support data sources of this type. For example, when you call a <a href="er-functions-list-filter.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">FILTER</a>-based data source within the scope of execution of a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="267">JOIN</strong> data source, if the called data source contains company ranges as part of the condition for data selection, an exception occurs.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="269">In Microsoft Dynamics 365 Finance version 10.0.12 (August 2020), you can use company ranges as part of the condition for data selection in <a href="er-functions-list-filter.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="269">FILTER</a>-based data sources that are called within the scope of execution of a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="269">JOIN</strong> data source. Because of the limitations of the application [query (This is an external linThis link was changed due to HTMLfromRepoGenerator)](../dev-ref/xpp-library-objects.md#query (This is an external linThis link was changed due to HTMLfromRepoGenerator)-object-model) builder, the company ranges are supported only for the first data source of a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="269">JOIN</strong> data source.</p>
+<h3 id="example" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="271">Example</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="273">For example, you must make a single call to the application database to get the list of foreign trade transactions of multiple companies and the details of the inventory item that is referred to in those transactions.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="275">In this case, you configure the following artifacts in your ER model mapping:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="277">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="277"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="277">Intrastat</strong> root data source that represents the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="277">Intrastat</strong> table.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="278"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="278">Items</strong> root data source that represents the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="278">InventTable</strong> table.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="279"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="279">Companies</strong> root data source that returns the list of companies (<strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="279">DEMF</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="279">GBSI</strong> in this example) where transactions must be accessed. The company code is available from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="279">Companies.Code</strong> field.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="280"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="280">X1</strong> root data source that has the expression <code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="280">FILTER (Intrastat, VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code))</code>. As part of the condition for data selection, this expression contains the definition of company ranges <code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="280">VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code)</code>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="281"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="281">X2</strong> data source as a nested item of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="281">X1</strong> data source. It includes the expression <code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="281">FILTER (Items, Items.ItemId = X1.ItemId)</code>.</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">Finally, you can configure a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">JOIN</strong> data source where <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">X1</strong> is the first data source and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">X2</strong> is the second data source. You can specify <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">Query</strong> as the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="283">Execute</strong> option to force ER to run this data source on the database level as a direct SQL call.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="285">When the configured data source is run while the ER execution is <a href="trace-execution-er-troubleshoot-perf.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="285">traced</a>, the following statement is shown in the ER model mapping designer as part of the ER performance trace.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="287"><code sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="287">SELECT ... FROM INTRASTAT T1 CROSS JOIN INVENTTABLE T2 WHERE ((T1.PARTITION=?) AND (T1.DATAAREAID IN (N'DEMF',N'GBSI') )) AND ((T2.PARTITION=?) AND (T2.ITEMID=T1.ITEMID AND (T2.DATAAREAID = T1.DATAAREAID) AND (T2.PARTITION = T1.PARTITION))) ORDER BY T1.DISPATCHID,T1.SEQNUM</code></p>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="289">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="290">An error occurs if you run a <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="290">JOIN</strong> data source that has been configured so that it contains data selection conditions that have company ranges for additional data sources of the executed <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="290">JOIN</strong> data source.</p>
+</div>
+<h2 id="additional-resources" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="292">Additional resources</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="294"><a href="general-electronic-reporting-formula-designer.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="294">Formula designer in Electronic reporting</a></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="296"><a href="trace-execution-er-troubleshoot-perf.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md" sourcestartlinenumber="296">Trace execution of ER format to troubleshoot performance issues</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Create a recurring data export app | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Create a recurring data export app | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="create-a-recurring-data-export-app" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="32">Create a recurring data export app</h1>
+
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="34">This article shows how to create a Microsoft Azure logic app that exports data from Microsoft Dynamics 365 Human Resources on a recurring schedule. The tutorial takes advantage of Human Resources' DMF package REST application programming interface (API) to export the data. After the data has been exported, the logic app saves the exported data package to a Microsoft OneDrive for Business folder.</p>
+<h2 id="business-scenario" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="36">Business scenario</h2>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="38">In one typical business scenario for Microsoft Dynamics 365 integrations, data must be exported to a downstream system on a recurring schedule. This tutorial shows how to export all worker records from Microsoft Dynamics 365 Human Resources and save the list of workers in a OneDrive for Business folder.</p>
+<div class="TIP" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="40">
+<h5>Tip</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="41">The specific data that is exported in this tutorial and the destination of the exported data are only examples. You can easily change them to meet your business needs.</p>
+</div>
+<h2 id="technologies-used" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="43">Technologies used</h2>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="45">This tutorial uses the following technologies:</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="47">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="47"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="47"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="47"><a href="https://dynamics.microsoft.com/talent/overview/" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="47">Dynamics 365 Human Resources</a></strong> – The master data source for workers that will be exported.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="48"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="48"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="48"><a href="https://azure.microsoft.com/services/logic-apps/" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="48">Azure Logic Apps</a></strong> – The technology that provides orchestration and scheduling of the recurring export.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="50">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="50"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="50"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="50"><a href="https://docs.microsoft.com/azure/connectors/apis-list" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="50">Connectors</a></strong> – The technology that is used to connect the logic app to the required endpoints.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="52">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="52"><a href="https://docs.microsoft.com/connectors/webcontents/" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="52">HTTP with Azure AD</a> connector</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="53"><a href="https://docs.microsoft.com/azure/connectors/connectors-create-api-onedriveforbusiness" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="53">OneDrive for Business</a> connector</li>
+</ul>
+</li>
+</ul>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="55"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="55"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="55"><a href="../dev-itpro/data-entities/data-management-api.md" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="55">DMF package REST API</a></strong> – The technology that is used to trigger the export and monitor its progress.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="56"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="56"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="56"><a href="https://onedrive.live.com/about/business/" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="56">OneDrive for Business</a></strong> – The destination for the exported workers.</p>
+</li>
+</ul>
+<h2 id="prerequisites" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="58">Prerequisites</h2>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="60">Before you begin the exercise in this tutorial, you must have the following items:</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="62">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="62">A Human Resources environment that has admin-level permissions in the environment</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="63">An <a href="https://azure.microsoft.com/free/" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="63">Azure subscription</a> to host the logic app</li>
+</ul>
+<h2 id="the-exercise" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="65">The exercise</h2>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="67">At the end of this exercise, you will have a logic app that is connected to your Human Resources environment and your OneDrive for Business account. The logic app will export a data package from Human Resources, wait for the export to be completed, download the exported data package, and save the data package in the OneDrive for Business folder that you specified.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="69">The completed logic app will resemble the following illustration.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="71"><img src="media/integration-logic-app-overview.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="71" alt="Logic app overview"></p>
+<h3 id="step-1-create-a-data-export-project-in-human-resources" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="73">Step 1: Create a data export project in Human Resources</h3>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="75">In Human Resources, create a data export project that exports workers. Name the project <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="75">Export Workers</strong>, and make sure that the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="75">Generate data package</strong> option is set to <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="75">Yes</strong>. Add a single entity (<strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="75">Worker</strong>) to the project, and select the format to export in. (Microsoft Excel format is used in this tutorial.)</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="77"><img src="media/integration-logic-app-export-workers-project.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="77" alt="Export Workers data project"></p>
+<div class="IMPORTANT" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="79">
+<h5>Important</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="80">Remember the name of the data export project. You will need it when you create the logic app in the next step.</p>
+</div>
+<h3 id="step-2-create-the-logic-app" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="82">Step 2: Create the logic app</h3>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="84">The bulk of the exercise involves creating the logic app.</p>
+<ol sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="86">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="86"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="86">In the Azure portal, create a logic app.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="88"><img src="media/integration-logic-app-creation-1.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="88" alt="Logic app creation page"></p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="90"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="90">In the Logic Apps Designer, start with a blank logic app.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="91"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="91">Add a <a href="https://docs.microsoft.com/azure/connectors/connectors-native-recurrence" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="91">Recurrence Schedule trigger</a> to run the logic app every 24 hours (or according to a schedule of your choice).</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="93"><img src="media/integration-logic-app-recurrence-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="93" alt="Recurrence dialog box"></p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="95"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="95">Call the <a href="../dev-itpro/data-entities/data-management-api.md#exporttopackage" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="95">ExportToPackage</a> DMF REST API to schedule the export of your data package.</p>
+<ol sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="97">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="97"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="97">Use the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="97">Invoke an HTTP request</strong> action from the HTTP with Azure AD connector.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="99">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="99"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="99">Base Resource URL:</strong> The URL of your Human Resources environment (Don't include path/namespace information.)</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="100"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="100">Azure AD Resource URI:</strong> <code sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="100">http://hr.talent.dynamics.com</code></li>
+</ul>
+<div class="NOTE" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="102">
+<h5>Note</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="103">The Human Resources service doesn't yet provide a connector that exposes all the APIs that make up the DMF package REST API, such as <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="103">ExportToPackage</strong>. Instead, you must call the APIs by using raw HTTPS requests through the HTTP with Azure AD connector. This connector uses Azure Active Directory (Azure AD) for authentication and authorization to Human Resources.</p>
+</div>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="105"><img src="media/integration-logic-app-http-aad-connector-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="105" alt="HTTP with Azure AD connector"></p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="107"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="107">Sign in to your Human Resources environment through the HTTP with Azure AD connector.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="108"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="108">Set up an HTTP <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="108">POST</strong> request to call the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="108">ExportToPackage</strong> DMF REST API.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="110">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="110"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="110"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="110">Method:</strong> POST</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="111"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="111"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="111">Url of the request:</strong> https://&lt;hostname&gt;/namespaces/&lt;namespace_guid&gt;/data/DataManagementDefinitionGroups/Microsoft.Dynamics.DataEntities.ExportToPackage</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="112"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="112"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="112">Body of the request:</strong></p>
+<pre><code class="lang-JSON" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="114">{
+    &quot;definitionGroupId&quot;:&quot;Export Workers&quot;,
+    &quot;packageName&quot;:&quot;talent_package.zip&quot;,
+    &quot;executionId&quot;:&quot;&quot;,
+    &quot;reExecute&quot;:false,
+    &quot;legalEntityId&quot;:&quot;USMF&quot;
+}
+</code></pre>
+</li>
+</ul>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="124"><img src="media/integration-logic-app-export-to-package-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="124" alt="Invoke an HTTP request action"></p>
+</li>
+</ol>
+<div class="TIP" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="126">
+<h5>Tip</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="127">You might want to rename each step so that it's more meaningful than the default name, <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="127">Invoke an HTTP request</strong>. For example, you can rename this step <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="127">ExportToPackage</strong>.</p>
+</div>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="129"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="129"><a href="https://docs.microsoft.com/azure/logic-apps/logic-apps-create-variables-store-values#initialize-variable" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="129">Initialize a variable</a> to store the execution status of the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="129">ExportToPackage</strong> request.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="131"><img src="media/integration-logic-app-initialize-variable-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="131" alt="Initialize variable action"></p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="133"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="133">Wait until the execution status of the data export is <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="133">Succeeded</strong>.</p>
+<ol sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135">Add an <a href="https://docs.microsoft.com/azure/logic-apps/logic-apps-control-flow-loops#until-loop" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135">Until loop</a> that repeats until the value of the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135">ExecutionStatus</strong> variable is <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="135">Succeeded</strong>.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="136"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="136">Add a <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="136">Delay</strong> action that waits five seconds before it polls for the current execution status of the export.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="138"><img src="media/integration-logic-app-until-loop-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="138" alt="Until loop container"></p>
+<div class="NOTE" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="140">
+<h5>Note</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="141">Set the limit count to <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="141">15</strong> to wait a maximum of 75 seconds (15 iterations × 5 seconds) for the export to be completed. If your export takes more time, adjust the limit count as appropriate.</p>
+</div>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143">Add an <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143">Invoke HTTP request</strong> action to call the <a href="../dev-itpro/data-entities/data-management-api.md#getexecutionsummarystatus" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143">GetExecutionSummaryStatus</a> DMF REST API, and set the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143">ExecutionStatus</strong> variable to the result of the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="143">GetExecutionSummaryStatus</strong> response.</p>
+<blockquote sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="145">
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="145">This sample doesn't do error checking. The <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="145">GetExecutionSummaryStatus</strong> API can return non-successful terminal states (that is, states other than <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="145">Succeeded</strong>). For more information, see the <a href="../dev-itpro/data-entities/data-management-api.md#getexecutionsummarystatus" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="145">API documentation</a>.</p>
+</blockquote>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="147">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="147"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="147"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="147">Method:</strong> POST</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="148"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="148"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="148">Url of the request:</strong> https://&lt;hostname&gt;/namespaces/&lt;namespace_guid&gt;/data/DataManagementDefinitionGroups/Microsoft.Dynamics.DataEntities.GetExecutionSummaryStatus</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="149"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="149"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="149">Body of the request:</strong> body('Invoke_an_HTTP_request')?['value']</p>
+<div class="NOTE" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="151">
+<h5>Note</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="152">You might have to enter the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="152">Body of the request</strong> value either in code view or in the function editor in the designer.</p>
+</div>
+</li>
+</ul>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="154"><img src="media/integration-logic-app-get-execution-status-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="154" alt="Invoke an HTTP request 2 action"></p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="156"><img src="media/integration-logic-app-set-variable-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="156" alt="Set variable action"></p>
+<div class="IMPORTANT" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="158">
+<h5>Important</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="159">The value for the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="159">Set variable</strong> action (<strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="159">body('Invoke_an_HTTP_request_2')?['value']</strong>) will differ from the value for the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="159">Invoke an HTTP request 2</strong> body value, even though the designer will show the values in the same way.</p>
+</div>
+</li>
+</ol>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="161"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="161">Get the download URL of the exported package.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="163">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="163"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="163">Add an <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="163">Invoke HTTP request</strong> action to call the <a href="../dev-itpro/data-entities/data-management-api.md#getexportedpackageurl" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="163">GetExportedPackageUrl</a> DMF REST API.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="165">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="165"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="165">Method:</strong> POST</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="166"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="166">Url of the request:</strong> https://&lt;hostname&gt;/namespaces/&lt;namespace_guid&gt;/data/DataManagementDefinitionGroups/Microsoft.Dynamics.DataEntities.GetExportedPackageUrl</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="167"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="167">Body of the request:</strong> {&quot;executionId&quot;: body('GetExportedPackageURL')?['value']}</li>
+</ul>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="169"><img src="media/integration-logic-app-get-exported-package-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="169" alt="GetExportedPackageURL action"></p>
+</li>
+</ul>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="171"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="171">Download the exported package.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="173">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="173"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="173">Add an HTTP <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="173">GET</strong> request (a built-in <a href="https://docs.microsoft.com/azure/connectors/connectors-native-http" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="173">HTTP connector action</a>) to download the package from the URL that was returned in the previous step.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="175">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="175"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="175"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="175">Method:</strong> GET</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="176"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="176"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="176">URI:</strong> body('Invoke_an_HTTP_request_3').value</p>
+<div class="NOTE" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="178">
+<h5>Note</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="179">You might have to enter the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="179">URI</strong> value either in code view or in the function editor in the designer.</p>
+</div>
+</li>
+</ul>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="181"><img src="media/integration-logic-app-download-file-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="181" alt="HTTP GET action"></p>
+<div class="NOTE" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="183">
+<h5>Note</h5>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="184">This request doesn't require any additional authentication, because the URL that the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="184">GetExportedPackageUrl</strong> API returns includes a shared access signatures token that grants access to download the file.</p>
+</div>
+</li>
+</ul>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="186"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="186">Save the downloaded package by using the <a href="https://docs.microsoft.com/azure/connectors/connectors-create-api-onedriveforbusiness" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="186">OneDrive for Business</a> connector.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="188">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="188"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="188">Add a OneDrive for Business <a href="https://docs.microsoft.com/connectors/onedriveforbusinessconnector/#create-file" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="188">Create File</a> action.</p>
+</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="189"><p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="189">Connect to your OneDrive for Business account, as required.</p>
+<ul sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="191">
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="191"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="191">Folder Path:</strong> A folder of your choice</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="192"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="192">File Name:</strong> worker_package.zip</li>
+<li sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="193"><strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="193">File Content:</strong> The body from the previous step (dynamic content)</li>
+</ul>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="195"><img src="media/integration-logic-app-create-file-step.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="195" alt="Create file action"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-3-test-the-logic-app" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="197">Step 3: Test the logic app</h3>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="199">To test your logic app, select the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="199">Run</strong> button in the designer. You will see that the steps of the logic app start to run. After 30 to 40 seconds, the logic app should finish running, and your OneDrive for Business folder should include a new package file that contains the exported workers.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="201">If a failure is reported for any step, select the failed step in the designer, and examine the <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="201">Inputs</strong> and <strong sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="201">Outputs</strong> fields for it. Debug and adjust the step as required to correct the errors.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="203">The following illustration shows what the Logic Apps Designer looks like when all the steps of the logic app run successfully.</p>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="205"><img src="media/integration-logic-app-successful-run.png" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="205" alt="Successful logic app run"></p>
+<h2 id="summary" sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="207">Summary</h2>
+<p sourcefile="articles/human-resources/hr-admin-integration-recurring-data-export.md" sourcestartlinenumber="209">In this tutorial, you learned how to use a logic app to export data from Human Resources and save the exported data to a OneDrive for Business folder. You can modify the steps of this tutorial as required to suit your business needs.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/togoAIO/d365Doku/blob/main/articles/human-resources/hr-admin-integration-recurring-data-export.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

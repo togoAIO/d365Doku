@@ -2,7 +2,7 @@
 # [Prozessübersicht](href)
 
 
-![Prozessübersicht](..\images\Prozessübersicht.png "Prozessübersicht")
+![Prozessübersicht](./media/Prozessübersicht.png "Prozessübersicht")
 
 [Sales Process](SalesProcess.md)
 
