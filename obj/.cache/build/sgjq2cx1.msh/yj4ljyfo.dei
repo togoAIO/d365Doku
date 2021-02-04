@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Dual currency support for tax | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Dual currency support for tax | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="dual-currency-support-for-sales-tax" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="33">Dual currency support for sales tax</h1>
+
+
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="36">This topic explains how to extend dual currency accounting for sales taxes and the impact for sales tax calculations, posting and settlements.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="38">The Dual currency feature for Dynamics 365 Finance was introduced in version 8.1 (October 2018). It changes the way that accounting entries in the reporting currency are calculated.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="40">In earlier versions, transactions were converted to the reporting currency in the following sequence:</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="42">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="42">Transaction total was calculated in the transaction currency &gt; Transaction amount was converted to the accounting currency &gt; Accounting currency amount was converted to the Reporting currency</li>
+</ul>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="44">After enabling the dual currency feature, transactions were converted to the reporting currency in the following sequence:</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="46">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="46">Transaction currency amount &gt; Reporting currency amount</li>
+</ul>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="48">For more information about dual currency, please refer to <a href="dual-currency.html" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="48">Dual currency</a>.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="50">As a consequence of support for dual currencies, two new features are available in feature management:</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="52">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="52">Sales tax conversion (new in version 10.0.13)</li>
+</ul>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="54">Dual currency support for sales taxes ensures that taxes are calculated accurately in the tax currency, and that the sales tax settlement balance is calculated accurately in both the accounting currency and reporting currency.</p>
+<h2 id="sales-tax-conversion" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="56">Sales tax conversion</h2>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="58">The <strong sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="58">Sales tax conversion</strong> parameter provides two options to convert tax amount from transaction currency to tax currency.</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="60">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="60">Accounting currency: The path will be &quot;Amount in transaction currency &gt; Amount in accounting currency &gt; Amount in tax currency&quot;. The accounting currency exchange rate type (configured in Ledger setup) will be used for the currency conversion.</li>
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="61">Reporting currency: The path will be &quot;Amount in transaction currency &gt; Amount in reporting currency &gt; Amount in tax currency&quot;. The reporting currency exchange rate type (configured in Ledger setup) will be used for the currency conversion.</li>
+</ul>
+<h3 id="example" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="63">Example</h3>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="65">A simple example to demonstrate this functionality is:</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="67">Currency setup for ledger and tax</p>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">Transaction currency</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">Accounting currency</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">Reporting currency</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="69">Tax currency</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="71">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="71">EUR</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="71">USD</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="71">GBP</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="71">GBP</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="73">Exchange rate</p>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">From currency</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">To currency</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">Factor</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="75">Exchange rate</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="77">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="77">EUR</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="77">USD</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="77">1</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="77">1.11</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="78">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="78">EUR</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="78">GBP</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="78">1</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="78">0.83</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="79">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="79">USD</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="79">GBP</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="79">1</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="79">0.75</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="81">Tax amount calculation in different parameter options</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="83">Tax amount = 100 EUR</p>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">Sales tax conversion parameters</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">Transaction currency (EUR)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">Accounting currency (USD)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">Reporting currency (GBP)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="85">Tax currency (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">Accounting currency</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">100</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87"><strong sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="87">83.25</strong></td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">Reporting currency</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">100</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88"><strong sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="88">83</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="90">This parameter can be configured based on the compliance need from tax authority.</p>
+<h3 id="upgrade-consideration" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="93">Upgrade Consideration</h3>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="95">This feature will only apply for new transactions. For tax transaction already saved in TAXTRANS table but not settled yet, system will not recalculate tax amount in tax currency because the exchange rate at time point of posting tax is already missing.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="97">To prevent preceding scenario, we recommend changing this parameter value in a new (clean) tax settlement period that doesn't contain any unsettled tax transactions. To change this value in the middle of a tax settlement period, please run &quot;Settle and post sales tax&quot; program for current tax settlement period before changing this parameter value.</p>
+<h2 id="track-reporting-currency-tax-amount" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="100">Track reporting currency tax amount</h2>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="102">Three new fields were added to tax-related tables to track amounts in the reporting currency. These fields are within the TAXUNCOMMITTED and TAXTRANS tables:</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="104">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="104">TaxAmountRep: tax amount in reporting currency</li>
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="105">TaxBaseAmountRep: base amount in reporting currency</li>
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="106">TaxInCostPriceRep: non-deductible amount in reporting currency</li>
+</ul>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="108">For tax only saved in TAXUNCOMMITTED table but not posted yet, system will recalculate tax amount in reporting currency at the time of posting and save in TAXTRANS table.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="110">This release will not include changes to reports and forms that show the tax amount in the reporting currency. Changes to reports and forms will be delivered in the future release.</p>
+<h2 id="tax-settlement-auto-balance-in-reporting-currency" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="114">Tax settlement auto-balance in reporting currency</h2>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="116">If the tax settlement is not balanced in the reporting currency for certain reason such as the sales tax conversion path is &quot;Accounting currency&quot;, or the exchange rate change in a single tax settlement period, then the system will automatically generate accounting entries to adjust the tax amount variance and offset it against realized exchange gain/loss account, which is configured in Ledger setup.</p>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="118">Using the the previous example to demonstrate this feature, suppose that the data in TAXTRANS table at the time of posting is as follows.</p>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">Sales tax conversion parameters</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">Transaction currency (EUR)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">Accounting currency (USD)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">Reporting currency (GBP)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="120">Tax currency (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">Accounting currency</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">100</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122"><strong sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="122">83.25</strong></td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">Reporting currency</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">100</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123"><strong sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="123">83</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="125">When you run the sales tax settlement program at month-end, the accounting entry will be as follows:.</p>
+<h4 id="scenario-sales-tax-conversion--accounting-currency" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="126">Scenario: sales tax conversion = &quot;Accounting currency&quot;</h4>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">Main account</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">Transaction currency (GBP)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">Accounting currency (USD)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="128">Reporting currency (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="130">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="130">Tax Payable/Receivable</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="130">-83.25</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="130">-111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="130">-83.25</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="131">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="131">Tax Settlement</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="131">83.25</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="131">111</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="131">83.25</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="132">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="132">Realized Gain/Loss</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="132">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="132">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="132">-0.25</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="133">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="133">Tax Payable/Receivable</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="133">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="133">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="133">0.25</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scenario-sales-tax-conversion--reporting-currency" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="135">Scenario: sales tax conversion = &quot;Reporting currency&quot;</h4>
+<table sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">
+<thead>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">Main account</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">Transaction currency (GBP)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">Accounting currency (USD)</th>
+<th sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="138">Reporting currency (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="140">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="140">Tax Payable/Receivable</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="140">-83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="140">-110.67</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="140">-83</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="141">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="141">Tax Settlement</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="141">83</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="141">110.67</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="141">83</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="142">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="142">Realized Gain/Loss</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="142">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="142">0.33</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="142">0</td>
+</tr>
+<tr sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="143">
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="143">Tax Payable/Receivable</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="143">0</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="143">-0.33</td>
+<td sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="143">0</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="147">For more information, see the following topics:</p>
+<ul sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="149">
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="149"><a href="dual-currency.html" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="149">Dual currency</a></li>
+<li sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="150"><a href="indirect-taxes-overview.html" sourcefile="articles/finance/general-ledger/dual-currency-for-tax.md" sourcestartlinenumber="150">Sales tax overview</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

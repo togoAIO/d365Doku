@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Release BOM and formula lines to the warehouse </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Release BOM and formula lines to the warehouse ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes the process for releasing raw material for BOM lines and formula lines to the warehouse.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="SysOperationTemplateForm, ProdParmReleaseToWarehouse, WHSReleaseToWarehouseProdBOM">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="release-bom-and-formula-lines-to-the-warehouse">Release BOM and formula lines to the warehouse</h1>
+
+
+<p>This topic describes the process for releasing raw material for bill of materials (BOM) lines and formula lines to the warehouse. When you release a BOM or formula line to the warehouse, the system first determines whether material is already available at the production input location on the shop floor where the material will be consumed for the production process.</p>
+<ul>
+<li>If the material is available at the production input location, it's picked from that location immediately after the signal is given for the release of material to the warehouse.</li>
+<li>If the material isn't available at the production input location, the material release indicates that material must be moved from locations in the warehouse to the production input location. The material is moved via warehouse work for raw material picking. Therefore, warehouse processes for raw material picking must be configured. For more information, see <a href="../warehousing/replenishment.html">Replenishment overview</a> and <a href="../warehousing/control-warehouse-location-directives.html">Control warehouse work by using work templates and location directives</a>.</li>
+</ul>
+<h2 id="methods-for-releasing-bom-and-formula-lines">Methods for releasing BOM and formula lines</h2>
+<p>You can configure the release of BOM and formula lines so that it occurs as part of the release of a production order or batch order. Alternatively, the release can be controlled by a batch job or done as a manual interaction.</p>
+<p>The method that is used to release BOM and formula lines is controlled by the <strong>Production line release</strong> parameter. You can find this parameter at <strong>Production control</strong> &gt; <strong>Setup</strong> &gt; <strong>Production parameters</strong>.</p>
+<ul>
+<li><strong>Release BOM and formula lines as part of production or batch order release</strong> – In this method, BOM and formula lines for a production or batch order are released as part of the process of releasing the order. Usually, during the release of a production or batch order, production jobs are released to the shop floor workers, and production papers are printed. During this process, the status of the order is also changed to <strong>Released</strong>.</li>
+<li><strong>Release BOM and formula lines via a batch job or as a manual interaction</strong> – In this method, BOM and formula lines can be released only through the <strong>Automatic release of BOM and formula lines</strong> batch job or as a manual interaction. To manually release BOM and formula lines, on the production order list page or the production order details page, on the Action Pane, select <strong>Release to warehouse</strong>.</li>
+</ul>
+<p>For a quick demonstration of how to release BOM and formula lines to production by using a batch job, watch this short YouTube video:
+<a href="https://www.youtube.com/watch?v=8urAJn50dQ8">Release production picking to the warehouse in batch</a>.</p>
+<h2 id="releasing-the-bom-and-formula-lines-by-using-a-batch-job">Releasing the BOM and formula lines by using a batch job</h2>
+<p>The <strong>Automatic release of BOM and formula lines</strong> batch job goes through selected BOM and formula lines that have a remaining quantity to release. The job considers only orders that have a status of <strong>Released</strong>, <strong>Started</strong>, or <strong>Reported as finished</strong>. If a BOM or formula line has a remaining quantity to release, the job releases up to the quantity that can be covered by the quantity that has already been physically reserved and the quantity that is physically available.</p>
+<h3 id="example-of-a-batch-job-release">Example of a batch job release</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Remaining quantity to release</th>
+<th>Physically reserved quantity</th>
+<th>Physically available quantity</th>
+<th>Quantity released by the batch job</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>100</td>
+<td>20</td>
+<td>90</td>
+<td>100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100</td>
+<td>20</td>
+<td>70</td>
+<td>90</td>
+</tr>
+<tr>
+<td>3</td>
+<td>100</td>
+<td>0</td>
+<td>90</td>
+<td>90</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100</td>
+<td>0</td>
+<td>110</td>
+<td>100</td>
+</tr>
+<tr>
+<td>5</td>
+<td>100</td>
+<td>20</td>
+<td>0</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-job-setup">Batch job setup</h3>
+<p>In the query for the <strong>Automatic release of BOM and formula lines</strong> batch job, you can set up a filter criterion to specify how many days ahead the job should look for lines that have unreleased quantities. In the query for the job, in the <strong>Raw material date</strong> field, use the <strong>(LessThanDate())</strong> function as a filter criterion.</p>
+<p>The following illustration shows a production order that has two jobs, 10 and 20, that cover the assembly and packing for the production order. Each job is set up to consume a quantity of material. In this illustration, the release time fence that is indicated by the green arrow below the time line equals the number of days that has been specified in the <strong>(LessThanDate())</strong> criterion. For example, <strong>(LessThanDate(2))</strong> indicates that the job should look for unreleased quantities only within a time fence of two days.</p>
+<p><img src="media/bach-job-setup.PNG" alt="Example of a production order that has two batch jobs"></p>
+<h2 id="releasing-material-per-operation-number-or-in-proportion-to-the-amount-of-finished-goods">Releasing material per operation number or in proportion to the amount of finished goods</h2>
+<p>If you release materials by using the <strong>On production order release</strong> parameter setting, when you do a manual release, you have two options for controlling the material release:</p>
+<ul>
+<li>Release material per operation number.</li>
+<li>Release material in proportion to the amount of finished goods.</li>
+</ul>
+<h3 id="release-material-per-operation-number">Release material per operation number</h3>
+<p>To control the operations that material should be released to, use the <strong>Release to warehouse</strong> page.</p>
+<ul>
+<li>Select <strong>Production control</strong> &gt; <strong>Production orders</strong> &gt; <strong>All production orders</strong>, select a production order, and then, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>. Then use the <strong>From Oper. No.</strong> and <strong>To Oper. No</strong> fields to specify the range of operation numbers.</li>
+</ul>
+<p>The following illustration shows a production order that has two operations, 10 and 20. In this example, if you limit the release to operation 10, only material M9203 will be released.</p>
+<p><img src="media/two-operations.PNG" alt="Example of the release of material per operation number"></p>
+<p>For a quick demonstration of how to release material in proportion to the amount of finished goods, watch this short YouTube video about
+<a href="https://www.youtube.com/watch?v=Rm3ojAz6Zu0">enhancements to the production order release process</a>.</p>
+<h3 id="release-material-in-proportion-to-the-amount-of-finished-goods">Release material in proportion to the amount of finished goods</h3>
+<p>You can release raw material for a partial quantity of finished goods or in a specific unit.</p>
+<ul>
+<li><p>To release raw material for a partial quantity of finished goods, select <strong>Production control</strong> &gt; <strong>Production orders</strong> &gt; <strong>All production orders</strong>, select a production order, and then, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>. Then enter a quantity in the <strong>Quantity</strong> field.</p>
+<p>For example, a production order is created and scheduled for 1,000 pieces (pcs.). The shop floor supervisor is planning the production of 100 pcs. for the next shift and wants to release materials only for that shift. In this case, the supervisor can use the <strong>Quantity</strong> field to release materials for the 100 pcs. that are planned for the next shift.</p>
+</li>
+<li><p>To release raw material in a specific unit, select <strong>Production control</strong> &gt; <strong>Production orders</strong> &gt; <strong>All production orders</strong>, select a production order, and then, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>. Then use the <strong>Unit</strong> field to select the unit of the finished good to release material in.</p>
+<p>The units that are available are defined in the unit sequence group ID of the finished good.</p>
+<p>For example, a finished good has the following unit conversion between pounds (lbs.) and pallet (PL): 1 PL = 100 lbs. To create a production order for 10,000 lbs. of the finished good, you can release raw materials for the number of pallets that you plan to produce. Select <strong>PL</strong> as the unit, and then select a corresponding number in the <strong>Quantity</strong> field.</p>
+</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/production-control/releasing-bom-and-formula-lines-to-warehouse.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

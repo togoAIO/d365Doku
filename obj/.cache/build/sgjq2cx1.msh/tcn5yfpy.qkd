@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Erweitern vorhandener Dateneinheiten | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Erweitern vorhandener Dateneinheiten | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="extend-inventory-on-hand-data-entities">Erweitern vorhandener Dateneinheiten</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Microsoft Dynamics 365 Supply Chain Management bietet die Funktionen von <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/extensibility/extensibility-home-page">Erweiterbarkeit (This is an external link)</a>, mit denen Sie <a href="../../fin-ops-core/dev-itpro/extensibility/add-field-extension">Felder durch Erweiterung in Tabellen einfügen</a> können. In diesem Thema finden Sie ein Beispiel, das zeigt, wie Sie den Ansichten <code>INVENTORSITEONHANDENTITY</code> und <code>INVENTWAREHOUSEONHANDENTITY</code> erweiterte Felder hinzufügen, damit die Funktionen der Inventardateneinheiten mit den Erweiterungen arbeiten können. Ausführliche Informationen zu Dateneinheiten finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/data-entities-data-packages">Datenverwaltungsübersicht (This is an external link)</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Hier ist eine Liste einiger verfügbarer Inventardateneinheiten:</p>
+<ul>
+<li>Verfügbarer Lagerbestand nach Standort</li>
+<li>Verfügbarer Lagerbestand nach Standort V2</li>
+<li>Lagerbestand nach Lagerort</li>
+<li>Verfügbarer Lagerbestand nach Lagerort v2</li>
+</ul>
+</div>
+<p>Nachdem Sie Tabellen Felder hinzugefügt haben, die von der Ansicht <code>inventSiteOnHandView</code> verwendet werden, muss der Engine synchronisiert werden, damit die Erweiterungen korrekt erkannt werden.</p>
+<ol>
+<li>Erweitern Sie die Ansicht <code>InventSiteOnHandView</code>, indem Sie das Erweiterungsfeld hinzufügen.</li>
+<li>Erweitern Sie die Ansicht <code>InventSiteOnHandAggregatedView</code> mit den Erweiterungsfeldern.</li>
+<li>Erweitern Sie die <code>InventSiteOnHandAggregatedViewBuilder</code>viewBuilder-Klasse durch Ändern der <code>getExtensionFields()</code>-Methode. Auf diese Weise ordnen Sie alte Ansichtsfelder neuen Ansichtsfeldern zu, wenn die viewBuilder-Synchronisierung ausgeführt wird.</li>
+</ol>
+<p>Beispielsweise haben Sie die folgenden vier Felder durch Erweiterung in die Tabelle <code>InventTable</code> eingefügt:</p>
+<ul>
+<li>Benutzerdefiniertes Feld 1</li>
+<li>Benutzerdefiniertes Feld 2</li>
+<li>Benutzerdefiniertes Feld 3</li>
+<li>Benutzerdefiniertes Feld 4</li>
+</ul>
+<p>In diesem Fall müssen Sie die Methode <code>getExtensionFields()</code> auf folgende Weise ändern.</p>
+<pre><code class="lang-xpp">[ExtensionOf(classStr(InventSiteOnHandAggregatedViewBuilder))]
+public final class InventOnHandAggregatedViewBuilder\_Extension
+{
+    protected Map getExtensionFields()
+    {
+        next getExtensionFields();
+        Map extensionFields = new Map(Types::Int64, Types::Int64);
+        extensionFields.insert(fieldNum(InventSiteOnHandView, Custom field 1), fieldNum(InventSiteOnHandAggregatedView, Custom field 1));
+        extensionFields.insert(fieldNum(InventSiteOnHandView, Custom field 2), fieldNum(InventSiteOnHandAggregatedView, Custom field 2));
+        extensionFields.insert(fieldNum(InventSiteOnHandView, Custom field 3), fieldNum(InventSiteOnHandAggregatedView, Custom field 3));
+        extensionFields.insert(fieldNum(InventSiteOnHandView, Custom field 4), fieldNum(InventSiteOnHandAggregatedView, Custom field 4));
+        return extensionFields;
+    }
+}
+</code></pre>
+<p>Nachdem Sie diese Schritte ausgeführt haben, können Sie den Lagerbestand nach Standort und den Lagerbestand nach Lagerdateneinheiten erweitern, indem Sie die neuen Felder hinzufügen. Auf diese Weise stellen Sie sicher, dass die erweiterten Felder während der Datenmigration, die diese Datenentitäten verwendet, erkannt und eingeschlossen werden.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

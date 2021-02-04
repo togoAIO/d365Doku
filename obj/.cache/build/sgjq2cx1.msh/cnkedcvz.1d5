@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronisieren von Produktbewertungen in Dynamics 365 Commerce | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronisieren von Produktbewertungen in Dynamics 365 Commerce | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="sync-product-ratings-in-dynamics-365-commerce" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="28">Synchronisieren von Produktbewertungen in Dynamics 365 Commerce</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="32">In diesem Thema wird das Synchronisieren von Produktbewertungen in Microsoft Dynamics 365 Commerce beschrieben.</p>
+<h2 id="overview" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="34">Übersicht</h2>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="36">Um Produktbewertungen in Mehrkanal-Lösungen, z. B. am Point of Sale (POS) und in Callcentern, zu verwenden, müssen die Produktbewertungen aus dem Dienst Bewertungen und Überprüfungen in die Commerce-Kanaldatenbank importiert werden. Wenn Produktbewertungen in Mehrkanal-Lösungen zur Verfügung gestellt werden, können sie Kunden indirekt bei ihren Interaktionen mit Vertriebspartnern unterstützen.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="38">In diesem Thema werden folgende Aufgaben beschrieben:</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="40">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="40">Konfigurieren Sie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="40">Produktbewertungsjob synchronisieren</strong> als Batchauftrag zum Synchronisieren von Produktbewertungen aus dem <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="40">Bewertungs- und Überprüfungsservice</strong>.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="41">Sicherstellen, dass der Batchauftrag für die Produktbewertungssynchronisierung erfolgreich war</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="42">Bereitstellen von Produktbewertungen am POS</li>
+</ol>
+<h2 id="configure-a-batch-job-to-synchronize-product-ratings" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="44">Konfigurieren eines Batchauftrags zum Synchronisieren von Produktbewertungen</h2>
+<div class="IMPORTANT" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="46">
+<h5>Important</h5>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="47">Vor dem Start sicherstellen, dass Version 10.0.6 oder höher von Dynamics 365 Commerce Retail installiert ist.</p>
+</div>
+<h3 id="initialize-the-commerce-scheduler" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="49">Commerce-Planer initialisieren</h3>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="51">Um den Commerce-Planer zu initialisieren, führen Sie die folgenden Schritte aus:</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="53">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="53">Gehen Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="53">Retail und Commerce &gt; Zentralverwaltungseinrichtung &gt; Commerce-Planer &gt; Commerce-Planer initialisieren</strong>. Suchen Sie alternativ nach „Commerce-Planer initialisieren“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="54">Stellen Sie im Dialogfeld <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="54">Commerce-Planer initialisieren</strong> sicher, dass die Option <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="54">Vorhandene Konfiguration löschen</strong> auf <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="54">Nein</strong> gesetzt ist, und wählen Sie dann <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="54">OK</strong> aus.</li>
+</ol>
+<h3 id="verify-the-retailproductrating-subjob" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="56">Den Unterauftrag RetailProductRating prüfen</h3>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="58">Um sicherzustellen, dass der Unterauftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="58">RetailProductRating</strong> vorhanden ist, befolgen Sie diese Schritte.</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="60">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="60">Gehen Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="60">Retail und Commerce &gt; Zentralverwaltungseinrichtung &gt; Commerce-Planer &gt; Planer-Unteraufträge</strong>. Suchen Sie alternativ nach „Steuerprogrammunteraufträge“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="61">Finden oder suchen Sie in der Unterauftragsliste den Unterauftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="61">RetailProductRating</strong>.</li>
+</ol>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="63">Die folgende Abbildung zeigt ein Beispiel der Seite Unterauftragsdetails in Commerce.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="65"><img src="media/rnr-hq-ratings-sub-job.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="65" alt="Details des Unterauftrags RetailProductRating"></p>
+<div class="NOTE" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="67">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="68">Wenn Sie den Unterauftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="68">RetailProductRating</strong> nicht finden, haben Sie vielleicht den Auftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="68">Synchronisieren von Produktbewertungen</strong> und den Auftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="68">1040 CDX</strong> ausgeführt, bevor Sie den Commerce-Planer initialisiert haben. Befolgen Sie in diesem Fall die Schritte, um den Auftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="68">Vollständige Datensynchronisierung</strong> auszuführen.</p>
+</div>
+<blockquote sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="70">
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="70">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="70">Gehen Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="70">Retail und Commerce &gt; Zentralverwaltungseinrichtung &gt; Commerce-Planer &gt; Kanaldatenbank</strong>. Suchen Sie alternativ nach „Kanaldatenbank“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="71">Wählen Sie die zu synchronisierende Kanaldatenbank aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="72">Wählen Sie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="72">Vollständige Datensynchronisierung</strong> im Aktivitätsbereich aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="73">Wählen Sie im Dropdown-Dialogfeld <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="73">Vertriebsplan auswählen</strong> die Option <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="73">1040 - Produkte</strong> und dann <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="73">OK</strong> aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="74">Wiederholen Sie die Schritte der vorherigen Prozedur, um zu prüfen, ob der Unterauftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="74">RetailProductRating</strong> erstellt wurde.</li>
+</ol>
+</blockquote>
+<h3 id="import-product-ratings" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="76">Produktbewertungen importieren</h3>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="78">Führen Sie die folgenden Schritte aus, um Produktbewertungen aus dem Bewertungs- und Überprüfungsdienst in Commerce zu importieren.</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="80">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="80">Navigieren Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="80">Retail und Commerce &gt; Zentralverwaltungseinrichtung &gt; Commerce-Planer &gt; Produktbewertungsauftrag synchronisieren</strong>. Suchen Sie alternativ nach „Produktbewertungsauftrag synchronisieren“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="81">Wählen Sie im Dialogfeld <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="81">Produktbewertungen</strong> auf dem Inforegister <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="81">Im Hintergrund ausführen</strong> die Option <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="81">Wiederholung</strong> aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="82">Legen Sie im Dialogfeld <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="82">Wiederholung definieren</strong> ein Wiederholungsmuster fest. (Der empfohlene Wert beträgt zwei Stunden.) Planen Sie keine Wiederholung, die kürzer als eine Stunde ist.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="83">Wählen Sie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="83">OK</strong>.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="84">Legen Sie die Option <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="84">Stapelverarbeitungsvorgang</strong> auf <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="84">Ja</strong> fest. Diese Einstellung stellt sicher, dass Sie die Protokolle überwachen und den Status von Batchaufträgen überprüfen können.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="85">Wählen Sie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="85">OK</strong> aus, um den Batchauftrag zu planen.</li>
+</ol>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="87">Die folgende Abbildung zeigt ein Beispiel der Batchauftragskonfiguration in Commerce.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="89"><img src="media/rnr-hq-batchjob-recurrence.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="89" alt="Konfiguration des Batchauftrags zum Synchronisieren von Produktbewertungen"></p>
+<h2 id="verify-that-the-batch-job-for-product-rating-synchronization-was-successful" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="91">Sicherstellen, dass der Batchauftrag für die Produktbewertungssynchronisierung erfolgreich war</h2>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="93">Um sicherzustellen, dass der Batchauftrag <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="93">Produktbewertungen synchronisieren</strong> erfolgreich war, befolgen Sie diese Schritte.</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="95">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="95">Navigieren Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="95">Retail und Commerce &gt; Systemadministrator &gt; Abfragen &gt; Batchaufträge</strong> oder bei Verwendung einer Commerce-Lagermengeneinheit stattdessen zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="95">Retail und Commerce &gt; Abfragen und Berichte &gt; Batchaufträge</strong>. Suchen Sie alternativ nach „Batchaufträge“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="96">Um die Details des Batchauftrags in der Batchauftragsliste anzuzeigen, suchen Sie in der Spalte <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="96">Auftragsbeschreibung</strong> nach einer Beschreibung mit „Produktbewertungen abrufen“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="97">Wählen Sie die Auftrags-ID aus, um die Details des Batchauftrags anzuzeigen, z. B. das geplante Startdatum/die geplante Startzeit und den Wiederholungstext.</li>
+</ol>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="99">Die folgende Abbildung zeigt ein Beispiel für die Batchauftragsdetails in Commerce, wenn die Ausführung des Batchauftrags in zweistündigen Intervallen geplant ist.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="101"><img src="media/rnr-hq-batchjob-status-checking.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="101" alt="Details des Batchauftrags zum Synchronisieren von Produktbewertungen"></p>
+<h2 id="make-product-ratings-available-at-the-pos" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="103">Bereitstellen von Produktbewertungen am POS</h2>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="105">Die Bewertungs- und Prüfungslösung in Dynamics 365 Commerce ist eine Mehrkanallösung. Produktbewertungen werden jedoch standardmäßig nicht am POS angezeigt. Damit Kunden in Geschäften Bewertungen und Beurteilungen sehen können, wenn sie von Vertriebspartnern unterstützt werden, müssen Sie die Produktbewertungen am POS aktivieren.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="107">Gehen Sie folgendermaßen vor, um Produktbewertungen am POS zu aktivieren.</p>
+<ol sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="109">
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="109">Gehen Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="109">Retail und Commerce &gt; Commerce-Einrichtung &gt; Parameter &gt; Commerce-Parameter</strong>. Suchen Sie alternativ nach „Commerce-Parametern“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="110">Wählen Sie auf der Registerkarte <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="110">Konfigurationsparameter</strong> die Option <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="110">Neu</strong> aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="111">Geben Sie einen Namen, wie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="111">RatingsAndReviews.EnableProductRatingsForRetailStores</strong>, ein, und setzen Sie den Wert auf <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="111">true</strong>.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="112">Wählen Sie <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="112">Speichern</strong>.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="113">Gehen Sie zu <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="113">Retail und Commerce &gt; Retail und Commerce IT &gt; Vertriebsplan</strong>. Suchen Sie alternativ nach „Vertriebsplan“.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="114">Wählen Sie in der Auftragsliste <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="114">1110</strong> (<strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="114">globale Konfiguration</strong>) und dann <strong sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="114">Jetzt ausführen</strong> aus.</li>
+<li sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="115">Überprüfen Sie nach erfolgreicher Ausführung des Auftrags, ob die Produktbewertungen jetzt am POS angezeigt werden.</li>
+</ol>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="117">Die folgende Abbildung zeigt ein Beispiel für die Konfiguration der Commerce-Parameter zum Aktivieren der Produktbewertungen am POS.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="119"><img src="media/rnr-hq-enable-ratings-in-pos.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="119" alt="Konfiguration der Commerce-Parameter für Produktbewertungen am POS"></p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="121">Die folgende Abbildung zeigt ein Beispiel für Produktbewertungen am POS.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="123"><img src="media/rnr-pos-catalog-ratings.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="123" alt="Produktbewertungen am POS"></p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="125">Die folgende Abbildung zeigt ein Beispiel für Produktbewertungen in Callcenter-Kanälen.</p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="127"><img src="media/rnr-call-center-ratings.png" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="127" alt="Produktbewertungen in einem Callcenterkanal"></p>
+<h2 id="additional-resources" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="129">Zusätzliche Ressourcen</h2>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="131"><a href="ratings-reviews-overview.html" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="131">Überblick über Bewertungen und Prüfungen</a></p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="133"><a href="opt-in-ratings-reviews.html" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="133">Abonnieren zum Verwenden von Bewertungen und Prüfungen</a></p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="135"><a href="manage-reviews.html" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="135">Verwalten von Bewertungen und Prüfungen</a></p>
+<p sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="137"><a href="configure-ratings-reviews.html" sourcefile="articles_de/commerce/sync-product-ratings.md" sourcestartlinenumber="137">Konfigurieren von Bewertungen und Prüfungen</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

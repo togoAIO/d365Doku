@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Set up Azure resources for IoT Intelligence | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Set up Azure resources for IoT Intelligence | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="set-up-azure-resources-for-iot-intelligence">Set up Azure resources for IoT Intelligence</h1>
+
+
+<p>This topic explains how to create and configure the Microsoft Azure resources that you require for IoT Intelligence.</p>
+<h2 id="create-azure-resources">Create Azure resources</h2>
+<p>Follow these steps to create an IoT hub, a Redis cache, and a key vault that can be accessed by Microsoft Dynamics 365 Supply Chain Management.</p>
+<h3 id="verify-that-the-microsoft-dynamics-erp-microservices-first-party-app-id-is-in-your-tenant">Verify that the Microsoft Dynamics ERP Microservices first-party app ID is in your tenant</h3>
+<p>To verify that the app ID for the Microsoft Dynamics ERP Microservices first-party app is in your tenant, follow these steps.</p>
+<ol>
+<li><p>Sign in to the Azure portal at <a href="https://portal.azure.com">https://portal.azure.com</a>.</p>
+</li>
+<li><p>Go to <strong>Azure Active Directory</strong>.</p>
+</li>
+<li><p>Go to <strong>Enterprise applications</strong>.</p>
+</li>
+<li><p>In the <strong>Application type</strong> field, select <strong>Microsoft applications</strong>.</p>
+</li>
+<li><p>In the search field, enter <strong>Microsoft Dynamics ERP Microservices</strong>.</p>
+</li>
+<li><p>Verify that <strong>Microsoft Dynamics ERP Microservices</strong> is in the list. Other applications have similar names. Therefore, make sure that you find the correct application. The app ID is <strong>0cdb527f-a8d1-4bf8-9436-b352c68682b2</strong>.</p>
+<p>If the application isn't in the list, you must add it to your tenant:</p>
+<ol>
+<li>In the Azure portal, on the toolbar, select the button to open Azure Cloud Shell.</li>
+<li>Run the command <strong>Install-Module AzureAD</strong>. Enter <strong>Y</strong> to install the module.</li>
+<li>Run the command <strong>Get-InstalledModule -Name &quot;AzureAD&quot;</strong> to verify that the module is installed.</li>
+<li>Run the command <strong>Connect-AzureAD -Confirm</strong> to run the authentication.</li>
+<li>Run the command <strong>New-AzureADServicePrincipal -AppId 0cdb527f-a8d1-4bf8-9436-b352c68682b2</strong>.</li>
+</ol>
+<p>You can now repeat steps 1 through 6 to verify that the app ID is in your tenant.</p>
+</li>
+</ol>
+<h3 id="create-a-key-vault-resource">Create a key vault resource</h3>
+<p>To create a key vault resource, follow these steps.</p>
+<ol>
+<li>In the Azure portal, create or go to a resource group.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>On the <strong>New</strong> page, in the search field, enter <strong>Key vault</strong>. Then select <strong>Create</strong>.</li>
+<li>On the <strong>Create key vault</strong> page, in the <strong>Key vault name</strong> field, enter a name.</li>
+<li>Review the default values, and then select <strong>Review + create</strong>.</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<p>The key vault is created in the background.</p>
+<h3 id="create-an-iot-hub-resource">Create an IoT hub resource</h3>
+<p>To create an IoT hub resource, follow these steps.</p>
+<ol>
+<li>Create or go to a resource group.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>On the <strong>New</strong> page, in the search field, enter <strong>Iot Hub</strong>. Then select <strong>Create</strong>.</li>
+<li>In the <strong>IoT hub name</strong> field, enter a name.</li>
+<li>Review the default values, and then select <strong>Review + create</strong>.</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<p>The IoT hub is created in the background.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>We recommend that you create only one IoT hub resource per environment.</p>
+</div>
+<h3 id="create-a-redis-cache-resource">Create a Redis cache resource</h3>
+<p>To create a Redis cache resource, follow these steps.</p>
+<ol>
+<li>Create or go to a resource group.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>On the <strong>New</strong> page, in the search field, enter <strong>Azure Cache for Redis</strong>. Then select <strong>Create</strong>.</li>
+<li>In the <strong>DNS name</strong> field, enter a name.</li>
+<li>Review the default values, and then select <strong>Create</strong>.</li>
+</ol>
+<p>The Redis cache is created in the background.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>We recommend that you create only one Redis cache per environment.</p>
+</div>
+<p>All the resources have now been created.</p>
+<h2 id="configure-the-azure-resources">Configure the Azure resources</h2>
+<h3 id="configure-the-iot-hub">Configure the IoT hub</h3>
+<p>To configure the IoT hub, follow these steps.</p>
+<ol>
+<li><p>In your resources, select the IoT hub resource.</p>
+</li>
+<li><p>In the left navigation pane, select <strong>Built-in endpoints</strong>.</p>
+</li>
+<li><p>Under <strong>Consumer groups</strong>, paste the following consumer groups. These consumer groups correspond to the out-of-box scenarios.</p>
+<ul>
+<li>microsoft.dynamics.iotintelligence-1</li>
+<li>microsoft.dynamics.iotintelligence-2</li>
+<li>microsoft.dynamics.iotintelligence-3</li>
+</ul>
+</li>
+</ol>
+<h3 id="configure-the-key-vault">Configure the key vault</h3>
+<p>To configure the key vault, follow these steps.</p>
+<ol>
+<li>In your resources, select the key vault resource.</li>
+<li>In the left navigation pane, select <strong>Access policies</strong>.</li>
+<li>Select <strong>Add an access policy</strong>.</li>
+<li>On the <strong>Add access policy</strong> page, in the <strong>Secret permissions</strong> field, select <strong>Get</strong> and <strong>List</strong>.</li>
+<li>Click in the <strong>Select principal</strong>.</li>
+<li>In the <strong>Principal</strong> dialog box, search for and select <strong>Microsoft Dynamics ERP Microservices</strong>. Then select <strong>Select</strong>.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p>The app now has access to the secrets in the key vault.</p>
+<h3 id="save-the-iot-hub-connection-string-secret">Save the IoT hub connection string secret</h3>
+<p>To save the secret for the IoT hub connection string, follow these steps.</p>
+<ol>
+<li>In your resources, select the IoT hub resource.</li>
+<li>In the left navigation pane, select <strong>Built-in endpoints</strong>.</li>
+<li>Copy the value in the <strong>Event Hub-compatible endpoint</strong> field.</li>
+<li>Go to the key vault resource.</li>
+<li>In the left navigation pane, select <strong>Secrets</strong>.</li>
+<li>Select <strong>Generate/Import</strong>.</li>
+<li>In the <strong>Name</strong> field, enter a name.</li>
+<li>In the <strong>Value</strong> field, paste the endpoint value that you copied earlier.</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<h3 id="save-the-redis-cache-connection-string-secret">Save the Redis cache connection string secret</h3>
+<p>To save the secret for the Redis cache connection string, follow these steps.</p>
+<ol>
+<li>In your resources, select the Redis cache resource.</li>
+<li>Select <strong>Access keys</strong>.</li>
+<li>Copy the value in the <strong>Primary connection string</strong> field.</li>
+<li>Go to the key vault resource.</li>
+<li>In the left navigation pane, select <strong>Secrets</strong>.</li>
+<li>Select <strong>Generate/Import</strong>.</li>
+<li>In the <strong>Name</strong> field, enter a name.</li>
+<li>In the <strong>Value</strong> field, paste the connection string that you copied earlier.</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Whenever you update one of the connection strings, you must also update the secret values.</p>
+</div>
+<p>You've now finished provisioning the required Azure resources. The next step is to <a href="iot-lcs-setup.html">install the IoT Intelligence add-in in Microsoft Dynamics Lifecycle Services (LCS)</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

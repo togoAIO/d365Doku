@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Advanced load building during wave </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Advanced load building during wave ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about advanced wave load building, which automatically assigns shipments to existing waves during wave execution. Therefore, you can create meaningful loads that represent trucks without having to use the load planning workbench.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSPostMethod,WHSWaveTemplateTable,WHSLoadMixGroup,WHSLoadBuildTemplate, WHSWaveTableListPage, TMSLoadBuildTemplateApply, TMSLoadBuildTemplates, TMSLoadBuildTemplateCreate">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="advanced-load-building-during-wave" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="29">Advanced load building during wave</h1>
+
+
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="33">Advanced wave load building automatically assigns shipments to existing waves during wave execution. Therefore, you can create meaningful loads that represent trucks without having to use the load planning workbench. This capability is useful for businesses that want to use the concept of loads to track and plan the shipment of goods in a truck/trailer, but that don't want to manually create those loads every day.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="35">During wave processing, the system usually creates a new load for each shipment that no load is assigned to. However, when advanced wave load building is turned on, the system assigns each unassigned shipment to an existing load (if an appropriate load exists), and new loads are created only when they are required. Advanced wave load building automatically creates the new loads, based on criteria that you define.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="37">To use the feature, you must set up the system in the following way:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="39">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="39">Create <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="39">wave templates</em> that include the new <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="39">buildLoads</strong> method. This method makes advanced wave load building available for waves that use those templates.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="40">Set up <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="40">load build templates</em>, each of which is linked to a specific wave template and method. Load build templates control which load (existing or new) the load lines that are being waved are added to. You can combine or separate shipments, based on criteria such as the load template, equipment, and other field values on the load line.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="41">Define <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="41">load mix groups</em> to control which items should and should not be combined on a single load. You also specify whether the restriction should produce a warning or an error, and whether the volumetric restriction of the load template should be evaluated.</li>
+</ul>
+<h2 id="turn-on-advanced-wave-load-building-in-your-system" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="43">Turn on advanced wave load building in your system</h2>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="45">Before you can use advanced wave load building, two features must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="45">feature management</a> settings to check the status of these features and turn them on if they are required. In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="45">Feature management</strong> workspace, the features are listed in the following way:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="47">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="47"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="47">Wave load building feature:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="49">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="49"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="49">Module:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="49">Warehouse management</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="50"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="50">Feature name:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="50">Wave load building feature</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="52"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="52">Organization wide wave step code:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="54">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="54"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="54">Module:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="54">Warehouse management</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="55"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="55">Feature name:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="55">Organization wide wave step code</em></li>
+</ul>
+</li>
+</ul>
+<h3 id="make-sample-data-available" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="57">Make sample data available</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="59">To work through this demo by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="59">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="59">USMF</strong> legal entity before you begin.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="61">You can also use this demo as guidance for using this feature when you work on a production system. However, in that case, you must substitute your own values, and you might be missing some types of required records that the standard demo data provides.</p>
+<h3 id="make-sure-that-the-scenario-setup-includes-enough-available-inventory" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="63">Make sure that the scenario setup includes enough available inventory</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="65">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="65">USMF</strong> demo data, you must first make sure that your system is set up so that there is enough inventory at each relevant location. For this demo, the expectation is that the following inventory is available in warehouse <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="65">62</em>:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="67">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="67"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="67">Item A0001:</strong> 10 pcs</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="68"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="68">Item A0002:</strong> 10 pcs</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="69"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="69">Item M9200:</strong> 10 ea</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="71">Item <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="71">M9200</strong> must be added to the warehouse. Complete the procedures in the following subsections to add the item inventory.</p>
+<h4 id="create-a-new-license-plate-id" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="73">Create a new license plate ID</h4>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">Warehouse management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">Setup</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">Warehouse</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="75">License plates</strong>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="76">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="76">New</strong>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="77">In the new row, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="77">License plate</strong> field, enter <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="77">LP6203</em>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="78">Select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="78">Save</strong>.</li>
+</ol>
+<h4 id="create-a-standard-cost-for-item-m9200-in-site-6" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="80">Create a standard cost for item M9200 in site 6</h4>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82">Product information management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82">Products</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="82">Released products</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="83"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="83">Search on <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="83">M9200</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="84"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="84">Select the row for the item, and then, on the Action Pane, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="84">Manage costs</strong> tab, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="84">Set up</strong> group, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="84">Item price</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="85"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="85">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="85">Item price</strong> page, select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="85">Pending prices</strong> tab.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="86"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="86">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="86">New</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="87"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="87">On the new line, set the following values:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="89">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="89"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="89">Costing type:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="89">Planned cost</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="90"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="90">Price type:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="90">Cost</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="91"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="91">Version:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="91">10</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="92"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="92">Site:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="92">6</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="93"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="93">Price:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="93">1.60</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="95"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="95">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="95">Save</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="96"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="96">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="96">Activate pending price(s)</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="97"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="97">Select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="97">Active prices</strong> tab to verify that the new cost price for site <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="97">6</em> has been added.</p>
+</li>
+</ol>
+<h4 id="create-inventory-in-warehouse-62" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="99">Create inventory in warehouse 62</h4>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">Inventory management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">Journal entries</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">Items</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="101">Inventory adjustment</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="102"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="102">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="102">New</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103">Create inventory journal</strong> dialog box, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103">Overview</strong> FastTab, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103">Warehouse</strong> field, enter <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="103">62</em>. Accept the default values in all the other fields.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="104"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="104">Select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="104">OK</strong> to close the dialog box.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="105"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="105">The <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="105">Inventory adjustment</strong> page is opened. On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="105">Journal lines</strong> FastTab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="105">New</strong> to add a line.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="106"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="106">On the new line, set the following values. Accept the default values in all the other fields.</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="108">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="108"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="108">Item number:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="108">M9200</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="109"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="109">Location:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="109">bulk-003</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="110"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="110">Quantity:</strong> Change the value to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="110">10</em>.</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="112"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="112">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="112">Save</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="113"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="113">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="113">Validate</strong> to check for errors.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="114"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="114">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="114">Check journal</strong> dialog box, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="114">OK</strong> to start the check. You receive a message when the check is completed.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="115"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="115">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="115">Post</strong> to commit the inventory adjustment.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="116"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="116">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="116">Post journal</strong> dialog box, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="116">OK</strong> to start the posting. You receive a message when the posting is completed.</p>
+</li>
+</ol>
+<h2 id="set-up-advanced-wave-load-building" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="118">Set up advanced wave load building</h2>
+<h3 id="regenerate-wave-process-methods" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="120">Regenerate wave process methods</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="122">You might have to regenerate your wave process methods to make the load building method (<strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="122">buildLoads</strong>) available.</p>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">Warehouse management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">Setup</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">Waves</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="124">Wave process methods</strong>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="125">Verify that <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="125">buildLoads</strong> is present in the list. If it isn't present, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="125">Regenerate methods</strong> on the Action Pane to add it.</li>
+</ol>
+<h3 id="set-up-wave-templates" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="127">Set up wave templates</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="129">To take advantage of advanced wave load building, you must include the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="129">buildLoads</strong> method in each relevant <a href="tasks/configure-wave-processing.html" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="129">wave template</a>.</p>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">Warehouse management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">Setup</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">Waves</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="131">Wave templates</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="132"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="132">Select a wave template.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="134">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="134">USMF</strong> demo data, select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="134">62 Shipping Default</strong> template.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="136"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="136">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="136">Edit</strong> to put the page into edit mode.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="137"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="137">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="137">Methods</strong> FastTab, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="137">Remaining methods</strong> grid, select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="137">buildLoads</strong> method.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="138"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="138">Select the right arrow button to move the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="138">buildLoads</strong> method to the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="138">Selected methods</strong> grid.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139">To assign a <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139">Wave step code</strong> value for the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139">buildLoads</strong> method, you must first create a code on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139">Wave step codes</strong> page. You can use any value that you want, but be sure to make a note of it, because you will need it later. Follow these steps to create code <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="139">WSC2112</strong>:</p>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="141">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="141">In the row for the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="141">buildLoads</strong> method, right-click the down arrow in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="141">Wave step code</strong> field, and then select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="141">View details</strong>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="142">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="142">Wave step codes</strong> page, on the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="142">New</strong>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="143">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="143">Wave step code</strong> field, enter <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="143">WSC2112</em>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="144">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="144">Wave step description</strong> field, enter <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="144">WSC2112</em>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="145">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="145">Wave step type</strong> field, select <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="145">Load Building</em>.</li>
+</ol>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="147"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="147">Select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="147">Save</strong>, and close the page.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="148"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="148">In the row for the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="148">buildLoads</strong> method, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="148">Wave step code</strong> field, select the code that you just created (<strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="148">WSC2112</strong>).</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="149"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="149">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="149">Save</strong>.</p>
+</li>
+</ol>
+<div class="NOTE" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="151">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="152">Wave step codes are codes that users can set up and use to link specific instances of wave methods to corresponding templates. The templates include templates for replenishment, containerization, label printing, load building, and sorting.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="154">When wave step codes aren't used, users must enter free text to reference a specific template from the wave method instance. Free text is prone to errors, because users must make sure that the wave step text that they add for a specific wave step method in a wave template exactly matches the wave step text in the target template.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="156">Wave step codes for a specific wave step type are set up on a separate page. For every instance of a wave step method in a wave template that requires a wave step code, the wave step code must be selected in a drop-down list. Selection in a drop-down list replaces free text entry and helps reduce the risk and impact of human error. Setup codes are used to link a wave step method in a wave template to a target template for the method.</p>
+</div>
+<h3 id="set-up-load-mix-groups" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="158">Set up load mix groups</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="160">Load mix groups establish rules for the types of items that can be combined on a single load. You can set up as many load mix groups as you require. However, to use advanced wave load building, you must have at least one. Follow these steps to create a load mix group.</p>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">Warehouse management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">Setup</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">Load</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="162">Load mix groups</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="163"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="163">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="163">New</strong> to create a load group.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="164"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="164">In the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="164">Load mix group ID</strong> field, enter a name for the new group.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="166">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="166">USMF</strong> demo data, set the following values:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="168">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="168"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="168">Load mix group ID:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="168">TV</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="169"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="169">Description:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="169">TV</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="171"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="171">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="171">Save</strong> to make the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="171">Load mix group criteria</strong> FastTab available.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="172"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="172">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="172">Load mix group criteria</strong> FastTab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="172">New</strong> to add a row to the grid.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="173"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="173">In the new row, set the desired values in each field. These values determine the item groups that are considered for the load mix.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="175">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="175">USMF</strong> demo data, select <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="175">TV&amp;Video</em> in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="175">Item group</strong> field.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="177"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="177">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="177">Save</strong> to make the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="177">Load mix group constraints</strong> FastTab available.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="178"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="178">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="178">Load mix group constraints</strong> FastTab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="178">New</strong> to add a row to the grid.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="179"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="179">In the new row, set the desired values in each field.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="181">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="181">USMF</strong> demo data, set the following values:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="183">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="183"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="183">Item group:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="183">CarAudio</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="184"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="184">Load build action:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="184">Restrict</em> (This value will prevent items that belong to the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="184">CarAudio</strong> item group from being on the same load as items that belong to the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="184">TV&amp;Video</strong> item group.)</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="186"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="186">Continue to work with the rules until you've added all the criteria and constraints that you require for the load mix group.</p>
+</li>
+</ol>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="188">If you're working with the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="188">USMF</strong> demo data, you've now finished this setup.</p>
+<h3 id="set-up-load-build-templates" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="190">Set up load build templates</h3>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="192">You can set up as many load build templates as you require. However, to use advanced wave load building, you must have at least one. Follow these steps to create a load build template.</p>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">Warehouse Management</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">Setup</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">Load</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="194">Wave load building templates</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="195"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="195">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="195">New</strong> to add a row to the grid.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="196"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="196">In the new row, set the following values.</p>
+<table sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="198">
+<thead>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="198">
+<th sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="198">Field</th>
+<th sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="198">Description</th>
+<th sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="198">Value in the USMF demo data</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="200">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="200">Sequence number</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="200">The order that the template will be evaluated in.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="200"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="200">1</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="201">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="201">Load build template name</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="201">Enter the unique identifier of the load build template. You should enter the name of the template that you created or updated earlier in this setup.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="201"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="201">62 Shipping Default</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202">Wave step code</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202">Enter the wave step code to use to link the template to a wave method. You should enter the code that you selected for the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202">buildLoads</strong> method when you set up the wave template earlier in this setup.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="202">WSC2112</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="203">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="203">Load template ID</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="203">Select the load template to use when new loads are created and to match against when assigning to existing loads. The load template defines the maximum weight and volume that are permitted for the whole load.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="203"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="203">Stnd Load Template</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="204">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="204">Equipment</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="204">The equipment to match against when assigning to existing loads and to enter on new loads that are created.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="204">Leave this field blank.</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="205">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="205">Load mix group ID</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="205">Select the load mix group to use if the item is allowed on the load. The mix group establishes rules for the types of items that can be combined on a single load. You should select one of the mix groups that you created earlier in this setup.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="205"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="205">TV</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">Use open loads</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">Select whether existing open loads should be added. The following options are available:<ul><li><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">None</strong> – Don't add open loads to any existing loads.</li><li><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">Any</strong> – Add open loads to any existing loads that are valid for the line.</li><li><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">Assigned</strong> – Add open loads to the load that is assigned to the wave.</li></ul></td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206"><em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="206">Any</em></td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="207">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="207">Create loads</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="207">Specify whether new loads should be created if no existing loads match the criteria.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="207">Selected (= <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="207">Yes</em>)</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="208">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="208">Allow shipment line split</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="208">Specify whether a single load line can be split across multiple loads if the full line exceeds the maximum capacity of the load template.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="208">Cleared (= <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="208">No</em>)</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="209">
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="209">Validate volumetrics</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="209">Specify whether load building should check the weight and volume as each load line is added, to ensure that the volumetric limits of the load template are respected.</td>
+<td sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="209">Cleared (= <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="209">No</em>)</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="211"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="211">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="211">Save</strong> to make the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="211">Edit query</strong> option available.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="212"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="212">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="212">Edit query</strong> to open a dialog box for editing the query.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="213"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="213">In the dialog box, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="213">Sorting</strong> tab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="213">Add</strong> to add a row to the grid.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="214"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="214">In the new row, define the sorting rules that you want to use. For example, set the following values to sort the search results in ascending order by order number:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="216">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="216"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="216">Table:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="216">Load details</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="217"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="217">Derived table:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="217">Load details</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="218"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="218">Field:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="218">Order number</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="219"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="219">Search direction:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="219">Ascending</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="221"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="221">Select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="221">OK</strong> to save your changes and close the dialog box.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">Break by</strong> FastTab, set rules to control how your loads are split up. Typically, you might break on custom fields that have been extended onto the load line, such as <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">Route</strong>, <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">Tour</strong>, or <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">Run</strong>. For example, to create one load per order number, select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="222">Break by</strong> check box for the row that has the following values:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="224">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="224"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="224">Reference table name:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="224">Load details</em></li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="225"><strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="225">Reference field name:</strong> <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="225">Order number</em></li>
+</ul>
+</li>
+</ol>
+<h2 id="scenario" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="227">Scenario</h2>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="229">This scenario shows how the settings that were described earlier in this topic affect warehouse operations while a sales order is processed. This scenario uses the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="229">USMF</strong> demo data together with other demo values that are provided in those setup instructions.</p>
+<h3 id="create-sales-orders" sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="231">Create sales orders</h3>
+<ol sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233">Go to <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233">Sales and marketing</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233">Sales orders</strong> &gt; <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="233">All sales orders</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="234"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="234">On the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="234">New</strong> to open the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="234">Create sales order</strong> dialog box.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="235"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="235">In the dialog box, set the following values:</p>
+<ul sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="237">
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="237">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="237">Customer</strong> FastTab, set the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="237">Customer account</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="237">US-007</em>.</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="238">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="238">General</strong> FastTab, set the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="238">Warehouse</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="238">62</em>.</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="240"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="240">Select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="240">OK</strong> to create the sales order and close the dialog box.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">Your new sales order is opened. It should include a new, empty line in the grid on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">Sales order lines</strong> FastTab. On this new line, set the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">Item number</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">A0001</em> and the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">Quantity</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="241">1</em>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="242"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="242">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="242">Inventory</strong> menu above the grid, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="242">Reservation</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="243"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="243">On the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="243">Reservation</strong> page, on the Action Pane, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="243">Reserve lot</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="244"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="244">Select the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="244">Close</strong> button (<strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="244">X</strong>) in the upper-right corner of the page to return to the sales order.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="245"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="245">On the Action Pane, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="245">Warehouse</strong> tab, in the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="245">Actions</strong> group, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="245">Release to warehouse</strong>. The system creates a shipment and adds it to a new load, because no existing load contains load lines that have this order number.</p>
+<p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="247">You receive informational messages that indicate the work, wave, and shipment that are created for this order.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249">To confirm the load, shipment, and work details on the sales line, select the line, and then, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249">Warehouse</strong> menu above the grid, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249">Load details</strong>, <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249">Shipment details</strong>, or <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="249">Work details</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="250"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="250">In the sales order that you just created, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="250">Sales order lines</strong> FastTab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="250">Add line</strong> to add another line.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251">On the new line, set the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251">Item number</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251">A0002</em> and the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251">Quantity</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="251">1</em>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="252"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="252">Repeat lines 6 through 9 to reserve the line and release it to the warehouse. The system creates a <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="252">new</strong> shipment for the line that you added. However, because you're using advanced wave load building, the system adds that shipment and load line to the existing wave. If you weren't using advanced wave load building, the system would create a new load for the shipment.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="253"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="253">In the sales order that you just created, on the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="253">Sales order lines</strong> FastTab, select <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="253">Add line</strong> to add another line.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254">On the new line, set the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254">Item number</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254">M9200</em> and the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254">Quantity</strong> field to <em sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="254">1</em>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255"><p sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255">Repeat lines 6 through 9 to reserve the line and release it to the warehouse. As before, the system creates a <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255">new</strong> shipment for the line that you added. However, because the item is from the <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255">CarAudio</strong> item group, it <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255">fails to pass the constraints that you set up for the load mix group</strong>. Therefore, it's <strong sourcefile="supply-chain/warehousing/advanced-load-building-during-wave.md" sourcestartlinenumber="255">added to a new load</strong>. If you hadn't specified a load mix group on the load build template, this shipment would have been added to the first load.</p>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/warehousing/advanced-load-building-during-wave.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

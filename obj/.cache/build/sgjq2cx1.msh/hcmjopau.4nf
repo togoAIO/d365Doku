@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Auto-release shipment for cross-docking | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Auto-release shipment for cross-docking | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="auto-release-shipment-for-cross-docking">Auto-release shipment for cross-docking</h1>
+
+
+<p>This topic describes a cross-docking strategy that lets you automatically release a demand order to the warehouse when the production order that supplies the demand quantity is reported as finished. In this way, the quantity that is required for fulfillment of the demand order is moved directly from the production output location to the outbound location.</p>
+<p>Cross-docking is a warehouse handling flow where the quantity that is required to fulfill an outbound order is directed to the order's outbound dock or staging area from the location where the inbound order was received. (The inbound order can be a purchase order, a transfer order, or a production order.) Whereas the Advanced cross-docking feature supports all supply and demand orders, and it requires that the outbound demand be released before the cross-dock opportunity is identified, the Auto-release shipment feature has these characteristics:</p>
+<ul>
+<li>It supports only production orders as supply, and only sales orders and transfer orders as demand.</li>
+<li>The cross-docking operation can be started even if the demand order wasn't released to the warehouse before the supply receipt was registered (that is, before the production was reported as finished).</li>
+</ul>
+<p>This cross-docking functionality has two advantages:</p>
+<ul>
+<li>The warehouse operations can skip the step of putting away quantities of finished goods to the regular warehouse storage area if those quantities will just be picked up again to fulfill the outbound order. Instead, the quantities can be moved one time, from the output location to a packing/shipping location. In this way, the functionality helps minimize the number of times that stock is handled and, ultimately, helps maximize time and space savings on the warehouse shop floor.</li>
+<li>The warehouse operations can postpone the release of sales orders and transfer orders to the warehouse until the output of finished goods for the associated production order is reported as finished. This advantage might be especially relevant in make-to-order production environments, where manufacturing lead times tend to be longer than the lead times in make-to-stock environments.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<table>
+<thead>
+<tr>
+<th>Prerequisite</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Item</td>
+<td>The item must be enabled for warehouse management processes.<p><strong>Note:</strong> Catch-weight-enabled items can't be included in the cross-docking processes.</p></td>
+</tr>
+<tr>
+<td>Warehouse</td>
+<td>The warehouse must be enabled for warehouse management processes.</td>
+</tr>
+<tr>
+<td>Cross-docking templates</td>
+<td>At least one cross-docking template that uses the <strong>At supply receipt</strong> demand release policy must be set up for a given warehouse.</td>
+</tr>
+<tr>
+<td>Work class</td>
+<td>A cross-docking work class ID must be created for the <strong>Cross docking</strong> work order type.</td>
+</tr>
+<tr>
+<td>Work templates</td>
+<td>Work templates of the <strong>Cross docking</strong> work order type are required to create cross-docking pick and put work.</td>
+</tr>
+<tr>
+<td>Location directives</td>
+<td>Location directives of the <strong>Cross docking</strong> work order type are required to guide put work in the locations where sales order quantities will be packed and shipped.</td>
+</tr>
+<tr>
+<td>Marking between a demand order and a production order</td>
+<td>The warehouse system can trigger automatic release of the outbound order shipment and create cross-docking work from the output location at the report-as-finished action only if sales orders and transfer orders are reserved and marked against a production order.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-cross-docking-flow">Example cross-docking flow</h2>
+<p>A typical cross-docking flow consists of the following main steps.</p>
+<ol>
+<li><p>A sales order taker creates a sales order for a make-to-order product. Typically, the requested quantity isn't on hand and must first be produced.</p>
+</li>
+<li><p>The sales order taker creates a production order directly from the sales order line. In this way, the sales order taker reserves and marks the sales order quantity against the production order quantity.</p>
+<p>Alternatively, a production planner specifies that the marking must be updated when planned orders are being firmed.</p>
+</li>
+<li><p>The production order goes through the following steps:</p>
+<ol>
+<li>A production planner estimates and releases the production order. (Estimation includes raw material reservation, and the release includes the release to a warehouse.)</li>
+<li>A warehouse worker starts and completes raw material picking from the storage location to the production input location, according to the production pick work.</li>
+<li>A shop floor operator starts the production order.</li>
+<li>In the last operation, a machine operator uses the mobile device to report the production order as finished.</li>
+</ol>
+</li>
+<li><p>The system uses the setup to identify the cross-docking event for the two linked orders and then completes these tasks:</p>
+<ol>
+<li>Automatically release the associated sales order to a warehouse to create a shipment.</li>
+<li>Automatically create cross-docking work that has instructions to pick the finished goods from the output location and move them to the outbound location that the cross-docking location directives assigned to the sales order.</li>
+<li>Prompt a machine operator to complete the cross-docking work immediately after the production order is reported as finished.</li>
+</ol>
+</li>
+<li><p>After the cross-docking work is completed, and quantities are loaded onto the vehicle, an outbound warehouse planner confirms the sales shipment.</p>
+</li>
+</ol>
+<h2 id="example-scenario">Example scenario</h2>
+<p>For this scenario, you must have demo data installed, and you must use the <strong>USMF</strong> demo data company.</p>
+<h3 id="set-up-cross-docking-that-uses-the-auto-release-shipment-feature">Set up cross-docking that uses the auto-release shipment feature</h3>
+<h4 id="cross-docking-template">Cross-docking template</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management</strong> &gt; <strong>Setup</strong> &gt; <strong>Work</strong> &gt; <strong>Cross docking templates</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Sequence number</strong> field, enter <strong>1</strong>.</p>
+</li>
+<li><p>In the <strong>Cross docking template ID</strong> field, enter a name, such as <strong>XDock_RAF</strong>.</p>
+</li>
+<li><p>In the <strong>Demand release policy</strong> field, select <strong>At supply receipt</strong>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, enter the number of the warehouse where you want to set up the cross-docking process. For this example, select <strong>51</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>As soon as you select <strong>At supply receipt</strong> as the demand release policy for the template, all other fields on the page become unavailable. Likewise, you can't define any supply sources. This behavior occurs because cross-docking that uses the auto-release shipment feature supports only production orders as supply sources, and it requires that a marking exist between sales orders and production orders. If you select <strong>Before supply receipt</strong> as the demand release policy, the fields on the <strong>Planning</strong> and <strong>Supply sources</strong> tabs are available and can be edited.</p>
+</div>
+</li>
+</ol>
+<h4 id="work-classes">Work classes</h4>
+<ol>
+<li>Go to <strong>Warehouse management</strong> &gt; <strong>Setup</strong> &gt; <strong>Work</strong> &gt; <strong>Work classes</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Work class ID</strong> field, enter a name, such as <strong>CrossDock</strong>.</li>
+<li>In the <strong>Work order type</strong> field, select <strong>Cross docking</strong>.</li>
+</ol>
+<p>To limit the types of locations where cross-docked finished goods can be put, you can specify one or more valid location types.</p>
+<h4 id="work-templates">Work templates</h4>
+<ol>
+<li>Go to <strong>Warehouse management</strong> &gt; <strong>Setup</strong> &gt; <strong>Work</strong> &gt; <strong>Work templates</strong>.</li>
+<li>In the <strong>Work order type</strong> field, select <strong>Cross docking</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Sequence number</strong> field, enter <strong>1</strong>.</li>
+<li>In the <strong>Work template</strong> field, enter a name, such as <strong>CrossDock_51</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>In the <strong>Work Template Details</strong> section, select <strong>New</strong>.</li>
+<li>For the new line, in the <strong>Work type</strong> field, select <strong>Pick</strong>. In the <strong>Work class ID</strong> field, select <strong>CrossDock</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>For the new line, in the <strong>Work type</strong> field, select <strong>Put</strong>. In the <strong>Work class ID</strong> field, select <strong>CrossDock</strong>.</li>
+</ol>
+<h4 id="location-directives">Location directives</h4>
+<p>A standard put-away process for finished goods requires a <strong>Put</strong> location directive to guide the movement of picked production quantities to a regular storage space. Likewise, you must set up a cross-docking <strong>Put</strong> location directive to instruct the work to put the finished quantity in a designated outbound location that services the shipment of the associated sales order.</p>
+<p>For cross-docking, as for regular put-away of finished goods, you don't have to create a location directive for the pick work action, because the output location is given. Additionally, this output location is expected to be set up either as the default output location on one of the resource-related records (that is, the resource, resource group relation, or resource group) or as a default production finished goods location for a warehouse.</p>
+<ol>
+<li>Go to <strong>Warehouse management</strong> &gt; <strong>Setup</strong> &gt; <strong>Location directives</strong>.</li>
+<li>In the <strong>Work order type</strong> field, select <strong>Cross docking</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Sequence number</strong> field, enter <strong>1</strong>.</li>
+<li>In the <strong>Name</strong> field, enter a name, such as <strong>Baydoor</strong>.</li>
+<li>In the <strong>Work type</strong> field, select <strong>Put</strong>.</li>
+<li>In the <strong>Site</strong> field, select <strong>5</strong>.</li>
+<li>In the <strong>Warehouse</strong> field, select <strong>51</strong>.</li>
+<li>On the <strong>Lines</strong> FastTab, select <strong>New</strong>.</li>
+<li>In the <strong>To quantity</strong> field, enter the maximum quantity of the range, such as <strong>1000000</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>On the <strong>Location Directives Actions</strong> FastTab, select <strong>New</strong>.</li>
+<li>In the <strong>Name</strong> field, enter a name, such as <strong>Baydoor</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>You can use the standard query facility to limit put locations to one or more specific locations. Select <strong>Edit query</strong>, and select <strong>51</strong> as the criterion for the <strong>Warehouse</strong> field in the <strong>Locations</strong> table.</li>
+</ol>
+<h3 id="cross-dock-finished-goods-to-the-outbound-location">Cross-dock finished goods to the outbound location</h3>
+<p>To cross-dock the quantity of finished goods to the outbound location of the associated sales order, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing</strong> &gt; <strong>Sales orders</strong> &gt; <strong>All sales orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>For the sales order header, select customer account <strong>US-001</strong> and a warehouse that is set up for cross-docking that uses the auto-release shipment feature.</p>
+</li>
+<li><p>Add a line for a finished product, and enter <strong>10</strong> as the quantity.</p>
+</li>
+<li><p>In the <strong>Sales order lines</strong> section, select <strong>Product and supply</strong> &gt; <strong>Production order</strong>.</p>
+</li>
+<li><p>In the <strong>Create production order</strong> dialog box, review the default values, and then select <strong>Create</strong>. A new production order is created and linked to the sales order (that is, it's reserved and marked).</p>
+</li>
+<li><p>Optional: Change the value of the <strong>Quantity</strong> field so that it's more than the value that is required to fulfill the sales order. When the production quantity is reported as finished, the system will create cross-docking work for the marked quantity and put-away work for the remaining quantity, according to the regular procedure for handling the put-away of finished goods.</p>
+<p>As was mentioned earlier, a marking must exist between the sales order and the production order. Otherwise, the cross-docking won't work. A marking can be created in the multiple ways:</p>
+<ul>
+<li><p>The system can automatically create the marking in the following situations:</p>
+<ul>
+<li>The production order is manually created directly from the sales order line (see step 6).</li>
+<li>Planned production orders are firmed, and the <strong>Update marking</strong> field is set to <strong>Standard</strong>.</li>
+</ul>
+</li>
+<li><p>The user can manually create the marking by opening the <strong>Marking</strong> page from the demand order line.</p>
+</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>A marking can't be manually created for items that are set up to use standard and weighted average as inventory models.</p>
+</div>
+</li>
+<li><p>On the <strong>Production order</strong> page, on the Action Pane, on the <strong>Production order</strong> tab, in the <strong>Process</strong> group, select <strong>Estimate</strong>, and then select <strong>OK</strong>. The order is estimated, and the raw material quantity is reserved for the production.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, in the <strong>Process</strong> group, select <strong>Release</strong>, and then select <strong>OK</strong>. Warehouse pick work is created for the raw materials.</p>
+</li>
+<li><p>Open and review the work. On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>General</strong> group, select <strong>Work details</strong>. Make a note of the work ID.</p>
+</li>
+<li><p>Sign in to the warehouse app to run work in warehouse 51.</p>
+</li>
+<li><p>Go to <strong>Production</strong> &gt; <strong>Production pick</strong>.</p>
+</li>
+<li><p>Enter the work ID to start and complete the raw material picking.</p>
+<p>After the work is reported as finished, the quantity of raw materials is available in the production input location (<strong>005</strong> in USMF demo data), and execution of the production order can start.</p>
+</li>
+<li><p>On the <strong>Production order</strong> page, on the Action Pane, on the <strong>Production order</strong> tab, in the <strong>Process</strong> group, select <strong>Start</strong>, and then select <strong>OK</strong>.</p>
+</li>
+<li><p>In the app, go to <strong>Production</strong> &gt; <strong>RAF and put away</strong>.</p>
+</li>
+<li><p>In the <strong>Prod ID</strong> field, enter the production order number and other mandatory details, and then select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Notice that the following events occur:</p>
+<ul>
+<li>The release to a warehouse is triggered for the linked sales order.</li>
+<li>Based on the release, shipment and cross-docking work is created. This work instructs the warehouse operator to pick the quantities that are required to fulfill the sales order line and put them in the outbound location that specified in the cross-docking location directive.</li>
+<li>If the production order quantity is more than the quantity that is required by the sales order, regular put-away work is created. This work instructs the warehouse operator to pick the quantity of finished goods that remains after cross-docking and move it to regular storage, according to the location directive.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

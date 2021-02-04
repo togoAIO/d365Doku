@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Seamless offline switch for gift card and credit memo operations </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Seamless offline switch for gift card and credit memo operations ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides an overview of improvements that provide a seamless offline switch for specific payment types.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Operations, Retail, Commerce, Developer">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="seamless-offline-switch-for-gift-card-and-credit-memo-operations" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="32">Seamless offline switch for gift card and credit memo operations</h1>
+
+
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="36">If a point of sale (POS) device loses its connection to the channel database, most POS operations and transactions that were in progress can proceed after the cashier receives a warning message about the loss of connectivity. However, in some cases, transactions have elements that rely on the real-time service, and those elements aren't supported when the POS is offline. This topic describes some functionality that helps reduce the impact of lost connectivity in these scenarios.</p>
+<h2 id="completing-gift-card-transactions-in-offline-mode" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="38">Completing gift card transactions in offline mode</h2>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="40">Internal gift cards depend on the real-time service, because the balance for the gift cards must be centrally maintained in Microsoft Dynamics 365 Commerce Headquarters. To help prevent fraud or other synchronization issues, gift cards are locked as soon as they are added to a transaction. The locking function ensures that a gift card can't be used on multiple terminals at the same time. When a transaction is completed, the gift card is updated and unlocked.</p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="42">However, if the POS loses connectivity after a gift card has been added to a transaction, the gift card can become unusable. To help prevent this situation, Dynamics 365 Commerce has a parameter that enables transactions that include a gift card line to be completed while the POS is offline. When this parameter is turned on, gift card transactions that are forced offline will be saved together with offline transactions, and they will be synced to Commerce Headquarters when the offline transactions are synced. The synchronization will also unlock the gift card so that it can be used at another terminal.</p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">To enable the functionality to conclude gift card transactions after switching to offline mode, go to the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">Posting</strong> tab on the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">Commerce parameters</strong> page. On that tab, locate the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">Gift card</strong> fasttab and set <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">Allow concluding gift card transactions in offline mode</strong> to <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="44">Yes</strong>.</p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="46"><img src="../media/gift.png" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="46" alt="Offline gift card setting"></p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="48">Commerce parameters are typically cached. Therefore, after the setting of this parameter is updated, and the distribution schedule is initiated to sync the change to the channel, the change can take up to 24 hours to take effect. To make the change effective immediately, reset Microsoft Internet Information Services (IIS).</p>
+<h2 id="completing-credit-memo-transactions-in-offline-mode" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="50">Completing credit memo transactions in offline mode</h2>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="52">Like internal gift cards, credit memos are centrally maintained in Commerce Headquarters. Commerce has a parameter that enables credit memo transactions to be completed while the POS is offline. This parameter works like the gift card parameter that was mentioned in the previous section. When the parameter is turned on, credit memo transactions that are forced offline will be synced back to the channel database, together with other transactions that were performed while the POS was offline.</p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">To enable the functionality to conclude credit memo transactions after switching to offline mode, go to the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">Posting</strong> tab on the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">Commerce parameters</strong> page. On that tab, locate the <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">Credit memo</strong> fasttab and set <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">Allow concluding credit memo transactions in offline mode</strong> to <strong sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="54">Yes</strong>.</p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="56"><img src="../media/creditmemo.png" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="56" alt="Offline credit memo setting"></p>
+<p sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="58">Commerce parameters are typically cached. Therefore, after the setting of this parameter is updated, and the distribution schedule is initiated to sync the change to the channel, the change can take up to 24 hours to take effect. To make the change effective immediately, reset IIS.</p>
+<h2 id="related-topics" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="60">Related topics</h2>
+<ul sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="62">
+<li sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="62"><a href="https://docs.microsoft.com/dynamics365/retail/pos-offline-functionality" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="62">Offline point of sale (POS) functionality</a></li>
+<li sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="63"><a href="https://docs.microsoft.com/dynamics365/retail/pos-operations" sourcefile="commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="63">Online and offline point of sale (POS) operations</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/dev-itpro/seamless-offline-improvements.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

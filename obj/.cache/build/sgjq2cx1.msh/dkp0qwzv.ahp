@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Quality check | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Quality check | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="quality-check">Quality check</h1>
+
+
+<p>The <em>Quality check</em> feature lets warehouse workers do quick spot checks for quality while they receive items to the inbound dock area. These spot checks are beneficial when workers inspect packaging or other easily recognizable parts of an item. The feature guides workers to take a quick look to see whether anything is obviously faulty or damaged before they stock the inventory in its putaway location.</p>
+<p>This feature is an alternative to the standard quality check process. It offers more flexibility and faster processing.</p>
+<p>When you use this feature, the arrival and quality check occur in the following way:</p>
+<ol>
+<li><p>When a shipment arrives, a warehouse worker registers the arrival. The worker also scans a license plate to register the location.</p>
+</li>
+<li><p>The worker does a quick quality check and records the result (pass or fail) for that license plate.</p>
+</li>
+<li><p>One of the following actions occurs:</p>
+<ul>
+<li>If the quality check is passed, the license plate is accepted and guided to a receiving location, as usual.</li>
+<li>If the quality check is failed, the license plate is rejected, and existing putaway work for it is redirected to an alternate location for further inspection. A new quality order is created. To view the quality order that is created from the failed quality check, go to <strong>Inventory management &gt; Periodic tasks &gt; Quality management &gt; Quality orders</strong>.</li>
+</ul>
+</li>
+</ol>
+<p>This process can also be set up so that all scanned license plates are immediately diverted to the quality check location.</p>
+<h2 id="turn-on-the-quality-check-feature">Turn on the Quality check feature</h2>
+<p>Before you can use the <em>Quality check</em> feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the feature and turn it on if it's required. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Quality check</em></li>
+</ul>
+<h2 id="set-up-the-feature-for-the-example-scenario">Set up the feature for the example scenario</h2>
+<p>This section provides guidelines and an example that shows how to set up the <em>Quality check</em> feature and prepare sample data for the example scenario that is provided later in this topic.</p>
+<h3 id="make-sample-data-available">Make sample data available</h3>
+<p>To work through the <a href="#example-scenario">example scenario</a> by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<h3 id="quality-template">Quality check template</h3>
+<p>The quality check template defines the rules for doing quick spot checks for quality at the time of receiving.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Quality check template</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a template to the grid.</p>
+</li>
+<li><p>Set the following values to define the new template:</p>
+<ul>
+<li><p><strong>Quality check template name:</strong> <em>Dock check</em></p>
+<p>Enter a name that identifies the policies applied for this template.</p>
+</li>
+<li><p><strong>Acceptance policy:</strong> <em>Prompt user</em></p>
+<p>Specify whether users should be prompted to accept or reject the quality of the inventory while they process the work, or whether the quality should automatically be rejected. The available options are <em>Auto reject</em> and <em>Prompt user</em>.</p>
+</li>
+<li><p><strong>Quality processing policy:</strong> <em>Create quality order</em></p>
+<p>Select the policy that should be used when the quality of the inventory is rejected. The following options are available:</p>
+<ul>
+<li><em>Create work only</em> – Just create work to facilitate inventory movement.</li>
+<li><em>Create quality order</em> – Create a quality order to facilitate quality tests.</li>
+</ul>
+</li>
+<li><p><strong>Test group:</strong> <em>Enclosure</em></p>
+<p>Specify the test group that should be used in the quality order that is created. Test groups are set up in the <strong>Inventory management</strong> module.</p>
+<p>Leave the <strong>Destructive text</strong> option turned off for the test group. This option defines whether the sample will be destroyed as part of the tests in the test group. If a destructive test is used, the system generates an inventory transaction when a quality order is created for an item. The new inventory transaction predicts the inventory reduction for the test quantity. The inventory reduction occurs when the quality order is completed through the validation step. The inventory transaction is identified as a quality order.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="work-class">Work class – Quality check</h3>
+<p>Work classes are used to direct and/or limit the type of work order lines that warehouse workers can process on a mobile device.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work classes</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a work class.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><p><strong>Work class ID:</strong> <em>QC Check</em></p>
+<p>Enter a name that identifies the work class.</p>
+</li>
+<li><p><strong>Description:</strong> <em>QC Check</em></p>
+<p>Enter a short description that indicates what the work class is used for.</p>
+</li>
+<li><p><strong>Work order type:</strong> <em>Quality in quality check</em></p>
+<p>Select the type of work order that is created by the work class. When you set up quality control work, always select <em>Quality in quality check</em>.</p>
+</li>
+</ul>
+</li>
+<li><p>On the <strong>Valid put location types</strong> FastTab, leave the <strong>Location type</strong> field blank.</p>
+<p>If you select a location type, you limit the locations where items can be put after they are picked. This field is used when a location directive tries to resolve the location, or when a warehouse worker manually specifies the location for the mobile device menu item.</p>
+</li>
+</ol>
+<p>For more information about work classes and how to create them, see <a href="tasks/create-work-class.html">Create a work class</a>.</p>
+<h3 id="work-template">Work template</h3>
+<p>Work templates let you define the work operations that must be performed in the warehouse. Typically, warehouse work operations consist of a pair of actions: a warehouse worker picks on-hand inventory up in one location and then puts the picked inventory down in another location. A work template for quality control defines the work operations for doing quality checks.</p>
+<h4 id="purchase-orders">Purchase orders</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>In the header, set the <strong>Work order type</strong> field to <em>Purchase orders</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>Select a work template that should include a quality check step. In the <strong>Overview</strong> section, in the <strong>Work template</strong> field, select <em>51 PO Receipt</em>.</p>
+</li>
+<li><p>In the <strong>Work template details</strong> section, notice that the grid has two existing lines: one for <em>Pick</em> and one for <em>Put</em>.</p>
+</li>
+<li><p>In the <strong>Work template details</strong> section, select <strong>New</strong> to add a row for quality control to the grid. Notice that the <strong>Line number</strong> field for the new line is set to <em>3</em>.</p>
+</li>
+<li><p>On the new line, set the following values. Accept the default values for the remaining fields.</p>
+<ul>
+<li><p><strong>Work type:</strong> <em>Quality check</em></p>
+</li>
+<li><p><strong>Work class ID:</strong> <em>Purchase</em></p>
+</li>
+<li><p><strong>Quality check template name:</strong> <em>Dock check</em></p>
+<p>Select the unique ID for the work class. You use this value to configure the menu items on the mobile device and the types of work that those menu items can process.</p>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong> to save your work so far.</p>
+<p>You receive an informational message that states, &quot;Invalid - Quality check must come directly after a pick.&quot; Therefore, you must change the <strong>Line number</strong> value for the line that you just added.</p>
+</li>
+<li><p>Follow these steps to change the <strong>Line number</strong> value for the new line:</p>
+<ol>
+<li>In the <strong>Work template details</strong> section, select the line where the <strong>Work type</strong> field is set to <em>Quality check</em>.</li>
+<li>Select the <strong>Move up</strong> or <strong>Move down</strong> button to move the <em>Quality check</em> line so that it's after the <em>Pick</em> line.</li>
+</ol>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="quality-in-quality-check">Quality in quality check</h4>
+<p>Next, create a work template for the quality check.</p>
+<ol>
+<li><p>In the header of the <strong>Work templates</strong> page, change the value of the <strong>Work order type</strong> field to <em>Quality in quality check</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to add a row to the grid in the <strong>Overview</strong> section.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><p><strong>Work template:</strong> <em>51 Quality Check</em></p>
+<p>Enter a name for the template.</p>
+</li>
+<li><p><strong>Work template description:</strong> <em>51 Quality Check</em></p>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong> to make the <strong>Work template details</strong> section available.</p>
+</li>
+<li><p>While the new template is still selected in the <strong>Overview</strong> section, select <strong>New</strong> in the <strong>Work template details</strong> section to add a row to the grid there.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><p><strong>Work type:</strong> <em>Pick</em></p>
+</li>
+<li><p><strong>Work class ID:</strong> <em>QC Check</em></p>
+<p>Select the name of the <a href="#work-class">work class</a> that you created earlier for quality control work.</p>
+</li>
+</ul>
+</li>
+<li><p>In the <strong>Work template details</strong> section, select <strong>New</strong> again to add another row.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><p><strong>Work type:</strong> <em>Put</em></p>
+</li>
+<li><p><strong>Work class ID:</strong> <em>QC Check</em></p>
+<p>Select the name of the <a href="#work-class">work class</a> that you created earlier for quality control work.</p>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<p>For more information about work templates, see <a href="control-warehouse-location-directives.html">Control warehouse work by using work templates and location directives</a></p>
+<h3 id="location-directive--quality-failures">Location directive – Quality failures</h3>
+<p>Location directives are rules that help identify pick and put locations for inventory movement. For example, in a sales order transaction, a location directive determines where the items will be picked and where the picked items will be put. You must configure a location directive rule to define how failed quality checks will be handled.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the left pane, set the <strong>Work order type</strong> field to <em>Purchase orders</em> to work with location directives of that type.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a location directive for quality checks.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Accept the default value.</li>
+<li><strong>Name:</strong> <em>51 To Quality</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Location directives</strong> FastTab, set the following values. Accept the default values for the remaining fields.</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Site:</strong> <em>5</em></li>
+<li><strong>Warehouse:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane select <strong>Save</strong> to save your directive and make the <strong>Lines</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values. Accept the default values for the remaining fields.</p>
+<ul>
+<li><strong>From quantity:</strong> <em>1</em></li>
+<li><strong>To quantity:</strong> <em>1000000</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong> to save the new line and make the <strong>Location directive actions</strong> FastTab available.</p>
+</li>
+<li><p>While the new line is still selected on the <strong>Lines</strong> FastTab, select <strong>New</strong> on the <strong>Location directive actions</strong> FastTab to add a row to the grid there, so that you can set up an action for the line.</p>
+</li>
+<li><p>In the new row, set the <strong>Name</strong> field to <em>Quality</em>. Accept the default values for the remaining fields.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong> to make the <strong>Edit query</strong> button on the <strong>Location directive actions</strong> FastTab available.</p>
+</li>
+<li><p>While the line that you just added is still selected on the <strong>Location directive actions</strong> FastTab, select <strong>Edit query</strong> to open a dialog box where you can edit the query for the action.</p>
+</li>
+<li><p>On the <strong>Range</strong> tab, select <strong>Add</strong> to add a row to the query.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Location</em></li>
+<li><strong>Criteria:</strong> <em>QMS</em></li>
+</ul>
+<p>The <em>QMS</em> location is a warehouse location for quality.</p>
+</li>
+<li><p>Select <strong>OK</strong> to close the dialog box.</p>
+</li>
+<li><p>You must now change the sequence of purchase order location directives for warehouse <em>51</em>. Save the new <em>51 To Quality</em> location directive, refresh the page, and select the location directive in the list. Then use the <strong>Move up</strong> and <strong>Move down</strong> buttons on the Action Pane to put the location directive for warehouse <em>51</em> in the following order. (Before you select <strong>Move up</strong> or <strong>Move down</strong>, you must select a location directive in the list.)</p>
+<ol>
+<li>51 To Quality</li>
+<li>51 PO Direct</li>
+<li>51 QMS</li>
+</ol>
+</li>
+</ol>
+<h3 id="mobile-device-menu-items">Mobile device menu items</h3>
+<p>Configure a menu item so that mobile devices can perform the <strong>Quality Check</strong> function.</p>
+<h4 id="purchase-putaway">Purchase putaway</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>In the list, select the <strong>Purchase put-away</strong> menu item.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Work classes</strong> section, select <strong>New</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><p><strong>Work class ID:</strong> <em>QC Check</em></p>
+<p>Enter the name of the <a href="#work-class">work class</a> that you created earlier for quality control work.</p>
+</li>
+<li><p><strong>Work order type:</strong> <em>Quality in quality check</em></p>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="purchase-order-line-receiving">Purchase order line receiving</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Menu item name:</strong> <em>PO line receiving</em></li>
+<li><strong>Title:</strong> <em>PO line receiving</em></li>
+<li><strong>Mode:</strong> <em>Work</em></li>
+<li><strong>Use existing work:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values. Accept the default values for the remaining fields.</p>
+<ul>
+<li><strong>Work creation process:</strong> <em>Purchase order line receiving and put away</em></li>
+<li><strong>Generate license plate:</strong> <em>Yes</em></li>
+<li><strong>Work template:</strong> <em>51 PO Receipt</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="add-the-menu-item-to-a-mobile-device-menu">Add the menu item to a mobile device menu</h4>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu</strong>.</li>
+<li>In the left pane, select the <strong>Inbound</strong> menu.</li>
+<li>On the Action Pane, select <strong>Edit</strong>.</li>
+<li>In the <strong>Available menus and menu items</strong> column, select the new <strong>PO line receiving</strong> menu item.</li>
+<li>Select the right arrow button to move <strong>PO line receiving</strong> to the <strong>Menu structure</strong> column.</li>
+<li>In the <strong>Menu structure</strong> column, select <strong>PO line receiving</strong>, and then select the up arrow or down arrow button to move the menu item to the desired position on the mobile device menu.</li>
+<li>On the Action Pane, select <strong>Save</strong>.</li>
+</ol>
+<h2 id="example-scenario">Example scenario</h2>
+<p>After you've made all the previously described sample data available and set it up, you can work through this scenario to try out the <em>Quality check</em> feature. The values that are shown in this scenario assume that you're working with the standard demo data, that you selected the <strong>USMF</strong> legal entity, and that you prepared the sample records that are described earlier in this topic. This scenario also serves as an example that shows how the feature can be used in a production setting.</p>
+<h3 id="create-a-purchase-order">Create a purchase order</h3>
+<ol>
+<li><p>Go to <strong>Procurement and sourcing &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create purchase order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Vendor account:</strong> <em>104</em></li>
+<li><strong>Warehouse:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to close the dialog box and open the new purchase order.</p>
+</li>
+<li><p>On the <strong>Purchase order lines</strong> FastTab, the grid contains a new, blank line. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9203</em></li>
+<li><strong>Quantity:</strong> <em>3</em></li>
+<li><strong>Unit:</strong> <em>PL</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="process-quality-check-receiving">Process quality check receiving</h3>
+<p>After the purchase order has been created, it can be received by using the <strong>PO line receiving</strong> menu item and the functionality of the <em>Quality check</em> feature.</p>
+<h4 id="receive-pallet-1">Receive pallet 1</h4>
+<ol>
+<li><p>Sign in to the warehouse app as a user for warehouse <em>51</em>. (Enter <em>51</em> as the user ID and <em>1</em> as the password.)</p>
+</li>
+<li><p>Go to <strong>Inbound &gt; PO line receiving</strong>.</p>
+</li>
+<li><p>In the <strong>PONUM</strong> field, enter the purchase order number.</p>
+</li>
+<li><p>Confirm the purchase order number.</p>
+</li>
+<li><p>In the <strong>LINENUM</strong> field, enter the number of the purchase order line that is being received. Because the order has only one line in this scenario, you will enter <em>1</em> in the <strong>LINENUM</strong> field for each receiving step.</p>
+</li>
+<li><p>Confirm the line number.</p>
+</li>
+<li><p>In the <strong>QTY</strong> field, enter the quantity to receive. Because the purchase order is for three pallets (<em>PL</em>) in this scenario, and there are three receiving steps, you will enter <em>1</em> in the <strong>QTY</strong> field for each receiving step.</p>
+</li>
+<li><p>Confirm the quantity.</p>
+<p>The <strong>Quality check</strong> page that appears has no entry fields. It has only the confirmation (check mark) button at the bottom and the Menu button (<strong>≡</strong>) at the top. (The Menu button is sometimes referred to as the hamburger or the hamburger button.) To expedite the quality check process, when the pallet passes the quality check, the user just confirms the <strong>Quality check</strong> page.</p>
+<p><img src="media/quality-check.png" alt="Quality check page" title="Quality check page"></p>
+</li>
+<li><p>Select the confirmation button to pass the quality check for pallet 1 from line 1.</p>
+<p>The <strong>Purchase orders: Put</strong> page that appears shows details of the put work:</p>
+<ul>
+<li><p><strong>LOC:</strong> The system determined location</p>
+<p>This location is the designated putaway location for purchase order receiving.</p>
+</li>
+<li><p><strong>LP:</strong> The system-generated License plate ID</p>
+</li>
+<li><p><strong>Item:</strong> <em>M9203</em></p>
+</li>
+<li><p><strong>Qty:</strong> <em>1 PL: 100 ea</em></p>
+</li>
+</ul>
+<p>The item description is also shown.</p>
+</li>
+<li><p>Confirm the putaway work.</p>
+<p>On the <strong>Task</strong> page for purchase order line receiving, you receive a &quot;Work Completed&quot; message. The <strong>LINENUM</strong> field is available so that you can start to receive the next pallet.</p>
+</li>
+</ol>
+<h4 id="receive-pallet-2">Receive pallet 2</h4>
+<p>For this scenario, pallet 2 will be rejected.</p>
+<ol>
+<li><p>In the <strong>LINENUM</strong> field, enter <em>1</em>, and confirm the line number.</p>
+</li>
+<li><p>The <strong>QTY</strong> field is now available. Enter <em>1</em>, and confirm the quantity.</p>
+<p>The <strong>Quality check</strong> page appears. For this receipt, the pallet will be rejected for quality, and it will be put into the <em>QMS</em> quality location.</p>
+</li>
+<li><p>Select the Menu button (<strong>≡</strong>) at the top of the page, and then, on the menu, select <strong>Reject</strong>.</p>
+</li>
+<li><p>On the <strong>Task</strong> page that appears, enter <strong>QMS</strong> as the <em>Put</em> location to send the pallet to for further inspection.</p>
+<p>The <strong>Quality in quality check: Put</strong> page that appears shows details of the put work:</p>
+<ul>
+<li><p><strong>LOC:</strong> <em>QMS</em></p>
+<p>This location is the designated putaway location for rejected quality receiving.</p>
+</li>
+<li><p><strong>LP:</strong> The system-generated License plate ID</p>
+</li>
+<li><p><strong>Item:</strong> <em>M9203</em></p>
+</li>
+<li><p><strong>Qty:</strong> <em>1 PL: 100 ea</em></p>
+</li>
+</ul>
+<p>The item description is also shown.</p>
+</li>
+<li><p>Confirm the putaway work.</p>
+<p>On the <strong>Task</strong> page for purchase order line receiving, you receive a &quot;Work Completed&quot; message. The <strong>LINENUM</strong> field is available so that you can start to receive the next pallet.</p>
+</li>
+</ol>
+<p>You've now completed the quality check and created a quality order for the rejected pallet. To view the order that was created, go to <strong>Inventory management &gt; Periodic tasks &gt; Quality management &gt; Quality orders</strong>.</p>
+<p>Quality order testing can now be processed. Quality testing isn't covered in this topic.</p>
+<p>For more information about quality management, see <a href="../inventory/enable-quality-management.html">Quality management overview</a></p>
+<h4 id="receive-pallet-3">Receive pallet 3</h4>
+<p>For this scenario, pallet 3 will be accepted.</p>
+<ol>
+<li><p>In the <strong>LINENUM</strong> field, enter <em>1</em>, and confirm the line number.</p>
+</li>
+<li><p>The <strong>QTY</strong> field is now available. Enter <em>1</em>, and confirm the quantity.</p>
+<p>The <strong>Quality check</strong> page appears. For this receipt, the pallet will be accepted for quality, and it will be put into a bulk putaway location.</p>
+</li>
+<li><p>Select the confirmation button to pass the quality check.</p>
+<p>The <strong>Purchase orders: Put</strong> page that appears shows details of the put work:</p>
+<ul>
+<li><p><strong>LOC:</strong> The system determined location</p>
+<p>This location is the designated putaway location for purchase order receiving.</p>
+</li>
+<li><p><strong>LP:</strong> The system-generated License plate ID</p>
+</li>
+<li><p><strong>Item:</strong> <em>M9203</em></p>
+</li>
+<li><p><strong>Qty:</strong> <em>1 PL: 100 ea</em></p>
+</li>
+</ul>
+<p>The item description is also shown.</p>
+</li>
+<li><p>Confirm the putaway work.</p>
+<p>On the <strong>Task</strong> page for purchase order line receiving, you receive a &quot;Work Completed&quot; message. The <strong>LINENUM</strong> field is available so that you can start to receive the next pallet.</p>
+</li>
+<li><p>Select the Menu button (<strong>≡</strong>) at the top of the page, and then, on the menu, select <strong>Cancel</strong> to return to the menu.</p>
+</li>
+</ol>
+<p>You can now close the mobile app.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

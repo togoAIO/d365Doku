@@ -1,0 +1,551 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Prepayments management | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Prepayments management | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="prepayments-management">Prepayments management</h1>
+
+
+<p>Sellers are legally required to pay value-added tax (VAT) from the prepayments that they receive from customers (buyers). They must then issue prepayment factures to the customers. Customers can then deduct the VAT, based on the prepayment facture that they receive from a seller.</p>
+<p><img src="media/1%20Scheme%20english.jpg" alt="A screenshot of a cell phone description automatically generated"></p>
+<h2 id="processing-prepayments-from-customers">Processing prepayments from customers</h2>
+<p>When sellers issue a facture for prepayment to a customer, they also pay the indicated VAT amount. When sellers issue a facture for goods, they also pay the indicated VAT amount and can then deduct the VAT amount from the prepayment facture.</p>
+<p>The following table shows the general ledger (GL) transactions and user operations for VAT accounting in a prepayment scenario.</p>
+<table>
+<thead>
+<tr>
+<th>GL transaction</th>
+<th>GL transaction</th>
+<th>User operation</th>
+<th>Source of information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D 51 [Bank]</td>
+<td>C 62 [Debts]/Advances</td>
+<td>Registration of a prepayment from a customer</td>
+<td><strong>Customer payment journal</strong> page</td>
+</tr>
+<tr>
+<td>D 76 [Other debts and liabilities]/VAT</td>
+<td>C 68 [Taxes]/VAT</td>
+<td>Facture registration</td>
+<td><strong>Facture create</strong> page (<strong>Accounts receivable &gt; Periodic tasks &gt; Facture creation for prepayment</strong>)</td>
+</tr>
+<tr>
+<td>D 62 [Debts] D 90 [Sales]/VAT</td>
+<td>C 90 [Sales]/Revenue C 68 [Taxes]/VAT</td>
+<td>Shipment of goods: Revenue Shipment of goods: Outgoing VAT</td>
+<td>Sales order and facture registration</td>
+</tr>
+<tr>
+<td>D 62 [Debts]/Advance D 68 [Taxes]/VAT</td>
+<td>D 62 [Debts] C 76 [Other]/VAT</td>
+<td>Settlement of the prepayment with the facture for shipment Reversal of VAT from the prepayment facture</td>
+<td>Prepayment and invoice settlement</td>
+</tr>
+<tr>
+<td>None</td>
+<td>None</td>
+<td>Prepayment facture registration in the purchase book for VAT deduction</td>
+<td><strong>Purchase book (Incoming VAT processing)</strong> page (<strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Incoming VAT processing</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>The functionality for processing prepayments from customers lets you perform the following actions:</p>
+<ul>
+<li>Set up separate ledger accounts to post prepayments.</li>
+<li>Calculate VAT amount on prepayments.</li>
+<li>Print factures for prepayments.</li>
+<li>Include factures that were issued for prepayments in the sales book.</li>
+<li>Automatically create a transaction for the reversal VAT amount from prepayments for settled payments and invoices, and include factures for prepayments in the purchase book.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<h3 id="set-up-a-posting-profile-for-prepayments">Set up a posting profile for prepayments</h3>
+<p>To create a posting profile for prepayments, follow the procedure that is described in the topic, <a href="../accounts-receivable/customer-posting-profiles.html">Customer posting profiles</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>To satisfy the requirements of the Russian legislation, the following settings should be used:</p>
+<ul>
+<li>The <strong>Summary account</strong> field should typically be set to ledger account <strong>62 [Debts]</strong>, subaccount <strong>Advances received</strong>.</li>
+<li>The <strong>Sales tax prepayments</strong> field should typically be set to ledger account <strong>76 [Taxes]</strong>, subaccount <strong>VAT</strong>.</li>
+</ul>
+</div>
+<h3 id="set-up-a-sales-tax-payable-ledger-account">Set up a sales tax payable ledger account</h3>
+<ol>
+<li>Go to <strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Ledger posting groups</strong>.</li>
+<li>Select a separate ledger posting group for advances that are received.</li>
+<li>In the <strong>Sales tax payable</strong> field, select the ledger account for sales taxpayable.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>According to the requirements of the Russian legislation, this ledger account should typically be ledger account <strong>68 [Taxes]</strong>, subaccount <strong>VAT</strong>.</p>
+</div>
+<p>For more information about how to create ledger posting groups, see <a href="../general-ledger/tasks/set-up-ledger-posting-groups-sales-tax.html">Set up Ledger posting groups for sales
+tax</a>.</p>
+<h3 id="set-up-a-number-sequence-for-the-facture">Set up a number sequence for the facture</h3>
+<p>After a prepayment is registered, a facture is automatically created. The facture number is generated based on the number sequence that is set up in the General ledger parameters.</p>
+<ol>
+<li>Go to <strong>General ledger</strong> &gt; <strong>Ledger setup</strong> &gt; <strong>General ledger parameters</strong>.</li>
+<li>On the <strong>Number sequences</strong> tab, in the <strong>Number sequence code</strong> field, select a number sequence code for the <strong>Prepayment facture</strong> reference.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Select the same number sequence for the <strong>Prepayment facture</strong> and <strong>Facture</strong> references. In this way, you help guarantee that you're following the legal requirement for sequential numbering of all factures.</p>
+</div>
+<h3 id="set-up-accounts-receivable-parameters-for-prepayments">Set up Accounts receivable parameters for prepayments</h3>
+<ol>
+<li><p>Go to <strong>Accounts receivable</strong> &gt; <strong>Setup</strong> &gt; <strong>Accounts receivable parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Ledger and sales tax</strong> tab, on the <strong>Payment</strong> FastTab, set the following fields:</p>
+<ul>
+<li><p>Set the <strong>Sales tax on prepayment journal voucher</strong> option to <strong>Yes</strong> to specify that sales tax must be calculated when the prepayment is posted. (This option is a standard field.)</p>
+</li>
+<li><p>In the <strong>Posting profile with prepayment journal voucher</strong> field, specify the posting profile for the prepayment. (This field is a standard field.)</p>
+</li>
+<li><p>Set the <strong>Reverse on invoice date</strong> option to <strong>Yes</strong> to post VAT on prepayment transaction cancellations during settlement of the prepayment and invoice on the invoice date.</p>
+</li>
+<li><p>In the <strong>VAT transaction type</strong> field, select the type of transaction to use
+for VAT on prepayment transaction cancellations during settlement:</p>
+<ul>
+<li><strong>Reverse</strong> – Post VAT transaction cancellations as reverses</li>
+<li><strong>Reversing entry</strong> – Post VAT transaction cancellations as &quot;red&quot; storno transactions.</li>
+</ul>
+</li>
+<li><p>In the <strong>Tax group for prepayment</strong> field, select the sales tax group for the prepayment.</p>
+</li>
+<li><p>In the <strong>Item sales tax group</strong> field, select the item sales tax group for the prepayment.</p>
+</li>
+<li><p>In the <strong>Prepayment handling</strong> field, select <strong>Simple</strong>.</p>
+</li>
+<li><p>Set the <strong>Automatically facture creation</strong> option to <strong>Yes</strong> to automatically create a facture when prepayments are posted.</p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you set the <strong>Automatically facture creation</strong> option to <strong>No</strong>, the factures on prepayments are created in postponed mode. The setting of this parameter is inherited and can be changed in the following places:</p>
+<ul>
+<li><p>On the <strong>Payments</strong> tab of the <strong>Customer payments</strong> page. (To open this page, go to <strong>Accounts receivable &gt; Payments &gt; Customer payment journal</strong>, and then, on the <strong>Customer payment journal</strong> page, on the Action Pane, select <strong>Lines</strong>.)</p>
+</li>
+<li><p>In the <strong>Convert to prepayment</strong> dialog box. (To open this dialog box, go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Sales books journal</strong>, and then, on the <strong>Sales book journal</strong> page, on the Action Pane, select <strong>Functions &gt; Transform to prepayment</strong>. Then, on the <strong>Unsettled payments</strong> page, on the Action Pane, select <strong>Prepayment handling</strong>.)</p>
+</li>
+<li><p>Set the <strong>Inherit invoice dimensions</strong> option to <strong>Yes</strong> to copy financial dimensions from the invoice to the payment when the payment proposal is used.</p>
+</li>
+</ul>
+</div>
+<ol start="3">
+<li>Close the page.</li>
+</ol>
+<h2 id="operations">Operations</h2>
+<h3 id="register-a-prepayment-from-a-customer-and-print-the-facture">Register a prepayment from a customer and print the facture</h3>
+<ol>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Payments</strong> &gt; <strong>Customer payment journal</strong>.</li>
+<li>Select <strong>New</strong> to create a payment journal, and then, in the <strong>Name</strong> field, select the payment name.</li>
+<li>On the Action Pane, select <strong>Lines</strong> to create a payment journal line, and then, on the <strong>List</strong> tab, enter the required details.</li>
+<li>On the <strong>General</strong> tab, in the <strong>Account</strong> section, in the <strong>Agreement ID</strong> field, specify the code for the agreement that the prepayment was received for.</li>
+<li>On the <strong>Payment</strong> tab, in the <strong>Document</strong> section, in the <strong>Document</strong> and <strong>Document date</strong> fields, specify the number and date of the payment document.</li>
+<li>Make sure that the <strong>Prepayment journal voucher</strong> option is set to <strong>Yes</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When the <strong>Prepayment journal voucher</strong> option is set to <strong>Yes</strong>, the <strong>Sales tax group</strong> and <strong>Item sales tax group</strong> fields on the <strong>General</strong> tab, and the <strong>Posting profile</strong> field on the <strong>Payment</strong> tab, are automatically set, based on the setup of your system.</p>
+</div>
+<ol start="7">
+<li>Make sure that the <strong>Automatically facture creation</strong> option is set to <strong>Yes</strong>, so that a facture is automatically created when prepayments are posted.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you set the <strong>Automatically facture creation</strong> option to <strong>No</strong>, the factures on prepayments are created in postponed mode.</p>
+</div>
+<ol start="8">
+<li>On the Action Pane, select <strong>Post</strong> &gt; <strong>Post</strong> to post the prepayment.</li>
+<li>Go to <strong>Accounts receivable &gt; Inquiries and reports &gt; Facture</strong> to review the payment facture that is generated.</li>
+<li>In the lower part of the <strong>Facture journal</strong> page, on the <strong>General</strong> tab, in the <strong>Note</strong> field, enter the list of goods that the prepayment is registered for.</li>
+<li>Select <strong>Fill line details</strong>, and then, in the <strong>Journal of invoices for payment</strong> dialog box, select the <strong>Mark</strong> check box for every invoices for payment for which the names of goods (works and services) should be included in the description of the prepayment facture. For more information, see <a href="rus-invoice-payment.html">Invoices for payment</a></li>
+</ol>
+<p><img src="media/2%20Journal%20of%20invoices%20for%20payment.png" alt="Journal of invoices for payment dialog box"></p>
+<ol start="12">
+<li>Select <strong>OK</strong>. The names of goods are added to the <strong>Note</strong> field.</li>
+<li>Select the line for the facture, and then, on the Action Pane, select <strong>Print</strong>.</li>
+</ol>
+<h3 id="transform-a-customer-payment-to-a-customer-prepayment">Transform a customer payment to a customer prepayment</h3>
+<p>If unsettled payment documents (that is, part of the payment amount) remain at the end of reporting period, the payment documents (or part of the documents) must be converted to prepayments and included in the sales book.</p>
+<ol>
+<li>Post a customer payment in standard way.</li>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Sales books journal</strong>.</li>
+<li>On the Action Pane, select <strong>Functions</strong> &gt; <strong>Transform to prepayment</strong> to open the <strong>Unsettled payments</strong> page.</li>
+<li>Select the <strong>Mark</strong> check box for the payment line that you want to convert to a prepayment, and then, on the Action Pane, select <strong>Prepayment handling</strong> to open the <strong>Convert to prepayment</strong> dialog box.</li>
+<li>In the <strong>Date</strong> field, select the transaction date.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you must create a prepayment on the transaction date of the main payment, you can set the <strong>Same date</strong> field to <strong>Yes</strong>. Prepayment transactions and factures will then be generated on the transaction date.</p>
+</div>
+<ol start="6">
+<li>Set the <strong>Automatically facture creation</strong> option to <strong>Yes</strong> so that a facture is automatically created on the prepayment.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you set the <strong>Automatically facture creation</strong> option to <strong>No</strong>, you should create the factures on prepayments in postponed mode.</p>
+</div>
+<ol start="7">
+<li>Select <strong>OK</strong> to transform the customer payment to a customer prepayment.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When you select <strong>OK</strong>, the payment transactions are reversed, and prepayment transactions are created. The prepayment transactions are dated according to the settings in the <strong>Convert to prepayment</strong> dialog box. Prepayment factures are created and included in the sales book after it's updated.</p>
+</div>
+<p>You can also convert a payment to a prepayment by using the <strong>Customer transactions</strong> page. Go to <strong>Accounts receivable</strong> &gt; <strong>Customers</strong> &gt; <strong>All customers</strong>. On the Action Pane, on the <strong>Customer</strong> tab, in the <strong>Transactions</strong> group, select <strong>Transactions</strong> to open the <strong>Customer transactions</strong> page. Select a payment transaction, and then, on the Action Pane, select <strong>Prepayment handling</strong> &gt; <strong>Post</strong> to convert it to a prepayment.</p>
+<p>Additionally, you can transform a prepayment back to a payment. In this case, the previously created prepayment facture will be deleted.</p>
+<h3 id="create-factures-at-the-end-of-a-reporting-period">Create factures at the end of a reporting period</h3>
+<p>At the end of the reporting period, you can view prepayments and create factures for any prepayments that factures weren't automatically created for at the posting stage.</p>
+<ol>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Facture creation for prepayment</strong>. The <strong>Facture create</strong> page shows the prepayments that factures weren't automatically created for.</li>
+<li>Select the <strong>Mark</strong> check box for every prepayment that you want to create a facture for. (Alternatively, use the <strong>Mark All</strong> button on the Action Pane to select all the prepayments on the page.) Then, on the Action Pane, select <strong>Create facture</strong>.</li>
+<li>In the <strong>Facture create</strong> dialog box, in the <strong>Date of the registration</strong> field, select the date of the facture registration.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The date that you select must be a date in the sales book period.</p>
+</div>
+<h3 id="settle-a-customer-prepayment-with-a-facture-for-shipment">Settle a customer prepayment with a facture for shipment</h3>
+<ol>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Customers</strong> &gt; <strong>All customers</strong>.</li>
+<li>On the Action Pane, on the <strong>Collect</strong> tab, in the <strong>Settle</strong> group, select <strong>Facture and payment settlement</strong> to open the <strong>Facture and payment settlement</strong> page. This page lets you filter invoices by facture number.</li>
+<li>Select the <strong>Mark</strong> check box for every transaction that you want to settle, and then, on the Action Pane, select <strong>Update</strong>. The invoice that is a source for the facture and payment is settled.</li>
+</ol>
+<p>When the transactions are settled, the following events occur:</p>
+<ul>
+<li>The payment amount from the <strong>Advances received</strong> subaccount is transferred to the <strong>Debtor debts</strong> subaccount.</li>
+<li>The VAT amount that accrued from the prepayment is reversed.</li>
+<li>The reversed prepayment is included on the <strong>Incoming VAT processing</strong> page when incoming VAT is processed.</li>
+<li>After incoming VAT is processed and the purchase book lines are updated, a reverse entry for the customer advance payment appears in the purchase book.</li>
+</ul>
+<h2 id="processing-prepayments-to-suppliers">Processing prepayments to suppliers</h2>
+<p>Customers can take the indicated VAT for deduction when they receive a facture for prepayment from a seller. When customers receive a facture for goods from a seller, they take the indicated VAT for deduction. At the same time, they are required to recover VAT from the prepayment facture that was previously deducted.</p>
+<p>The following table shows the GL transactions and user operations for VAT accounting.</p>
+<table>
+<thead>
+<tr>
+<th>GL transaction</th>
+<th>Gl transaction</th>
+<th>User operation</th>
+<th>Source of infomration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D 60 [Liabilities]/Advances</td>
+<td>К 51 [Bank]</td>
+<td>Prepayment is sent to the supplier.</td>
+<td><strong>Vendor payment journal</strong> page</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Prepayment facture registration</td>
+<td><strong>Create prepayment facture</strong> page (<strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Facture</strong> &gt; <strong>Facture creation for prepayment</strong>)</td>
+</tr>
+<tr>
+<td>D 68 [Taxes]/VAT</td>
+<td>К 76 [Other debts and liabilities]/VAT from Prepayment</td>
+<td>VAT is deducted from the prepayment facture.</td>
+<td><strong>Purchase book (Incoming VAT processing)</strong> page (<strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Incoming VAT processing</strong>) The general ledger account for the <strong>debit</strong> posting is taken from the <strong>Payment offset account</strong> field, and the general ledger account for the <strong>credit</strong> posting is taken from the <strong>Incoming tax payment</strong> field of the posting group for the sales tax code (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Ledger posting groups</strong>).</td>
+</tr>
+<tr>
+<td>D 41 [Goods] D 19 [VAT from purchase]</td>
+<td>К 60 [Liabilities] К 60 [Liabilities]</td>
+<td>Purchase: Goods cost Purchase: Reflection of incoming VAT</td>
+<td>Purchase order and facture registration</td>
+</tr>
+<tr>
+<td>D 60 [Liabilities]</td>
+<td>К 60 [Liabilities]/Advances</td>
+<td>Facture and prepayment settlement</td>
+<td>Prepayment and invoice settlement</td>
+</tr>
+<tr>
+<td>D 68 [Taxes]/VAT</td>
+<td>К 19 [VAT from purchase]</td>
+<td>Deduction of VAT from received goods</td>
+<td><strong>Purchase book (Incoming VAT processing)</strong> page (<strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Incoming VAT processing</strong>)</td>
+</tr>
+<tr>
+<td>D 76 [Other debts and liabilities]/VAT Pr.</td>
+<td>К 68 [Taxes]/VAT</td>
+<td>Recovery of VAT accepted for deduction from the prepayment</td>
+<td><strong>Sales book (Outgoing VAT processing)</strong> page (<strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Outgoing VAT processing</strong>)</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>To post VAT on prepayments to a dedicated ledger account, such as 76/VAT, from a prepayment, we recommend that you set up a separate sales tax code for prepayments on the <strong>Sales tax codes</strong> page (<strong>Tax</strong> &gt; <strong>Indirect taxes</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Sales tax codes</strong>) and a separate posting group on the <strong>Ledger posting groups</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Ledger posting groups</strong>).</p>
+</div>
+<h3 id="set-up-a-posting-profile-for-prepayments-1">Set up a posting profile for prepayments</h3>
+<p>To create a posting profile for prepayments, follow the procedure that is described in <a href="../accounts-payable/vendor-posting-profiles.html">Vendor posting profiles</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>To satisfy the requirements of the Russian legislation, the following settings should be used:</p>
+<ul>
+<li>The <strong>Summary account</strong> field should typically be set to ledger account <strong>60 [Liabilities]</strong>, subaccount <strong>Advances paid</strong>.</li>
+<li>The <strong>Sales tax prepayments</strong> field should typically be set to ledger account <strong>68 [Taxes]</strong>, subaccount <strong>VAT</strong>.</li>
+</ul>
+</div>
+<h3 id="set-up-an-incoming-tax-payment-ledger-account">Set up an incoming tax payment ledger account</h3>
+<ol>
+<li>Go to <strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Ledger posting groups</strong>.</li>
+<li>Select a separate ledger posting group for advances that are paid.</li>
+<li>In the <strong>Incoming tax payment</strong> field, select the ledger account for incoming tax payments.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>According to the requirements of the Russian legislation, this ledger account should typically be ledger account <strong>76 [Other debts and liabilities]</strong>, subaccount <strong>VAT from prepayment</strong>.</p>
+</div>
+<h3 id="set-up-accounts-payable-parameters-for-prepayments">Set up Accounts payable parameters for prepayments</h3>
+<ol>
+<li><p>Go to <strong>Accounts payable</strong> &gt; <strong>Setup</strong> &gt; <strong>Accounts payable parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Ledger and sales tax</strong> tab, on the <strong>Payment</strong> FastTab, set the following fields:</p>
+<ul>
+<li><p>Set the <strong>Sales tax on prepayment in payment journal</strong> option to <strong>No</strong> to prevent taxes from being posted before the incoming facture is registered.</p>
+</li>
+<li><p>In the <strong>Posting profile for payment journal with prepayment</strong> field, specify the posting profile for the payment.</p>
+</li>
+<li><p>Set the <strong>Reverse on the invoice date</strong> option to <strong>Yes</strong> to post a VAT reverse transaction on the invoice date.</p>
+</li>
+<li><p>In the <strong>VAT transaction type</strong> field, select the type of transaction to use for VAT on prepayment transaction cancellations during settlement:</p>
+<ul>
+<li><strong>Reverse</strong> – Post VAT transaction cancellations as reverses.</li>
+<li><strong>Reversing entry</strong> – Post VAT transaction cancellations as &quot;red&quot; storno transactions.</li>
+</ul>
+</li>
+<li><p>In the <strong>Tax group for prepayment</strong> field, select the sales tax group for the prepayment.</p>
+</li>
+<li><p>In the <strong>Item sales tax group</strong> field, select the item sales tax group for the prepayment.</p>
+</li>
+<li><p>In the <strong>Prepayment handling</strong> field, select <strong>Simple</strong>.</p>
+</li>
+<li><p>Set the <strong>Create facture on nonposted payments</strong> option to <strong>Yes</strong> to register a facture for unposted prepayments.</p>
+</li>
+</ul>
+</li>
+<li><p>On the <strong>Purchase book</strong> FastTab, in the <strong>Facture issue period</strong> field, enter the number of days to exclude factures that are issued by a supplier. The exclusion must be later than the statutory deadline.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This option is valid only for prepayment factures. If you enter <strong>0</strong> (zero), factures are reflected on the <strong>Purchase book (Incoming VAT processing)</strong> page independently of the facture date.</p>
+</div>
+<ol start="4">
+<li>Close the page.</li>
+</ol>
+<h3 id="set-up-a-number-sequence-for-incoming-vat-processing">Set up a number sequence for incoming VAT processing</h3>
+<ol>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Setup</strong> &gt; <strong>Accounts receivable parameters</strong>.</li>
+<li>On the <strong>Number sequences</strong> tab, in the <strong>Number sequence code</strong> field, select a number sequence code for the <strong>VAT processing voucher</strong> reference.</li>
+</ol>
+<h3 id="register-a-suppliers-facture-for-a-prepayment">Register a supplier's facture for a prepayment</h3>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Payments</strong> &gt; <strong>Vendor payment journal</strong>, and create a journal.</li>
+<li>On the Action Pane, select <strong>Lines</strong>, and then, on the <strong>List</strong> tab, on the payment journal line, set the <strong>Date</strong>, <strong>Account</strong>, <strong>Description</strong>, <strong>Debit</strong>, <strong>Offset account type</strong>, <strong>Offset account</strong>, and <strong>Currency</strong> fields.</li>
+<li>On the <strong>General</strong> tab, in the <strong>Account</strong> section, in the <strong>Agreement ID</strong> field, specify the code of the agreement that the prepayment was received for.</li>
+<li>On the <strong>Payment</strong> tab, in the <strong>Document</strong> section, in the <strong>Document</strong> and <strong>Document date</strong> fields, specify the number and date of the payment document.</li>
+<li>Make sure that the <strong>Prepayment journal voucher</strong> option is set to <strong>Yes</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When the <strong>Prepayment journal voucher</strong> is set to <strong>Yes</strong>, the <strong>Sales tax group</strong> and <strong>Item sales tax group</strong> fields on the <strong>General</strong> tab, and the <strong>Posting profile</strong> field on the <strong>Payment</strong> tab, are automatically set, based on the setup of your system.</p>
+</div>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>To prevent sales tax from being posted before incoming prepayment factures are processed, you must set the <strong>Sales tax on prepayment in payment journal</strong> option to <strong>No</strong> on the <strong>Accounts payable parameters</strong> page, and you must also select the ledger account for incoming tax payments in the <strong>Incoming tax payment</strong> field on the <strong>Ledger posting groups</strong> page.</p>
+</div>
+<ol start="6">
+<li><p>Post the journal that has a prepayment to the supplier.</p>
+</li>
+<li><p>Go to <strong>Accounts payable &gt; Periodic tasks &gt; Facture &gt; Facture creation for prepayment</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Select</strong> to open the <strong>Select prepayments</strong> dialog box. You can use this dialog box to find the required payment by, for example, the supplier's code and the payment order details. The <strong>Create prepayment facture</strong> page shows prepayments to suppliers that factures haven't yet been created for. You can register a facture for an unposted prepayment.</p>
+</li>
+<li><p>Select <strong>OK</strong> to add the lines for processing. Then, on the <strong>General</strong> tab, in the <strong>Facture</strong> section, in the <strong>Facture</strong> field, enter the number of received factures.</p>
+</li>
+<li><p>In the <strong>Date of the registration</strong> field, enter the facture date of the registration.</p>
+</li>
+<li><p>If the registration date differs from the document date, set the <strong>Facture date</strong> field.</p>
+</li>
+<li><p>Set the <strong>Sales tax group</strong> and <strong>Item sales tax group</strong> fields.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li><p>The calculated tax will be recorded on the line for the generated facture. Select the <strong>Marked</strong> check box for each line for the facture, and then, on the Action Pane, select <strong>Create</strong>.</p>
+</li>
+<li><p>If dates or facture numbers aren't set, you receive a warning message.</p>
+</li>
+</ul>
+</div>
+<p>The generated facture will be reflected on the <strong>Facture journal</strong> page, where the <strong>Facture source</strong> field will be set to the <strong>Prepayment journal voucher</strong> type.</p>
+<h3 id="process-incoming-vat-on-the-received-facture-for-the-prepayment">Process incoming VAT on the received facture for the prepayment</h3>
+<p>After you register a prepayment facture, the VAT amount from the prepayment facture can be processed for deduction.</p>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Incoming VAT processing</strong>.</li>
+<li>On the Action Pane, select <strong>Select</strong> to find the required facture.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The prepayment facture has a value of <strong>Prepayment</strong> in the <strong>Operation</strong> field.</p>
+</div>
+<ol start="3">
+<li><p>Mark the facture, and post the operation. After posting, there are a tax transaction and a general ledger transaction for the VAT amount:</p>
+<ul>
+<li><strong>Debit 68 [Tax] / VAT – Credit 76 [Other debts and liabilities] / VAT from prepayment – on VAT amount</strong></li>
+</ul>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>After the input VAT is processed, you can't delete the prepayment facture. To cancel the processing of incoming VAT, use the <strong>Purchase book (Canceling processed VAT)</strong> page (<strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Canceling processed VAT</strong>).</p>
+</div>
+<ol start="4">
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>VAT processing log</strong> to view the processed prepayment facture.</li>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Purchase books journal</strong> to create and update the purchase book for the reporting period. To view the processed facture in the purchase book, select <strong>Lines</strong> on the Action Pane.</li>
+</ol>
+<h3 id="recover-previously-accepted-deductible-vat-on-prepayment">Recover previously accepted deductible VAT on prepayment</h3>
+<p>When a facture for the purchase of goods is received from a seller, the customer deducts the specified VAT on the purchase facture. In that same tax period, the facture must recover the VAT in the budget that was deducted from the received prepayment.</p>
+<p>Additional actions are required after the incoming facture for goods, work, and services is posted. For example, if a seller makes a delivery, the incoming invoice and the incoming facture for this delivery are updated, and the invoice and the previously registered prepayment are settled.</p>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Purchase book</strong> &gt; <strong>Incoming VAT processing</strong>.</li>
+<li>On the Action Pane, select <strong>Select</strong> to find the required payment, and then select <strong>OK</strong> to add lines for processing.</li>
+<li>Mark the facture, and post the operation.</li>
+<li>To restore previously deducted VAT from the received prepayment facture, you must configure the parameters for VAT recovery. Go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Parameters of VAT process</strong>, and create a line.</li>
+<li>In the <strong>VAT operation code</strong> field, enter the operation code for VAT processing.</li>
+<li>In the <strong>Operation type</strong> field, enter <strong>VAT restoration</strong>.</li>
+<li>In the <strong>Restoration type</strong> field, select <strong>Prepayment journal voucher</strong>.</li>
+<li>Set the <strong>By default</strong> option to <strong>Yes</strong> to indicate that this transaction is the default transaction for VAT processing.</li>
+<li>Set the <strong>Include in book</strong> option to <strong>Yes</strong> if factures that are processed by using this transaction code should be included in the sales book.</li>
+<li>To process the outgoing VAT, go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Outgoing VAT processing</strong>.</li>
+</ol>
+<p>For settled payments where the incoming VAT was previously processed, the factures have a transaction type of <strong>Prepayment's storno</strong>. The facture number corresponds to the number of the registered prepayment facture. The amount of VAT to recover equals the amount of the processed incoming VAT on the received goods that falls in the settled part of the invoice.</p>
+<ol start="11">
+<li>Mark the facture, and post the operation. The system creates a tax transaction and a general ledger transaction for the processed tax amount.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The VAT recovery general ledger transaction is a reversal of the VAT deduction general ledger transaction:</p>
+<p><strong>Debit 76 [Other debts and liabilities] / VAT on prepayment – Credit 68 [Taxes] / VAT – on VAT amount</strong></p>
+</div>
+<ol start="12">
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>VAT processing log</strong> to view the processed facture.</li>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Sales books journal</strong>. Update the sales book, and verify that the facture is reflected in the Sales books journal for the processed amount.</li>
+</ol>
+<p>By default, if there were several VAT restorations for the same prepayment facture in the same period, the prepayment facture will be reflected on several line in the Sales books journal. Use the <strong>Group by factures</strong> option when you print the sales book. In that way, the facture report will reflect one line that has the total value of the VAT that was recovered in the period.</p>
+<p>You can't close the Sales books journal if there are any incoming prepayment factures in the period that VAT hasn't been restored for.</p>
+<p>You can't cancel the prepayment settlement and the invoice if the VAT was restored in the period. You must first cancel the VAT recovery in this period.
+To cancel the VAT recovery, use the <strong>Sales book (Canceling processed VAT)</strong> page (<strong>Accounts receivable</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Sales book</strong> &gt; <strong>Canceling processed VAT</strong>).</p>
+<p>You can't cancel the processing of incoming VAT unless the VAT recovery is canceled on the prepayment that is settled to the invoice.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

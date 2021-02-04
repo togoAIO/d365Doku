@@ -1,0 +1,880 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Zentralisierte Zahlungen f&#252;r Debitorenkonten | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Zentralisierte Zahlungen f&#252;r Debitorenkonten | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="centralized-payments-for-accounts-receivable">Zentralisierte Zahlungen für Debitorenkonten</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Organisationen mit mehreren juristischen Personen können zum Erstellen und Verwalten von Zahlungen eine juristische Person festlegen, die alle Zahlungen abwickelt. Daher muss die gleiche Buchung nicht in mehrere juristische Personen eingegeben werden. Dieser Artikel enthält Beispiele, die zeigen, wie das Buchen für zentralisierte Zahlungen in verschiedenen Szenarien behandelt wird.</p>
+<p>Organisationen mit mehreren juristischen Personen können zum Erstellen und Verwalten von Zahlungen eine juristische Person festlegen, die alle Zahlungen abwickelt. Daher muss die gleiche Buchung nicht in mehrere juristische Personen eingegeben werden. Darüber hinaus spart die Organisation Zeit, da die Prozesse für Zahlungsvorschläge, Bedarfsdeckung und die offene Bearbeitung und geschlossenen Buchungen für zentralisierte Zahlungen rationalisiert werden.</p>
+<p>In einer Organisation mit zentralisierten Zahlungen gibt es viele juristische Personen für betriebliche Vorgänge. Dabei werden die Informationen zu ausstehenden Rechnungen von den einzelnen juristischen Personen verwaltet. Die Zahlungen für alle tätigen juristischen Personen werden von einer einzigen juristischen Person (der so genannten juristischen Person für die Zahlung) entgegengenommen. Im Zuge des Ausgleichsprozesses werden die erforderlichen Buchungen vom Typ &quot;Fällig bis&quot; und &quot;Fällig von&quot; generiert. Sie können angeben, welche juristische Person in der Organisation die Buchungen für realisierte Gewinne oder Verluste erhalten soll und wie Skontobuchungen für zentralisierte Zahlungen zu behandeln sind. Auf der zentralisierten Zahlungserfassungsposition sollte die <strong>Kontenart</strong> auf Debitor festgelegt werden. Die <strong>Gegenkontenart</strong> sollte auf Bank oder Sachkonto festgelegt werden. Das Bankkonto solle auf das aktuelle Unternehmen lauten.</p>
+<p>In den folgenden Beispielen wird die Behandlung von Buchungen in unterschiedlichen Szenarios erläutert. Allen Beispielen liegt die folgende Konfiguration zugrunde:</p>
+<ul>
+<li>Fabrikam, Fabrikam Ost und Fabrikam West stellen die juristischen Personen dar. Debitorenzahlungen werden in Fabrikam eingegeben.</li>
+<li>Das <strong>Skonto buchen</strong> Feld auf der <strong>Verrechnung</strong> Seite ist auf <strong>Juristische Person der Rechnung</strong> festgelegt.</li>
+<li>Das <strong>Gewinn bzw. Verlust bei Währungsumtausch buchen</strong> Feld auf der <strong>Verrechnung</strong> Seite ist auf <strong>Juristische Person der Zahlung</strong> festgelegt.</li>
+<li>Debitor Northwind Traders ist als Debitor in jeder juristischen Person festgelegt. Die Debitoren aus verschiedenen juristischen Personen werden als derselbe Debitor erfasst, da sie dieselbe Kennung für das globale Adressbuch gemeinsam haben.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Adressbuchkennung</th>
+<th>Debitorenkonto</th>
+<th>Name</th>
+<th>Juristische Person</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4050</td>
+<td>4000</td>
+<td>Northwind Traders</td>
+<td>Fabrikam</td>
+</tr>
+<tr>
+<td>4050</td>
+<td>4000</td>
+<td>Northwind Traders</td>
+<td>Fabrikam Ost</td>
+</tr>
+<tr>
+<td>4050</td>
+<td>10.000</td>
+<td>Northwind Traders</td>
+<td>Fabrikam West</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-1-customer-payment-of-invoice-from-another-legal-entity">Beispiel 1: Debitorenzahlung der Rechnung einer anderen juristischen Person</h2>
+<p>Bei Fabrikam geht eine Zahlung in Höhe von EUR 600,00 für das Fabrikam-Debitorenkonto &quot;4000&quot; (Northwind Traders) ein. Die Zahlung wird mit einer offenen Rechnung für das Debitorenkonto &quot;4000&quot; bei Fabrikam Ost ausgeglichen.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-customer-4000">Buchung der Rechung in Fabrikam Ost für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam Ost)</td>
+<td></td>
+<td>600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-received-and-posted-in-fabrikam-for-customer-4000">Eingang und Buchung der Zahlung in Fabrikam für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td></td>
+<td>600,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td>600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>600,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-2-customer-payment-of-invoice-from-another-legal-entity-with-cash-discount">Beispiel 2: Debitorenzahlung der Rechnung einer anderen juristischen Person mit Skonto</h2>
+<p>Bei Fabrikam geht eine Zahlung in Höhe von EUR 580,00 für den Fabrikam-Debitor &quot;4000&quot; (Northwind Traders) ein. Für Fabrikam Ost liegt eine offene Rechnung für den Kreditor &quot;4000&quot; vor. Für die Rechnung wird ein Skonto in Höhe von EUR 20,00 gewährt. Die Zahlung wird mit den offenen Rechnungen für Fabrikam Ost ausgeglichen. Der Skonto wird auf die juristische Person für die Rechnung (Fabrikam Ost) gebucht.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-customer-4000">Buchung der Rechnung in Fabrikam Ost für Debitor &quot;4000&quot; von Fabrikam Ost</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>580.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam Ost)</td>
+<td></td>
+<td>580.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-received-and-posted-in-fabrikam-for-fabrikam-customer-4000">Eingang und Buchung der Zahlung in Fabrikam für Fabrikam-Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>580,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td></td>
+<td>580,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td>580,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>580,00</td>
+</tr>
+<tr>
+<td>Skonto (Fabrikam Ost)</td>
+<td>20,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>20,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-3-customer-payment-of-invoice-from-another-legal-entity-with-realized-exchange-rate-gain">Beispiel 3: Debitorenzahlung der Rechnung eines anderen Unternehmens mit realisiertem Wechselkursgewinn</h2>
+<p>Bei Fabrikam geht eine Zahlung in Höhe von 600,00 Euro für den Fabrikam-Debitor &quot;4000&quot; (Northwind Traders) ein. Die Zahlung wird mit einer offenen Rechnung für den Debitor &quot;4000&quot; bei Fabrikam Ost ausgeglichen. Im Zuge des Ausgleichsprozesses wird eine Wechselkursgewinnbuchung generiert.</p>
+<ul>
+<li>Wechselkurs von EUR in US-Dollar (USD) zum Rechnungsdatum: 1,2062</li>
+<li>Wechselkurs für EUR in USD zum Zahlungsdatum: 1,2277</li>
+</ul>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-customer-4000">Buchung der Rechung in Fabrikam Ost für Debitor &quot;4000&quot; von Fabrikam Ost</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>EUR 600,00/USD 723,72</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 600,00/USD 723,72</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-received-and-posted-in-fabrikam-for-fabrikam-customer-4000">Eingang und Buchung der Zahlung in Fabrikam für Fabrikam-Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>EUR 600,00/USD 736,62</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>EUR 600,00/USD 736,62</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>EUR 600,00/USD 736,62</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td></td>
+<td>EUR 600,00/USD 736,62</td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td>EUR 0,00/USD 12,90</td>
+<td></td>
+</tr>
+<tr>
+<td>Realisierter Gewinn (Fabrikam)</td>
+<td></td>
+<td>EUR 0,00/USD 12,90</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td>EUR 600,00/USD 736,62</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 600,00/USD 736,62</td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>EUR 0,00/USD 12,90</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 0,00/USD 12,90</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-4-customer-payment-of-invoice-from-another-legal-entity-with-cash-discount-and-realized-exchange-rate-gain">Beispiel 4: Debitorenzahlung der Rechnung einer anderen juristischen Person mit Skonto und realisiertem Wechselkursverlust</h2>
+<p>Von Fabrikam wird eine Zahlung für den Fabrikam-Debitor &quot;4000&quot; (Northwind Traders) für eine offene Rechnung bei Fabrikam Ost gebucht. Auf die Rechnung wird Skonto gewährt, und eine Mehrwertsteuerbuchung wird generiert. Die Zahlung wird mit der offenen Rechnung für Fabrikam Ost ausgeglichen. Im Zuge des Ausgleichsprozesses wird eine Wechselkursgewinnbuchung generiert. Der Skonto wird auf die juristische Person für die Rechnung (Fabrikam Ost), der Wechselkursgewinn auf die juristische Person für die Zahlung (Fabrikam) gebucht.</p>
+<ul>
+<li>Wechselkurs von EUR in USD zum Rechnungsdatum: 1,2062</li>
+<li>Wechselkurs für EUR in USD zum Zahlungsdatum: 1,2277</li>
+</ul>
+<h3 id="free-text-invoice-is-posted-and-a-tax-transaction-is-generated-in-fabrikam-east-for-customer-4000">Buchung einer Freitextrechnung und Generierung einer Steuerbuchung in Fabrikam Ost für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>EUR 638,22/USD 769,82</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 600,00/USD 723,72</td>
+</tr>
+<tr>
+<td>Mehrwertsteuer (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 38,22/USD 46,10</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-received-and-posted-in-fabrikam-for-customer-4000">Eingang und Buchung der Zahlung in Fabrikam für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>EUR 626,22/USD 768,81</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>EUR 626,22/USD 768,81</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>EUR 626,22/USD 768,81</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td></td>
+<td>EUR 626,22/USD 768,81</td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam Ost (Fabrikam)</td>
+<td>EUR 0,00/USD 13,46</td>
+<td></td>
+</tr>
+<tr>
+<td>Realisierter Gewinn (Fabrikam)</td>
+<td></td>
+<td>EUR 0,00/USD 13,46</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td>EUR 626,22/USD 768,81</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 626,22/USD 768,81</td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>EUR 0,00/USD 13,46</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 0,00/USD 13,46</td>
+</tr>
+<tr>
+<td>Skonto (Fabrikam Ost)</td>
+<td>EUR 12,00/USD 14,47</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>EUR 12,00/USD 14,47</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-5-customer-credit-note-with-primary-payment">Beispiel 5: Debitorengutschrift mit primärer Zahlung</h2>
+<p>Bei Fabrikam geht eine Zahlung in Höhe von EUR 75,00 vom Debitor &quot;4000&quot; (Northwind Traders) ein. Die Zahlung wird mit einer offenen Rechnung für den Debitor &quot;10.000&quot; von Fabrikam West und einer offenen Gutschrift für den Debitor &quot;4000&quot; von Fabrikam Ost ausgeglichen. Die Zahlung wird im Formular zum Bearbeiten offener Posten als Seite <strong>Transaktion begleich</strong> dargestellt.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-customer-10000">Buchung der Rechnung in Fabrikam West für Debitor &quot;10.000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam West)</td>
+<td>100,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam West)</td>
+<td></td>
+<td>100,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-customer-4000">Buchung der Gutschrift an Fabrikam West für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Verkaufsrücklieferungen (Fabrikam Ost)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-customer-4000">Buchung der Zahlung an Fabrikam für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>75,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>75,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note">Ausgleich der Fabrikam-Zahlung mit Rechnung für Fabrikam West und Gutschrift für Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam Ost (Fabrikam)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>100,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam West (Fabrikam)</td>
+<td></td>
+<td>100,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam (Fabrikam Ost)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam West</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam West)</td>
+<td>100,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam West)</td>
+<td></td>
+<td>100,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-6-customer-credit-note-without-primary-payment">Beispiel 6: Debitorengutschrift ohne primäre Zahlung</h2>
+<p>Bei Fabrikam geht eine Zahlung in Höhe von EUR 75,00 vom Debitor &quot;4000&quot; (Northwind Traders) ein. Die Zahlung wird mit einer offenen Rechnung für den Debitor &quot;10.000&quot; von Fabrikam West und einer offenen Gutschrift für den Debitor &quot;4000&quot; von Fabrikam Ost ausgeglichen. Die Zahlung ist im Formular zum Bearbeiten offener Posten als Seite <strong>Transaktion begleich</strong> nicht ausgewählt.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-customer-10000">Buchung der Rechnung in Fabrikam West für Debitor &quot;10.000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam West)</td>
+<td>100,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Verkauf (Fabrikam West)</td>
+<td></td>
+<td>100,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-customer-4000">Buchung der Gutschrift an Fabrikam West für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Verkaufsrücklieferungen (Fabrikam Ost)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-customer-4000">Buchung der Zahlung an Fabrikam für Debitor &quot;4000&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bar (Fabrikam)</td>
+<td>75,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td></td>
+<td>75,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note">Ausgleich der Fabrikam-Zahlung mit Rechnung für Fabrikam West und Gutschrift für Fabrikam Ost</h3>
+<p><strong>Buchung für Fabrikam</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam)</td>
+<td>75,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam West (Fabrikam)</td>
+<td></td>
+<td>75,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam Ost</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debitoren (Fabrikam Ost)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Fällig an Fabrikam West (Fabrikam Ost)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buchung für Fabrikam West</strong></p>
+<table>
+<thead>
+<tr>
+<th>Konto</th>
+<th>Sollbetrag</th>
+<th>Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fällig von Fabrikam (Fabrikam West)</td>
+<td>75,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam West)</td>
+<td></td>
+<td>75,00</td>
+</tr>
+<tr>
+<td>Fällig von Fabrikam Ost (Fabrikam West)</td>
+<td>25,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Debitoren (Fabrikam West)</td>
+<td></td>
+<td>25,00</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

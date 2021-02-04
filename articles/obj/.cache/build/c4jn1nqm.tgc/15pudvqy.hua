@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Calculations for product configuration models FAQ </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Calculations for product configuration models FAQ ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes calculations for product configuration models and explains how to use calculations together with constraints.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="PCConstraintEditor, PCProductConfigurationModelDetails, PCRuntimeConfigurator">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Manufacturing">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="calculations-for-product-configuration-models-faq">Calculations for product configuration models FAQ</h1>
+
+
+<p>This topic describes calculations for product configuration models and explains how to use calculations together with constraints.</p>
+<p>Calculations can be used for arithmetic or logical operations. They complement expression constraints in product configuration models. You can define calculations on the <strong>Constraint-based product configuration model details</strong> page and then build expressions for the calculations in the expression editor. For more information, see Create calculations.</p>
+<h2 id="what-is-a-calculation">What is a calculation?</h2>
+<p>A calculation is an element that you can use in a product configuration model. Calculations complement constraints by letting you use decimal numbers to calculate values when you configure a product. Additionally, calculations have a larger set of available operators than constraints have.</p>
+<p>Like a constraint, a calculation is associated with a specific component in a product configuration model, and can’t be reused by or shared with another component. One important difference between calculations and constraints is that calculations are imperative (unidirectional), whereas constraints are declarative (bi-directional). For more information about constraints, see <a href="expression-constraints-table-constraints-product-configuration-models.html">Expression constraints and table constraints in product configuration models</a>.</p>
+<p>A calculation consists of a target attribute and a calculation expression.</p>
+<h2 id="what-is-a-target-attribute">What is a target attribute?</h2>
+<p>A target attribute is an attribute that receives the result of the calculation expression.</p>
+<p>In the following expression, the target attribute is a tablecloth measurement:</p>
+<p><strong>Expression:</strong> If[decimalAttribute1 &lt;= decimalAttribute2, True, False]</p>
+<p><strong>DecimalAttribute1</strong> is the table length, and <strong>decimalAttribute2</strong> is the tablecloth length. The expression returns the value <strong>True</strong> to the target attribute if <strong>decimalAttribute2</strong> is greater than or equal to <strong>decimalAttribute1</strong>. Otherwise, the expression returns <strong>False</strong>. Therefore, the tablecloth measurement is acceptable if the tablecloth length is the same as or exceeds the length of the table.</p>
+<h2 id="what-attribute-types-can-be-set-to-target-attributes">What attribute types can be set to target attributes?</h2>
+<p>All attribute types that the product configurator supports can be set to target attributes, except text without a fixed list.</p>
+<h2 id="can-the-value-of-a-target-attribute-restrict-the-values-of-the-input-attributes-in-a-calculation">Can the value of a target attribute restrict the values of the input attributes in a calculation?</h2>
+<p>No, the value of a target attribute can’t restrict the values of the input attributes, because calculations are unidirectional. Therefore, the value of the target attribute is set based on changes in the value of the input attributes, but a change in the value of the target doesn’t affect the value of the input attributes. This behavior differs from the behavior for constraints. Constraints occur in both directions.</p>
+<h3 id="example">Example</h3>
+<p>In the following expression, the target for the calculation is the length of a power cord, and the input value is a color:</p>
+<p><strong>Expression:</strong> [If Color == &quot;Green&quot;, 1.5, 1.0]</p>
+<p>When you configure the item, the length of the power cord is set to <strong>1.5</strong> if you specify <strong>Green</strong> as the value of color attribute. If you specify any other color, the length is set to <strong>1.0</strong>. However, because calculations are unidirectional, the calculation doesn't set the value of the color attribute to <strong>Green</strong> if you specify a length of <strong>1.5</strong>.</p>
+<h2 id="what-happens-if-a-calculation-has-a-target-attribute-of-the-integer-type-but-a-calculation-generates-a-decimal-number">What happens if a calculation has a target attribute of the integer type but a calculation generates a decimal number?</h2>
+<p>If a target attribute is of the integer type, but a calculation generates a decimal number, only the integer part of the calculated result is returned. The decimal part is removed, and the result isn't rounded. For example, a result of 12.70 is shown as 12.</p>
+<h2 id="when-do-calculations-occur">When do calculations occur?</h2>
+<p>Calculations occur when a value has been provided for all input attributes.</p>
+<h2 id="can-i-overwrite-the-value-that-is-calculated-for-the-target-attribute">Can I overwrite the value that is calculated for the target attribute?</h2>
+<p>You can overwrite the value that is calculated for the target attribute, unless the target attribute is set as hidden or read-only.</p>
+<h2 id="how-do-i-set-a-target-attribute-as-hidden-or-read-only">How do I set a target attribute as hidden or read-only?</h2>
+<p>To set an attribute as hidden or read-only, follow these steps.</p>
+<ol>
+<li>Click <strong>Product information management</strong> &gt; <strong>Common</strong> &gt; <strong>Product configuration models</strong>.</li>
+<li>Select a product configuration model, and then, on the Action Pane, click <strong>Edit</strong>.</li>
+<li>On the <strong>Constraint-based product configuration model details</strong> page, select the attribute to use as a target attribute.</li>
+<li>On the <strong>Attributes</strong> FastTab, select <strong>Hidden</strong> or <strong>Read-only</strong>.</li>
+</ol>
+<h2 id="can-a-calculation-overwrite-the-values-that-i-set">Can a calculation overwrite the values that I set?</h2>
+<p>No. The values that you set when you configure a product are the values that are used. The calculation that occurs when the input values in a calculation are changed can’t overwrite the values that you provide for a specific attribute.</p>
+<h2 id="what-happens-if-i-remove-an-input-value-in-a-calculation">What happens if I remove an input value in a calculation?</h2>
+<p>If you remove an input value in a calculation, the value of the target attribute is also removed.</p>
+<h2 id="why-do-i-receive-an-error-message-that-says-that-my-model-is-in-contradiction">Why do I receive an error message that says that my model is in contradiction?</h2>
+<p>This message is shown when a calculation includes an error, or when a contradiction exists in one or more constraints. For more information about contradictions in constraints, see <a href="expression-constraints-table-constraints-product-configuration-models.html">Expression constraints and table constraints in product configuration models</a>. Here are some situations where errors can occur in calculations:</p>
+<ul>
+<li>A value is divided by 0 (zero).</li>
+<li>A conflict exists between the following two elements:
+<ul>
+<li>The values that are available for an attribute and are limited by a constraint</li>
+<li>A value that is generated by a calculation</li>
+</ul>
+</li>
+<li>The values that are returned by the calculation are outside the domain of the attribute. An example is an integer from [1..10] that is calculated to 0.</li>
+</ul>
+<h2 id="why-do-i-receive-an-error-message-even-though-i-successfully-validated-my-product-model">Why do I receive an error message even though I successfully validated my product model?</h2>
+<p>Calculations aren't included in the validation. You must test the product configuration model to find errors in calculations. To test a product configuration model, follow these steps.</p>
+<ol>
+<li>Click <strong>Product information management</strong> &gt; <strong>Common</strong> &gt; <strong>Product configuration models</strong>.</li>
+<li>Select a product configuration model, and then, on the Action Pane, in the <strong>Run</strong> group, click <strong>Test</strong>.</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/pim/calculate-product-configuration-models.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

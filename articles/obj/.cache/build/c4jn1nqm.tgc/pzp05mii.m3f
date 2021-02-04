@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ALLITEMSQUERY ER function </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="ALLITEMSQUERY ER function ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about how the ALLITEMSQUERY Electronic reporting (ER) function is used.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERDataModelDesigner, ERExpressionDesignerFormula, ERMappedFormatDesigner, ERModelMappingDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="allitemsquery-er-function">ALLITEMSQUERY ER function</h1>
+
+
+<p>The <code>ALLITEMSQUERY</code> function runs as a joined SQL query. It returns a new flattened <em>Record list</em> value that consists of a list of records that represent all items that match the specified path.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code class="lang-vb">ALLITEMSQUERY (path)
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<p><code>path</code>: <em>Record list</em></p>
+<p>The valid path of a data source of the <em>Record list</em> data type. It must contain at least one relation.</p>
+<h2 id="return-values">Return values</h2>
+<p><em>Record list</em></p>
+<p>The resulting list of records.</p>
+<h2 id="usage-notes">Usage notes</h2>
+<p>The specified path must be defined as a valid data source path of a data source element of the <em>Record list</em> data type. It must also contain at least one relation. Data elements such as the path <em>String</em> and <em>Date</em> should raise an error in the Electronic reporting (ER) expression builder at design time.</p>
+<p>When this function is applied to data sources of the <em>Record list</em> data type that refer to an application object that can be directly called by using SQL (for example, an table, entity, or query), it runs as a joined SQL query. Otherwise, it runs in memory as the <a href="er-functions-list-allitems.html">ALLITEMS</a> function.</p>
+<h2 id="example">Example</h2>
+<p>You define the following data sources in your model mapping:</p>
+<ul>
+<li>A <strong>CustInv</strong> data source of the <em>Table records</em> type that refers to the CustInvoiceTable table</li>
+<li>A <strong>FilteredInv</strong> data source of the <em>Calculated field</em> type that contains the expression <code>FILTER (CustInv, CustInv.InvoiceAccount = &quot;US-001&quot;)</code></li>
+<li>A <strong>JourLines</strong> of the <em>Calculated field</em> type that contains the expression <code>ALLITEMSQUERY ( FilteredInv.'&lt;Relations'.CustInvoiceJour.'&lt;Relations'.CustInvoiceTrans)</code></li>
+</ul>
+<p>When you run the model mapping to call the <strong>JourLines</strong> data source, the following SQL statement is run:</p>
+<pre><code class="lang-sql">SELECT ... FROM CUSTINVOICETABLE T1 CROSS JOIN CUSTINVOICEJOUR T2 CROSS JOIN
+CUSTINVOICETRANS T3 WHERE...
+</code></pre>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="er-functions-category-list.html">List functions</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-functions-list-allitemsquery.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

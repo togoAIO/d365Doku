@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SPED fiscal resolution 13/2019 RJ </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="SPED fiscal resolution 13/2019 RJ ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how to set up and generate SPED ECD text files.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance">
+    <meta name="ms.search.region" content="Brazil">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="sped-fiscal-resolution-132019-rj">SPED fiscal resolution 13/2019 RJ</h1>
+
+
+<p>The state of Rio de Janeiro (RJ) has published Resolution 13/2019. This resolution defines how a Nota fiscal eletrônica (NF-e) should be issued, and how the information should be recorded in the EFD-ICMS/IPI when the following operations are run (Decree No. 27.815/01):</p>
+<ul>
+<li>Exemption</li>
+<li>Reduction of the basis of calculation or reduction of rate</li>
+<li>Presumed credit</li>
+<li>Taxation on billing, taxation on receipt, or taxation on output</li>
+<li>Deferral</li>
+<li>Ineligibility for credit reversal</li>
+<li>Fiscal credit repair or accumulated credit balance transfer</li>
+</ul>
+<p>According to the resolution, exonerations are registered as adjustments on fiscal documents and in fiscal books, and should be reported in Sistema Público de Escrituração Digital (SPED) files.</p>
+<p>The resolution requirements affect the output of lines E111, E115, C195, C197, and 0460 in SPED Fiscal.</p>
+<h2 id="sped-fiscal-records-by-operation">SPED Fiscal records by operation</h2>
+<h3 id="exemption-and-credit-reversal">Exemption and credit reversal</h3>
+<p>During the synchronization process, two types of adjustment transactions are created in the Imposto Sobre Operações Relativas à Circulação de Mercadorias e Serviços (ICMS) tax assessment when the following conditions are met:</p>
+<ul>
+<li>An outgoing fiscal document that is issued from RJ state has a taxation code of <strong>30</strong> or <strong>40</strong>.</li>
+<li>The benefit codes from table 5.2 and table 5.3, and also observation codes, are assigned to the related item and state of the fiscal document. For example, the code from table 5.2 is <strong>RJ801137</strong>, and the code from table 5.3 is <strong>RJ90980000</strong>.</li>
+</ul>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal:</p>
+<ul>
+<li><p>The adjustment code from table 5.2 generates an E115 record:</p>
+<p>|E115|RJ801137|0||</p>
+</li>
+<li><p>The adjustment code from table 5.3 generates a C197 record:</p>
+<p>|C197|RJ90980000|RJ801137|ItemId|0.00|0.00|0.00|0.88|</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this example, the base amount is 3.5, the ICMS percentage is 18, and the Fundo de Combate e Erradicação à Pobreza (FCP) rate is 0.02. Therefore, the amount 0.88 is calculated in the following way:</p>
+<p>3.5 ÷ (1 – [0.18 + 0.02]) × (0.18 + 0.02)</p>
+</div>
+</li>
+<li><p>The observation code that is assigned to the related item and state of the fiscal document generates C195 and 0460 records:</p>
+<p>|C195|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+<p>|0460|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+</li>
+</ul>
+<p>To register the credit reversal, create a manual adjustment in the General tax adjustment/benefit/incentive journal, and add the code from table 5.2 to the <strong>Description</strong> field.</p>
+<p>Here is an example of an adjustment transaction that is automatically created in SPED Fiscal:</p>
+<p>|E111|RJ18003|RJ801137|&lt;Adjustment amount&gt;|</p>
+<h3 id="reduction-of-tax-base-or-percentage">Reduction of tax base or percentage</h3>
+<p>During the synchronization process, two types of adjustment transactions are created in the ICMS tax assessment when the following conditions are met:</p>
+<ul>
+<li>An outgoing fiscal document that is issued from RJ state has a taxation code of <strong>20</strong> or <strong>70</strong>.</li>
+<li>The benefit codes from table 5.2 and table 5.3 are assigned to the related item and state of the fiscal document. For example, the code from table 5.2 is <strong>RJ802164</strong>, and the code from table 5.3 is <strong>RJ90980000</strong>.</li>
+</ul>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal:</p>
+<ul>
+<li><p>The adjustment code from table 5.2 generates an E115 record:</p>
+<p>|E115|RJ802164|0||</p>
+</li>
+<li><p>The adjustment code from table 5.3 generates a C197 record:</p>
+<p>|C197|RJ90980000|RJ802164|ItemId|0.00|0.00|0.00|0,20|</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this example, the base amount is 3.5, the ICMS percentage is 12, and the percentage reduction is 41.67. Therefore, the amount 0.20 is calculated in the following way:</p>
+<p>3.5 × (1 – [0.12 × (1 – 0.4167)]) ÷ (1 – 0.12) – 3.5</p>
+</div>
+</li>
+<li><p>The observation code that is assigned to the related item and state of the fiscal document generates C195 and 0460 records:</p>
+<p>|C195|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+<p>|0460|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+</li>
+</ul>
+<h3 id="presumed-credit">Presumed credit</h3>
+<p><strong>Out of scope:</strong> The system can't prepare the additional percentage that is required for C197 records.</p>
+<p>To register the reversal of credits, create a manual adjustment in the General tax adjustment/benefit/incentive journal, and add the code from table 5.2 to the <strong>Description</strong> field.</p>
+<p>Here is an example of an adjustment transaction that is automatically created in SPED Fiscal:</p>
+<p>|E111|RJ018003|RJ805289|&lt;Adjustment amount&gt;|</p>
+<h3 id="tax-on-total-sales-output-and-billing">Tax on total sales, output, and billing</h3>
+<p>During the synchronization process, one type of adjustment transaction is created in the ICMS tax assessment when the following conditions are met:</p>
+<ul>
+<li>Outgoing fiscal documents that are issued from RJ state have a taxation code of <strong>00</strong>.</li>
+<li>The benefit code from table 5.2 is assigned to the related item and state of a fiscal document. The code from the table 5.3 isn't assigned. For example, the code from table 5.2 is <strong>RJ822371</strong>.</li>
+</ul>
+<p>Here is an example of an adjustment transaction that is automatically created in SPED Fiscal:</p>
+<ul>
+<li><p>The adjustment code from table 5.2 generates an E115 record:</p>
+<p>|E115|RJ822371|0||</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Because there is no code from table 5.3, records C195, C197, and 0460 aren't created.</p>
+</div>
+</li>
+</ul>
+<p>To register the reversal of credits and debits, create manual adjustments in the General tax adjustment/benefit/incentive journal, and add the code from table 5.2 to the <strong>Description</strong> field.</p>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal:</p>
+<p>|E111|RJ18003|RJ822371|&lt;Adjustment amount&gt;|</p>
+<p>|E111|RJ38003|RJ822371|&lt;Adjustment amount&gt;|</p>
+<p>|E111|RJ08006|RJ822371|&lt;Adjustment amount&gt;|</p>
+<h3 id="deferral">Deferral</h3>
+<p>During the synchronization process, two types of adjustment transactions are created in the ICMS tax assessment when the following conditions are met:</p>
+<ul>
+<li>Outgoing fiscal documents that are issued from RJ state have a taxation code of <strong>51</strong>.</li>
+<li>The benefit codes from table 5.2 and table 5.3 are assigned to the related item and state of a fiscal document. For example, the code from table 5.2 is <strong>RJ818317</strong>, and the code from table 5.3 is <strong>RJ90980001</strong>.</li>
+</ul>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal:</p>
+<ul>
+<li><p>The adjustment code from table 5.2 generates an E115 record:</p>
+<p>|E115|RJ818317|0||</p>
+</li>
+<li><p>The adjustment code from table 5.3 generates a C197 record:</p>
+<p>|C197|RJ90980001|RJ818317|ItemId|0.00|0.00|0.00|6585.36|</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this example, the base amount is 30000.00. Therefore, the amount 6585.36 is calculated in the following way:</p>
+<p>30000.00 ÷ (1 – 0.18) × 0.18</p>
+</div>
+</li>
+<li><p>The observation code that is assigned to the related item and state of the fiscal document generates C195 and 0460 records:</p>
+<p>|C195|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+<p>|0460|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+</li>
+</ul>
+<h3 id="enforceability-of-credit-reversal">Enforceability of credit reversal</h3>
+<p>During the synchronization process, two types of adjustment transactions are created the in ICMS tax assessment when the following conditions are met:</p>
+<ul>
+<li>An outgoing fiscal document that is issued from RJ state has a taxation code of <strong>40</strong>.</li>
+<li>The benefit codes from table 5.2 and table 5.3 are assigned to the related item and state of the fiscal document. For example, the code from table 5.2 is <strong>RJ801163</strong>, and the code from table 5.3 is <strong>RJ90980000</strong>.</li>
+</ul>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal:</p>
+<ul>
+<li><p>The adjustment code from table 5.2 generates an E115 record:</p>
+<p>|E115|RJ801163|0||</p>
+</li>
+<li><p>The adjustment code from table 5.3 generates a C197 record:</p>
+<p>|C197|RJ90980000|RJ801137|ItemId|0.00|0.00|0.00|20|</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this example, the base amount is 200, the ICMS percentage is 18, and the FCP rate is 0.02. Therefore, the amount 20 is calculated in the following way:</p>
+<p>200 ÷ (1 – [0.18 + 0.02]) × (0.18 + 0.02)</p>
+</div>
+</li>
+<li><p>The observation code that is assigned to the related item and state of the fiscal document generates C195 and 0460 records:</p>
+<p>|C195|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+<p>|0460|&lt;Observation code&gt;|&lt;Observation code description&gt;|</p>
+</li>
+</ul>
+<p>To register the reversal of credits, create manual adjustments in the General tax adjustment/benefit/incentive journal, and add the code from table 5.2 to the <strong>Description</strong> field.</p>
+<p>Here is an example of an adjustment transaction that is automatically created in SPED Fiscal:</p>
+<p>|E111|RJ18003|RJ801163|&lt;Adjustment amount&gt;|</p>
+<h3 id="pass-on-or-transfer-a-tax-credit">Pass on or transfer a tax credit</h3>
+<p>During the synchronization process, two types of adjustment transactions are created in the ICMS tax assessment when the following conditions are met:</p>
+<ul>
+<li>An outgoing tax fiscal document that is issued from RJ state has a taxation code of <strong>90</strong>.</li>
+<li>The benefit codes from table 5.2 and table 5.3 are assigned to the related item/Código Fiscal de Operações e de Prestações (CFOP) and state of the fiscal document. For example, the code from table 5.2 is <strong>RJ801163</strong>, and the code from table 5.3 is <strong>RJ90980000</strong>.</li>
+</ul>
+<p>To register the reversal of credits, the system automatically creates adjustments in the General tax adjustment/benefit/incentive journal and relates the journal line to the tax fiscal document.</p>
+<p>Here are some examples of adjustment transactions that are automatically created in SPED Fiscal for a sender:</p>
+<p>|E115|RJ821231|0||</p>
+<p>|C197|RJ40080001|RJ821231|codigoitem|0.00|0.00|&lt;Tax amount&gt;|0.00|</p>
+<p>Here are some examples of adjustment transactions that are created automatically in SPED Fiscal for a recipient:</p>
+<p>|E115|RJ821231|0||</p>
+<p>|C197|RJ10080002|RJ821231|codigoitem|0.00|0.00|&lt;Tax amount&gt;|0.00|</p>
+<h2 id="setup">Setup</h2>
+<h3 id="fiscal-books-parameters-per-state">Fiscal books parameters per state</h3>
+<p>Follow these steps to set up Fiscal books parameters for each state.</p>
+<ol>
+<li>Go to <strong>Fiscal books</strong> &gt; <strong>Setup</strong> &gt; <strong>Fiscal books parameters per state</strong>.</li>
+<li>On the <strong>SPED Fiscal</strong> FastTab, in the <strong>Resolution 13/2019</strong> section, set the <strong>Document adjustment</strong> option to <strong>Yes</strong>. The system will now process document adjustments according to Resolution 13/2019. If you don't set this option to <strong>Yes</strong>, the resolution requirements won't be applied.</li>
+<li>In the <strong>Name</strong> field, enter the name of the General tax adjustment/benefit/incentive journal. The system uses this journal name when a user must do an ICMS transfer operation to another fiscal establishment.</li>
+</ol>
+<h2 id="benefit-code-per-item-or-state">Benefit code per item or state</h2>
+<ol>
+<li>Go to <strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Benefit code per Item/State</strong>.</li>
+<li>Set up <strong>Adjustment code 5.2</strong>, <strong>Adjustment code 5.3</strong>, and <strong>Observation code</strong> as required.</li>
+</ol>
+<p>These settings help guarantee that you get a correct SPED Fiscal according to the resolution.</p>
+<p>These settings are used to automatically generate ICMS adjustment records for a fiscal document line during posting and during the Sync operation.</p>
+<h2 id="tax-fiscal-document">Tax fiscal document</h2>
+<p>If the <strong>Document adjustment</strong> option is set to <strong>Yes</strong> on the <strong>Fiscal books parameters per state</strong> page, users can select only a sales tax code that has a fiscal value of 3  on the tax fiscal document line. The taxation code, as it's related to the sales tax code, has a fiscal value of 3, without credit/debit.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For correct posting, the tax fiscal document and the selected sales tax code should have the following calculation settings:</p>
+<ul>
+<li><strong>Origin:</strong> Percentage of net amount</li>
+<li><strong>Marginal base:</strong> Net amount per line</li>
+<li><strong>Calculation method:</strong> Whole amount</li>
+</ul>
+</div>
+<p>When you post a tax fiscal document where a sales tax code is attached to the line, the system doesn't create a voucher transaction. When you run the Sync operation, the system creates and posts a General tax/adjustment/benefit/incentive journal that is related to the posted tax fiscal document for ICMS transfer to another fiscal establishment. (To run the Sync operation, go to <strong>Fiscal books</strong> &gt; <strong>Common</strong> &gt; <strong>Booking period</strong>, and then select <strong>Sync</strong>.)</p>
+<p>The system fills in data on the journal lines from the posting profile of adjustment code 5.3. It fills in the amount from the tax fiscal document.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Before you use this functionality, set up the benefit code per item/state for ICMS transfer by going to <strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales tax</strong> &gt; <strong>Benefit code per Item/ state</strong>. According to the resolution, the following adjustment codes should be set up for ICMS transfer:</p>
+<ul>
+<li><strong>For the sender:</strong> Adjustment code from table 5.2 = RJ821231, and adjustment code from table 5.3 = RJ10080002</li>
+<li><strong>For the recipient:</strong> Adjustment code from table 5.2 = RJ821231, and adjustment code from table 5.3 = RJ10080002</li>
+</ul>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/localizations/latam-bra-resolution-13-2019-RJ.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

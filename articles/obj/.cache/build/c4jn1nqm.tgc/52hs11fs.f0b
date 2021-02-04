@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Use JOIN data sources in ER model mappings to get data from multiple application tables </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Use JOIN data sources in ER model mappings to get data from multiple application tables ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how you can use JOIN type data sources in Electronic reporting (ER).">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERModelMappingDesigner, EROperationDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="use-join-data-sources-to-get-data-from-multiple-application-tables-in-electronic-reporting-er-model-mappings">Use JOIN data sources to get data from multiple application tables in Electronic reporting (ER) model mappings</h1>
+
+
+<p>While configuring Electronic reporting (ER) model mappings or formats, you can <a href="#review">add</a> required data sources of the <strong>Join</strong> type. At design time, a <strong>Join</strong> data source is configured as a set of several data sources each of which returns a list of records. For every data source except the first one, you need to define necessary conditions to join records of the current and previous data sources. At runtime, a configured data source of <strong>Join</strong> type <a href="#executeERformat">returns</a> a single joined list of records containing fields from the records of nested data sources.</p>
+<p>The following types of joins are currently supported:</p>
+<ul>
+<li>Outer (left) join:
+<ul>
+<li>Join all records of the first (left-most) data source and then any matching in accordance to configured conditions records of the second (right-most) data source.</li>
+</ul>
+</li>
+<li>Inner (right) join:
+<ul>
+<li>Join only records of the first (left-most) data source and only records of the second (right-most) data source matching to each other in accordance to configured conditions.</li>
+</ul>
+</li>
+</ul>
+<p>In the configured <strong>Join</strong> data source, when all data sources are the <strong>Table records</strong> type, execution of the Join data source can be <a href="#analyze">performed at the database level</a> using a single SQL statement. This statement reduces the number of database calls, which improves model-mapping performance. Otherwise, execution of <strong>Join data</strong> source is performed in memory.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Using the <strong>VALUEIN</strong> function in ER expressions that specify conditions for joining records in data sources of Join type is not supported yet. Visit the <a href="general-electronic-reporting-formula-designer.html">Formula designer in Electronic reporting</a> page for more details about this function.</p>
+</div>
+<p>To learn more about this feature, complete the example in this topic.</p>
+<h2 id="example-use-join-data-sources-in-er-model-mappings">Example: Use JOIN data sources in ER model mappings</h2>
+<p>The following steps explain how the System administrator or Electronic reporting developer can configure an Electronic reporting (ER) model mapping to get data from multiple application tables at once by using data sources of the <strong>Join</strong> type to improve data access performance. These steps can be performed for any company of Dynamics 365 Finance or Regulatory Configuration Services (RCS).</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>To complete the examples in this topic, you must have access to one of the following depending on what service is used to compete these steps:</p>
+<p><strong>Access to Finance for one of the following roles:</strong></p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+<p><strong>Access to RCS for one of the following roles:</strong></p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+<p>You also must first complete the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create a configuration provider and mark it as active</a> procedure.</p>
+<p>In advance, you must also download from <a href="https://go.microsoft.com/fwlink/?linkid=000000">Microsoft Download Center</a> and save locally the following sample ER configuration files:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Content description</strong></th>
+<th><strong>File name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample <strong>ER data model</strong> configuration file, which is used as the data source for the examples.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Model to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td>Sample <strong>ER model mapping</strong> configuration file, which implements the ER data model for the examples.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Mapping to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td>Sample <strong>ER format</strong> configuration file. This file describes the data to populate the ER format component for the examples.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Format to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="activate-a-configurations-provider">Activate a configurations provider</h3>
+<ol>
+<li><p>Access either Finance or RCS in the first session of your web browser.</p>
+</li>
+<li><p>Go to <strong>Organization administration &gt; Workspaces &gt; Electronic reporting</strong>.</p>
+</li>
+<li><p>On the <strong>Localization configurations</strong> page, in the <strong>Configuration providers</strong> section, make sure that the configuration provider for the <a href="http://www.litware.com">Litware, Inc.</a> sample company is listed, and that it's marked as <strong>Active</strong>. If you don't see this configuration provider, follow the steps in <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create a configuration provider and mark it as active</a> procedure.</p>
+<p><img src="media/GER-JoinDS-ActiveProvider.PNG" alt="Electronic reporting workspace"></p>
+</li>
+</ol>
+<h3 id="import-sample-er-configuration-files">Import sample ER configuration files</h3>
+<ol>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>Import the ER data model configuration file.</p>
+<ol>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to find the <strong>Model to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Import the ER model-mapping configuration file.</p>
+<ol>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to find the <strong>Mapping to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Import the ER format configuration file.</p>
+<ol>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to find the <strong>Format to learn JOIN data sources.version.1.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>In the configurations tree, expand the <strong>Model to learn JOIN data sources</strong> item as well as other model items (when available).</p>
+</li>
+<li><p>Observe the list of ER configurations in the tree as well as version details on the <strong>Versions</strong> fast tab – they will be used as the source of data for your sample report.</p>
+<p><img src="media/GER-JoinDS-ConfigurationsTree.PNG" alt="Electronic reporting configurations page"></p>
+</li>
+</ol>
+<h3 id="turn-on-execution-trace-options">Turn on execution trace options</h3>
+<ol>
+<li><p>Select <strong>CONFIGURATIONS</strong>.</p>
+</li>
+<li><p>Select <strong>User parameters</strong>.</p>
+</li>
+<li><p>Set execution trace parameters as shown on the screenshot below.</p>
+<p><img src="media/GER-JoinDS-Parameters.PNG" alt="Electronic reporting user parameters page"></p>
+<p>With these parameters turned on, for every execution of the imported ER format file, the execution trace will be generated. Using details of generated execution trace, you can analyze the execution of ER format and ER model-mapping components. Visit the <a href="trace-execution-er-troubleshoot-perf.html">Trace execution of ER format to troubleshoot performance issues</a> page for more details about ER execution trace feature.</p>
+</li>
+</ol>
+<h3 id="review-er-model-mapping-part-1">Review ER model mapping (part 1)</h3>
+<p>Review settings of the ER model-mapping component. The component is configured to access information about versions of ER configurations, details of configurations and configuration providers without using data sources of the <strong>Join</strong> type.</p>
+<ol>
+<li><p>Select <strong>Mapping to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to open the list of mappings.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to review the mapping details.</p>
+</li>
+<li><p>Select <strong>Show details</strong>.</p>
+</li>
+<li><p>In the configurations tree, expand the <strong>Set1</strong> and <strong>Set1.Details</strong> data model items:</p>
+<ol>
+<li>Binding <strong>Details: Record list = Versions</strong> indicates that the <strong>Set1.Details</strong> item is bound to the <strong>Versions</strong> data source returning records of the <strong>ERSolutionVersionTable</strong> table. Each record of this table represents a single version of an ER configuration. The content of this table is presented in the <strong>Versions</strong> fast tab on the <strong>Configurations</strong> page.</li>
+<li>Binding <strong>ConfigurationVersion: String = @.PublicVersionNumber</strong> means that the value of the public version of each ER configuration’s version is taken from the <strong>PublicVersionNumber</strong> field of the <strong>ERSolutionVersionTable</strong> table and placed to the <strong>ConfigurationVersion</strong> item.</li>
+<li>Binding <strong>ConfigurationTitle: String = @.'&gt;Relations'.Solution.Name</strong> indicates that the name of an ER configuration is taken from the <strong>Name</strong> field of the <strong>ERSolutionTable</strong> table assessing by using the many-to-one relation (<strong>'&gt;Relations'</strong>) between the <strong>ERSolutionVersionTable</strong> and <strong>ERSolutionTable</strong> tables. Names of ER configurations of the current application instance are presented in the configurations tree on the <strong>Configurations</strong> page.</li>
+<li>Binding <strong>@.'&gt;Relations'.Solution.'&gt;Relations'.SolutionVendor.Name</strong> means that the name of the configuration provider that owns the current configuration is taken from the <strong>Name</strong> field of the <strong>ERVendorTable</strong> table assessing by using the many-to-one relation between <strong>ERSolutionTable</strong> and <strong>ERVendorTable</strong> tables. Names of ER configuration providers are presented in the configurations tree on the <strong>Configurations</strong> page on the page header for each configuration. The entire list of ER configuration providers can be found on the <strong>Organization administration &gt; Electronic reporting &gt; Configuration provider</strong> table page.</li>
+</ol>
+<p><img src="media/GER-JoinDS-Set1Review.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>In the configurations tree, expand the <strong>Set1.Summary</strong> data model item:</p>
+<ol>
+<li>Binding <strong>VersionsNumber: Integer = VersionsSummary.aggregated.VersionsNumber</strong> indicates that the <strong>Set1.Summary.VersionsNumber</strong> item is bound to the <strong>VersionsNumber</strong> aggregation field of the <strong>VersionsSummary</strong> data source of the <strong>GroupBy</strong> type that was configured to return the number of records of the <strong>ERSolutionVersionTable</strong> table via the <strong>Versions</strong> data source.</li>
+</ol>
+<p><img src="media/GER-JoinDS-Set1GroupByReview.PNG" alt="GROUPBY data source parameters page"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h3 id="review"> Review ER model mapping (part 2)</h3>
+<p>Review settings of the ER model-mapping component. The component is configured to access information about versions of ER configurations, details of configurations and configuration providers with using a data source of the <strong>Join</strong> type.</p>
+<ol>
+<li><p>In the configurations tree, expand the <strong>Set2</strong> and <strong>Set2.Details</strong> data model items. The binding <strong>Details: Record list = Details</strong> indicates that the <strong>Set2.Details</strong> item is bound to the <strong>Details</strong> data source configured as the data source of the <strong>Join</strong> type.</p>
+<p><img src="media/GER-JoinDS-Set2Review.PNG" alt="ER model mapping designer page"></p>
+<p>The <strong>Join</strong> data source can be added by selecting the <strong>Functions\Join</strong> data source:</p>
+<p><img src="media/GER-JoinDS-AddJoinDS.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Detail</strong>s data source.</p>
+</li>
+<li><p>Select <strong>Edit</strong> in the <strong>Data sources</strong> pane.</p>
+</li>
+<li><p>Select <strong>Edit join</strong>.</p>
+</li>
+<li><p>Select <strong>Show details</strong>.</p>
+<p><img src="media/GER-JoinDS-JoinDSEditor.PNG" alt="JOIN data source parameters page"></p>
+<p>This page is used to design the required data source of the <strong>Join type</strong>. At runtime, this data source will create a single joined list of records from the data sources in the <strong>Joined list</strong> grid. Join of records will start from the <strong>ConfigurationProviders</strong> data source that is in the grid as a first one (the <strong>Type</strong> column is blank for it). Records of every other data source will be joined consequently to records of the parent data source based on its order in this grid. Every joining data source must be configured as a data source nested under a target data source (<code>1Versions</code> data source is nested under <code>1Configurations</code> one; <code>1Configurations</code> data source is nested under <strong>ConfigurationProviders</strong> one). Each configured data source must contain the conditions for the join. In the data source for this particular <strong>Join</strong>, the following joins are defined:</p>
+<ul>
+<li>Each record of the <strong>ConfigurationProviders</strong> data source (referred to the <strong>ERVendorTable</strong> table) is joined with only records of the <strong>1Configurations</strong> one (referred to in the <strong>ERSolutionTable</strong> table) having the same value in the <strong>SolutionVendor</strong> and <strong>RecId</strong> fields. The <strong>Inner join</strong> type is used for this join as well as the following conditions for matching records:</li>
+</ul>
+<p>FILTER (Configurations, Configurations.SolutionVendor = ConfigurationProviders.RecId)</p>
+<ul>
+<li>Each record of the <strong>1Configurations</strong> data source (referred to the <strong>ERSolutionTable</strong> table) is joined with the only records of the <strong>1Versions</strong> one (referred to the <strong>ERSolutionVersionTable</strong> table) having the same value in the <strong>Solution</strong> and <strong>RecId</strong> fields. <strong>Inner join</strong> type is used for this join as well as the following conditions for matching records:</li>
+</ul>
+<p>FILTER (ConfigurationVersions, ConfigurationVersions.Solution = ConfigurationProviders.'1Configurations'.RecId)</p>
+<ul>
+<li><strong>Execute</strong> option is configured as <strong>Query</strong> meaning that this join data source will be executed at runtime on database level as a direct SQL call.</li>
+</ul>
+<p>For joining records of data sources representing application tables, you can specify join conditions by using pairs of fields other than ones that describe existing in AOT relations between these tables. This type of join can be configured to execute at the database level as well.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>Select <strong>Cancel</strong>.</p>
+</li>
+<li><p>In the configurations tree, expand the <strong>Set2.Summary</strong> data model item:</p>
+<ul>
+<li>Binding <strong>VersionsNumber: Integer = DetailsSummary.aggregated.VersionsNumber</strong> indicates that the <strong>Set2.Summary.VersionsNumber</strong> item is bound to the <strong>VersionsNumber</strong> aggregation field of the <strong>DetailsSummary</strong> data source of the <strong>GroupBy</strong> type that was configured to return the number of joined records of the <strong>Details</strong> data source of the <strong>Join</strong> type.</li>
+<li>The <strong>Execution</strong> location option is configured as <strong>Query</strong> meaning that this <strong>GroupBy</strong> data source will be run at runtime as a direct SQL call at the database level. This behavior is possible because the base data source <strong>Details</strong> of the <strong>Join</strong> type is configured as executed at the database level.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2GroupByReview.PNG" alt="GROUPBY data source parameters page"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>Select <strong>Cancel</strong>.</p>
+</li>
+</ol>
+<h3 id="executeERformat"> Execute ER format</h3>
+<ol>
+<li><p>Access Finance or RCS in the second session of your web browser using same credentials and company as in the first session.</p>
+</li>
+<li><p>Go to <strong>Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</p>
+</li>
+<li><p>Expand <strong>Model to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li><p>Select <strong>Format to learn JOIN data sources</strong> configuration.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Show details</strong>.</p>
+</li>
+<li><p>Select <strong>Mapping</strong>.</p>
+</li>
+<li><p>Select <strong>Expand/Collapse</strong>.</p>
+<p>This format is designed to populate a generated text file with a new line for every version of an ER configuration (<strong>Version</strong> sequence). Each generated line will contain the name of a configuration provider owning the current configuration, the configuration name, and the configuration version separated by semicolon mark. The final line of generated file will contain the number of discovered versions of ER configurations (<strong>Summary</strong> sequence).</p>
+<p><img src="media/GER-JoinDS-FormatReview.PNG" alt="ER format designer page"></p>
+<p>The <strong>Data</strong> and <strong>Summary</strong> data sources are used to populate configuration version details to the generated file:</p>
+<ul>
+<li>Information from the <strong>Set1</strong> data model is used when you choose <strong>No</strong> for the <strong>Selector</strong> data source at runtime on the user dialog page when running ER format.</li>
+<li>Information from the <strong>Set2</strong> data model is used when you choose <strong>Yes</strong> for the <strong>Selector</strong> data source at runtime on the user dialog page.</li>
+</ul>
+<p><img src="media/GER-JoinDS-FormatMappingReview.PNG" alt="ER format designer page"></p>
+</li>
+<li><p>Select <strong>Run</strong>.</p>
+</li>
+<li><p>On the dialog page, select <strong>No</strong> in the <strong>Use JOIN data source</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Review generated file.</p>
+<p><img src="media/GER-JoinDS-Set1Run.PNG" alt="ER user dialog page"></p>
+</li>
+</ol>
+<h4 id="analyze-er-format-execution-trace">Analyze ER format execution trace</h4>
+<ol>
+<li><p>In the first session of Finance or RCS, select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Performance trac</strong>e.</p>
+</li>
+<li><p>In the <strong>Performance trace</strong> grid, select the top-most record of the latest execution trace of an ER format that used the current model mapping component.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Execution statistics informs you about duplicated calls to application tables:</p>
+<ul>
+<li><strong>ERSolutionTable</strong> has been called as many times as you have configuration version records in the <strong>ERSolutionVersionTable</strong> table, while the number of such calls could be reduced in times for performance improvement.</li>
+<li><strong>ERVendorTable</strong> has been called twice for every configuration version record that was discovered in the <strong>ERSolutionVersionTable</strong> table, while the number of such calls could be reduced as well.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set1Run2.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h3 id="execute-er-format">Execute ER format</h3>
+<ol>
+<li><p>Switch to your web browser tab with the second session of Finance or RCS.</p>
+</li>
+<li><p>Select <strong>Run</strong>.</p>
+</li>
+<li><p>On the dialog page, select <strong>Yes</strong> in the <strong>Use JOIN data source</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Review generated file.</p>
+<p><img src="media/GER-JoinDS-Set2Run.PNG" alt="ER user dialog page"></p>
+</li>
+</ol>
+<h4 id="analyze"> Analyze ER format execution trace</h4>
+<ol>
+<li><p>In the first session of Finance or RCS, select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Performance trace</strong>.</p>
+</li>
+<li><p>In the <strong>Performance trace</strong> grid, select top-most record representing the latest execution trace of an ER format that used the current model mapping component.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Statistics informs you about the following:</p>
+<ul>
+<li>Application database has been called once to get records from <strong>ERVendorTable</strong>, <strong>ERSolutionTable</strong>, and <strong>ERSolutionVersionTable</strong> tables to access required fields.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2Run2.PNG" alt="ER model mapping designer page"></p>
+<ul>
+<li>Application database has been called once to calculate the number of configuration versions by using joins that were configured in the <strong>Details</strong> data source.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2Run3.PNG" alt="ER model mapping designer page"></p>
+</li>
+</ol>
+<h2 id="limitations">Limitations</h2>
+<p>As you can see from the example in this topic, the <strong>JOIN</strong> data source can be built from several data sources that describe the individual datasets of the records that must eventually be joined. You can configure those data sources by using the built-in ER <a href="er-functions-list-filter.html">FILTER</a> function. When you configure the data source so that it's called beyond the <strong>JOIN</strong> data source, you can use company ranges as part of the condition for data selection. The initial implementation of the <strong>JOIN</strong> data source doesn't support data sources of this type. For example, when you call a <a href="er-functions-list-filter.html">FILTER</a>-based data source within the scope of execution of a <strong>JOIN</strong> data source, if the called data source contains company ranges as part of the condition for data selection, an exception occurs.</p>
+<p>In Microsoft Dynamics 365 Finance version 10.0.12 (August 2020), you can use company ranges as part of the condition for data selection in <a href="er-functions-list-filter.html">FILTER</a>-based data sources that are called within the scope of execution of a <strong>JOIN</strong> data source. Because of the limitations of the application [query (This is an external linThis link was changed due to HTMLfromRepoGenerator)](../dev-ref/xpp-library-objects.md#query (This is an external linThis link was changed due to HTMLfromRepoGenerator)-object-model) builder, the company ranges are supported only for the first data source of a <strong>JOIN</strong> data source.</p>
+<h3 id="example">Example</h3>
+<p>For example, you must make a single call to the application database to get the list of foreign trade transactions of multiple companies and the details of the inventory item that is referred to in those transactions.</p>
+<p>In this case, you configure the following artifacts in your ER model mapping:</p>
+<ul>
+<li><strong>Intrastat</strong> root data source that represents the <strong>Intrastat</strong> table.</li>
+<li><strong>Items</strong> root data source that represents the <strong>InventTable</strong> table.</li>
+<li><strong>Companies</strong> root data source that returns the list of companies (<strong>DEMF</strong> and <strong>GBSI</strong> in this example) where transactions must be accessed. The company code is available from the <strong>Companies.Code</strong> field.</li>
+<li><strong>X1</strong> root data source that has the expression <code>FILTER (Intrastat, VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code))</code>. As part of the condition for data selection, this expression contains the definition of company ranges <code>VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code)</code>.</li>
+<li><strong>X2</strong> data source as a nested item of the <strong>X1</strong> data source. It includes the expression <code>FILTER (Items, Items.ItemId = X1.ItemId)</code>.</li>
+</ul>
+<p>Finally, you can configure a <strong>JOIN</strong> data source where <strong>X1</strong> is the first data source and <strong>X2</strong> is the second data source. You can specify <strong>Query</strong> as the <strong>Execute</strong> option to force ER to run this data source on the database level as a direct SQL call.</p>
+<p>When the configured data source is run while the ER execution is <a href="trace-execution-er-troubleshoot-perf.html">traced</a>, the following statement is shown in the ER model mapping designer as part of the ER performance trace.</p>
+<p><code>SELECT ... FROM INTRASTAT T1 CROSS JOIN INVENTTABLE T2 WHERE ((T1.PARTITION=?) AND (T1.DATAAREAID IN (N'DEMF',N'GBSI') )) AND ((T2.PARTITION=?) AND (T2.ITEMID=T1.ITEMID AND (T2.DATAAREAID = T1.DATAAREAID) AND (T2.PARTITION = T1.PARTITION))) ORDER BY T1.DISPATCHID,T1.SEQNUM</code></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>An error occurs if you run a <strong>JOIN</strong> data source that has been configured so that it contains data selection conditions that have company ranges for additional data sources of the executed <strong>JOIN</strong> data source.</p>
+</div>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="general-electronic-reporting-formula-designer.html">Formula designer in Electronic reporting</a></p>
+<p><a href="trace-execution-er-troubleshoot-perf.html">Trace execution of ER format to troubleshoot performance issues</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

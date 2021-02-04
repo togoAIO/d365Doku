@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Subcontracting | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Subcontracting | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="subcontracting">Subcontracting</h1>
+
+
+<p>This topic will help you build a walkthrough of subcontracting in manufacturing in Microsoft Dynamics 365 Supply Chain Management. The first part of this topic describes the setup of the data. The second part takes you through the steps in the walkthrough.</p>
+<h2 id="target-audience">Target audience</h2>
+<p>In this topic, you will learn how to set up subcontracting in manufacturing. You will use existing data in the HQUS legal entity to do the basic setup of a subcontracting activity flow. The demo data in the HQUS legal entity includes setup parameters that have been preset to support the steps in the walkthrough. Even though the walkthrough addresses key pain points and challenges for various roles, it can be completed by the system admin.</p>
+<h2 id="demo-scenario">Demo scenario</h2>
+<p>In the HQUS legal entity, high-end speakers are manufactured. During the manufacturing process, speakers go through the following three operations.</p>
+<ul>
+<li><strong>Pre-assembly</strong> – The speaker cabinet is assembled. The material for the cabinet is picked in the material warehouse before the operation is started.</li>
+<li><strong>Coating</strong> – After the speaker cabinet has been assembled, it must be coated. This operation is completed by a vendor (subcontractor). The pre-assembled speaker cabinet is shipped to the coating subcontractor together with two materials.</li>
+<li><strong>Finish</strong> – After the pre-assembled speaker cabinet has been coated by the subcontractor, it's returned to the HQUS legal entity so that final assembly of the speaker can be completed.</li>
+</ul>
+<p>The following illustration shows the three operations and the materials that they consume.</p>
+<p><img src="./media/subcontract01_operations-materials.png" alt="Pre-assembly, Coating, and Finish operations, and the materials that they consume"></p>
+<h2 id="setup">Setup</h2>
+<p>Before you start the walkthrough, you must set up the data.</p>
+<h3 id="set-up-the-finished-product">Set up the finished product</h3>
+<p>This procedure takes you through the setup of released product D8100, &quot;Coated Cabinet.&quot;</p>
+<ol>
+<li><p>Select <strong>Product information management &gt; Products &gt; Released products</strong> to open the <strong>Released product details</strong> page.</p>
+</li>
+<li><p>In the quick filter field, enter <strong>D8100</strong> to find the existing released product.</p>
+<p><img src="./media/subcontract02_filtering-released-products.png" alt="Filtering for released product D8100 on the Released product details page"></p>
+</li>
+<li><p>On the Action Pane, on the <strong>Engineer</strong> tab, select <strong>Route</strong> to open the <strong>Route</strong> page.</p>
+<p>The <strong>Route</strong> page shows the eight route versions for released product D8100. The eight route versions are divided among four routes on site 1 and site 5. Route 000400 is used for costing, route 00041 is used when the Coating operation is an internal operation, and route 00042 is used when the Coating operation is an external operation.</p>
+<p><img src="./media/subcontract03_route-page.png" alt="Eight route versions on the Route page"></p>
+</li>
+<li><p>In the upper pane, in the <strong>Versions</strong> grid, select route version <strong>00042</strong> for site <strong>5</strong>.</p>
+</li>
+<li><p>In the lower pane, on the <strong>Overview</strong> tab, select operation <strong>20</strong> (<strong>Cbnt CtSc</strong>) in the grid.</p>
+<p><img src="./media/subcontract04_route-version-operation.png" alt="Operation 20 for route version 00042 for site 5 selected"></p>
+</li>
+<li><p>Select the <strong>General</strong> tab.</p>
+<p>Notice that the field <strong>Route type</strong> field is set to <strong>Vendor</strong>. This value indicates that operation 20 (Cbnt CtSc) is a subcontracted operation.</p>
+<p><img src="./media/subcontract05_general-tab.png" alt="Route type field set to Vendor on the General tab"></p>
+</li>
+<li><p>Select the <strong>Resource requirements</strong> tab.</p>
+<p>Capabilities will be used to find an applicable resource during production scheduling. For operation 20 (Cbnt CtSc), notice that a resource that has two capabilities, <strong>Coating</strong> and <strong>Coated cabinets</strong>, is required.</p>
+<p><img src="./media/subcontract06_resource-requirements-tab.png" alt="Coating and Coated cabinets capabilities on the resource requirements tab"></p>
+</li>
+<li><p>Select <strong>Applicable resources</strong> to open the <strong>Applicable resources</strong> dialog box.</p>
+<p>Three resources are found that match the resource requirements for the operation. Notice that resources 8851 and 8852 are of the <strong>Vendor</strong> type.</p>
+<p><img src="./media/subcontract07_applicable-resources-dialog.png" alt="Three appropriate resources in the Applicable resources dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Applicable resources</strong> dialog box and return to the <strong>Route</strong> page.</p>
+</li>
+<li><p>Close the <strong>Route</strong> page to return to the <strong>Released product details</strong> page.</p>
+<p><img src="./media/subcontract08_released-product-details-page.png" alt="Released product details page"></p>
+</li>
+<li><p>On the Action Pane, on the <strong>Engineer</strong> tab, select <strong>BOM versions</strong> to open the <strong>BOM versions</strong> page.</p>
+<p>The <strong>BOM versions</strong> page shows the four bill of materials (BOM) versions for released product D8100. BOM 000040 is used for costing and planning, BOM 000041 is used if the Coating operation is done in-house, and BOMs 000042 and 000043 are used if the Coating operation is subcontracted.</p>
+<p>Notice that item S8050 is a product of the <strong>Service</strong> item type. This item represents the subcontracted work.</p>
+<p><img src="./media/subcontract09_bom-versions-page.png" alt="Four BOM versions on the BOM versions page"></p>
+</li>
+<li><p>On the <strong>Bill of materials lines</strong> FastTab, select <strong>Edit</strong> to open the <strong>Edit BOM line</strong> dialog box.</p>
+<p>When a production order is created and estimated for released product D8100, a purchase order will be automatically generated for item S8050. This purchase order will be linked to the production order. For purchase orders to be automatically generated, the <strong>Line type</strong> field must be set to <strong>Vendor</strong>, and the vendor account for the subcontractor must be selected. In this case, the vendor account is US-801.</p>
+<p>Notice that the BOM line is connected to the Coating operation through the operation number (in this case, 20).</p>
+<p><img src="./media/subcontract10_edit-bom-line-dialog.png" alt="Edit BOM line dialog box"></p>
+</li>
+</ol>
+<h3 id="create-a-password-for-warehouse-workers">Create a password for warehouse workers</h3>
+<p>You must define a password for the warehouse workers who use the hand-held device.</p>
+<ol>
+<li><p>Select <strong>Warehouse management &gt; Setup &gt; Worker</strong> to open the <strong>Work users</strong> page.</p>
+</li>
+<li><p>On the <strong>Users</strong> FastTab, select the row for user <strong>51</strong>.</p>
+<p><img src="./media/subcontract11_work-users-page.png" alt="Work users page"></p>
+</li>
+<li><p>Select <strong>Reset password</strong>.</p>
+</li>
+<li><p>In the <strong>Password</strong> and <strong>Confirm password</strong> fields, enter <strong>1</strong>.</p>
+</li>
+<li><p>Select <strong>Set password</strong>.</p>
+</li>
+</ol>
+<h2 id="step-by-step-walkthrough">Step-by-step walkthrough</h2>
+<p><strong>Scenario and background</strong></p>
+<p>A production order of 10 pieces is created for product D8100, &quot;Coated Cabinet.&quot; The coating of the cabinets is a sub-contracted operation that is done at vendor US-801, Perfect Coating Solutions. The production order consists of three operations. In the first operation, the cabinet is pre-assembled as an in-house operation. The material for the pre-assembly is released for picking in the raw material warehouse. After the pre-assembly is completed, the pre-assembled cabinet is sent to Perfect Coating Solutions together with two materials that are required for the Coating operation. When the coated cabinet is received back from the vendor, it goes through a final in-house assembly operation before it's reported as finished.</p>
+<ol>
+<li><p>Select <strong>Production control &gt; Production orders &gt; All production orders</strong> to open the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New production order</strong> to open the <strong>Create production order</strong> dialog box.</p>
+<p><img src="./media/subcontract12_create-production-order-dialog.png" alt="Create production order dialog box"></p>
+</li>
+<li><p>In the <strong>Item number</strong> field, select <strong>D8100</strong>.</p>
+</li>
+<li><p>After you select the item number, fields for the inventory dimensions appear. In the <strong>Color</strong> field, select <strong>Chrome</strong>.</p>
+<p>A message box appears that asks whether the active versions for the BOM and route should be inserted.</p>
+<p><img src="./media/subcontract13_message-box.png" alt="Message box"></p>
+</li>
+<li><p>Select <strong>Yes</strong>.</p>
+<p>In the <strong>Create production order</strong> dialog box, the active versions of the BOM and route for product D8100 are automatically selected in the <strong>BOM number</strong> and <strong>Route number</strong> fields, respectively. In this case, BOM <strong>000040</strong> and route <strong>000040</strong> are selected.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For both the BOM and the route, version 000040 is used for costing and planning.</p>
+</div>
+</li>
+<li><p>In the <strong>Site</strong> field, select <strong>5</strong>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, select <strong>51</strong>.</p>
+</li>
+<li><p>In the <strong>BOM number</strong> and <strong>Route number</strong> fields, change the value that was automatically selected to <strong>000042</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For both the BOM and the route, version 000042 is used to subcontract the coating of the cabinet to vendor US-801.</p>
+</div>
+<p><img src="./media/subcontract14_create-production-order-dialog-set.png" alt="Values set in the Create production order dialog box"></p>
+</li>
+<li><p>Select <strong>Create</strong> to create the production order and return to the <strong>All production orders</strong> page.</p>
+<p><img src="./media/subcontract15_new-production-order.png" alt="New production order on the All production orders page"></p>
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, select <strong>Estimate</strong> to open the <strong>Estimate</strong> dialog box.</p>
+<p><img src="./media/subcontract16_estimate-dialog.png" alt="Estimate dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the estimate and return to the <strong>All production orders</strong> page.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When the production order is estimated, the purchase order for service item S8050 is generated for vendor US-801.</p>
+</div>
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, select <strong>BOM</strong> to open the <strong>BOM</strong> page, where you can view the BOM lines for the production order.</p>
+<p>For service item S8050, notice that there is a reference to the purchase order that was generated when the production order was estimated.</p>
+<p><img src="./media/subcontract17_production-order-bom-lines.png" alt="Production order BOM lines on the BOM page"></p>
+</li>
+<li><p>Close the <strong>BOM</strong> page to return to the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Schedule</strong> tab, select <strong>Schedule jobs</strong> to open the <strong>Job scheduling</strong> dialog box.</p>
+</li>
+<li><p>Specify the following values:</p>
+<ul>
+<li>In the <strong>Scheduling direction</strong> field, select <strong>Forward from tomorrow</strong>.</li>
+<li>Set the <strong>Finite capacity</strong> option to <strong>Yes</strong>.</li>
+</ul>
+<p><img src="./media/subcontract18_job-scheduling-dialog.png" alt="Job scheduling dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Job scheduling</strong> dialog box and return to the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Schedule</strong> tab, select <strong>Gantt</strong> to open the <strong>Gantt chart - Resource view</strong> page.</p>
+<p>The Gantt chart provides a visual overview of how the production jobs are scheduled on the resources. Notice that the external Coating operation consists of three jobs: a process job, a transport job, and a queue time job.</p>
+<p><img src="./media/subcontract19_gantt-chart.png" alt="Gantt chart on the Gantt chart - Resource view page"></p>
+</li>
+<li><p>Close the <strong>Gantt chart - Resource view</strong> page to return to the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, select <strong>Release</strong> to open the <strong>Release</strong> dialog box.</p>
+<p><img src="./media/subcontract20_release-dialog.png" alt="Release dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Release</strong> dialog box.</p>
+</li>
+<li><p>Select <strong>Production control &gt; Periodic tasks &gt; Release to warehouse &gt; Automatic release of BOM and formula lines</strong> to open the <strong>Automatic release of BOM and formula lines</strong> dialog box.</p>
+<p><img src="./media/subcontract21_auto-release-bom-formula-lines-dialog.png" alt="Automatic release of BOM and formula lines dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to run the Automatic release of BOM and formula lines job.</p>
+<p>This job releases pick work for raw materials to the warehouse.</p>
+</li>
+<li><p>Select <strong>Production control &gt; Production orders &gt; All production orders</strong> to open the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>Use the quick filter field to select the production order that you've been working on.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Work details</strong> to open the <strong>Work</strong> page.</p>
+<p>Notice that the page shows two sets of work for raw material picking. The first work is for materials M8100 and M8101. These materials are consumed by operation 10. The second work is for materials M8202 and M8250. These materials are consumed by operation 20, which is the subcontracted operation.</p>
+<p><img src="./media/subcontract22_work-page.png" alt="Two sets of work for raw material picking on the Work page"></p>
+</li>
+<li><p>Start the warehouse app to process the warehouse work for operation 10.</p>
+<!-- TBD – screen shots for processing pick work for the materials. -->
+</li>
+<li><p>Select <strong>Production control &gt; Production orders &gt; All production orders</strong> to open the <strong>All production orders</strong> page.</p>
+</li>
+<li><p>Use the quick filter field to select the production order that you've been working on.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, select <strong>Start</strong> to open the <strong>Start</strong> dialog box.</p>
+</li>
+<li><p>On the <strong>General</strong> tab, specify the following values:</p>
+<ul>
+<li>In the <strong>From Oper. No.</strong> field, select <strong>10</strong>.</li>
+<li>In the <strong>To Oper. No.</strong> field, select <strong>10</strong>.</li>
+</ul>
+<p><img src="./media/subcontract23_start-dialog.png" alt="Values set on the General tab"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Start</strong> dialog box and return to the <strong>All production orders</strong> page.</p>
+<p>Notice that the status of the production order is now <strong>Started</strong>. The materials for operation 10 are consumed by an automatic posting of the picking list journal. Time consumption for operation 10 is accounted for by an automatic posting of a route card journal.</p>
+</li>
+<li><p>Start the warehouse app to process the warehouse work for operation 20.</p>
+<!-- TBD – screen shots for processing pick work for the materials. -->
+</li>
+<li><p>On the Action Pane, on the <strong>Production order</strong> tab, select <strong>Start</strong> to open the <strong>Start</strong> dialog box.</p>
+</li>
+<li><p>On the <strong>General</strong> tab, specify the following values:</p>
+<ul>
+<li>In the <strong>From Oper. No.</strong> field, select <strong>20</strong>.</li>
+<li>In the <strong>To Oper. No.</strong> field, select <strong>20</strong>.</li>
+<li>In the <strong>Quantity</strong> field, enter <strong>10</strong>.</li>
+<li>Set the <strong>Post picking list now</strong> option to <strong>No</strong>.</li>
+</ul>
+<p><img src="./media/subcontract24_general-tab.png" alt="Values set on the General tab"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Start</strong> dialog box and return to the <strong>All production orders</strong> page.</p>
+<p>A picking list is created for the materials that are used for the Coating operation, and for the service item. The service item represents the cost of the subcontracted operation.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>View</strong> tab, select <strong>Picking list</strong> to open the <strong>Picking list</strong> page.</p>
+</li>
+<li><p>Select the picking list that isn't posted, and then select the journal number to view the journal lines.</p>
+<p><img src="./media/subcontract25_picking-list.png" alt="Journal lines on the Picking list page"></p>
+</li>
+<li><p>On the Action Pane, select <strong>Print</strong> &gt; <strong>Picking list report</strong> to open the <strong>Picking list report</strong> dialog box.</p>
+</li>
+<li><p>Set the <strong>Use delivery note layout</strong> option to <strong>Yes</strong>.</p>
+<p><img src="./media/subcontract26_picking-list-report-dialog.png" alt="Picking list report dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to generate a <strong>Picking list</strong> report.</p>
+<p>In this case, a vendor delivery note is printed from the production picking list journal. The delivery note specifies the materials that are shipped to the vendor who will do the Coating operation.</p>
+<p><img src="./media/subcontract27_picking-list-report.png" alt="Picking list report"></p>
+</li>
+<li><p>Close the <strong>Picking list</strong> report to return to the <strong>Picking list</strong> page.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Post</strong> to open the <strong>Post journal</strong> dialog box.</p>
+<p><img src="./media/subcontract28_post-journal-dialog.png" alt="Post journal dialog box"></p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Post journal</strong> dialog box.</p>
+</li>
+<li><p>Open the purchase order.</p>
+<p><img src="./media/subcontract29_purchase-order-page.png" alt="Purchase order page"></p>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, select <strong>Confirm</strong>.</p>
+</li>
+<li><p>Select <strong>Post</strong> to open the <strong>Post journal</strong> dialog box.</p>
+</li>
+<li><p>Select <strong>OK</strong> to close the <strong>Post journal</strong> dialog box and return to the <strong>Purchase order</strong> page.</p>
+</li>
+<li><p>Change the unit price from <strong>33</strong> to <strong>40</strong>.</p>
+<p><img src="./media/subcontract30_unit-price.png" alt="Unit price changed on the Purchase order page"></p>
+</li>
+<li><p>Confirm the purchase order again.</p>
+</li>
+<li><p>Product receipt.</p>
+<p><img src="./media/subcontract31_posting-product-receipt-dialog.png" alt="Posting product receipt dialog box"></p>
+</li>
+<li><p>Purchase invoice.</p>
+</li>
+<li><p>Update the match status.</p>
+<p><img src="./media/subcontract32_vendor-invoice-page.png" alt="Vendor invoice page"></p>
+</li>
+<li><p>Report as finished.</p>
+<p><img src="./media/subcontract33_report-as-finished-dialog.png" alt="Report as finished dialog box"></p>
+</li>
+<li><p>End.</p>
+<p><img src="./media/subcontract34_end-dialog.png" alt="End dialog box"></p>
+</li>
+<li><p>Cost comparison.</p>
+<p><img src="./media/subcontract35_cost-comparison-charts.png" alt="Cost comparison charts"></p>
+</li>
+</ol>
+<p>Missing setup in data.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

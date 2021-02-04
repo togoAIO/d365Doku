@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure multiple B2C tenants in a Commerce environment </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure multiple B2C tenants in a Commerce environment ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes when and how to set up multiple per-channel Microsoft Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants for user authentication in a dedicated Dynamics 365 Commerce environment.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-multiple-b2c-tenants-in-a-commerce-environment">Configure multiple B2C tenants in a Commerce environment</h1>
+
+
+<p>This topic describes when and how to set up multiple Microsoft Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants per channel for user authentication in a dedicated Dynamics 365 Commerce environment.</p>
+<h2 id="overview">Overview</h2>
+<p>Dynamics 365 Commerce uses the Azure AD B2C cloud identity service to support user credentials and authentication flows. Users can use the authentication flows to sign up, sign in, and reset their password. Azure AD B2C stores a user's sensitive authentication information, such as his or her user name and password. The user record is unique to each B2C tenant, and it uses either user name (email address) credentials or social identity provider credentials.</p>
+<p>In most cases, a single Azure AD B2C tenant is used in a Commerce environment. Commerce customers can then create and publish multiple sites in the same Commerce environment, and the same customer credentials will be used across these sites. However, if the sites in the environment should be treated as different brands and appear to users as separate businesses, a B2C tenant can be configured for the channel that is used for the site/brand separation.</p>
+<h2 id="considerations-when-multiple-b2c-tenants-are-set-up-per-channel">Considerations when multiple B2C tenants are set up per channel</h2>
+<p>Often, when each channel or site is being treated as a separate business, the best option with respect to user authentication flows in Commerce is to use separate legal entities. However, if you want to keep each channel/site in the same environment and legal entity, but want to have separate user authentication for each site, it's important that you consider the following points before you proceed:</p>
+<ul>
+<li><p>Users will have their own distinct credentials for each channel/site.</p>
+<p>The same person can have two separate accounts per channel/site, because each account will be a unique entry into a separate B2C tenant.</p>
+</li>
+<li><p>In the Microsoft Dynamics environment, separate customer records will be returned for global record searches.</p>
+<p>If a user uses the same email address across channels/sites, global customer searches will return results for each channel/site. (A channel indicator will be shown.)</p>
+</li>
+<li><p>The address book can be used to help group users, so that they can be tracked per channel.</p>
+</li>
+<li><p>The number of customer records per channel might increase, and this increase might affect the performance of global customer searches.</p>
+</li>
+<li><p>B2C tenants must be carefully mapped to a channel, to help prevent situations where customers sign up for an incorrect tenant. Otherwise, confusion or tracking issues can occur.</p>
+</li>
+</ul>
+<p>The following illustration shows multiple B2C tenants in a Commerce environment.</p>
+<p><img src="media/MultiB2C_In_Environment.png" alt="Multiple B2C tenants in a Commerce environment"></p>
+<p>If you decide that your business requires distinct B2C tenants per channel in the same Commerce environment, complete the procedures in the following sections to request this feature.</p>
+<h2 id="request-that-b2c-per-channel-be-enabled-in-your-environment">Request that B2C per channel be enabled in your environment</h2>
+<p>Currently, if you want distinct B2C tenants per channel to be available in the same Commerce environment, you must submit a request to Dynamics 365 Commerce. For more information, see <a href="../fin-ops-core/dev-itpro/lifecycle-services/lcs-support.html">Get support for Lifecycle Services (LCS)</a>, or discuss this issue with your Commerce solutions contact.</p>
+<h2 id="configure-b2c-tenants-in-your-environment">Configure B2C tenants in your environment</h2>
+<p>To configure B2C tenants in your environment, complete the relevant procedures in this section.</p>
+<h3 id="add-an-azure-ad-b2c-tenant">Add an Azure AD B2C tenant</h3>
+<p>To add an Azure AD B2C tenant to your environment, follow these steps.</p>
+<ol>
+<li><p>Sign in to Commerce site builder for your environment as a system admin. To configure Azure AD B2C tenants, you must be a system admin for the Commerce environment.</p>
+</li>
+<li><p>In the left navigation pane, select <strong>Tenant Settings</strong> to expand it.</p>
+</li>
+<li><p>Select <strong>B2C Settings</strong>, and then select <strong>Manage</strong>.</p>
+</li>
+<li><p>Select <strong>Add B2C Application</strong>, and then enter the following information:</p>
+<ul>
+<li><strong>Application Name</strong>: Enter the name that should be used for the application in the context of managing it in Commerce. We recommend that you use the application name that you chose when you set up the Azure AD B2C application in the Azure portal. In this way, you can help reduce confusion when you manage B2C tenants in Commerce.</li>
+<li><strong>Tenant Name</strong>: Enter the B2C tenant name as it appears in the Azure portal.</li>
+<li><strong>Forget Password Policy ID</strong>: Enter the policy ID (the name of the policy in the Azure portal).</li>
+<li><strong>Signup Signin Policy ID</strong>: Enter the policy ID (the name of the policy in the Azure portal).</li>
+<li><strong>Client GUID</strong>: Enter the Azure AD B2C tenant ID as it appears in the Azure portal (not the application ID for the B2C tenant).</li>
+<li><strong>Edit Profile Policy ID</strong>: Enter the policy ID (the name of the policy in the Azure portal).</li>
+</ul>
+</li>
+<li><p>When you've finished entering this information, select <strong>OK</strong> to save your changes.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You should leave fields such as <strong>Scope</strong>, <strong>Non Interactive Policy ID</strong>, <strong>Non Interactive Client ID</strong>, <strong>Login Custom Domain</strong>, and <strong>Sign Up Policy ID</strong> blank unless the Dynamics 365 Commerce team instructs you to set them.
+Your new Azure AD B2C tenant should now appear in the list under <strong>Manage B2C Applications</strong>.</p>
+</div>
+<h3 id="manage-or-delete-an-azure-ad-b2c-tenant">Manage or delete an Azure AD B2C tenant</h3>
+<ol>
+<li>Sign in to Commerce site builder for your environment as a system admin. To configure Azure AD B2C tenants, you must be a system admin for the Commerce environment.</li>
+<li>In the left navigation pane, select <strong>Tenant Settings</strong> to expand it.</li>
+<li>Select <strong>B2C Settings</strong>, and then select <strong>Manage</strong>.</li>
+<li>To edit a B2C tenant, select the pencil symbol next to it. To delete a B2C tenant, select the trash can symbol next to it.</li>
+<li>Select <strong>Save</strong>, and then select <strong>Publish</strong> to activate your changes.</li>
+</ol>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>When a B2C tenant is configured for a live/published site, users might have signed up by using accounts that are present on the tenant. If you delete a configured tenant on the <strong>Tenant Settings &gt; B2C Tenant</strong> menu, you remove the association of that B2C tenant from sites that are associated with any channels of the tenant. In this case, your users might no longer be able to sign in to their accounts. Therefore, use extreme caution when you delete a configured tenant.</p>
+<p>When a configured tenant is deleted, the B2C tenant and records will continue to be maintained, but the Commerce system configuration of that tenant will be changed or removed. Users who try to sign up or sign in to the site will create a new account record in the default or newly associated B2C tenant that is configured for the channel of the site.</p>
+</div>
+<h2 id="configure-your-channel-with-a-b2c-tenant">Configure your channel with a B2C tenant</h2>
+<ol>
+<li>Sign in to Commerce site builder for your environment as a system admin. To configure Azure AD B2C tenants, you must be a system admin for the Commerce environment.</li>
+<li>In the left navigation pane, select <strong>Site Settings</strong> to expand it.</li>
+<li>Select <strong>Channels</strong>, and then select the channel to configure.</li>
+<li>In the properties pane on the right, in the <strong>Select B2C Application</strong> field, select the configured Azure AD B2C tenant to use for this channel.</li>
+<li>On the command bar, select <strong>Save and Publish</strong> to commit the new or updated configuration.</li>
+</ol>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>If you change the B2C application that is assigned to the channel, you remove the current references that have been established for any users who have already signed up in the environment. In this case, any credentials that are associated with the currently assigned B2C application won't be available to users. Therefore, change a channel Azure AD B2C configuration only if you're setting up the channel for the first time, and no users have been able to sign up. Otherwise, users might have to sign up again to establish a record in the new Azure AD B2C tenant.</p>
+</div>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="configure-your-domain-name.html">Configure your domain name</a></p>
+<p><a href="deploy-ecommerce-site.html">Deploy a new e-commerce tenant</a></p>
+<p><a href="create-ecommerce-site.html">Create an e-commerce site</a></p>
+<p><a href="associate-site-online-store.html">Associate a Dynamics 365 Commerce site with an online channel</a></p>
+<p><a href="manage-robots-txt-files.html">Manage robots.txt files</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/upload-bulk-redirects">Upload URL redirects in bulk (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<p><a href="set-up-B2C-tenant.html">Set up a B2C tenant in Commerce</a></p>
+<p><a href="custom-pages-user-logins.html">Set up custom pages for user logins</a></p>
+<p><a href="add-cdn-support.html">Add support for a content delivery network (CDN)</a></p>
+<p><a href="enable-store-detection.html">Enable location-based store detection</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/configure-multi-B2C-tenants.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>&#220;berwachen der Ausf&#252;hrung von ER-Formaten zur Behebung von Leistungsproblemen | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="&#220;berwachen der Ausf&#252;hrung von ER-Formaten zur Behebung von Leistungsproblemen | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="trace-the-execution-of-er-formats-to-troubleshoot-performance-issues">Ausführung von EB-Formaten nachverfolgen, um Leistungsprobleme zu behandeln</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Im Rahmen des Prozesses, Elektronische Berichterstellungs-(EB)-Konfigurationen zu entwerfen, um elektronische Dokumente zu generieren, definieren Sie die Methode, mit der Daten aus der Anwendung abgerufen werden und in der Ausgabe, die generiert wird, eingegeben werden. Die EB-Leistungsablaufverfolgungfunktion hilft dabei, die Zeit und Kosten zu verringern, die durch das Sammeln der Details der EB-Formatausführung und bei deren Verwendung zur Behandlung von Leistungsproblemen. Dieses Tutorial bietet Richtlinien dazu, wie Leistungsnachverfolgungen für ausgeführte EB-Formate gewonnen werden und wie die Informationen aus diesen Nachverfolgungen zur Verbesserung der Leistung verwendet werden.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<p>Um die Beispiele in diesem Tutorial abzuschließen, müssen Sie den folgenden Zugriff haben:</p>
+<ul>
+<li><p>Zugriff auf eine der folgenden Rollen:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+<li><p>Zugriff auf die Instanz des Regulatory Configuration Service (RCS), der für denselben Mandanten wie die Anwendung bereitgestellt wurde, für eine der folgenden Rollen:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+</ul>
+<p>Sie müssen auch die folgenden Dateien herunterladen und lokal speichern.</p>
+<table>
+<thead>
+<tr>
+<th>Datei</th>
+<th>Inhalt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leistungsnachverfolgung model.version.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Datenmodell-Konfiguration</a></td>
+</tr>
+<tr>
+<td>Leistungsnachverfolgung metadata.version.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Metadatenkonfiguration</a></td>
+</tr>
+<tr>
+<td>Leistungsnachverfolgung mapping.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Modellzuordnungskonfiguration</a></td>
+</tr>
+<tr>
+<td>Leistungsnachverfolgung format.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Formatkonfiguration</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="configure-er-parameters">Parameter der elektronischen Berichterstellung konfigurieren</h3>
+<p>Jede EB-Leistungsablaufverfolgung, die in der Anwendung generiert wird, wird als Anhang des Ausführungsprotokoll-Datensatzes gespeichert. Das Dokumentenverwaltungs-(DM)-Framework wird verwendet, um diese Anhänge zu verwalten. Sie müssen EB-Parameter im Voraus konfigurieren, um den DM-Dokumenttyp anzugeben, der verwendet werden soll, um Leistungsnachverfolgungen anzufügen. Klicken Sie im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> auf den Link <strong>Parameter der elektronischen Berichterstellung</strong>. Wählen Sie anschließend auf der Seite <strong>Elektronische Berichterstellungsparameter</strong> unter der Registerkarte <strong>Anhänge</strong> im Feld <strong>Andere</strong> den DM-Dokumenttyp aus, der für Leistungsnachverfolgungen zu verwenden ist.</p>
+<p><img src="media/GER-PerfTrace-GER-Parameters-DocumentType.png" alt="Parameterseite der elektronischen Berichterstellung"></p>
+<p>Um im Suchfeld <strong>Andere</strong> verfügbar zu sein, muss ein DM-Dokumenttyp in folgender Weise auf der Seite <strong>Dokumenttypen</strong> konfiguriert sein (<strong>Organisationsverwaltung &gt; Dokumentenverwaltung &gt; Dokumenttypen</strong>):</p>
+<ul>
+<li><strong>Klasse:</strong> Datei anfügen</li>
+<li><strong>Gruppe:</strong> Datei</li>
+</ul>
+<p><img src="media/GER-PerfTrace-DM-DocumentType.png" alt="Seite „Dokumenttypen”"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Der ausgewählte Dokumenttyp muss in jedem Unternehmen der aktuellen Instanz verfügbar sein, da DM-Anhänge unternehmensspezifisch sind.</p>
+</div>
+<h3 id="configure-rcs-parameters">RCS-Parameter konfigurieren</h3>
+<p>EB-Leistungsnachverfolgungen, die generiert werden, werden in RCS zur Analyse importiert, indem der EB-Format-Designer und der EB-Zuordnungs-Designer verwendet wird. Da EB-Leistungsnachverfolgungen als Anlagen des Ausführungsprotokoll-Datensatzes gespeichert werden, der dem EB-Format zugeordnet ist, müssen Sie RCS-Parameter im Voraus konfigurieren, um den DM-Dokumenttyp anzugeben, der verwendet werden soll, um Leistungsablaufverfolgungen anzufügen. In der Instanz von RCS, der für Ihr Unternehmen im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> bereitgestellt wurde, wählen Sie <strong>Elektronische Berichterstellungsparameter</strong> aus. Wählen Sie anschließend auf der Seite <strong>Elektronische Berichterstellungsparameter</strong> unter der Registerkarte <strong>Anhänge</strong> im Feld <strong>Andere</strong> den DM-Dokumenttyp aus, der für Leistungsnachverfolgungen zu verwenden ist.</p>
+<p><img src="media/GER-PerfTrace-RCS-Parameters-DocumentType.png" alt="Seite der elektronischen Berichterstellungsparameter in RCS"></p>
+<p>Um im Suchfeld <strong>Andere</strong> verfügbar zu sein, muss ein DM-Dokumenttyp in folgender Weise auf der Seite <strong>Dokumenttypen</strong> konfiguriert sein (<strong>Organisationsverwaltung &gt; Dokumentenverwaltung &gt; Dokumenttypen</strong>):</p>
+<ul>
+<li><strong>Klasse:</strong> Datei anfügen</li>
+<li><strong>Gruppe:</strong> Datei</li>
+</ul>
+<h2 id="design-an-er-solution">Eine EB-Lösung entwerfen</h2>
+<p>Nehmen Sie an, Sie haben mit dem Entwurf einer neuen EB-Lösung begonnen, um einen neuen Bericht zu generieren, der Kreditorentransaktionen darstellt. Aktuell können Sie die Transaktionen für einen ausgewählten Kreditor auf der Seite <strong>Kreditorenbuchungen</strong> suchen (wechseln Sie zu <strong>Kreditor &gt; Kreditoren &gt; Alle Kreditoren</strong>, wählen Sie einen Kreditor aus, und dann, im Aktivitätsbereich unter der Registerkarte <strong>Kreditor</strong> in der Gruppe <strong>Transaktionen</strong> wählen Sie <strong>Transaktionen</strong>). Sie möchten jedoch alle Kreditorenbuchungen gleichzeitig in einem elektronischen Dokument im XML-Format haben. Diese Lösung besteht aus mehreren EB-Konfigurationen, die das erforderliche Datenmodell, die Metadaten, die Modellzuordnung und Formatkomponenten enthalten.</p>
+<ol>
+<li><p>Melden Sie sich bei der Instanz von RCS an, die für Ihr Unternehmen bereitgestellt wurde.</p>
+</li>
+<li><p>In diesem Tutorial erstellen und modifizieren Sie Konfigurationen für das Beispielunternehmen <strong>Litware, Inc.</strong>. Stellen Sie daher sicher, dass dieser Konfigurationsanbieter RCS hinzugefügt wurde und als aktiv ausgewählt wurde. Anweisungen finden Sie unter der Prozedur <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/analytics/tasks/er-configuration-provider-mark-it-active-2016-11">Konfigurationsanbieter erstellen und als aktiv markieren</a>.</p>
+</li>
+<li><p>Im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> importieren Sie die EB-Konfigurationen, die Sie als Voraussetzung nach RCS heruntergeladen haben, in der folgenden Reihenfolge: Datenmodell, Metadaten, Modellzuordnung, Format. Führen Sie für jede Konfiguration die folgenden Schritte aus:</p>
+<ol>
+<li>Wählen Sie im Aktivitätsbereich <strong>Austausch &gt; Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die entsprechende Datei für die erforderliche EB-Konfiguration im XML-Format auszuwählen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+<p><img src="media/GER-PerfTrace-RCS-ImportedConfigurations.png" alt="Konfigurationsseite in RCS"></p>
+</li>
+</ol>
+<h2 id="run-the-er-solution-to-trace-execution">Ausführen der EB-Lösung, um Ausführung nachzuverfolgen</h2>
+<p>Gehen Sie davon aus, dass Sie das Entwerfen der ersten Version der EB-Lösung beendet haben. Jetzt möchten Sie sie in Ihrer Instanz testen und die Ausführungsleistung analysieren.</p>
+<h3 id="import-an-er-configuration-from-rcs-into-finance-and-operations"><a id='import-configuration'></a>Importieren einer EB-Konfiguration aus RCS in Finance and Operations</h3>
+<ol>
+<li><p>Anmelden bei Ihrer Anwendungsinstanz.</p>
+</li>
+<li><p>Für dieses Tutorial importieren Sie Konfigurationen aus Ihrer RCS-Instanz (wo Sie Ihre EB-Komponenten entwerfen) in Ihre Instanz (wo Sie sie testen und schließlich benutzen). Daher müssen Sie sicherstellen, dass alle erforderlichen Artefakte vorbereitet wurden. Anweisungen finden Sie unter der Prozedur <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/analytics/rcs-download-configurations">Importieren von elektronischen Berichtstellungskonfigurationen (EB) aus Regulatory Configuration Services (RCS)</a>.</p>
+</li>
+<li><p>Gehen Sie folgendermaßen vor, um die Konfigurationen von RCS in die Anwendung zu importieren:</p>
+<ol>
+<li>Im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> in der Kachel für den Konfigurationsanbieter <strong>Litware, Inc.</strong> wählen Sie <strong>Repositorys</strong> aus.</li>
+<li>Wählen Sie auf de Seite <strong>Konfigurationsrepository</strong> das Repository des Typs <strong>RCS</strong> aus und wählen Sie dann <strong>Öffnen</strong> aus.</li>
+<li>Im Inforegister <strong>Konfigurationen</strong> wählen Sie die Konfiguration <strong>Leistungsnachverfolgungsformat</strong> aus.</li>
+<li>Wählen Sie im Inforegister <strong>Versionen</strong> die Version <strong>1.1</strong> der ausgewählten Konfiguration aus, und wählen Sie dann <strong>Importieren</strong> aus.</li>
+</ol>
+<p><img src="media/GER-PerfTrace-GER-ImportedConfigurations.png" alt="Konfigurationsrepository-Seite"></p>
+</li>
+</ol>
+<p>Die entsprechenden Versionen der Datenmodell- und Modellzuordnungskonfigurationen werden automatisch als Voraussetzungen für die importierte EB-Formatkonfiguration importiert.</p>
+<h3 id="turn-on-the-er-performance-trace">Aktivieren der EB-Leistungsnachverfolgung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurationen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> im Aktivitätsbereich, auf der Registerkarte <strong>Konfigurationen</strong> in der Gruppe <strong>Erweiterte Einstellungen</strong> wählen Sie <strong>Benutzerparameter</strong> aus.</p>
+</li>
+<li><p>Im Dialogfeld <strong>Benutzerparameter</strong> im Abschnitt <strong>Ausführungsnachverfolgung</strong> führen Sie die folgenden Schritte aus:</p>
+<ol>
+<li><p>Wählen Sie im Feld <strong>Ausführungsnachverfolgungsformat</strong> die Option <strong>Nachverfolgungsformat debuggen</strong> aus, um mit dem Sammeln der Details der EB-Formatausführung zu beginnen. Wenn dieser Wert ausgewählt wurde, dann sammelt die Leistungsnachverfolgung Informationen zu der Zeit, die für die folgenden Aktivitäten aufgewendet wird:</p>
+<ul>
+<li>Ausführen jeder Datenquelle in der Modellzuordnung, die aufgerufen wird, um Daten abzurufen</li>
+<li>Verarbeitung jedes Formatelements, um Daten in der Ausgabe einzugeben, die generiert wird</li>
+</ul>
+<p>Sie verwenden das Feld <strong>Ausführungsnachverfolgungsformat</strong>, um das Format der generierten Leistungsnachverfolgung anzugeben, in der die Ausführungsdetails für das EB-Format und Zuordnungselemente gespeichert werden. Indem Sie <strong>Nachverfolgungsformat debuggen</strong> als Wert auswählen, sind Sie in der Lage, den Inhalt der Nachverfolgung im EB-Arbeitsgang-Designer zu analysieren und das EB-Format oder die Zuordnungselemente, die in der Nachverfolgung aufgeführt werden, anzuzeigen.</p>
+</li>
+<li><p>Legen Sie die folgenden Optionen auf <strong>Ja</strong> fest, um bestimmte Details der Ausführung der EB-Modellzuordnung und EB-Formatkomponenten zu sammeln:</p>
+<ul>
+<li><p><strong>Abfragestatistiken sammeln</strong> – Wenn diese Option aktiviert ist, wird die Leistungsnachverfolgung die folgenden Informationen sammeln:</p>
+<ul>
+<li>Die Anzahl von Datenbankaufrufen, die nach Datenquellen vorgenommen wurden</li>
+<li>Anzahl der Doppeltaufrufe der Datenbank</li>
+<li>Details der SQL-Anweisungen, die verwendet wurden, um Datenbankaufrufe vorzunehmen</li>
+</ul>
+</li>
+<li><p><strong>Zugriff der Zwischenspeicherung nachverfolgen</strong> – Wenn diese Option aktiviert ist, sammelt die Leistungsnachverfolgung Informationen über die Cacheverwendung durch die EB-Modellzuordnung.</p>
+</li>
+<li><p><strong>Datenzugriff nachverfolgen</strong> – Wenn diese Option aktiviert ist, sammelt die Leistungsnachverfolgung Informationen zur Anzahl der Aufrufe der Datenbank für ausgeführte Datenquellen des Datensatz-Listentyps.</p>
+</li>
+<li><p><strong>Listenenumeration nachverfolgen</strong> – Wenn diese Option aktiviert ist, sammelt die Leistungsnachverfolgung Informationen zur Anzahl der Datensätze, die von Datenquellen des Datensatz-Listentyps angefordert werden.</p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Parameter im Dialogfeld <strong>Benutzerparameter</strong> sind für den Benutzer und das aktuelle Unternehmen spezifisch.</p>
+</div>
+<p><img src="media/GER-PerfTrace-GER-UserParameters.png" alt="Benutzerparameter-Dialogfeld"></p>
+</li>
+</ol>
+<h3 id="run-the-er-format"><a id='run-format'></a>Das EB-Format ausführen</h3>
+<ol>
+<li>Wählen Sie das Unternehmen <strong>DEMF</strong> aus.</li>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurationen</strong>.</li>
+<li>Auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsnachverfolgungsformat</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich auf <strong>Ausführen</strong>.</li>
+</ol>
+<p>Beachten Sie, dass die Datei, die generiert wird, Informationen über 265 Transaktionen für sechs Kreditoren präsentiert.</p>
+<h2 id="review-the-execution-trace">Überprüfen der Ausführungsnachverfolgung</h2>
+<h3 id="export-the-generated-trace-from-the-application"><a id='export-trace'></a>Exportieren Sie die generierte Ablaufverfolgung der Anwendung</h3>
+<p>Leistungsnachverfolgungen werden vom Quell-EB-Format entkoppelt und können in eine externe ZIP-Datei serialisiert werden.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurations-Debug-Protokolle</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Elektronische Berichterstellungs-Ausführungsprotokolle</strong> im linken Bereich im Feld <strong>Konfigurationsname</strong> wählen Sie <strong>Leistungsnachverfolgungsformat</strong> aus, um die Protokolldatensätze zu suchen, die durch die Ausführung der Konfiguration <strong>Leistungsnachverfolgungsformat</strong> generiert wurden.</p>
+</li>
+<li><p>Wählen Sie die Schaltfläche <strong>Anhänge</strong> aus (das Büroklammersymbol) in der oberen rechten Ecke der Seite, oder drücken Sie <strong>Strg+Umschalt+A</strong>.</p>
+<p><img src="media/GER-PerfTrace-GER-DebugLog.png" alt="Anhangschaltfläche auf der Seite für Elektronische Berichterstellungsausführungsprotokolle"></p>
+</li>
+<li><p>Auf der Seite <strong>Anhänge für elektronische Berichterstellungsausführungsprotokolle</strong> im Aktivitätsbereich wählen Sie <strong>Öffnen</strong> aus, um die Leistungsnachverfolgung als ZIP-Datei abzurufen und sie lokal zu speichern.</p>
+<p><img src="media/GER-PerfTrace-GER-DebugLog-AttachedTrace.png" alt="Anhänge für elektronische Berichterstellungsausführungsprotokolle"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Nachverfolgung, die generiert wird, hat eine Referenz auf den Quell-EB-Bericht über einen eindeutigen Berichtsbezeichner ausschließlich im <strong>GUID</strong>-Format. Die Versionsnummerierung des Formats wird nicht berücksichtigt.</p>
+</div>
+<p>Beachten Sie, dass die Zuordnung zwischen der Leistungsnachverfolgung, die für das ausgeführte EB-Format generiert wurde, und der EB-Modellzuordnung auf dem Stammdeskriptor basiert, der verwendet wurde, sowie dem allgemeinen Datenmodell. Die Versionsnummerierung des Formats und der Modellzuordnung wird nicht berücksichtigt. Die Einstellung der Markierung <strong>Standard für Modellzuordnung</strong> für die Modellzuordnung wird ebenfalls nicht berücksichtigt.</p>
+<h3 id="import-the-generated-trace-into-rcs"><a id='import-trace'></a>Generierte Nachverfolgung nach RCS importieren</h3>
+<ol>
+<li><p>Im RCS, im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur das Element <strong>Leistungsnachverfolgungsmodell</strong>, und wählen Sie das Element <strong>Leistungsnachverfolgungsformat</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Format-Designer</strong> im Aktivitätsbereich wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</p>
+</li>
+<li><p>Im Dialogfeld <strong>Leistungsnachverfolgungs-Ergebniseinstellungen</strong> wählen Sie <strong>Leistungsnachverfolgung importieren</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Durchsuchen</strong>, um die ZIP-Datei auszuwählen, die Sie zuvor exportiert haben.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+<p><img src="media/GER-PerfTrace-RCS-ImportedPerfTrace.png" alt="Leistungsnachverfolgungsergebnis-Einstellungen-Dialogfeld in RCS"></p>
+</li>
+</ol>
+<h3 id="use-the-performance-trace-for-analysis-in-rcs--format-execution">Verwenden Sie die Leistungsnachverfolgung zur Analyse in RCS – Formatausführung</h3>
+<ol>
+<li><p>In RCS auf der Seite <strong>Format-Designer</strong> wählen Sie <strong>Erweitern/Reduzieren</strong> aus, um den Inhalt aller Formatelemente zu erweitern.</p>
+<p>Beachten Sie, dass zusätzliche Informationen für einige Artikel des aktuellen Formats angezeigt werden:</p>
+<ul>
+<li>Tatsächlicher Zeitaufwand für die Eingabe von Daten in der generierten Ausgabe mithilfe des Formatelements</li>
+<li>Die gleiche Zeit, ausgedrückt als Prozentsatz der gesamten Zeit, die für das Generieren der gesamten Ausgabe aufgewendet wurde</li>
+</ul>
+<p><img src="media/GER-PerfTrace-RCS-TraceInfoInFormat.png" alt="Format-Designer-Seite in RCS"></p>
+</li>
+<li><p>Seite <strong>Format-Designer</strong> schließen.</p>
+</li>
+</ol>
+<h3 id="use-the-performance-trace-for-analysis-in-rcs--model-mapping"><a id='use-trace'></a>Verwenden Sie die Leistungsnachverfolgung zur Analyse in RCS – Modellzuordnung</h3>
+<ol>
+<li>In RCS, auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsnachverfolgungszuordnung</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</li>
+<li>Wählen Sie <strong>Designer</strong> aus.</li>
+<li>Auf der Seite <strong>Modellzuordnungsdesigner</strong> im Aktivitätsbereich wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</li>
+<li>Wählen Sie die Nachverfolgung aus, die Sie zuvor importierten.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+<p>Beachten Sie, dass neue Informationen für einige Datenquellelemente der aktuellen Modellzuordnung verfügbar werden:</p>
+<ul>
+<li>Tatsächlicher Zeitaufwand für das Abrufen von Daten mithilfe der Datenquelle</li>
+<li>Die gleiche Zeit, ausgedrückt als Prozentsatz der gesamten Zeit, die für das Ausführen der gesamten Modellzuordnung aufgewendet wurde</li>
+</ul>
+<p>Beachten Sie, dass EB Sie informiert, dass die aktuelle Modellzuordnung Datenbankanforderungen dupliziert, während die Datenquelle VendTable/&lt;Relations/VendTrans.VendTable_AccountNum ausgeführt wird. Diese Duplizierung findet statt, weil die Liste von Kreditorentransaktionen zweimal für jeden iterierten Kreditorendatensatz aufgerufen wird:</p>
+<ul>
+<li>Ein Aufruf wird vorgenommen, um Details jeder Transaktion in das Datenmodell einzugeben, basierend auf konfigurierten Bindungen.</li>
+<li>Ein Aufruf wird vorgenommen, um die berechnete Anzahl von Transaktionen pro Kreditor im Datenmodell einzugeben.</li>
+</ul>
+<p><img src="media/GER-PerfTrace-RCS-TraceInfoInMapping1.png" alt="Meldung zu doppelten Datenbankanforderungen auf der Seite Modellzuordnungsdesigner in RCS."></p>
+<p>Der Wert <strong>[Q:530]</strong> gibt an, dass die Tabelle VendTrans 530 Mal aufgerufen wurde, um einen Datensatz von dieser Tabelle an die Datenquelle VendTable/&lt;Relations/VendTrans.VendTable_AccountNum zurückzugeben. Der Wert <strong>[530]</strong> gibt an, dass die Datenquelle VendTable/&lt;Relations/VendTrans.VendTable_AccountNum 530 Mal aufgerufen wurde, um einen Datensatz aus dieser Datenquelle zurückzugeben und die Details daraus in das Datenmodell einzugeben.</p>
+<p>Es wird empfohlen, dass Sie das Zwischenspeichern für die Datenquelle VendTable/&lt;Relations/VendTrans.VendTable_AccountNum verwenden, um die Anzahl von Aufrufen zu verringern, die vorgenommen werden, um die Details für 265 Transaktionen abzurufen und die Leistung der Modellzuordnung zu verbessern.</p>
+<p>Es kann außerdem hilfreich sein, die Anzahl von Aufrufen zu reduzieren, die an die Datenquelle LedgerTransTypeList vorgenommen werden. Diese Datenquelle wird verwendet, um jeden Wert der Enumeration <strong>LedgerTransType</strong> seiner Beschriftung zuzuordnen. Indem Sie diese Datenquelle verwenden, können Sie eine entsprechende Beschriftung finden und sie in das Datenmodell für jede Kreditorentransaktion eingeben. Die aktuelle Anzahl von Aufrufen an diese Datenquelle (9.027) ist ziemlich hoch für 265 Buchungen.</p>
+<p><img src="media/GER-PerfTrace-RCS-TraceInfoInMapping1a.png" alt="Modellzuordnungsdesigner-Seite in RCS, die 9.027 Aufrufe an die Datenquelle zeigt"></p>
+<h2 id="improve-the-model-mapping-based-on-information-from-the-execution-trace">Verbessern der Modellzuordnung auf der Grundlage von Informationen aus der Ausführungsnachverfolgung</h2>
+<h3 id="modify-the-logic-of-the-model-mapping">Die Logik der Modellzuordnung ändern</h3>
+<ol>
+<li><p>Gehen Sie folgendermaßen vor, um Zwischenspeicherung zu verwenden, um doppelte Aufrufe an die Datenbank zu verhindern:</p>
+<ol>
+<li>In RCS auf der Seite <strong>Modellzuordnungsdesigner</strong> im Bereich <strong>Datenquellen</strong> wählen Sie das Element <strong>VendTable</strong> aus.</li>
+<li>Wählen Sie <strong>Cache</strong> aus.</li>
+<li>Erweitern Sie das Element <strong>VendTable</strong>, erweitern Sie die Liste der 1:n-Beziehungen für die Datenquelle VendTable (das Element <strong>&lt;Relations</strong>), und wählen Sie das Element <strong>VendTrans.VendTable_AccountNum</strong> aus.</li>
+<li>Wählen Sie <strong>Cache</strong> aus.</li>
+</ol>
+<p><img src="media/GER-PerfTrace-RCS-ChangeMapping-Cache.png" alt="Zwischenspeicherungseinstellung, um doppelte Aufrufe zu verhindern"></p>
+</li>
+<li><p>Gehen Sie folgendermaßen vor, um die Datenquelle LedgerTransTypeList in den Bereich der Datenquelle VendTable zu bringen.</p>
+<ol>
+<li>Erweitern Sie im Bereich <strong>Datenquellentypen</strong> das Element <strong>Funktionen</strong>, und wählen Sie das Element <strong>Berechnetes Feld</strong> aus.</li>
+<li>Wählen Sie im Bereich <strong>Datenquellen</strong> das Element <strong>VendTable</strong> aus.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> die Bezeichnung <strong>$TransType</strong> ein.</li>
+<li>Wählen Sie <strong>Formel bearbeiten</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Formel</strong> die Bezeichnung <strong>LedgerTransTypeList</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+<li>Schließen Sie die Seite <strong>Formel-Editor</strong>.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Gehen Sie folgendermaßen vor, um die Zwischenspeicherung des Felds <strong>$TransType</strong> auszuführen:</p>
+<ol>
+<li>Wählen Sie das Element <strong>LedgerTransTypeList</strong> aus.</li>
+<li>Wählen Sie <strong>Cache</strong> aus.</li>
+<li>Wählen Sie das Element <strong>VendTable.$TransType</strong> aus.</li>
+<li>Wählen Sie <strong>Cache</strong> aus.</li>
+</ol>
+<p><img src="media/GER-PerfTrace-RCS-ChangeMapping-Cache2.png" alt="Zwischenspeicherungseinstellung für das Feld $TransType"></p>
+</li>
+<li><p>Gehen Sie folgendermaßen vor, um das Feld <strong>$TransTypeRecord</strong> zu ändern, sodass es damit beginnt, das zwischengespeicherte Feld <strong>$TransType</strong> zu verwenden:</p>
+<ol>
+<li><p>Erweitern Sie im Bereich <strong>Datenquellen</strong> das Element <strong>VendTable</strong>, erweitern Sie das Element <strong>&lt;Relations</strong>, erweitern Sie das Element <strong>VendTrans.VendTable_AccountNum</strong>, und wählen Sie das Element <strong>VendTable. VendTrans.VendTable_AccountNum.$TransTypeRecord</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Formel bearbeiten</strong> aus.</p>
+</li>
+<li><p>Suchen Sie im Feld <strong>Formel</strong> den folgenden Ausdruck:</p>
+<p>FIRSTORNULL (WHERE (LedgerTransTypeList, LedgerTransTypeList.Enum = @.TransType))</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Formel</strong> den folgenden Ausdruck ein:</p>
+<p>FIRSTORNULL (WHERE (VendTable.'$TransType', VendTable.'$TransType'.Enum = @.TransType)).</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Formel-Editor</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+</ol>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungen</strong>.</p>
+</li>
+</ol>
+<h3 id="complete-the-modified-version-of-the-er-model-mapping">Die geänderte Version der EB-Modellzuordnung abschließen</h3>
+<ol>
+<li>In RCS auf der Seite <strong>Konfigurationen</strong> im Inforegister <strong>Versionen</strong> wählen Sie die Version <strong>1.2</strong> der Konfiguration <strong>Leistungsnachverfolgungszuordnung</strong> aus.</li>
+<li>Wählen Sie <strong>Status ändern</strong> aus.</li>
+<li>Wählen Sie <strong>Abgeschlossen</strong> aus.</li>
+</ol>
+<h3 id="import-the-modified-er-model-mapping-configuration-from-rcs-into-the-application">Importieren der geänderten EB-Modellzuordnungskonfiguration von RCS in die Anwendung</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#import-configuration">Importieren einer EB-Konfiguration von RCS nach Finance and Operations</a> weiter oben in diesem Thema, um Version 1.2 der Konfiguration <strong>Leistungsnachverfolgungszuordnung</strong> zu importieren.</p>
+<h2 id="run-the-modified-er-solution-to-trace-execution">Ausführen der geänderten EB-Lösung, um Ausführung nachzuverfolgen</h2>
+<h3 id="run-the-er-format">Das EB-Format ausführen</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#run-format">Das EB-Format ausführen</a> weiter oben in diesem Thema, um eine neue Leistungsnachverfolgung zu generieren.</p>
+<h2 id="work-with-the-execution-trace">Arbeiten Sie mit der Ausführungsnachverfolgung</h2>
+<h3 id="export-the-generated-trace-from-the-application">Exportieren Sie die generierte Ablaufverfolgung der Anwendung</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#export-trace">Die generierte Nachverfolgung aus der Anwendung exportieren</a> weiter oben in diesem Thema, um eine neue Leistungsnachverfolgung lokal zu speichern.</p>
+<h3 id="import-the-generated-trace-into-rcs">Generierte Nachverfolgung nach RCS importieren</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#import-trace">Importieren der generierten Nachverfolgung nach RCS</a> weiter oben in diesem Thema, um die neue Leistungsnachverfolgung nach RCS zu importieren.</p>
+<h3 id="use-the-performance-trace-for-analysis-in-rcs--model-mapping">Verwenden Sie die Leistungsnachverfolgung zur Analyse in RCS – Modellzuordnung</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#use-trace">Verwenden der Leistungsnachverfolgung zur Analyse in RCS – Modellzuordnung</a> weiter oben in diesem Thema, um die aktuellste Leistungsnachverfolgung analysieren.</p>
+<p>Beachten Sie, dass die Regulierungen, die Sie an der Modellzuordnung vorgenommen haben, doppelte Abfragen an eine Datenbank beseitigt haben. Die Anzahl der Aufrufe an Datenbanktabellen und Datenquellen für diese Modellzuordnung ist auch reduziert worden. Daher wurde die Leistung der gesamten EB-Lösung verbessert.</p>
+<p><img src="media/GER-PerfTrace-RCS-TraceInfoInMapping2.png" alt="Nachverfolgungsinformationen für die VendTable-Datenquelle auf der Seite Modellzuordnungsdesigner in RCS"></p>
+<p>In den Nachverfolgungsinformationen gibt der Wert <strong>[12]</strong> für die Datenquelle VendTable an, dass diese Datenquelle 12 Mal aufgerufen wurde. Der Wert <strong>[Q:6]</strong> gibt an, dass sechs Aufrufe in Datenbankaufrufe an die Tabelle VendTable übersetzt wurden. Der Wert <strong>[C:6]</strong> gibt an, dass die Datensätze, die aus der Datenbank abgerufen wurden, zwischengespeichert wurden, und sechs weitere Aufrufe wurden mithilfe des Cache verarbeitet.</p>
+<p>Beachten Sie, dass die Anzahl der Aufrufe an die LedgerTransTypeList-Datenquelle von 9.027 auf 240 verringert wurde.</p>
+<p><img src="media/GER-PerfTrace-RCS-TraceInfoInMapping2a.png" alt="Nachverfolgungsinformationen für die LedgerTransTypeList-Datenquelle auf der Seite Modellzuordnungsdesigner in RCS"></p>
+<h2 id="review-the-execution-trace-in-the-application">Wiederholen Sie die Ausführungsablaufverfolgung in der Anwendung</h2>
+<p>Neben RCS bieten manche Versionen möglicherweise Funktionen für die Funktionalität eines EB-Framework-Designers. Diese Versionen von haben eine Option <strong>Entwurfsmodus aktivieren</strong>, die aktiviert werden kann. Sie können diese Option unter der Registerkarte <strong>Allgemein</strong> der Seite <strong>Elektronische Berichterstellungsparameter</strong> finden, die Sie vom Arbeitsbereich <strong>Elektronische Berichterstellung</strong> aus öffnen können.</p>
+<p><img src="media/GER-PerfTrace-GER-Parameters-DesignMode.png" alt="Aktivieren Sie die Entwurfsmodusoption auf der elektronischen Berichterstellungsparameterseite"></p>
+<p>Wenn Sie eine dieser Versionen verwenden, können Sie die Details von generierten Leistungsnachverfolgungen direkt in der Anwendung analysieren. Sie müssen sie nicht aus der Anwendung exportieren und nach RCS importieren.</p>
+<h2 id="review-the-execution-trace-by-using-external-tools">Überprüfung der Ausführungsnachverfolgung mithilfe externer Tools</h2>
+<h3 id="configure-user-parameters">Benutzerparameter konfigurieren</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurationen</strong>.</li>
+<li>Auf der Seite <strong>Konfigurationen</strong> im Aktivitätsbereich, auf der Registerkarte <strong>Konfigurationen</strong> in der Gruppe <strong>Erweiterte Einstellungen</strong> wählen Sie <strong>Benutzerparameter</strong> aus.</li>
+<li>Im Dialogfeld <strong>Benutzerparameter</strong> im Abschnitt <strong>Ausführungsnachverfolgung</strong> im Feld <strong>Ausführungsnachverfolgungsformat</strong> wählen Sie <strong>PerfView XML</strong> aus.</li>
+</ol>
+<h3 id="run-the-er-format">Das EB-Format ausführen</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#run-format">Das EB-Format ausführen</a> weiter oben in diesem Thema, um eine neue Leistungsnachverfolgung zu generieren.</p>
+<p>Beachten Sie, dass der Webbrowser eine ZIP-Datei zum Herunterladen anbietet. Diese Datei beinhaltet die Leistungsnachverfolgung im PerfView-Format. Sie können dann das PerfView-Leistungsanalysetool verwenden, um die Details der EB-Formatausführung zu analysieren.</p>
+<p><img src="media/GER-PerfTrace2-PerfViewTrace1.PNG" alt="Informationen zur Leistungsnachverfolgung im PerfView-Format"></p>
+<h2 id="use-external-tools-to-review-an-execution-trace-that-includes-database-queries">Nutzen Sie externe Tools, um eine Ausführungsablaufverfolgung zu prüfen, die Datenbankabfragen enthält</h2>
+<p>Aufgrund der Verbesserungen, die vorgenommen wurden, zeigt die Leistungsablaufverfolgung, die in PerfView-Format nun generiert wird, weitere Informationen zur ER-Formatausführung an. In Microsoft Dynamics 365 for Finance and Operations Version 10.0.4 (Juli 2019), kann diese Ablaufverfolgung Details der durchgeführten SQL-Abfragen der Anwendungsdatenbank enthalten.</p>
+<h3 id="configure-user-parameters">Benutzerparameter konfigurieren</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> im Aktivitätsbereich, auf der Registerkarte <strong>Konfigurationen</strong> in der Gruppe <strong>Erweiterte Einstellungen</strong> wählen Sie <strong>Benutzerparameter</strong> aus.</p>
+</li>
+<li><p>Im Dialogfeld <strong>Benutzerparameter</strong> im Abschnitt <strong>Ausführungsnachverfolgung</strong> führen Sie die folgenden Parameter aus:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Ausführungsablaufverfolgungsformat</strong> <strong>PerfView XML</strong> aus.</li>
+<li>Legen Sie die Option <strong>Sammeln Sie Abfragestatistik</strong> auf <strong>Ja</strong> fest.</li>
+<li>Legen Sie die Option <strong>Abfrage nachverfolgen</strong> auf <strong>Ja</strong> fest.</li>
+</ul>
+<p><img src="media/GER-PerfTrace2-GER-UserParameters.PNG" alt="Abschnitt zur Ablaufverfolgung der Ausführung, Benutzerparameter-Dialogfeld"></p>
+</li>
+</ol>
+<h3 id="run-the-er-format">Das EB-Format ausführen</h3>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#run-format">Das EB-Format ausführen</a> weiter oben in diesem Thema, um eine neue Leistungsnachverfolgung zu generieren.</p>
+<p>Beachten Sie, dass der Webbrowser eine ZIP-Datei zum Herunterladen anbietet. Diese Datei beinhaltet die Leistungsnachverfolgung im PerfView-Format. Sie können dann das PerfView-Leistungsanalysetool verwenden, um die Details der EB-Formatausführung zu analysieren. Diese Ablaufverfolgung umfasst jetzt die Details von SQL-Datenbankzugriff bei der Ausführung des ER-Formats.</p>
+<p><img src="media/GER-PerfTrace2-PerfViewTrace2.PNG" alt="Verfolgt die Informationen für das ausgeführte ER-Format in PerfView nach"></p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung</a></li>
+<li><a href="er-calculated-field-ds-performance.html">Verbessern Sie die Leistung von EB-Lösungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzufügen</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

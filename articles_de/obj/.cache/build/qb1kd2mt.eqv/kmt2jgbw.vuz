@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Erstellen und Verwalten von Kundenportalbenutzern </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Erstellen und Verwalten von Kundenportalbenutzern ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie Kundenportal-Benutzerkonten erstellen und Berechtigungen f&#252;r diese festlegen.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="create-and-manage-customer-portal-users">Erstellen und Verwalten von Kundenportalbenutzern</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>In der Out-of-Box-Implementierung können sich Benutzer nicht selbst für Websites registrieren, die mithilfe des Kundenportals erstellt wurden. Um sich anzumelden und eine Website zu nutzen, müssen Benutzer vom Administrator eingeladen werden. Microsoft hat absichtlich die Möglichkeit der Benutzer blockiert, sich selbst zu registrieren.</p>
+<p>Bevor ein Benutzer eine Website verwenden kann, muss für diesen Benutzer ein Kontaktdatensatz erstellt werden. Dieser Datensatz gibt an, zu welchem Kundenkonto und zu welcher juristischen Person der Benutzer gehört. Diese Informationen sind wichtig, um sicherzustellen, dass der Benutzer Kundenaufträge erstellen und anzeigen kann.</p>
+<p>Wenn sich Benutzer selbst registrieren, werden automatisch Kontaktdatensätze für sie erstellt. Daher können Sie nicht sicherstellen, dass ein Benutzer das richtige Kundenkonto und die richtige juristische Person auswählt. Andererseits kann ein Administrator beim Einladungsprozess dem Kontaktdatensatz das richtige Kundenkonto und die richtige juristische Person zuweisen, bevor eine Einladung gesendet wird. Wenn Sie die Lösung so anpassen möchten, dass sich Benutzer selbst registrieren können, sollten Sie die möglichen Konsequenzen berücksichtigen.</p>
+<h2 id="video">-Video</h2>
+<div class="embeddedvideo"><iframe src="https://www.microsoft.com/en-us/videoplayer/embed/RE4ADkI" frameborder="0" allowfullscreen="true"></iframe></div>
+<p>Das Video <a href="https://youtu.be/drGUYHX9QIQ">Kunden zur Nutzung Ihres Kundenportals auffordern</a> (oben) gehört zur <a href="https://www.youtube.com/playlist?list=PLcakwueIHoT_SYfIaPGoOhloFoCXiUSyW">Finance and Operations-Playlist</a> auf YouTube.</p>
+<h2 id="prerequisite-setup">Voraussetzungen für die Einrichtung</h2>
+<p>Kontakte in Power Apps Portal werden als Datensätze in der Entität <strong>Kontakte</strong> in Common Data Service gespeichert. Duales Schreiben synchronisiert diese Datensätze dann mit Microsoft Dynamics 365 Supply Chain Management wie erforderlich.</p>
+<p><img src="media/customer-portal-contacts.png" alt="Systemdiagramm für Kundenportal-Kontakte" title="Systemdiagramm für Kundenportal-Kontakte"></p>
+<p>Stellen Sie vor dem Einladen neuer Kunden sicher, dass Sie die Option <strong>Kontakt</strong> Entität zuordnen in dualem Schreiben aktiviert haben.</p>
+<h2 id="the-invitation-process">Der Einladungsprozess</h2>
+<p>Führen Sie die folgenden Schritte aus, um einen vorhandenen Kontakt zum Kundenportal einzuladen <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/invite-contacts">Laden Sie Kontakte zu Ihren Portalen ein</a> in der Power Apps Portaldokumentation.</p>
+<p>Stellen Sie vor dem Einladen eines Kunden zum Kundenportal sicher, dass der <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/configure-contacts">Kontaktdatensatz</a> des Kunden verfügbar ist und wie folgt eingerichtet ist:</p>
+<ol>
+<li>Legen Sie das Feld <strong>Unternehmen</strong> auf die juristische Person fest, zu der der Kunde in Supply Chain Management gehören soll.</li>
+<li>Legen Sie das Feld <strong>Kontonummer</strong> auf die Kontonummer des Kunden fest, zu der der Kunde in Supply Chain Management gehören soll.</li>
+</ol>
+<p>Nachdem ein Kontakt erstellt wurde, sollte er im Supply Chain Management angezeigt werden können.</p>
+<p>Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/configure-contacts">Konfigurieren Sie einen Kontakt für die Verwendung in einem Portal</a> in der Power Apps Portaldokumentation.</p>
+<h2 id="out-of-box-web-roles-and-entity-permissions">Out-of-Box-Webrollen und Entitätsberechtigungen</h2>
+<p>Benutzerrollen in Power Apps Portalen sind definiert durch <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/create-web-roles">Webrollen</a> und <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/assign-entity-permissions">Entitätsberechtigungen</a>. Für das Kundenportal sind sofort einige Rollen definiert. Sie können neue Rollen erstellen und vorhandene Rollen ändern oder entfernen.</p>
+<h3 id="out-of-box-web-roles">Out-of-Box-Webrollen</h3>
+<p>In diesem Abschnitt werden die Webrollen beschrieben, die mit dem Kundenportal bereitgestellt werden.</p>
+<p>Weitere Informationen zum Ändern der Standardbenutzerrollen finden Sie unter <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/create-web-roles">Erstellen Sie Webrollen für Portale</a> und <a href="https://docs.microsoft.com/powerapps/maker/portals/configure/assign-entity-permissions">Fügen Sie datensatzbasierte Sicherheit hinzu, indem Sie Entitätsberechtigungen für Portale verwenden</a> in der Power Apps Portaldokumentation.</p>
+<h4 id="administrator">Administrator</h4>
+<p>Der Administrator überwacht und pflegt die Website. Diese Person wird das Kundenportal bereitstellen und einrichten. Der Administrator verwaltet die IT- und Sicherheitsaspekte des Portals und stellt sicher, dass alles reibungslos funktioniert. Der Administrator kann das Portal auch anpassen und/oder ändern, indem er neue Funktionen hinzufügt, neue Rollen erstellt und vieles mehr.</p>
+<h4 id="customer-representative">Kundenvertreter</h4>
+<p>Ein Kundenvertreter arbeitet für ein Kundenunternehmen und ist für die Verwaltung der Bestellungen verantwortlich, die das Unternehmen aufgibt. Der Kundenvertreter kann alle Bestellungen sehen, die für das Unternehmen und die Benutzer, die sie aufgegeben haben, aufgegeben wurden. Darüber hinaus kann der Kundenvertreter Informationen zum Gesamtkonto anzeigen und sehen, welche Kontakte im Namen dieses Kontos Bestellungen aufgeben können.</p>
+<h4 id="authorized-users">Autorisierte Benutzer</h4>
+<p>Autorisierte Benutzer können Bestellungen aufgeben und den Status der Bestellungen anzeigen, die sie aufgegeben haben. Sie können jedoch nicht den Status von Bestellungen anzeigen, die andere Benutzer in ihrem Unternehmen aufgegeben haben.</p>
+<h4 id="unauthorized-users">Nicht autorisierte Benutzer</h4>
+<p>Nicht autorisierte Benutzer können keine Daten anzeigen. Sie können nur öffentliche Informationen wie Geschäftsbedingungen und Details zu dem Unternehmen anzeigen, das das Kundenportal betreibt.</p>
+<h4 id="example">Beispiel</h4>
+<p>Die folgende Tabelle zeigt, welche Kundenaufträge die Benutzer in jeder Webrolle im System sehen können.</p>
+<table>
+<thead>
+<tr>
+<th>Auftrag</th>
+<th>Administrator</th>
+<th>Kundenvertreter für Kunde X</th>
+<th>Autorisierter Benutzer: Jane</th>
+<th>Autorisierter Benutzer: Sam</th>
+<th>Nicht autorisierte Benutzer: May</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kunde X Besteller: Jane</td>
+<td>Ja</td>
+<td>Ja</td>
+<td>Ja</td>
+<td>Nr.</td>
+<td>Nr.</td>
+</tr>
+<tr>
+<td>Kunde X Besteller: Sam</td>
+<td>Ja</td>
+<td>Ja</td>
+<td>Nr.</td>
+<td>Ja</td>
+<td>Nr.</td>
+</tr>
+<tr>
+<td>Kunde Y Besteller: May</td>
+<td>Ja</td>
+<td>Nr.</td>
+<td>Nr.</td>
+<td>Nr.</td>
+<td>Nr.</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Obwohl sowohl Sam als auch Jane Kontakte sind, die für Kunde X arbeiten, können sie nur die Bestellungen sehen, die sie selbst aufgegeben haben, und sonst nichts. Obwohl May eine Bestellung im System hat, kann sie diese Bestellung nicht im Kundenportal sehen, da sie eine nicht autorisierte Benutzerin ist. (Außerdem muss sie die Bestellung über einen anderen Kanal als das Kundenportal aufgegeben haben.)</p>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/sales-marketing/customer-portal-user-admin.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

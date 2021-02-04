@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Warehouse location status | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Warehouse location status | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="warehouse-location-status">Warehouse location status</h1>
+
+
+<p>Microsoft Dynamics 365 Supply Chain Management includes several location fields that give you flexibility when you work with and maintain locations. You can include location statuses in the location directive query to provide better control over warehouse flow.</p>
+<p>The following four fields on the <strong>Locations</strong> page track information about the current status of a location. These fields let warehouse managers get an overview of the status of the warehouse locations. They also allow for advanced reporting and filtering.</p>
+<ul>
+<li><p><strong>Item number</strong> – The item that is currently in the location. If the location contains multiple items, this field is blank.</p>
+</li>
+<li><p><strong>Last activity date and time</strong> – The timestamp of the last warehouse transaction that was performed against the location.</p>
+</li>
+<li><p><strong>Aging date</strong> – The date when the inventory in the location was brought into the warehouse. This value is calculated based on the aging date of the license plate. It's accurate for locations that are license plate–tracked, but it might not be accurate for locations that aren't license plate–tracked.</p>
+</li>
+<li><p><strong>Location status</strong> – The status of the location. There are four possible values:</p>
+<ul>
+<li><strong>Undetermined</strong> – The location profile can't track status. Therefore, the current status is unknown.</li>
+<li><strong>Empty</strong> – There is currently no inventory in the location.</li>
+<li><strong>Picking</strong> – Outbound transactions have been performed against the location since it was last empty.</li>
+<li><strong>Storage</strong> – Only inbound transactions have been performed against the location since the location was last empty.</li>
+</ul>
+</li>
+</ul>
+<h2 id="turn-on-the-warehouse-location-status-feature">Turn on the Warehouse location status feature</h2>
+<p>Before you can use the <em>Warehouse location status</em> feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the feature and turn it on if it's required. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Warehouse location status</em></li>
+</ul>
+<h2 id="set-up-warehouse-location-status">Set up warehouse location status</h2>
+<h3 id="prepare-the-sample-data-that-is-required-for-the-example-scenario">Prepare the sample data that is required for the example scenario</h3>
+<p>Before you start to work through the scenario, you must activate sample data and set up the feature as described in this section. To complete the example scenario, you must use either the warehouse app or the browser-based emulator. The steps that are provided here use the warehouse app. The steps for the browser-based emulator are similar.</p>
+<h4 id="use-the-usmf-legal-entity">Use the USMF legal entity</h4>
+<p>To work through the example scenario by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<h4 id="set-up-location-profiles">Set up location profiles</h4>
+<p>The example scenario requires that you prepare two location profiles.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Location profiles</strong>.</p>
+</li>
+<li><p>Select <strong>Edit</strong> to put the page into edit mode.</p>
+</li>
+<li><p>Select the <strong>BULK-06</strong> profile.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Enable item in location:</strong> Set this option to <em>Yes</em>.</li>
+<li><strong>Enable location activity date and time:</strong> Set this option to <em>Yes</em>.</li>
+<li><strong>Enable location status:</strong> Set this option to <em>Yes</em>.</li>
+</ul>
+<p>These options control whether the reference fields on the location are active.</p>
+</li>
+<li><p>Repeat steps 3 through 4 for the <strong>PICK-06</strong> profile.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When the parameters on the location profile (<strong>Enable item in location</strong>, <strong>Enable location activity</strong>, <strong>Enable location status</strong>) are set to <em>Yes</em>, the system immediately updates the relevant locations by executing the <em>warehouse location status consistency check</em> job.</p>
+</div>
+<h3 id="scenario">Scenario</h3>
+<ol>
+<li><p>Go to <strong>Procurement and sourcing &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create purchase order</strong> dialog box, on the <strong>Vendor</strong> FastTab, in the <strong>Vendor account</strong> field, select <em>104</em>.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, in the <strong>Warehouse</strong> field, select <em>61</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Your new purchase order (PO) is opened. It includes an empty line in the <strong>Purchase order lines</strong> grid. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0002</em></li>
+<li><strong>Quantity:</strong> <em>5</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Actions</strong> group, select <strong>Confirm</strong> to confirm the purchase order.</p>
+</li>
+<li><p>On the mobile device, go to <strong>Inbound &gt; Purchase Receive</strong>.</p>
+</li>
+<li><p>Select the <strong>PONUM</strong> field, enter the PO number, and confirm.</p>
+</li>
+<li><p>Select the <strong>ITEM</strong> field, enter <em>A0002</em> as the item number, and confirm.</p>
+</li>
+<li><p>On the <strong>QTY</strong> page, enter <em>5</em> as the quantity, and confirm.</p>
+<p>You can enter the quantity in either of the following ways:</p>
+<ul>
+<li>Select the plus sign (<strong>+</strong>) or minus sign (<strong>–</strong>) button to add or subtract a numerical value.</li>
+<li>Select the blank field between the plus sign (<strong>+</strong>) and minus sign (<strong>–</strong>) buttons to open the number pad.</li>
+</ul>
+</li>
+<li><p>Confirm your selection of item number <em>A0002</em> and a quantity of <em>5</em>. A &quot;Work Completed&quot; message appears at the bottom of the page.</p>
+</li>
+<li><p>Select the Menu button (sometimes referred to as the hamburger or the hamburger button) in the upper-right corner, and then select <strong>Cancel</strong> to exit <strong>Purchase Receive</strong> and return to the <strong>Inbound</strong> menu.</p>
+</li>
+<li><p>On the purchase order page, select <strong>Work details</strong> above the <strong>Purchase order lines</strong> grid.</p>
+</li>
+<li><p>On the <strong>General</strong> tab, notice the <strong>Work ID</strong> and <strong>Target license plate ID</strong> values that were created.</p>
+</li>
+<li><p>In the <strong>Lines</strong> section, notice the <strong>Location</strong> values for the <em>Pick</em> and <em>Put</em> work types.</p>
+</li>
+<li><p>On the mobile device, go to <strong>Inbound &gt; Purchase Put-away</strong>.</p>
+</li>
+<li><p>Select the <strong>ID</strong> field, enter the work ID, and confirm.</p>
+</li>
+<li><p>Confirm once more to complete the <em>Pick</em> entry.</p>
+</li>
+<li><p>Select the Menu button in the upper-right corner, and then select <strong>Done</strong> to complete the <em>Pick</em> work.</p>
+</li>
+<li><p>Make a note of the Putaway location, and confirm. A &quot;Work Completed&quot; message appears at the bottom of the page.</p>
+</li>
+<li><p>Select the Menu button in the upper-right corner, and then select <strong>Cancel</strong> to exit <strong>Purchase Put-away</strong> and return to the <strong>Inbound</strong> menu.</p>
+</li>
+<li><p>Select <strong>Back</strong> to return to the main menu.</p>
+</li>
+<li><p>In Dynamics 365 Supply Chain Management, go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations</strong>.</p>
+</li>
+<li><p>Filter on <strong>Location</strong>, and enter the putaway location from the purchase order work. You should see the following results:</p>
+<ul>
+<li>The <strong>Location status</strong> column shows a value of <em>Storage</em>, because the last transaction against this location was a put.</li>
+<li>The <strong>Item number</strong> column shows a value of <em>A0002</em>, because that item was received and put to the location.</li>
+<li>The <strong>Last activity date and time</strong> column shows the timestamp for the date and time when the work was completed at the location.</li>
+</ul>
+</li>
+<li><p>On the mobile device, go to <strong>Quality &gt; Movement</strong>.</p>
+</li>
+<li><p>Select the <strong>LOC/LP</strong> field, and enter the location you made note of in the previous steps.</p>
+</li>
+<li><p>Confirm the information that is shown. Make a note of the license plate number that is generated.</p>
+</li>
+<li><p>On the <strong>To Information</strong> screen, select the <strong>LOC/LP</strong> field, and enter <em>06A07R2S1B</em> as the location to move the item to.</p>
+</li>
+<li><p>On the <strong>To Information</strong> screen, confirm the <strong>LP</strong> value (the target license plate ID), which is automatically generated. A &quot;Work Completed&quot; message appears at the bottom of the page.</p>
+</li>
+<li><p>Select the Menu button in the upper-right corner, and then select <strong>Cancel</strong> to exit <strong>Movement</strong> and return to the <strong>Quality Management</strong> menu.</p>
+</li>
+<li><p>Select <strong>Back</strong> to return to the main menu.</p>
+</li>
+<li><p>In Dynamics 365 Supply Chain Management, go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations</strong>.</p>
+</li>
+<li><p>Refresh the <strong>Locations</strong> page, and view the original putaway location again. Notice that the <strong>Location status</strong> field is now set to <em>Empty</em>, and the <strong>Item number</strong> column is blank.</p>
+</li>
+<li><p>View the record for location <em>06A07R2S1B</em>, and notice that the <strong>Status</strong> value has changed to <em>Storage</em>, and the <strong>Item number</strong> and <strong>Last activity date and time</strong> fields have been updated.</p>
+</li>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, in the <strong>Customer account</strong> field, select <em>US-002</em>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, select <em>61</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Your new sales order is opened. It includes an empty line in the <strong>Sales order lines</strong> grid. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0002</em></li>
+<li><strong>Quantity:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, on the <strong>Inventory</strong> menu, select <strong>Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong> to reserve the order line. Then select the <strong>Close</strong> button (<strong>X</strong>) in the upper-right corner to close the page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Actions</strong> group, select <strong>Release to warehouse</strong>.</p>
+</li>
+<li><p>In the <strong>Sales order lines</strong> section, on the <strong>Warehouse</strong> menu, select <strong>Work details</strong>.</p>
+</li>
+<li><p>Copy the <strong>Work ID</strong> value that was created.</p>
+</li>
+<li><p>On the mobile device, go to <strong>Outbound &gt; Sales picking</strong>.</p>
+</li>
+<li><p>Select the <strong>ID</strong> field, enter the work ID that you copied earlier, and confirm.</p>
+</li>
+<li><p>On the <strong>Sales orders: Pick</strong> page, the <strong>LOC</strong> field suggests the picking location as the putaway location that was created earlier. Make a note of the location.</p>
+</li>
+<li><p>Select the <strong>LOC</strong> field, enter the location, and confirm.</p>
+</li>
+<li><p>Select the <strong>LP</strong> field, enter the license plate number that you made a note of during the Movement activity, and confirm.</p>
+</li>
+<li><p>Select the <strong>Item</strong> field, enter the <em>A0002</em> as the item number, and confirm.</p>
+</li>
+<li><p>On the <strong>QTY</strong> page, enter <em>1</em> as the quantity, and confirm.</p>
+<p>You can enter the quantity in either of the following ways:</p>
+<ul>
+<li>Select the plus sign (<strong>+</strong>) or minus sign (<strong>–</strong>) button to add or subtract a numerical value.</li>
+<li>Select the blank field between the plus sign (<strong>+</strong>) and minus sign (<strong>–</strong>) buttons to open the number pad.</li>
+</ul>
+</li>
+<li><p>Select the <strong>TARGET LP</strong> field, enter a user-defined target license plate ID, and confirm.</p>
+</li>
+<li><p>Confirm once more to complete the picking work. A &quot;Work Completed&quot; message appears at the bottom of the page.</p>
+</li>
+<li><p>Select the Menu button in the upper-right corner, and then select <strong>Cancel</strong> to complete the picking activity and return to the <strong>Outbound</strong> menu.</p>
+</li>
+<li><p>In Dynamics 365 Supply Chain Management, go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations</strong>.</p>
+</li>
+<li><p>Filter on <strong>Location</strong>, and enter the pick location from the sales order work.</p>
+</li>
+<li><p>Notice that the <strong>Location status</strong> field for the location that the sales order work picked from is now set to <em>Picking</em>, and the <strong>Last activity date and time</strong> field has been updated.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The location fields are updated only by warehouse transactions. If you move inventory by using a journal or other non-WHS processes, the fields won't be updated.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

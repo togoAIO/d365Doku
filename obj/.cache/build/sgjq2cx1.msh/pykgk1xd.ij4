@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Genehmigungsprozesse in einem Workflow konfigurieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Genehmigungsprozesse in einem Workflow konfigurieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-approval-processes-in-a-workflow">Genehmigungsprozesse in einem Workflow konfigurieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Verwenden Sie das folgende Verfahren, um die Eigenschaften des Genehmigungsprozesses zu konfigurieren.</p>
+<p>Klicken Sie zum Konfigurieren eines Genehmigungsprozesses im Workflow-Editor mit der rechten Maustaste auf das Genehmigungselement, und klicken Sie dann auf <strong>Eigenschaften</strong>, um das Formular <strong>Eigenschaftens</strong> zu öffnen.</p>
+<h2 id="name-the-approval-process">Benennen des Genehmigungsprozesses</h2>
+<p>Gehen Sie folgendermaßen vor, um einen Namen für den Genehmigungsprozess einzugeben.</p>
+<ol>
+<li>Klicken Sie im linken Bereich auf <strong>Grundeinstellungen</strong>.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen eindeutigen Namen für den Genehmigungsprozess ein.</li>
+</ol>
+<h2 id="specify-when-the-system-automatically-acts-on-the-document">Angeben, wann das Dokument automatisch bearbeitet wird</h2>
+<p>Sie können festlegen, dass eine automatische Aktivität für das Dokument ausgeführt wird, wenn bestimmte Bedingungen erfüllt sind. So können z. B. Spesenabrechnungen mit einem Gesamtbetrag unter 100 Euro automatisch genehmigt werden. Gehen Sie folgendermaßen vor, um anzugeben, wann das Dokument automatisch bearbeitet wird.</p>
+<ol>
+<li><p>Klicken Sie im linken Bereich auf <strong>Automatische Aktivitäten</strong>.</p>
+</li>
+<li><p>Aktivieren Sie dieses Kontrollkästchen <strong>Automatische Aktivitäten aktivieren</strong>.</p>
+</li>
+<li><p>Klicken Sie auf <strong>Bedingung hinzufügen</strong>.</p>
+</li>
+<li><p>Geben Sie eine Bedingung ein.</p>
+</li>
+<li><p>Geben Sie ggf. zusätzliche Bedingungen ein.</p>
+</li>
+<li><p>Führen Sie folgende Schritte aus, um die korrekte Konfiguration der eingegebenen Bedingungen zu überprüfen:</p>
+<ol>
+<li>Klicken Sie auf <strong>Test</strong>, um das Formular <strong>Workflow-Bedingungen testen</strong> zu öffnen.</li>
+<li>Wählen Sie im Bereich <strong>Bedingung überprüfen</strong> des Formulars einen Datensatz aus.</li>
+<li>Klicken Sie auf <strong>Test</strong>. Der Datensatz wird ausgewertet, um zu bestimmen, ob er den festgelegten Bedingungen entspricht.</li>
+<li>Klicken Sie auf <strong>OK</strong> oder <strong>Abbrechen</strong>, um zum Formular <strong>Eigenschaften</strong> zurückzukehren.</li>
+</ol>
+</li>
+<li><p>Wählen Sie in der Liste <strong>Aktivität für Auto-Vervollständigen</strong> die Aktivität aus, die für das Dokument ausgeführt werden soll.</p>
+</li>
+</ol>
+<h2 id="specify-when-notifications-are-sent">Angeben, wann Benachrichtigungen gesendet werden</h2>
+<p>Sie können Benachrichtigungen an Personen senden, wenn ein Dokument genehmigt, abgelehnt, delegiert oder eskaliert wurde oder eine Änderung für das Dokument angefordert wurde. Gehen Sie folgendermaßen vor, um anzugeben, wann und an wen Benachrichtigungen gesendet werden.</p>
+<ol>
+<li><p>Klicken Sie im linken Bereich auf <strong>Benachrichtigungen</strong>.</p>
+</li>
+<li><p>Aktivieren Sie das Kontrollkästchen neben den Ereignissen, für die Benachrichtigungen gesendet werden sollen.</p>
+<ul>
+<li><strong>Delegieren</strong> – Wenn ein Dokument einem anderen Benutzer zur Genehmigung zugewiesen wurde.</li>
+<li><strong>Eskalieren</strong> – Wenn der zugewiesene Benutzer das Dokument nicht innerhalb der vorgesehenen Zeit bearbeitet hat.</li>
+<li><strong>Genehmigen</strong> – Wenn ein Dokument genehmigt wurde.</li>
+<li><strong>Ablehnen</strong> – Wenn ein Dokument abgelehnt wurde.</li>
+<li><strong>Änderung anfordern</strong> – Wenn der zugewiesene Benutzer eine Änderung eines übermittelten Dokuments angefordert hat.</li>
+</ul>
+</li>
+<li><p>Wählen Sie eine Zeile für ein in Schritt 2 ausgewähltes Ereignis aus.</p>
+</li>
+<li><p>Klicken Sie auf die Registerkarte <strong>Benachrichtigungstext</strong>.</p>
+</li>
+<li><p>Geben Sie im Textfeld den Text für die Benachrichtigung ein.</p>
+</li>
+<li><p>Zum Anpassen des Texts können Sie Platzhalter einfügen, die bei der Anzeige für Benutzer durch die entsprechenden Daten ersetzt werden. Führen Sie folgende Schritte aus, um einen Platzhalter einzufügen:</p>
+<ol>
+<li>Klicken Sie im Textfeld auf die Position, an der der Platzhalter erscheinen soll.</li>
+<li>Klicken Sie auf <strong>Platzhalter einfügen</strong>.</li>
+<li>Wählen Sie in der angezeigten Liste den einzufügenden Platzhalter aus.</li>
+<li>Klicken Sie auf <strong>Einfügen</strong>.</li>
+</ol>
+</li>
+<li><p>Klicken Sie auf <strong>Übersetzungen</strong>, um Übersetzungen der Benachrichtigung hinzuzufügen. Führen Sie im angezeigten Formular die folgenden Schritte aus:</p>
+<ol>
+<li>Klicken Sie auf <strong>Hinzufügen</strong>.</li>
+<li>Wählen Sie in der angezeigten Liste die Sprache aus, in der Sie den Text eingeben.</li>
+<li>Geben Sie den Text im Feld <strong>Übersetzter Text</strong> ein.</li>
+<li>Fügen Sie zum Personalisieren des Texts Platzhalter ein.</li>
+<li>Klicken Sie auf <strong>Schließen</strong>.</li>
+</ol>
+</li>
+<li><p>Klicken Sie auf die Registerkarte <strong>Empfänger</strong>.</p>
+</li>
+<li><p>Geben Sie an, an wen die Benachrichtigungen gesendet werden. Wählen Sie eine der Optionen in der folgenden Tabelle aus, und führen Sie dann die zusätzlichen Schritte für die Option aus, bevor Sie mit Schritt 10 fortfahren.</p>
+ <table>
+ <thead>
+ <tr>
+ <th>Mit der folgenden Option...</th>
+ <th>Empfänger der Benachrichtigung</th>
+ <th>Zusätzliche Schritte</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Teilnehmer</strong></td>
+ <td>Benutzer, die einer bestimmten Gruppe oder Rolle zugewiesen sind</td>
+ <td>
+ <ol>
+ <li>Nachdem Sie <strong>Teilnehmer</strong> ausgewählt haben, klicken Sie auf die Registerkarte <strong>Rollenbasiert</strong>.</li>
+ <li>Wählen Sie in der Liste <strong>Teilnehmertyp</strong> den Typ der Gruppe oder Rolle aus, an die Benachrichtigungen gesendet werden sollen.</li>
+ <li>Wählen Sie in der Liste <strong>Teilnehmer</strong> die Gruppe oder Rolle aus, an die Benachrichtigungen gesendet werden sollen.</li>
+ </ol>
+ </td>
+ </tr>
+ <tr>
+ <td><strong>Workflowbenutzer</strong></td>
+ <td>Benutzer, die am aktuellen Workflow teilnehmen</td>
+ <td>
+ <ol>
+ <li>Nachdem Sie <strong>Workflow-Benutzer</strong>ausegwählt haben, klicken Sie auf die Registerkarte <strong>Workflow-Benutzer</strong>.</li>
+ <li>Wählen Sie in der Liste <strong>Workflow-Benutzer</strong> einen Benutzer aus, der am Workflow teilnimmt.</li>
+ </ol>
+ </td>
+ </tr>
+ <tr>
+ <td><strong>Benutzer</strong></td>
+ <td>Bestimmte Benutzer</td>
+ <td>
+ <ol>
+ <li>Nachdem Sie <strong>Benutzer</strong>ausegwählt haben, klicken Sie auf die Registerkarte <strong>Benutzer</strong>.</li>
+ <li>Wählen Sie die Benutzer aus, an die Benachrichtigungen gesendet werden sollen, und verschieben Sie diese Benutzer dann in die Liste <strong>Ausgewählte Benutzer</strong>.</li>
+ </ol>
+ </td>
+ </tr>
+ </tbody>
+ </table>
+</li>
+<li><p>Wiederholen Sie die Schritte 3 bis 9 für jedes in Schritt 2 ausgewählte Ereignis.</p>
+</li>
+</ol>
+<h2 id="specify-a-final-approver">Festlegen einer letzten genehmigenden Person</h2>
+<p>Sie können einen endgültigen Genehmiger für Szenarien festlegen, in denen der Genehmiger die Person ist, die das Dokument zur Genehmigung eingereicht hat, und die Option „Genehmigung durch Übermittler nicht zulassen“ verwendet wird. Gehen Sie zum Festlegen einer letzten genehmigenden Person folgendermaßen vor.</p>
+<ol>
+<li>Rechtsklicken Sie im Workflow-Editor mit der rechten Maustaste auf das Genehmigungselement, und wählen Sie dann <strong>Eigenschaften</strong>, um das Formular <strong>Eigenschaften</strong> zu öffnen.</li>
+<li>Klicken Sie im linken Bereich auf <strong>Erweiterte Einstellungen</strong>.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Letzter Genehmiger verwenden</strong>.</li>
+<li>Wählen Sie in der Liste einen Benutzer aus, der als letzte genehmigende Person fungieren soll.</li>
+</ol>
+<h2 id="set-a-time-limit">Festlegen einer Zeitgrenze</h2>
+<p>Gehen Sie folgendermaßen vor, wenn der Genehmigungsprozess in einer bestimmten Zeit abgeschlossen werden muss.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die in diesen Schritten ausgewählten Optionen setzen die Optionen außer Kraft, die Sie in den Bereichen <strong>Zuweisung</strong> und <strong>Eskalation</strong> jedes Genehmigungsschritts ausgewählt haben.</p>
+</div>
+<ol>
+<li><p>Klicken Sie im linken Bereich auf <strong>Erweiterte Einstellungen</strong>.</p>
+</li>
+<li><p>Wählen Sie das Kontrollkästchen <strong>Zeitgrenze für das Workflow</strong> <strong>element</strong> festlegen.</p>
+</li>
+<li><p>Legen Sie im Feld <strong>Dauer</strong> fest, wann der Genehmigungsprozess abgeschlossen sein muss. Folgende Optionen stehen zur Auswahl:</p>
+<ul>
+<li><strong>Stunden</strong> – Geben Sie die Anzahl der Stunden ein, in denen der Genehmigungsprozess abgeschlossen sein muss. Wählen Sie dann den Kalender aus, den Ihre Organisation verwendet, und geben Sie Informationen zur Arbeitswoche der Organisation ein.</li>
+<li><strong>Tage</strong> – Geben Sie die Anzahl von Tagen ein, in denen der Genehmigungsprozess abgeschlossen sein muss. Wählen Sie dann den Kalender aus, den Ihre Organisation verwendet, und geben Sie Informationen zur Arbeitswoche der Organisation ein.</li>
+<li><strong>Wochen</strong> – Geben Sie die Anzahl von Wochen ein, in denen der Genehmigungsprozess abgeschlossen sein muss.</li>
+<li><strong>Monate</strong> – Wählen Sie den Tag, die Woche und den Monat aus, bis zu dem der Genehmigungsprozess abgeschlossen sein muss. Sie können z. B. angeben, dass der Genehmigungsprozess bis Freitag der dritten Woche des Monats abgeschlossen sein soll.</li>
+<li><strong>Jahre</strong> – Wählen Sie den Tag, die Woche und den Monat aus, bis zu dem der Genehmigungsprozess abgeschlossen sein muss. Sie können z. B. angeben, dass der Genehmigungsprozess bis Freitag der dritten Woche im Dezember abgeschlossen sein soll.</li>
+</ul>
+</li>
+<li><p>Wenn die Zeitgrenze überschritten wird, wird das Dokument automatisch bearbeitet. Wählen Sie in der Liste <strong>Aktivität</strong> die Aktivität aus, die vom System ausgeführt werden soll.</p>
+</li>
+</ol>
+<h2 id="specify-which-actions-are-available-to-the-user">Angeben der verfügbaren Aktivitäten für den Benutzer</h2>
+<p>Wenn ein Dokument einem Benutzer zur Genehmigung zugewiesen wird, muss der Benutzer das Dokument durch entsprechende Aktivitäten bearbeiten. Gehen Sie folgendermaßen vor, um anzugeben, welche Aktivitäten der Benutzer für das übermittelte Dokument ausführen kann.</p>
+<ol>
+<li>Klicken Sie im linken Bereich auf <strong>Erweiterte Einstellungen</strong>.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Genehmigen</strong>, wenn der Benutzer das Dokument genehmigen kann.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Ablehnen</strong>, wenn der Benutzer das Dokument ablehnen kann.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Änderung anfordern</strong>, wenn der Benutzer Änderungen des Dokuments anfordern kann.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Delegieren</strong>, wenn der Benutzer das Dokument einem anderen Benutzer zur Genehmigung zuweisen kann.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Kontrollkästchen Aktionen von der Arbeitsliste in <strong>Enterprise Portal</strong> aktivieren ist nicht mehr vorhanden.</p>
+</div>
+<h2 id="configure-the-approval-steps">Konfigurieren der Genehmigungsschritte</h2>
+<p>Ein Genehmigungsprozess besteht aus Genehmigungsschritten. Führen Sie die folgende Prozedur aus, um dem Genehmigungsprozess Schritte hinzuzufügen und die Schritte zu konfigurieren.</p>
+<ol>
+<li>Doppelklicken Sie im Workflow-Editor auf den Genehmigungsprozess. Im Workflow-Editor werden die Schritte des Genehmigungsprozesses angezeigt.</li>
+<li>Ziehen Sie zum Hinzufügen eines Genehmigungsschritts den Schritt aus dem Bereich <strong>Workflow-Elemente</strong> auf die Canvas.</li>
+<li>Informationen zum Konfigurieren eines Genehmigungsschritts finden Sie unter <a href="configure-approval-step-workflow.html">Genehmigungsschritte in einem Workflow konfigurieren</a>.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

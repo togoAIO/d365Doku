@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Dedicated payment terminals and prompts for a printer and cash drawer | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Dedicated payment terminals and prompts for a printer and cash drawer | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="dedicated-payment-terminals-and-prompts-for-a-printer-and-cash-drawer">Dedicated payment terminals and prompts for a printer and cash drawer</h1>
+
+
+<p>This topic provides information about the capability to have a dedicated payment terminal and prompt the user to select a cash drawer and a receipt printer.</p>
+<h2 id="overview">Overview</h2>
+<p>Modern retailers are searching for ways to streamline the in-store checkout experience. Recent trends toward paperless checkout through electronic payments not only help to make the purchasing experience smoother but also reduce the need to have a full complement of peripheral devices available for every store associate.</p>
+<p>Microsoft Dynamics 365 Commerce supports these trends by enabling a scenario where a point of sale (POS) device has a dedicated payment terminal assigned to it all the time, but it doesn't have its own receipt printer or cash drawer. When associates must print a receipt or take a cash payment, they are prompted to select a hardware station where those devices are configured.</p>
+<h2 id="key-terms">Key terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Register</td>
+<td>The entity that is used to configure an instance of a POS register.</td>
+</tr>
+<tr>
+<td>Device</td>
+<td>A representation of the physical instance of a POS register and the Modern POS application that is assigned to it.</td>
+</tr>
+<tr>
+<td>Dedicated hardware station</td>
+<td>The hardware station business logic that is built into the Modern POS for Windows and Modern POS for Android applications.</td>
+</tr>
+<tr>
+<td>Drawer kick (d/k) port</td>
+<td>A traditional method for connecting a cash drawer to a receipt printer.</td>
+</tr>
+<tr>
+<td>Network peripherals</td>
+<td>Built-in support for network-enabled payment terminals, receipt printers, and cash drawers.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="supported-pos-clients-and-devices">Supported POS clients and devices</h2>
+<p>The functionality that is described in this topic is supported by the Modern POS for Windows and Modern POS for Android POS clients.</p>
+<p>This functionality supports network-enabled payment terminals and receipt printers. You can provide cash drawer support by connecting the cash drawer to the network-enabled receipt printer via the d/k port.</p>
+<p>Out-of-box support for this functionality is provided by the <a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a>. However, other payment connectors might be supported via the Commerce software development kit (SDK) for payments. Supported receipt printers include network-enabled receipt printers from Star Micronics and Epson.</p>
+<p>To set up Star Micronics receipt printers, use the Star Micronics Printer Utility to configure the device so that it can be used over the network. This utility will also provide the IP address of the device.</p>
+<p>To set up Epson receipt printers, use the Epson ePOS-Print utility to set up the device to use network protocols.</p>
+<p>For more information about how to set up network peripherals, see <a href="https://go.microsoft.com/fwlink/?linkid=2129965">Network peripheral support overview</a>.</p>
+<h2 id="set-up-a-dedicated-payment-terminal-and-a-prompt-for-a-printer-and-cash-drawer">Set up a dedicated payment terminal and a prompt for a printer and cash drawer</h2>
+<h3 id="set-up-hardware-profiles">Set up hardware profiles</h3>
+<p>You must have two types of hardware profile. The first is assigned to the register. The second is assigned to a hardware station at the store level, and is used to logically group network receipt printers and cash drawers.</p>
+<h4 id="set-up-a-hardware-profile-for-the-register">Set up a hardware profile for the register</h4>
+<p>To set up the hardware profile that is assigned to the register, follow these steps.</p>
+<ol>
+<li><p>In Dynamics 365 Commerce, search for <strong>Hardware profile</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>Assign a hardware profile number, and then enter a description. This hardware profile will be assigned to the register itself. Therefore, a description such as <strong>Dedicated with fallback</strong> will suffice.</p>
+</li>
+<li><p>On the FastTabs for different device types, set up the following device types.</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Type</th>
+<th>Device name</th>
+<th>Additional details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Printer</td>
+<td>Fallback</td>
+<td><em>Any</em></td>
+<td>The device name is case-sensitive. The <strong>Receipt profile ID</strong> should be the same as the <strong>Receipt profile ID</strong> that is mapped to the network printer that is set up in the hardware profile that is assigned to the hardware station at the channel level.</td>
+</tr>
+<tr>
+<td>Cash drawer</td>
+<td>Fallback</td>
+<td><em>Any</em></td>
+<td>The device name is case-sensitive. Set the <strong>Use shared shift</strong> option to <strong>Yes</strong>.</td>
+</tr>
+<tr>
+<td>EFT service</td>
+<td>Adyen</td>
+<td>Not applicable</td>
+<td>For information about how to set up the out-of-box Adyen connector, see <a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a>. Other payment connectors can be supported via the <a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/end-to-end-payment-extension">Commerce software development kit (SDK) for payments</a>.</td>
+</tr>
+<tr>
+<td>PIN pad</td>
+<td>Network</td>
+<td><strong>MicrosoftAdyenDeviceV001</strong></td>
+<td>None.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>In Dynamics 365 Commerce, search for <strong>Registers</strong>.</p>
+</li>
+<li><p>Select a register by selecting the register number, and then select <strong>Edit</strong>.</p>
+</li>
+<li><p>Assign the hardware profile that you just created to the register that should use a dedicated payment terminal. The device that is mapped to this register must use either the Modern POS for Windows application or the Modern POS for Android application.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Registers</strong> tab, select <strong>Configure IP addresses</strong>.</p>
+</li>
+<li><p>On the <strong>PIN pad</strong> FastTab, enter the IP address of the payment terminal. For information about how to get the IP address of the payment terminal by using the Adyen connector, see <a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="set-up-a-hardware-profile-for-the-receipt-printer-and-cash-drawer">Set up a hardware profile for the receipt printer and cash drawer</h4>
+<p>To set up the hardware profile that is used to group the network receipt printer and cash drawer, follow these steps.</p>
+<ol>
+<li><p>In Dynamics 365 Commerce, search for <strong>Hardware profile</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>Assign a hardware profile number, and then enter a description. This hardware profile will be used to group the receipt printer and cash drawer. Therefore, a description such as <strong>Network printer and cash drawer</strong> will suffice.</p>
+</li>
+<li><p>On the FastTabs for different device types, set up the following device types.</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Type</th>
+<th>Description</th>
+<th>Additional details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Printer</td>
+<td>Network</td>
+<td><strong>Epson</strong> or <strong>Star</strong></td>
+<td>The device name is case-sensitive. The <strong>Receipt profile ID</strong> should be the same as the <strong>Receipt profile ID</strong> that is mapped to the printer that is set up in the hardware profile that is assigned to the register.</td>
+</tr>
+<tr>
+<td>Cash drawer</td>
+<td>Network</td>
+<td><strong>Epson</strong> or <strong>Star</strong></td>
+<td>The device name is case-sensitive. set the <strong>Use shared shift</strong> option to <strong>Yes</strong>.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-hardware-stations">Set up hardware stations</h3>
+<p>You must have two hardware stations. The first will be mapped to the register. The second will be selected as it's required, whenever a receipt must be printed or a cash drawer must be opened.</p>
+<h4 id="register-a-hardware-station">Register a hardware station</h4>
+<ol>
+<li>In Dynamics 365 Commerce, search for <strong>All stores</strong>.</li>
+<li>Select a store by selecting its <strong>Retail Channel Id</strong> values, and then select <strong>Edit</strong>.</li>
+<li>On the <strong>Hardware stations</strong> FastTab, select <strong>Add</strong>.</li>
+<li>Set the <strong>Hardware station type</strong> field to <strong>Dedicated</strong>.</li>
+<li>Enter a description, but don't set any other values for this hardware station. This hardware station will be used for the register at all times.</li>
+</ol>
+<h4 id="set-up-a-hardware-station-for-the-receipt-printer-and-cash-drawer">Set up a hardware station for the receipt printer and cash drawer</h4>
+<ol>
+<li>In Dynamics 365 Commerce, search for <strong>All stores</strong>.</li>
+<li>Select a store by selecting its <strong>Retail Channel Id</strong> values, and then select <strong>Edit</strong>.</li>
+<li>On the <strong>Hardware stations</strong> FastTab, select <strong>Add</strong>.</li>
+<li>Set the <strong>Hardware station type</strong> field to <strong>Dedicated</strong>.</li>
+<li>Enter a description. This hardware station will be used for the receipt printer and cash drawer.</li>
+<li>In the <strong>Hardware profile</strong> field, select the hardware profile that you previously created for the receipt printer and cash drawer.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>While the hardware station for the receipt printer and cash drawer is still selected, select <strong>Configure IP addresses</strong>.</li>
+<li>Obtain the IP address for the printer, and enter it as the IP address for both the receipt printer and the cash drawer.</li>
+<li>Select <strong>Save</strong></li>
+<li>Search for <strong>Distribution schedules</strong>.</li>
+<li>Select distribution schedule <strong>1090</strong>, and then select <strong>Run now</strong>.</li>
+<li>Select distribution schedule <strong>1070</strong>, and then select <strong>Run now</strong>.</li>
+</ol>
+<h3 id="set-up-the-system-to-prompt-for-receipt-printer-and-cash-drawer-selection-as-its-required">Set up the system to prompt for receipt printer and cash drawer selection as it's required</h3>
+<ol>
+<li>In a supported POS client, close the current shift, if a shift is open.</li>
+<li>Sign in, and then select <strong>Non-drawer drawer operations</strong>.</li>
+<li>Use the <strong>Manage hardware stations</strong> operation to turn on a hardware station.</li>
+<li>Select the hardware station that you created for the register to make it active.</li>
+<li>Sign out of the POS, sign back in, and open a shift.</li>
+</ol>
+<p>The payment terminal that is assigned to the hardware profile will now always be active, and you will be prompted if a receipt printer or cash drawer is required.</p>
+<p>Many merchants who requested this feature are interested in reducing waste by providing email receipts and encouraging electronic payments. Depending on the configuration of the POS, store associates are prompted to select a receipt printer or cash drawer only when a customer wants a physical receipt or wants to pay with cash.</p>
+<p>Store associates are prompted to select a hardware station only one time per transaction, unless a receipt must be printed and cash is used for payment, but the hardware profile that was originally selected doesn't include both devices. In that case, the store associate will be prompted again to select a hardware station that can be used to complete the transaction.</p>
+<h2 id="related-articles">Related articles</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/hybridApp">Set up POS hybrid app on Android and iOS</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/commerce/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a></li>
+<li><a href="https://go.microsoft.com/fwlink/?linkid=2129965">Network peripheral support overview</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

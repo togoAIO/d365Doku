@@ -1,0 +1,46 @@
+﻿
+<div id="sidetoggle">
+  <div>
+    <div class="sidefilter">
+      <form class="toc-filter">
+        <span class="glyphicon glyphicon-filter filter-icon"></span>
+        <span class="glyphicon glyphicon-remove clear-icon" id="toc_filter_clear"></span>
+        <input type="text" id="toc_filter_input" placeholder="Enter here to filter..." onkeypress="if(event.keyCode==13) {return false;}">
+      </form>
+    </div>
+    <div class="sidetoc">
+      <div class="toc" id="toc">
+          
+          <ul class="nav level1">
+                <li>
+                    <a href="intro.html" name="" title="Introduction">Introduction</a>
+                </li>
+                <li>
+                    <a href="SalesProcess.html" name="" title="Sales Process">Sales Process</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy.html" name="" title="Sales Process 1">Sales Process 1</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%202.html" name="" title="Sales Process 2">Sales Process 2</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%203.html" name="" title="Sales Process 3">Sales Process 3</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%204.html" name="" title="Sales Process 4">Sales Process 4</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%205.html" name="" title="Sales Process 5">Sales Process 5</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%206.html" name="" title="Sales Process 6">Sales Process 6</a>
+                </li>
+                <li>
+                    <a href="SalesProcess%20copy%207.html" name="" title="Sales Process 7">Sales Process 7</a>
+                </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure call center delivery modes and charges </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure call center delivery modes and charges ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes how to set up modes of delivery and charges for a call center order in Dynamics 365 Commerce.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="RetailMCRChannelDetailPage, MCROrderParameters">
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-call-center-delivery-modes-and-charges">Configure call center delivery modes and charges</h1>
+
+
+<p>When a sales order is placed in Dynamics 365 Commerce, if the person who entered the sales order is linked to a call center channel, logic and rules are used to validate the mode of delivery (delivery mode) and calculate charges for the order.</p>
+<p>When you create a sales order, you can select a delivery mode on the sales order header and the sales order lines. By default, the delivery mode that you select on the header is used for all sales order lines. However, you can override the default delivery mode on individual sales lines as you require. You can also define a delivery mode on a customer record. Then, when orders are created for the customer, that delivery mode is used by default on the sales order header.</p>
+<p>Commerce has capabilities that let users limit the delivery modes that can be used by a channel, the delivery modes that can be used for a product, and the delivery modes that are valid for specific shipping destinations. Charges can also be defined so that additional fees are added to a customer's order, based on the delivery modes that are selected for the sales order and the total order value.</p>
+<h2 id="define-delivery-modes">Define delivery modes</h2>
+<p>Before you specify which delivery modes can be used for call center orders, and define the associated rules and charges, you must define the delivery modes. Go to <strong>Sales and marketing &gt; Setup &gt; Distribution &gt; Modes of delivery</strong>. Select <strong>New</strong> to create a new delivery mode. Alternatively, select an existing delivery mode in the list, and then select <strong>Edit</strong> to make changes.</p>
+<p>In the <strong>Mode of delivery</strong> field, you can enter any combination alphanumeric characters, based on your business requirement. You can then use the <strong>Description</strong> field to provide additional context. The <strong>Charges group</strong> and <strong>Expedite</strong> fields are optional and will be explained in more detail later in this topic.</p>
+<p>On the <strong>Commerce channels</strong> FastTab, add any channel that should be allowed to use the delivery mode when sales transactions are created in that channel.</p>
+<p>On the <strong>Products</strong> FastTab, you can specify which products and/or product categories the delivery mode can and can't be used for. For example, if a product can't be shipped by air because of hazardous material (hazmat) restrictions, make sure that the product or product category is excluded from all delivery modes that involve air transportation.</p>
+<p>On the <strong>Addresses</strong> FastTab, you can specify which countries or regions, or states, the delivery mode can and can't be used for. For example, orders that are shipped to Hawaii or Alaska aren't eligible for ground delivery. Therefore, these states should be excluded from any delivery mode that is associated with a ground delivery service but included in any delivery mode that is associated with an air delivery service.</p>
+<h2 id="validate-delivery-modes-for-a-call-center-order">Validate delivery modes for a call center order</h2>
+<p>After the delivery modes are defined, you must run the <strong>Process delivery modes</strong> batch job. This job makes the delivery modes available so that they can be used in sales order processes for channels. To run the <strong>Process delivery modes</strong> job, go to <strong>Retail and Commerce &gt; Retail and Commerce IT &gt; Process delivery modes</strong>. This job should be run any time that new delivery modes are added to a channel or changes are made to existing delivery mode/channel relationships.</p>
+<p>After you run the <strong>Process delivery modes</strong> batch job, you can go to <strong>Retail and Commerce &gt; Channels &gt; Call centers &gt; All call centers</strong>. On the <strong>All call centers</strong> page, on the Action Pane, on the <strong>Set up</strong> tab, select <strong>Modes of delivery</strong>. The <strong>Modes of delivery</strong> page lists all the valid delivery modes for the selected call center channel. To edit existing delivery modes or add new delivery modes, select <strong>Manage modes of delivery</strong>. Note that the <strong>Process delivery modes</strong> job must be run whenever changes are made.</p>
+<h2 id="define-charges-for-delivery-services">Define charges for delivery services</h2>
+<p>When sales orders are created for customers, a company might want to add charges that are automatically calculated based on the delivery modes that are selected for the order. These charges can be configured so that they are the same for all customers and delivery modes. Alternatively, the charges can vary, depending on the customer and/or the delivery modes that are selected for the sales order.</p>
+<p>To define the charges, go to <strong>Retail and Commerce &gt; Channel setup &gt; Charges &gt; Auto charges</strong>. Select <strong>New</strong> to add new charges. Alternatively, select an existing entry, and then select <strong>Edit</strong>.</p>
+<p>Charges can be defined so that they are calculated at the level of either the order header or the order lines. Use the <strong>Level</strong> field to select the level desired.</p>
+<p>Charges can be defined for a specific customer, a group of customers, or all customers. In the <strong>Account code</strong> field, select <strong>Table</strong> to define charges that are applied only to a specific customer. Select <strong>Group</strong> to define charges for a specific customer group. Select <strong>All</strong> to apply the charges to every customer who places a sales order that uses the related delivery mode. If you selected <strong>Table</strong> or <strong>Group</strong> in the <strong>Account code</strong> field, select the customer or customer group in the <strong>Account relation</strong> field.</p>
+<p>Charges can be configured so that they are applied for a specific delivery mode, a delivery mode group, or all delivery modes. If you select <strong>Table</strong> in the <strong>Mode of delivery code</strong> field, you must select a specific delivery mode in the <strong>Mode of delivery relation</strong> field. If you select <strong>Group</strong>, you must select a delivery mode group in the <strong>Mode of delivery relation</strong> field. Delivery mode groups are defined at <strong>Retail and Commerce &gt; Channel setup &gt; Charges &gt; Delivery charges group</strong>. They can then be linked to one or more delivery modes on the <strong>Modes of delivery</strong> page. If you select a group when you define charges, any delivery mode that is linked to the selected delivery group uses those charges. Finally, if you select <strong>All</strong> in the <strong>Mode of delivery code</strong> field, all delivery modes use the charges. Therefore, you don't select a value in the <strong>Mode of delivery relation</strong> field.</p>
+<p>In the <strong>Lines</strong> section, you can define one or more charges by currency, as you require. Charges must be linked to a charges code that defines the financial posting rules for the charge. The <strong>Category</strong> field is used to define how charges are calculated. For example, if customers should be charged a flat rate of $9.95 to have an order shipped by a specific delivery mode, use the <strong>Fixed</strong> category. If the business decides to charge customers a percentage of the order total to cover the delivery charges, use the <strong>Percent</strong> category. The actual charge to the customers is defined in the <strong>Charges value</strong> field.</p>
+<p>Companies often configure tiered charges. In this case, the amount that customers pay for delivery is based on the order value. To configure tiered charges, enter values in the <strong>From amount</strong> and <strong>To amount</strong> fields in addition to defining the charge itself in the <strong>Charges value</strong> field. For example, for orders that have a value that is less than $50, a retailer charges $5.95 for ground shipping. For orders that have a value that is equal to or more than $50, but less than $100, the retailer charges $7.95. Finally, for orders that have a value that is equal to or more than $100, the retailer provides free shipping. The following illustration shows the configuration of these charges.</p>
+<p><img src="media/fixedtieredcharges.png" alt="Fixed tiered charges example"></p>
+<p>You can use a mixture of categories for charges, depending on your business requirements. For example, for all orders that have a value that is less than $100, there is a fixed charge of $9.95 for shipping. Then, for orders that have a value that is equal to or more than $100, delivery charges are calculated at a rate of 5 percent of the order value. The following illustration shows the configuration of these charges.</p>
+<p><img src="media/mixedtieredcharges.png" alt="Mixed tiered charges example"></p>
+<h2 id="apply-delivery-modes-during-order-entry-in-a-call-center">Apply delivery modes during order entry in a call center</h2>
+<p>When a new sales order is created, a value must be specified in the <strong>Mode of delivery</strong> field on the <strong>Delivery</strong> FastTab of the sales order header. This field might be filled in automatically, based on default values from the customer record.</p>
+<p>The delivery mode that is defined on the order header is automatically copied to the sales order lines as they are created. However, you can change the delivery mode setup for a specific line item on the <strong>Delivery</strong> tab in the <strong>Line details</strong> section of the sales order entry page.</p>
+<p>If the selected delivery mode isn't valid for the product or the delivery address that is defined for the order or order line, you receive an error message. You must then select a delivery mode that has been defined to support that product or address configuration.</p>
+<h2 id="calculation-of-delivery-charges-during-entry-of-order">Calculation of delivery charges during entry of order</h2>
+<p>If the <strong>Enable order completion</strong> setting is turned on for your call center channel, shipping charges are automatically calculated for sales orders when users select <strong>Complete</strong>. The following message appears at the top of the <strong>Sales order summary</strong> page: &quot;Tiered charges calculated.&quot; The charges that are calculated are added to the value of the <strong>Sales total</strong> field. On the <strong>Amount</strong> FastTab, the <strong>Charges</strong> field shows the total amount of all charges that have been calculated for the order and lines. To see a more detailed breakdown of the charges, select <strong>Order</strong> on the <strong>Sales order summary</strong> page, and then select the <strong>Charges</strong> option to view, add, or edit the charges. Note that the calculation of delivery charges on the order header is based on the delivery mode that is linked to the header. Line-level delivery charges are calculated based on the delivery mode that is configured for the sales line. If multiple delivery modes are used on different lines, multiple charges might be applied and added together. The total amount is then shown in the <strong>Charges</strong> field on the <strong>Sales order summary</strong> page.</p>
+<p>If the <strong>Enable order completion</strong> setting is turned off, users must manually trigger the calculation of charges. On the <strong>Sales order</strong> page, on the Action Pane, on the <strong>Sell</strong> tab, in the <strong>Calculate</strong> group, select <strong>Tiered charges</strong>. The &quot;Tiered charges calculated&quot; message appears. You can then select the <strong>Charges</strong> option on the <strong>Sell</strong> tab to view, edit, or delete the calculated charges.</p>
+<h2 id="use-expedited-delivery-modes-on-call-center-orders">Use expedited delivery modes on call center orders</h2>
+<p>You can optionally link an expedite code to any delivery mode that you configure. This code is used as a prioritization sorting and reporting tool. It doesn't currently cause additional fees to be applied to the order. To set up expedite codes, go to <strong>Sales and marketing &gt; Setup &gt; Distribution &gt; Expedite codes</strong>.</p>
+<p>For example, for orders that will be shipped by next-day air, picking must be done in the warehouse by 1 PM every day. In this case, an expedite code can be created, and that code can be linked to any next-day delivery mode that is configured in the system. When the warehouse creates its pick wave, the appropriate expedite code in the <strong>Expedite</strong> field can be used as a filter, so that picking is run only for orders that have delivery modes that are linked to that code.</p>
+<p>Additionally, when a call center order is entered, an expedite code can be manually applied either to the sales order header or to an individual sales order line. Again, the code can be used for sorting or reporting purposes. Sometimes, an order must be handled carefully because of a customer service issue. In this case, a specific expedite code can be applied to the order header or lines to help identify and prioritize the order during the fulfillment process.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/configure-call-center-delivery.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

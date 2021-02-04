@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Verkaufsangebotskopfzeilen und &#8209;positionen direkt von Sales zu Supply Chain Management synchronisieren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Verkaufsangebotskopfzeilen und &#8209;positionen direkt von Sales zu Supply Chain Management synchronisieren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Das Thema erkl&#228;rt die Vorlagen und die zugrunde liegenden Aufgaben, die verwendet werden, um Verkaufsangebotskopfzeilen und -positionen direkt aus Dynamics 365 Sales mit Dynamics 365 Supply Chain Management zu synchronisieren.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="synchronize-sales-quotation-headers-and-lines-directly-from-sales-to-supply-chain-management">Verkaufsangebotskopfzeilen und ‑positionen direkt von Sales zu Supply Chain Management synchronisieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>Das Thema erklärt die Vorlagen und die zugrunde liegenden Aufgaben, die verwendet werden, um Verkaufsangebotskopfzeilen und -positionen direkt aus Dynamics 365 Sales mit Dynamics 365 Supply Chain Management zu synchronisieren.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Damit Sie die Prospect to Cash-Lösung verwenden können, müssen Sie mit <a href="https://docs.microsoft.com/powerapps/administrator/data-integrator">Integration von Daten in Common Data Service for Apps</a> vertraut sein.</p>
+</div>
+<h2 id="data-flow-in-prospect-to-cash">Datenfluss in Interessent nach Bargeld</h2>
+<p>Die Lösung Interessent nach Bargeld verwendet die Datenenintegrationsfunktion, um Daten über Instanzen von Supply Chain Management und Sales hinweg zu synchronisieren. Die „Interessent zu Bargeld“-Vorlagen, die über die Datenintegrationsfunktion verfügbar sind, ermöglichen den Fluss von Konten, Kontakten, Produkten, Verkaufsangeboten, Aufträgen und Verkaufsrechnungen zwischen Supply Chain Management und Sales. Die folgende Abbildung zeigt, wie Daten zwischen Supply Chain Management und Sales synchronisiert werden.</p>
+<p><a href="media/prospect-to-cash-data-flow.png"><img src="media/prospect-to-cash-data-flow.png" alt="Datenfluss in Interessent nach Bargeld"></a></p>
+<h2 id="template-and-tasks">Vorlage und Aufgaben</h2>
+<p>Die folgende Vorlage und die zugrunde liegenden Aufgaben werden verwendet, um Verkaufsangebotskopfzeilen und -positionen direkt von Sales mit Supply Chain Management zu synchronisieren:</p>
+<ul>
+<li><p><strong>Name der Vorlage in der Datenintegration:</strong> Verkaufsangebote (Sales zu Supply Chain Management) - Direkt</p>
+</li>
+<li><p><strong>Namen der Aufgaben im Datenintegrationsprojekt:</strong></p>
+<ul>
+<li>QuoteHeader</li>
+<li>QuoteLine</li>
+</ul>
+</li>
+</ul>
+<p>Die folgenden Synchronisierungsaufgaben sind erforderlich, bevor die Synchronisierung von Verkaufsangebotskopfzeilen und -positionen erfolgen kann:</p>
+<ul>
+<li>Produkte (Supply Chain Management zu Sales) – Direkt</li>
+<li>Konten (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+<li>Kontakte zu Kunden (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+</ul>
+<h2 id="entity-set">Entitätssatz</h2>
+<table>
+<thead>
+<tr>
+<th>Umsatz</th>
+<th>Lieferkettenverwaltung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Angebote</td>
+<td>CDS-Verkaufsangebotskopf</td>
+</tr>
+<tr>
+<td>QuoteDetails</td>
+<td>CDS-Verkaufsangebotspositionen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entitätsfluss</h2>
+<p>Verkaufsangebote werden in Sales erstellt und mit Supply Chain Management synchronisiert.</p>
+<p>Verkaufsangebote aus Sales werden nur synchronisiert, wenn folgende Bedingungen erfüllt sind:</p>
+<ul>
+<li>Alle Angebote in den Verkaufsangebotspositionen werden extern verwaltet.</li>
+<li>Nachdem Sie <strong>Angebot aktivieren</strong> geklickt haben, ist das Verkaufsangebot aktiv.</li>
+</ul>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to Cash-Lösung für Sales</h2>
+<p>Das Feld <strong>Verfügt nur über extern verwaltete Produkte</strong> ist der Entität <strong>Angebot</strong> hinzugefügt worden, um stets nachzuverfolgen, ob das Verkaufsangebot vollständig aus extern verwalteten Produkten besteht. Wenn ein Verkaufsangebot nur aus extern verwalteten Produkten besteht, werden die Produkte in Supply Chain Management verwaltet. Mit diesem Verhalten wird sichergestellt, dass Sie nicht versuchen, Verkaufsangebotspositionen mit Produkten zu synchronisieren, die in Supply Chain Management unbekannt sind.</p>
+<p>Alle Angebotsprodukte im Vertriebsangebot werden mit der Information <strong>Verfügt nur über extern verwaltete Produkte</strong> aus der Vertriebsangebotskopfzeile aktualisiert. Diese Informationen können im Feld <strong>Angebot hat nur extern verwaltete Produkte</strong> in der Entität <strong>QuoteDetails</strong> gefunden werden.</p>
+<p>Ein Rabatt kann zum Angebotsprodukt hinzugefügt werden wird anschließend mit Supply Chain Management synchronisiert. Die Felder <strong>Rabatt</strong>, <strong>Belastungen</strong> und <strong>Steuer</strong> in der Kopfzeile werden durch komplizierte Einstellungen in Supply Chain Management gesteuert. Diese Einstellungen unterstützen aktuell nicht die Integrationszuordnung. Im aktuellen Entwurf werden die Felder <strong>Preis</strong>, <strong>Rabatt</strong>, <strong>Belastung</strong> und <strong>Steuer</strong> in Supply Chain Management verwaltet und gehandhabt.</p>
+<p>In Sales versieht die Lösung die folgenden Felder mit einem Schreibschutz, da die Werte nicht mit Supply Chain Management synchronisiert werden:</p>
+<ul>
+<li>Schreibgeschützte Felder in de Verkaufsangebotskopfzeile: <strong>Rabatt %</strong>, <strong>Rabatt</strong> und <strong>Frachtbetrag</strong></li>
+<li>Schreibgeschützte Felder auf Angebotsprodukten: <strong>Steuer</strong></li>
+</ul>
+<h2 id="preconditions-and-mapping-setup">Voraussetzungen und Einrichtung der Zuordnung</h2>
+<p>Vor dem Synchronisieren von Verkaufsangeboten müssen die Systeme mit den folgenden Einstellungen synchronisiert werden:</p>
+<h3 id="setup-in-sales">Einrichtung in Sales</h3>
+<ul>
+<li><p>Stellen Sie sicher, dass Berechtigungen für das Team, zu dem der Benutzer (aus Ihren Verbindungseinstellungen in Sales) zugewiesen ist, vorhanden sind. Werden Demodaten verwendet, hat in der Regel der Benutzer einen Administratorzugriff aber nicht das Team. Wenn dieses Team nicht Administratorzugriff hat, wenn Sie das Projekt vom Datenintegrator ausführen, erhalten Sie eine Fehlermeldung, die angibt, dass das Hauptteam fehlt.</p>
+<p>Wenn Sie Berechtigungen für das Team einrichten, gehen Sie &gt; zu <strong>Einstellungen</strong> <strong>Sicherheit</strong> &gt; <strong>Teams</strong>, und wählen Sie das zutreffende Team aus. Wählen Sie <strong>Verwalten Sie Rollen</strong> und dann eine Rolle, die die erforderlichen Berechtigungen verfügt, beispielsweise <strong>Systemadministrator</strong>.</p>
+</li>
+<li><p>Gehen Sie zu &gt; Sie <strong>Einstellungen</strong> <strong>Verwaltung</strong> &gt; <strong>Systemeinstellungen</strong> &gt; <strong>Sales</strong> zu öffnen, und überprüfen Sie, ob die folgenden Einstellungen verwendet werden:</p>
+<ul>
+<li>Die Option <strong>Systempreisberechnungssystem verwenden</strong> wird auf <strong>Ja</strong> festgelegt.</li>
+<li>Das Feld <strong>Rabattberechnungsmethode</strong> wird auf <strong>Positionsartikel</strong> festgelegt.</li>
+</ul>
+</li>
+</ul>
+<h3 id="setup-in-the-data-integration-project">Einrichtung im Datenenintegrationsprojekt</h3>
+<h4 id="quoteheader">QuoteHeader</h4>
+<ul>
+<li><p>Vergewissern Sie sich, dass die erforderliche Zuordnung für <strong>Shipto_Land</strong> zu <strong>DeliveryAddressCountryRegionISOCode</strong> vorhanden ist. In der Wertzuordnungen können Sie einen Standardwert definieren, der verwendet wird, wenn der Wert nicht aktiviert wird. Lassen Sie einfach die linken Seite leer, und legen die rechte Seite auf das gewünschte Land oder die Region fest. Auf diese Weise müssen Sie das Land oder die Region für Zahlungen nationaler Aufträge nicht eingeben.</p>
+<p>Der Vorlagenwert ist eine Wertzuordnung, in der verschiedene Länder/Regionen zugeordnet sind, und wo ein leerer Wert dem Wert <strong>USA</strong> entspricht.</p>
+</li>
+</ul>
+<h4 id="quoteline">QuoteLine</h4>
+<ul>
+<li><p>Stellen Sie sicher, dass die erforderliche Wertzuordnung für <strong>SalesUnitSymbol</strong> in Supply Chain Management vorhanden ist.</p>
+</li>
+<li><p>Überprüfen Sie, dass die obligatorischen Einheiten in Sales definiert sind.</p>
+<p>Ein Vorlagenwert, eine der Wertzuordnung ist, wird für <strong>oumid.name</strong> auf <strong>SalesUnitSymbol</strong> festgelegt.</p>
+</li>
+<li><p>Optional: Sie können die folgende Zuordnungen hinzufügen, um sicherzustellen, dass Verkaufsangebotspositionen nach Supply Chain Management importiert werden, wenn es weder Standardinformationen vom Debitoren noch vom Produkt gibt:</p>
+<ul>
+<li><strong>SiteId</strong> – Ein Standort ist erforderlich, um in Supply Chain Management Angebots- und Vertriebsauftragspositionen zu erstellen. Es gibt keinen Standardvorlagenwert für <strong>SiteId</strong>.</li>
+<li><strong>WarehouseId</strong> – Ein Lager ist erforderlich, um in Supply Chain Management Angebots- und Vertriebsauftragspositionen verarbeiten zu können. Es gibt keinen Standardvorlagenwert für <strong>WarehouseId</strong>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integrator">Vorlagenzuordnung im Datenintegrator</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>Die Felder <strong>Rabatt</strong>, <strong>Belastungen</strong> und <strong>Steuer</strong> werden durch komplizierte Einstellungen in Supply Chain Management gesteuert. Diese Einstellungen unterstützen aktuell nicht die Integrationszuordnung. Im aktuellen Entwurf werden die Felder <strong>Preis</strong>, <strong>Rabatt</strong>, <strong>Belastung</strong> und <strong>Steuer</strong> von Supply Chain Management gehandhabt.</li>
+<li>Die Felder <strong>Zahlungsbedingungen</strong>, <strong>Frachtkonditionen</strong>, <strong>Lieferbedingungen</strong>, <strong>Liefermethode</strong> und <strong>Liefermodus</strong> sind nicht Teil der Standardzuordnungen. Um diese Feldern zuzuordnen, müssen Sie eine Wertzuordnung einrichten, die spezifisch für die Daten in den Organisationen ist, zwischen denen die Entität synchronisiert wird.</li>
+</ul>
+</div>
+<p>Die folgenden Abbildungen zeigen ein Beispiel für eine Vorlagenzuordnung im Datenintegrator.</p>
+<h3 id="quoteheader">QuoteHeader</h3>
+<p><img src="media/sales-quotation-direct-template-mapping-data-integrator-1.png" alt="Vorlagenzuordnung im Datenintegrator"></p>
+<h3 id="quoteline">QuoteLine</h3>
+<p><img src="media/sales-quotation-direct-template-mapping-data-integrator-2.png" alt="Vorlagenzuordnung im Datenintegrator"></p>
+<h2 id="related-topics">Verwandte Themen</h2>
+<p><a href="prospect-to-cash.html">Interessent zu Bargeld</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/sales-marketing/sales-quotation-template-mapping-sales-fin.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

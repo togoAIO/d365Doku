@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Consolidate shipments when they are released to the warehouse by using Automatic release of sales orders | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Consolidate shipments when they are released to the warehouse by using Automatic release of sales orders | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="consolidate-shipments-when-they-are-released-to-the-warehouse-by-using-automatic-release-of-sales-orders">Consolidate shipments when they are released to the warehouse by using Automatic release of sales orders</h1>
+
+
+<p>This topic presents a scenario where multiple orders are released to the warehouse in the same automated release-to-warehouse periodic procedure. The orders will automatically be consolidated into shipments, based on rules that are defined as shipment consolidation policies.</p>
+<p>During the scenario, you will create sets of sales orders and release each set to the warehouse. You will then review the shipments that are created or updated during shipment consolidation, based on the configured policies.</p>
+<h2 id="make-demo-data-available">Make demo data available</h2>
+<p>The scenario in this topic references values and records that are included in the standard demo data that is provided for Microsoft Dynamics 365 Supply Chain Management. If you want to use the values that are provided here as you do the exercises, be sure to work in an environment where the demo data is installed, and set the legal entity to <strong>USMF</strong> before you begin.</p>
+<h2 id="set-up-shipment-consolidation-policies-and-product-filters">Set up shipment consolidation policies and product filters</h2>
+<p>The scenario that is described here assumes that you've already turned on the feature, done the exercises in <a href="configure-shipment-consolidation-policies.html">Configure shipment consolidation policies</a>, and created the policies and other records that are described there. Be sure to do those exercises before you continue with this scenario.</p>
+<h2 id="create-the-sales-orders-for-this-scenario">Create the sales orders for this scenario</h2>
+<p>Start by creating a collection of sales orders that you can work with. You must work with a warehouse that is enabled for advanced warehouse (WMS) processes. Unless a different warehouse is explicitly mentioned, that same warehouse must be used for each of the following sets of orders.</p>
+<p>Go to <strong>Accounts receivable &gt; Orders &gt; All sales orders</strong>, and create a collection of sales orders that have the settings that are described in the following subsections.</p>
+<h3 id="create-order-set-1">Create order set 1</h3>
+<h4 id="sales-order-1-1">Sales order 1-1</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Mode of delivery:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-order-1-2">Sales order 1-2</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Mode of delivery:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-order-1-3">Sales order 1-3</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Mode of delivery:</strong> <em>10</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Add a second order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0002</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+<li><strong>Mode of delivery:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-order-set-2">Create order set 2</h3>
+<h4 id="sales-orders-2-1-and-2-2">Sales orders 2-1 and 2-2</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-002</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9200</em> (an item where the <strong>Code 4</strong> filter is set to <em>Flammable</em>)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Add a second order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9201</em> (an item where the <strong>Code 4</strong> filter is set to <em>Explosive</em>)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+<li><strong>Mode of delivery:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-order-set-3">Create order set 3</h3>
+<h4 id="sales-order-3-1">Sales order 3-1</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-002</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9200</em> (an item where the <strong>Code 4</strong> filter is set to <em>Flammable</em>)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Add a second order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9201</em> (an item where the <strong>Code 4</strong> filter is set to <em>Explosive</em>)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+<li><strong>Mode of delivery:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This order is identical to the two orders that you created for order set 2. However, it's listed as its own order set because you will release it separately later in this scenario.</p>
+</div>
+<h3 id="create-order-set-4">Create order set 4</h3>
+<h4 id="sales-order-4-1">Sales order 4-1</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Customer requisition:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-order-set-5">Create order set 5</h3>
+<h4 id="sales-orders-5-1-and-5-2">Sales orders 5-1 and 5-2</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Customer requisition:</strong> <em>2</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-order-5-3">Sales order 5-3</h4>
+<ol>
+<li><p>Create a sales order that has the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Customer requisition:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-order-set-6">Create order set 6</h3>
+<h4 id="sales-orders-6-1-and-6-2">Sales orders 6-1 and 6-2</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-003</em></li>
+<li><strong>Customer requisition:</strong> <em>2</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-orders-6-3-and-6-4">Sales orders 6-3 and 6-4</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-004</em></li>
+<li><strong>Customer requisition:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-orders-6-5-and-6-6">Sales orders 6-5 and 6-6</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-007</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Pool:</strong> <em>ShipCons</em></li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h4 id="sales-orders-6-7-and-6-8">Sales orders 6-7 and 6-8</h4>
+<ol>
+<li><p>Create two identical sales orders that have the following settings:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-007</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Pool:</strong> Leave this field blank.</li>
+</ul>
+</li>
+<li><p>Add an order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em> (an item that no <strong>Code 4</strong> filter is assigned to)</li>
+<li><strong>Quantity:</strong> <em>1.00</em></li>
+</ul>
+</li>
+</ol>
+<h2 id="automatic-release-of-sales-orders-to-the-warehouse">Automatic release of sales orders to the warehouse</h2>
+<p>For each set of sales orders that you created earlier, you will complete a procedure for automatic release to the warehouse. In each case, you will work through the <a href="#release-procedure">basic release-to-warehouse procedure</a> that is provided here.</p>
+<h3 id="release-procedure">Basic release-to-warehouse procedure</h3>
+<p>For each set of sales orders that you created earlier, you will complete the three procedures that are outlined in the following subsections.</p>
+<h4 id="update-the-wave-template-that-will-be-used-during-release">Update the wave template that will be used during release</h4>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave templates</strong>.</li>
+<li>Set the <strong>Wave template type</strong> field to <em>Shipping</em>.</li>
+<li>Find and select the wave template that is associated with the warehouse that you used in the order sets that you created for this scenario. For example, if you used warehouse <em>24</em>, select the <strong>24 Shipping Default</strong> wave template. If you used warehouse <em>61</em>, select the <strong>61 Shipping</strong> wave template.</li>
+<li>On the Action Pane, select <strong>Edit</strong>.</li>
+<li>Set the <strong>Process wave at release to warehouse</strong> option to <em>No</em>.</li>
+</ol>
+<h4 id="release-to-the-warehouse">Release to the warehouse</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Release to warehouse &gt; Automatic release of sales orders</strong>.</p>
+</li>
+<li><p>Set the <strong>Quantity to release</strong> field to <em>All</em>.</p>
+</li>
+<li><p>On the <strong>Records to include</strong> FastTab, select <strong>Filter</strong> to open the query dialog box.</p>
+</li>
+<li><p>On the <strong>Range</strong> tab, select <strong>Add</strong> to add a row that has the following settings to the grid:</p>
+<ul>
+<li><strong>Table:</strong> <em>Sales order</em></li>
+<li><strong>Derived table:</strong> <em>Sales order</em></li>
+<li><strong>Field:</strong> <em>Sales order</em></li>
+<li><strong>Criteria:</strong> Enter a comma-separated list of the sales order numbers from the desired order set.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your query.</p>
+</li>
+<li><p>Select <strong>OK</strong> to start the <em>Automatic release to warehouse</em> procedure.</p>
+</li>
+</ol>
+<h4 id="review-the-shipment-that-is-created-or-updated">Review the shipment that is created or updated</h4>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Shipments &gt; All shipments</strong>.</li>
+<li>Find and select the required shipment.</li>
+<li>If a consolidation policy was used when the shipment was created or updated, you should see it in the <strong>Shipment consolidation policy</strong> field.</li>
+</ol>
+<h3 id="release-sales-orders-from-order-set-1">Release sales orders from order set 1</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 1.</p>
+<p>When you've finished, you should see that two shipments were created:</p>
+<ul>
+<li>The first shipment contains three lines and was created by using the <em>CustomerMode</em> shipment consolidation policy.</li>
+<li>The second shipment, which doesn't use the <em>Airways</em> transportation mode of delivery, was created by using the <em>CustomerOrderNo</em> shipment consolidation policy.</li>
+</ul>
+<h3 id="release-sales-orders-from-order-set-2">Release sales orders from order set 2</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 2.</p>
+<p>When you've finished, you should see that three shipments were created:</p>
+<ul>
+<li>The first shipment contains <em>Flammable</em> items.</li>
+<li>Each of the other two shipments contains one line that has the <em>Explosive</em> item.</li>
+</ul>
+<h3 id="release-sales-orders-from-order-set-3">Release sales orders from order set 3</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 3.</p>
+<p>When you've finished, you should see that the following actions occurred:</p>
+<ul>
+<li>One existing shipment (the shipment that was created when order set 2 was released to the warehouse) was updated. A line that has the <em>Flammable</em> item was added.</li>
+<li>One new shipment was created that contains the <em>Explosive</em> item.</li>
+</ul>
+<h3 id="release-sales-orders-from-order-set-4">Release sales orders from order set 4</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 4.</p>
+<p>When you've finished, you should see that one existing shipment (where the <strong>Customer requisition</strong> field is set to <em>1</em>) was updated. One new line was added to it.</p>
+<h3 id="release-sales-orders-from-order-set-5">Release sales orders from order set 5</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 5.</p>
+<p>When you've finished, you should see that the following actions occurred:</p>
+<ul>
+<li>One existing shipment (where the <strong>Customer requisition</strong> field is set to <em>1</em>) was updated. A line from sales order 5-3 (where the <strong>Customer requisition</strong> field is set to <em>1</em>) was added to it.</li>
+<li>One new shipment was created, where lines from sales orders 5-1 and 5-2 are grouped into one shipment.</li>
+</ul>
+<h3 id="release-sales-orders-from-order-set-6">Release sales orders from order set 6</h3>
+<p>Follow the <a href="#release-procedure">basic release-to-warehouse procedure</a> to release the sales orders from order set 6.</p>
+<p>When you've finished, you should see that four shipments were created:</p>
+<ul>
+<li>Lines from two orders for customer <em>US-003</em> were grouped into one shipment by using the <em>Order pool</em> shipment consolidation policy.</li>
+<li>Lines from two orders for customer <em>US-004</em> were grouped into one shipment by using the <em>Order pool</em> shipment consolidation policy.</li>
+<li>Lines from sales orders 6-5 and 6-6 for customer <em>US-007</em> were grouped into one shipment by using the <em>Order pool</em> shipment consolidation policy.</li>
+<li>Lines from sales orders 6-7 and 6-8 for customer <em>US-007</em> were grouped into one shipment by using the <em>CrossOrder</em> shipment consolidation policy.</li>
+</ul>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="about-shipment-consolidation-policies.html">Shipment consolidation policies</a></li>
+<li><a href="configure-shipment-consolidation-policies.html">Configure shipment consolidation policies</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronization of sales orders directly between Sales and Supply Chain Management | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronization of sales orders directly between Sales and Supply Chain Management | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronization-of-sales-orders-directly-between-sales-and-supply-chain-management">Synchronization of sales orders directly between Sales and Supply Chain Management</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>The topic discusses the templates and underlying tasks that are used to run synchronization of sales orders directly between Dynamics 365 Sales and Dynamics 365 Supply Chain Management.</p>
+<h2 id="data-flow-in-prospect-to-cash">Data flow in Prospect to cash</h2>
+<p>The Prospect to cash solution uses the Data integration feature to synchronize data across instances of Supply Chain Management and Sales. The Prospect to cash templates that are available with the Data integration feature enable the flow of data for accounts, contacts, products, sales quotations, sales orders, and sales invoices between Supply Chain Management and Sales. The following illustration shows how the data is synchronized between Supply Chain Management and Sales.</p>
+<p><a href="./media/prospect-to-cash-data-flow.png"><img src="./media/prospect-to-cash-data-flow.png" alt="Data flow in Prospect to cash"></a></p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>To access the available templates, open <a href="https://preview.admin.powerapps.com/dataintegration">Power Apps Admin Center</a>. Select <strong>Projects</strong>, and then, in the upper-right corner, select <strong>New project</strong> to select public templates.</p>
+<p>The following templates and underlying tasks are used to run synchronization of sales orders directly between Sales and Supply Chain Management.</p>
+<ul>
+<li><p><strong>Names of the templates in Data integration:</strong></p>
+<ul>
+<li>Sales Orders (Sales to Supply Chain Management) - Direct</li>
+<li>Sales Orders (Supply Chain Management to Sales) - Direct</li>
+</ul>
+</li>
+<li><p><strong>Names of the tasks in the Data integration project:</strong></p>
+<ul>
+<li>OrderHeader</li>
+<li>OrderLine</li>
+</ul>
+</li>
+</ul>
+<p>The following synchronization tasks are required before synchronization of sales invoice headers and lines can occur:</p>
+<ul>
+<li>Products (Supply Chain Management to Sales) - Direct</li>
+<li>Accounts (Sales to Supply Chain Management) - Direct (if used)</li>
+<li>Contacts to Customers (Sales to Supply Chain Management) - Direct (if used)</li>
+</ul>
+<h2 id="entity-set">Entity set</h2>
+<table>
+<thead>
+<tr>
+<th>Supply Chain Management</th>
+<th>Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dataverse sales order headers</td>
+<td>SalesOrders</td>
+</tr>
+<tr>
+<td>Dataverse sales order lines</td>
+<td>SalesOrderDetails</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entity flow</h2>
+<p>Sales orders are created in Sales and synchronized to Supply Chain Management when <strong>Run project</strong> is triggered for a project based on the <strong>Sales Orders (Sales to Supply Chain Management) - Direct</strong> template. You can only activate and synchronize orders from Sales if all <strong>Order Products</strong> consist of products that are externally maintained. Therefore, there can be no write-in products. After the order is activated, the sales order becomes read-only in the user interface (UI). At that point, the updates are made from Supply Chain Management. After the sales order has a status of <strong>Confirmed</strong>, the a project based on the <strong>Sales Orders (Supply Chain Management to Sales) - Direct</strong> template can be used to synchronize updates or fulfillment status from Supply Chain Management to Sales.</p>
+<p>You don't have to create orders in Sales. You can create new sales orders in Supply Chain Management instead. After a sales order has a status of <strong>Confirmed</strong>, it's synchronized to Sales as described in the previous paragraph.</p>
+<p>In Supply Chain Management, filters in the template help guarantee that only the relevant sales orders are included in the synchronization:</p>
+<ul>
+<li>On the sales order, both the ordering customer and the invoicing customer have to originate from Sales to be included in the synchronization. In Supply Chain Management, the <strong>OrderingCustomerIsExternallyMaintained</strong> and <strong>InvoiceCustomerIsExternallyMaintained</strong> columns are used to filter sales orders from the data tables.</li>
+<li>The sales order in Supply Chain Management must be confirmed. Only confirmed sales orders or sales orders that have a higher processing status, such as <strong>Shipped</strong> or <strong>Invoiced</strong>, are synchronized to Sales.</li>
+<li>After a sales order is created or modified, the <strong>Calculate sales totals</strong> batch job in Supply Chain Management must be run. Only sales orders where sales totals are calculated will be synchronized to Sales.</li>
+</ul>
+<h2 id="freight-tax">Freight tax</h2>
+<p>Sales doesn't support tax at the header level, because tax is stored at the line level. To support tax at the header level from Supply Chain Management, such as tax on freight, the system synchronizes tax to Sales as a write-in product that is named <strong>Freight Tax</strong>, and that has the tax amount from Supply Chain Management. In this way, the standard price calculation in Sales can be used for totals, even when there is tax at the header level from Supply Chain Management.</p>
+<h2 id="discount-calculation-and-rounding">Discount calculation and rounding</h2>
+<p>The discount calculation model in Sales differs from the discount calculation model in Supply Chain Management. In Supply Chain Management, the final discount amount on a sales line can be the result of a combination of discount amounts and discount percentages. If this final discount amount is divided by the quantity on the line, rounding can occur. However, this rounding isn't considered if a rounded per-unit discount amount is synchronized to Sales. To help guarantee that the full discount amount from a sales line in Supply Chain Management is correctly synchronized to Sales, the full amount must be synchronized without being divided by the line quantity. Therefore, you must define the <strong>Discount calculation method</strong> as <strong>Line item</strong> in Sales.</p>
+<p>When a sales order line is synchronized from Sales to Supply Chain Management, the full line discount amount is used. Because Supply Chain Management has no field that can store the full discount amount for a line, the amount is divided by the quantity and stored in the <strong>Line discount</strong> field. Any rounding that occurs in this division is stored in the <strong>Sales charges</strong> field on the sales line.</p>
+<h3 id="example">Example</h3>
+<p><strong>Synchronization from Sales to Supply Chain Management</strong></p>
+<ul>
+<li><strong>Sales:</strong> Quantity = 3, per-line discount = $10.00</li>
+<li><strong>Supply Chain Management:</strong> Quantity = 3, line discount amount = $3.33, sales charge = -$0.01</li>
+</ul>
+<p><strong>Synchronization from Supply Chain Management to Sales</strong></p>
+<ul>
+<li><strong>Supply Chain Management:</strong> Quantity = 3, line discount amount = $3.33, sales charge = -$0.01</li>
+<li><strong>Sales:</strong> Quantity = 3, per-line discount = (3 × $3.33) + $0.01 = $10.00</li>
+</ul>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to cash solution for Sales</h2>
+<p>New columns have been added to the <strong>Order</strong> table and appear on the page:</p>
+<ul>
+<li><p><strong>Is Maintained Externally</strong> – Set this option to <strong>Yes</strong> when the order is coming from Supply Chain Management.</p>
+</li>
+<li><p><strong>Processing status</strong> – This column shows the processing status of the order in Supply Chain Management. The following values are available:</p>
+<ul>
+<li><strong>Draft</strong> – The initial status when an order is created in Sales. In Sales, only orders with this processing status can be edited.</li>
+<li><strong>Active</strong> – The status after the order is activated in Sales by using the <strong>Activate</strong> button.</li>
+<li><strong>Confirmed</strong></li>
+<li><strong>Packing Slip</strong></li>
+<li><strong>Invoiced</strong></li>
+<li><strong>Picked</strong></li>
+<li><strong>Partially Picked</strong></li>
+<li><strong>Partially Packed</strong></li>
+<li><strong>Shipped</strong></li>
+<li><strong>Partially Shipped</strong></li>
+<li><strong>Partially Invoiced</strong></li>
+<li><strong>Cancelled</strong></li>
+</ul>
+</li>
+</ul>
+<p>The <strong>Has Externally Maintained Products Only</strong> setting is used during order activation to consistently track whether a sales order consists entirely of externally maintained products. If a sales order consists entirely of externally maintained products, the products are maintained in Supply Chain Management. This setting helps guarantee that you don't activate and try to synchronize sales order lines that have products that are unknown to Supply Chain Management.</p>
+<p>The <strong>Create Invoice</strong>, <strong>Cancel Order</strong>, <strong>Recalculate</strong>, <strong>Get Products</strong>, and <strong>Lookup Address</strong> buttons on the <strong>Sales order</strong> page are hidden for externally maintained orders, because invoices will be created in Supply Chain Management and synchronized to Sales. These orders can't be edited, because sales order information will be synchronized from Supply Chain Management after activation.</p>
+<p>The sales order status will remain <strong>Active</strong> to help guarantee that changes from Supply Chain Management can flow to the sales order in Sales. To control this behavior, set the default <strong>Statecode [Status]</strong> value to <strong>Active</strong> in the Data integration project.</p>
+<h2 id="preconditions-and-mapping-setup">Preconditions and mapping setup</h2>
+<p>Before you synchronize sales orders, it's important that you update the following settings in the systems.</p>
+<h3 id="setup-in-sales">Setup in Sales</h3>
+<ul>
+<li><p>Make sure that permissions are set up for the team that the user from your Sales connection set is assigned to. If you're using demo data, the user usually has admin access, but the team doesn't have admin access. If the team doesn't have admin access, when you run the project from Data integration, you will receive an error message that states that the Principal team is missing.</p>
+<p>Go to <strong>Settings</strong> &gt; <strong>Security</strong> &gt; <strong>Teams</strong>, select the relevant team, select <strong>Manage Roles</strong>, and select a role that has the desired permissions, such as <strong>System Administrator</strong>.</p>
+</li>
+<li><p>To ensure correct calculation of discounts in both Sales and Supply Chain Management <strong>Discount calculation method</strong> must be set to <strong>Line item</strong>.</p>
+</li>
+<li><p>Go to <strong>Settings</strong> &gt; <strong>Administration</strong> &gt; <strong>System settings</strong> &gt; <strong>Sales</strong>, and make sure that the following settings are used:</p>
+<ul>
+<li>The <strong>Use system prizing calculation system</strong> option is set to <strong>Yes</strong>.</li>
+<li>The <strong>Discount calculation method</strong> column is set to <strong>Line item</strong>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="setup-in-supply-chain-management">Setup in Supply Chain Management</h3>
+<ul>
+<li>Go to <strong>Sales and marketing</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Calculate sales totals</strong>, and set the job to run as a batch job. Set the <strong>Calculate totals for sales orders</strong> option to <strong>Yes</strong>. This step is important, because only sales orders where sales totals are calculated will be synchronized to Sales. The frequency of the batch job should be aligned with the frequency of sales order synchronization.</li>
+</ul>
+<p>If you also use work order integration, you need to set up the sales origin. The sales origin is used to distinguish sales orders in Supply Chain Management that were created from work orders in Field Service. When a sales order has a sales origin of the <strong>Work order integration</strong> type, the <strong>External work order status</strong> field appears on the sales order header. Additionally, the sales origin ensures that sales orders that were created from work orders in Field Service are filtered out during sales order synchronization from Supply Chain Management to Field Service.</p>
+<ol>
+<li>Go to <strong>Sales and marketing</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales orders</strong> &gt; <strong>Sales origin</strong>.</li>
+<li>Select <strong>New</strong> to create a new sales origin.</li>
+<li>In the <strong>Sales origin</strong> column, enter a name for the sales origin, such as <strong>SalesOrder</strong>.</li>
+<li>In the <strong>Description</strong> column, enter a description, such as <strong>Sales Order from Sales</strong>.</li>
+<li>Select the <strong>Origin type assignment</strong> check box.</li>
+<li>Set the <strong>Sales origin type</strong> column to <strong>Sales order integration</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="setup-in-the-sales-orders-sales-to-supply-chain-management---direct-data-integration-project">Setup in the Sales Orders (Sales to Supply Chain Management) - Direct Data integration project</h3>
+<ul>
+<li><p>Make sure that the required mapping exists for <strong>Shipto_country</strong> to <strong>DeliveryAddressCountryRegionISOCode</strong>. You can make blank a default value in the value map to avoid having to type country for national orders. Set the left side to 'Blank', and set the right side to the desired country or region.</p>
+<p>The template value is a value map where several countries or regions are mapped, and where 'Blank' = US.</p>
+</li>
+</ul>
+<h3 id="setup-in-the-sales-orders-supply-chain-management-to-sales---direct-data-integration-project">Setup in the Sales Orders (Supply Chain Management to Sales) - Direct Data integration project</h3>
+<h4 id="salesheader-task">SalesHeader task</h4>
+<ul>
+<li><p>A price list is required in order to create orders in Sales. Update the value map for <strong>pricelevelid.name [Price List Name]</strong> to the price list that is used in Sales per currency. You can use the default price list for a single currency. Alternatively, if you have price lists in multiple currencies, you can use a value map.</p>
+<p>The default template value for <strong>pricelevelid.name [Price List Name]</strong> is <strong>CRM Service USA (sample)</strong>.</p>
+</li>
+</ul>
+<h4 id="salesline-task">SalesLine task</h4>
+<ul>
+<li><p>Make sure that the required value map for <strong>SalesUnitSymbol</strong> in Supply Chain Management exists.</p>
+</li>
+<li><p>Make sure that the required units are defined in Sales.</p>
+<p>A template value that has a value map is defined for <strong>SalesUnitSymbol</strong> to <strong>oumid.name</strong>.</p>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Payment terms</strong>, <strong>Freight terms</strong>, <strong>Delivery terms</strong>, <strong>Shipping method</strong>, and <strong>Delivery mode</strong> columns aren't part of the default mappings. To map these columns, you must set up a value mapping that is specific to the data in the organizations that the table is synchronized between.</p>
+</div>
+<p>The following illustrations show an example of a template mapping in Data integration.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The mapping shows which column information will be synchronized from Sales to Supply Chain Management, or from Supply Chain Management to Sales.</p>
+</div>
+<h3 id="sales-orders-supply-chain-management-to-sales---direct-orderheader">Sales Orders (Supply Chain Management to Sales) - Direct: OrderHeader</h3>
+<p><a href="./media/sales-order-direct-template-mapping-data-integrator-1.png"><img src="./media/sales-order-direct-template-mapping-data-integrator-1.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="sales-orders-supply-chain-management-to-sales---direct-orderline">Sales Orders (Supply Chain Management to Sales) - Direct: OrderLine</h3>
+<p><a href="./media/sales-order-direct-template-mapping-data-integrator-2.png"><img src="./media/sales-order-direct-template-mapping-data-integrator-2.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="sales-orders-sales-to-supply-chain-management---direct-orderheader">Sales Orders (Sales to Supply Chain Management) - Direct: OrderHeader</h3>
+<p><a href="./media/sales-order-direct-template-mapping-data-integrator-3.png"><img src="./media/sales-order-direct-template-mapping-data-integrator-3.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="sales-orders-sales-to-supply-chain-management---direct-orderline">Sales Orders (Sales to Supply Chain Management) - Direct: OrderLine</h3>
+<p><a href="./media/sales-order-direct-template-mapping-data-integrator-4.png"><img src="./media/sales-order-direct-template-mapping-data-integrator-4.png" alt="Template mapping in Data integration"></a></p>
+<h2 id="related-topics">Related topics</h2>
+<p><a href="prospect-to-cash.html">Prospect to cash</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

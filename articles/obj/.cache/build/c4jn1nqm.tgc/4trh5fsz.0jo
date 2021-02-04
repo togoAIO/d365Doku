@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Sales tax calculation on general journal lines </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Sales tax calculation on general journal lines ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how sales taxes are calculated for different types of accounts (vendor, customer, ledger, and project) on general journal lines.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="TaxTable">
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="sales-tax-calculation-on-general-journal-lines" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="33">Sales tax calculation on general journal lines</h1>
+
+
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="36">This topic explains how sales taxes are calculated for different types of accounts (vendor, customer, ledger, and project) on general journal lines.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="38">The process can be divided into three steps:</p>
+<ul sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="40">
+<li sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="40"><p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="40">Determine the sales tax direction.</p>
+</li>
+<li sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="42"><p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="42">Determine the sales tax amount that will be stored a temporary sales tax table.</p>
+</li>
+<li sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="44"><p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="44">Determine the sales tax amount and account on the voucher.</p>
+</li>
+</ul>
+<h2 id="determine-the-sales-tax-direction" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="46">Determine the sales tax direction</h2>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="48">The way that the sales tax direction is determined depends on the type of account in the voucher. The sales tax direction is determined by the combination of account type and sales tax code. The following sections the possibilities in more detail.</p>
+<h3 id="account-type-is-project" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="50">Account type is Project</h3>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="52">If a voucher has journal line where the account type is <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="52">Project</strong>, all the journal lines in the voucher apply the same tax direction. The following illustration shows the rule. The following points show the possible tax directions for project accounts.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="54">•	If the sales tax code is use tax, then sales tax direction is Use Tax.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="56">•	If the sales tax code is exempt tax, then sales tax direction is Tax Free Purchase.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="58">•	If the sales tax code is intracom VAT, then sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="60">•	If the sales tax code is reverse charge, then sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="62">Otherwise, sales tax direction is Sales Tax Receivable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="64">The following diagram illustrates the rule graphically.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="66"><img src="media/Sales-Tax-Direction-Vendor.jpg" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="66" alt="Tax direction possibilities for project accounts"></p>
+<h3 id="account-type-is-vendor" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="68">Account type is Vendor</h3>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="70">If a voucher has journal line where the account type is <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="70">Vendor</strong>, all the journal lines in the voucher apply the same tax direction. The following points show the possible tax directions for vendor accounts.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="72">•	If the sales tax code is use tax, then sales tax direction is Use Tax.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="74">•	If the sales tax code is exempt tax, then sales tax direction is Tax Free Purchase.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="76">•	If the sales tax code is intracom VAT, then sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="78">•	If the sales tax code is reverse charge, then sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="80">Otherwise, sales tax direction is Sales Tax Receivable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="82">The following diagram illustrates the rule graphically.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="84"><img src="media/Sales-Tax-Direction-Vendor.jpg" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="84" alt="Tax direction possibilities for vendor accounts"></p>
+<h3 id="account-type-is-customer" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="86">Account type is Customer</h3>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="88">If a voucher has journal line where the account type is <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="88">Customer</strong>, all the journal lines in the voucher apply the same tax direction. The following points show the possible tax directions for customer accounts.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="90">•	If the sales tax code is exempt tax, then sales tax direction is Tax Free Purchase.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="92">•	If the sales tax code is intracom VAT, then sales tax direction is Sales Tax Receivable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="94">•	If the sales tax code is reverse charge, then sales tax direction is Sales Tax Receivable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="96">Otherwise, sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="98">The following diagram illustrates the rule graphically.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="100"><img src="media/Sales-Tax-Direction-Customer.jpg" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="100" alt="Tax direction possibilities for customer accounts"></p>
+<h3 id="account-type-is-ledger" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="102">Account type is Ledger</h3>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="104">The following illustration shows the rule that applies when a voucher has only journal lines where the account type is <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="104">Ledger</strong>. The following points show the possible tax directions for ledger accounts.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="106">•	If the sales tax code is use tax, then sales tax direction is Use Tax.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="108">•	If the sales tax code is exempt tax, then sales tax direction is Tax Free Purchase.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="110">Otherwise, if the journal amount is debit (positive) ,sales tax direction is Sales Tax Receivable; if the journal amount is credit (negative) ,sales tax direction is Sales Tax Payable.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="112">The following diagram illustrates the rule graphically.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="114"><img src="media/Sales-Tax-Direction-Ledger.jpg" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="114" alt="Tax direction possibilities for ledger accounts"></p>
+<h4 id="override-the-sales-tax-direction" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="116">Override the sales tax direction</h4>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="118">You can override the sales tax direction when the voucher contains only lines where the account type is <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="118">Ledger</strong>.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="120">Go to <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="120">General ledger &gt; Chart of accounts &gt; Accounts &gt; Main accounts</strong>, and select the <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="120">Legal entity overrides</strong> FastTab.</p>
+<h2 id="determine-the-sales-tax-amount" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="122">Determine the sales tax amount</h2>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="124">This section describes how the sales tax amount sign is calculated.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="126"><img src="media/sales-tax-amount-sign.jpg" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="126" alt="Sales tax transactions page"></p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="128">The following table shows the generic rule for determining the sign of sales tax amounts in the temporary sales tax table.</p>
+<table sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">
+<thead>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Journal line amount</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Sales tax direction</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="130">Sales tax amount sign</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="132">Positive</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="133">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="133">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="133">Sales Tax Payable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="133">Negative</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="134">Negative</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="135">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="135">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="135">Sales Tax Payable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="135">Positive</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">There is a special rule for vouchers that have only <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Project</strong> or <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Ledger</strong> lines, when a sales tax group or item sales tax group is selected on the <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Ledger</strong> line. This rule is controlled by Enable independent sales tax calculation feature for general journals. When this feature is turned off, the tax amount of the <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Ledger</strong> line uses the debit/credit direction of the <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Project</strong> line. When the feature is turned on, the tax amount of the <strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="137">Ledger</strong> line uses its own debit/credit direction. The following tables show the rule for each scenario.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139"><strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="139">Rule when the feature is turned on</strong></p>
+<table sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">
+<thead>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">Journal line amount of project</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">Sales tax direction</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="141">Sales tax amount sign</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="143">Positive</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="144">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="144">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="144">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="144">Negative</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146"><strong sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="146">Rule when the feature is turned off</strong></p>
+<table sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">
+<thead>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">Journal line amount of ledger</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">Sales tax direction</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="148">Sales tax amount sign</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="150">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="150">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="150">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="150">Positive</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="151">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="151">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="151">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="151">Negative</td>
+</tr>
+</tbody>
+</table>
+<h2 id="determine-the-sales-tax-amount-and-account-on-the-voucher" sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="153">Determine the sales tax amount and account on the voucher</h2>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="155">When you post sales taxes, the main account is retrieved from the ledger posting group profile. When sales taxes are receivable, the system uses the Sales Tax Receivable account that is specified in the profile. For sales taxes that are payable, the system uses Sales Tax Payable account that is specified in the profile.</p>
+<p sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="157">The following table shows the generic rule.</p>
+<table sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">
+<thead>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Sales tax direction</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Sales tax amount sign</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Sales tax account</th>
+<th sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="159">Amount on voucher</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="161">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="161">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="161">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="161">Tax Receivable Account</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="161">Positive (Debit)</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="162">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="162">Sales Tax Receivable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="162">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="162">Tax Receivable Account</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="162">Negative(Credit)</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="163">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="163">Sales Tax Payable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="163">Positive</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="163">Tax Payable Account</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="163">Negative(Credit)</td>
+</tr>
+<tr sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="164">
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="164">Sales Tax Payable</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="164">Negative</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="164">Tax Payable Account</td>
+<td sourcefile="finance/general-ledger/sales-tax-calculation-on-general-journal.md" sourcestartlinenumber="164">Positive (Debit)</td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/general-ledger/sales-tax-calculation-on-general-journal.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

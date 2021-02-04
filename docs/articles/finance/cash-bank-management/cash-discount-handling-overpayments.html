@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cash discounts for overpayments | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Cash discounts for overpayments | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cash-discounts-for-overpayments">Cash discounts for overpayments</h1>
+
+
+<p>This article provides scenarios that show how a payment is handled when the customer takes a cash discount but also overpays.</p>
+<p>An invoice is considered overpaid when the payment amount is more than the invoice amount minus the cash discount. To specify how an obtainable cash discount difference is handled when an invoice is overpaid, use the <strong>Cash discount administration</strong> and <strong>Maximum overpayment or underpayment</strong> fields on the <strong>Accounts receivable parameters</strong> page. In the following example, the customer has overpaid the invoice by 0.50.</p>
+<table>
+<thead>
+<tr>
+<th>Invoice total</th>
+<th>Cash discount available</th>
+<th>Amount to be paid, which includes the cash discount</th>
+<th>Amount the customer actually pays</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>105.00</td>
+<td>10.50</td>
+<td>94.50</td>
+<td>95.00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cash-discount-administration--specific">Cash discount administration = Specific</h2>
+<p>When <strong>Specific</strong> is selected in the <strong>Cash discount administration</strong> field on the <strong>Accounts for automatic transactions</strong> page, the full cash discount is taken. The overpayment amount either is posted to a cash discount difference ledger account or remains a balance on the customer’s account. The behavior depends on whether the overpayment amount is between 0.00 and the amount that is entered in the <strong>Maximum overpayment or underpayment</strong> field, or whether the overpayment amount is more than the <strong>Maximum overpayment or underpayment</strong> amount.</p>
+<h3 id="scenario-1">Scenario 1</h3>
+<p>In this scenario, the overpayment amount is between 0.00 and the maximum overpayment or underpayment. An invoice for 105.00 is entered, and a cash discount is available if the invoice is paid within seven days.</p>
+<table>
+<thead>
+<tr>
+<th>Invoice total</th>
+<th>Cash discount available</th>
+<th>Amount to be paid, which includes the cash discount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>105.00</td>
+<td>10.50</td>
+<td>94.50</td>
+</tr>
+</tbody>
+</table>
+<p>The customer submits a payment for 95.00 within the cash discount period. The payment is settled against the invoice for 105.00. After the invoice and payment are settled, the following transactions are created for the customer in Accounts receivable.</p>
+<table>
+<thead>
+<tr>
+<th>Transaction</th>
+<th>Amount</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice</td>
+<td>105.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>Payment</td>
+<td>-95.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>Cash discount</td>
+<td>-10.50</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<p>The following accounting entries are generated for the payment and the settlement. <strong>Payment</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash</td>
+<td>95.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>95.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Settlement</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash discount (the <strong>Main account for customer discounts</strong> field on the <strong>Cash discounts</strong> page)</td>
+<td>10.50</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>10.50</td>
+</tr>
+<tr>
+<td>Customer cash discount (the <strong>Customer cash discount</strong> field on the <strong>Account for automatic transactions</strong> page)</td>
+<td></td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td>0.50</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="scenario-2">Scenario 2</h3>
+<p>In this scenario, the overpayment amount exceeds the maximum overpayment or underpayment amount. An invoice for 105.00 is entered, and a cash discount is available if the invoice is paid within seven days.</p>
+<table>
+<thead>
+<tr>
+<th>Invoice total</th>
+<th>Cash discount available</th>
+<th>Amount to be paid, which includes the cash discount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>105.00</td>
+<td>10.50</td>
+<td>94.50</td>
+</tr>
+</tbody>
+</table>
+<p>The customer submits a payment for 95.00 within the cash discount period. The payment is settled against the invoice for 105.00. After the invoice and payment are settled, the following transactions are created for the customer in Accounts receivable.</p>
+<table>
+<thead>
+<tr>
+<th>Transaction</th>
+<th>Amount</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice</td>
+<td>105.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>Payment</td>
+<td>-95.00</td>
+<td>-0.50</td>
+</tr>
+<tr>
+<td>Cash discount</td>
+<td>-10.50</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<p>The overpayment amount of 0.50 will remain as an open balance on the payment and can be settled against another invoice. The following accounting entries are generated for the payment and the settlement. <strong>Payment</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash</td>
+<td>95.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>95.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Settlement</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash discount (the <strong>Main account for customer discounts</strong> field on the <strong>Cash discounts</strong> page)</td>
+<td>10.50</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>10.50</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cash-discount-administration--unspecific">Cash discount administration = Unspecific</h2>
+<p>When <strong>Unspecific</strong> is selected in the <strong>Cash discount administration</strong> field on the <strong>Accounts for automatic transactions</strong> page, the cash discount amount is reduced by the overpayment amount. This behavior always applies, regardless of whether the overpayment amount is over or under the amount that is entered in the <strong>Maximum overpayment or underpayment</strong> field.</p>
+<h3 id="scenario-3">Scenario 3</h3>
+<p>In this scenario, an invoice for 105.00 is entered, and a cash discount is available if the invoice is paid within seven days.</p>
+<table>
+<thead>
+<tr>
+<th>Invoice total</th>
+<th>Cash discount available</th>
+<th>Amount to be paid, which includes the cash discount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>105.00</td>
+<td>10.50</td>
+<td>94.50</td>
+</tr>
+</tbody>
+</table>
+<p>The customer submits a payment for 95.00 within the cash discount date. The payment is settled against the invoice for 105.00. After the invoice and payment are settled, the following transactions are created for the customer in Accounts receivable.</p>
+<table>
+<thead>
+<tr>
+<th>Transaction</th>
+<th>Amount</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice</td>
+<td>105.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>Payment</td>
+<td>-95.00</td>
+<td>-0.00</td>
+</tr>
+<tr>
+<td>Cash discount</td>
+<td>-10.00</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<p>The cash discount amount is reduced from 10.50 to 10.00. The payment and invoice are considered settled. <strong>Payment</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash</td>
+<td>95.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>95.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Settlement</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash discount (the <strong>Main account for customer discounts</strong> field on the <strong>Cash discounts</strong> page)</td>
+<td>10.50</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts receivable</td>
+<td></td>
+<td>10.50</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

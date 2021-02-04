@@ -1,0 +1,955 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cash flow management (Russia) </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Cash flow management (Russia) ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic walks you through an example that shows how to set up and use cash flow management in Microsoft Dynamics 365 Finance.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance">
+    <meta name="ms.search.region" content="Russia">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="cash-flow-management-russia">Cash flow management (Russia)</h1>
+
+
+<p>In a centralized payment organization, there are many legal entities for operations, and each operating legal entity manages information for its own invoices. Payments for all the operating legal entities are generated from a single legal entity, which is sometimes referred to as the Treasury legal entity or Treasury company.</p>
+<p>A Treasury company is responsible for monitoring the flow of cash and liquidity movement across companies and cash positions (shortage and surplus), and for preventing corporate cash shortage in a timely manner.</p>
+<p>Here are the main goals of a Treasury company:</p>
+<ul>
+<li>Get an accurate liquidity/cash flow forecast, and do analysis for the medium-term/short-term horizon.</li>
+<li>Manage payments daily by using payment schedule journals.</li>
+<li>Control the company's cash position.</li>
+<li>Maintain the company's cash flows through centralized control.</li>
+</ul>
+<p>This topic provides a step-by-step example that shows the settings and user activities for cash flow management.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The data set that is used in this topic is for demo purposes only. The codes that you use for ledger accounts, value-added tax (VAT), rates, and so on, should comply with the rules that are accepted in your company.</p>
+</div>
+<p>In this example, Contoso Retail RUS (RURT) is a subsidiary of an industrial holding company and does business as an operating legal entity. Contoso Entertainment Systems Russia (RUMF) is an internal bank of an industrial holding company and handles all payments.</p>
+<p>The following table shows the stages of payment that a treasurer deals with during payment processing.</p>
+<table>
+<thead>
+<tr>
+<th>Business scenario</th>
+<th>Payment cause</th>
+<th>Payment stage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The company requests and confirms delivery of goods (that is, a purchase order that has a delivery schedule that is confirmed). A treasurer includes information about the expected payments (inflow or outflow) in the cash flow forecast by creating payment schedule journal of type "payment plan".
+</td>
+<td>
+<ul>
+<li>Purchase order</li>
+<li>Sales order</li>
+<li>Free text invoice</li>
+</ul>
+</td>
+<td>Planned payment</td>
+</tr>
+<tr>
+<td>The company receives the payment request (prepayment request, invoice, and so on) from a seller. The manager creates a payment request, which should be approved by the manager lead and a treasurer. The treasurer includes information about the expected and approved payments (inflow or outflow) in the cash flow forecast.
+<blockquote><strong>Important:</strong> The Payment request and the associated functionality are available only if the <strong>Payment request</strong> license configuration key is turned on.</blockquote>
+</td>
+<td>
+<ul>
+<li>Vendor invoice</li>
+<li>Prepayment invoice</li>
+<li>Planned payment for confirmed purchase order</li>
+<li>Customer return invoice</li>
+</ul>
+</td>
+<td>Payment request</td>
+</tr>
+<tr>
+<td>A treasurer generates and confirms the payment schedule journal (payment register). In this way, the company defines the list of payments that should be made by the bank/cash account.</td>
+<td>Payment schedule journal (of the <strong>Payment register</strong> type)</td>
+<td>Payment order</td>
+</tr>
+<tr>
+<td>The company receives the statement from a bank. This statement includes the authorized transactions (completed payments).</td>
+<td>Bank statement</td>
+<td>Completed payment</td>
+</tr>
+</tbody>
+</table>
+<p>After you complete the example that is provided in this topic, you will be able to perform the following tasks:</p>
+<ul>
+<li>Configure parameters for cash flow management to support the new functionality.</li>
+<li>Process planned payments. Forecast transactions of incoming and outgoing payments are automatically created and updated based on purchase orders, sales orders, and free text invoices.</li>
+<li>If the <strong>Payment request</strong> license configuration key is turned on, process payment requests based on indebtedness to vendors, customers, and workers, and prepayment requirements from vendors. (The processing includes the creation, update, and approval of payment requests.)</li>
+<li>Process payment schedule journals for medium-term liquidity planning (payment plan) and daily payment management (payment register). Analyze cash deficit and surplus through payment schedule sheet balancing (the simulation function).</li>
+<li>Generate payments, based on an approved payment register, which is a type of payment schedule journal.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<h3 id="set-up-the-license-configuration">Set up the license configuration</h3>
+<ol>
+<li>Go to <strong>System administration &gt; Setup &gt; License configuration</strong>.</li>
+<li>Under <strong>Country/Regional specific features &gt; Russia</strong>, select the <strong>Cash flow management</strong> check box.</li>
+<li>If the organization plans to use payment requests, select the <strong>Payment requests</strong> check box.</li>
+</ol>
+<h3 id="optional-set-up-an-organization-hierarchy-for-centralized-payments">Optional: Set up an organization hierarchy for centralized payments</h3>
+<ol>
+<li><p>Go to <strong>Organization administration &gt; Organizations &gt; Organization hierarchies</strong>.</p>
+</li>
+<li><p>In the left pane, select <strong>Centralized Payments</strong>.</p>
+<p><img src="media/rus-org-hierarchy.jpg" alt="Organization hierarchy for centralized payments"></p>
+</li>
+<li><p>Select <strong>View</strong>.</p>
+</li>
+<li><p>On the <strong>Hierarchy designer</strong> page, create a hierarchy where <strong>Contoso Entertainment Systems Russia</strong> (<strong>RUMF</strong>) is the legal entity of the payment and <strong>Contoso Retail RUS</strong> (<strong>RURT</strong>) is the operating legal entity.</p>
+<p><img src="media/rus-org-hierarchy-designer.jpg" alt="Organization hierarchy designer"></p>
+</li>
+<li><p>Publish the new hierarchy.</p>
+</li>
+</ol>
+<h3 id="set-up-a-workflow-for-cash-flow-management">Set up a workflow for cash flow management</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Setup &gt; Cash and bank management workflows</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a record.</p>
+</li>
+<li><p>Select the required workflow type: <strong>Workflow type for payment requests approval</strong> or <strong>Payment schedule journal approval workflow</strong>.</p>
+</li>
+<li><p>Set up the new workflow by using the new <strong>Approve the payment request</strong> or <strong>Approve payment schedule journal</strong> workflow element.</p>
+<p><img src="media/rus-cash-flow-workflow.jpg" alt="Workflow elements"></p>
+</li>
+<li><p>Activate the new workflow.</p>
+</li>
+</ol>
+<h3 id="set-up-a-payment-priority">Set up a payment priority</h3>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Setup &gt; Cash flow management &gt; Payment priority</strong>.</li>
+<li>Select <strong>New</strong> to create a record.</li>
+<li>On the <strong>Manage priority</strong> FastTab, use the <strong>Up</strong> and <strong>Down</strong> buttons to arrange the priority list.</li>
+<li>Go to <strong>Accounts payable &gt; Vendors &gt; All vendors</strong>.</li>
+<li>Select the vendor, and then select <strong>Edit</strong>.</li>
+<li>In the <strong>Payment priority</strong> field, specify a priority code for the associated party. You can also complete this operation on the <strong>Party</strong> and <strong>Customer</strong> pages.</li>
+</ol>
+<h3 id="set-up-a-payment-request-type">Set up a payment request type</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Setup &gt; Cash flow management &gt; Payment request type</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Payment request type</strong> page is available only if the <strong>Payment request</strong> license configuration key is turned on.</p>
+</div>
+</li>
+<li><p>Select <strong>New</strong> to create a record.</p>
+</li>
+<li><p>Specify the payment priority.</p>
+<p>If a payment priority isn't specified for a payment request type, the lowest payment priority will be used for payment requests of that type. The payment priority for a payment request will be the higher of the payment priority of the party and the payment priority of the payment request type.</p>
+</li>
+<li><p>Specify the cash flow direction: <strong>Cash inflow</strong> or <strong>Cash outflow</strong>.</p>
+</li>
+<li><p>Specify the workflow that is associated with payment request approval, if the approval procedure should be applied to payment requests of this type.</p>
+</li>
+</ol>
+<h3 id="specify-cash-flow-management-parameters">Specify cash flow management parameters</h3>
+<p>This setup should be completed for a Treasury company.</p>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Setup &gt; Cash and bank management parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Cash flow management</strong> tab, on the <strong>Financial dimensions</strong> FastTab, specify the dimension set. This step lets an organization determine which dimensions in the account structures that are associated with the chart of accounts (for legal entities in a centralized payment hierarchy) are available for cash flow management processing. For example, combinations of departments that have cost centers can be used for liquidity/cash flow forecast analysis.</p>
+</li>
+<li><p>On the <strong>Default exchange rate type for forecast</strong> FastTab, specify the default exchange rate type for forecasts. This value is used in payment plans when the currency of a payment source differs from the payment currency.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Complete the steps 4-7 if the <strong>Payment request</strong> license configuration key is turned on.</p>
+</div>
+</li>
+<li><p>On the <strong>Payment request types</strong> FastTab, specify payment request types for <strong>Indebtedness to vendor</strong>, <strong>Vendor prepayment</strong>, <strong>Indebtedness to customer</strong>, and <strong>Indebtedness to worker</strong>. These payment request types are used during automatic creation of payment requests.</p>
+</li>
+<li><p>On the <strong>Payments</strong> FastTab, specify the vendor payment journal and customer payment journal that are used to post payments that are generated by the payment register.</p>
+</li>
+<li><p>On the <strong>Payment request re-approval</strong> FastTab, in the <strong>Amount to pay change</strong> field, specify the system behavior if the amount to pay for a payment request is changed. You can specify that the system should always initialize a payment request reapproval through a workflow, that the system should initialize a payment request reapproval only if the amount to pay has increased, or that reapproval is never required.</p>
+</li>
+<li><p>On the <strong>Number sequences</strong> tab, specify number sequence codes for the following references:</p>
+<ul>
+<li>Payment request</li>
+<li>Payment schedule journal</li>
+</ul>
+</li>
+</ol>
+<h3 id="set-up-terms-of-payment">Set up terms of payment</h3>
+<p>This setup is available only if the <strong>Payment request</strong> license configuration key is turned on.</p>
+<ol>
+<li>Go to <strong>Accounts payable &gt; Payment setup &gt; Terms of payment</strong>.</li>
+<li>Select <strong>Edit</strong>, and specify the payment request types for payments and prepayments, if specific payment request types should be used in these scenarios.</li>
+</ol>
+<h3 id="set-up-payment-schedules">Set up payment schedules</h3>
+<ol>
+<li>Go to <strong>Accounts payable &gt; Payment setup &gt; Payment schedules</strong>.</li>
+<li>Create a payment schedule.</li>
+<li>In the <strong>Allocation</strong> field, set the allocation method to <strong>Specified</strong>.</li>
+<li>On the <strong>Payment lines</strong> FastTab, create payment lines. Select the <strong>Prepayment</strong> check box for a line if a payment request should be created for prepayment amount.</li>
+</ol>
+<h3 id="set-up-the-remittance-en-route-account">Set up the remittance en route account</h3>
+<p>This setup should be completed for a Treasury company.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Cash flow forecasting &gt; Cash flow forecast setup</strong>.</li>
+<li>On the <strong>General ledger</strong> tab, on the <strong>Liquidity accounts</strong> FastTab, select <strong>Add</strong>.</li>
+<li>In the <strong>Main account</strong> field, select the ledger account.</li>
+<li>Select the <strong>Remittance en route</strong> check box.</li>
+</ol>
+<h3 id="set-up-the-minimum-cash-balance-for-bank-accounts">Set up the minimum cash balance for bank accounts</h3>
+<p>This setup should be completed for a Treasury company.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Bank accounts &gt; Bank accounts</strong>.</li>
+<li>Select a bank account, and then select <strong>Edit</strong>.</li>
+<li>Specify the minimum cash balance. If the estimated balance amount of the bank account is less than the minimum cash balance that you specify, the payment schedule sheet will overwrite the estimated balance for that date.</li>
+</ol>
+<h3 id="set-up-the-minimum-cash-balance-for-cash-accounts">Set up the minimum cash balance for cash accounts</h3>
+<p>This setup should be completed for a Treasury company.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Bank accounts &gt; Cash accounts</strong>.</li>
+<li>Select the cash account, and then select <strong>Edit</strong>.</li>
+<li>Specify the minimum cash balance. If the estimated balance amount of the cash account is less than the minimum cash balance that you specify, the payment schedule sheet will overwrite the estimated balance for that date.</li>
+</ol>
+<h3 id="set-up-default-payment-order-requisites-for-purchase-agreements">Set up default payment order requisites for purchase agreements</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Setup procedure is similar for both purchase agreements and sales agreements</p>
+</div>
+<ol>
+<li>Select <strong>Accounts payable &gt; Purchase orders &gt; Purchase agreements</strong>.</li>
+<li>Select a purchase agreement that has a method of payment that is associated with a payment order in Russian rubles (RUB).</li>
+<li>On the Action Pane, on the <strong>Purchase agreement</strong> tab, in the <strong>Setup</strong> group, select <strong>Payment order</strong>.</li>
+<li>Select <strong>Edit</strong>, and specify default payment order requisites. Payment order requisites for a payment request or a payment journal line that is associated with this purchase agreement will be initialized from the purchase agreement.</li>
+</ol>
+<h2 id="planned-payment-processing">Planned payment processing</h2>
+<h3 id="planned-payments-on-purchase-orders">Planned payments on purchase orders</h3>
+<p>A planned payment contains details about future payments: the amount, method of payment, payment account, payment priority, and cash discount amount.</p>
+<p>The due date is calculated based on the <strong>Confirmed delivery date</strong> or <strong>Delivery date</strong> if the <strong>Confirmed delivery date</strong> isn't specified.</p>
+<p>If a user posts an invoice, planned payments are recalculated. If a purchase order is fully invoiced, the purchase order won't have any planned payments.</p>
+<p>If the <strong>Payment request</strong> license configuration key is turned on, a planned payment is created based on the financial dimensions from the purchase order lines. Otherwise, the planned payment is based on the financial dimensions from the purchase order header.</p>
+<p>Planned payments are generated for a purchase order if a payment schedule is calculated, or if a user selects the <strong>Planned payments</strong> button.</p>
+<p>This procedure should be completed in a subsidiary company.</p>
+<ol>
+<li>Go to <strong>Accounts payable &gt; Purchase orders &gt; All purchase orders</strong>.</li>
+<li>Create a purchase order. On the purchase order header, specify the terms of payments, payment schedule, method of payment, cash discount, and financial dimensions.</li>
+<li>Create purchase order lines, and specify the sales tax group, item sales tax group, and financial dimensions. Distribute the amount of a line if distribution is required.</li>
+<li>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Bill</strong> group, select <strong>Planned payments</strong>.</li>
+<li>Review the planned payments that have been created based on the due dates, financial dimension values, sales tax group, and item sales tax group.</li>
+</ol>
+<h3 id="planned-payments-on-sales-orders">Planned payments on sales orders</h3>
+<p>A planned payment contains details about future payments: the value, method of payment, payment account, payment priority, and cash discount amount.</p>
+<p>If the <strong>Payment request</strong> license configuration key is turned on, a planned payment is created based on the financial dimensions from the sales order lines. Otherwise, the planned payment is based on the financial dimensions from the sales order header.</p>
+<p>Planned payments are generated for a sales order if a payment schedule is calculated, or if a user selects the <strong>Planned payments</strong> button.</p>
+<p>This step should be completed in a subsidiary company.</p>
+<ol>
+<li>Go to <strong>Accounts receivable &gt; Orders &gt; All sales orders</strong>.</li>
+<li>Create a sales order. On the sales order header, specify the terms of payments, payment schedule, method of payment, cash discount, and financial dimensions.</li>
+<li>Create sales order lines, and specify the sales tax group, item sales tax group, and financial dimensions.</li>
+<li>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Bill</strong> group, select <strong>Planned payments</strong>.</li>
+<li>Review the planned payments that have been created based on the due dates, dimension values, sales tax group, and item sales tax group.</li>
+</ol>
+<h3 id="planned-payments-on-free-text-invoices">Planned payments on free text invoices</h3>
+<p>A planned payment contains details about future payments: the value, method of payment, payment account, payment priority, and cash discount amount.</p>
+<p>If the <strong>Payment request</strong> license configuration key is turned on, a planned payment is created based on the financial dimensions from the free text invoice lines. Otherwise, the planned payment is based on the financial dimensions from the free text invoice header.</p>
+<p>Planned payments are generated for a free text invoice if a payment schedule is calculated, or if a user selects the <strong>Planned payments</strong> button.</p>
+<p>This step should be completed in a subsidiary company.</p>
+<ol>
+<li>Go to <strong>Accounts receivable &gt; Invoices &gt; All free text invoices</strong>.</li>
+<li>Create a free text invoice. On the free text invoice header, specify the terms of payments, payment schedule, method of payment, cash discount, and financial dimensions.</li>
+<li>Create free text invoice lines, and specify the sales tax group, item sales tax group, and financial dimensions. Distribute the amount of a line if distribution is required.</li>
+<li>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Details</strong> group, select <strong>Planned payments</strong>.</li>
+<li>Review the planned payments that have been created based on the due dates, dimension values, sales tax group, and item sales tax group.</li>
+</ol>
+<h3 id="periodic-creation-of-planned-payments">Periodic creation of planned payments</h3>
+<p>This step should be completed for a Treasury company.</p>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Periodic tasks &gt; Cash flow management &gt; Calculate planned payments</strong>.</p>
+</li>
+<li><p>Set the following parameters.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>From date</td>
+<td>Specify the start of the date range for the planned payment sources.</td>
+</tr>
+<tr>
+<td>To date</td>
+<td>Specify the end of the date range for the planned payment sources.</td>
+</tr>
+<tr>
+<td>Planned payment source</td>
+<td>Select a planned payment source.</td>
+</tr>
+<tr>
+<td>Legal entities</td>
+<td>Select legal entities. A Treasury company can include all legal entities that belong to the current centralized payment hierarchy.</td>
+</tr>
+<tr>
+<td>Recalculate all</td>
+<td>Set this option to <strong>Yes</strong> if all planned payments should be recalculated. If this option is set to <strong>No</strong>, only new planned payment will be created.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="payment-request-processing">Payment request processing</h2>
+<h3 id="create-a-manual-payment-request">Create a manual payment request</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</p>
+</li>
+<li><p>Create a payment request.</p>
+</li>
+<li><p>Specify the payment request type, currency of the payment request, account type (<strong>Vendor</strong>, <strong>Customer</strong>, or <strong>Worker</strong>), account, invoice account, agreement registration number, payment currency, due date, and method of payment.</p>
+<ul>
+<li>The <strong>Payment request type</strong> field defines the cash flow direction and the workflow.</li>
+<li>The <strong>Method of payment</strong> field defines the payment account type and payment account.</li>
+<li>The <strong>Payment request priority</strong> value is defined by properties of the payment account type and party.</li>
+<li>The centralized payment hierarchy defines the Treasury company. A payment request company is a company where a payment request is created.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Header</strong> view, on the <strong>General</strong> FastTab, set the required payment request parameters. You can change the value of the <strong>Payment date</strong>, <strong>Payment currency</strong>, <strong>Payment priority</strong>, and other parameters as you require.</p>
+</li>
+<li><p>On the <strong>Payment</strong> FastTab, set the required payment request parameters. You can change the value of the <strong>Posting profile</strong>, <strong>Payment account type</strong>, <strong>Payment account</strong>, and other parameters as you require.</p>
+</li>
+<li><p>On the <strong>Payment order</strong> FastTab, specify the required payment order requisites. By default, these requisites are initialized from a purchase agreement or sales agreement. This FastTab is available only if the method of payment is associated with a payment order in RUB.</p>
+</li>
+<li><p>On the <strong>History</strong> FastTab, review the details about payment request processing. You can change the payment request initiator as you require.</p>
+</li>
+<li><p>On the <strong>Financial dimensions</strong> FastTab, specify the financial dimensions of the payment request.</p>
+</li>
+<li><p>Switch to the <strong>Lines</strong> view.</p>
+</li>
+<li><p>Select <strong>Add line</strong> to create a record.</p>
+</li>
+<li><p>Specify the <strong>Sales tax group</strong>, <strong>Item sales tax group</strong>, and <strong>Original amount</strong> dimension values. By default, the <strong>Amount to pay</strong> field is set to <strong>Original amount</strong>.</p>
+</li>
+<li><p>Repeat steps 11 through 12 to create more lines, as you require.</p>
+</li>
+<li><p>Save the record.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>General</strong> tab, in the <strong>Bill</strong> group, select <strong>Cash discount</strong>.</p>
+</li>
+<li><p>Create a record, and specify the cash discount date and cash discount amount.</p>
+</li>
+<li><p>Repeat step 16 to create more lines, as you require. Then close the page.</p>
+</li>
+<li><p>If all the data is filled in, and workflow approval can start, on the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Generate</strong> group, select <strong>Confirmation</strong>.</p>
+</li>
+<li><p>Select <strong>Workflow &gt; Submit</strong>.</p>
+<p><img src="media/rus-workflow-submit.jpg" alt="Submitting a payment request for workflow approval"></p>
+</li>
+</ol>
+<p>The status of a payment request is automatically updated. The following table describes all the payment request statuses.</p>
+<table>
+<thead>
+<tr>
+<th>Payment request status</th>
+<th>System event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opened</td>
+<td>A user creates a manual payment request.</td>
+</tr>
+<tr>
+<td>Confirmed</td>
+<td>A user confirms a manual payment request, or the system creates a payment request that is based on a source (vendor invoice, customer invoice, or prepayment planned payment).</td>
+</tr>
+<tr>
+<td>Scheduled</td>
+<td>A payment schedule journal of the <strong>Payment plan</strong> type (which includes a payment request) is posted.</td>
+</tr>
+<tr>
+<td>Accepted</td>
+<td>A payment schedule journal of the <strong>Payment register</strong> type (which includes a payment request) is posted.</td>
+</tr>
+<tr>
+<td>Completed</td>
+<td>A payment journal (which includes a payment request) is posted.</td>
+</tr>
+<tr>
+<td>Canceled</td>
+<td>A user cancels a payment request.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cancel-a-payment-request">Cancel a payment request</h3>
+<p>You can cancel a payment request only if its status is <strong>Opened</strong>, <strong>Confirmed</strong>, or <strong>Scheduled</strong>.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</li>
+<li>Select a payment request.</li>
+<li>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Maintain</strong> group, select <strong>Cancel</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h3 id="put-a-payment-request-on-hold">Put a payment request on hold</h3>
+<p>You can put a payment request on hold only if its status is <strong>Opened</strong>, <strong>Confirmed</strong>, or <strong>Scheduled</strong>.</p>
+<p>A payment request that is on hold isn't included in payment schedule journals.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</li>
+<li>Select a payment request.</li>
+<li>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Maintain</strong> group, select <strong>On hold</strong>.</li>
+<li>Set the <strong>On hold</strong> option to <strong>Yes</strong>, and specify a reason code.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>To remove the hold from a payment request, on the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Maintain</strong> group, select <strong>On hold</strong>. Then set the <strong>On hold</strong> option to <strong>No</strong>.</p>
+<h3 id="split-a-payment-request">Split a payment request</h3>
+<p>You can split a payment request only if the following conditions are met:</p>
+<ul>
+<li>The status of the payment request is <strong>Confirmed</strong> or <strong>Scheduled</strong>.</li>
+<li>The payment request isn't included in an unposted payment schedule journal.</li>
+<li>The workflow status isn't <strong>Submitted</strong>.</li>
+</ul>
+<p>The system will create a payment request by copying all the main requisites from the original payment request. The amount and amount to pay of the original payment request will be reduced. If the status of the original payment is <strong>Scheduled</strong>, but the new payment request is out of range for the associated payment schedule journal, the status of the new payment request will be <strong>Confirmed</strong>.</p>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</li>
+<li>Select a payment request.</li>
+<li>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Generate</strong> group, select <strong>Split request</strong>.</li>
+<li>Specify the amount to pay and the payment date for the new payment request.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h3 id="copy-a-payment-request">Copy a payment request</h3>
+<ol>
+<li>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</li>
+<li>Select a payment request.</li>
+<li>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>New</strong> group, select <strong>Copy</strong>.</li>
+<li>Specify the due date for the new payment request.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Select the payment request created on step 3.</li>
+<li>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>New</strong> group, select <strong>Edit</strong>.</li>
+<li>Change the values of the payment request parameters as you require.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h3 id="create-a-payment-request-for-a-vendor-invoice">Create a payment request for a vendor invoice</h3>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>Create a purchase order. On the purchase order header, specify the terms of payments, payment schedules, method of payment, cash discount, and financial dimensions.</p>
+</li>
+<li><p>Create purchase order lines, and specify the sales tax group, item sales tax group, and financial dimensions. Distribute the amount of a line.</p>
+</li>
+<li><p>Generate and post an invoice.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Generate</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Journals</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the payment requests that have been created.</p>
+</li>
+<li><p>On the <strong>All vendors</strong> page, on the Action Pane, on the <strong>Vendor</strong> tab, in the <strong>Transactions</strong> group, select <strong>Transactions</strong>.</p>
+</li>
+<li><p>Select the vendor transaction.</p>
+</li>
+<li><p>Select <strong>Inquiry &gt; Payment requests</strong>.</p>
+</li>
+<li><p>Review the associated payment requests.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Request origin</strong>.</p>
+</li>
+<li><p>Verify that the vendor transaction is a source for the payment request.</p>
+<p><img src="media/rus-vendor-transactions.jpg" alt="Vendor transactions"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can't change the payment requisites (method of payment, due date, vendor bank account, and so on) on an open vendor transaction if a payment request exists for that transaction. Instead, you should change the payment requisites in the payment request. They will then be automatically synced on the open vendor transaction.</p>
+</div>
+</li>
+</ol>
+<h3 id="create-a-payment-request-for-a-prepayment-to-a-vendor">Create a payment request for a prepayment to a vendor</h3>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>Create a purchase order. On the purchase order header, specify the terms of payments, payment schedules, method of payment, cash discount, and financial dimensions.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>One or more payment schedules lines should be marked as prepayments.</p>
+</div>
+</li>
+<li><p>Create purchase order lines, and specify the sales tax group, item sales tax group, and financial dimensions. Distribute the amount of a line.</p>
+</li>
+<li><p>Confirm the purchase order.</p>
+</li>
+<li><p>Calculate planned payments by using the periodic operation. Alternatively, on the purchase order, on the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Bill</strong> group, select <strong>Planned payments</strong>. Close the page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Generate</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Journals</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the payment requests that have been created.</p>
+</li>
+<li><p>On the <strong>Payment request</strong> page, on the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Request origin</strong>.</p>
+</li>
+<li><p>Verify that the purchase order is a source for the payment request.</p>
+</li>
+</ol>
+<h3 id="create-a-payment-request-for-a-customer-invoice-return">Create a payment request for a customer invoice return</h3>
+<ol>
+<li><p>Go to <strong>Accounts receivable &gt; Orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Create a return sales order. On the sales order header, specify the terms of payments, method of payment, and financial dimensions.</p>
+</li>
+<li><p>Create sales order lines, and specify the sales tax group, item sales tax group, and financial dimensions.</p>
+</li>
+<li><p>Generate and post an invoice.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Sell</strong> tab, in the <strong>Generate</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Select <strong>Close</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Sell</strong> tab, in the <strong>Journals</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the payment requests that have been created.</p>
+</li>
+<li><p>On the <strong>All customers</strong> page, on the Action Pane, on the <strong>Customer</strong> tab, in the <strong>Transactions</strong> group, select <strong>Transactions</strong>.</p>
+</li>
+<li><p>Select the last customer transaction.</p>
+</li>
+<li><p>Select the ellipsis button (<strong>...</strong>), and then select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the associated payment requests.</p>
+</li>
+<li><p>On the <strong>Payment request</strong> page, on the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Request origin</strong>.</p>
+</li>
+<li><p>Verify that the customer transaction is a source for the payment request.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can't change the payment requisites (method of payment, due date, customer bank account, and so on) on an open customer transaction if a payment request exists for that transaction. Instead, you should change the payment requisites in the payment request. They will then be automatically synced on the open customer transaction.</p>
+</div>
+</li>
+<li><p>Go to <strong>Accounts receivable &gt; Invoices &gt; All free text invoices</strong>.</p>
+</li>
+<li><p>Create a return free text invoice. On free text invoice header, specify the terms of payments, method of payment, and financial dimensions.</p>
+</li>
+<li><p>Create free text invoice lines, and specify the sales tax group, item sales tax group, and financial dimensions.</p>
+</li>
+<li><p>Generate and post an invoice.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Details</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Select <strong>Close</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Related information</strong> group, select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the payment requests that have been created.</p>
+</li>
+<li><p>On the <strong>All customers</strong> page, on the Action Pane, on the <strong>Customer</strong> tab, in the <strong>Transactions</strong> group, select <strong>Transactions</strong>.</p>
+</li>
+<li><p>Select the last customer transaction.</p>
+</li>
+<li><p>Select the ellipsis button (<strong>...</strong>), and then select <strong>Payment requests</strong>.</p>
+</li>
+<li><p>Review the associated payment requests.</p>
+</li>
+<li><p>On the <strong>Payment request</strong> page, on the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Request origin</strong>.</p>
+</li>
+<li><p>Verify that the customer transaction is a source for the payment request.</p>
+</li>
+</ol>
+<h3 id="periodic-creation-of-payment-requests">Periodic creation of payment requests</h3>
+<p>This procedure should be completed for a Treasury company.</p>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Periodic tasks &gt; Cash flow management &gt; Create payment requests</strong>.</p>
+</li>
+<li><p>Set the following parameters</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>From date</td>
+<td>Specify the start of the date range for the payment request sources.</td>
+</tr>
+<tr>
+<td>To date</td>
+<td>Specify the end of the date range for the payment request sources.</td>
+</tr>
+<tr>
+<td>Request sources</td>
+<td>Select the sources of the payment request.</td>
+</tr>
+<tr>
+<td>Legal entities</td>
+<td>Select legal entities. A Treasury company can include all legal entities that belong to the current centralized payment hierarchy.</td>
+</tr>
+<tr>
+<td>Number of batch threads</td>
+<td>Enter the number of parallel tasks for payment request creation.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="update-a-payment-request">Update a payment request</h3>
+<p>When you update a payment request, the <strong>Amount to pay</strong> value is changed on payment request lines and in the cash discount details.</p>
+<p>Reapproval of payment requests can be required and is controlled by the <strong>Amount to pay change</strong> parameter on the <strong>Cash and bank management parameters</strong> page.</p>
+<p>You can update a payment request only if the following conditions are met:</p>
+<ul>
+<li>The status of the payment request is <strong>Confirmed</strong> or <strong>Scheduled</strong>.</li>
+<li>The payment request isn't included in an unposted payment schedule journal.</li>
+<li>The workflow status isn't <strong>Submitted</strong>.</li>
+</ul>
+<p>Follow these steps to update a payment request.</p>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Cash flow management &gt; All payment requests</strong>.</p>
+</li>
+<li><p>Select a payment request that the <strong>Outdated</strong> check box is selected for.</p>
+<p><img src="media/rus-outdated-check-box.jpg" alt="Outdated check box on payment requests"></p>
+<p>The system automatically selects this check box if the original source of a payment request has been changed through settlement or unsettlement. A selected check box indicates that the amount to pay of the payment request differs from the amount of the open vendor or customer transaction.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Payment request</strong> tab, in the <strong>Generate</strong> group, select <strong>Request update</strong>.</p>
+</li>
+</ol>
+<h3 id="periodic-update-of-payment-requests">Periodic update of payment requests</h3>
+<p>This step should be completed for a Treasury company.</p>
+<ol>
+<li><p>Select <strong>Cash and bank management &gt; Periodic tasks &gt; Cash flow management &gt; Update payment requests</strong>.</p>
+</li>
+<li><p>Set the following parameters</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>From date</td>
+<td>Specify the start of the date range for the payment requests.</td>
+</tr>
+<tr>
+<td>To date</td>
+<td>Specify the end of the date range for the payment requests.</td>
+</tr>
+<tr>
+<td>Request sources</td>
+<td>Specify the sources of the payment request.</td>
+</tr>
+<tr>
+<td>Legal entities</td>
+<td>Specify legal entities. A Treasury company can include all legal entities that belong to the current centralized payment hierarchy.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="payment-schedule-journal-processing">Payment schedule journal processing</h2>
+<h3 id="set-up-a-payment-schedule-journal">Set up a payment schedule journal</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Setup &gt; Cash flow management &gt; Payment schedule journal names</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a record, and specify a name and description for the journal.</p>
+</li>
+<li><p>Select the journal type:</p>
+<ul>
+<li><strong>Payment plan</strong> – This journal type is intended for payment forecasts that have a medium-term/short-term horizon.</li>
+<li><strong>Payment register</strong> – This journal type is intended for payment statement generation.</li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following parameters:</p>
+<ul>
+<li>Set the <strong>Payment on cash discount date</strong> option to <strong>Yes</strong> if the payment date in the payment schedule should be used as the cash discount date.</li>
+<li>If you selected <strong>Payment plan</strong> as the journal type, set the <strong>Overdue payments</strong> option to <strong>Yes</strong> if the payment schedule should include outstanding payments.</li>
+<li>Set the <strong>Active</strong> option to <strong>Yes</strong> if this journal should use the workflow procedure.</li>
+<li>In the <strong>Workflow ID</strong> field, select the workflow that should be applied.</li>
+</ul>
+</li>
+<li><p>The <strong>Dimensions</strong> FastTab defines how the lines of the payment schedule journal are aggregated. The analytic report of the payment schedule journal also uses these dimensions. Use the arrow buttons to move dimensions to or from the <strong>Selected dimensions</strong> list.</p>
+<p><img src="media/rus-journal-names-dimensions.jpg" alt="Dimensions for payment schedule journals"></p>
+</li>
+<li><p>The <strong>Legal entities</strong> FastTab defines the legal entities that are used to generate payment schedule journals. Use the arrow buttons to move legal entities to or from the <strong>Selected sources</strong> list.</p>
+</li>
+<li><p>On the <strong>Journal data sources</strong> FastTab, select <strong>Add line</strong> to create a record.</p>
+</li>
+<li><p>Specify the data source and source direction for the payment schedule journal.</p>
+<p>The following table lists the possible sources.</p>
+<table>
+<thead>
+<tr>
+<th>Journal data source (direction)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank account balance (inflow)</td>
+<td>The current balance of bank accounts.</td>
+</tr>
+<tr>
+<td>Cash account balance (inflow)</td>
+<td>The current balance of cash accounts.</td>
+</tr>
+<tr>
+<td>Remittance en route balance (inflow)</td>
+<td>The current balance of general ledger (GL) accounts that are marked <strong>Remittance en route</strong>.</td>
+</tr>
+<tr>
+<td>Open payment journals (inflow/outflow)</td>
+<td>Payments that are included in open payment journals.</td>
+</tr>
+<tr>
+<td>Open slip journals (inflow/outflow)</td>
+<td>Payments that are included in open cash slip journals.</td>
+</tr>
+<tr>
+<td>Planned payment (inflow/outflow)</td>
+<td>Planned payments.</td>
+</tr>
+<tr>
+<td>Payment request (inflow/outflow)</td>
+<td>Payment requests.</td>
+</tr>
+<tr>
+<td>Accounts payable (inflow/outflow)</td>
+<td>Open vendor transactions that aren't linked to a payment request.</td>
+</tr>
+<tr>
+<td>Accounts receivable (inflow/outflow)</td>
+<td>Open customer transactions that aren't linked to a payment request.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Repeat steps 7 through 8 to create other lines that have the required journal data sources.</p>
+</li>
+<li><p>On the <strong>Payment accounts</strong> FastTab, set the <strong>Include transactions with no specified bank account</strong> option to <strong>Yes</strong> if the payment schedule journal should include planned payments and payment requests that a payment account isn't specified for.</p>
+</li>
+<li><p>Select <strong>Add line</strong> to create a record.</p>
+</li>
+<li><p>Specify the payment account type and account number. The payment schedule journal will include only sources that are associated with the specified payment accounts.</p>
+</li>
+<li><p>On the <strong>Cash balance control</strong> FastTab, select <strong>Add line</strong>, and then specify the currency and minimum cash balance. If the estimated balance amount of the cash account is less than the minimum cash balance that you specify, the payment schedule sheet will overwrite the estimated balance for that date.</p>
+</li>
+</ol>
+<h3 id="payment-plan-processing">Payment plan processing</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Cash flow management &gt; Payment schedule journal</strong>.</p>
+</li>
+<li><p>Create a payment schedule journal. In the <strong>Name</strong> field, select a payment schedule journal of the <strong>Payment plan</strong> type.</p>
+</li>
+<li><p>Use the <strong>From date</strong> and <strong>To date</strong> fields to specify an effective date range.</p>
+</li>
+<li><p>On the <strong>General</strong>, <strong>Dimensions</strong>, <strong>Legal entities</strong>, <strong>Journal data sources</strong>, <strong>Payment accounts</strong>, and <strong>Cash balance control</strong> tabs, change the attributes of the payment schedule journal as you require.</p>
+</li>
+<li><p>Select <strong>Calculate</strong>.</p>
+</li>
+<li><p>Select <strong>Lines</strong> to validate the payment schedule journal lines.</p>
+</li>
+<li><p>Select <strong>Edit beginning balance</strong> to change the beginning balance of this journal.</p>
+</li>
+<li><p>For lines that have <strong>Payment request</strong> as the journal data source, select <strong>Payment request lines</strong> to review the payment request lines that are included on the current journal line.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the <strong>Payment schedule journal</strong> page, select <strong>Payment schedule</strong> to review the payment schedule sheet. If a cash shortage or surplus is detected and should be prevented, you can make changes.</p>
+<p><img src="media/rus-payment-schedule-sheet.jpg" alt="Payment schedule sheet"></p>
+</li>
+<li><p>Set the <strong>Show totals per payment accounts</strong> option to <strong>Yes</strong> if the payment schedule sheet should be calculated based on payment accounts.</p>
+</li>
+<li><p>Set the <strong>Show totals per method of payments</strong> option to <strong>Yes</strong> if the payment schedule sheet should be calculated based on methods of payments.</p>
+</li>
+<li><p>Use the right arrow button (<strong>&gt;</strong>) to select an aggregation parameter for the payment schedule sheet.</p>
+</li>
+<li><p>Select <strong>Show results</strong>.</p>
+<p>If the minimum cash balance for a currency or a payment account is exceeded, the payment schedule sheet highlights the <strong>Estimated balance</strong> amounts in yellow.</p>
+<p><img src="media/rus-payment-schedule-sheet-overview.jpg" alt="Payment schedule sheet overview"></p>
+</li>
+<li><p>If the <strong>Payment request</strong> license configuration key is turned on, select the amount for a <strong>Payment request</strong> journal data source. If the <strong>Payment request</strong> license configuration key isn't turned on, select an <strong>Accounts payable</strong> or <strong>Accounts receivable</strong> journal data source. Select <strong>Show origin</strong> to open the sources of that amount.</p>
+</li>
+<li><p>Select the amount for a <strong>Payment request</strong> journal data source, and then select <strong>Change payment sources</strong>.</p>
+<p><img src="media/rus-change-payment-sources.jpg" alt="Change payment sources button on a payment schedule sheet"></p>
+</li>
+<li><p>Select payment sources that should be moved to another date, or that should be paid by using another method of payment or payment account.</p>
+<p><img src="media/rus-payment-schedule-balancing.jpg" alt="Payment schedule balancing"></p>
+</li>
+<li><p>Select <strong>Multiple change</strong>, specify the new payment details in the <strong>Modify payment attributes</strong> dialog box, and then select <strong>OK</strong>.</p>
+<p>Alternatively, you can specify new payment attributes for a specific line.</p>
+</li>
+<li><p>Select <strong>Update payment schedule</strong>. The system updates the payment schedule sheet and creates uncommitted payment schedule journal lines for payment sources correction.</p>
+</li>
+<li><p>Make any other required changes to the payment schedule sheet.</p>
+</li>
+<li><p>On the <strong>Payment schedule journal</strong> page, select <strong>Functions &gt; Apply changes</strong> to apply your changes or <strong>Functions &gt; Revert changes</strong> to reject them.</p>
+</li>
+<li><p>If changes to the journal setup are required, select <strong>Functions &gt; Delete journal lines</strong>, and calculate the journal.</p>
+</li>
+<li><p>Select <strong>Validate</strong> to validate the journal. The system notifies you if canceled, on-hold, or incomplete workflow payment requests are included in this journal.</p>
+</li>
+<li><p>If all the data is correct, and workflow approval of the payment plan can start, select <strong>Workflow &gt; Submit</strong>.</p>
+<p>Approvers might see the following actions during the approval workflow: <strong>Approve</strong>, <strong>Reject</strong>, <strong>Request change</strong>, <strong>Delegate</strong>, <strong>Recall</strong>, and <strong>View history</strong>.</p>
+<p><img src="media/rus-workflow-actions.jpg" alt="Workflow actions"></p>
+</li>
+<li><p>If the payment plan is approved, select <strong>Confirm</strong>. The status of the payment requests that are included is changed to <strong>Scheduled</strong>.</p>
+</li>
+<li><p>On the <strong>Payment request</strong> page, on the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Payment schedule journal</strong>.</p>
+</li>
+<li><p>Review the payment schedule journal that is associated with the payment request.</p>
+</li>
+</ol>
+<h3 id="payment-register-processing">Payment register processing</h3>
+<ol>
+<li><p>Go to <strong>Cash and bank management &gt; Cash flow management &gt; Payment schedule journal</strong>.</p>
+</li>
+<li><p>Create a payment schedule journal. In the <strong>Name</strong> field, select a payment schedule journal of the <strong>Payment register</strong> type.</p>
+</li>
+<li><p>Use the <strong>From date</strong> and <strong>To date</strong> fields to specify an effective date range.</p>
+</li>
+<li><p>On the <strong>General</strong>, <strong>Dimensions</strong>, <strong>Legal entities</strong>, <strong>Journal data sources</strong>, <strong>Payment accounts</strong>, and <strong>Cash balance control</strong> tabs, change the attributes of the payment schedule journal as you require.</p>
+</li>
+<li><p>Select <strong>Calculate</strong>.</p>
+</li>
+<li><p>Select <strong>Lines</strong> to validate the payment schedule journal lines.</p>
+</li>
+<li><p>Select <strong>Edit beginning balance</strong> to change the beginning balance of this journal.</p>
+</li>
+<li><p>For lines that have <strong>Payment request</strong> as the journal data source, select <strong>Payment request lines</strong> to review the payment request lines that are included on the current journal line.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the <strong>Payment schedule journal</strong> page, select <strong>Payment schedule</strong> to review the payment register. If a cash shortage or surplus is detected, you can make changes.</p>
+</li>
+<li><p>Select <strong>Validate</strong> to validate the journal. The system notifies you if canceled or on-hold payment requests are included in this journal.</p>
+</li>
+<li><p>If all the data is correct, and workflow approval of the payment plan can start, <strong>Workflow &gt; Submit</strong>.</p>
+</li>
+<li><p>If the payment plan is approved, select <strong>Confirm</strong>. The status of the payment requests that are included is changed to <strong>Accepted</strong>.</p>
+</li>
+<li><p>On the <strong>Payment request</strong> page, on the Action Pane, on the <strong>General</strong> tab, in the <strong>Related information</strong> group, select <strong>Payment schedule journal</strong>.</p>
+</li>
+<li><p>Review the payment schedule journal that is associated with the payment request.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Complete the steps 16-20 if the <strong>Payment request</strong> license configuration key is turned on.</p>
+</div>
+</li>
+<li><p>On the <strong>Payment schedule journal</strong> page, select <strong>Functions &gt; Generate payments</strong>.</p>
+</li>
+<li><p>Set the parameters for payment journal generation.</p>
+<p><img src="media/rus-payments-payment-schedule-journal.jpg" alt="Parameters for payment journal generation"></p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Select <strong>Accounts payable &gt; Payments &gt; Vendor payment journal</strong> to validate and process the vendor payment journal that is created.</p>
+</li>
+<li><p>Select <strong>Accounts receivable &gt; Payments &gt; Customer payment journal</strong> to validate and process the customer payment journal that is created.</p>
+</li>
+</ol>
+<p>Standard payment proposal functionality will process open transactions that are linked to a payment request that has <strong>Accepted</strong> status.</p>
+<p>The payment proposal algorithm includes additional changes that are applied when payment requests are used. The system considers the posting profile, the setting of the <strong>Prepayment</strong> parameter, and the payment order requisites that are filled in on payment requests.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/localizations/rus-cash-flow.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

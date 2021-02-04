@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Improvements to statement posting functionality </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Improvements to statement posting functionality ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes improvements that have been made to the statement posting feature.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="improvements-to-statement-posting-functionality">Improvements to statement posting functionality</h1>
+
+
+<p>This topic describes the first set of improvements that have been made to the statement posting feature. These improvements are available in Microsoft Dynamics 365 for Finance and Operations 7.3.2.</p>
+<h2 id="activation">Activation</h2>
+<p>By default, during deployment of Finance and Operations 7.3.2, the program is set up to use the legacy feature for statement postings. To enable the improved statement posting feature, you must turn on the configuration key for it.</p>
+<ul>
+<li>Go to <strong>System administration</strong> &gt; <strong>Setup</strong> &gt; <strong>License configuration</strong>, and then, under the <strong>Retail and Commerce</strong> node, clear the <strong>Statements (legacy)</strong> check box, and select the <strong>Statements</strong> check box.</li>
+</ul>
+<p>When the new <strong>Statements</strong> configuration key is turned on, a new menu item that is named <strong>Statements</strong> is available. This menu item lets you manually create, calculate, and post statements. Any statement that causes an error when the batch posting process is used will also be available through this menu item. (When the <strong>Statements (legacy)</strong> configuration key is turned on, the menu item is named <strong>Open statements</strong>.)</p>
+<p>Commerce includes the following validations that are related to these configuration keys:</p>
+<ul>
+<li>Both configuration keys can't be turned on at the same time.</li>
+<li>The same configuration keys must be used for all the operations that are performed on a given statement during its lifecycle (Create, Calculate, Clear, Post, and so on). For example, you can't create and calculate a statement while the <strong>Statement (legacy)</strong> configuration key is turned on, and then try to post the same statement while the <strong>Statement</strong> configuration key is turned on.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>We recommend that you use the <strong>Statements</strong> configuration key for the improved statement posting feature, unless you have compelling reasons to use the <strong>Statements (legacy)</strong> configuration key instead. Microsoft will continue to invest in the new and improved statement posting feature, and it's important that you switch to it at the earliest opportunity to benefit from it. The legacy statement posting feature is deprecated starting in 8.0 release.</p>
+</div>
+<h2 id="setup">Setup</h2>
+<p>As part of the improvements to the statement posting feature, three new parameters have been introduced on the <strong>Statement</strong> FastTab on the <strong>Posting</strong> tab of the <strong>Commerce parameters</strong> page:</p>
+<ul>
+<li><p><strong>Disable clear statement</strong> – This option is applicable only for the legacy statement posting feature. We recommend that you set this option to <strong>No</strong> to prevent users from clearing statements that are in a semi-posted state. If statements that are in a semi-posted state are cleared, data becomes corrupted. You should set this option to <strong>Yes</strong> only in exceptional circumstances.</p>
+</li>
+<li><p><strong>Reserve inventory during calculation</strong> – We recommend that you use the <strong>Post inventory</strong> batch job for inventory reservation, and that you set this option to <strong>No</strong>. When this option is set to <strong>No</strong>, the improved statement posting feature doesn't try to create inventory reservation entries at the time of calculation (if entries weren't already created through the <strong>Post inventory</strong> batch job). Instead, the feature creates inventory reservation entries only at the time of posting. This implementation was a design choice and was based on the fact that the time window between the calculation process and the posting process is typically small. However, if you want to reserve inventory at the time of calculation, you can set this option to <strong>Yes</strong>.</p>
+<p>The legacy statement posting feature always reserves inventory during the statement calculation process (if reservation wasn't already done through the <strong>Post inventory</strong> batch job), regardless of the setting of this option.</p>
+</li>
+<li><p><strong>Disable counting required</strong> – When this option is set to <strong>Yes</strong>, the posting process for a statement continues, even if the difference between the counted amount and the transaction amount on the statement is outside the threshold that is defined on the <strong>Statement</strong> FastTab for stores.</p>
+</li>
+</ul>
+<p>Additionally, the following parameters have been introduced on the <strong>Batch processing</strong> FastTab on the <strong>Posting</strong> tab of the <strong>Commerce parameters</strong> page:</p>
+<ul>
+<li><strong>Maximum number of parallel statement posting</strong> – This field defines the number of batch tasks that will be used to post multiple statements.</li>
+<li><strong>Max thread for order processing per statement</strong> – This field represents the maximum number of threads used by the statement posting batch job to create and invoice sales orders for a single statement. The total number of threads that will be used by the statement posting process will be computed based on the value in this parameter multiplied by the value in the <strong>Maximum number of parallel statement posting</strong> parameter. Setting the value of this parameter too high can negatively impact the performance of the statement posting process.</li>
+<li><strong>Max transaction lines included in aggregation</strong> – This field defines the number of transaction lines that will be included in a single aggregated transaction before a new one is created. Aggregated transactions are created based on different aggregation criteria such as customer, business date, or financial dimensions. It is important to note that the lines from a single transaction will not be split across different aggregated transactions. This means that there is a possibility that the number of lines in a aggregated transaction is slightly higher or lower based on factors such as number of distinct products.</li>
+<li><strong>Maximum number of threads to validate store transactions</strong> – This field defines the number of threads that will be used to validate transactions. Validating transactions is a required step that needs to occur before the transactions can be pulled into the statements. You also need to define a <strong>Gift card product</strong> on the <strong>Gift card</strong> FastTab on the <strong>Posting</strong> tab of the <strong>Commerce parameters</strong> page. This needs to defined even if gift cards are not used by the organization.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>All settings and parameters that are related to statement postings, and that are defined on stores and on the <strong>Commerce parameters</strong> page, are applicable to the improved statement posting feature.</p>
+</div>
+<h2 id="processing">Processing</h2>
+<p>Statements can be calculated and posted in batch using the menu items <strong>Calculate statements in batch</strong> and <strong>Post statements in batch</strong>. Alternatively, statements can be manually calculated and posted by using the <strong>Statements</strong> menu item that the improved statement posting feature provides.</p>
+<p>The process and steps for calculating and posting statements in a batch are the same as they were in the legacy statement posting feature. However, significant improvements have been made in the core back-end processing of the statements. These improvements make the process more resilient, and provide for better visibility into the states and error information. Therefore, users can address the root cause of errors and then continue the posting process without causing data corruption and without causing data fixes to be required.</p>
+<p>The following sections describe some of the major improvements for the statement posting feature that appear in the user interface for statements and posted statements.</p>
+<h3 id="status-details">Status details</h3>
+<p>A new state model has been introduced in the statement posting routine across the calculation and posting processes.</p>
+<p>The following table describes the various states and their order during the calculation process.</p>
+<table>
+<thead>
+<tr>
+<th>State order</th>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Started</td>
+<td>The statement was created and is ready to be calculated.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Marked</td>
+<td>The transactions that are in scope for the statement are identified based on the statement parameters, and they are marked with the statement ID.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Calculated</td>
+<td>The statement lines are computed and shown.</td>
+</tr>
+</tbody>
+</table>
+<p>The following table describes the various states and their order during the posting process.</p>
+<table>
+<thead>
+<tr>
+<th>State order</th>
+<th>State</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Checked</td>
+<td>Multiple validations are done that are related to parameters (for example, the disposition charge), and to the statement and statement lines (for example, the difference between the counted amount and the transaction amount).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Aggregated</td>
+<td>Sales transactions for named and unnamed customers are aggregated based on the configuration. Every aggregated transaction is eventually converted to a sales order.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Customer order created</td>
+<td>Based on the aggregated transaction, sales orders are created in the system.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Customer order invoiced</td>
+<td>Sales orders are invoiced.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Discounts posted</td>
+<td>Periodic discount journals are posted based on the configuration.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Income/expense posted</td>
+<td>Income/expense transactions are posted as vouchers.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Vouchers linked</td>
+<td>Payment journals are created and linked to the corresponding invoice.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Payments posted</td>
+<td>Payment journals are posted.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Gift cards posted</td>
+<td>Gift card transactions are posted as vouchers.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Posted</td>
+<td>The statement is marked as posted.</td>
+</tr>
+</tbody>
+</table>
+<p>Every state in the preceding tables is independent in nature, and a hierarchical dependency is built between the states. This dependency flows from top to bottom. If the system encounters any errors while it's processing a state, the status of the statement is reverted to the previous state. Any subsequent reattempt of the process resumes from the state that failed and continues to move forward. This approach has the following benefits:</p>
+<ul>
+<li><p>The user has complete visibility into the state where the error occurred.</p>
+</li>
+<li><p>Data corruption is avoided. For example, in the legacy statement posting feature, there were instances where some sales orders were invoiced but others were left open. There were also instances where some payment journals didn't have a corresponding invoice to settle, because the invoice posting had an error.</p>
+</li>
+<li><p>Users can see the current state of a statement by using the <strong>Status details</strong> button in the <strong>Execution details</strong> group of the statement. The status details page has three sections:</p>
+<ul>
+<li>The first section shows the current status of the statement, together with the error code and a detailed error message, if an error occurred.</li>
+<li>The second section shows the various states of the calculation process. Visual cues indicate states that have been successfully run, states that could not be run because of errors, and states that haven't yet been run.</li>
+<li>The third section shows the various states of the posting process. Visual cues indicate states that have been successfully run, states that could not be run because of errors, and states that haven't yet been run.</li>
+</ul>
+</li>
+</ul>
+<p>Additionally, the header of the second and third sections shows the overall status of the relevant process.</p>
+<h3 id="event-logs">Event logs</h3>
+<p>A statement goes through various operations (for example, Create, Calculate, Clear, and Post), and multiple instances of the same operation might be called during the statement's lifecycle. For example, after a statement is created and calculated, a user can clear the statement and calculate it again. The <strong>Event logs</strong> button in the <strong>Execution details</strong> group of the statement provides a complete audit trail of the various operations that were called on a statement, together with information about when those operations were called.</p>
+<h3 id="aggregated-transactions">Aggregated transactions</h3>
+<p>During the posting process, the sales transactions are aggregated based on the configuration. These aggregated transactions are stored in the system and used to create sales orders. Every aggregated transaction creates one corresponding sales order in the system. You can view the aggregated transactions by using the <strong>Aggregated transactions</strong> button in the <strong>Execution details</strong> group of the statement.</p>
+<p>The <strong>Sales order detail</strong> tab of an aggregated transaction shows the following information:</p>
+<ul>
+<li><strong>Record ID</strong> – The ID of the aggregated transaction.</li>
+<li><strong>Statement number</strong> – The statement that the aggregated transaction belongs to.</li>
+<li><strong>Date</strong> – The date when the aggregated transaction was created.</li>
+<li><strong>Sales ID</strong> – When a sales order is created from the aggregated transaction, the sales order ID. If this field is blank, the corresponding sales order hasn't been created.</li>
+<li><strong>Number of aggregated lines</strong> – The total number of lines for the aggregated transaction and sales order.</li>
+<li><strong>Status</strong> – The last status of the aggregated transaction.</li>
+<li><strong>Invoice ID</strong> – When the sales order for the aggregated transaction is invoiced, the sales invoice ID. If this field is blank, the invoice for the sales order hasn't been posted.</li>
+</ul>
+<p>The <strong>Transaction details</strong> tab of an aggregated transaction shows all the transactions that have been pulled into the aggregated transaction. The aggregated lines on the aggregated transaction show all the aggregated records from the transactions. The aggregated lines also show details such as the item, variant, quantity, price, net amount, unit, and warehouse. Basically, each aggregated line corresponds to one sales order line.</p>
+<p>From the <strong>Aggregated transactions</strong> page, you can download the XML for a specific aggregated transaction by using the <strong>Export sales order XML</strong> button. You can use the XML to debug issues that involve sales order creation and posting. Just download the XML, upload it to a test environment, and debug the issue in the test environment. The functionality for downloading the XML for aggregated transactions isn't available for statements that have been posted.</p>
+<p>The aggregated transaction view provides the following benefits:</p>
+<ul>
+<li>The user has visibility into the aggregated transactions that failed during sales order creation and the sales orders that failed during invoicing.</li>
+<li>The user has visibility into how transactions are aggregated.</li>
+<li>The user has a complete audit trail, from transactions, to sales orders, to sales invoices. This audit trail wasn't available in the legacy statement posting feature.</li>
+<li>Aggregated XML file make it easier to identify issues during sales order creation and invoicing.</li>
+</ul>
+<h3 id="journal-vouchers">Journal vouchers</h3>
+<p>The <strong>Journal vouchers</strong> button in the <strong>Execution details</strong> group of the statement shows all the various voucher transactions that are created for a statement, and that are related to discounts, income/expense accounts, gift cards, and so on.</p>
+<p>Currently, the program shows this data only for posted statements.</p>
+<h3 id="payment-journals">Payment journals</h3>
+<p>The <strong>Payment journals</strong> button in the <strong>Execution details</strong> group of the statement shows all the various payment journals that are created for a statement.</p>
+<p>Currently, the program shows this data only for posted statements.</p>
+<h2 id="other-improvements">Other improvements</h2>
+<p>Other, back-end improvements that users can see have been made to the statement posting feature. Here are some examples:</p>
+<ul>
+<li>The aggregation doesn't consider the staff, terminal, and shift entities. Because there are fewer aggregation parameters, fewer sales order lines must be processed.</li>
+<li>The occurrence of deadlock on transaction tables is reduced by introducing additional extension tables and by doing insert operations instead of update operations on the transaction tables.</li>
+<li>The number of running batch tasks has been parameterized and limited. Therefore, this number can be fine-tuned specifically to a customer's environment. In the legacy statement posting feature, an unlimited number of batch tasks was created at the same time. The results were unmanageable loads, overhead, and bottlenecks on the batch server.</li>
+<li>Statements are efficiently queued for processing by prioritizing the statements that have the maximum number of transactions.</li>
+<li>Batch processes such as <strong>Calculate statements in batch</strong> and <strong>Post statements in batch</strong> are run only in batch mode. In the legacy statement posting feature, users could choose to run these batch processes in an interactive mode which is s single threaded operation unlike batch processes which are multi-threaded.</li>
+<li>In the legacy statement posting feature, any failure of a batch task put the whole batch job in an error state. In the improved feature, batch task failures don't put the batch job in an error state if other batch tasks are successfully completed. You should assess the posting status for a batch execution run by using the <strong>Statements</strong> page, where you can see any statements that weren't posted because of errors.</li>
+<li>In the legacy statement posting feature, the first occurrence of a statement failure causes the whole batch to fail. The remaining statements aren't processed. In the improved feature, the batch process continues to process all statements, even if some of the statements fail. One benefit is that users gain visibility into the exact number of statements that have errors. Therefore, users don't have to be stuck in a continuous loop of fixing the errors and running the post statement process till all statements are posted.</li>
+</ul>
+<h2 id="general-guidance-about-the-statement-posting-process">General guidance about the statement posting process</h2>
+<ul>
+<li><p>We recommend that you run the statement posting process in a batch, because batch runs take advantage of the power of the batch framework in terms of multithreading. Multithreading is required in order to handle the huge volumes of transactions that are normally seen in statement postings.</p>
+</li>
+<li><p>We recommend that you turn on negative physical inventory on the item model group, so that you have a seamless posting experience. In some scenarios, negative statements might not be able to be posted unless there is negative physical inventory. For example, in theory, if there is only one unit of an item in inventory, and there have been a sales transaction and a return transaction for the item, the transaction should be able to be posted even if negative inventory isn't turned on. However, because the statement posting process pulls both the sales transaction and the return transaction in a single customer order, there is no guarantee that the sales line will be posted first, followed by the return line. Therefore, errors can occur. If negative inventory is turned on in this scenario, the transaction posting isn't negatively affected, and the system will correctly reflect the inventory.</p>
+</li>
+<li><p>We recommend that you use aggregation while you calculate and post statements. Therefore, the following settings are recommended for some of the aggregation parameters:</p>
+<ul>
+<li>Go to <strong>Retail and Commerce</strong> &gt; <strong>Headquarters setup</strong> &gt; <strong>Parameters</strong> &gt; <strong>Commerce parameters</strong>. Then, on the <strong>Posting</strong> tab, on the <strong>Inventory update</strong> FastTab, in the <strong>Detail level</strong> field, select <strong>Summary</strong>.</li>
+<li>Go to <strong>Retail and Commerce</strong> &gt; <strong>Headquarters setup</strong> &gt; <strong>Parameters</strong> &gt; <strong>Commerce parameters</strong>. Then, on the <strong>Posting</strong> tab, on the <strong>Aggregation</strong> FastTab, set the <strong>Voucher transactions</strong> option to <strong>Yes</strong>.</li>
+</ul>
+</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/statement-posting-EOD.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

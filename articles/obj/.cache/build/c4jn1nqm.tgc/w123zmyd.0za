@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Improve the performance of ER solutions by adding parameterized CALCULATED FIELD data sources </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Improve the performance of ER solutions by adding parameterized CALCULATED FIELD data sources ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how you can help improve the performance of Electroinic reporting (ER) solutions by adding parameterized CALCULATED FIELD data sources.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="improve-the-performance-of-er-solutions-by-adding-parameterized-calculated-field-data-sources">Improve the performance of ER solutions by adding parameterized CALCULATED FIELD data sources</h1>
+
+
+<p>This topic explains how you can take <a href="trace-execution-er-troubleshoot-perf.html">performance traces</a> of <a href="general-electronic-reporting.html">Electronic reporting (ER)</a> formats that are run, and then use the information from those traces to help improve performance by configuring a parameterized <strong>Calculated field</strong> data source.</p>
+<p>As part of the process of designing ER configurations to generate business documents, you define the method that is used to retrieve data from the application and enter it in the generated output. By designing a parametrized ER data source of the <strong>Calculated field</strong> type, you can reduce the number of database calls, and significantly reduce the time and cost that are involved in collecting the details of ER format execution.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><p>To complete the examples in this topic, you must have the access to one of the following <a href="../sysadmin/tasks/assign-users-security-roles.html">roles</a>:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+<li><p>The company must be set to <strong>DEMF</strong>.</p>
+</li>
+<li><p>Follow the steps in <a href="#appendix1">Appendix 1</a> of this topic to download the components of the sample Microsoft ER solution that is required to complete the examples in this topic.</p>
+</li>
+<li><p>Follow the steps in <a href="#appendix2">Appendix 2</a> of this topic to configure the minimal set of ER parameters that is required to use the ER framework to help improve the performance of the sample Microsoft ER solution.</p>
+</li>
+</ul>
+<h2 id="import-the-sample-er-solution">Import the sample ER solution</h2>
+<p>Imagine that you must design an ER solution to generate a new report that shows vendor transactions. Currently, you can find the transactions for a selected vendor on the <strong>Vendor transactions</strong> page (go to <strong>Account payable</strong> &gt; <strong>Vendors</strong> &gt; <strong>All vendors</strong>, select a vendor, and then, on the Action Pane, on the <strong>Vendor</strong> tab, in the <strong>Transactions</strong> group, select <strong>Transactions</strong>). However, you want to have all vendor transactions together in one electronic document in XML format. This solution will consist of several ER configurations that contain the required data model, model mapping, and format components.</p>
+<p>The first step is to import the sample ER solution to generate a vendor transactions report.</p>
+<ol>
+<li><p>Sign in to the instance of Microsoft Dynamics 365 Finance that is provisioned for your company.</p>
+</li>
+<li><p>In this topic, you will create and modify configurations for the <strong>Litware, Inc.</strong> sample company. Make sure that this configuration provider has been added to your Finance instance and is marked as active. For more information, see <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create configuration providers and mark them as active</a>.</p>
+</li>
+<li><p>In the <strong>Electronic reporting</strong> workspace, select the <strong>Reporting configurations</strong> tile.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, import the ER configurations that you downloaded as a prerequisite into Finance, in the following order: data model, model mapping, format. For each configuration, follow these steps:</p>
+<ol>
+<li>On the Action Pane, select <strong>Exchange</strong> &gt; <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, and select the appropriate file for the ER configuration in XML format.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<p><img src="media/er-calculated-field-ds-performance-imported-configurations.png" alt="Imported configurations on the Configurations page"></p>
+<h2 id="review-the-sample-er-solution">Review the sample ER solution</h2>
+<h3 id="review-the-model-mapping">Review the model mapping</h3>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Performance improvement model</strong>, and select <strong>Performance improvement mapping</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Model to datasource mapping</strong> page, on the Action Pane, select <strong>Designer</strong>.</p>
+<p>This ER model mapping is designed to perform the following actions:</p>
+<ul>
+<li>Fetch the list of vendor transactions that are stored in the VendTrans table (<strong>Trans</strong> data source).</li>
+<li>For every transaction, fetch, from the VendTable table, the record of a vendor that the transaction has been posted for (<strong>#Vend</strong> data source).</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>#Vend</strong> data source is configured to fetch the corresponding vendor record by using the existing many-to-one relation <strong>@.'&gt;Relations'.VendTable_AccountNum</strong>.</p>
+</div>
+<p>The model mapping in this configuration implements the base data model for any ER formats that are created for this model and run in Finance. Therefore, the content of the <strong>Trans</strong> data source is exposed for ER formats such as abstract <strong>model</strong> data sources.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-1.png" alt="Trans data source on the Model mapping designer page"></p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+</li>
+<li><p>Close the <strong>Model to datasource mapping</strong> page.</p>
+</li>
+</ol>
+<h3 id="review-format">Review format</h3>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Performance improvement model</strong>, and select <strong>Performance improvement format</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Mapping</strong> tab, select <strong>Expand/Collapse</strong>.</p>
+</li>
+<li><p>Expand the <strong>Model</strong>, <strong>Data,</strong> and <strong>Transaction</strong> items.</p>
+<p>This ER format is designed to generate a vendor transactions report in XML format.</p>
+<p><img src="media/er-calculated-field-ds-performance-format.png" alt="Format data sources and configured bindings of format elements on the Format designer page"></p>
+</li>
+<li><p>Close the <strong>Format designer</strong> page.</p>
+</li>
+</ol>
+<h2 id="run-the-sample-er-solution-to-trace-execution">Run the sample ER solution to trace execution</h2>
+<p>Imagine that you've finished designing the first version of the ER solution. You now want to test the solution in your Finance instance and analyze the execution performance.</p>
+<h3 id="turn-on-the-er-performance-trace">Turn on the ER performance trace</h3>
+<ol>
+<li><p>Select the <strong>DEMF</strong> company.</p>
+</li>
+<li><p>Follow the steps in <a href="trace-execution-er-troubleshoot-perf.html#turn-on-the-er-performance-trace">Turn on the ER performance trace</a> to generate a performance trace while an ER format is run.</p>
+<p><img src="media/er-calculated-field-ds-performance-format-user-parameters.png" alt="User parameters dialog box"></p>
+</li>
+</ol>
+<h3 id="run-format">Run the ER format</h3>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Performance improvement format</strong>.</li>
+<li>On the Action Pane, select <strong>Run</strong>.</li>
+</ol>
+<h2 id="use-the-performance-trace-to-analyze-model-mapping-performance">Use the performance trace to analyze model mapping performance</h2>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Performance improvement mapping</strong>.</li>
+<li>On the Action Pane, select <strong>Designer</strong>.</li>
+<li>On the <strong>Model mappings</strong> page, on the Action Pane, select <strong>Designer</strong>.</li>
+<li>On the <strong>Model mapping designer</strong> page, on the Action Pane, select <strong>Performance trace</strong>.</li>
+<li>Select the most recent trace that was generated, and then select <strong>OK</strong>.</li>
+</ol>
+<p>New information is now available for some data source items of the current model mapping:</p>
+<ul>
+<li>The actual time that was spent getting data by using the data source</li>
+<li>The same time expressed as a percentage of the total time that was spent running the whole model mapping</li>
+</ul>
+<p><img src="media/er-calculated-field-ds-performance-mapping-2.png" alt="Execution time details on the Model mapping designer page"></p>
+<p>The <strong>Performance statistics</strong> grid shows that the <strong>Trans</strong> data source calls the VendTrans table one time. The value <strong>[265][Q:265]</strong> of the <strong>Trans</strong> data source indicates that 265 vendor transactions have been fetched from the application table and returned to the data model.</p>
+<p>The <strong>Performance statistics</strong> grid also shows that the current model mapping duplicates database requests while the <strong>#Vend</strong> data source is run. This duplication occurs for the following reasons:</p>
+<ul>
+<li><p>The vendor table is called two times for each of the 265 iterated vendor transactions, for a total of 530 calls:</p>
+<ul>
+<li>One call is made to enter the vendor account number.</li>
+<li>One call is made to enter the vendor name.</li>
+</ul>
+</li>
+<li><p>The vendor table is called for each iterated vendor transaction, even though the fetched transactions have been posted for only five vendors. Of the 530 calls, 525 are duplicates. The following illustration shows the message that you receive about duplicate calls (database requests).</p>
+</li>
+</ul>
+<p><img src="media/er-calculated-field-ds-performance-mapping-2a.png" alt="Message about duplicate database requests on the Model mapping designer page"></p>
+<p>Of the total model mapping execution time (approximately eight seconds), notice that more than 80 percent (approximately six seconds) has been spent retrieving values from the VendTable application table. That percentage is too large for two attributes of five vendors, compared with the volume of information from the VendTrans application table.</p>
+<p>To reduce the number of calls that are made to get the vendor details for every transaction, and to improve the performance of the model mapping, you can use caching for the <strong>#Vend</strong> data source.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Trans\#Vend</strong> data source will be cached in the scope of the current transaction of the <strong>Trans</strong> data source at runtime.</p>
+</div>
+<p>By caching the <strong>#Vend</strong> data source, you reduce the number of duplicated calls from 525 to 260, but you don't completely eliminate the duplication. To completely eliminate duplication, you can configure a new parameterized data source of the <strong>Calculated field</strong> type.</p>
+<h2 id="improve-the-model-mapping-based-on-information-from-the-execution-trace">Improve the model mapping based on information from the execution trace</h2>
+<h3 id="change-the-logic-of-the-model-mapping">Change the logic of the model mapping</h3>
+<p>Follow these steps to use caching and a data source of the <strong>Calculated field</strong> type, to help prevent duplicate calls to the database.</p>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Performance improvement mapping</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Model mappings</strong> page, on the Action Pane, select <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Model mapping designer</strong> page, follow these steps to add a data source of the <strong>Table records</strong> type to access records in the VendTable application table:</p>
+<ol>
+<li>In the <strong>Data source types</strong> pane, expand <strong>Dynamics 365 for Operations</strong>, and select <strong>Table records</strong>.</li>
+<li>Select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Vend</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>VendTable</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>You can parameterize calls to data sources of the <strong>Calculated field</strong> type only if those data sources reside in a container. Therefore, follow these steps to add a data source of the <strong>Empty container</strong> type to hold a new parameterized data source of the <strong>Calculated field</strong> type:</p>
+<ol>
+<li>In the <strong>Data source types</strong> pane, expand <strong>General</strong>, and select <strong>Empty container</strong>.</li>
+<li>Select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Box</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p><img src="media/er-calculated-field-ds-performance-mapping-3.png" alt="Box data source on the Model mapping designer page"></p>
+</li>
+<li><p>Follow these steps to add a parameterized data source of the <strong>Calculated field</strong> type:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Box</strong>.</li>
+<li>In the <strong>Data source types</strong> pane, expand <strong>Functions</strong>, and select <strong>Calculated field</strong>.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Vend</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>On the <strong>Formula designer</strong> page, select <strong>Parameters</strong> to specify the parameters that must be provided when this data source is called.</li>
+<li>In the <strong>Parameters</strong> dialog box, select <strong>New</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>parmVendAccNumber</strong>.</li>
+<li>In the <strong>Type</strong> field, select <strong>String</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>In the <strong>Formula</strong> field, enter <strong>FIRSTORNULL(FILTER(Vend, Vend.AccountNum=parmVendAccNumber))</strong>.</li>
+<li>Select <strong>Save</strong>, and close the <strong>Formula designer</strong> page.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+<li><p>Follow these steps to mark the added data source as cached during the execution:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Box\Vend</strong>.</li>
+<li>Select <strong>Cache</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Box\Vend</strong> data source will be cached in the scope of all vendor transactions of the <strong>Trans</strong> data source at runtime.</p>
+</div>
+</li>
+<li><p>Follow these steps to update the nested <strong>Trans\#Vend</strong> data source so that it uses the <strong>Box\Vend</strong> data source:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, expand <strong>Trans</strong>.</li>
+<li>Select the <strong>Trans\#Vend</strong> data source, and then select <strong>Edit</strong> &gt; <strong>Edit formula</strong>.</li>
+<li>On the <strong>Formula designer</strong> page, in the <strong>Formula</strong> field, enter <strong>Box.Vend(@.AccountNum)</strong>.</li>
+<li>Select <strong>Save</strong>, and then close the <strong>Formula designer</strong> page.</li>
+<li>Select <strong>OK</strong> to complete your changes to the selected data source.</li>
+</ol>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-4.png" alt="Vend data source on the Model mapping designer page"></p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+</li>
+<li><p>Close the <strong>Model mappings</strong> page.</p>
+</li>
+</ol>
+<h3 id="complete-the-modified-version-of-the-er-model-mapping">Complete the modified version of the ER model mapping</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, on the <strong>Versions</strong> FastTab, select version <strong>1.2</strong> of the <strong>Performance improvement mapping</strong> configuration.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>, and then select <strong>OK</strong>.</li>
+</ol>
+<h2 id="run-the-modified-er-solution-to-trace-execution">Run the modified ER solution to trace execution</h2>
+<p>Repeat the steps in the <a href="#run-format">Run the ER format</a> section earlier in this topic to generate a new performance trace.</p>
+<h2 id="use-the-performance-trace-to-analyze-adjustments-to-the-model-mapping">Use the performance trace to analyze adjustments to the model mapping</h2>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Performance improvement mapping</strong>.</li>
+<li>On the Action Pane, select <strong>Designer</strong>.</li>
+<li>On the <strong>Model mappings</strong> page, on the Action Pane, select <strong>Designer</strong>.</li>
+<li>On the <strong>Model mapping designer</strong> page, on the Action Pane, select <strong>Performance trace</strong>.</li>
+<li>Select the most recent trace that was generated, and then select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that the adjustments that you made to the model mapping have eliminated duplicate queries to database. The number of calls to database tables and data sources for this model mapping has also been reduced.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-5.png" alt="Trace information on the Model mapping designer page 1"></p>
+<p>The total execution time has been reduced about 20 times (from about 8 seconds to about 400 milliseconds). Therefore, the performance of the whole ER solution has been improved.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-5a.png" alt="Trace information on the Model mapping designer page 2"></p>
+<h2 id="appendix1">Appendix 1: Download the components of the sample Microsoft ER solution</h2>
+<p>You must download the following files and store them locally.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Performance improvement model.version.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Sample ER data model configuration</a></td>
+</tr>
+<tr>
+<td>Performance improvement mapping.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Sample ER model mapping configuration</a></td>
+</tr>
+<tr>
+<td>Performance improvement format.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Sample ER format configuration</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix2">Appendix 2: Configure the ER framework</h2>
+<p>Before you can start to use the ER framework to improve the performance of the sample Microsoft ER solution, you must configure the minimal set of ER parameters.</p>
+<h3 id="ConfigureParameters">Configure ER parameters</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>On the <strong>Localization configurations</strong> page, in the <strong>Related links</strong> section, select <strong>Electronic reporting parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Electronic reporting parameters</strong> page, on the <strong>General</strong> tab, set the <strong>Enable design mode</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>On the <strong>Attachments</strong> tab, set the following parameters:</p>
+<ul>
+<li>In the <strong>Configurations</strong> field, select the <strong>File</strong> type for the <strong>DEMF</strong> company.</li>
+<li>In the <strong>Job archive</strong>, <strong>Temporary</strong>, <strong>Baseline</strong>, and <strong>Others</strong> fields, select the <strong>File</strong> type.</li>
+</ul>
+</li>
+</ol>
+<p>For more information about ER parameters, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Configure the ER framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<h3 id="ActivateProvider">Activate an ER configuration provider</h3>
+<p>Every ER configuration that is added is marked as owned by an ER configuration provider. The ER configuration provider that is activated in the <strong>Electronic reporting</strong> workspace is used for this purpose. Therefore, you must activate an ER configuration provider in the <strong>Electronic reporting</strong> workspace before you start to add or edit ER configurations.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Only the owner of an ER configuration can edit the configuration. Therefore, before an ER configuration can be edited, the appropriate ER configuration provider must be activated in the <strong>Electronic reporting</strong> workspace.</p>
+</div>
+<h4 id="ReviewProvidersList">Review the list of ER configuration providers</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>On the <strong>Localization configurations</strong> page, in the <strong>Related links</strong> section, select <strong>Configuration providers</strong>.</li>
+<li>On the <strong>Configuration provider table</strong> page, each provider record has a unique name and URL. Review the contents of this page. If a record for <strong>Litware, Inc.</strong> already exists, skip the next procedure, <a href="#ActivateProvider">Add a new ER configuration provider</a>.</li>
+</ol>
+<h4 id="ActivateProvider">Add a new ER configuration provider</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>On the <strong>Localization configurations</strong> page, in the <strong>Related links</strong> section, select <strong>Configuration providers</strong>.</li>
+<li>On the <strong>Configuration providers</strong> page, select <strong>New</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Litware, Inc.</strong></li>
+<li>In the <strong>Internet address</strong> field, enter <code>https://www.litware.com</code>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h4 id="ActivateAddedProvider">Activate an ER configuration provider</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>On the <strong>Localization configurations</strong> page, in the <strong>Configuration providers</strong> section, select the <strong>Litware, Inc.</strong> tile, and then select <strong>Set active</strong>.</li>
+</ol>
+<p>For more information about ER configuration providers, see <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create configuration providers and mark them as active</a>.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Electronic Reporting overview</a></li>
+<li><a href="trace-execution-er-troubleshoot-perf.html">Trace the execution of ER formats to troubleshoot performance issues</a></li>
+<li><a href="er-calculated-field-type.html">Support parameterized calls of ER data sources of the Calculated field type</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-calculated-field-ds-performance.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

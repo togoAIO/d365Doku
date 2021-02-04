@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kostenaufschl&#252;sselungsrichtlinie und Gemeinkostenberechnung </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Kostenaufschl&#252;sselungsrichtlinie und Gemeinkostenberechnung ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieses Thema enth&#228;lt Informationen dazu, wie die korrekten Stufe der sekund&#228;ren Kostenelemente bestimmt und Kostenrollupregeln erstellt werden, die in Organisationsberichterstellung und Kostennachweisbarkeit passen.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="CAMCostRollupRule, CAMDimensionHierarchy, CAMOverheadRatePolicy">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Manufacturing">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="cost-rollup-policy-and-overhead-calculation" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="29">Kostenaufschlüsselungsrichtlinie und Gemeinkostenberechnung</h1>
+
+<div class="IMPORTANT" sourcefile="finance/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="33">Mit Kostenrechnung können Sie einen Einblick erhalten, wie sich der Kostenfluss auf Produkte und Dienste bezieht, die innerhalb einer Organisation geliefert werden. Um die Kostentransparenz anzuzeigen, ist es wichtig, Kostenzuweisung zwischen Kostenobjekten auf Grundlage einer entsprechenden Zuweisungsgrundlage zu erreichen. Standardmäßig wird die Kostenzuweisung für das primäre Kostenelement erreicht. Das ist in einigen Situationen wünschenswert, hat aber mehrere Auswirkungen, die berücksichtigt werden sollten.</p>
+<ul sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="35">
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="35"><p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="35">Zusätzliche Kostenobjekte werden mit Nullsaldo für das primäre Kostenelement nach Gemeinkostenberechnung beendet.</p>
+</li>
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="37"><p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="37">Die Menge der Kosteneinträgen, die durch Gemeinkostenberechnung generiert wird, kann sehr hoch sein.</p>
+</li>
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="39"><p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="39">Es ist nicht möglich, den Kostenfluss zwischen Kostenobjekten zu verfolgen.</p>
+</li>
+</ul>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="41">Um diese Auswirkungen zu vermeiden, können Sie mit der Kostenrechnung die Kostenzuweisung konfigurieren, damit sie in den Anforderungen der Berichterstellung auf Führungsebene in Ihrer Organisation entspricht. Dieses Thema erklärt, wie Sie die korrekte Stufe der sekundären Kostenelemente bestimmen und Kostenrollupregeln erstellen können, die in Organisationsberichterstellung und Kostennachweisbarkeit passen.</p>
+<div class="NOTE" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="43">
+<h5>Note</h5>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="44">Sie können Konfigurationen ändern, wenn sich Meldeanforderungen ändern.</p>
+</div>
+<h2 id="example-of-cost-rollup-policy-setup" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="46">Beispiel für die Einrichtung der Kostenrolluprichtlinie</h2>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="48">Stellen Sie sich vor, dass eine Organisation die folgende Struktur mit 4 Kostenstellen hat.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="50"><img src="media/dimension-hierarchy-org.png" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="50" alt="Beispiel einer Organisationsstruktur"></p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="52"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="52">Kostenobjektdimension</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="54">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="54">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="54">Kostenstellen</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="54">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="56">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="56">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="56">Personalverwaltung</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="57">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="57">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="57">Finanzen</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="58">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="58">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="58">Montage</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="59">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="59">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="59">Verpackung</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="61"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="61">Kostenelementdimension</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="63">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="63">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="63">Kostenelemente</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="63">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="63">Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="65">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="65">1001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="65">Elektrizität</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="65">Primär</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="66">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="66">1002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="66">Löhne</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="66">Primär</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="67">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="67">1003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="67">Werbung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="67">Primär</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="69">Eine Dimensionshierarchie, die die Meldeanforderungen der Organisation erfüllt, kann wie folgt eingerichtet werden.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="71"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="71">Dimensionshierarchiedetails</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">Dimensionshierarchiename</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">Dimensionen</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">Dimensionshierarchie-Typname</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="73">Zugriffslistenhierarchie</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="75">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="75">Organisation</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="75">Kostenstellen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="75">Dimensionsklassifizierungshierarchie</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="75">Nr.</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="77"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="77">Dimensionshierarchie</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="79">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="79">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="79"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="79">Dimensionsmitgliedsbereiche</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="79"> </th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81">Knoten</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81">Ausgangsdimensionsmitglied</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="81">Zieldimensionsmitglied</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="82">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="82">Organisation</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="82"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="82"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="83">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="83">  Verwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="83"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="83"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="84">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="84">    Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="84">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="84">CC001</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="85">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="85">    Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="85">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="85">CC002</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="86">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="86">  Produktion</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="86"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="86"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="87">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="87">    Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="87">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="87">CC003</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="88">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="88">    Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="88">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="88">CC004</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="90">Eine Dimensionshierarchie, die die Meldeanforderungen der Organisation erfüllt, kann wie folgt eingerichtet werden.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="92"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="92">Dimensionshierarchiedetails</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="94">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="94">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="94">Dimensionshierarchiename</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="94">Dimensionen</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="94">Dimensionshierarchie-Typname</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="96">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="96">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="96">Kostenelemente</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="96">Dimensionsklassifizierungshierarchie</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="98"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="98">Dimensionshierarchie</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="100">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="100">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="100"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="100">Dimensionsmitgliedsbereiche</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="100"> </th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="102">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="102">Knoten</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="102">Ausgangsdimensionsmitglied</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="102">Zieldimensionsmitglied</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="103">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="103">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="103"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="103"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="104">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="104">    Primäre Kosten</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="104">10001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="104">10003</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="106">Nachdem die Hauptbucheinträge verarbeitet wurden, sieht das Kosteneintragssaldo nach Kostenobjekt so aus.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108">Kostenobjekt</strong></th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="108">Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">Kostenelement</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">CC001</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">CC002</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">CC003</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110">CC004</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="110"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">1001 Elektrizität</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">100,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">200.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">6.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">2.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="111">8.300,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">1002 Löhne</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">10.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">10.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">8.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">6.500,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="112">34.500,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">1003 Werbung</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">4.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="113">4.000,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">10.100,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">14.200,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">14.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">8.500,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="114">46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="116"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="116">Statistische Dimension</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="118">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="118">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="118">Statistische Elemente</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="118">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="120">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="120">SE-1</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="120">HR-Dienste</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="121">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="121">SE-2</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="121">Finanzdienste</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="123">Kostenobjekt CC001 Personalverwaltung trägt HR-Dienste zu mehreren Kostenobjekten bei.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="125">HR-Dienste werden nach folgender Verteilung der Größe genutzt.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="127">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="127">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="127">Kostenobjekt</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="127">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="127">HR-Dienste</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="129">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="129">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="129">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="129">35</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="130">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="130">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="130">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="130">55</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="131">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="131">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="131">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="131">10</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="133">Kostenobjekt CC002 Finanzen trägt zu mehreren Kostenobjekten bei.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="135">Finanzdienstleistungen werden nach folgender Verteilung der Größe genutzt.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="137">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="137">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="137">Kostenobjekt</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="137">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="137">Finanzdienste</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="139">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="139">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="139">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="139">65</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="140">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="140">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="140">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="140">35</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="142">Kostenzuweisungsrichtlinien können wie folgt eingerichtet werden.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">Richtlinienname</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">Kostenobjekt-Dimensionshierarchie</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">Statistische Dimension</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="144">Kostenelementdimension</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">Kostenzuweisung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">Organisation</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">Statistische Elemente</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="146">Kostenelemente</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="148">Kostenzuweisungsregeln können wie folgt eingerichtet werden.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="150">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="150">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="150">Kostenobjekt-Dimensionshierarchieknoten</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="150">Kostenverhalten</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="150">Verteilschlüssel</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="152">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="152">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="152">Gesamt</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="152"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="152">HR-Dienste</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="153">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="153">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="153">Gesamt</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="153"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="153">Finanzdienstleistungen</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="brhow-cost-flows-between-cost-centers" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="156"><br>Wie Kosten zwischen Kostenstellen fließen</h2>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="158">Wenn Sie mehr darüber erfahren möchten, wie Kosten zwischen den Kostenstellen in der Organisation fließen, können Sie für jede Kostenstelle Kostenelemente vom Typ <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="158">Sekundär</strong> erstellen. Diese Kostenelemente werden dann dazu verwendet, während der Gemeinkostenberechnung Salden zwischen den Kostenstellen zu übertragen.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="160">Kostenelementdimensionsmitglieder können wie folgt eingerichtet werden.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="162">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="162">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="162">Kostenelemente</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="162">Typ</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="162"> </th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="164">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="164">1001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="164">Elektrizität</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="164">Primär</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="165">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="165">1002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="165">Löhne</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="165">Primär</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="166">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="166">1003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="166">Werbung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="166">Primär</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167">SC-CC001</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167">Personalverwaltung</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="167">Sekundär</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168">SC-CC002</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168">Finanzen</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="168">Sekundär</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169">SC-CC003</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169">Montage</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="169">Sekundär</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170">SC-CC004</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170">Verpackung</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="170">Sekundär</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="172">Die Dimensionshierarchie <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="172">Gewinn und Verlustaufstellung</strong> muss mit den neuen Dimensionsmitgliedern aktualisiert werden, sodass die Dimensionshierarchie die richtigen Daten enthält, die zum Definieren von Richtlinien und der Berichterstellung verwendet werden können.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="174"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="174">Dimensionshierarchiedetails</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="176">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="176">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="176">Dimensionshierarchiename</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="176">Dimensionen</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="176">Dimensionshierarchie-Typname</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="178">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="178">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="178">Kostenelemente</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="178">Dimensionsklassifizierungshierarchie</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="180"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="180">Dimensionshierarchie</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="182">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="182">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="182"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="182">Dimensionsmitgliedsbereiche</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="182"> </th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="184">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="184">Knoten</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="184">Ausgangsdimensionsmitglied</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="184">Zieldimensionsmitglied</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="185">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="185">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="185"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="185"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="186">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="186">    Primäre Kosten</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="186">10001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="186">10003</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187">    Sekundäre Kosten</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187">SC-CC001</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="187">SC-CC004</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="189">Erstellen Sie eine <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="189">Kostenrolluprichtlinie</strong>, bei der jede Kostenstelle einem entsprechenden Kostenelement vom Typ <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="189">Sekundär</strong> zugeordnet ist.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="191"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="191">Kostenaufschlüsselungsrichtlinien</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">Richtlinienname</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">Kostenobjekt-Dimensionshierarchie</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="193">Kostenelement-Dimensionshierarchie</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="195">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="195">2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="195">Kostenfluss</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="195">Organisation</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="195">Gewinn- und Verlustaufstellung</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="197"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="197">Kostenaufschlüsselungsregeln</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="199">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="199">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="199">Kostenobjekt-Dimensionshierarchieknoten</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="199">Kostenelement-Dimensionshierarchieknoten</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="199">Sekundäres Kostenelement</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="201">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="201">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="201">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="201"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="201">SC-CC001</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="202">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="202">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="202">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="202"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="202">SC-CC002</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="203">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="203">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="203">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="203"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="203">SC-CC003</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="204">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="204">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="204">Gewinn- und Verlustaufstellung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="204"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="204">SC-CC004</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="perform-overhead-calculation" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="206">Gemeinkostenberechnung durchführen</h2>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="208"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="208">Erfassung</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Erfassung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Journaltyp</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Steuerkalenderperiode</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Jahr</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Periode</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="210">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">00002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">Kostenzuteilungserfassung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">Steuerlich</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">Periode 1</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="212">Gemeinkostenberechnung / 01-02-2017 11:51:00 PM / Sachkonto /2017 / Periode 1</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="214">Das System wendet nun die <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="214">Kostenrolluprichtlinie</strong> an, wenn die <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="214">Kostenobjektsaldo-Erfassungseinträge</strong> erstellt werden.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="216"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="216">Kostenobjektsaldo-Erfassungseinträge</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Abschlussstichtag</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Kostenobjekt</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Kostenelement</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="218">Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">31-01-2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="220">10.100,00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">31-01-2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="221">17.735,00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">31-01-2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">SC-CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="222">31.082,75</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">31-01-2017</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">SC-CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="223">15.717,25</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="225">
+<h5>Note</h5>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="226">Die Journaleinträge werden auf den Regeln in der <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="226">Kostenrolluprichtlinie</strong> erstellt, wenn eine Richtlinie vorhanden ist. Der angezeigte Saldo ist der Saldo der Gemeinkostenberechnung.</p>
+</div>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="228">Die Seite <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="228">Kostenobjekt-Kostenobjektsaldo-Journaleintragsdetails</strong>, auf die von den Journaleinträgen zugegriffen wird, zeigt, wie der Saldo erhalten wird.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="230"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="230">Beispiel: Der Journaleintrag für Kostenobjekt CC002 Finanzen</strong></p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="232"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="232">Kostenobjekt-Kostenobjektsaldo-Journaleintragsdetails</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="234">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="234">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="234">Kostenelement-Dimensionsmitglied</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="234">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="234">Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="236">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="236">1001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="236">Elektrizität</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="236">200.00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="237">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="237">1002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="237">Löhne</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="237">10.000,00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="238">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="238">1003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="238">Werbung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="238">4.000,00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="239">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="239">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="239">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="239">3.535,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="241"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="241">Durch Gemeinkostenberechnung erstellte Kosteneinträge</strong></p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Kostenobjekt</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Kostenelement</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Beschreibung</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Betrag</th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="243">Abschlussstichtag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">10.100,00. -</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="245">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">3.535,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="246">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">5.555,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="247">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">Personalverwaltung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">1.010,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="248">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">17.735,00. -</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="249">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">Montage</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">11.527,75</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="250">31-01-2017</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">Verpackung</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">Finanzen</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">6.207,25</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="251">31-01-2017</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="253">Nachdem die <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="253">Gemeinkostenberechnung</strong> abgeschlossen wurde, können Sie die Ergebnisse mithilfe von Tools wie Microsoft SharePoint Workspace, Excel oder Power BI melden.</p>
+<h2 id="view-reporting-in-excel" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="255">Berichtserstellung in Excel anzeigen</h2>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="257">Die Dimensionshierarchien ermöglichen Ihnen, Daten auf verschiedenen Aggregationsebenen anzuzeigen.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="259">Es folgt das Beispiel einer Power Pivot-Berichterstellung in Excel.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261">Gewinn- und Verlustaufstellung</strong></th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261">Kostenobjekt</strong></th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="261">Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263">CC001</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263">CC002</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263">CC003</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263">CC004</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="263"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">Primäre Kosten</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">10.100,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">14.200,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">14.000,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">8.500,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="264">46.800,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">1001.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">100,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">200.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">6.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">2.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="265">8.300,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">1002.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">10.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">10.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">8.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">6.500,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="266">34.500,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">1003.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">4.000,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="267">4.000,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">Sekundäre Kosten</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">-10.100,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">-14.200,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">17.082.75</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">7.217,25</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="268">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">    SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">10.100,00. -</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">3.535,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">5.555,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">1.010,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="269">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">    SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">17.735,00. -</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">11.527,75</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">6.207,25</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="270">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">    SC-CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="271">0.00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">    SC-CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="272">0.00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">Summe</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">31.082,75</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">15.717,25</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="273">46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="275">Mithilfe von einer <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="275">Kostenrolluprichtlinie</strong> und <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="275">Kostenelementen vom Typs &quot;sekundär&quot;</strong> können Sie die primären Kosten pro Kostenobjekt für interne Berichte als primäre Kosten nutzen, die nach der <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="275">Gemeinkostenberechnung</strong> verbleiben.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="277">Wenn das gleiche Beispiel ausgeführt wird, ohne die <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="277">Kostenrolluprichtlinie</strong> zu erstellen, sieht das Berichterstellungsergebnis wie unten dargestellt aus. Die Kosten fließen ordnungsgemäß, aber die Nachweisbarkeit und der Einblick darin, wie Kosten zwischen Kostenstellen fließen, gehen verloren.</p>
+<table sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279">
+<thead>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279">
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279">Gewinn- und Verlustaufstellung</strong></th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279">Kostenobjekt</strong></th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"> </th>
+<th sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="279">Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281">CC001</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281">CC002</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281">CC003</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281">CC004</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="281"></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">Primäre Kosten</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">31.082,75</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">15.717,25</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="282">46.800,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">1001.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">6.207,75</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">2.092,25</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="283">8.300,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">1002.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">22.275,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">12.225,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="284">34.500,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">1003.     </td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">2600,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">1.400,00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="285">4.000,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">Sekundäre Kosten</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="286">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">     SC-CC001</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="287">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">     SC-CC002</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="288">0,00</strong></td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">     SC-CC003</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="289">0.00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">     SC-CC004</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">0.00</td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="290">0.00</td>
+</tr>
+<tr sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">Summe</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">0,00</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">31.082,75</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">15.717,25</strong></td>
+<td sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291"><strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="291">46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="293">Abhängig von den Anforderungen für Berichterstellung und Nachweisbarkeit in Ihrer Organisation können Sie die richtige Ebene der sekundären Kosten bestimmen und Kostenrollupregeln erstellen, die Ihrem Bedarf entsprechen.</p>
+<p sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="295">Die eindeutige Trennung zwischen <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="295">Kostenzuweisung</strong> und <strong sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="295">Kostenrolluprichtlinien</strong> bietet die Flexibilität, um fortlaufende Aktualisierungen vornehmen, ohne dass sie sich gegenseitig beeinflussen.</p>
+<h2 id="additional-resources" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="299">Zusätzliche Ressourcen</h2>
+<ul sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="300">
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="300"><a href="cost-objects.html" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="300">Kostenträgerdimensionen</a></li>
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="301"><a href="cost-elements.html" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="301">Kostenelementdimensionen</a></li>
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="302"><a href="dimension-hierarchy.html" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="302">Dimensionshierarchie</a></li>
+<li sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="303"><a href="overhead-calculation.html" sourcefile="finance/cost-accounting/cost-rollup.md" sourcestartlinenumber="303">Gemeinkostenberechnung</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/finance/cost-accounting/cost-rollup.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

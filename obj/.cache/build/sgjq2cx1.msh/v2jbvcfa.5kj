@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Fiscal registration service integration sample for Austria | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Fiscal registration service integration sample for Austria | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="fiscal-registration-service-integration-sample-for-austria" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="30">Fiscal registration service integration sample for Austria</h1>
+
+<h2 id="introduction" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="34">Introduction</h2>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="36">To meet local fiscal requirements for cash registers in Austria, the Dynamics 365 Retail functionality for Austria includes a sample integration of the point of sale (POS) with an external fiscal registration service. The sample extends the <a href="fiscal-integration-for-retail-channel.html" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="36">fiscal integration functionality</a>. It's based on the <a href="https://www.efsta.eu/at/fiskalloesungen/oesterreich" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="36">EFR (Electronic Fiscal Register)</a> solution from <a href="https://www.efsta.eu/at/" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="36">EFSTA</a> and enables communication with the EFR service via the HTTPS protocol. The EFR service should be hosted on either the Retail Hardware station or a separate machine that can be connected to from the Hardware station. The sample is provided in the form of source code and is part of the Retail software development kit (SDK).</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="38">Microsoft doesn't release any hardware, software, or documentation from EFSTA. For information about how to get the EFR solution and operate it, contact <a href="https://www.efsta.eu/at/kontakt" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="38">EFSTA</a>.</p>
+<h2 id="scenarios" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="41">Scenarios</h2>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="43">The following scenarios are covered by the fiscal registration service integration sample for Austria:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="45">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="45"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="45">Registration of cash transactions in the fiscal registration service:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="47">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="47">Send detailed transaction data to the fiscal registration service. This data includes sales line information, and information about discounts, payments, and taxes.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="48">Capture a response from the fiscal registration service. This response includes a digital signature and a link to the registered transaction.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="49">Register taxes, and map them to the fiscal registration service's tax codes.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="50">Print the QR code for a registered transaction on the receipt.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="52"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="52">Registration of gift card operations and customer deposits as non-cash transactions in the fiscal registration service:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="54">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="54">Issue or add money to a gift card.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="55">Register a customer account deposit.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="56">Register a customer order deposit.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="58"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="58">Registration of non-sales transactions and events as non-cash transactions in the fiscal registration service:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="60">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="60">Open shift and Close shift</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="61">Start amount, Float entry, and Tender removal</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="62">Price override</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="63">Tax override</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="64">Print copy of receipt</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="65">Open drawer</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="66">Print X report</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="67">Print Z report</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="69"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="69">Printing end-of-day statements (X/Z reports) that have Austria-specific fields:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="71">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="71">Total number of products or services that were delivered to customers</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="72">Breakdown of sales by tax rate</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="73">Breakdown of payments by cashier/cash register operator</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="74">Price discounts and returns that reduce daily sales</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="75">Zero sales (giveaways)</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="77"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="77">Error handling, such as the following options:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="79">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="79">Retry fiscal registration if a retry is possible, such as if the fiscal registration service isn't available, isn't ready, or isn't responding.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="80">Postpone fiscal registration.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="81">Skip fiscal registration, or mark the transaction as registered, and include info codes to capture the reason for the failure and additional information.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="82">Check the availability of the fiscal registration service before a new sales transaction is opened or a sales transaction is finalized.</li>
+</ul>
+</li>
+</ul>
+<h3 id="default-data-mapping" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="84">Default data mapping</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="86">The following default data mapping is included in the fiscal document provider configuration that is provided as part of the fiscal integration sample:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="88">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="88"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="88">Value-added tax (VAT) rates mapping:</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="90"><em sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="90">A: 20.00; B: 10.00; C: 13.00; D: 0.00; E: 19.00; F: 7.00</em></p>
+</li>
+</ul>
+<h3 id="gift-cards" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="92">Gift cards</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="94">The fiscal registration service integration sample implements the following rules that are related to gift cards:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="96">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="96">Exclude sales lines that are related to the <em sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="96">Issue gift card</em> and <em sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="96">Add to gift card</em> operations from a cash transaction. Instead of registering those lines as a part of a cash transaction, register them as a separate non-cash transaction in the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="97">Don't print a tax group breakdown and a QR code on a receipt if the receipt consists only of gift card lines.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="98">Print the total amount of gift cards that are issued or re-charged in a transaction separately from the cash transaction amount on the receipt.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="99">Save calculated adjustments of payment lines in the channel database with a reference to a corresponding fiscal transaction.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="100">Payment by gift card is considered a regular payment.</li>
+</ul>
+<h3 id="customer-deposits-and-customer-order-deposits" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="102">Customer deposits and customer order deposits</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="104">The fiscal registration service integration sample implements the following rules that are related to customer deposits and customer order deposits:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="106">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="106">Register a non-cash transaction if a transaction is a customer deposit.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="107">Register a non-cash transaction if a transaction contains only a customer order deposit or a customer order deposit refund.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="108">Deduct the customer order deposit amount from payment lines when a hybrid customer order is created.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="109">Save calculated adjustments of payment lines in the channel database with a reference to a fiscal transaction for a hybrid customer order.</li>
+</ul>
+<h3 id="limitations-of-the-sample" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="111">Limitations of the sample</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="113">The fiscal registration service supports only scenarios where sales tax is included in the price. Therefore, the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="113">Price include sales tax</strong> option must be set to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="113">Yes</strong> for both stores and customers.</p>
+<h2 id="set-up-commerce-for-austria" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="115">Set up Commerce for Austria</h2>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="117">This section describes the Commerce settings that are specific to and recommended for Austria. For more information set up information, see <a href="../index.html" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="117">Commerce home page</a>.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="119">To use the Austria-specific functionality, you must specify the following settings:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="121">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="121">In the primary address of the legal entity, set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="121">Country/region</strong> field to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="121">AUT</strong> (Austria).</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="122">In the POS functionality profile of every store that is located in Austria, set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="122">ISO code</strong> field to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="122">AT</strong> (Austria).</li>
+</ul>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="124">You must also specify the following settings for Austria. Note that you must run appropriate distribution jobs after you complete the setup.</p>
+<h3 id="set-up-vat-per-austrian-requirements" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="126">Set up VAT per Austrian requirements</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="129">You must create sales tax codes, sales tax groups, and item sales tax groups. You must also set up sales tax information for products and services. For more information about how to set up and use sales tax features, see <a href="../../financials/general-ledger/indirect-taxes-overview.md" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="129">Sales tax overview</a>.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="132">On sales receipts, you can print an abbreviated code for a sales tax code (for example, &quot;A&quot; or &quot;B&quot;). To make this functionality available, set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="132">Print code</strong> field on the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="132">Sales tax codes</strong> page.</p>
+<h3 id="set-up-stores" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="134">Set up stores</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="136">On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="136">All stores</strong> page, update the store details. Specifically, set the following parameters:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="138">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="138">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="138">Sales tax group</strong> field, specify the sales tax group that should be used for sales to the default customer.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="139">Set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="139">Prices include sales tax</strong> option to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="139">Yes</strong>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="140">Set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="140">Name</strong> field to the company name. This change helps guarantee that the company name appears on a sales receipt. Alternatively, you can add the company name to the sales receipt layout as free-form text.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="141">Set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="141">Tax identification number (TIN)</strong> field to the company identification number. This change helps guarantee that the company identification number appears on a sales receipt. Alternatively, you can add the company identification number to the sales receipt layout as free-form text.</li>
+</ul>
+<h3 id="set-up-functionality-profiles" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="143">Set up functionality profiles</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="145">Set up POS functionality profiles:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">Receipt numbering</strong> FastTab, set up receipt numbering by creating or updating records for the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">Sale</strong>, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">Sales order</strong>, and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="147">Return</strong> receipt transaction types.</li>
+</ul>
+<h3 id="configure-custom-fields-so-that-they-can-be-used-in-receipt-formats-for-sales-receipts" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="149">Configure custom fields so that they can be used in receipt formats for sales receipts</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="151">You can configure the language text and custom fields that are used in the POS receipt formats. The default company of the user who creates the receipt setup should be the same legal entity where the language text setup is created. Alternatively, the same language texts should be created in both the user's default company and the legal entity of the store that the setup is created for.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">Language text</strong> page, add the following records for the labels of the custom fields for receipt layouts. Note that the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">Language ID</strong>, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">Text ID</strong>, and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">Text</strong> values that are shown in the table are just examples. You can change them to meet to your requirements. However, the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="153">Text ID</strong> values that you use must be unique, and they must be equal to or more than 900001.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="155">Add the following POS labels to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="155">POS</strong> section of <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="155">Language text</strong> from the table:</p>
+<table sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">
+<thead>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">Language ID</th>
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">Text ID</th>
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">Text</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">900001</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">QR Code</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">900002</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">Continuous Number</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">900003</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">Tax Retail Print Code</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">900004</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">Total (sales)</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">900005</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">Total Tax (sales)</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="164">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="164">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="164">900006</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="164">Total Include Tax (sales)</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">900007</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Tax Amount (sales)</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="166">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="166">en-US</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="166">900008</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="166">Tax Basis (sales)</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="168">On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="168">Custom fields</strong> page, add the following records for the custom fields for receipt layouts. Note that <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="168">Caption text ID</strong> values must correspond to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="168">Text ID</strong> values that you specified on the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="168">Language text</strong> page:</p>
+<table sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">
+<thead>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">Name</th>
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">Type</th>
+<th sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">Caption text ID</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">QRCODE</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">900001</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">CONTINUOUSNUMBER</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">900002</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">RETAILPRINTCODE</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">900003</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">SALESTOTAL</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">900004</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">SALESTOTALTAX</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">900005</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="177">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="177">SALESTOTALINCLUDETAX</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="177">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="177">900006</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="178">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="178">SALESTAXAMOUNT</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="178">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="178">900007</td>
+</tr>
+<tr sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="179">
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="179">SALESTAXBASIS</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="179">Receipt</td>
+<td sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="179">900008</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configure-receipt-formats" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="181">Configure receipt formats</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="183">For every required receipt format, change the value of the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="183">Print behavior</strong> field to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="183">Always print</strong>.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="185">In the Receipt format designer, add the following custom fields to the appropriate receipt sections. Note that field names correspond to the language texts that you defined in the previous section.</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Header:</strong> Add the following fields:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="189">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="189"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="189">Store name</strong> and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="189">Tax Identification Number</strong> fields, which are used to print the company name and identity number on receipts. Alternatively, you can add the company name and identity number to the layout as free-form text.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Store address</strong>, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Date</strong>, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Time 24H</strong>, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Receipt Number</strong>, and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Register number</strong> fields.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="191"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="191">Continuous Number</strong> fields, to identify the number of the cash transaction in the fiscal registration service.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="193"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="193"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="193">Lines:</strong> Add the following fields:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="195">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="195"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="195">Item name</strong>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="196"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="196">Qty</strong>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="197"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="197">Total price with tax</strong>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="198"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="198">Tax Retail Print Code</strong>, which is used to print the abbreviated code that corresponds to the sales tax code that applies to the item.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200">Footer:</strong> Add the following fields:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">Payment fields, so that the payment amounts for each payment method are printed. For example, add the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">Tender name</strong> and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">Tender amount</strong> fields to one line of the layout.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="203"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="203"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="203">Sales total</strong> field group:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="205">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="205"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="205">Total (sales)</strong> field, which is used to print the receipt's total cash sale amount. The amount excludes tax. Prepayments and gift card operations are excluded.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="206"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="206">Total Include Tax (sales)</strong> field, which is used to print the receipt's total cash sale amount. The amount includes tax. Prepayments and gift card operations are excluded.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="207"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="207">Total Tax (sales)</strong> field, which is used to print the receipt's total tax amount for cash sales. Prepayments and gift card operations are excluded.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="209"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="209"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="209">Tax break down</strong> field group. The fields in this field group must be printed on a separate line.</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="211">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="211"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="211">Tax Id</strong> field, which is a standard field that enables a sales tax summary to be printed for each sales tax code. The field must be added to a new line.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="212"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="212">Tax Percentage</strong> field, which is a standard field that is used to print the effective tax rate for the sales tax code.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="213"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="213">Tax Basis (sales)</strong> field, which is used to print the receipt's total cash sale amount for the sales tax code. Prepayments and gift card operations are excluded.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="214"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="214">Tax Amount (sales)</strong> field, which is used to print the receipt's tax amount for cash sales for the sales tax code.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="215"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="215">Tax Retail Print Code</strong> field, which is used to print the abbreviated code that corresponds to the sales tax code.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="217"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="217"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="217">QR Code</strong> field, which is used to print the reference to the registered cash transaction in the form of QR code.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="219">For more information about how to work with receipt formats, see <a href="../receipt-templates-printing.html" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="219">Set up and design receipt formats</a>.</p>
+<h3 id="configure-fiscal-integration" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="221">Configure fiscal integration</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="223">Complete the fiscal integration setup steps as described in <a href="setting-up-fiscal-integration-for-retail-channel.html" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="223">Set up the fiscal integration for Commerce channels</a>:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="225">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="225"><a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="225">Set up a fiscal registration process</a>. Note also the settings for the fiscal registration process that are <a href="#set-up-the-registration-process" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="225">specific to this fiscal registration service integration sample</a>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="226"><a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="226">Set error handling settings</a>.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="227"><a href="setting-up-fiscal-integration-for-retail-channel.html#enable-manual-execution-of-postponed-fiscal-registration" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="227">Enable manual execution of postponed fiscal registration</a>.</li>
+</ul>
+<h2 id="deployment-guidelines-for-cash-registers-for-austria" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="229">Deployment guidelines for cash registers for Austria</h2>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="231">The fiscal registration service integration sample for Austria is part of the Retail SDK. For information about how to install and use the SDK, see the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-overview" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="231">Retail software development kit (SDK) architecture (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="233">This sample consists of extensions for the CRT, Hardware station, and POS. To run this sample, you must modify and build the CRT, Hardware station, and POS projects. We recommend that you use an unmodified Retail SDK to make the changes that are described in this topic. We also recommend that you use a source control system, such as Azure DevOps, where no files have been changed yet.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="235">Follow these steps to set up a development environment so that you can test and extend the sample.</p>
+<h3 id="enable-commerce-runtime-extensions" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="237">Enable Commerce runtime extensions</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="239">The CRT extension components are included in the CRT samples. To complete the following procedures, open the CRT solution, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="239">CommerceRuntimeSamples.sln</strong>, under <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="239">RetailSdk\SampleExtensions\CommerceRuntime</strong>.</p>
+<h4 id="documentproviderefrsample-component" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="241">DocumentProvider.EFRSample component</h4>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="243">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="243"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="243">Find the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="243">Runtime.Extensions.DocumentProvider.EFRSample</strong> project, and build it.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">Runtime.Extensions.DocumentProvider.EFRSample\bin\Debug</strong> folder, find the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">Contoso.Commerce.Runtime.DocumentProvider.EFRSample.dll</strong> assembly file.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="245"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="245">Copy the assembly file to the CRT extensions folder:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247">Commerce Scale Unit:</strong> Copy the assembly to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247">\bin\ext</strong> folder under the Microsoft Internet Information Services (IIS) Commerce Scale Unit site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="248"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="248">Local CRT on Modern POS:</strong> Copy the assembly to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="248">\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="250"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="250">Find the extension configuration file for CRT:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252">Commerce Scale Unit:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252">commerceruntime.ext.config</strong>, and it's in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252">bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="253"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="253">Local CRT on Modern POS:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="253">CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="255"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="255">Register the CRT change in the extension configuration file.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="257">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.EFRSample&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="documentproviderdatamodelefr-component" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="261">DocumentProvider.DataModelEFR component</h4>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="263">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="263"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="263">Find the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="263">Runtime.Extensions.DocumentProvider.DataModelEFR</strong> project, and build it.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">Runtime.Extensions.DocumentProvider.DataModelEFR\bin\Debug</strong> folder, find the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll</strong> assembly file.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="265"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="265">Copy the assembly file to the CRT extensions folder:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267">Commerce Scale Unit:</strong> Copy the assembly to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267">\bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="268"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="268">Local CRT on Modern POS:</strong> Copy the assembly to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="268">\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="270"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="270">Find the extension configuration file for CRT:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272">Commerce Scale Unit:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272">commerceruntime.ext.config</strong>, and it's in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272">bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="273"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="273">Local CRT on Modern POS:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="273">CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="275"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="275">Register the CRT change in the extension configuration file.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="277">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-extension-configuration-file" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="281">Update extension configuration file</h4>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283">Find the extension configuration file for CRT:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285">Commerce Scale Unit:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285">commerceruntime.ext.config</strong>, and it's in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285">bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="286"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="286">Local CRT on Modern POS:</strong> The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="286">CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="288"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="288">Register the CRT change in the extension configuration file.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="290">&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.RegisterAuditEventAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.XZReportsAustria&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-hardware-station-extensions" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="296">Enable Hardware station extensions</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="298">The Hardware station extension components are included in the Hardware station samples. To complete the following procedures, open the solution, <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="298">HardwareStationSamples.sln.sln</strong>, under <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="298">RetailSdk\SampleExtensions\HardwareStation</strong>.</p>
+<h4 id="efrsample-component" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="300">EFRSample component</h4>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">Find the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">HardwareStation.Extension.EFRSample</strong> project, and build it.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="303"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="303">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="303">Extension.EFRSample\bin\Debug</strong> folder, find following files:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="305">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="305">The <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="305">Contoso.Commerce.HardwareStation.EFRSample.dll</strong> assembly</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="306">The <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="306">Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll</strong> assembly</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="308"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="308">Copy the assembly files to the Hardware station extensions folder:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310">Shared hardware station:</strong> Copy the files to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310">bin</strong> folder under the IIS Hardware station site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="311"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="311">Dedicated hardware station on Modern POS:</strong> Copy the files to the Modern POS client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="313"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="313">Find the extension configuration file for the Hardware station's extensions. The file is named <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="313">HardwareStation.Extension.config</strong>.</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315">Shared hardware station:</strong> The file is located under the IIS Hardware station site location.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="316"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="316">Dedicated hardware station on Modern POS:</strong> The file is located under the Modern POS client broker location.</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="318"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="318">Add the following line to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="318">composition</strong> section of the configuration file.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="320">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.EFRSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-modern-pos-extension-components" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="324">Enable Modern POS extension components</h3>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326">Open the solution at <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326">RetailSdk\POS\ModernPOS.sln</strong>, and make sure that it can be compiled without errors. Additionally, make sure that you can run Modern POS from Microsoft Visual Studio by using the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326">Run</strong> command.</p>
+<div class="NOTE" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="328">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="329">Modern POS must not be customized. You must enable User Account Control (UAC), and you must uninstall previously installed instances of Modern POS as required.</p>
+</div>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="331"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="331">Enable the extensions to be loaded by adding the following lines in <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="331">extensions.json</strong>.</p>
+<pre><code class="lang-json" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="333">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.AT&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="343">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="344">For more information, and for samples that show how to include source code folders and enable extensions to be loaded, see the instructions in the readme.md file in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="344">Pos.Extensions</strong> project.</p>
+</div>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="346"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="346">Rebuild the solution.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="347"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="347">Run Modern POS in the debugger, and test the functionality.</p>
+</li>
+</ol>
+<h3 id="enable-cloud-pos-extension-components" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="349">Enable Cloud POS extension components</h3>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="351">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="351"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="351">Open the solution at <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="351">RetailSdk\POS\CloudPOS.sln</strong>, and make sure that it can be compiled without errors.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="352"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="352">Enable the extensions to be loaded by adding the following lines in <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="352">extensions.json</strong>.</p>
+<pre><code class="lang-json" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="354">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.AT&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="364">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="365">For more information, and for samples that show how to include source code folders and enable extensions to be loaded, see the instructions in the readme.md file in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="365">Pos.Extensions</strong> project.</p>
+</div>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="367"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="367">Rebuild the solution.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="368"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="368">Run the solution by using the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="368">Run</strong> command and following the steps in the Retail SDK handbook.</p>
+</li>
+</ol>
+<h3 id="set-up-the-registration-process" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="370">Set up the registration process</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372">To enable the registration process, follow these steps to set up Headquarters. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372">Set up the fiscal integration for Commerce channels</a>.</p>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">Retail and Commerce &gt; Headquarters setup &gt; Parameters &gt; Commerce shared parameters</strong>. On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">General</strong> tab, set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">Enable fiscal integration</strong> option to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="374">Yes</strong>.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal connectors</strong>, and load the connector configuration. The file location is <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375">RetailSdk\SampleExtensions\HardwareStation\Extension.EFRSample\Configuration\ConnectorEFRSample.xml</strong>.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="376"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="376">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="376">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal document providers</strong>, and load the document provider configurations. The configuration files are located under <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="376">RetailSdk\SampleExtensions\CommerceRuntime\Extensions.DocumentProvider.EFRSample\Configuration</strong>:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="378">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="378">DocumentProviderEFRSampleAustria.xml</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="379">DocumentProviderNonFiscalEFRSampleAustria.xml</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Connector functional profiles</strong>. Create two new connector functional profiles, one for each document provider that you loaded earlier, and select the connector that you loaded earlier. Update the data mapping settings as required.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Connector technical profiles</strong>. Create a new connector technical profile, and select the connector that you loaded earlier. Update the connection settings as required.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal connector groups</strong>. Create two new fiscal connector groups, one for each connector functional profile that you created earlier.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal registration processes</strong>. Create a new fiscal registration process, two fiscal registration process steps, and select the fiscal connector groups that you created earlier.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Functionality profiles</strong>. Select a functionality profile that is linked to the store where the registration process should be activated. On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Fiscal registration process</strong> FastTab, select the fiscal registration process that you created earlier. To enable registration of non-fiscal events on the POS, on the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Functions</strong> FastTab, under <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">POS</strong>, set the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Audit</strong> option to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="385">Yes</strong>.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="386"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="386">Go to <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="386">Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Hardware profiles</strong>. Select a hardware profile that is linked to the Hardware station that the fiscal printer will be connected to. On the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="386">Fiscal peripherals</strong> FastTab, select the connector technical profile that you created earlier.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="387"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="387">Open the distribution schedule (<strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="387">Retail and Commerce &gt; Retail and Commerce IT &gt; Distribution schedule</strong>), and select jobs <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="387">1070</strong> and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="387">1090</strong> to transfer data to the channel database.</p>
+</li>
+</ol>
+<h3 id="production-environment" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="389">Production environment</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="391">The previous procedure enables the extensions that are components of the fiscal registration service integration sample. In addition, you must follow these steps to create deployable packages that contain Commerce components, and to apply those packages in a production environment.</p>
+<ol sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="393">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="393"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="393">Make the following changes in the package configuration files under the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="393">RetailSdk\Assets</strong> folder:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395">commerceruntime.ext.config</strong> and <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395">CommerceRuntime.MPOSOffline.Ext.config</strong> configuration files, add the following lines to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="395">composition</strong> section.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="397">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.EFRSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.RegisterAuditEventAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.XZReportsAustria&quot; /&gt;
+</code></pre>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="405"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="405">In the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="405">HardwareStation.Extension.config</strong> configuration file, add the following line to the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="405">composition</strong> section.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="407">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.EFRSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="412"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="412">Make the following changes in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="412">BuildTools\Customization.settings</strong> package customization configuration file:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="414">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="414"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="414">Add the following lines to include the CRT extensions in the deployable packages.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="416">&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.EFRSample.dll&quot; /&gt;
+&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll&quot; /&gt;
+</code></pre>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="421"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="421">Add the following line to include the Hardware station extension in the deployable packages.</p>
+<pre><code class="lang-xml" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="423">&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.EFRSample.dll&quot; /&gt;
+&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="428"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="428">Start the MSBuild Command Prompt for Visual Studio utility, and run <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="428">msbuild</strong> under the Retail SDK folder to create deployable packages.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="429"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="429">Apply the packages via Microsoft Dynamics Lifecycle Services (LCS) or manually. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-packaging" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="429">Create deployable packages (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="430"><p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="430">Complete all the required setup tasks that are described in the <a href="#set-up-commerce-for-austria" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="430">Set up Commerce for Austria</a> section.</p>
+</li>
+</ol>
+<h2 id="design-of-extensions" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="432">Design of extensions</h2>
+<h3 id="commerce-runtime-extension-design" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="434">Commerce runtime extension design</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="436">The purpose of the extension that is a fiscal document provider is to generate service-specific documents and handle responses from the fiscal registration service.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="438">The CRT extension is <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="438">Runtime.Extensions.DocumentProvider.EFRSample</strong>.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="440">For more details about the design of the fiscal integration solution, see <a href="fiscal-integration-for-retail-channel.html#fiscal-registration-process-and-fiscal-integration-samples-for-fiscal-devices" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="440">Overview of fiscal integration for Commerce channels</a>.</p>
+<h4 id="request-handler" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="442">Request handler</h4>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="444">There are two request handlers for document providers:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446">DocumentProviderEFRFiscalAUT</strong> – This handler is used to generate fiscal documents for the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="447"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="447">DocumentProviderEFRNonFiscalAUT</strong> – This handler is used to generate non-fiscal documents for the fiscal registration service.</li>
+</ul>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="449">These handlers are inherited from the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="449">INamedRequestHandler</strong> interface. The <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="449">HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the connector document provider name that is specified in Headquarters.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="451">The connector supports the following requests:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="453">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="453"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="453">GetFiscalDocumentDocumentProviderRequest</strong> – This request contains information about what document should be generated. It returns a service-specific document that should be registered in the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="454"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="454">GetNonFiscalDocumentDocumentProviderRequest</strong> – This request contains information about what non-fiscal document should be generated. It returns a service-specific document that should be registered in the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="455"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="455">GetSupportedRegistrableEventsDocumentProviderRequest</strong> – This request returns the list of events to subscribe to. Currently, the following events are supported: sales, printing X report, printing Z report, customer account deposits, customer order deposits, audit events, and non-sales transactions.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="456"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="456">GetFiscalRegisterResponseToSaveDocumentProviderRequest</strong> – This request returns the response from the fiscal registration service. This response is serialized to form a string so that it's ready to be saved.</li>
+</ul>
+<h4 id="configuration" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="458">Configuration</h4>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="460">The configuration files are located in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="460">Configuration</strong> folder of the extension project:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="462">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="462"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="462">DocumentProviderFiscalEFRSampleAustria</strong> – For fiscal documents.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="463"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="463">DocumentProviderNonFiscalEFRSampleAustria</strong> – For non-fiscal documents.</li>
+</ul>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="465">The purpose of these files is to enable settings for the document provider to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following setting is added:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="467">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="467">VAT rates mapping</li>
+</ul>
+<h3 id="hardware-station-extension-design" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="469">Hardware station extension design</h3>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="471">The purpose of the extension that is a fiscal connector is to communicate with the fiscal registration service.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="473">The Hardware station extension is <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="473">HardwareStation.Extension.EFRSample</strong>. The Hardware station extension uses the HTTP protocol to submit documents that the CRT extension generates to the fiscal registration service. It also handles the responses that are received from the fiscal registration service.</p>
+<h4 id="request-handler-1" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="475">Request handler</h4>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="477">The <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="477">EFRHandler</strong> request handler is the entry point for handling requests to the fiscal registration service.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="479">The handler is inherited from the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="479">INamedRequestHandler</strong> interface. The <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="479">HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the fiscal connector name that is specified in Headquarters.</p>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="481">The connector supports the following requests:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="483">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="483"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="483">SubmitDocumentFiscalDeviceRequest</strong> – This request sends documents to the fiscal registration service and returns a response from it.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="484"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="484">IsReadyFiscalDeviceRequest</strong> – This request is used for a health check of the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="485"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="485">InitializeFiscalDeviceRequest</strong> – This request is used to initialize the fiscal registration service.</li>
+</ul>
+<h4 id="configuration-1" sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="487">Configuration</h4>
+<p sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="489">The configuration file is located in the <strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="489">Configuration</strong> folder of the extension project. The purpose of the file is to enable settings for the fiscal connector to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following settings are added:</p>
+<ul sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="491">
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="491"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="491">Endpoint address</strong> – The URL of the fiscal registration service.</li>
+<li sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="492"><strong sourcefile="articles/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="492">Timeout</strong> – The amount of time, in milliseconds, that the driver will wait for a response from the fiscal registration service.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,529 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Engineering change management feature walkthrough | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Engineering change management feature walkthrough | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="engineering-change-management-feature-walkthrough">Engineering change management feature walkthrough</h1>
+
+
+<p>This topic provides an end-to-end walkthrough that shows how to work with engineering change management. It goes through each of the most important scenarios:</p>
+<ul>
+<li>Basic feature configuration</li>
+<li>How an engineering company creates a new engineering product</li>
+<li>How an engineering company releases an engineering product to a local company</li>
+<li>How a local company can review and accept a product that has been released to it by an engineering company</li>
+<li>How a local company can use an engineering product in standard transactions</li>
+<li>How to add an engineering product to a sales order</li>
+<li>How to request changes to an engineering product by creating an engineering change request</li>
+<li>How to schedule and implement requested changes by creating an engineering change order</li>
+<li>How to release a product that has been changed</li>
+</ul>
+<p>All the exercises in this topic use the standard sample data that is provided for Microsoft Dynamics 365 Supply Chain Management. Additionally, each exercise builds on the previous exercise. Therefore, we recommend that you work through the exercises in order, from beginning to end, especially if you've never used the engineering change management feature before. In this way, you will gain a complete understanding of the feature.</p>
+<h2 id="set-up-for-the-sample-scenario">Set up for the sample scenario</h2>
+<p>To follow the sample scenario that is provided in this topic, you must first prepare the feature by making demo data available and adding a few custom records.</p>
+<p>Before you try to do any of the exercises in the rest of this topic, follow the instructions in all the following subsections. These subsections also introduce several important settings pages that you will use when you set up engineering change management for your own organization.</p>
+<h3 id="make-standard-demo-data-available">Make standard demo data available</h3>
+<p>Work on a system where the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">standard demo data is installed (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>. The standard demo data adds data for several demo legal entities (companies and organizations). As you work through the exercises, you will use the company picker on the right side of the navigation bar to switch between one company (<em>DEMF</em>) that is set up as an <em>engineering organization</em> and another company (<em>USMF</em>) that is set up as an <em>operational organization</em>.</p>
+<h3 id="set-up-an-engineering-organization">Set up an engineering organization</h3>
+<p>An engineering organization owns the engineering data, and is responsible for product design and product changes. To set up your engineering organizations, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Engineering change management &gt; Setup &gt; Engineering organizations</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a row to the grid, and set the following values for it:</p>
+<ul>
+<li><strong>Engineering organization:</strong> <em>DEMF</em></li>
+<li><strong>Organization name:</strong> <em>Contoso Entertainment System Germany</em></li>
+</ul>
+<p><img src="media/engineering-org.png" alt="Adding an engineering organization" title="Adding an engineering organization"></p>
+</li>
+</ol>
+<h3 id="set-up-the-version-product-dimension-group">Set up the version product dimension group</h3>
+<ol>
+<li><p>Go to <strong>Product information management &gt; Setup &gt; Dimensions and variant groups &gt; Product dimension groups</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a product dimension group.</p>
+</li>
+<li><p>Set the <strong>Name</strong> field to <em>Version</em>.</p>
+</li>
+<li><p>Select <strong>Save</strong> to save the new dimension and load values onto the <strong>Product dimensions</strong> FastTab.</p>
+</li>
+<li><p>On the <strong>Product dimensions</strong> FastTab, set <strong>Version</strong> as an active product dimension.</p>
+<p><img src="media/product-dimension-groups.png" alt="Adding a product dimension group" title="Adding a product dimension group"></p>
+</li>
+</ol>
+<h3 id="set-up-product-lifecycle-states">Set up product lifecycle states</h3>
+<p>As an engineering product goes through its lifecycle, it's important that you be able to control which transactions are allowed for each lifecycle state. To set up the product lifecycle states, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Engineering change management &gt; Setup &gt; Product lifecycle state</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a lifecycle state, and set the following values for it:</p>
+<ul>
+<li><strong>State:</strong> <em>Operational</em></li>
+<li><strong>Description:</strong> <em>Operational</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new lifecycle state and load values onto the <strong>Enabled business processes</strong> FastTab.</p>
+</li>
+<li><p>On the <strong>Enabled business processes</strong> FastTab, select the business processes that should be available. For this example, leave the <strong>Policy</strong> field set to <em>Enabled</em> for all business processes.</p>
+<p><img src="media/product-lifecycle-states-1.png" alt="Enabling business processes for a lifecycle state" title="Enabling business processes for a lifecycle state"></p>
+</li>
+<li><p>Select <strong>New</strong> to add another lifecycle state, and set the following values for it:</p>
+<ul>
+<li><strong>State:</strong> <em>Prototype</em></li>
+<li><strong>Description:</strong> <em>Prototype</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new lifecycle state and load values onto the <strong>Enabled business processes</strong> FastTab.</p>
+</li>
+<li><p>On the <strong>Enabled business processes</strong> FastTab, select the business processes that should be available. For this example, set the <strong>Policy</strong> field to <em>Enabled with warning</em> for all business processes.</p>
+<p><img src="media/product-lifecycle-states-2.png" alt="Enabling (with warnings) business processes for a lifecycle state" title="Enabling (with warnings) business processes for a lifecycle state"></p>
+</li>
+</ol>
+<h3 id="set-up-a-version-number-rule">Set up a version number rule</h3>
+<ol>
+<li><p>Go to <strong>Engineering change management &gt; Setup &gt; Product version number rule</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a rule, and set the following values for it:</p>
+<ul>
+<li><strong>Name:</strong> <em>Auto</em></li>
+<li><strong>Number rule:</strong> <em>Auto</em></li>
+<li><strong>Format:</strong> <em>V-##</em></li>
+</ul>
+<p><img src="media/version-number-rule.png" alt="Adding a product version number rule" title="Adding a product version number rule"></p>
+</li>
+</ol>
+<h3 id="set-up-a-product-release-policy">Set up a product release policy</h3>
+<ol>
+<li><p>Go to <strong>Engineering change management &gt; Setup &gt; Product release policies</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a release policy, and set the following values for it:</p>
+<ul>
+<li><strong>Name:</strong> <em>Components</em></li>
+<li><strong>Description:</strong> <em>Components</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Product type:</strong> <em>Item</em></li>
+<li><strong>Apply templates:</strong> <em>Always</em></li>
+<li><strong>Active:</strong> <em>Yes</em></li>
+</ul>
+</li>
+<li><p>On the <strong>All products</strong> FastTab, select <strong>Add</strong> to add a line, and set the following values for it:</p>
+<ul>
+<li><strong>Company:</strong> <em>DEMF</em></li>
+<li><strong>Template released product:</strong> <em>D0006</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Add</strong> to add another line, and set the following values for it:</p>
+<ul>
+<li><strong>Company accounts ID:</strong> <em>USMF</em></li>
+<li><strong>Template released product:</strong> <em>D0006</em></li>
+<li><strong>Receive BOM:</strong> Select this check box.</li>
+<li><strong>Copy BOM approval:</strong> Select this check box.</li>
+<li><strong>Copy BOM activation:</strong> Select this check box.</li>
+<li><strong>Receive route:</strong> Select this check box.</li>
+<li><strong>Copy route approval:</strong> Select this check box.</li>
+<li><strong>Copy route activation:</strong> Select this check box.</li>
+</ul>
+<p><img src="media/product-release-policy.png" alt="Adding a product release policy" title="Adding a product release policy"></p>
+</li>
+</ol>
+<h3 id="set-up-an-engineering-product-category">Set up an engineering product category</h3>
+<p>Engineering product categories provide the basis for creating engineering products (that is, products that are versioned and controlled through engineering change management). To set up engineering product categories, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Engineering change management &gt; Engineering product category details</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a category.</p>
+</li>
+<li><p>On the <strong>Details</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Name:</strong> <em>Components</em></li>
+<li><strong>Engineering organization:</strong> <em>DEMF</em></li>
+<li><strong>Product type:</strong> <em>Item</em></li>
+<li><strong>Track version in transactions:</strong> <em>Yes</em></li>
+<li><strong>Product dimension group:</strong> <em>Version</em></li>
+<li><strong>Product lifecycle state at creation:</strong> <em>Operational</em></li>
+<li><strong>Version number rule:</strong> <em>Auto</em></li>
+<li><strong>Enforce effectivity:</strong> <em>No</em></li>
+<li><strong>Use number rule nomenclature:</strong> <em>No</em></li>
+<li><strong>Use name rule nomenclature:</strong> <em>No</em></li>
+<li><strong>Use description rule nomenclature:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Release policy</strong> FastTab, set the <strong>Product release policy</strong> field to <em>Components</em>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+<p><img src="media/product-category-details.png" alt="Adding an engineering product category" title="Adding an engineering product category"></p>
+</li>
+</ol>
+<h3 id="set-up-product-acceptance-conditions">Set up product acceptance conditions</h3>
+<ol>
+<li><p>Use the company picker on the right side of the navigation bar to switch to the <em>USMF</em> legal entity (company).</p>
+</li>
+<li><p>Go to <strong>Engineering change management &gt; Setup &gt; Engineering change management parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Release control</strong> tab, in the <strong>Product acceptance</strong> section, set the <strong>Product acceptance</strong> field to <em>Manual</em>.</p>
+<p><img src="media/engineering-change-management-parameters.png" alt="Setting up product acceptance conditions" title="Setting up product acceptance conditions"></p>
+</li>
+</ol>
+<h2 id="create-a-new-engineering-product">Create a new engineering product</h2>
+<p>An engineering product is a product that is versioned and controlled through engineering change management. In other words, you can control the changes during its life, and the change information will be saved using engineering change orders. To create engineering products, follow these steps.</p>
+<ol>
+<li><p>Make sure that you're in the legal entity of your engineering organization (<em>DEMF</em> for this example). Use the company picker on the right side of the navigation bar as required.</p>
+</li>
+<li><p>Open the <strong>Released products</strong> page by following one of these steps:</p>
+<ul>
+<li>Go to <strong>Product information management &gt; Products &gt; Released products</strong>.</li>
+<li>Go to <strong>Engineering change management &gt; Common &gt; Released products</strong>.</li>
+</ul>
+</li>
+<li><p>On the Action Pane, on the <strong>Product</strong> tab, in the <strong>New</strong> group, select <strong>Engineering product</strong>.</p>
+</li>
+<li><p>In the <strong>New product</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Engineering Product Category:</strong> <em>Components</em></li>
+<li><strong>Product number:</strong> <em>Z0001</em></li>
+<li><strong>Product name:</strong> <em>Speaker set</em></li>
+</ul>
+<p><img src="media/new-product-dialog.png" alt="Adding an engineering product" title="Adding an engineering product"></p>
+<p>Note that the <strong>Version</strong> field is automatically set by using the product version number rule that you set up earlier.</p>
+</li>
+<li><p>Select <strong>OK</strong> to create the product and close the dialog box.</p>
+</li>
+<li><p>The details page for the new product is opened. Notice that values are already filled in for some fields, such as <strong>Storage dimension group</strong>, <strong>Tracking dimension group</strong>, and/or <strong>Item model group</strong>. These fields were automatically set because the product is being released in the <em>DEMF</em> legal entity and uses the <em>Components</em> product release policy, which is associated with the <em>Components</em> engineering product category. Because you previously used item <em>D0006</em> as a template to set up a line for the <em>DEMF</em> legal entity, the values that were filled in were taken from item <em>D0006</em>.</p>
+<p><img src="media/product-details.png" alt="Released product details" title="Released product details"></p>
+</li>
+<li><p>On the Action Pane, on the <strong>Engineer</strong> tab, in the <strong>Engineering change management</strong> group, select <strong>Engineering versions</strong> to view the versions of the product.</p>
+<p><img src="media/engineering-versions-list.png" alt="Engineering versions" title="Engineering versions"></p>
+</li>
+<li><p>On the <strong>Engineering versions</strong> page, notice that there is only one version for the product, and it's active.</p>
+</li>
+<li><p>Select the version to view its details.</p>
+<p><img src="media/engineering-version-details.png" alt="Engineering version details" title="Engineering version details"></p>
+</li>
+<li><p>On the <strong>Engineering version</strong> page, on the <strong>Bill of material</strong> FastTab, select <strong>Create BOM</strong>.</p>
+</li>
+<li><p>In the <strong>Create BOM</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>BOM number:</strong> Z0001</li>
+<li><strong>Name:</strong> Speaker set</li>
+<li><strong>Site:</strong> 1</li>
+</ul>
+<p><img src="media/create-bom.png" alt="Creating a BOM" title="Creating a BOM"></p>
+</li>
+<li><p>Select <strong>OK</strong> to add the BOM and close the dialog box.</p>
+</li>
+<li><p>On the <strong>Bill of materials</strong> FastTab, select <strong>Bill of material</strong>.</p>
+</li>
+<li><p>On the <strong>Bill of materials</strong> page, on the <strong>Bill of materials lines</strong> FastTab, add three lines, one each for item numbers <em>D0001</em>, <em>D0003</em>, and<em>D0006</em>.</p>
+<p><img src="media/bom.png" alt="Adding BOM lines" title="Adding BOM lines"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the <strong>Engineering version</strong> page, on the <strong>Bill of material</strong> FastTab, select <strong>Approve</strong>.</p>
+</li>
+<li><p>In the dialog box that appears, select <strong>OK</strong>.</p>
+<p><img src="media/approve-dialog.png" alt="Approving the BOM" title="Approving the BOM"></p>
+</li>
+<li><p>On the <strong>Engineering version</strong> page, on the <strong>Bill of material</strong> FastTab, select <strong>Activate</strong>.</p>
+</li>
+<li><p>Notice that the <strong>Active</strong> and <strong>Approved</strong> check boxes are selected for the BOM.</p>
+<p><img src="media/approved-bom.png" alt="Active and approved BOM" title="Active and approved BOM"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h2 id="release">Release an engineering product to a local company</h2>
+<p>The product has now been designed by the Engineering department. For this example, the product is a prototype that engineering has designed for a customer. Because the customer is a customer of the <em>USMF</em> legal entity, the product must be released to that legal entity.</p>
+<ol>
+<li><p>Keep the legal entity set to <em>DEMF</em>. (Use the company picker on the right side of the navigation bar as required.)</p>
+</li>
+<li><p>Go to <strong>Product information management &gt; Products &gt; Released products</strong>.</p>
+</li>
+<li><p>Select product <em>Z0001</em>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Product</strong> tab, in the <strong>Maintain</strong> group, select <strong>Release product structure</strong> to open the <strong>Release products</strong> wizard.</p>
+</li>
+<li><p>On the <strong>Select engineering products to release</strong> page, select the <strong>Select</strong> check box for product <em>Z0001</em>.</p>
+<p><img src="media/select-eng-product-to-release.png" alt="Selecting the engineering products to release" title="Selecting the engineering products to release"></p>
+</li>
+<li><p>Select <strong>Release details</strong>.</p>
+</li>
+<li><p>The <strong>Product release details</strong> page appears, where you can review the details of the product that will be released, and its product structure. Notice that the <strong>Send BOM</strong> option is set to <em>Yes</em>. Therefore, both product <em>Z0001</em> and all its child items from the BOM will be released.</p>
+<p>You can select any child item in the left pane to review its details. If any child item has a BOM, you can also select to release the BOM of that child item.</p>
+<p><img src="media/product-release-details.png" alt="Reviewing the product release details" title="Reviewing the product release details"></p>
+</li>
+<li><p>Close the page to return to the <strong>Release products</strong> wizard.</p>
+</li>
+<li><p>Select <strong>Next</strong> to open the <strong>Select products to release</strong> page. If you had selected any standard (non-engineering) products, they would appear on this page. Note that when you release a standard product by selecting <strong>Release product structure</strong>, its BOM and route are also released.</p>
+<p><img src="media/select-std-product-to-release.png" alt="Selecting the standard products to release" title="Selecting the standard products to release"></p>
+</li>
+<li><p>Select <strong>Next</strong> to open the <strong>Select product variants to release</strong> page. For this example, there aren't any variants.</p>
+</li>
+<li><p>Select <strong>Next</strong> to open the <strong>Select companies</strong> page.</p>
+</li>
+<li><p>Select the companies that the product should be released to. For this example, select the check box for <strong>USMF</strong>.</p>
+<p><img src="media/select-release-companies.png" alt="Selecting the companies to release to" title="Selecting the companies to release to"></p>
+</li>
+<li><p>Select <strong>Next</strong> to open the <strong>Confirm selection</strong> page.</p>
+</li>
+<li><p>Select <strong>Finish</strong>.</p>
+</li>
+</ol>
+<h2 id="accept">Review and accept the product before you release it in the local company</h2>
+<p>The Engineering department has now released the information to the local companies where the product will be used. For this example, the local company is <em>USMF</em>.</p>
+<p>Because you set the <strong>Product acceptance</strong> field to <em>Manual</em> on the <strong>Engineering change management parameters</strong> page for the <em>USMF</em> company, products must be manually accepted before they are released to that company. In other words, they must be reviewed and accepted before they become released products.</p>
+<p>To review the product and release it in the <em>USMF</em> company, follow these steps.</p>
+<ol>
+<li><p>Set the legal entity to <em>USMF</em>. (Use the company picker on the right side of the navigation bar.)</p>
+</li>
+<li><p>Go to <strong>Engineering change management &gt; Common &gt; Product releases &gt; Open product releases</strong>.</p>
+<p>The <strong>Open product releases</strong> page shows product <em>Z0001</em>, which has a status of <em>Pending acceptance</em>.</p>
+<p><img src="media/open-product-releases.png" alt="Open product releases" title="Open product releases"></p>
+</li>
+<li><p>Select the value in the <strong>Product number</strong> column to open the <strong>Product release details</strong> page. Notice the following details:</p>
+<ul>
+<li>The <strong>General</strong> FastTab shows information about the product release, such as the releasing company (<em>DEMF</em> for this example), the releasing site (<em>1</em>), and the receiving site (<em>1</em>). Because you didn't specify a receiving site in the <strong>Release products</strong> wizard, the the releasing site value is copied to the receiving site.</li>
+<li>The <strong>Release details</strong> FastTab shows information about the product and the version that was released. Here, you can modify settings such as the effectivity dates.</li>
+<li>The <strong>Route</strong> FastTab shows the route of the product. However, for this example, you didn't release any routes.</li>
+</ul>
+<p><img src="media/product-release-details-2.png" alt="Product release details" title="Product release details"></p>
+</li>
+<li><p>When you've finished reviewing the information, you're ready to accept the product and, in this way, release it in the <em>USMF</em> company. On the Action Pane, select <strong>Actions &gt; Accept</strong>.</p>
+</li>
+<li><p>The product is now released in the <em>USMF</em> company. Go to <strong>Product information management &gt;Products &gt; Released products</strong>. You should see item <em>Z0001</em>.</p>
+</li>
+</ol>
+<h2 id="use-the-product-in-transactions-in-the-local-company">Use the product in transactions in the local company</h2>
+<p>The master data manager for the <em>USMF</em> company wants to make sure that the product is in a <em>Prototype</em> state, to ensure that users will be warned if they accidentally add it to processes that they are working on.</p>
+<ol>
+<li><p>Go to <strong>Product information management &gt; Products &gt; Released products</strong>.</p>
+</li>
+<li><p>Select product <em>Z0001</em> to open its details page. (You can use the filter to find the product.)</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Engineer</strong> tab, in the <strong>Engineering change management</strong> group, select <strong>Engineering versions</strong>.</p>
+</li>
+<li><p>On the <strong>Engineering versions</strong> page, select version number <em>V-01</em> to open its details page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Product</strong> tab, in the <strong>Lifecycle state</strong> group, select <strong>Change lifecycle state</strong>.</p>
+</li>
+<li><p>In the <strong>Change lifecycle state</strong> drop-down dialog box, set the <strong>State</strong> field to <em>Prototype</em>, and then select <strong>OK</strong>.</p>
+<p><img src="media/change-lifecycle-state.png" alt="Changing the lifecycle state" title="Changing the lifecycle state"></p>
+</li>
+</ol>
+<h2 id="add-the-engineering-product-to-a-sales-order">Add the engineering product to a sales order</h2>
+<p>The product can now be sold to a customer. To add the product to a sales order, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the <strong>Customer account</strong> field to <em>US-0002</em>, and then select <strong>OK</strong>.</p>
+</li>
+<li><p>The new sales order is opened. On the <strong>Sales order lines</strong> FastTab, add a row, and set the <strong>Item number</strong> field to <em>Z000</em> for it.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+<p>You receive a warning message that informs you that the item has a status of <em>Prototype</em>. However, because the message is just a warning, the sales order was still created.</p>
+<p><img src="media/sales-order-eng-product.png" alt="Sales order for an engineering product" title="Sales order for an engineering product"></p>
+</li>
+</ol>
+<h2 id="request-changes-in-the-engineering-product">Request changes in the engineering product</h2>
+<p>The product was sent to a customer, but the customer wasn't completely satisfied and provides feedback that includes suggestions for improvement. While the customer is speaking with a sales clerk on the phone, the sales clerk can request the changes that the customer is describing.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Find and open the sales order that you created in the previous exercise.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select <strong>Engineering change management &gt; New engineering change request</strong>.</p>
+<p><img src="media/sales-order-eng-change-request.png" alt="Creating an engineering change request from a sales order" title="Creating an engineering change request from a sales order"></p>
+</li>
+<li><p>Fill in the engineering change request, based on the customer's feedback. For this example, set the following values:</p>
+<ul>
+<li><strong>Change request:</strong> <em>555</em></li>
+<li><strong>Title:</strong> <em>Z0001 customer change</em></li>
+<li><strong>Priority:</strong> <em>low</em></li>
+<li><strong>Category:</strong> set change</li>
+<li><strong>Severity:</strong> <em>Medium</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Information</strong> FastTab, select <strong>New &gt; Note</strong> to add a note to the grid.</p>
+</li>
+<li><p>In the <strong>Description</strong> field for the new note, indicate that item <em>D0003</em> should be deleted from the BOM. If you must add more information for the note, you can enter text in the <strong>Notes</strong> field.</p>
+<p><img src="media/eng-change-request.png" alt="Engineering change request" title="Engineering change request"></p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+<li><p>Notice that the item has automatically been added on the <strong>Products</strong> FastTab, and that the source of the engineering change request (the sales order) has been added on the <strong>Source</strong> FastTab.</p>
+</li>
+</ol>
+<h2 id="make-changes-to-the-product-by-using-an-engineering-change-order">Make changes to the product by using an engineering change order</h2>
+<p>The sales clerk knows that the product is important and was designed especially for the customer. Therefore, the sales clerk calls an engineer in the <em>DEMF</em> company to notify them about the change request. In this way, the engineer can speed up the process.</p>
+<p>The engineer now reviews the request from the customer and creates a change order for the product.</p>
+<ol>
+<li><p>Because the engineer works in the <em>DEMF</em> company, set the legal entity to <em>DEMF</em>. (Use the company picker on the right side of the navigation bar.)</p>
+</li>
+<li><p>Go to <strong>Engineering change management &gt; Common &gt; Engineering change requests</strong>.</p>
+</li>
+<li><p>Open change request <em>555</em>.</p>
+</li>
+<li><p>Review the information, and then approve the change. On the Action Pane, on the <strong>Change request</strong> tab, in the <strong>Change status</strong> group, select <strong>Approve</strong>.</p>
+</li>
+<li><p>Go to <strong>Engineering change management &gt; Common &gt; Engineering change orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a change order, and set the following values for it:</p>
+<ul>
+<li><strong>Change order:</strong> <em>555</em></li>
+<li><strong>Title:</strong> <em>Z0001 customer change</em></li>
+<li><strong>Category:</strong> <em>Customer change</em></li>
+<li><strong>Priority:</strong> <em>Low</em></li>
+<li><strong>Severity:</strong> <em>Medium</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Impacted products</strong> FastTab, select <strong>New &gt; Add existing product</strong> to add a row to the grid, and set the following values for it:</p>
+<ul>
+<li><strong>Product:</strong> <em>Z0001</em></li>
+<li><strong>Impact:</strong> <em>New version</em></li>
+</ul>
+<p><img src="media/eng-change-order.png" alt="Creating an engineering change order" title="Creating an engineering change order"></p>
+</li>
+<li><p>Notice that, because you set the <strong>Impact</strong> field to <em>New version</em>, the <strong>New version</strong> field on the <strong>Details</strong> tab of the <strong>Product details</strong> FastTab shows what the new version number will be (<em>V-02</em> for this example).</p>
+<p><img src="media/eng-change-order-product-details.png" alt="Product details for an engineering change order" title="Product details for an engineering change order"></p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Product details</strong> FastTab, on the <strong>Bill of material</strong> tab, select <strong>Lines</strong> to open the BOM for version <em>V-01</em> of product <em>Z0001</em>.</p>
+<p><img src="media/eng-product-bom-lines.png" alt="Engineering product BOM lines" title="Engineering product BOM lines"></p>
+</li>
+<li><p>Select the line for item number <em>D0003</em>, and then, on the Action Pane, select <strong>Delete</strong>. The value of the <strong>Change type</strong> field for this line changes to <em>Deleted</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+<p><img src="media/eng-product-bom-lines-modified.png" alt="Modified engineering product BOM lines" title="Modified engineering product BOM lines"></p>
+</li>
+<li><p>Close the <strong>BOM line</strong> page to return to the <strong>Engineering change order</strong> page.</p>
+</li>
+<li><p>On the <strong>Product details</strong> FastTab, on the <strong>Bill of material</strong> tab, notice that the value of the <strong>Change type</strong> field for BOM <em>Z0001</em> is now <em>Changed</em>.</p>
+<p><img src="media/eng-change-order-changed-bom.png" alt="Engineering change order that includes a changed BOM" title="Engineering change order that includes a changed BOM"></p>
+<p>The order must now be approved before the changes can be processed. When the changes are processed, the products are updated with the changes that are included in the engineering change order. For this example, the person who creates the engineering change order has been specified as the approver.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Change order</strong> tab, in the <strong>Change status</strong> group, select <strong>Approve</strong>.</p>
+</li>
+<li><p>Select <strong>Process</strong> to update the product's information.</p>
+</li>
+<li><p>Select <strong>Complete</strong> to mark the change order as completed.</p>
+</li>
+</ol>
+<h2 id="release-the-changed-product">Release the changed product</h2>
+<p>The product can now be released again to the <em>USMF</em> company and then sent to the customer. To release the product directly from the engineering change order, follow these steps.</p>
+<ol>
+<li>Open the engineering change order that you created in the previous exercise, if it isn't already open.</li>
+<li>On the Action Pane, on the <strong>Change order</strong> tab, in the <strong>Product releases</strong> group, select <strong>Search</strong>.</li>
+<li>The search results show which companies the affected products have been released to. Close the search results.</li>
+<li>On the Action Pane, on the <strong>Change order</strong> tab, in the <strong>Product releases</strong> group, select <strong>View</strong> to open the <strong>Releases</strong> dialog box, where you can view the results of the previous search.</li>
+<li>Select each company that you want to release products to.</li>
+<li>Select <strong>OK</strong> to close the <strong>Releases</strong> dialog box and return to the change order.</li>
+<li>On the Action Pane, on the <strong>Change order</strong> tab, in the <strong>Product releases</strong> group, select <strong>Process</strong> to release the affected products to the selected companies. Alternatively, select <strong>Release product structure</strong> to start the release process.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

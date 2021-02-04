@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kennzeichenempfang &#252;ber die Warehouse-App | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Kennzeichenempfang &#252;ber die Warehouse-App | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="license-plate-receiving-via-the-warehouse-app">Kennzeichenempfang über die Warehouse-App</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird erläutert, wie Sie die Warehouse-App einrichten, sodass sie die Verwendung eines Kennzeichenempfangsprozesses zum Empfangen von Bestand unterstützt.</p>
+<p>Mit dieser Funktion können Sie schnell den Eingang des eingehenden Bestands aufzeichnen, der sich auf eine Vorabmitteilung (ASN) bezieht. Das System erstellt automatisch einen Lieferavis, wenn Lagerverwaltungsprozesse zum Versenden eines Transportauftrags verwendet werden. Für den Bestellvorgang kann ein ASNs manuell erfasst oder mithilfe eines eingehenden ASN-Datenentitätsprozesses automatisch importiert werden.</p>
+<p>Die ANS-Daten werden mit Ladungen und Sendungen über die <em>Verpackungsstrukturen</em> verknüpft, wo Paletten (übergeordnete Kennzeichen) Fälle enthalten können (verschachtelte Kennzeichen).</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Um die Anzahl der Bestandtransaktionen zu verringern, wenn Verpackungsstrukturen mit verschachtelten Kennzeichen verwendet werden, zeichnet das System das physische Inventar auf dem übergeordneten Kennzeichen auf. Um die Verschiebung des physischen Bestands vom übergeordneten Kennzeichen zu den verschachtelten Kennzeichen basierend auf den Daten der Verpackungsstruktur auszulösen, muss das mobile Gerät einen Menüpunkt bereitstellen, der auf dem Arbeitserstellungsprozess <em>auf verschachtelte Kennzeichen packen</em> basiert.</p>
+</div>
+<h2 id="warehousing-mobile-device-app-processing">Warehousing App-Verarbeitung für mobiles Geräte</h2>
+<p>Wenn ein Mitarbeiter eine eingehende Kennzeichen-ID scannt, initialisiert das System einen Kennzeichenempfangsprozess. Basierend auf diesen Informationen wird der Inhalt des Kennzeichens (Daten vom Lieferavis) physisch am Ort des eingehenden Docks registriert. Die folgenden Abläufe hängen von Ihren Geschäftsprozessanforderungen ab.</p>
+<h2 id="work-policies">Arbeitsrichtlinien</h2>
+<p>Wie bei (zum Beispiel) dem <em>Als fertig melden</em> Menüelementprozess für mobile Geräte, unterstützt der Prozess zum Empfang von Kennzeichen mehrere Workflows basierend auf dem definierten Setup.</p>
+<h3 id="work-policies-with-work-creation">Arbeitsrichtlinien mit Arbeitserstellung</h3>
+<p>Wenn Sie eingehende Elemente mithilfe einer Arbeitsrichtlinie registrieren, mit der Arbeit erstellt wird, generiert und speichert das System für jede Registrierung weggelegte Arbeitsaufzeichnungen. Wenn Sie den Arbeitsprozess <em>Kennzeichen erhalten und weglegen</em> verwenden, dann werden Registrierung und Einlagerung als ein einziger Vorgang unter Verwendung eines einzigen Menüpunkts für mobile Geräte behandelt. Wenn Sie den Prozess <em>Kennzeichenempfang</em> verwenden, dann werden die Empfangs- und Einlagerungsprozesse als zwei verschiedene Lagervorgänge mit jeweils einem eigenen Menüpunkt für mobile Geräte behandelt.</p>
+<h3 id="work-policies-without-work-creation">Arbeitsrichtlinien ohne Arbeitserstellung</h3>
+<p>Sie können den Kennzeichenempfangsprozess verwenden, ohne Arbeit zu erstellen. Wenn Sie Arbeitsrichtlinien definieren, die einen Arbeitsauftragstyp von <em>Überweisungsbeleg</em> und/oder <em>Bestellung</em> haben und Sie den Prozess für <em>Kennzeichen erhalten (und weglegen)</em> verwenden, werden die folgenden zwei Warehousing-Prozesse für mobile Apps keine Arbeit bereiten. Stattdessen registrieren sie einfach den eingehenden Bestand auf der Kennzeichnung am eingehenden Empfangsdock.</p>
+<ul>
+<li><em>Ladungsträger – Empfang</em></li>
+<li><em>Kennzeichenempfang und -einlagerung</em></li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>Sie müssen mindestens einen Speicherort für eine Arbeitsrichtlinie im Abschnitt <strong>Lagerorte</strong> bestimmen. Sie können nicht denselben Speicherort für mehrere Arbeitsrichtlinien angeben.</li>
+<li>Die Option <strong>Etikett drucken</strong> zum Lagern von Menüelementen für mobile Geräte druckt kein Kennzeichenetikett ohne Arbeitserstellung.</li>
+</ul>
+</div>
+<p>Um diese Funktionalität auf Ihrem System verfügbar zu machen, müssen Sie die Funktion <em>Verbesserungen beim Empfang von Kennzeichen</em> in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> aktivieren.</p>
+<h3 id="receive-inventory-on-a-location-that-doesnt-track-license-plates">Erhalten Sie Bestand an einem Ort, an dem Kennzeichen nicht erfasst werden</h3>
+<p>Es ist möglich, einen Lagerort zu verwenden, der einem Standortprofil zugewiesen ist, auch wenn <strong>Verwenden Sie die Kennzeichenverfolgung</strong> nicht eingeschaltet ist. Wenn Sie Bestand erhalten, können Sie den vorhandenen Bestand daher direkt an einem Standort registrieren, ohne dass eine Arbeit erstellt werden muss.</p>
+<h2 id="add-mobile-device-menu-items-for-each-receiving-location-in-a-warehouse">Fügen Sie für jeden Empfangsort in einem Lager Menüelemente für Mobilgeräte hinzu</h2>
+<p>Mit der Funktion <em>Verbesserungen beim Empfang von Kennzeichen</em> können Sie an jedem Ort in einem Lager empfangen, indem Sie der mobilen Lagerort-App standortspezifische Kennzeichen hinzufügen, die Menüelemente empfangen (und weglegen). Bisher unterstützte das System den Empfang nur am Standardort, der für jedes Lager definiert ist. Wenn diese Funktion aktiviert ist, bieten die Menüelemente für mobile Geräte zum Empfangen (und Weglegen) von Kennzeichen jetzt die <strong>Standarddaten verwenden</strong> Option, mit der Sie für jeden Menüpunkt einen benutzerdefinierten Bis-Speicherort auswählen können. (Diese Option war bereits für einige andere Arten von Menüelementen verfügbar.)</p>
+<p>Um diese Funktionalität auf Ihrem System verfügbar zu machen, müssen Sie die Funktion <em>Verbesserungen beim Empfang von Kennzeichen</em> in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> aktivieren.</p>
+<h2 id="show-or-skip-the-receiving-summary-page">Zeigen Sie die empfangende Zusammenfassungsseite an oder überspringen Sie sie</h2>
+<p>Sie können die Funktion <em>Steuern Sie, ob auf Mobilgeräten eine Empfangsübersichtsseite angezeigt werden soll</em> verwenden, um einen zusätzlichen detaillierten Warehouse-App-Ablauf als Teil des Kennzeichenempfangsprozesses zu nutzen.</p>
+<p>Wenn diese Funktion aktiviert ist, bieten Menüelemente für mobile Geräte zum Empfangen von Kennzeichen oder zum Empfangen und Einlagerungen eine Einstellung <strong>Empfangsübersichtsseite anzeigen</strong> an. Diese Einstellung bietet folgende Optionen:</p>
+<ul>
+<li><strong>Eine detaillierte Zusammenfassung anzeigen</strong> – Während des Empfangs des Kennzeichens wird den Mitarbeitern eine zusätzliche Seite mit den vollständigen ASN-Informationen angezeigt.</li>
+<li><strong>Überspringen Sie die Zusammenfassung</strong> – Die Mitarbeiter sehen nicht die vollständigen ASN-Informationen. Lagerarbeiter können während des Empfangsprozesses auch keinen Dispositionscode festlegen oder Ausnahmen hinzufügen.</li>
+</ul>
+<p>Um diese Funktionalität auf Ihrem System verfügbar zu machen, müssen Sie die Funktion <em>Steuern Sie, ob auf Mobilgeräten eine Empfangsübersichtsseite angezeigt werden soll</em> aktivieren in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a>.</p>
+<h2 id="prevent-transfer-ordershipped-license-plates-from-being-used-at-warehouses-other-than-the-destination-warehouse">Verhindern Sie, dass Kennzeichen mit Transportauftragsversand in anderen Lagern als dem Ziellager verwendet werden</h2>
+<p>Ein Kennzeichenempfangsprozess kann nicht verwendet werden, wenn ein ASN eine Kennzeichen-ID enthält, die bereits vorhanden ist und physische Daten an einem anderen Lagerort als dem Lagerort enthält, an dem die Kennzeichenregistrierung erfolgt.</p>
+<p>Für Transportauftragsszenarien, in denen das Transitlager keine Kennzeichen erfasst (und daher auch keinen physischen Lagerbestand pro Kennzeichen erfasst), können Sie die Funktion <em>Verhindern Sie, dass Versandkennzeichen für Transportaufträge in anderen Lagern als dem Ziellager verwendet werden</em> verwenden, um physische Aktualisierungen von unterwegs befindlichen Kennzeichen zu verhindern.</p>
+<p>Um diese Funktionalität auf Ihrem System verfügbar zu machen, müssen Sie die Funktion aktivieren <em>Verhindern Sie, dass Versandkennzeichen für Transportaufträge in anderen Lagern als dem Ziellager verwendet werden</em> in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a>.</p>
+<p>Führen Sie die folgenden Schritte aus, um die Funktionalität zu verwalten, wenn diese Funktion verfügbar ist.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Lagerortverwaltungsparameter</strong>.</p>
+</li>
+<li><p>Auf der Registerkarte <strong>Allgemeines</strong> im Inforegister <strong>Kennzeichnung</strong> legen Sie das Feld <strong>Kennzeichenrichtlinie für Transitlager</strong> auf einen der folgenden Werte fest:</p>
+<ul>
+<li><strong>Wiederverwendung von nicht verfolgtem Kennzeichen zulassen</strong> – Das System funktioniert genauso wie wenn die Funktion <em>Verhindern Sie, dass Versandkennzeichen für Transportaufträge in anderen Lagern als dem Ziellager verwendet werden</em> nicht verfügbar ist. Dieser Wert ist die Standardeinstellung, wenn Sie die Funktion zum ersten Mal aktivieren.</li>
+<li><strong>Verhindern Sie die Wiederverwendung von nicht verfolgten Kennzeichen</strong> – Bis zum Eingang des Überweisungsauftrags sind im Ziellager nur Aktualisierungen zulässig, die sich auf ein versendetes Kennzeichen beziehen.</li>
+</ul>
+</li>
+</ol>
+<h2 id="more-information">Weitere Informationen</h2>
+<p>Weitere Informationen zu Menüelementen für Mobilgeräte finden Sie unter <a href="configure-mobile-devices-warehouse.html">Richten Sie mobile Geräte für die Lagerarbeit ein</a>.</p>
+<p>Weitere Informationen zum <em>Als fertig melden</em> Produktionsszenario finden sie unter <a href="warehouse-work-policies.html">Übersicht über die Lagerarbeitsrichtlinien</a>.</p>
+<p>Weitere Informationen über eingehende Auslastungverwaltung finden Sie unter <a href="inbound-load-handling.html">Lagerortverwaltung von eingehender Auslastung für Bestellungen</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

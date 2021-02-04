@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Verbessern Sie die Leistung von EB-L&#246;sungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzuf&#252;gen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Verbessern Sie die Leistung von EB-L&#246;sungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzuf&#252;gen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie die Leistung von EB-L&#246;sungen (Electroinic Reporting) verbessern k&#246;nnen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzuf&#252;gen.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="improve-the-performance-of-er-solutions-by-adding-parameterized-calculated-field-data-sources">Verbessern Sie die Leistung von EB-Lösungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzufügen</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>In diesem Thema wird erklärt, wie Sie <a href="trace-execution-er-troubleshoot-perf.html">Leistungsnachverfolgungen</a> von <a href="general-electronic-reporting.html">Elektronische Berichterstattung (ER)</a>-Formaten übernehmen können, die ausgeführt werden, und die dann die Informationen aus diesen Nachverfolgungen verwenden, um die Leistung durch das Konfigurieren eines Parameters zu verbessern, indem die <strong>Berechnetes Feld</strong>-Datenquelle parameterisiert wird.</p>
+<p>Im Rahmen des Prozesses, EB-Konfigurationen zu entwerfen, um Geschäftsdokumente zu generieren, definieren Sie die Methode, mit der Daten aus der Anwendung abgerufen werden und in der generierten Ausgabe eingegeben werden. Durch das Entwerfen einer parametrisierten EB-Datenquelle des Typs <strong>Berechnetes Feld</strong> können Sie die Anzahl der Datenbankaufrufe reduzieren und den Zeit- und Kostenaufwand für das Sammeln der Details der Ausführung des EB-Formats erheblich reduzieren.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<ul>
+<li><p>Um die Beispiele in diesem Thema abzuschließen, müssen Sie den Zugriff auf eine der folgenden <a href="../sysadmin/tasks/assign-users-security-roles.html">Rollen</a> haben:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+<li><p>Das Unternehmen muss auf <strong>DEMF</strong> festgelegt sein.</p>
+</li>
+<li><p>Folgen Sie den Schritten in <a href="#appendix1">Anhang 1</a> dieses Themas, um die Komponenten der Microsoft EB-Beispiellösung herunterzuladen, die zum Abschließen der Beispiele in diesem Thema erforderlich ist.</p>
+</li>
+<li><p>Befolgen Sie die Schritte in <a href="#appendix2">Anlage 2</a> dieses Themas, um den minimalen Satz von EB-Parametern zu konfigurieren, der zur Verwendung des EB-Frameworks erforderlich ist, um die Leistung der Microsoft EB-Beispiellösung zu verbessern.</p>
+</li>
+</ul>
+<h2 id="import-the-sample-er-solution">EB-Beispiellösung importieren</h2>
+<p>Stellen Sie sich vor, Sie müssen eine neue EB-Lösung entwerfen, um einen neuen Bericht zu generieren, der Kreditorentransaktionen zeigt. Aktuell können Sie die Transaktionen für einen ausgewählten Kreditor auf der Seite <strong>Kreditorenbuchungen</strong> suchen (wechseln Sie zu <strong>Kreditor</strong> &gt; <strong>Kreditoren</strong> &gt; <strong>Alle Kreditoren</strong>, wählen Sie einen Kreditor aus, und dann, im Aktivitätsbereich unter der Registerkarte <strong>Kreditor</strong> in der Gruppe <strong>Transaktionen</strong> wählen Sie <strong>Transaktionen</strong>). Sie möchten jedoch alle Kreditorenbuchungen zusammen in einem elektronischen Dokument im XML-Format haben. Diese Lösung besteht aus mehreren EB-Konfigurationen, die das erforderliche Datenmodell, die Modellzuordnung und Formatkomponenten enthalten.</p>
+<p>Der erste Schritt besteht darin, die Beispiel-EB-Lösung zu importieren, um einen Bericht über Lieferantentransaktionen zu erstellen.</p>
+<ol>
+<li><p>Melden Sie sich bei der Instanz von Microsoft Dynamics 365 Finance an, die für Ihr Unternehmen bereitgestellt wurde.</p>
+</li>
+<li><p>In diesem Thema erstellen und modifizieren Sie Konfigurationen für das Beispielunternehmen <strong>Litware, Inc.</strong>. Stellen Sie sicher, dass dieser Konfigurationsanbieter Ihrer Finance-Instanz hinzugefügt wurde und als aktiv markiert wurde. Weitere Informationen finden Sie unter <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Konfigurationsanbieter erstellen und als aktiv markieren</a>.</p>
+</li>
+<li><p>Im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> importieren Sie die EB-Konfigurationen, die Sie als Voraussetzung nach Finance heruntergeladen haben, in der folgenden Reihenfolge: Datenmodell, Modellzuordnung, Format. Führen Sie für jede Konfiguration die folgenden Schritte aus:</p>
+<ol>
+<li>Wählen Sie im Aktivitätsbereich <strong>Austausch</strong> &gt; <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, und wählen Sie die entsprechende Datei für die erforderliche EB-Konfiguration im XML-Format auszuwählen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<p><img src="media/er-calculated-field-ds-performance-imported-configurations.png" alt="Importierte Konfigurationen auf der Seite „Konfigurationen“"></p>
+<h2 id="review-the-sample-er-solution">Die EB-Beispiellösung überprüfen</h2>
+<h3 id="review-the-model-mapping">Die Modellzuordnung überprüfen</h3>
+<ol>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur <strong>Leistungsverbesserungsmodell</strong> und wählen Sie dann <strong>Leistungsverbesserungszuordnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Modell für Datenquellenzuordnung</strong> im Aktionsbereich <strong>Designer</strong> aus.</p>
+<p>Diese EB-Modellzuordnung ist für die Durchführung der folgenden Aktionen vorgesehen:</p>
+<ul>
+<li>Rufen Sie die Liste der Lieferantentransaktionen ab, die in der VendTrans-Tabelle gespeichert sind (<strong>Trans</strong>-Datenquelle).</li>
+<li>Rufen Sie für jede Transaktion aus der VendTable-Tabelle den Datensatz eines Anbieters ab, für den die Transaktion gebucht wurde (<strong>#Vend</strong>-Datenquelle).</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die <strong>#Vend</strong>-Datenquelle ist so konfiguriert, dass der entsprechende Lieferantendatensatz unter Verwendung der vorhandenen n:1-Beziehung <strong>@.'&gt;Relations'.VendTable_AccountNum</strong> abgerufen wird.</p>
+</div>
+<p>Die Modellzuordnung in dieser Konfiguration implementiert das Basisdatenmodell für alle EB-Formate, für die dieses Modell erstellt und in Finance ausgeführt wird. Demzufolge wird der Inhalt der <strong>Trans</strong> -Datenquellen für EB-Formate wie abstrakte <strong>Modell</strong>-Datenquellen bereitgestellt.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-1.png" alt="Trans-Datenquelle auf der Modellzuordnungsdesigner-Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modell für Datenquellenzuordnung</strong>.</p>
+</li>
+</ol>
+<h3 id="review-format">Überprüfen des Formats</h3>
+<ol>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur <strong>Leistungsverbesserungsmodell</strong> und wählen Sie dann <strong>Leistungsverbesserungsformat</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Formatdesigner</strong> wählen Sie auf der Registerkarte <strong>Zuordnung</strong> <strong>Erweitern/Reduzieren</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie die Elemente <strong>Modell</strong>, <strong>Daten,</strong> und <strong>Transaktion</strong>.</p>
+<p>Dieses EB-Format dient zum Generieren eines Lieferantentransaktionsberichts im XML-Format.</p>
+<p><img src="media/er-calculated-field-ds-performance-format.png" alt="Formatieren Sie Datenquellen und konfigurierte Bindungen von Formatelementen auf der Seite Format-Designer"></p>
+</li>
+<li><p>Seite <strong>Format-Designer</strong> schließen.</p>
+</li>
+</ol>
+<h2 id="run-the-sample-er-solution-to-trace-execution">Ausführen der EB-Beispiellösung, um Ausführung nachzuverfolgen</h2>
+<p>Stellen Sie sich vor, dass Sie das Entwerfen der ersten Version der EB-Lösung beendet haben. Jetzt möchten Sie die Lösung in Ihrer Finance-Instanz testen und die Ausführungsleistung analysieren.</p>
+<h3 id="turn-on-the-er-performance-trace">Aktivieren der EB-Leistungsnachverfolgung</h3>
+<ol>
+<li><p>Wählen Sie das Unternehmen <strong>DEMF</strong> aus.</p>
+</li>
+<li><p>Befolgen Sie die Schritte in <a href="trace-execution-er-troubleshoot-perf.html#turn-on-the-er-performance-trace">Aktivieren der EB-Leistungsverfolgung</a>, um eine Leistungsverfolgung zu generieren, während ein EB-Format ausgeführt wird.</p>
+<p><img src="media/er-calculated-field-ds-performance-format-user-parameters.png" alt="Benutzerparameter-Dialogfeld"></p>
+</li>
+</ol>
+<h3 id="run-the-er-format"><a id="run-format"></a>Das EB-Format ausführen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsverbesserungsformat</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich auf <strong>Ausführen</strong>.</li>
+</ol>
+<h2 id="use-the-performance-trace-to-analyze-model-mapping-performance">Verwenden Sie die Leistungsverfolgung, um die Leistung der Modellzuordnung zu analysieren</h2>
+<ol>
+<li>Auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsverbesserungszuordnung</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>Modellzuordnung</strong> im Aktionsbereich <strong>Designer</strong> aus.</li>
+<li>Auf der Seite <strong>Modellzuordnungsdesigner</strong> im Aktivitätsbereich wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</li>
+<li>Wählen Sie die zuletzt generierte Nachverfolgung aus und wählen Sie dann <strong>OK</strong>.</li>
+</ol>
+<p>Neue Informationen sind jetzt für einige Datenquellelemente der aktuellen Modellzuordnung verfügbar:</p>
+<ul>
+<li>Tatsächlicher Zeitaufwand für das Abrufen von Daten mithilfe der Datenquelle</li>
+<li>Die gleiche Zeit, ausgedrückt als Prozentsatz der gesamten Zeit, die für das Ausführen der gesamten Modellzuordnung aufgewendet wurde</li>
+</ul>
+<p><img src="media/er-calculated-field-ds-performance-mapping-2.png" alt="Details zur Ausführungszeit auf der Seite „Model Mapping Designer“"></p>
+<p>Das <strong>Leistungsstatistik</strong>-Raster zeigt, dass die <strong>Trans</strong>-Datenquelle die VendTrans-Tabelle einmal aufruft. Der Wert <strong>[265][M: 265]</strong> der <strong>Trans</strong>-Datenquelle gibt an, dass 265 Lieferantentransaktionen aus der Anwendungstabelle abgerufen und an das Datenmodell zurückgegeben wurden.</p>
+<p>Das <strong>Leistungsstatistik</strong>-Raster zeigt auch, dass die aktuelle Modellzuordnung die Datenbankanforderungen dupliziert, während die <strong>#Vend</strong>-Datenquelle ausgeführt wird. Diese Verdopplung tritt aus folgenden Gründen auf:</p>
+<ul>
+<li><p>Die Lieferantentabelle wird für jede der 265 durchlaufenen Lieferantentransaktionen zweimal aufgerufen, was insgesamt 530 Aufrufen entspricht:</p>
+<ul>
+<li>Ein Anruf wird getätigt, um die Lieferantenkontonummer einzugeben.</li>
+<li>Ein Anruf wird getätigt, um den Lieferantennamen einzugeben.</li>
+</ul>
+</li>
+<li><p>Die Lieferantentabelle wird für jede durchlaufene Lieferantentransaktion aufgerufen, obwohl die abgerufenen Transaktionen nur für fünf Lieferanten gebucht wurden. Von den 530 Anrufen sind 525 Duplikate. Die folgende Abbildung zeigt die Nachricht, die Sie über doppelte Aufrufe (Datenbankanforderungen) erhalten.</p>
+</li>
+</ul>
+<p><img src="media/er-calculated-field-ds-performance-mapping-2a.png" alt="Meldung zu doppelten Datenbankanforderungen auf der Seite Modellzuordnungsdesigner"></p>
+<p>Beachten Sie, dass mehr als 80 Prozent (ungefähr sechs Sekunden) der Gesamtausführungszeit für die Modellzuordnung (ca. acht Sekunden) für das Abrufen von Werten aus der VendTable-Anwendungstabelle aufgewendet wurden. Dieser Prozentsatz ist zu groß für zwei Attribute von fünf Anbietern im Vergleich zum Informationsvolumen aus der VendTrans-Anwendungstabelle.</p>
+<p>Um die Anzahl der Anrufe zu verringern, die getätigt werden, um die Lieferantendetails für jede Transaktion abzurufen, und um die Leistung der Modellzuordnung zu verbessern, können Sie Caching für die <strong>#Vend</strong>-Datenquelle verwenden.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die <strong>Trans\#Vend</strong>-Datenquelle wird im Rahmen der aktuellen Transaktion der <strong>Trans</strong>-Datenquelle zur Laufzeit zwischengespeichert.</p>
+</div>
+<p>Durch das Zwischenspeichern der <strong>#Vend</strong>-Datenquelle reduzieren die Anzahl der doppelten Anrufe von 525 auf 260, beseitigen die Duplizierung jedoch nicht vollständig. Um die Verdopplung vollständig zu vermeiden, können Sie eine neue parametrisierte Datenquelle des Typs <strong>Berechnetes Feld</strong> konfigurieren.</p>
+<h2 id="improve-the-model-mapping-based-on-information-from-the-execution-trace">Verbessern der Modellzuordnung auf der Grundlage von Informationen aus der Ausführungsnachverfolgung</h2>
+<h3 id="change-the-logic-of-the-model-mapping">Die Logik der Modellzuordnung ändern</h3>
+<p>Befolgen Sie diese Schritte, um das Caching und eine Datenquelle des Typs <strong>Berechnetes Feld</strong> zu verwenden, um doppelte Aufrufe der Datenbank zu vermeiden.</p>
+<ol>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsverbesserungszuordnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Modellzuordnung</strong> im Aktionsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Befolgen Sie auf der <strong>Modellzuordnungsdesigner</strong>-Seite diese Schritte, um eine Datenquelle des Typs <strong>Tabellendatensätze</strong> hinzuzufügen, um auf Datensätze in der VendTable-Anwendungstabelle zuzugreifen:</p>
+<ol>
+<li>Erweitern Sie im Bereich <strong>Datenquellentypen</strong> den Eintrag <strong>Dynamics 365 for Operations</strong> und wählen Sie <strong>Tabellendatensätze</strong> aus.</li>
+<li>Wählen Sie <strong>Stamm hinzufügen</strong> aus.</li>
+<li>Geben Sie im Drop-Down-Dialogfeld im Feld <strong>Name</strong> <strong>Vend</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Tabelle</strong> den Eintrag <strong>VendTable</strong> ein.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Sie können Aufrufe von Datenquellen des Typs <strong>Berechnetes Feld</strong> nur prameterisieren, wenn sich diese Datenquellen in einem Container befinden. Befolgen Sie daher diese Schritte, um eine Datenquelle des Typs <strong>Leerer Container</strong> hinzuzufügen, um eine neue parametrisierte Datenquelle des Typs <strong>Berechnetes Feld</strong> zu speichern:</p>
+<ol>
+<li>Erweitern Sie im Bereich <strong>Datenquellentypen</strong> den Eintrag <strong>Allgemein</strong> und wählen Sie <strong>Leerer Container</strong> aus.</li>
+<li>Wählen Sie <strong>Stamm hinzufügen</strong> aus.</li>
+<li>Geben Sie im Drop-Down-Dialogfeld im Feld <strong>Name</strong> <strong>Box</strong> ein.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+<p><img src="media/er-calculated-field-ds-performance-mapping-3.png" alt="Box-Datenquelle auf der Modellzuordnungsdesigner-Seite"></p>
+</li>
+<li><p>Befolgen Sie diese Schritte, um eine parametrisierte Datenquelle des Typs <strong>Berechnetes Feld</strong> hinzuzufügen:</p>
+<ol>
+<li>Wählen Sie <strong>Box</strong> im Bereich <strong>Datenquellen</strong> aus.</li>
+<li>Erweitern Sie im Bereich <strong>Datenquellentypen</strong> <strong>Funktionen</strong>, und wählen Sie <strong>Berechnetes Feld</strong> aus.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus.</li>
+<li>Geben Sie im Drop-Down-Dialogfeld im Feld <strong>Name</strong> <strong>Vend</strong> ein.</li>
+<li>Wählen Sie <strong>Formel bearbeiten</strong> aus.</li>
+<li>Wählen Sie auf der <strong>Formeldesigner</strong>-Seite <strong>Parameter</strong>, um die Parameter anzugeben, die beim Aufruf dieser Datenquelle angegeben werden müssen.</li>
+<li>Wählen Sie im Dialogfeld <strong>Parameter</strong> <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>parmVendAccNumber</strong> ein.</li>
+<li>Wählen Sie im Feld <strong>Typ</strong> <strong>Zeichenfolge</strong> aus.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+<li>Geben Sie im <strong>Formel</strong>-Feld <strong>FIRSTORNULL(FILTER(Vend, Vend.AccountNum=parmVendAccNumber))</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> und schließen Sie die Seite <strong>Formeldesginer</strong>.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um die neue Datenquelle hinzuzufügen.</li>
+</ol>
+</li>
+<li><p>Führen Sie die folgenden Schritte aus, um die hinzugefügte Datenquelle während der Ausführung als zwischengespeichert zu markieren:</p>
+<ol>
+<li>Wählen Sie im Bereich <strong>Datenquellen</strong> den Eintrag <strong>Box\Vend</strong> aus.</li>
+<li>Wählen Sie <strong>Cache</strong> aus.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die <strong>Box\Vend</strong>-Datenquelle wird im Rahmen aller Kreditorenbuchungsseite der <strong>Trans</strong>-Datenquelle zur Laufzeit zwischengespeichert.</p>
+</div>
+</li>
+<li><p>Befolgen Sie diese Schritte, um die verschachtelte <strong>Trans\#Vend</strong>-Datenquelle zu aktualisieren, so dass die <strong>Box\Vend</strong>-Datenquelle verwendet wird:</p>
+<ol>
+<li>Erweitern Sie im Bereich <strong>Datenquellen</strong> den Eintrag <strong>Trans</strong>.</li>
+<li>Wählen Sie die <strong>Trans\#Vend</strong>-Datenquelle, und wählen Sie dann <strong>Bearbeiten</strong> &gt; <strong>Formel bearbeiten</strong>.</li>
+<li>Geben Sie auf der <strong>Formeldesigner</strong>-Seite im <strong>Formel</strong>-Feld <strong>Box.Vend(@.AccountNum)</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> und dann schließen Sie die Seite <strong>Formeldesginer</strong>.</li>
+<li>Wählen Sie <strong>OK</strong>, um Ihre Änderungen an der ausgewählten Datenquelle abzuschließen.</li>
+</ol>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-4.png" alt="Vend-Datenquelle auf der Modellzuordnungsdesigner-Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungen</strong>.</p>
+</li>
+</ol>
+<h3 id="complete-the-modified-version-of-the-er-model-mapping">Die geänderte Version der EB-Modellzuordnung abschließen</h3>
+<ol>
+<li>Auf der Seite <strong>Konfigurationen</strong> im Inforegister <strong>Versionen</strong> wählen Sie die Version <strong>1.2</strong> der Konfiguration <strong>Leistungsverbesserungszuordnung</strong> aus.</li>
+<li>Wählen Sie <strong>Status ändern</strong> &gt; <strong>Abschließen</strong> und dann <strong>OK</strong>.</li>
+</ol>
+<h2 id="run-the-modified-er-solution-to-trace-execution">Ausführen der geänderten EB-Lösung, um Ausführung nachzuverfolgen</h2>
+<p>Wiederholen Sie die Schritte im Abschnitt <a href="#run-format">Das EB-Format ausführen</a> weiter oben in diesem Thema, um eine neue Leistungsnachverfolgung zu generieren.</p>
+<h2 id="use-the-performance-trace-to-analyze-adjustments-to-the-model-mapping">Verwenden Sie die Leistungsüberwachung, um Regulierungen der Modellzuordnung zu analysieren</h2>
+<ol>
+<li>Auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur wählen Sie das Element <strong>Leistungsverbesserungszuordnung</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>Modellzuordnung</strong> im Aktionsbereich <strong>Designer</strong> aus.</li>
+<li>Auf der Seite <strong>Modellzuordnungsdesigner</strong> im Aktivitätsbereich wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</li>
+<li>Wählen Sie die zuletzt generierte Nachverfolgung aus und wählen Sie dann <strong>OK</strong>.</li>
+</ol>
+<p>Beachten Sie, dass die Regulierungen, die Sie an der Modellzuordnung vorgenommen haben, doppelte Abfragen an eine Datenbank beseitigt haben. Die Anzahl der Aufrufe an Datenbanktabellen und Datenquellen für diese Modellzuordnung ist auch reduziert worden.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-5.png" alt="Überwachungsinformationen auf der Modellzuordnungsdesigner-Seite 1"></p>
+<p>Die Gesamtausführungszeit wurde ungefähr 20 Mal reduziert (von ungefähr 8 Sekunden auf ungefähr 400 Millisekunden). Daher wurde die Leistung der gesamten EB-Lösung verbessert.</p>
+<p><img src="media/er-calculated-field-ds-performance-mapping-5a.png" alt="Überwachungsinformationen auf der Modellzuordnungsdesigner-Seite 2"></p>
+<h2 id="appendix-1-download-the-components-of-the-sample-microsoft-er-solution"><a name="appendix1"></a>Anhang 1: Laden Sie die Komponenten der Microsoft EB-Beispiellösung herunter</h2>
+<p>Sie müssen die folgenden Dateien herunterladen und lokal speichern.</p>
+<table>
+<thead>
+<tr>
+<th>Datei</th>
+<th>Inhalt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leistungsverbesserung model.version.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Datenmodell-Konfiguration</a></td>
+</tr>
+<tr>
+<td>Leistungsverbesserung mapping.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Modellzuordnungskonfiguration</a></td>
+</tr>
+<tr>
+<td>Leistungsverbesserung format.version.1.1</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Beispiel-EB-Formatkonfiguration</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-2-configure-the-er-framework"><a name="appendix2"></a>Anhang 2: Konfigurieren des EB-Frameworks</h2>
+<p>Bevor Sie das EB-Framework verwenden können, um die Leistung der Microsoft EB-Beispiellösung zu verbessern, müssen Sie den minimalen Satz von EB-Parametern konfigurieren.</p>
+<h3 id="configure-er-parameters"><a id="ConfigureParameters"></a>Parameter der elektronischen Berichterstellung konfigurieren</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Parameter für elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Parameter für elektronische Berichterstellung</strong> legen Sie auf der Registerkarte <strong>Allgemein</strong> die Option <strong>Entwurfsmodus aktivieren</strong> auf <strong>Ja</strong> fest.</p>
+</li>
+<li><p>Legen Sie auf der Registerkarte <strong>Anhänge</strong> die folgenden Parameter fest:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Konfigurationen</strong> den <strong>Dateityp</strong> für das <strong>DEMF</strong>-Unternehmen aus.</li>
+<li>Wählen Sie in den Feldern <strong>Einzelvorgangsarchiv</strong>, <strong>Temporär</strong>, <strong>Grundlage</strong> und <strong>Andere</strong> den <strong>Dateityp</strong> aus.</li>
+</ul>
+</li>
+</ol>
+<p>Weitere Informationen zu EB-Parametern finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Konfigurieren des EB-Frameworks (This is an external link)</a>.</p>
+<h3 id="activate-an-er-configuration-provider"><a id="ActivateProvider"></a>Aktivieren eines EB-Konfigurationsanbieters</h3>
+<p>Jede hinzugefügte EB-Konfiguration wird als Eigentum eines EB-Konfigurationsanbieters markiert. Der EB-Konfigurationsanbieter, der im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> aktiviert ist, wird zu diesem Zweck verwendet. Daher müssen Sie im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> einen EB-Konfigurationsanbieter aktivieren, bevor Sie mit dem Hinzufügen oder Bearbeiten von EB-Konfigurationen beginnen.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Nur der Besitzer einer EB-Konfiguration kann die Konfiguration bearbeiten. Daher muss im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> der entsprechende EB-Konfigurationsanbieter aktiviert werden, bevor eine EB-Konfigurationen bearbeitet werden kann.</p>
+</div>
+<h4 id="review-the-list-of-er-configuration-providers"><a id="ReviewProvidersList"></a>Überprüfen der Liste der EB-Konfigurationsanbieter</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Auf der Seite <strong>Konfigurationsanbietertabelle</strong> hat jeder Anbieterdatensatz einen eindeutigen Namen und eine eindeutige URL. Überprüfen Sie den Inhalt dieser Seite. Wenn bereits ein Datensatz für <strong>Litware, Inc.</strong> vorhanden ist, überspringen Sie die nächste Prozedur <a href="#ActivateProvider">Hinzufügen eines neuen EB-Konfigurationsanbieters</a>.</li>
+</ol>
+<h4 id="add-a-new-er-configuration-provider"><a id="ActivateProvider"></a>Hinzufügen eines neuen EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsanbieter</strong> die Option <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>Litware, Inc.</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Internetadresse</strong> <code>https://www.litware.com</code> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<h4 id="activate-an-er-configuration-provider"><a id="ActivateAddedProvider"></a>Aktivieren eines EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Litware, Inc.</strong> aus. Wählen Sie dann <strong>Als aktiv festlegen</strong> aus.</li>
+</ol>
+<p>Weitere Informationen zu EB-Konfigurationsanbietern finden Sie unter <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Erstellen von Konfigurationsanbietern und Markieren als aktiv</a>.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung</a></li>
+<li><a href="trace-execution-er-troubleshoot-perf.html">Überwachen der Ausführung von ER-Formaten zur Behebung von Leistungsproblemen</a></li>
+<li><a href="er-calculated-field-type.html">Unterstützen parametrisierter Aufrufe von ER-Datenquellen des Typs „Berechnetes Feld“</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-calculated-field-ds-performance.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

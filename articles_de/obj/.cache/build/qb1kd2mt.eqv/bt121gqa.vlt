@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Zentralisierte Zahlungen f&#252;r Kreditorenkonten </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Zentralisierte Zahlungen f&#252;r Kreditorenkonten ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Organisationen mit mehreren juristischen Personen k&#246;nnen zum Erstellen und Verwalten von Zahlungen eine juristische Person festlegen, die alle Zahlungen abwickelt. Daher m&#252;ssen die gleichen Zahlungen nicht in mehrere juristische Personen eingegeben werden. Dieser Artikel enth&#228;lt Beispiele, die zeigen, wie das Buchen f&#252;r zentralisierte Zahlungen in verschiedenen Szenarien behandelt wird.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="LedgerJournalTransVendPaym, VendOpenTrans">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="centralized-payments-for-accounts-payable" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="28">Zentralisierte Zahlungen für Kreditorenkonten</h1>
+
+<div class="IMPORTANT" sourcefile="finance/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="32">Organisationen mit mehreren juristischen Personen können zum Erstellen und Verwalten von Zahlungen eine juristische Person festlegen, die alle Zahlungen abwickelt. Daher müssen die gleichen Zahlungen nicht in mehrere juristische Personen eingegeben werden. Dieser Artikel enthält Beispiele, die zeigen, wie das Buchen für zentralisierte Zahlungen in verschiedenen Szenarien behandelt wird.</p>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="34">Organisationen mit mehreren juristischen Personen können zum Erstellen und Verwalten von Zahlungen eine juristische Person festlegen, die alle Zahlungen abwickelt. Daher müssen die gleichen Zahlungen nicht in mehrere juristische Personen eingegeben werden. Darüber hinaus spart die Organisation Zeit, da der Zahlungsvorgang rationalisiert wird.</p>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="36">In einer Organisation mit zentralisierten Zahlungen gibt es viele juristische Personen für betriebliche Vorgänge. Dabei werden die Informationen zu Kreditorenrechnungen von den einzelnen juristischen Personen verwaltet. Die Zahlungen für alle tätigen juristischen Personen werden von einer einzigen juristischen Person (der so genannten juristischen Person für die Zahlung) generiert. Im Zuge des Ausgleichsprozesses werden die erforderlichen Buchungen vom Typ &quot;Fällig bis&quot; und &quot;Fällig von&quot; generiert. Sie können angeben, welche juristische Person in der Organisation die Buchungen für realisierte Gewinne oder Verluste erhält und wie Skontobuchungen für unternehmensübergreifende Zahlungen zu behandeln sind. Auf der zentralisierten Zahlungserfassungsposition sollte <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="36">Kontenart</strong> auf Kreditor festgelegt werden. Die <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="36">Gegenkontenart</strong> sollte auf Bank oder Sachkonto festgelegt werden. Das Bankkonto solle auf das aktuelle Unternehmen lauten.</p>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="38">In den folgenden Beispielen wird die Behandlung von Buchungen in unterschiedlichen Szenarios erläutert. Allen Beispielen liegt die folgende Konfiguration zugrunde:</p>
+<ul sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="40">
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="40">Fabrikam, Fabrikam Ost und Fabrikam West stellen die juristischen Personen dar. Zahlungen werden von Fabrikam geleistet.</li>
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="41">Das <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="41">Skonto buchen</strong> Feld auf der <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="41">Verrechnung</strong> Seite ist auf <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="41">Juristische Person der Rechnung</strong> festgelegt.</li>
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="42">Das <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="42">Gewinn bzw. Verlust bei Währungsumtausch buchen</strong> Feld auf der <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="42">Verrechnung</strong> Seite ist auf <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="42">Juristische Person der Zahlung</strong> festgelegt.</li>
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="43">Der Kreditor Fourth Coffee ist als Kreditor in jeder juristischen Person festgelegt. Die Kreditoren aus verschiedenen juristischen Personen werden als derselbe Kreditor erfasst, da sie dieselbe Kennung für das globale Adressbuch gemeinsam haben.</li>
+</ul>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">Verzeichniskennung</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">Kreditorenkonto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">Name</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="45">Juristische Person</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="47">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="47">1050</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="47">3004</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="47">Fourth Coffee</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="47">Fabrikam</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="48">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="48">1050</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="48">100</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="48">Fourth Coffee</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="48">Fabrikam Ost</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="49">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="49">1050</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="49">3004</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="49">Fourth Coffee</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="49">Fabrikam West</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-1-vendor-payment-of-invoice-from-another-legal-entity" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="51">Beispiel 1: Kreditorenzahlung der Rechnung einer anderen juristischen Person</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="52">Für Fabrikam Ost liegt eine offene Rechnung für das Kreditorenkonto &quot;100&quot; (Fourth Coffee) vor. Bei Fabrikam wird eine Zahlung an das Fabrikam-Kreditorenkonto &quot;3004&quot; (Fourth Coffee) eingegeben und gebucht. Die Zahlung wird mit der offenen Rechnung ausgeglichen.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="54">Buchung der Rechung in Fabrikam Ost für Kreditor &quot;100&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="56">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="56">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="56">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="56">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="56">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="58">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="58">Ausgabe (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="58">600,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="58"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="59">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="59">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="59"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="59">600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="61">Generierung und Buchung der Zahlung in Fabrikam für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="63">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="63">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="63">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="63">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="63">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="65">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="65">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="65">600,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="65"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="66">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="66">Bar (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="66"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="66">600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="68">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="70"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="70">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="72">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="72">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="72">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="72">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="72">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="74">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="74">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="74">600,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="74"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="75">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="75">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="75"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="75">600,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="77"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="77">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="79">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="79">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="79">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="79">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="79">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="81">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="81">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="81">600,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="81"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="82">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="82">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="82"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="82">600,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-2-vendor-payment-of-invoice-from-another-legal-entity-with-cash-discount" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="84">Beispiel 2: Kreditorenzahlung der Rechnung einer anderen juristischen Person mit Skonto</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="85">Für Fabrikam Ost liegt eine offene Rechnung für den Kreditor &quot;100&quot; (Fourth Coffee) vor. Für die Rechnung wird ein Skonto in Höhe von EUR 20,00 gewährt. Bei Fabrikam wird eine Zahlung in Höhe von EUR 580,00 für den Fabrikam-Kreditor &quot;3004&quot; (Fourth Coffee) eingegeben und gebucht. Die Zahlung wird mit den offenen Rechnungen für Fabrikam Ost ausgeglichen. Der Skonto wird auf die juristische Person für die Rechnung (Fabrikam Ost) gebucht.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="87">Buchung der Rechnung in Fabrikam Ost für Kreditor &quot;100&quot; von Fabrikam Ost</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="89">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="89">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="89">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="89">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="89">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="91">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="91">Ausgabe (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="91">600,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="91"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="92">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="92">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="92"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="92">600,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-fabrikam-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="94">Generierung und Buchung der Zahlung in Fabrikam für Fabrikam-Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="96">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="96">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="96">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="96">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="96">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="98">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="98">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="98">580,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="98"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="99">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="99">Bar (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="99"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="99">580,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="101">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="103"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="103">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="105">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="105">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="105">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="105">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="105">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="107">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="107">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="107">580,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="107"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="108">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="108">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="108"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="108">580,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="110"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="110">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="112">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="112">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="112">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="112">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="112">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="114">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="114">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="114">580,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="114"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="115">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="115">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="115"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="115">580,00</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="116">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="116">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="116">20,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="116"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="117">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="117">Skonto (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="117"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="117">20,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-3-vendor-payment-of-invoice-from-another-legal-entity-with-realized-exchange-rate-loss" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="119">Beispiel 3: Kreditorenzahlung der Rechnung einer anderen juristischen Person mit realisiertem Wechselkursverlust</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="120">Für Fabrikam Ost liegt eine offene Rechnung für den Kreditor &quot;100&quot; (Fourth Coffee) vor. Bei Fabrikam wird eine Zahlung für den Fabrikam-Kreditor &quot;3004&quot; (Fourth Coffee) eingegeben und gebucht. Die Zahlung wird mit der offenen Rechnung für Fabrikam Ost ausgeglichen. Im Zuge des Ausgleichsprozesses wird eine Wechselkursverlustbuchung generiert.</p>
+<ul sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="122">
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="122">Wechselkurs von Euro (EUR) in US-Dollar (USD) zum Rechnungsdatum: 1,2062</li>
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="123">Wechselkurs für EUR in USD zum Zahlungsdatum: 1,2277</li>
+</ul>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="125">Buchung der Rechung in Fabrikam Ost für Kreditor &quot;100&quot; von Fabrikam Ost</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="127">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="127">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="127">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="127">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="127">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="129">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="129">Ausgabe (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="129">600,00 EUR/723,72 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="129"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="130">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="130">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="130"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="130">600,00 EUR/723,72 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-fabrikam-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="132">Generierung und Buchung der Zahlung in Fabrikam für Fabrikam-Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="134">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="134">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="134">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="134">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="134">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="136">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="136">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="136">600,00 EUR/736,62 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="136"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="137">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="137">Bar (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="137"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="137">600,00 EUR/736,62 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="139">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="141"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="141">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="143">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="143">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="143">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="143">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="143">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="145">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="145">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="145">600,00 EUR/736,62 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="145"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="146">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="146">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="146"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="146">600,00 EUR/736,62 USD</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="147">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="147">Realisierter Verlust (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="147">0,00 EUR/12,90 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="147"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="148">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="148">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="148"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="148">0,00 EUR/12,90 USD</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="150"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="150">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="152">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="152">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="152">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="152">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="152">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="154">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="154">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="154">600,00 EUR/736,62 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="154"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="155">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="155">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="155"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="155">600,00 EUR/736,62 USD</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="156">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="156">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="156">0,00 EUR/12,90 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="156"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="157">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="157">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="157"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="157">EUR 0,00/USD 12,90</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-4-vendor-payment-of-invoice-from-another-legal-entity-with-cash-discount-and-realized-exchange-rate-loss" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="159">Beispiel 4: Kreditorenzahlung der Rechnung einer anderen juristischen Person mit Skonto und realisiertem Wechselkursverlust</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="160">Für Fabrikam Ost liegt eine offene Rechnung für den Kreditor &quot;100&quot; (Fourth Coffee) vor. Auf die Rechnung wird Skonto gewährt, und eine Mehrwertsteuerbuchung wird generiert. Bei Fabrikam wird eine Zahlung für den Fabrikam-Kreditor &quot;3004&quot; (Fourth Coffee) gebucht. Die Zahlung wird mit der offenen Rechnung für Fabrikam Ost ausgeglichen. Im Zuge des Ausgleichsprozesses wird eine Wechselkursverlustbuchung generiert. Der Skonto wird auf die juristische Person für die Rechnung (Fabrikam Ost), der Wechselkursverlust auf die juristische Person für die Zahlung (Fabrikam) gebucht.</p>
+<ul sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="162">
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="162">Wechselkurs von EUR in USD zum Rechnungsdatum: 1,2062</li>
+<li sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="163">Wechselkurs für EUR in USD zum Zahlungsdatum: 1,2277</li>
+</ul>
+<h3 id="invoice-is-posted-and-a-tax-transaction-is-generated-in-fabrikam-east-for-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="165">Buchung der Rechnung und Generierung einer Steuerbuchung in Fabrikam Ost für Kreditor &quot;100&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="167">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="167">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="167">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="167">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="167">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="169">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="169">Ausgabe (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="169">564,07 EUR/680,38 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="169"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="170">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="170">Mehrwertsteuer (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="170">35,93 EUR/43,34 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="170"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="171">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="171">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="171"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="171">600,00 EUR/723,72 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="173">Generierung und Buchung der Zahlung in Fabrikam für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="175">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="175">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="175">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="175">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="175">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="177">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="177">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="177">588,72 EUR/722,77 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="177"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="178">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="178">Bar (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="178"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="178">588,72 EUR/722,77 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="180">Ausgleich der Fabrikam-Zahlung mit der Rechnung von Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="182"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="182">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="184">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="184">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="184">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="184">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="184">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="186">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="186">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="186">588,72 EUR/722,77 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="186"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="187">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="187">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="187"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="187">588,72 EUR/722,77 USD</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="188">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="188">Realisierter Verlust (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="188">0,00 EUR/12,66 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="188"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="189">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="189">Fällig von Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="189"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="189">0,00 EUR/12,66 USD</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="191"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="191">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="193">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="193">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="193">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="193">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="193">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="195">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="195">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="195">588,72 EUR/722,77 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="195"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="196">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="196">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="196"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="196">588,72 EUR/722,77 USD</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="197">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="197">Fällig an Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="197">0,00 EUR/12,66 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="197"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="198">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="198">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="198"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="198">0,00 EUR/12,66 USD</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="199">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="199">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="199">11,28 EUR/13,61 USD</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="199"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="200">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="200">Skonto (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="200"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="200">11,28 EUR/13,61 USD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-5-vendor-credit-note-with-primary-payment" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="202">Beispiel 5: Kreditorengutschrift mit primärer Zahlung</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="203">Bei Fabrikam wird eine Zahlung in Höhe von 75,00 für den Kreditor &quot;3004&quot; (Fourth Coffee) generiert. Die Zahlung wird mit einer offenen Rechnung für den Kreditor &quot;3004&quot; von Fabrikam West und einer offenen Gutschrift für den Kreditor &quot;100&quot; von Fabrikam Ost ausgeglichen. Die Zahlung wird im Formular zum Bearbeiten offener Posten als Seite <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="203">Transaktion begleich</strong> dargestellt.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="205">Buchung der Rechnung an Fabrikam West für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="207">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="207">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="207">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="207">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="207">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="209">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="209">Ausgabe (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="209">100,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="209"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="210">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="210">Kreditoren (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="210"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="210">100,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="212">Buchung der Gutschrift an Fabrikam West für Kreditor &quot;100&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="214">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="214">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="214">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="214">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="214">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="216">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="216">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="216">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="216"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="217">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="217">Bestellretouren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="217"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="217">25,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="219">Buchung der Zahlung an Fabrikam für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="221">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="221">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="221">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="221">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="221">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="223">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="223">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="223">75,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="223"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="224">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="224">Bar (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="224"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="224">75,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="226">Ausgleich der Fabrikam-Zahlung mit Rechnung für Fabrikam West und Gutschrift für Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="228"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="228">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="230">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="230">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="230">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="230">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="230">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="232">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="232">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="232">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="232"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="233">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="233">Fällig an Fabrikam Ost (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="233"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="233">25,00</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="234">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="234">Fällig von Fabrikam West (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="234">100,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="234"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="235">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="235">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="235"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="235">100,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="237"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="237">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="239">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="239">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="239">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="239">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="239">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="241">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="241">Fällig von Fabrikam (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="241">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="241"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="242">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="242">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="242"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="242">25,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="244"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="244">Buchung für Fabrikam West</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="246">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="246">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="246">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="246">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="246">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="248">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="248">Kreditoren (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="248">100,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="248"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="249">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="249">Fällig an Fabrikam (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="249"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="249">100,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-6-vendor-credit-note-without-primary-payment" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="251">Beispiel 6: Kreditorengutschrift ohne primäre Zahlung</h2>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="252">Bei Fabrikam wird eine Zahlung in Höhe von 75,00 für den Kreditor &quot;3004&quot; (Fourth Coffee) generiert. Die Zahlung wird mit einer offenen Rechnung für den Kreditor &quot;3004&quot; von Fabrikam West und einer offenen Gutschrift für den Kreditor &quot;100&quot; von Fabrikam Ost ausgeglichen. Die Zahlung ist im Formular zum Bearbeiten offener Posten als Seite <strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="252">Transaktion begleich</strong> nicht ausgewählt.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="254">Buchung der Rechnung an Fabrikam West für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="256">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="256">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="256">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="256">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="256">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="258">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="258">Ausgabe (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="258">100,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="258"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="259">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="259">Kreditoren (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="259"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="259">100,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-vendor-100" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="261">Buchung der Gutschrift an Fabrikam West für Kreditor &quot;100&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="263">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="263">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="263">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="263">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="263">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="265">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="265">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="265">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="265"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="266">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="266">Bestellretouren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="266"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="266">25,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-vendor-3004" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="268">Buchung der Zahlung an Fabrikam für Kreditor &quot;3004&quot;</h3>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="270">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="270">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="270">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="270">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="270">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="272">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="272">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="272">75,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="272"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="273">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="273">Bar (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="273"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="273">75,00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note" sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="275">Ausgleich der Fabrikam-Zahlung mit Rechnung für Fabrikam West und Gutschrift für Fabrikam Ost</h3>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="277"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="277">Buchung für Fabrikam</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="279">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="279">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="279">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="279">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="279">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="281">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="281">Fällig von Fabrikam West (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="281">75,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="281"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="282">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="282">Kreditoren (Fabrikam)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="282"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="282">75,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="284"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="284">Buchung für Fabrikam Ost</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="286">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="286">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="286">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="286">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="286">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="288">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="288">Fällig von Fabrikam West (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="288">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="288"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="289">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="289">Kreditoren (Fabrikam Ost)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="289"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="289">25,00</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="291"><strong sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="291">Buchung für Fabrikam West</strong></p>
+<table sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="293">
+<thead>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="293">
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="293">Konto</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="293">Sollbetrag</th>
+<th sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="293">Habenbetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="295">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="295">Kreditoren (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="295">75,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="295"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="296">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="296">Fällig an Fabrikam (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="296"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="296">75,00</td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="297">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="297">Kreditoren (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="297">25,00</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="297"></td>
+</tr>
+<tr sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="298">
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="298">Fällig an Fabrikam Ost (Fabrikam West)</td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="298"></td>
+<td sourcefile="finance/accounts-payable/centralized-payments-accounts-payable.md" sourcestartlinenumber="298">25,00</td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/finance/accounts-payable/centralized-payments-accounts-payable.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

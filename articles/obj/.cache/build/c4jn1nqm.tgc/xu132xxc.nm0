@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>LISTDISTINCT ER function </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="LISTDISTINCT ER function ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about how the LISTDISTINCT Electronic reporting (ER) function is used.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERDataModelDesigner, ERExpressionDesignerFormula, ERMappedFormatDesigner, ERModelMappingDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="listdistinct-er-function">LISTDISTINCT ER Function</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/public-preview-releases">Service update availability</a>.</p>
+</div>
+
+<p>The <code>LISTDISTINCT</code> function calculates the specified expression as a selector for every record of the specified list. It returns a new <em>Record list</em> value that contains a single record for each unique selector value.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>LISTDISTINCT (list, selector)
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<p><code>list</code>: <em>Record list</em></p>
+<p>The valid path of a data source of the <em>Record list</em> data type.</p>
+<p><code>selector</code>: <em>Primitive data type</em></p>
+<p>A valid expression that is used to calculate a selector value for every record in the specified list.</p>
+<p>The following data types are supported for this parameter:</p>
+<ul>
+<li>Boolean</li>
+<li>Date</li>
+<li>DateTime</li>
+<li>GUID</li>
+<li>Integer</li>
+<li>Int64</li>
+<li>Real</li>
+<li>String</li>
+</ul>
+<h2 id="return-values">Return values</h2>
+<p><em>Record list</em></p>
+<p>The resulting list of records.</p>
+<h2 id="usage-notes">Usage notes</h2>
+<p>The structure of the list that is created matches the structure of the specified list.</p>
+<p>The same selector value might be calculated for multiple records in the specified list. In this case, field values of the corresponding record in the created list equal the values of the first record from the specified list that the selector value is calculated for.</p>
+<p>The execution of this function is done on any <a href="general-electronic-reporting.html">Electronic reporting (ER)</a> data source of the <em>Record list</em> type that is present in memory.</p>
+<p>The <strong>GROUPBY</strong> data source can also be used to generate the list of records that the selector that has distinct values is calculated for. However, from a performance and memory consumption perspective, it's better to use the <code>LISTDISTINCT</code> function than the <strong>GROUPBY</strong> data source, because the execution of the function is done in memory.</p>
+<h2 id="example">Example</h2>
+<p>The following example shows how you can get the list of unique customer account numbers that at least one sales invoice or project invoice has been issued to during a specific period.</p>
+<ol>
+<li><p>Enter the <strong>SalesInvoice</strong> data source of the <code>Record list</code> type that refers to the <strong>CustInvoiceJour</strong> application table and filters sales invoices for specific periods.</p>
+<p>The <code>InvoiceAccount</code> field of this data source returns the account number of an invoiced customer.</p>
+</li>
+<li><p>Enter the <strong>ProjectInvoice</strong> data source of the <code>Record list</code> type that refers to the <strong>ProjInvoiceJour</strong> application table and filters project invoices for specific periods.</p>
+<p>The <code>InvoiceAccount</code> field of this data source returns the account number of an invoiced customer.</p>
+</li>
+<li><p>Configure the <strong>AllInvoices</strong> data source of the <code>Calculated field</code> type that contains the expression <code>LISTJOIN(SalesInvoice, ProjectInvoice)</code>.</p>
+<p>This data source returns the joined list of sales invoices and project invoices.</p>
+</li>
+<li><p>Configure the <strong>InvoicedCustomer</strong> data source of the <code>Record list</code> type that contains the expression <code>LISTDISTINCT(AllInvoices, AllInvoices.InvoiceAccount)</code>.</p>
+<p>This data source returns a new list that contains a single record for every unique customer that has been invoiced during the defined period. The <code>InvoiceAccount</code> field of this list contains a customer account number.</p>
+</li>
+</ol>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="er-functions-category-list.html">List functions</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-functions-list-listdistinct.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

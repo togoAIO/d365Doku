@@ -1,0 +1,933 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einzelner Beleg mit mehreren Debitoren- oder Kreditorendatens&#228;tzen | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einzelner Beleg mit mehreren Debitoren- oder Kreditorendatens&#228;tzen | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="single-voucher-with-multiple-customer-or-vendor-records">Einzelner Beleg mit mehreren Debitoren- oder Kreditorendatensätzen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Dieses Thema bietet einen Überblick darüber, was geschieht, wenn Sie einen einzelnen Beleg mit mehreren Debitoren- und Kreditorendatensätzen buchen. Diese Funktionalität wird in künftigen Versionen nicht mehr zur Verfügung stehen. Folglich empfehlen wir es nicht, diese Buchungsmethode zu verwenden, wegen der Buchhaltungsauswirkungen auf die Ausgleichsverarbeitung.</p>
+<p>Einige allgemeine Beispiele, in denen ein Beleg für mehrere Debitoren oder Kreditoren verwendet wird, sind unter anderem Saldo-Übertragungen zwischen Debitoren und die Ermittlung des Nettowerts von Salden zwischen Debitoren und Kreditoren in derselben Organisation.</p>
+<p>Ein Beleg, der mehrere Debitoren oder Kreditoren enthält, kann mithilfe einer der folgenden Methoden eingegeben werden:</p>
+<ul>
+<li>Verwenden einer Erfassung, bei der die Option <strong>Nur eine Belegnummer</strong> ausgewählt ist, sodass jede Position, die der Erfassung hinzugefügt wird, auf demselben Beleg enthalten ist.</li>
+<li>Verwenden eines mehrzeiligen Belegs, bei dem es kein Gegensachkonto gibt, mit mehr als einem Debitor oder Kreditor.</li>
+<li>Eingeben eines Belegs, wobei das Konto und Gegenkonto Kreditor/Kreditor, Debitor/Debitor, Kreditor/Debitor oder Debitor/Kreditor sind.</li>
+</ul>
+<p>In diesem Thema wird gezeigt, wie Ausgleiche verarbeitet werden, wenn ein Beleg mit mehreren Debitoren oder Kreditoren gebucht wird. Darüber hinaus bietet dieses Thema Problemumgehungen, mit denen Sie verstehen, wie Sie es vermeiden können, einen Beleg mit mehreren Debitoren und Kreditoren zu verwenden. Insbesondere gibt es Beispiele, die zwei allgemeine Ausgleichsszenarien veranschaulichen, auf die sich die Verwendung eines Belegs mit mehreren Debitoren oder Kreditoren auswirkt:</p>
+<ul>
+<li>Skontobuchhaltung</li>
+<li>Neubewertungsbuchhaltung</li>
+</ul>
+<h2 id="how-does-settlement-impact-single-voucher-usage">Wie wirkt sich der Ausgleich auf die Verwendung eines einzigen Belegs aus</h2>
+<p>Wenn Sie einen Beleg buchen, der mehrere Debitoren- oder Kreditorendatensätze enthält, wird ein einzelner Buchhaltungsbeleg erstellt, der mehrere Debitoren- oder Kreditorenkontensalden enthält. Während des Ausgleichsprozesses werden die ursprünglichen Buchhaltungseinträge verwendet, um Buchhaltungseinträge für das Skonto, nicht realisierte Gewinne und Verluste, realisierte Gewinne und Verluste und die Entlastung des Sammelkontos des Ausgangsdokuments zu erstellen. Wenn beispielsweise ein Skonto beim Ausgleichen einer Kreditorenzahlung zu einer Rechnung in Anspruch genommen wird, muss die Skontobuchhaltung von der ursprünglichen Rechnung zum Kreditorensachkonto buchen. Wenn die ursprüngliche Rechnung in einem Beleg gebucht wurde, der mehrere Kreditorendatensätze enthält, wird die ursprüngliche Buchhaltung zusammengefasst. Da es keine Zugriffsmöglichkeit auf den detaillierten Buchhaltungseintrag für jede Kreditorenbuchung im einzelnen Beleg gibt, gibt es in diesem Fall keine Möglichkeit zu bestimmen, wie der Benutzer den Skonto buchhalterisch berücksichtigen wollte.</p>
+<h3 id="one-voucher-with-multiple-vendors-and-the-impact-on-cash-discount-accounting">Ein Beleg mit mehreren Kreditoren und die Auswirkungen auf die Skontobuchhaltung</h3>
+<p>Im folgenden Beispiel werden mehrere Kreditorenrechnungen im Hauptbuch auf einem einzelnen Beleg auf der Seite <strong>Allgemeine Erfassung</strong> erfasst. Diese Rechnungen werden über mehrere Kontodimensionen verteilt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV3</td>
+<td></td>
+<td>300,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-001--</td>
+<td>INV1</td>
+<td>50,00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-002--</td>
+<td>INV1</td>
+<td>50,00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-003--</td>
+<td>INV2</td>
+<td>200,00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-004--</td>
+<td>INV3</td>
+<td>300,00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Nach dem Buchen wird ein Beleg erstellt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Betrag in Buchungswährung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>606300-001--</td>
+<td>Erstellte Journale</td>
+<td>50,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-002--</td>
+<td>Erstellte Journale</td>
+<td>50,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-003--</td>
+<td>Erstellte Journale</td>
+<td>200,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-004--</td>
+<td>Erstellte Journale</td>
+<td>300,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>-100,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>-200.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>-300,00</td>
+</tr>
+</tbody>
+</table>
+<p>Beachten Sie, dass der Beleg drei Einträge für den Buchungstyp des Kreditorensaldos in dem einzelnen Beleg enthält. Es gibt keine Möglichkeit, um anzugeben, dass der Soll von 50,00 für 606300-001 und der Soll von 50,00 für 606300-002 dazu vorgesehen sind, den Kreditorensaldo von 200110-001 auszugleichen. Dies liegt daran, dass der Benutzer mehrere Kreditorendatensätze in einem einzelnen Beleg eingegeben hat.</p>
+<p>Mithilfe dieses Beispiels können wir die Auswirkung der Verwendung eines Belegs auf die nachgelagerte Ausgleichsbuchhaltung analysieren. Angenommen, Sie zahlen 197,00 der Rechnung über 200,00, indem Sie einen Skonto von 3,00 % in Anspruch nehmen. Beachten Sie, dass der Skonto-Kontowert über alle Dimensionen von den Ausgabekonten des Rechnungsbelegs hinweg zugeteilt wird. Dies ist darauf zurückzuführen, dass ein Beleg verwendet wurde, um die obige Rechnung zu buchen, ohne einen Hinweis darauf, wie der Benutzer beabsichtigte, dass die Ausgabenverteilungen mit dem Kreditorensaldo in einem einzelnen Beleg korrelieren sollen.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>197.00</td>
+<td></td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td></td>
+<td>197.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-001--</td>
+<td>Kreditorenskonto</td>
+<td></td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-002--</td>
+<td>Kreditorenskonto</td>
+<td></td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-003--</td>
+<td>Kreditorenskonto</td>
+<td></td>
+<td>1,00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-004--</td>
+<td>Kreditorenskonto</td>
+<td></td>
+<td>1.50</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>3,00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Wenn der Benutzer damit unzufrieden ist, dass der Skonto über alle Ausgabenverteilungen aus der ursprünglichen Rechnung hinweg zugeteilt wird, sollten anstelle eines Belegs mehrere Belege verwendet werden, um die Rechnungen zu erfassen. Das folgende Beispiel zeigt, wie mehrere Belege im Hauptbuch eingegeben werden können, anstatt einen Beleg zu verwenden, wie am Anfang dieses Beispiels angezeigt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100,00</td>
+<td>Unternehmen</td>
+<td>&lt;leer&gt;:</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-001--</td>
+<td>INV1</td>
+<td>50,00</td>
+<td></td>
+<td>Unternehmen</td>
+<td>&lt;leer&gt;:</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Unternehmen</td>
+<td>606300-002--</td>
+<td>INV1</td>
+<td>50,00</td>
+<td></td>
+<td>Unternehmen</td>
+<td>&lt;leer&gt;</td>
+</tr>
+<tr>
+<td>GNJL002</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200,00</td>
+<td>Unternehmen</td>
+<td>606300-003--</td>
+</tr>
+<tr>
+<td>GNJL003</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV3</td>
+<td></td>
+<td>300,00</td>
+<td>Unternehmen</td>
+<td>606300-004--</td>
+</tr>
+</tbody>
+</table>
+<p>Wenn jetzt INV2 bezahlt ist, wird der folgende Eintrag vorgenommen. Beachten Sie, dass die Finanzdimensionen des Skontos den Finanzdimensionen der zugeordneten Ausgaben folgen.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>197.00</td>
+<td></td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td></td>
+<td>197.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-003--</td>
+<td>Kreditorenskonto</td>
+<td></td>
+<td>3,00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>3,00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-voucher-with-multiple-vendors-and-the-impact-on-realized-gainloss-accounting">Ein Beleg mit mehreren Kreditoren und die Auswirkungen auf die Buchhaltung der realisierten Gewinne/Verluste</h3>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Kontenart</th>
+<th>Konto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100,00</td>
+<td>Unternehmen</td>
+<td>606300-001--</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200,00</td>
+<td>Unternehmen</td>
+<td>606300-002--</td>
+</tr>
+</tbody>
+</table>
+<p>Im folgenden Beispiel werden mehrere Kreditorenrechnungen im Hauptbuch auf einem einzelnen Beleg auf der Seite <strong>Allgemeine Erfassung</strong> erfasst. Diese Rechnungen werden über mehrere Kontodimensionen verteilt. Nach dem Buchen wird ein Beleg erstellt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Betrag in Buchungswährung (EUR)</th>
+<th>Betrag in Buchhaltungswährung (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>606300-001--</td>
+<td>Erstellte Journale</td>
+<td>100,00</td>
+<td>114.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-002--</td>
+<td>Erstellte Journale</td>
+<td>200,00</td>
+<td>228.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>-100,00</td>
+<td>-114,00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>-200.00</td>
+<td>-228,00</td>
+</tr>
+</tbody>
+</table>
+<p>Beachten Sie, dass der Beleg zwei Einträge für den Buchungstyp des Kreditorensaldos in dem einzelnen Beleg enthält. Es gibt keine Möglichkeit anzugeben, dass das Soll für 606300-001 den Kreditorensaldoeintrag von 100,00 zu 200110-001 ausgleichen soll. Dies liegt daran, dass der Benutzer mehrere Kreditorendatensätze in einem einzelnen Beleg eingegeben hat.</p>
+<p>Mithilfe dieses Beispiels können wir die Auswirkung der Verwendung eines Belegs auf die nachgelagerte Ausgleichsbuchhaltung analysieren. Nehmen wir an, dass die Buchhaltungswährung USD ist und die oben genannten Buchungen in der Buchungswährung EUR gebucht wurden. Nehmen wir an, dass Sie die Rechnung über 200,00 EUR vollständig bezahlen, Sie jedoch einen realisierten Verlust feststellen, aufgrund einer Differenz im Wechselkurs zwischen dem Zeitpunkt, an dem Sie die Rechnung gebucht haben und der Bezahlung. Beachten Sie, dass der Kontowert des realisierten Verlusts über alle Dimensionen von den Ausgabekonten des Rechnungsbelegs hinweg zugeteilt wird. In diesem Fall wurden sowohl die Dimension 001 als auch 002 zugeteilt, obwohl nach der Wahrnehmung des Benutzers möglicherweise nur 002 zum Ausgabenkonto der Rechnung gehört, die beglichen wird. Dies ist darauf zurückzuführen, dass ein Beleg verwendet wurde, um die obige Rechnung zu buchen, ohne einen Hinweis darauf zu hinterlassen, wie der Benutzer beabsichtigte, dass die Ausgabenverteilungen mit dem Kreditorensaldo in einem einzelnen Beleg korrelieren sollen.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Betrag in Buchungswährung (EUR)</th>
+<th>Betrag in Buchhaltungswährung (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>200,00</td>
+<td>230.00</td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td>-200.00</td>
+<td>-230,00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-001-</td>
+<td>Kursverlust</td>
+<td>0,00</td>
+<td>0.67</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-002-</td>
+<td>Kursverlust</td>
+<td>0,00</td>
+<td>1.33</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td></td>
+<td>-2,00</td>
+</tr>
+</tbody>
+</table>
+<p>Wenn der Benutzer damit unzufrieden ist, dass der Wechselkursverlust über alle Ausgabenverteilungen aus der ursprünglichen Rechnung hinweg zugeteilt wird, sollten anstelle eines Belegs mehrere Belege verwendet werden, um die Rechnungen zu erfassen. Das folgende Beispiel zeigt, wie mehrere Belege im Hauptbuch eingegeben werden können, anstatt einen Beleg zu verwenden, wie am Anfang dieses Beispiels angezeigt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL002</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100,00</td>
+<td>Unternehmen</td>
+<td>606300-001--</td>
+</tr>
+<tr>
+<td>GNJL003</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200,00</td>
+<td>Unternehmen</td>
+<td>606300-002--</td>
+</tr>
+</tbody>
+</table>
+<p>Wenn jetzt INV2 bezahlt ist, wird der folgende Eintrag vorgenommen. Beachten Sie, dass die Finanzdimensionen des Wechselkursverlusts den Finanzdimensionen der zugeordneten Ausgaben folgen.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Betrag in Buchungswährung (EUR)</th>
+<th>Betrag in Buchhaltungswährung (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td>200,00</td>
+<td>230.00</td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td>-200.00</td>
+<td>-230,00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-002-</td>
+<td>Kursverlust</td>
+<td>0,00</td>
+<td>2.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Kreditorensaldo</td>
+<td></td>
+<td>-2,00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="one-voucher-for-balance-transfers-and-netting-scenarios">Ein Beleg für Saldo-Übertragungen und Saldierungsszenarien</h2>
+<p>Zwei häufig verwendete Szenarien, die einen Beleg verwenden, der mehrere Debitoren oder Kreditoren enthält, umfassen Saldo-Übertragungen von einem Debitor/Kreditor zu einem anderen Debitor/Kreditor sowie die Saldierung eines Debitors und Kreditors, die dieselbe Organisation sind. In den folgenden beiden Beispielen wird die bevorzugte Methode zum Eingeben dieser Szenarien als Alternative zum Eingeben in einen Beleg gezeigt.</p>
+<p>Eine <em>Saldo-Übertragung</em> ist ein Beleg mit mehreren Debitoren, die zum Zweck der Übertragung des Saldos von einem Debitor an einen anderen Debitor (Gleiches gilt für Kreditoren) eingegeben werden. Dieses Szenario kann auftreten, wenn die Zuständigkeit für die Zahlung der Rechnung an eine andere Partei übergeht, beispielsweise wenn ein Tochterunternehmen die Zuständigkeit auf das Mutterunternehmen verlagert.</p>
+<p>Dieses Beispiel geht von einem Verkauf aus, bei welchem dem Debitor ein Skonto zusteht, wenn die Zahlung innerhalb von 10 Tagen erfolgt. Der Debitor in diesem Beispiel verwendet ein Versicherungsunternehmen, das für die Bezahlung der Rechnung verantwortlich ist. Das Versicherungsunternehmen wird als zweiter Debitor im System eingerichtet. Der Saldo des ursprünglichen Debitors wird an das Versicherungsunternehmen übertragen, das die Rechnung bezahlt und dabei für die Bezahlung innerhalb der Rabattperiode ein Skonto von 2% in Anspruch nimmt.</p>
+<p>Zur Veranschaulichung gehen wir davon aus, dass der folgende Verkauf an den Debitor ACME erfolgt. Die folgenden Buchhaltungseinträge stellen den Verkauf dar.</p>
+<table>
+<thead>
+<tr>
+<th>Sachkonto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>401100-002-023-</td>
+<td>Umsatzerlös</td>
+<td></td>
+<td>100</td>
+</tr>
+<tr>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td>100</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Als Nächstes überträgt der Benutzer den fälligen Saldo von ACME an das Versicherungsunternehmen in einem Beleg in der Debitoren-Zahlungserfassung. Das Versicherungsunternehmen wird als Debitorenversicherung eingerichtet.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>Kunde</td>
+<td>ACME</td>
+<td>Übertragen</td>
+<td></td>
+<td>100,00</td>
+<td>Kunde</td>
+<td>Versicherung</td>
+</tr>
+</tbody>
+</table>
+<p>Beachten Sie, dass der oben genannte Eintrag in einem Belegs enthalten ist. Dieser Beleg beinhaltet zwei Debitorendatensätze. Der folgende Beleg wird erstellt, wenn der oben genannte Hauptbucheintrag gebucht wird.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Betrag in Buchungswährung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td>100,00</td>
+</tr>
+<tr>
+<td>ARPAYM001</td>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td>-100,00</td>
+</tr>
+</tbody>
+</table>
+<p>Danach nehmen wir an, dass Sie eine Zahlung vom Versicherungsdebitor über 98,00 empfangen und Sie auswählen, ob die Zahlung mit der durch die Saldo-Übertragung erstellten Rechnung beglichen werden soll. Dies führt zum Buchen des folgenden Belegs. Es gibt möglicherweise die Erwartung, dass der Ausgleich die Finanzdimensionen aus der ursprünglichen Rechnung verwendet, aber das ist nicht möglich, weil es kein Rechnungsdokument für den Versicherungsdebitor gibt. Beachten Sie, dass standardmäßig die Verteilungsdimensionen zum Skonto von der Debitorenbuchung stammen, die aus der Übertragung erstellt wurde, nicht vom Umsatzerlöskonto der ursprünglichen Rechnung. Der Standard ist ein Ergebnis der Verwendung eines Belegs zum Übertragen der Salden.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM002</td>
+<td>110110-002-</td>
+<td>Bank</td>
+<td>98.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARPAYM002</td>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td></td>
+<td>98.00</td>
+</tr>
+</tbody>
+</table>
+<p>Im zugehörigen Beleg für das Skonto kommt der Standard für die Finanzdimension aus der Debitorenbuchung, die aus der Übertragung erstellt wird, da die Übertragung mehr als einen Debitor hat.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP-00001</td>
+<td>403300-002-</td>
+<td>Debitorenskonto</td>
+<td>2.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARP-00001</td>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td></td>
+<td>2.00</td>
+</tr>
+</tbody>
+</table>
+<p>Wenn der Benutzer mit dem Standard für die Finanzdimensionen für den Skonto nicht zufrieden ist, sollten anstelle eines Belegs mehrere Belege verwendet werden, um die Saldo-Übertragung zu erfassen. Dieses Szenario sollte ausgeführt werden, indem eine Gutschrift für den Debitor erstellt wird, VON dem der Saldo verschoben wurde und eine Lastschrift oder Rechnung für den Debitor erstellt wurde, ZU dem der Saldo verschoben wurde. Das folgende Beispiel zeigt, wie mehrere Belege in die Debitorenzahlungserfassung eingegeben werden können, um den Saldo zu übertragen, anstatt einen Beleg zu verwenden, wie weiter oben in diesem Beispiel gezeigt.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>Kunde</td>
+<td>ACME</td>
+<td></td>
+<td></td>
+<td>100,00</td>
+<td>Unternehmen</td>
+<td>401100-002-023-</td>
+</tr>
+<tr>
+<td>ARPAYM002</td>
+<td>Kunde</td>
+<td>Versicherung</td>
+<td></td>
+<td>100,00</td>
+<td></td>
+<td>Unternehmen</td>
+<td>401100-002-023-</td>
+</tr>
+</tbody>
+</table>
+<p>Das bedeutet, dass wenn der Versicherungsdebitor 98,00 mit dem Beleg ARPAYM02 bezahlt, die korrekten Finanzdimensionen aus dem Sachkontoeintrag des Belegs ARPAYM002 verwendet werden.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM003</td>
+<td>110110-002-</td>
+<td>Bank</td>
+<td>98.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARPAYM003</td>
+<td>130100-002</td>
+<td>Debitorensaldo</td>
+<td></td>
+<td>98.00</td>
+</tr>
+</tbody>
+</table>
+<p>Im zugehörigen Beleg für den Skonto werden die Finanzdimensionen aus dem ausgleichenden Umsatzerlöskonto verwendet, das auf dem Beleg von ARPAYM002 angezeigt wird.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Buchungstyp</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP-00001</td>
+<td>403300-002-023-</td>
+<td>Debitorenskonto</td>
+<td>2.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARP-00001</td>
+<td>130100-002-</td>
+<td>Debitorensaldo</td>
+<td></td>
+<td>2.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="section"></h3>
+<h2 id="one-voucher-with-a-netting-for-multiple-customers-and-vendors">Ein Beleg mit einer Saldierung für mehrere Debitoren und Kreditoren</h2>
+<p>Die Saldierung kann nützlich sein, wenn eine Organisation beim selben Unternehmen einkauft, an das es auch verkauft. Anstatt die Kreditorenrechnungen zu bezahlen und auf den Empfang der Zahlung für die Debitorenrechnungen zu warten, werden die Kreditoren- und Debitorenrechnungen saldiert. Die Saldierungsbuchung wird gegenüber den ausstehenden Salden ausgeglichen.</p>
+<p>Um es zu veranschaulichen, nehmen wir an, dass es sich bei Kreditor 1001 und Debitor US-008 um dieselbe Entität handelt. Ihre Organisation möchte also die Kreditoren- und Debitorensalden saldieren, bevor der verbleibende Saldo bezahlt/empfangen wird. Nehmen wir also an, dass der Kundendatensatz 75,00 EUR schuldet und dem Kreditorendatensatz 100,00 EUR geschuldet wird. Das bedeutet, dass Sie es bevorzugen würden, die Salden auszugleichen und nur dem Kreditor 25,00 EUR zu bezahlen. Nehmen Sie weiterhin an, dass die Buchhaltungswährung USD ist. In diesem Fall wird eine Saldierungsbuchung in einen Beleg in der Kreditoren-Zahlungserfassung eingegeben.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td>Saldierung</td>
+<td>75,00</td>
+<td></td>
+<td>Kunde</td>
+<td>US-008</td>
+</tr>
+</tbody>
+</table>
+<p>Um unerwünschte Probleme bei zukünftigen Ausgleichen für diese Buchung zu vermeiden, sollten anstatt eines Belegs mehrere Belege in die Erfassung zur Aufzeichnung der Saldierungsbuchungen eingegeben werden. Beachten Sie, dass die Debitoren- und Kreditorensalden mit einem einzigen Verrechnungskonto ausgeglichen werden, um die Verwendung eines Belegs zu vermeiden, der mehrere Debitoren- und Kreditorensalden enthält.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Kontenart</th>
+<th>Konto</th>
+<th>Beschreibung</th>
+<th>Belastung</th>
+<th>Gutschrift</th>
+<th>Gegenbuchungstyp</th>
+<th>Gegenkonto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>Kunde</td>
+<td>US-008</td>
+<td></td>
+<td></td>
+<td>75,00</td>
+<td>Unternehmen</td>
+<td>999999---</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Lieferant</td>
+<td>1001</td>
+<td></td>
+<td>75,00</td>
+<td></td>
+<td>Unternehmen</td>
+<td>999999---</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

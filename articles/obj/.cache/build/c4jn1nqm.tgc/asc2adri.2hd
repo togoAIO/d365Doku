@@ -1,0 +1,943 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Single voucher with multiple customer or vendor records </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Single voucher with multiple customer or vendor records ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides an overview of what happens when you post a single voucher with multiple customer or vendor records. This functionality will be discontinued in future versions of Microsoft Dynamics 365 Finance, as a result, we do not recommend using this method of posting because of the accounting impact to settlement processing.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="single-voucher-with-multiple-customer-or-vendor-records">Single voucher with multiple customer or vendor records</h1>
+
+
+<p>This topic provides an overview of what happens when you post a single voucher with multiple customer or vendor records. This functionality will be discontinued in future versions, as a result, we do not recommend using this method of posting because of the accounting impact to settlement processing.</p>
+<p>Some common examples where one voucher is used for multiple customers or vendors include balance transfers between customers, and netting balances between customers and vendors in the same organization.</p>
+<p>A voucher containing more than one customer or vendor can be entered using one of the following methods:</p>
+<ul>
+<li>Using a journal that has the <strong>One voucher number only</strong> option selected so that every line added to the journal is included on the same voucher.</li>
+<li>Using a multi-line voucher, where there is no offset ledger account, with more than one customer or vendor.</li>
+<li>Entering a voucher with the account and offset account being vendor/vendor, customer/customer, vendor/customer, or customer/vendor.</li>
+</ul>
+<p>This topic shows how settlement will be processed when one voucher  with multiple customer or vendor records is posted. Additionally, this topic provides workarounds to help you understand how to avoid using one voucher with multiple customers or vendors. In particular, there are examples which illustrate two common settlement scenarios that are impacted by the use of one voucher with multiple customers or vendors:</p>
+<ul>
+<li>Cash discount accounting</li>
+<li>Revaluation accounting</li>
+</ul>
+<h2 id="how-does-settlement-impact-single-voucher-usage">How does settlement impact single voucher usage</h2>
+<p>When posting a voucher that contains multiple customer or vendor records, a single accounting voucher is created that contains multiple accounts receivable or accounts payable balances. During the settlement process, the original accounting entries are used to create accounting entries for the cash discount, unrealized gains and losses, realized gains and losses, and the relief of the original document’s summary account. For example, if a cash discount is taken when settling a vendor payment to an invoice, the cash discount accounting must post to the Accounts payable ledger account from the original invoice. If the original invoice was posted in a voucher that contains multiple vendor records, the original accounting is summarized. In this case, because there is no way to access the detailed accounting entry for each vendor transaction in the single voucher, there is no way to determine how the user intended the cash discount to be accounted for.</p>
+<h3 id="one-voucher-with-multiple-vendors-and-the-impact-on-cash-discount-accounting">One voucher with multiple vendors and the impact on cash discount accounting</h3>
+<p>In the following example, multiple vendor invoices are recorded in General ledger on a single voucher in the <strong>General journal</strong> page. These invoices are distributed across multiple account dimensions.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV3</td>
+<td></td>
+<td>300.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-001--</td>
+<td>INV1</td>
+<td>50.00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-002--</td>
+<td>INV1</td>
+<td>50.00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-003--</td>
+<td>INV2</td>
+<td>200.00</td>
+<td></td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-004--</td>
+<td>INV3</td>
+<td>300.00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>After posting, one voucher is created.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Amount in transaction currency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>606300-001--</td>
+<td>Ledger journal</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-002--</td>
+<td>Ledger journal</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-003--</td>
+<td>Ledger journal</td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-004--</td>
+<td>Ledger journal</td>
+<td>300.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>-100.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>-200.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>-300.00</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that the voucher contains three entries for the posting type of Vendor balance in the single voucher. There is no way to indicate that the 50.00 debit for 606300-001 and the 50.00 debit for 606300-002 are intended to offset the vendor balance entry of 200110-001. This is because the user entered the multiple vendor records in a single voucher.</p>
+<p>Using this example, we can analyze the impact that using one voucher has on the downstream settlement accounting. Assume that you pay 197.00 of the 200.00 invoice, taking a cash discount of 3.00. Notice that the cash discount account value is allocated across all of the dimensions from the invoice voucher’s expense accounts. This is because one voucher was used to post the above invoice, with no indication of how the user intended the expense distributions to correlate to the vendor balance in the single voucher.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>197.00</td>
+<td></td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td></td>
+<td>197.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-001--</td>
+<td>Vendor cash discount</td>
+<td></td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-002--</td>
+<td>Vendor cash discount</td>
+<td></td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-003--</td>
+<td>Vendor cash discount</td>
+<td></td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-004--</td>
+<td>Vendor cash discount</td>
+<td></td>
+<td>1.50</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>3.00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>If the user is dissatisfied with the cash discount being allocated across all of the expense distributions from the original invoice, instead of one voucher, multiple vouchers should be used to record the invoices. Here’s an example of how multiple vouchers could be entered in General ledger, instead of using one voucher, as shown at the beginning of this example.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100.00</td>
+<td>Ledger</td>
+<td>&lt;blank&gt;</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-001--</td>
+<td>INV1</td>
+<td>50.00</td>
+<td></td>
+<td>Ledger</td>
+<td>&lt;blank&gt;</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Ledger</td>
+<td>606300-002--</td>
+<td>INV1</td>
+<td>50.00</td>
+<td></td>
+<td>Ledger</td>
+<td>&lt;blank&gt;</td>
+</tr>
+<tr>
+<td>GNJL002</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200.00</td>
+<td>Ledger</td>
+<td>606300-003--</td>
+</tr>
+<tr>
+<td>GNJL003</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV3</td>
+<td></td>
+<td>300.00</td>
+<td>Ledger</td>
+<td>606300-004--</td>
+</tr>
+</tbody>
+</table>
+<p>Now, when INV2 is paid, the following entry will be made. Notice that the cash discount’s financial dimensions follow the associated expense’s financial dimensions.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>197.00</td>
+<td></td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td></td>
+<td>197.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>520200-003--</td>
+<td>Vendor cash discount</td>
+<td></td>
+<td>3.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>3.00</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="one-voucher-with-multiple-vendors-and-the-impact-on-realized-gainloss-accounting">One voucher with multiple vendors and the impact on realized gain/loss accounting</h3>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Account type</th>
+<th>Account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100.00</td>
+<td>Ledger</td>
+<td>606300-001--</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200.00</td>
+<td>Ledger</td>
+<td>606300-002--</td>
+</tr>
+</tbody>
+</table>
+<p>In the following example, multiple vendor invoices are recorded in General ledger on a single voucher in the <strong>General journal</strong> page. These invoices are distributed across multiple account dimensions. After posting, one voucher is created.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Amount in transaction currency (EUR)</th>
+<th>Amount in accounting currency (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL001</td>
+<td>606300-001--</td>
+<td>Ledger journal</td>
+<td>100.00</td>
+<td>114.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>606300-002--</td>
+<td>Ledger journal</td>
+<td>200.00</td>
+<td>228.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>-100.00</td>
+<td>-114.00</td>
+</tr>
+<tr>
+<td>GNJL001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>-200.00</td>
+<td>-228.00</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that the voucher contains two entries for the posting type of Vendor balance in the single voucher. There is no way to indicate that the debit for 606300-001 is intended to offset the vendor balance entry of 100.00 to 200110-001. This is because the user entered multiple vendor records in a single voucher.</p>
+<p>Using this example, we can analyze the impact that using one voucher has on the downstream settlement accounting. Assume that your accounting currency is USD and the above transactions were posted in a transaction currency of EUR. Assume that you fully pay the 200.00 EUR invoice but you encounter a realized loss due to a difference in the exchange rate between the time you posted your invoice and payment. Notice that the realized loss account value is allocated across all of the dimensions from the invoice voucher’s expense accounts. In this case, both dimension 001 and 002 were allocated, even though the user’s perception may be that only 002 belongs to the expense account from the invoice that is being settled. This is because one voucher was used to post the above invoice, leaving no way to indicate how the user intended the expense distributions to correlate to the vendor balance in the single voucher.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Amount in transaction currency (EUR)</th>
+<th>Amount in accounting currency (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>200.00</td>
+<td>230.00</td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td>-200.00</td>
+<td>-230.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-001-</td>
+<td>Exchange rate loss</td>
+<td>0.00</td>
+<td>0.67</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-002-</td>
+<td>Exchange rate loss</td>
+<td>0.00</td>
+<td>1.33</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td></td>
+<td>-2.00</td>
+</tr>
+</tbody>
+</table>
+<p>If the user is dissatisfied with the Exchange rate loss being allocated across all of the expense distributions from the original invoice, instead of one voucher, multiple vouchers should be used to record the invoices. Here’s an example of how multiple vouchers could be entered in General ledger, instead of using one voucher as shown at the beginning of this example.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNJL002</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV1</td>
+<td></td>
+<td>100.00</td>
+<td>Ledger</td>
+<td>606300-001--</td>
+</tr>
+<tr>
+<td>GNJL003</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>INV2</td>
+<td></td>
+<td>200.00</td>
+<td>Ledger</td>
+<td>606300-002--</td>
+</tr>
+</tbody>
+</table>
+<p>Now, when INV2 is paid, the following entry will be made. Notice that the exchange rate loss financial dimensions follow the associated expense’s financial dimensions.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Amount in transaction currency (EUR)</th>
+<th>Amount in accounting currency (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td>200.00</td>
+<td>230.00</td>
+</tr>
+<tr>
+<td>APPAYM001</td>
+<td>110110-001-</td>
+<td>Bank</td>
+<td>-200.00</td>
+<td>-230.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>801300-002-</td>
+<td>Exchange rate loss</td>
+<td>0.00</td>
+<td>2.00</td>
+</tr>
+<tr>
+<td>14000056</td>
+<td>200110-001-</td>
+<td>Vendor balance</td>
+<td></td>
+<td>-2.00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="one-voucher-for-balance-transfers-and-netting-scenarios">One voucher for balance transfers and netting scenarios</h2>
+<p>Two commonly used scenarios that utilize one voucher that contains multiple customers or vendors include balance transfers from one customer/vendor to another customer/vendor, and netting of a customer and vendor that are the same organization. The following two examples illustrate the preferred method for entering these scenarios, as an alternative to entering them in one voucher.</p>
+<p>A <em>balance transfer</em> is one voucher with multiple customers, entered for the purpose of transferring the balance from one customer to another customer (same for vendors). This scenario can occur when the responsibility for paying the invoice shifts to another party, such as a child company shifting the responsibility to a parent company.</p>
+<p>This example assumes a sale where the customer is eligible for a cash discount if payment is made within 10 days. The customer in this example utilizes an insurance company that will be responsible for paying the bill. The insurance company is set up as a second customer in the system. The original customer’s balance is transferred to the insurance company, who pays the bill, taking a 2% cash discount for paying within the discount period.</p>
+<p>To illustrate, assume the following sale is made to customer ACME. The following accounting entries represent the sale.</p>
+<table>
+<thead>
+<tr>
+<th>Ledger account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>401100-002-023-</td>
+<td>Revenue</td>
+<td></td>
+<td>100</td>
+</tr>
+<tr>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td>100</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Next, the user transfers the balance due from ACME to the insurance company, in one voucher in the Accounts receivable payment journal. The insurance company is set up as customer Insurance.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>Customer</td>
+<td>ACME</td>
+<td>Transfer</td>
+<td></td>
+<td>100.00</td>
+<td>Customer</td>
+<td>Insurance</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that the above entry is contained in one voucher. This voucher contains two customer records. The following voucher is created when the above General ledger entry is posted.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Amount in transaction currency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td>100.00</td>
+</tr>
+<tr>
+<td>ARPAYM001</td>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td>-100.00</td>
+</tr>
+</tbody>
+</table>
+<p>Next, assume that you receive a payment from the Insurance customer for 98.00 and you choose to settle the payment with the invoice created by the balance transfer. This will result in the following voucher being posted. There may be an expectation that settlement uses the financial dimensions from the original invoice, but that is not possible because there isn’t an invoice document for the Insurance customer. Notice that by default, the distribution dimensions on the cash discount come from the customer transaction created from the transfer, not from the original invoice’s revenue account. The default is a result of using one voucher to transfer the balances.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM002</td>
+<td>110110-002-</td>
+<td>Bank</td>
+<td>98.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARPAYM002</td>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td></td>
+<td>98.00</td>
+</tr>
+</tbody>
+</table>
+<p>On the related voucher for cash discount, the default for the financial dimension comes from the customer transaction created from the transfer, because the transfer has more than one customer.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP-00001</td>
+<td>403300-002-</td>
+<td>Customer cash discount</td>
+<td>2.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARP-00001</td>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td></td>
+<td>2.00</td>
+</tr>
+</tbody>
+</table>
+<p>If the user is dissatisfied with the default for the financial dimensions for the cash discount, instead of one voucher, multiple vouchers should be used to record the balance transfer. This scenario should be accomplished by creating a credit memo for the customer that the balance is moved FROM, and a debit memo or invoice created for the customer to whom the balance is moved TO. The following example shows how multiple vouchers could be entered in the accounts receivable payment journal to transfer the balance, instead of using one voucher, as shown earlier in this example.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM001</td>
+<td>Customer</td>
+<td>ACME</td>
+<td></td>
+<td></td>
+<td>100.00</td>
+<td>Ledger</td>
+<td>401100-002-023-</td>
+</tr>
+<tr>
+<td>ARPAYM002</td>
+<td>Customer</td>
+<td>Insurance</td>
+<td></td>
+<td>100.00</td>
+<td></td>
+<td>Ledger</td>
+<td>401100-002-023-</td>
+</tr>
+</tbody>
+</table>
+<p>This means that when the Insurance customer pays 98.00 with voucher ARPAYM02, the correct financial dimensions from voucher ARPAYM002’s ledger account entry will be used.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPAYM003</td>
+<td>110110-002-</td>
+<td>Bank</td>
+<td>98.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARPAYM003</td>
+<td>130100-002</td>
+<td>Customer balance</td>
+<td></td>
+<td>98.00</td>
+</tr>
+</tbody>
+</table>
+<p>On the related voucher for cash discount, the financial dimensions will be used from the offsetting revenue account shown on ARPAYM002’s voucher.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account</th>
+<th>Posting type</th>
+<th>Debit</th>
+<th>Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP-00001</td>
+<td>403300-002-023-</td>
+<td>Customer cash discount</td>
+<td>2.00</td>
+<td></td>
+</tr>
+<tr>
+<td>ARP-00001</td>
+<td>130100-002-</td>
+<td>Customer balance</td>
+<td></td>
+<td>2.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="section"></h3>
+<h2 id="one-voucher-with-a-netting-for-multiple-customers-and-vendors">One voucher with a netting for multiple customers and vendors</h2>
+<p>Netting can be useful when an organization purchases and sells to the same company. Rather than paying the vendor invoices and waiting to receive payment for the customer invoices, the vendor and customer invoices are netted. The netting transaction is settled against the outstanding balances.</p>
+<p>To illustrate, assume that vendor 1001 and customer US-008 are the same entity, so your organization wants to net the payables and receivables balances before paying/receiving the remaining balance. Assume that the customer record owes 75.00 EUR and the vendor record is owed 100.00 EUR, meaning that you would prefer to net the balances and only pay the vendor 25.00 EUR. Further assume that the accounting currency is USD. In this case, a netting transaction is entered in one voucher in the account payable payment journal.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APPAYM001</td>
+<td>Vendor</td>
+<td>1001</td>
+<td>Netting</td>
+<td>75.00</td>
+<td></td>
+<td>Customer</td>
+<td>US-008</td>
+</tr>
+</tbody>
+</table>
+<p>To avoid unwanted issues with future settlements for this transaction, instead of using one voucher, multiple vouchers should be entered in the journal to record the netting transaction. Notice that the customer and vendor balances are offset with a single clearing account to avoid the use of one voucher that contains multiple customer and vendor balances.</p>
+<table>
+<thead>
+<tr>
+<th>Voucher</th>
+<th>Account type</th>
+<th>Account</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Offset type</th>
+<th>Offset account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>Customer</td>
+<td>US-008</td>
+<td></td>
+<td></td>
+<td>75.00</td>
+<td>Ledger</td>
+<td>999999---</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Vendor</td>
+<td>1001</td>
+<td></td>
+<td>75.00</td>
+<td></td>
+<td>Ledger</td>
+<td>999999---</td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/accounts-payable/single-voucher-multiple-customer-vendor-records.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

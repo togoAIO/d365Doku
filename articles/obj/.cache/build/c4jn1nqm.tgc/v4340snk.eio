@@ -1,0 +1,674 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mobile invoice approvals </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Mobile invoice approvals ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic is intended to provide a practical approach to designing mobile scenarios by taking vendor invoice approvals for mobile as a use case.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="mobile-invoice-approvals">Mobile invoice approvals</h1>
+
+
+<p>Mobile capabilities let a business user design mobile experiences. For advanced scenarios, the platform also lets developers extend the capabilities as they desire. The most effective way to learn some of the new concepts on mobile is to go through the process of designing a few scenarios. This topic is intended to provide a practical approach to designing mobile scenarios by taking vendor invoice approvals for mobile as a use case. This topic should help you design other variations of the scenarios and can also be applied to other scenarios that aren’t related to vendor invoices.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<table>
+<thead>
+<tr>
+<th>Prerequisite</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mobile handbook pre-read</td>
+<td><a href="../../dev-itpro/mobile-apps/platform/mobile-platform-home-page.md">Mobile platform</a></td>
+</tr>
+<tr>
+<td>Dynamics 365 Finance</td>
+<td>An environment that has version 1611 and Platform update 3 (November 2016)</td>
+</tr>
+<tr>
+<td>Install hotfix KB 3204341.</td>
+<td>Task recorder can erroneously record two Close commands for dropdown dialogs; this is included in Platform update 3 (November 2016 update).</td>
+</tr>
+<tr>
+<td>Install hotfix KB 3207800.</td>
+<td>This hotfix enables attachments to be viewed on the mobile client; this is included in Platform update 3 (November 2016 update).</td>
+</tr>
+<tr>
+<td>Install hotfix KB 3208224.</td>
+<td>Application code for the mobile vendor invoice approval application; this is included in version 7.0.1 (May 2016).</td>
+</tr>
+<tr>
+<td>An Android or iOS or a Windows device that has the mobile app installed.</td>
+<td>Search for the app in the appropriate app store.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="introduction">Introduction</h2>
+<p>Mobile approvals for vendor invoices require the three hotfixes that are mentioned in the “Prerequisites” section. These hotfixes don’t provide a workspace for the invoice approvals. To learn what a workspace is in the context of mobile, read the mobile handbook that is mentioned in the “Prerequisites” section. The invoice approvals workspace must be designed.</p>
+<p>Every organization orchestrates and defines its business process for vendor invoices differently. Before you design a mobile experience for vendor invoice approvals, you should consider the following aspects of the business process. The idea is to use these data points as much as possible to optimize the user experience on the device.</p>
+<ul>
+<li><p>What fields from the invoice header will the user want to see in the mobile experience, and in what order?</p>
+</li>
+<li><p>What fields from the invoice lines will the user want to see in the mobile experience, and in what order?</p>
+</li>
+<li><p>How many invoice lines are there in an invoice? Apply the 80-20 rule here, and optimize for the 80 percent.</p>
+</li>
+<li><p>Will users want to see accounting distributions (invoice coding) on the mobile device during reviews? If the answer to this question is yes, consider the following questions:</p>
+<ul>
+<li>How many accounting distributions (extended price, sales tax, charges, splits, and so on) are there for an invoice line? Again, apply the 80-20 rule.</li>
+<li>Do the invoices also have accounting distributions on the invoice header? If so, should these accounting distributions be available on the device?</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This topic doesn’t explain how to edit accounting distributions, because this functionality isn’t currently supported for mobile scenarios.</p>
+</div>
+</li>
+<li><p>Will users want to see attachments for the invoice on the device?</p>
+</li>
+</ul>
+<p>The design of the mobile experience for invoice approvals will differ, depending on the answers to these questions. The objective is to optimize the user experience for the business process on mobile in an organization. In the rest of this topic, we will look at two scenario variations that are based on different answers to the preceding questions.</p>
+<p>As a general guidance, when working with the mobile designer, make sure to 'publish' the changes to prevent losing the updates.</p>
+<h2 id="designing-a-simple-invoice-approval-scenario-for-contoso">Designing a simple invoice approval scenario for Contoso</h2>
+<table>
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario attribute</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What fields from the invoice header will the user want to see in the mobile experience, and in what order?</td>
+<td><ol>
+<li>Vendor name</li>
+<li>Invoice total</li>
+<li>Invoice account</li>
+<li>Invoice number</li>
+<li>Invoice date</li>
+<li>Invoice description</li>
+<li>Due date</li>
+<li>Invoice currency</li>
+</ol></td>
+</tr>
+<tr class="even">
+<td>What fields from the invoice lines will the user want to see in the mobile experience, and in what order?</td>
+<td><ol>
+<li>Procurement category</li>
+<li>Quantity</li>
+<li>Unit price</li>
+<li>Line net amount</li>
+<li>1099 amount</li>
+</ol></td>
+</tr>
+<tr class="odd">
+<td>How many invoice lines are there in an invoice? Apply the 80-20 rule here, and optimize for the 80 percent.</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Will users want to see accounting distributions (invoice coding) on the mobile device during reviews?</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>How many accounting distributions (extended price, sales tax, charges, and so on) are there for an invoice line? Again, apply the 80-20 rule.</td>
+<td>Extended price: 2 Sales tax: 0 Charges: 0</td>
+</tr>
+<tr class="even">
+<td>Do the invoices also have accounting distributions on the invoice header? If so, should these accounting distributions be available on the device?</td>
+<td>Not used</td>
+</tr>
+<tr class="odd">
+<td>Will users want to see attachments for the invoice on the device?</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="create-the-workspace">Create the workspace</h3>
+<ol>
+<li>In a browser, and sign in to the application.</li>
+<li>After you’ve signed in, append <strong>&amp;mode=mobile</strong> to the URL as shown in the following example, and refresh the page: https://&lt;yoururl&gt;/?cmp=usmf&amp;mi=DefaultDashboard<strong>&amp;mode=mobile</strong></li>
+<li>Click the <strong>Settings</strong> (gear) button in the upper right of the page, and then click <strong>Mobile app</strong>. The mobile app designer must show up just as Task recorder shows up.</li>
+<li>Click <strong>Add</strong> to create a new workspace. For this example, name the workspace <strong>My approvals</strong>.</li>
+<li>Enter a description.</li>
+<li>Select a workspace color. The workspace color will be used for the overall style of the mobile experience for this workspace.</li>
+<li>Select an icon for the workspace.</li>
+<li>Click <strong>Done</strong></li>
+<li>Click <strong>Publish workspace</strong> to save the changes</li>
+</ol>
+<h3 id="vendor-invoices-assigned-to-me">Vendor invoices assigned to me</h3>
+<p>The first mobile page that you should design is the list of invoices that are assigned to the user for review. To design this mobile page, use the <strong>VendMobileInvoiceAssignedToMeListPage</strong> page. Before you complete this procedure, make sure that at least one vendor invoice is assigned to you for review, and that the invoice line has two distributions. This setup meets the requirements for this scenario.</p>
+<ol>
+<li><p>In the URL, replace the name of the menu item with <strong>VendMobileInvoiceAssignedToMeListPage</strong> to open the mobile version of the <strong>Pending vendor invoices assigned to me</strong> list page in the <strong>Accounts payable</strong> module. Depending on the number of invoices that you have in your system assigned to you, this page will show those invoices. To find a specific invoice, you can use the filter on the left. However, we don’t require a specific invoice for this example. We just require some invoice assigned to you which is going to allow you to design the mobile page. The new pages that are available have been designed specifically for developing mobile scenarios for vendor invoice. Therefore, you must use these pages. The URL should resemble the following URL, and after you enter it, the page that is shown in the illustration must appear: https://&lt;yourURL&gt;/?cmp=usmf&amp;mi=<strong>VendMobileInvoiceAssignedToMeListPage</strong>&amp;mode=mobile</p>
+<p><a href="media/mobile-invoice-approvals01.png"><img src="media/mobile-invoice-approvals01-1024x281.png" alt="Pending vendor invoices assigned to me page"></a></p>
+</li>
+<li><p>Click the <strong>Settings</strong> (gear) button in the upper right of the page, and then click <strong>Mobile app</strong></p>
+</li>
+<li><p>Select your workspace and click <strong>Edit</strong></p>
+</li>
+<li><p>Click <strong>Add page</strong> to create the first mobile page.</p>
+</li>
+<li><p>Enter a name, such as <strong>My vendor invoices</strong>, and a description, such as <strong>Vendor invoices assigned to me for review</strong>.</p>
+</li>
+<li><p>Click <strong>Done</strong>.</p>
+</li>
+<li><p>In the mobile designer, on the <strong>Fields</strong> tab, click <strong>Select fields</strong>. The columns on the list page must resemble the following illustration.</p>
+<p><a href="media/mobile-invoice-approvals02.png"><img src="media/mobile-invoice-approvals02-1024x117.png" alt="Columns on the Pending vendor invoices assigned to me page"></a></p>
+</li>
+<li><p>Add the required columns from the list page that must be shown to the users in the mobile page. The order in which you add is the order in which the fields will be displayed to the end user. The only way to change the ordering of the fields will be by re-selecting all the fields. Based on the requirements for this scenario, the following eight fields are required. However, some users might consider eight fields too much information to have on a mobile device. Therefore, we will show only the most important fields in the mobile list view. The remaining fields will appear in the details view that we will design later. For now, we will add the following fields. Click the plus sign (<strong>+</strong>) in these columns to add to the mobile page.</p>
+<ul>
+<li>Vendor name</li>
+<li>Invoice total</li>
+<li>Invoice account</li>
+<li>Invoice number</li>
+<li>Invoice date</li>
+</ul>
+<p>After the fields are added, the mobile page must resemble the following illustration.</p>
+<p><a href="media/mobile-invoice-approvals03.png"><img src="media/mobile-invoice-approvals03.png" alt="Page after fields are added"></a></p>
+</li>
+<li><p>You must also add the following columns now, so that we can enable workflow actions later.</p>
+<ul>
+<li>Show complete task</li>
+<li>Show delegate task</li>
+<li>Show recall task</li>
+<li>Show reject task</li>
+<li>Show request completion task</li>
+<li>Show resubmit task</li>
+</ul>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work.</p>
+</li>
+<li><p>Enable <strong>Display invoice total on pending vendor invoices list</strong> in accounts payable parameters form under <strong>Invoice</strong>. Note that, only by enabling this parameter, invoice totals will be calculated to be displayed on the pending vendor invoices list page. This is a new capability as part of the pre-requisite hot fix 3208224.</p>
+</li>
+</ol>
+<h3 id="vendor-invoice-details">Vendor invoice details</h3>
+<p>To design the invoice details page for mobile, use the <strong>VendMobileInvoiceHeaderDetails</strong> page. Note that, depending on the number of invoices that you have in your system, this page shows the oldest invoice (the invoice that was created first). To find a specific invoice, you can use the filter on the left. However, we don’t require a specific invoice for this example. We just require some invoice data so that we can design the mobile page.</p>
+<p><a href="media/mobile-invoice-approvals04.png"><img src="media/mobile-invoice-approvals04-1024x425.png" alt="Workflow page"></a></p>
+<ol>
+<li><p>In the URL, replace the name of the menu item with <strong>VendMobileInvoiceHeaderDetails</strong> to open the form</p>
+</li>
+<li><p>Open the mobile designer from the <strong>Settings</strong> (gear) button.</p>
+</li>
+<li><p>Click the <strong>Edit</strong> button to start edit mode in the workspace.</p>
+</li>
+<li><p>Select the <strong>My vendor invoices</strong> page that you created earlier, and then click <strong>Edit</strong>.</p>
+</li>
+<li><p>On the <strong>Fields</strong> tab, click the <strong>Grid</strong> column heading.</p>
+</li>
+<li><p>Click <strong>Properties &gt; Add page</strong>. <strong>Note:</strong> When you click the <strong>Grid</strong> heading and add a page, the relationship with the details page is established automatically.</p>
+</li>
+<li><p>Enter a page title, such as <strong>Invoice details</strong>, and a description, such as <strong>View invoice header and line details</strong>.</p>
+</li>
+<li><p>Click <strong>Select fields</strong>. Note that, the order in which you add is the order in which the fields will be displayed to the end user. The only way to change the ordering of the fields will be by re-selecting all the fields.</p>
+</li>
+<li><p>Add the following fields from the header, based on the requirements for this scenario:</p>
+<ul>
+<li>Vendor name</li>
+<li>Invoice total</li>
+<li>Invoice account</li>
+<li>Invoice number</li>
+<li>Invoice date</li>
+<li>Invoice description</li>
+<li>Due date</li>
+<li>Invoice currency</li>
+</ul>
+</li>
+<li><p>Add the following fields from the lines grid on the page:</p>
+<ul>
+<li>Procurement category</li>
+<li>Quantity</li>
+<li>Unit price</li>
+<li>Line net amount</li>
+<li>1099 amount</li>
+</ul>
+</li>
+<li><p>After all the fields from the previous two steps have been added, click <strong>Done</strong>. The page must resemble the following illustration.</p>
+<p><a href="media/mobile-invoice-approvals05.png"><img src="media/mobile-invoice-approvals05.png" alt="Page after fields are added"></a></p>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work</p>
+</li>
+</ol>
+<h3 id="workflow-actions">Workflow actions</h3>
+<p>To add workflow actions, use the <strong>VendMobileInvoiceHeaderDetails</strong> page. To open this page, replace the name of the menu item in the URL, as you did earlier. Then open the mobile designer from the <strong>Settings</strong> (gear) button. Follow these steps to add workflow actions on the details page. You must have invoices assigned to you that are in the appropriate state to make the workflow actions available to you that you are going to design for.</p>
+<h4 id="record-workflow-actions">Record workflow actions</h4>
+<ol>
+<li>Click the <strong>Edit</strong> button to start edit mode in the workspace.</li>
+<li>Select the <strong>Invoice details</strong> page that you created earlier, and then click <strong>Edit</strong>.</li>
+<li>On the <strong>Actions</strong> tab, click <strong>Add action</strong>.</li>
+<li>Enter an action title, such as <strong>Approve</strong>, and a description, such as <strong>Approve invoice</strong>. Note that the action title that you enter here becomes the name of the action that is shown to the user in the mobile app.</li>
+<li>Click <strong>Done</strong>.</li>
+<li>Click <strong>Select fields</strong>.</li>
+<li>Go through the workflow process on the <strong>VendMobileInvoiceHeaderDetails</strong> page, and complete the action that you wanted to record. Make sure that you enter workflow comments during this process, so that a comments field is also included in the mobile experience.</li>
+<li>After the workflow action is run, click <strong>Done</strong> to complete the Select fields task.</li>
+<li>Click <strong>Done</strong> to exit edit mode.</li>
+<li>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</li>
+<li>Click <strong>Publish workspace</strong> to save your work</li>
+<li>Repeat the previous steps to record all the required workflow actions.</li>
+</ol>
+<h4 id="create-a-js-file">Create a .js file</h4>
+<ol>
+<li><p>Open Notepad or Microsoft Visual Studio, and paste the following code. Save the file as a .js file. This code does the following:</p>
+<ul>
+<li>It hides the extra workflow-related columns that we added earlier on the mobile list page. We added these columns so that the app has that information in context and can do the next step.</li>
+<li>Based on the workflow step that is active, it applies logic to show only those actions.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The name of the pages and other controls in the code must be the same as the names in the workspace.</p>
+</div>
+<pre><code class="lang-javascript">function main(metadataService, dataService, cacheService, $q) {
+       return {
+           appInit: function (appMetadata) {
+               // Hide controls that need to be present, but not visible
+               metadataService.configureControl('My-vendor-invoices', 'ShowAccept', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowApprove', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowReject', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowDelegate', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowRequestChange', { hidden: true });
+             metadataService.configureControl('My-vendor-invoices', 'ShowRecall', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowComplete', { hidden: true });
+           metadataService.configureControl('My-vendor-invoices', 'ShowResubmit', { hidden: true });
+           },
+           pageInit: function (pageMetadata, params) {
+    if (pageMetadata.Name == 'Invoice-details') {
+                   // Show/hide workflow actions based on workflow step
+                   metadataService.configureAction('Accept', { visible: true });
+                   metadataService.configureAction('Approve', { visible: true });
+                   metadataService.configureAction('Reject', { visible: true });
+                   metadataService.configureAction('Delegate', { visible: true });
+                   metadataService.configureAction('Request-change', { visible: true });
+                   metadataService.configureAction('Recall', { visible: true });
+                   metadataService.configureAction('Complete', { visible: true });
+                   metadataService.configureAction('Resubmit', { visible: true });
+
+                   var entityContextParts = params.pageContext.split(':');
+                   var data = dataService.getEntityData(entityContextParts[0], entityContextParts[1]);
+
+                   var acceptControl = data.getPropertyValue('VendInvoiceInfoTable/showAccept');
+                   var approveControl = data.getPropertyValue('VendInvoiceInfoTable/showApprove');
+                   var rejectControl = data.getPropertyValue('VendInvoiceInfoTable/showReject');
+                   var delegateControl = data.getPropertyValue('VendInvoiceInfoTable/showDelegate');
+                   var requestChangeControl = data.getPropertyValue('VendInvoiceInfoTable/showRequestChange');
+                   var recallControl = data.getPropertyValue('VendInvoiceInfoTable/showRecall');
+                   var completeControl = data.getPropertyValue('VendInvoiceInfoTable/showComplete');
+                   var resubmitControl = data.getPropertyValue('VendInvoiceInfoTable/showResubmit');
+
+                   var showAcceptControl = Boolean(acceptControl == 1);
+                   var showApproveControl = Boolean(approveControl == 1);
+                   var showRejectControl = Boolean(rejectControl == 1);
+                  var showDelegateControl = Boolean(delegateControl == 1);
+                   var showRequestChangeControl = Boolean(requestChangeControl == 1);
+                   var showRecallControl = Boolean(recallControl == 1);
+                   var showCompleteControl = Boolean(completeControl == 1);
+                   var showResubmitControl = Boolean(resubmitControl == 1);
+
+                   metadataService.configureAction('Accept', { visible: showAcceptControl });
+                   metadataService.configureAction('Approve', { visible: showApproveControl });
+                   metadataService.configureAction('Reject', { visible: showRejectControl });
+                   metadataService.configureAction('Delegate', { visible: showDelegateControl });
+                   metadataService.configureAction('Request-change', { visible: showRequestChangeControl });
+                   metadataService.configureAction('Recall', { visible: showRecallControl });
+                   metadataService.configureAction('Complete', { visible: showCompleteControl });
+                 metadataService.configureAction('Resubmit', { visible: showResubmitControl });
+               }
+             },
+       };
+    }
+</code></pre>
+</li>
+<li><p>Upload the code file to the workspace by selecting the <strong>Logic</strong> tab</p>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work</p>
+</li>
+</ol>
+<h3 id="vendor-invoice-attachments">Vendor invoice attachments</h3>
+<ol>
+<li><p>Click the <strong>Settings</strong> (gear) button in the upper right of the page, and then click <strong>Mobile app</strong></p>
+</li>
+<li><p>Click the <strong>Edit</strong> button to start edit mode in the workspace.</p>
+</li>
+<li><p>Select the <strong>Invoice details **page that you created earlier, and then click **Edit</strong>.</p>
+</li>
+<li><p>Set the <strong>Document management</strong> option to <strong>Yes</strong> as shown below. <strong>Note:</strong> If there are no requirements to show attachments on the mobile device, you can leave this option set to <strong>No</strong>, which is the default setting.</p>
+<p><img src="media/docmanagement-216x300.png" alt="Document management"></p>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work</p>
+</li>
+</ol>
+<h3 id="vendor-invoice-line-distributions">Vendor invoice line distributions</h3>
+<p>The requirements for this scenario confirm that there will be only line-level distributions, and that an invoice will always have only one line. Because this scenario is simple, the user experience on the mobile device must also be simple enough that the user doesn’t have to drill down several levels to view the distributions. Vendor invoices include the option of showing all distributions from the invoice header. This experience is what we need for the mobile scenario. Therefore, we will use the <strong>VendMobileInvoiceAllDistributionTree</strong> page to design this part of the mobile scenario.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Knowing the requirements helps us decide which specific page to use and how exactly to optimize the mobile experience for the user when we design the scenario. In the second scenario, we will use a different page to show the distributions, because the requirements for that scenario differ.</p>
+</div>
+<ol>
+<li><p>In the URL, replace the name of the menu item, as you did before. The page that appears should resemble the following illustration.</p>
+<p><a href="media/mobile-invoice-approvals06.png"><img src="media/mobile-invoice-approvals06.png" alt="All distributions page"></a></p>
+</li>
+<li><p>Open the mobile designer from the <strong>Settings</strong> (gear) button.</p>
+</li>
+<li><p>Click the <strong>Edit</strong> button to start edit mode in the workspace. <strong>Note:</strong> You will see that two new pages were created automatically. The system creates these pages, because you turned on document management in the previous section. You can ignore these new pages.</p>
+</li>
+<li><p>Click <strong>Add page</strong>.</p>
+</li>
+<li><p>Enter a page title, such as <strong>View accounting</strong>, and a description, such as <strong>View accounting for the invoice</strong>.</p>
+</li>
+<li><p>Click <strong>Done</strong>.</p>
+</li>
+<li><p>On the <strong>Fields</strong> tab, click <strong>Select fields</strong>, select the following fields from the distributions page, and then click <strong>Done</strong>:</p>
+<ol>
+<li>Amount</li>
+<li>Currency</li>
+<li>Ledger account</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>We didn’t select the <strong>Description</strong> column from the distributions grid, because the requirements for this scenario confirmed that the extended price is the only amount that there will be distributions for. Therefore, the user won’t require another field to determine the amount type that the distribution is for. However, in the next scenario, we <strong>will</strong> use this information, because the requirements for that scenario specify that other amount types have distributions (for example, sales tax).</p>
+</div>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work</p>
+</li>
+</ol>
+<h4 id="adding-navigation-to-view-accounting-page">Adding navigation to &quot;View accounting&quot; page</h4>
+<p>The <strong>View accounting</strong> mobile page isn’t currently linked to any of the mobile pages that we have designed so far. Because the user should be able to navigate to the <strong>View accounting</strong> page from the <strong>Invoice details</strong> page on the mobile device, we must provide navigation from the <strong>Invoice details</strong> page to the <strong>View accounting</strong> page. We establish this navigation by using additional logic via JavaScript.</p>
+<ol>
+<li><p>Open the .js file that you created earlier, and add the lines that are highlighted in the following code. This code does two things:</p>
+<ol>
+<li>It helps guarantee that users can’t navigate directly from the workspace to the <strong>View accounting</strong> page.</li>
+<li>It establishes a navigation control from the <strong>Invoice details</strong> page to the <strong>View accounting</strong> page.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The name of the pages and other controls in the code must be the same as the names in the workspace.</p>
+</div>
+<pre><code class="lang-javascript">function main(metadataService, dataService, cacheService, $q) {
+       return {
+           appInit: function (appMetadata) {
+               // Hide controls that need to be present, but not visible
+               metadataService.configureControl('My-vendor-invoices', 'ShowAccept', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowApprove', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowReject', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowDelegate', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowRequestChange', { hidden: true });
+             metadataService.configureControl('My-vendor-invoices', 'ShowRecall', { hidden: true });
+               metadataService.configureControl('My-vendor-invoices', 'ShowComplete', { hidden: true });
+           metadataService.configureControl('My-vendor-invoices', 'ShowResubmit', { hidden: true });
+               // Hide pages not applicable for root navigation
+               metadataService.hideNavigation('View-accounting');
+               //Link to view accounting
+               metadataService.addLink('Invoice-details', 'View-accounting', 'View-accounting-nav-control', 'View accounting', true);
+           },
+           pageInit: function (pageMetadata, params) {
+    if (pageMetadata.Name == 'Invoice-details') {
+                   // Show/hide workflow actions based on workflow step
+                   metadataService.configureAction('Accept', { visible: true });
+                   metadataService.configureAction('Approve', { visible: true });
+                   metadataService.configureAction('Reject', { visible: true });
+                   metadataService.configureAction('Delegate', { visible: true });
+                   metadataService.configureAction('Request-change', { visible: true });
+                   metadataService.configureAction('Recall', { visible: true });
+                   metadataService.configureAction('Complete', { visible: true });
+                   metadataService.configureAction('Resubmit', { visible: true });
+
+                   var entityContextParts = params.pageContext.split(':');
+                   var data = dataService.getEntityData(entityContextParts[0], entityContextParts[1]);
+
+                   var acceptControl = data.getPropertyValue('VendInvoiceInfoTable/showAccept');
+                   var approveControl = data.getPropertyValue('VendInvoiceInfoTable/showApprove');
+                   var rejectControl = data.getPropertyValue('VendInvoiceInfoTable/showReject');
+                   var delegateControl = data.getPropertyValue('VendInvoiceInfoTable/showDelegate');
+                   var requestChangeControl = data.getPropertyValue('VendInvoiceInfoTable/showRequestChange');
+                   var recallControl = data.getPropertyValue('VendInvoiceInfoTable/showRecall');
+                   var completeControl = data.getPropertyValue('VendInvoiceInfoTable/showComplete');
+                   var resubmitControl = data.getPropertyValue('VendInvoiceInfoTable/showResubmit');
+
+                   var showAcceptControl = Boolean(acceptControl == 1);
+                   var showApproveControl = Boolean(approveControl == 1);
+                 var showRejectControl = Boolean(rejectControl == 1);
+                   var showDelegateControl = Boolean(delegateControl == 1);
+                   var showRequestChangeControl = Boolean(requestChangeControl == 1);
+                   var showRecallControl = Boolean(recallControl == 1);
+                   var showCompleteControl = Boolean(completeControl == 1);
+                   var showResubmitControl = Boolean(resubmitControl == 1);
+
+                   metadataService.configureAction('Accept', { visible: showAcceptControl });
+                   metadataService.configureAction('Approve', { visible: showApproveControl });
+                   metadataService.configureAction('Reject', { visible: showRejectControl });
+                   metadataService.configureAction('Delegate', { visible: showDelegateControl });
+                   metadataService.configureAction('Request-change', { visible: showRequestChangeControl });
+                   metadataService.configureAction('Recall', { visible: showRecallControl });
+                   metadataService.configureAction('Complete', { visible: showCompleteControl });
+                   metadataService.configureAction('Resubmit', { visible: showResubmitControl });
+    }
+             },
+       };
+    }
+</code></pre>
+</li>
+<li><p>Upload the code file to the workspace by selecting the <strong>Logic</strong> tab to overwrite the previous code</p>
+</li>
+<li><p>Click <strong>Done</strong> to exit edit mode.</p>
+</li>
+<li><p>Click <strong>Back</strong> and then <strong>Done</strong> to exit the workspace</p>
+</li>
+<li><p>Click <strong>Publish workspace</strong> to save your work</p>
+</li>
+</ol>
+<h3 id="validation">Validation</h3>
+<p>From your mobile device, open the app, and connect to your instance. Make sure that you sign in to the company where vendor invoices are assigned to you for review. You should be able to perform the following actions:</p>
+<ul>
+<li>See the <strong>My approvals</strong> workspace.</li>
+<li>Drill into the <strong>My approvals</strong> workspace and see the <strong>My vendor invoices</strong> page.</li>
+<li>Drill into the <strong>My vendor invoices</strong> page and see the list of invoices that are assigned to you.</li>
+<li>Drill into one of the invoices, and see the invoice header details and line details.</li>
+<li>On the details page, see a link to attachments, and use this link to navigate to the attachments list and view the attachments.</li>
+<li>On the details page, see a link to the <strong>View accounting</strong> page, and use this link to navigate to the distributions page and view the distributions.</li>
+<li>On the details page, click the <strong>Actions</strong> menu at the bottom, and perform workflow actions that are applicable to the workflow step.</li>
+</ul>
+<h2 id="designing-a-complex-invoice-approval-scenario-for-fabrikam">Designing a complex invoice approval scenario for Fabrikam</h2>
+<table>
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario attribute</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What fields from the invoice header will the user want to see in the mobile experience, and in what order?</td>
+<td><ol>
+<li>Vendor name</li>
+<li>Invoice amount</li>
+<li>Invoice account</li>
+<li>Invoice number</li>
+<li>Invoice date</li>
+<li>Invoice description</li>
+<li>Due date</li>
+<li>Invoice currency</li>
+</ol></td>
+</tr>
+<tr class="even">
+<td>What fields from the invoice lines will the user want to see in the mobile experience, and in what order?</td>
+<td><ol>
+<li>Procurement category</li>
+<li>Quantity</li>
+<li>Unit price</li>
+<li>Line net amount</li>
+<li>1099 amount</li>
+</ol></td>
+</tr>
+<tr class="odd">
+<td>How many invoice lines are there in an invoice? Apply the 80-20 rule here, and optimize for the 80 percent.</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Will users want to see accounting distributions (invoice coding) on the mobile device during reviews?</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>How many accounting distributions (extended price, sales tax, charges, and so on) are there for an invoice line? Again, apply the 80-20 rule.</td>
+<td>Extended price: 2 Sales tax: 2 Charges: 2</td>
+</tr>
+<tr class="even">
+<td>Do the invoices also have accounting distributions on the invoice header? If so, should these accounting distributions be available on the device?</td>
+<td>Not used</td>
+</tr>
+<tr class="odd">
+<td>Will users want to see attachments for the invoice on the device?</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="next-steps">Next steps</h3>
+<p>The following variations can be done for scenario 1, based on the requirements for scenario 2. You can use this section to improve your mobile app experience.</p>
+<ol>
+<li><p>Because more invoice lines are expected in scenario 2, the following changes to the design will help optimize the user experience on the mobile device:</p>
+<ol>
+<li>Instead of viewing invoice lines on the details page (as in scenario 1), users can choose to view lines on a separate mobile page.</li>
+<li>Because more than one invoice line is expected in this scenario, if the <strong>VendMobileInvoiceAllDistributionTree</strong> page is used to design the distributions page for mobile (as in scenario 1), it might be confusing for the user to correlate lines to distributions. Therefore, use the <strong>VendMobileInvoiceLineDistributionTree</strong> page to design the distributions page.</li>
+<li>Ideally, the distributions should be shown in the context of an invoice line in this scenario. Therefore, make sure that the user can drill into a line to see the distributions page. Use the page link capability to establish the drill-through, just as you did for the header and details pages in scenario 1.</li>
+</ol>
+</li>
+<li><p>Because more than one amount type is expected on the distributions in scenario 2 (sales tax, charges, and so on), it will be useful to show the description of the amount type. (We omitted this information in scenario 1.)</p>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/accounts-payable/mobile-invoice-approvals.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Druckbare Freitextrechnungsformulare generieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Druckbare Freitextrechnungsformulare generieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="generate-printable-fti-forms">Generieren von druckbaren FTI-Formularen</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Das Framework für die elektronische Berichterstellung (EB) ermöglicht Ihnen das Generieren druckbarer Freitextrechnungs-(FTR)-Formulare als Microsoft Office-Dokumente. Dieses Thema enthält Informationen darüber, wie Sie Ihre eigenen Konfigurationen sowie Details verfügbarer Konfigurationsvorlagen erstellen können.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Neben der vorhandenen Funktion zum Generieren druckbarer FTR-Formulare mithilfe von Microsoft SQL Server Reporting Services (SSRS) können Sie jetzt das EB-Framework verwenden. Sie können druckbare FTR-Formulare in Microsoft Office Excel und Word verwalten. Sie können auch das Layout, den Datenfluss und die Formatierungen ändern, um bestimmte Anforderungen zu erfüllen, ohne Codeänderungen vorzunehmen.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie mit einer Übersicht über die vorhandenen EB-Konfigurationen für dieses Beispiel der druckbaren FTR-Formularlösung beginnen möchten, können Sie direkt zum Abschnitt <strong>EB-Beispielkonfigurationen herunterladen, um FTR-Formulare zu generieren</strong> weiter unten in diesem Thema gehen.</p>
+</div>
+<h2 id="create-customized-configurations-for-fti-printable-forms">Angepasste Konfigurationen für druckbare FTR-Formulare erstellen</h2>
+<p>Als Teil der benutzerdefinierten Lösung für druckbare FTR-Formulare müssen Sie eine Reihe von EB-Konfigurationen erstellen.</p>
+<h3 id="configure-the-er-data-model">Das EB-Datenmodell konfigurieren</h3>
+<p>Ihre Anwendung muss die EB-Datenmodellkonfiguration umfassen, die ein Datenmodell enthält, das die Geschäftsdomäne für die Debitorenfakturierung beschreibt. Als Anforderung muss der Name des Datenmodells <strong>CustomersInvoicing</strong> sein. Informationen zum Design von ER-Datenmodellen finden Sie unter <a href="tasks/er-design-domain-specific-data-model-2016-11.html">ER Design domänenspezifisches Datenmodell</a>.</p>
+<h3 id="configure-the-er-model-mapping">Die EB-Modellzuordnung konfigurieren</h3>
+<p>Ihre Anwendung muss die EB-Modellzuordnung für das Datenmodell „CustomersInvoicing” enthalten. Die Modellzuordnung kann entweder die EB-Datenmodellkonfiguration oder die EB-Modellzuordnungskonfiguration sein. Allerdings muss der Name des Stammdeskriptors der Modellzuordnung <strong>FreeTextInvoice</strong> lauten.</p>
+<p>Die Zuordnung muss die folgenden Datenquellen enthalten:</p>
+<ul>
+<li><p>Datenquellentyp: <strong>Tabellendatensätze</strong></p>
+<ul>
+<li>Diese Datenquelle muss <strong>CustInvoiceJour</strong> genannt werden.</li>
+<li>Sie muss auf die CustInvoiceJour-Anwendungstabelle verweisen.</li>
+<li>Sie muss zur Laufzeit verwendet werden, um von der Anwendung zum EB-Modell übergeben zu werden, das die Liste der Rechnungen zuordnet, die zum Druck ausgewählt wurden.</li>
+</ul>
+</li>
+<li><p>Datenquelltyp: <strong>Objekt</strong></p>
+<ul>
+<li>Diese Datenquelle muss <strong>PrintMgmtPrintSettingDetail</strong> genannt werden.</li>
+<li>Sie muss auf die Anwendungsklasse <strong>PrintMgmtPrintSettingDetail</strong> verweisen.</li>
+<li>Sie wird zur Laufzeit verwendet, um von der Anwendung zum EB-Modell übergeben zu werden, das die Details der Druckverwaltungseinstellungen für das EB-Format zuordnet, das ausgeführt wird.</li>
+</ul>
+</li>
+</ul>
+<p>Die Details der Anwendungsintegration mit dem EB-Framework können in der Klasse <strong>ERPrintMgmtReportFormatSubscriber</strong> (EB-Anwendungssuite-Integrationsmodell) im Quellcode der Anwendung gefunden werden.</p>
+<p>Weitere Informationen zum Design von ER-Modell-Mappings finden Sie unter <a href="tasks/er-define-model-mapping-select-data-sources-2016-11.html">Definieren von ER-Modellzuordnungen und Auswählen von Datenquellen</a>.</p>
+<h3 id="configure-the-er-format">Das EB-Format konfigurieren</h3>
+<p>In Ihrer Anwendungsinstanz müssen Sie die EB-Formatkonfiguration haben, die verwendet wird, um FTR-Formulare zu generieren.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Diese Formatkonfiguration muss für das CustomersInvoicing-Datenmodell erstellt werden, und sie muss die Modellzuordnung verwenden, die den Stammdeskriptor <strong>FreeTextInvoice</strong> hat.</p>
+</div>
+<p>Informationen zur Konfiguration von ER-Formaten finden Sie unter <a href="tasks/er-format-configuration-2016-11.html">ER Erstellen einer Formatkonfiguration (November 2016)</a>. Informationen zum Entwerfen von ER-Formaten zur Generierung von Berichten im OpenXML-Format finden Sie unter <a href="tasks/er-design-reports-openxml-2016-11.html">ER Entwerfen einer Konfiguration zur Generierung von Berichten im OPENXML-Format (November 2016)</a>.</p>
+<h2 id="configure-print-management">Druckverwaltung konfigurieren</h2>
+<p>Um FTR-Formulare mithilfe eines EB-Frameworks zu generieren, können Sie EB-Formate in derselben Art zuweisen, wie Sie SSRS-Berichte zuweisen. Um das EB-Format allen Debitoren-FTRs zuzuordnen, wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Formulare</strong> &gt; <strong>Formulareinstellungen</strong> &gt; <strong>Allgemein</strong> &gt; <strong>Druckverwaltung</strong> &gt; <strong>Freitextrechnung</strong> &gt; <strong>Original</strong>. Um das EB-Format einem bestimmten Debitor oder einer bestimmten Rechnung zuzuordnen, führen Sie die folgenden Schritte aus.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</li>
+<li>Wählen Sie die FTR aus, der das EB-Format zugeordnet werden soll, und öffnen Sie die Seite <strong>Druckverwaltungseinstellungen</strong>.</li>
+<li>Wählen Sie die Dokumentebene aus, um den Bereich von Rechnungen für das Verarbeiten anzugeben.</li>
+<li>Wählen Sie das EB-Format für die angegebene Dokumentebene aus.</li>
+</ol>
+<p><img src="media/FTIbyGER-PMSetting.png" alt="Druckverwaltungseinstellungen"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Nur EB-Formate, die den Stammdeskriptor <strong>FreeTextInvoice</strong> des Datenmodells <strong>CustomersInvoicing</strong> verwenden, werden im Feld <strong>Berichtsformatsuche</strong> für das ausgewählte Format angezeigt.</p>
+</div>
+<h2 id="generate-fti-forms">FTR-Formulare generieren</h2>
+<p>FTR-Formulare werden im EB-Framework in gleicher Weise generiert wie SSRS-Berichte.</p>
+<p>Um FTR-Formulare zu generieren, können Sie Rechnungen entweder nach Bereich oder nach Auswahl auswählen.</p>
+<p><img src="media/FTIbyGER-InvoiceSelection.png" alt="Rechnungsauswahl"></p>
+<p><img src="media/FTIbyGER-InvoiceExcelPreview.png" alt="Rechnungsvorschau"></p>
+<p>Wenn Sie EB-Formate verwenden, um auf diese Weise FTR-Formulare zu drucken, werden die standardmäßigen EB-Dateiziele verwenden. Das Ziel kann nicht geändert werden. Weitere Informationen zur Konfiguration der ER-Ziele für ER-Formate finden Sie unter <a href="electronic-reporting-destinations.html">Elektronische Berichtsziele (ER)</a>.</p>
+<p>Sie können auch FTR-Formulare generieren, wenn Sie eine FTR buchen, indem Sie <strong>Rechnung drucken</strong> aktivieren und <strong>Druckverwaltungsziele verwenden</strong> deaktivieren.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie EB-Formate verwenden, um auf diese Weise FTR-Formulare zu drucken, werden die standardmäßigen EB-Dateiziele verwenden. Sie können das Standardziel zur Laufzeit ändern, wenn das Ziel bereits konfiguriert wurde. Um das Ziel zu ändern, müssen Sie folgende Sicherheitsrechte haben:</p>
+<ul>
+<li><strong>Name:</strong> ERFormatDestinationRuntimeMaintain</li>
+<li><strong>Bezeichnung:</strong> Zielort für elektronisches Berichterstellungsformat zur Laufzeit verwalten</li>
+</ul>
+</div>
+<p><img src="media/FTIbyGER-ERFileDestinationSetting.png" alt="Zielort für elektronische Berichterstellung"></p>
+<p><img src="media/FTIbyGER-ERFileDestinationUsage.png" alt="Ziele für elektronisches Berichterstellungsformat"></p>
+<p>Das EB-Framework unterstützt aktuell die folgenden Ziele für generierte Dokumente:</p>
+<ul>
+<li><strong>Heruntergeladene Datei</strong> – Generierte Formulare werden als Downloads angeboten, die Sie speichern können mithilfe des Browser.</li>
+<li><strong>Bildschirm</strong> – Microsoft 365 Excel wird verwendet, um generierte FTR-Formulare im Excel-Format in der Vorschau anzuzeigen.</li>
+<li><strong>SharePoint-Ordner</strong> – Generierte Formulare werden basierend auf den Einstellungen des Dokumentverwaltungsframeworks gespeichert.</li>
+<li><strong>Anwendungsarchiv</strong> – Generierte Formulare werden als Anhänge von Ausführungsprotokolldatensätzen in Microsoft Azure Storage gespeichert.</li>
+<li><strong>E-Mail</strong> – Generierte Formulare werden als E-Mail-Anhänge übermittelt.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie können die FTR-Formulare nicht übermitteln, die direkt für den Drucker generiert werden, da direktes Drucken unter Verwendung des Dynamics-Druckerweiterleitungsagent derzeit nicht unterstützt wird.</p>
+</div>
+<h2 id="download-sample-er-configurations-to-generate-printable-fti-forms">Beispiel-EB-Konfigurationen zum Generieren druckbarer FTR-Formulare herunterladen</h2>
+<p>Sie können Beispiel-EB-Konfigurationen herunterladen, um sie als Vorlage für Ihre FTR-Lösung zu verwenden. Die Konfigurationen werden in der Bibliothek für freigegebene Anlagen in Microsoft Dynamics Lifecycle Services (LCS) gespeichert. Die Konfigurationen umfassen:</p>
+<ul>
+<li>Die Konfiguration <strong>Debitorenfakturierungsmodell</strong> enthält das erforderliche Datenmodell und Modellzuordnung.</li>
+<li>Die Konfiguration <strong>Debitoren-FTR-Bericht (GER)</strong> enthält das Beispielformat.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Diese Konfigurationen wurden als Beispiele erstellt, mit deren Hilfe mögliche Szenarien abgeklärt werden können. Die Zukunft dieser Konfigurationen hängt von den Ergebnissen dieser Bewertung und sämtlichen empfangenen Rückmeldungen ab.</p>
+</div>
+<h3 id="features-that-are-implemented-in-the-sample-er-format">Funktionen, die im Beispiel-ER-Format implementiert werden</h3>
+<p>In der Beispiel-EB-Formatkonfiguration wird eine Excel-Datei als Vorlage verwendet, um FTR-Formulare zu generieren.</p>
+<p><img src="media/FTIbyGER-ERFormat.png" alt="Formatdesigner"></p>
+<p>Momentan unterstützt dieses Beispiel-EB-Format die folgenden Funktionen, um FTR-Formulare zu generieren:</p>
+<ul>
+<li>FTR-Formulare werden sowohl für ursprüngliche Rechnungen, die gebucht wurden, als auch für ursprüngliche Rechnungen, die noch nicht gebucht wurden, generiert. Korrigierte Rechnungen und Gutschriften werden nicht unterstützt.</li>
+<li>FTR-Formulare werden in der Rechnungssprache generiert. Das Format von Werten und Datumswerten in den generierten Formularen basiert auf den Einstellungen des Clientgebietsschemas des Benutzers.</li>
+<li>Generierte Rechnungen zeigen Benachrichtigungen zur Nichtverfügbarkeit von Daten an, wenn sich keine Positionen in den Rechnungen befinden, die verarbeitet werden.</li>
+<li>Generierte Rechnungsköpfe basieren auf dem Papierformat, das für das FTR-Formular auf der Seite <strong>Debitorenparameter</strong> ausgewählt wurde. Unternehmensdetails werden nur im Kopf des generierten Rechnungsformulars angezeigt, wenn das Papierformat leer ist.</li>
+<li>Generierte Rechnungsformulare zeigen Unternehmens- und Debitoren-Umsatzsteuernummern an, wenn die entsprechende Option für das FTR-Formular auf der Seite <strong>Debitorenparameter</strong> ausgewählt wurde.</li>
+<li>Die generierten Rechnungspositions- und Rechnungssummenabschnitte zeigen die standardmäßigen Währungsdetails der Rechnung in der Rechnungserfassungswährung an.</li>
+<li>Der generierte Rechnungssummenabschnitt kann Währungsdetails in der Euro-Währung und in der Rechnungserfassungswährung anzeigen, wenn die Option <strong>Betrag in der Währung drucken, die für den Euro steht</strong> auf der Seite <strong>Debitorenparameter</strong> aktiviert ist.</li>
+<li>Generierte Rechnungsformulare zeigen sämtliche Rechnungsverarbeitungshinweise an, die verfügbar sind, auf der Grundlage der Einstellungen auf der Seite <strong>Debitorenparameter</strong>. Hinweise sind sowohl für die gesamte Rechnung als auch für jede Rechnungsposition enthalten.</li>
+<li>Generierte Rechnungsformulare umfassen Hinweise für Debitoren-FTR-Formulare und die Sprache für die Rechnungsverarbeitung, wenn sie in der Debitorenformular-Hinweisliste konfiguriert worden sind.</li>
+<li>Abhängig von den Druckverwaltungseinstellungen umfassen generierte Rechnungen benutzerdefinierten Fußzeilentext, wenn er für die Rechnungssprache, das EB-Format und den FTR-Dokumentbereich konfiguriert wurde.</li>
+<li>Der Summenabschnitt generierter Rechnungsformulare umfasst sämtliche Skontoinformationen, die verfügbar sind.</li>
+<li>Der Zahlungsplanabschnitt generierter Rechnungsformulare beinhaltet sämtliche mögliche Zahlungsplandetails, die verfügbar sind.</li>
+<li>Der Aufschlagsabschnitt generierter Rechnungsformulare umfasst sämtliche Zuschlagsbuchungen, die zur Verfügung stehen.</li>
+<li>Generierte Rechnungsformulare enthalten Mehrwertsteuerdetails, basierend auf den Einstellungen <strong>Mehrwertsteuerspezifikation</strong> auf der Seite <strong>Debitorenparameter</strong>. Dieser Abschnitt kann Steuerdetails entweder nur in der Rechnungserfassungswährung oder in der Rechnungserfassungswährung und in der Unternehmensbuchhaltungswährung gleichzeitig anzeigen.</li>
+<li>Generierte Rechnungsformulare zeigen Lastschriftbenachrichtigungsdetails an. So zeigen sie beispielsweise an, wann die Zahlungsmethode für die Rechnung ausgewählt wurde, die die obligatorische Lastschrift-Vollmachtskennung aufweist, wenn die in Verarbeitung befindliche Rechnung in der Eurowährung erfasst wurde, und wann die Lastschrift-Vollmachtskennung für die Rechnung definiert wurde.</li>
+<li>Generierte Rechnungen zeigen sämtliche Vorauszahlungsdetails an, die für gebuchte Rechnungen verfügbar sind.</li>
+<li>Generierte Rechnungsformulare können einem Rechnungsdebitor als E-Mail-Anhang gesendet werden. Das entsprechende EB-Dateiziel sollte für das EB-Format konfiguriert werden, das verwendet wird.</li>
+</ul>
+<h3 id="countryregion-specific-features">Landes-/regionsspezifische Funktionen</h3>
+<p>Die folgenden länder-/regionsspezifischen Funktionen sind im Muster-EB-Format enthalten, um anzuzeigen, wie spezifische Anforderungen in EB-Konfigurationen gehandhabt werden können.</p>
+<h4 id="norway">Norwegen</h4>
+<p>Die Enterprise-Registerbedingung wird in den Kopf des generierten Rechnungsformulars platziert, wenn die Rechnung für eine juristische Person verarbeitet wird, die in folgender Weise konfiguriert ist:</p>
+<ul>
+<li>Der Landes-/Regionskontext für Norwegen wird verwendet.</li>
+<li>Der Parameter <strong>Print Foretaksregisteret</strong> ist auf Verkaufsbelegen aktiv.</li>
+</ul>
+<h4 id="spain">Spanien</h4>
+<p>Die Bedingung <strong>Sondersystem für Kassenbuchführungsmethode</strong> wird in den Kopf des generierten Rechnungsformulars platziert, wenn die Rechnung für eine juristische Person verarbeitet wird, die in folgender Weise konfiguriert ist:</p>
+<ul>
+<li>Der Landes-/Regionskontext für Spanien wird verwendet.</li>
+<li>Das Sondersystem für die Kassenbuchführungsmethode ist am Rechnungsverarbeitungsdatum aktiviert.</li>
+</ul>
+<p>Wenn Skontodetails, wie der Skontobetrag und der Nettobetrag der Rechnungsposition verfügbar sind, werden sie im Rechnungssummenabschnitt des generierten Rechnungsformulars dargestellt, wenn es für eine juristische Person verarbeitet wurde, die wie folgt konfiguriert ist:</p>
+<ul>
+<li>Der Landes-/Regionskontext für Spanien wird verwendet.</li>
+<li><strong>Skonto wird auf die Rechnung angewendet</strong> ist in der Rechnungsoption aktiviert (<strong>Hauptbuchparameter</strong> &gt; <strong>Mehrwertsteuerabschnitt</strong>).</li>
+</ul>
+<h4 id="italy">Italien</h4>
+<p>Die Warenrabattmarke ist in den Rechnungspositionen der generierten Rechnung eingeschlossen, wenn sie für eine juristische Person verarbeitet wird, die mithilfe des Landes-/Regionskontexts für Italien konfiguriert ist.</p>
+<h4 id="finland">Finnland</h4>
+<p>Außer dem generierten Rechnungsformular können Girogeldüberweisungsbeleg folgendermaßen generiert werden:</p>
+<ul>
+<li>Für die juristische Person, die den Landes-/Regionskontext für Finnland verwendet und mindestens ein Bankkonto hat, das als <strong>Girokonto</strong> und <strong>Bankstrichcode</strong> markiert ist.</li>
+<li>Für eine Rechnung, die für den zugeordneten Zahlungsanhang <strong>Finnisch</strong> als erforderlich markiert ist.</li>
+</ul>
+<p><img src="media/FTIbyGER-GiroSlip.PNG" alt="Girobeleg"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Beispiel-EB-Format ist so konfiguriert worden, dass es optional die Girogeldüberweisungsbelege in einem getrennten Arbeitsblatt generiert.</p>
+</div>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie müssen zuerst die Schriftart installieren, die verwendet wird, um den Strichcode im lokalen Rechner zu generieren, in dem das generierte Rechnungsformular im Excel-Format in der Vorschau angezeigt wird.</p>
+</div>
+<h3 id="use-the-sample-er-format-to-configure-email-destinations">Das Beispiel-EB-Format verwenden, um E-Mail-Ziele zu konfigurieren</h3>
+<p>Die folgenden Elemente des Beispiel-EB-Formats verwenden, um E-Mail-Ziele zu konfigurieren:</p>
+<ul>
+<li>Auf die E-Mail-Adresse eines Debitorenkontakts kann über den folgenden EB-Ausdruck zugegriffen werden: <strong>model.InvoiceBase.Contact.ElectronicMail</strong>.</li>
+<li>Auf den E-Mail-Betrefftext kann über den folgenden EB-Ausdruck zugegriffen werden: <strong>Emailing.TxtToUse.Subject</strong>.</li>
+<li>Auf den E-Mail-Textkörper kann über den folgenden EB-Ausdruck zugegriffen werden: <strong>Emailing.TxtToUse.Body</strong>.</li>
+</ul>
+<p><img src="media/FTIbyGER-ERFileDestinationSettingEmail.png" alt="Zielorteinstellungen"></p>
+<p>Der Standardtext des Betreffs und des Textkörpers der E-Mail wird im Beispiel-EB-Format definiert. Die Sprache hängt von den Bezeichnungen des Formats ab. Dieser Standardtext wird für E-Mails verwendet, wenn eine benutzerdefinierte Organisations-E-Mail-Vorlage, die die vordefinierte <strong>ERFTITMP</strong>-Kennung aufweist, nicht hinzugefügt wurde.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die E-Mail-Vorlagenkennung <strong>ERFTITMP</strong> wurde im Beispiel-EB-Format definiert. Sie kann bei Bedarf in ein neues EB-Format geändert werden, das aus diesem Beispielformat erstellt wird.</p>
+</div>
+<p>Wenn die Organisations-E-Mail-Vorlage, die die vordefinierte <strong>ERFTITMP</strong>-Kennung aufweist, für die juristische Person hinzugefügt wurde, für die Sie die Rechnung verarbeiten, wird die Vorlage für den E-Mail-Betreff und -Textkörper verwendet, um die E-Mail zu generieren.</p>
+<p><img src="media/FTIbyGER-EmailTemplate.png" alt="Organisations-E-Mail-Vorlagen"></p>
+<p><img src="media/FTIbyGER-EmailTemplateBody.png" alt="E-Mail-Vorlage hochladen"></p>
+<p>Der EB-Ausdruck <strong>Emailing.TxtToUse.Subject</strong> des Beispiel-EB-Formats wird so konfiguriert, dass sämtliche Vorkommen des Platzhalters %1 durch die Kennung der verarbeitenden Rechnung ersetzt werden.</p>
+<p>Der Ausdruck <strong>Emailing.TxtToUse.Body</strong> des Beispielformats wird für die folgenden Ersetzungen für Platzhalter konfiguriert:</p>
+<ul>
+<li>&quot;%1&quot; wird durch den Namen der Kontaktperson des Debitors ersetzt.</li>
+<li>&quot;%2&quot; wird durch den Unternehmensnamen ersetzt.</li>
+<li>&quot;%3&quot; wird durch den Debitorennamen ersetzt.</li>
+<li>&quot;%4&quot; wird durch den Namen der Kontaktperson des Unternehmens ersetzt.</li>
+<li>&quot;%5&quot; wird durch den Stellentitel der Kontaktperson des Unternehmens ersetzt.</li>
+<li>&quot;%6&quot; wird durch die E-Mail-Adresse der Kontaktperson des Unternehmens ersetzt.</li>
+</ul>
+<p><img src="media/FTIbyGER-Email.PNG" alt="E-Mail"></p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung (Electronic reporting, ER)</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

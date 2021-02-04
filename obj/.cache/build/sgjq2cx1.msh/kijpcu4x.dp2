@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Confirm and transfer | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Confirm and transfer | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="confirm-and-transfer">Confirm and transfer</h1>
+
+
+<p>The <em>Confirm and transfer</em> feature lets users ship loads out of the warehouse before they complete all the work that is associated with those loads. When a shipment is received that includes load lines that weren't fully picked, the confirming user is prompted either to split the remaining quantities onto a new load or to cancel the incomplete quantities.</p>
+<p>Systems that are set up to allow load splitting support scenarios where planned and partially loaded loads must be adapted because of new or changing circumstances.</p>
+<p>The client includes logic that enables a partially loaded load to be closed and confirmed as shipped. All remaining shipments and load lines (including full or partial line quantities) are then rolled over to a newly created load and shipment, if this rollover is required and the setup allows for it. New shipments and loads are automatically created based on the initial criteria for shipment and load creation, and their main attributes remain unchanged. There is also an option to automatically cancel remaining quantities if a work order hasn't yet been created and the user deems this cancellation necessary.</p>
+<p>This functionality supports scenarios where the full load doesn't fit onto a single truck, or where some of the load should leave the warehouse before the rest of the load is ready for shipment. In these scenarios, the remaining products can be transferred to a new load and therefore to a new truck. Because this feature can be used with loads that are otherwise intended to require full-load shipment, it provides extra flexibility so that transport managers can solve nonstandard or unforeseen scenarios.</p>
+<p>When a load is split, the <em>Confirm and transfer</em> feature performs the following actions:</p>
+<ul>
+<li>New loads and shipments are created as they are required. Each load or shipment will have most of the same attributes as the original load or shipment. The exception is the load status, which will be recalculated based on the work status.</li>
+<li>The user is informed that a new load has been created. The user is also notified about the ID of the new load.</li>
+<li>The load lines, work headers, and work lines that were split are updated with the new load and shipment information.</li>
+<li>If a whole shipment is being split, the shipment is maintained, and only the load references are updated. If the shipment must be split, a new shipment is created.</li>
+</ul>
+<p>When remaining quantities are canceled, any load line quantities that haven't been picked and that don't have non-canceled work associated with them are removed from the load. If any work is in process, the user can only split the load. Remaining quantities can't be canceled.</p>
+<p>You can split only loads that meet all the following criteria:</p>
+<ul>
+<li>One or more load lines have picked quantities.</li>
+<li>The load status is less than loaded.</li>
+<li>There is no load line data. (This data is created through license plate consolidation on the staging location, and the <em>Confirm and transfer</em> feature doesn't support license plate consolidation.)</li>
+<li>No inventory is currently awaiting packing at a packing location. (The <em>Confirm and transfer</em> feature doesn't support inventory that has been picked to the pack station but hasn't yet been packed.)</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This functionality differs from the transport load functionality, which should be used in warehouses that can never plan and create loads before picking, but that instead load the available transportation space after picking is completed.</p>
+<p>Use the <em>Confirm and transfer</em> feature in situations where loads are usually planned and created ahead of time, but where exceptions sometimes occur in which the load doesn't fit the available transport (such as a truck).</p>
+</div>
+<h2 id="turn-on-confirm-and-transfer">Turn on confirm and transfer</h2>
+<p>Before you can use the <em>Confirm and transfer</em> feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the feature and turn it on if it's required. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Confirm and transfer</em></li>
+</ul>
+<h2 id="set-up-confirm-and-transfer">Set up confirm and transfer</h2>
+<p>To use the <em>Confirm and transfer</em> feature, you must turn it on in every relevant load template. In addition, depending on your requirements, you might want to prepare your work templates to support the feature. If you want to work through the example scenario that is provided later in this topic, set up your system as described in this section. (That scenario is based on <strong>USMF</strong> demo data.)</p>
+<h3 id="prepare-your-load-templates">Prepare your load templates</h3>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Load &gt; Load templates</strong>.</li>
+<li>On the Action Pane, select <strong>Edit</strong> to put the page into edit mode.</li>
+<li>Select the <strong>Allow load split during ship confirm</strong> check box for each existing template where you want to turn on the feature. Alternatively, select <strong>New</strong> to create a new template, and configure it as you require. Every load that you create by using that template will inherit this functionality. (If you're working with the <strong>USMF</strong> demo data, turn on the feature for the <strong>20' Container</strong> load template.)</li>
+</ol>
+<h3 id="prepare-your-work-templates">Prepare your work templates</h3>
+<p>This setup isn't required in all situations. The example that is shown here ensures that work can be broken by shipment to support the example scenario that is provided later in this topic. There are also other ways to achieve this result.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>In the grid in the upper part of the page, select an existing work template where you want to set up the <em>Confirm and transfer</em> feature. (If you're working with the <strong>USMF</strong> demo data, select the <strong>51 Pick to stage</strong> work template.) Alternatively, create a new work template.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit query</strong> to open the <strong>Sales</strong> dialog box.</p>
+</li>
+<li><p>In the <strong>Sales</strong> dialog box, on the <strong>Sorting</strong> tab, select <strong>Add</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Temporary work transactions</em></li>
+<li><strong>Derived table:</strong> <em>Temporary work transactions</em></li>
+<li><strong>Field:</strong> <em>Shipment ID</em></li>
+<li><strong>Search direction:</strong> <em>Ascending</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your settings and close the <strong>Sales</strong> dialog box.</p>
+</li>
+<li><p>If you receive a message that states that grouping will be reset, select <strong>Yes</strong> to continue.</p>
+</li>
+<li><p>In the grid in the upper part of the <strong>Work templates</strong> page, select the template that you just edited, and then, on the Action Pane, select <strong>Work header breaks</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong> to put the page into edit mode.</p>
+</li>
+<li><p>In the grid, set the following values:</p>
+<ul>
+<li><strong>Table name:</strong> <em>Temporary work transactions</em></li>
+<li><strong>Field name:</strong> <em>Shipment ID</em></li>
+<li><strong>Group by this field:</strong> Select this check box.</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h2 id="scenario">Scenario</h2>
+<p>This scenario shows an example where the picking process isn't yet completed, but the items that have been picked so far must be loaded onto a truck and shipped anyway. Therefore, the user can split the unpicked load lines onto a new load. All the data relationships will then automatically be updated.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The specific values that are described in this scenario are based on the <strong>USMF</strong> demo data. We recommend that you use this demo data while you're demonstrating or learning how to use the feature. If you aren't using the <strong>USMF</strong> demo data, substitute your own values as required.</p>
+</div>
+<h3 id="step-1-create-a-load-that-has-multiple-load-lines">Step 1: Create a load that has multiple load lines</h3>
+<p>Before you can use this functionality, you must have a load that contains multiple load lines. You must also make sure that the pick locations have enough inventory for all the items on the sales orders that you will create. Review the setup of the location directive (<strong>Warehouse management &gt; Setup &gt; Location directives</strong>), and make a note of the picking locations that are used for sales order picking. If you must adjust the inventory, create manual movements, use replenishment, or use any other flow, as required.</p>
+<p>To create a qualifying load, first create three sales orders by following these steps.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to open the <strong>Create sales order</strong> dialog box.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values (at a minimum):</p>
+<ul>
+<li>On the <strong>Customer</strong> FastTab, set the <strong>Customer account</strong> field to <em>US-004</em> (<em>Cave Wholesales</em>).</li>
+<li>On the <strong>General</strong> FastTab, set the <strong>Warehouse</strong> field to <em>51</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to create the sales order and close the <strong>Create sales order</strong> dialog box.</p>
+</li>
+<li><p>Your new sales order is opened. In the <strong>Sales order lines</strong> grid, add a line that has the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>M9200</em></li>
+<li><strong>Quantity:</strong> <em>40</em></li>
+<li><strong>Unit:</strong> <em>ea</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Inventory</strong> menu above the grid, select <strong>Reservation</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Reserve lot</strong> to open the <strong>Reservation</strong> page.</p>
+</li>
+<li><p>Reserve the inventory on the sales line, and then close the <strong>Reservation</strong> page.</p>
+</li>
+<li><p>Repeat steps 1 through 4 to add a second sales order for the same customer and warehouse.</p>
+</li>
+<li><p>Add two sales lines that have the following values. After you add each line, reserve inventory for it as described in steps 6 through 8.</p>
+<ul>
+<li><strong>Line 1:</strong> Set the <strong>Item number</strong> field to <em>M9200</em>, the <strong>Quantity</strong> field to <em>30</em>, and the <strong>Unit</strong> field to <em>ea</em>.</li>
+<li><strong>Line 2:</strong> Set the <strong>Item number</strong> field to <em>M9201</em>, the <strong>Quantity</strong> field to <em>20</em>, and the <strong>Unit</strong> field to <em>ea</em>.</li>
+</ul>
+</li>
+<li><p>Repeat steps 1 through 4 to add a third sales order for the same customer and warehouse.</p>
+</li>
+<li><p>Add two sales lines that have the following values. After you add each line, reserve inventory for it as described in steps 6 through 8.</p>
+<ul>
+<li><strong>Line 1:</strong> Set the <strong>Item number</strong> field to <em>M9201</em>, the <strong>Quantity</strong> field to <em>20</em>, and the <strong>Unit</strong> field to <em>ea</em>.</li>
+<li><strong>Line 2:</strong> Set the <strong>Item number</strong> field to <em>M9202</em>, the <strong>Quantity</strong> field to <em>60</em>, and the <strong>Unit</strong> field to <em>ea</em>.</li>
+</ul>
+</li>
+</ol>
+<h4 id="load-planning-workbench">Load planning workbench</h4>
+<p>The load planning workbench will use the load template ID to build the shipments and release the sales order lines to the warehouse.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Loads &gt; Load planning workbench</strong>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, select <em>51</em>.</p>
+<p>You will now build the load for the sales orders that you just created.</p>
+</li>
+<li><p>On the <strong>Sales lines</strong> tab, in the grid, select the sales lines for the new sales orders.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Supply and demand</strong> tab, in the <strong>Add</strong> group, select <strong>To new load</strong>.</p>
+</li>
+<li><p>In the <strong>Load template assignment</strong> dialog box, in the <strong>Load template ID</strong> field, select <em>20' Container</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Loads</strong> section of the <strong>Load planning workbench</strong> page, in the grid, find the newly created load ID for warehouse <em>51</em>. Scroll right until you see the <strong>Allow load split during ship confirm</strong> column. The check box should be selected for your load.</p>
+</li>
+<li><p>Select the load.</p>
+</li>
+<li><p>On the <strong>Release</strong> menu above the grid, select <strong>Release to warehouse</strong> to create work.</p>
+</li>
+<li><p>In the <strong>Release load to warehouse</strong> dialog box, verify that the <strong>Records to include</strong> FastTab shows your load ID.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You might receive a &quot;Processing operation&quot; message while the system creates the shipments and work.</p>
+</li>
+<li><p>In the <strong>Loads</strong> section of the <strong>Load planning workbench</strong> page, your load should now have a load status of <em>Waved</em>. Select the load, and then, on the <strong>Related information</strong> menu above the grid, select <strong>Wave details</strong> to view the shipment IDs that were created. When you've finished, close the <strong>Waves</strong> page.</p>
+</li>
+<li><p>In the <strong>Loads</strong> section of the <strong>Load planning workbench</strong> page, select the load, and then, on the <strong>Related information</strong> menu above the grid, select <strong>Work details</strong> to view the work that was created for the sales orders.</p>
+</li>
+<li><p>Make a note of the work IDs that were created. You might have to scroll right to see the sales order number and shipment ID that are associated with the work ID.</p>
+</li>
+</ol>
+<h3 id="step-2-set-up-the-execution-flow-for-mobile-devices">Step 2: Set up the execution flow for mobile devices</h3>
+<p>Mobile device tasks will require user input of information, such as the work ID or license plate ID. In the fields, this information is typically provided for warehouse users in the form of bar codes that are found on documentation, packaging, or racking. To complete the mobile device steps for scenarios, make sure that you've identified the work IDs for the transactions, and the license plate IDs for the item and location in the transactions.</p>
+<ol>
+<li><p>Sign in to the mobile device by using a user ID and password for warehouse <em>51</em>.</p>
+</li>
+<li><p>Select <strong>Outbound</strong>.</p>
+</li>
+<li><p>Select <strong>Sales Picking</strong>.</p>
+</li>
+<li><p>You have the option to enter the work ID or the license plate ID. Enter the work ID for the first sales order, and then select <strong>Enter</strong>.</p>
+</li>
+<li><p>In the <strong>Loc</strong> field, enter the location that is shown to confirm the picking location. Then select <strong>Enter</strong>.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate ID. The license plate ID must be a match for the item, warehouse, and location of the item that is being picked from the selected location. When you've finished, select <strong>Enter</strong>.</p>
+</li>
+<li><p>In the <strong>Item</strong> field, enter the item number to confirm the item that is being picked, and then select <strong>Enter</strong>.</p>
+</li>
+<li><p>In the <strong>Qty</strong> field, enter the quantity of the item that is being picked, and then select <strong>Enter</strong>.</p>
+</li>
+<li><p>In the <strong>Target LP</strong> field, enter a target license plate ID. Target license plates are user-defined. Be sure to enter a license plate ID that you will remember. We recommend that you use the current date plus a two-digit sequence (YYMMDD##) as the format, such as <em>19112301</em>. When you've finished, select <strong>Enter</strong>.</p>
+</li>
+<li><p>Review information that is shown. This information is the <em>Pick</em> information that will now become the <em>Put</em> data for the put transaction. When you've finished, select <strong>Enter</strong>.</p>
+<ul>
+<li>You receive a <strong>Work Completed</strong> message.</li>
+</ul>
+</li>
+<li><p>Repeat steps 4 through 10 for the work ID of the second sales order.</p>
+</li>
+</ol>
+<p>The next step is to load the two picked license plates to the truck.</p>
+<ol>
+<li>Sign in to the mobile device by using a user ID and password for warehouse <em>51</em>.</li>
+<li>Select <strong>Outbound</strong>.</li>
+<li>Select <strong>Sales Loading</strong>.</li>
+<li>Enter the user-defined target license plate ID that you created for the first work ID in the previous procedure. Then select <strong>Enter</strong> to put the target license plate into the <strong>STAGE</strong> location.</li>
+<li>Enter the target license plate ID again, and then select <strong>Enter</strong> to put the license plate into the <strong>BAYDOOR</strong> location.</li>
+<li>Repeat steps 4 through 5 for the target license plate ID that you created for the second work ID.</li>
+</ol>
+<p>The two work IDs will now be closed (loaded).</p>
+<h3 id="step-3-confirm-the-outbound-shipment">Step 3: Confirm the outbound shipment</h3>
+<p>In this step, you will confirm the two sales orders and work that have been completed for the load to ship the picked items of the load and create a new load for the unpicked items. Outbound shipment confirmation must be done on the <strong>Load details</strong> page.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Loads &gt; Load planning workbench</strong>.</p>
+</li>
+<li><p>In the <strong>Loads</strong> section, in the grid, select the row for the load ID that you created.</p>
+</li>
+<li><p>Select the load ID link to open the <strong>Load details</strong> page.</p>
+</li>
+<li><p>On the <strong>Load details</strong> page, on the Action Pane, on the <strong>Ship and receive</strong> tab, in the <strong>Confirm</strong> group, select <strong>Outbound shipment</strong> to initiate the confirmation.</p>
+</li>
+<li><p>In the <strong>Ship confirm</strong> dialog box, in the <strong>Load split method during ship confirm</strong> field, select <em>Split quantity to new load</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You might receive a &quot;Processing operation&quot; message.</p>
+<p>You receive informational messages that indicate that the shipment for your load has been confirmed, and that a new load has been created from the split quantity.</p>
+</li>
+</ol>
+<p>Refresh the <strong>Load planning workbench</strong> page to see the newly created load.</p>
+<p>You can also confirm that transaction relations have been updated in the following ways:</p>
+<ul>
+<li>The remaining (unprocessed) shipment and shipment lines are updated with the new load ID.</li>
+<li>The sales order is linked to the new load ID.</li>
+<li>The original load doesn't include the remaining load lines.</li>
+<li>The remaining work has been updated with the new load ID.</li>
+<li>The wave remains the same.</li>
+<li>The status of the new load is correctly updated. (If the work status is <em>In process</em>, the load status should also be <em>In process</em>.)</li>
+</ul>
+<h2 id="notes-and-tips">Notes and tips</h2>
+<ul>
+<li>You can also turn on the <strong>Allow load split during ship confirm</strong> parameter after the load has been created with the <strong>Load template</strong> parameter turned off but before the loading process has started. Go to the desired load, and then, in the header view, turn on the parameter.</li>
+<li>The <strong>Split quantity to new load</strong> option also works when some of the remaining work headers have a status of <em>In process</em>. Therefore, you can still use the functionality even if workers are already running the pick orders.</li>
+<li>If you select <strong>Cancel unfulfilled quantity</strong> while there is remaining work that has a status of <em>Open</em> or <em>In progress</em>, you receive the following error message: &quot;Unable to cancel remaining qty for load. Work exists for load.&quot;</li>
+<li>If you select <strong>Cancel unfulfilled quantity</strong> when there is no remaining work but there are unreleased load lines on the load, you receive the following error message: &quot;The shipment for load could not be confirmed because the quantity for item exceeds the percentage that is defined for under delivery.&quot; To avoid the error, you can set the <strong>Under delivery</strong> percentage on the unreleased load line to 100 percent. Unreleased lines won't be moved to a new load, but the current load will be confirmed with under-delivery. In this case, you won't be able to re-release the original order. Therefore, so you will have to handle it in some other way.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

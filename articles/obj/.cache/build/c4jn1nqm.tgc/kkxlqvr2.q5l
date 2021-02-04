@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Trickle feed-based order creation for retail store transactions </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Trickle feed-based order creation for retail store transactions ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes the trickle feed-based order creation for store transactions in Microsoft Dynamics 365 Commerce.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="trickle-feed-based-order-creation-for-retail-store-transactions" sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="31">Trickle feed-based order creation for retail store transactions</h1>
+
+
+<p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="35">In Dynamics 365 Retail versions 10.0.4 and earlier, statement posting is an end-of-day operation and all transactions are posted in the books at the end of the day. Large transactions must then be processed in a limited time window, sometimes resulting in load and locks and statement posting failures. Retailers also can't recognize revenue and payments in their books throughout the day.</p>
+<p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="37">With trickle feed-based order creation introduced in Retail version 10.0.5, transactions are processed throughout the day, and only the financial reconciliation of tenders and other cash management transactions are processed at the end of the day. This functionality splits the load of creating sales orders, invoices, and payments throughout the day, providing better perceived performance and the ability to recognize revenue and payments in the books in near real-time.</p>
+<h2 id="how-to-use-trickle-feed-based-posting" sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="40">How to use trickle feed-based posting</h2>
+<ol sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="42">
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="42"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="42">To enable trickle feed-based posting of retail transactions, enable the feature named <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="42">Retail statements - Trickle feed</strong> using Feature management.</p>
+<div class="IMPORTANT" sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="44">
+<h5>Important</h5>
+<p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="45">Before you enable the feature, make sure that no pending statements are waiting to be posted.</p>
+</div>
+</li>
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="47"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="47">The current statement document will be split into two types: transactional statement and financial statement.</p>
+<ul sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="49">
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="49"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="49">The transactional statement will pick up all unposted and validated transactions and create sales orders, sales invoices, payment and discount journals, and income-expense transactions at the cadence that you configure. You should configure this process to run at a high frequency so that documents are created when the transactions are uploaded into Headquarters through the P-job. With the transactional statement that already creates sales orders and sales invoices, there is no real need to configure the <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="49">Post inventory</strong> batch job. However, you can still use it to meet specific business requirements that you may have.</p>
+</li>
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="51"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="51">The financial statement is designed to be created at the end of the day and only supports the closing method of <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="51">Shift</strong>. This statement will be limited to financial reconciliation and will only create the journals for the difference amounts between counted amount and transaction amount for the different tenders, along with journals for other cash management transactions.</p>
+</li>
+</ul>
+</li>
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="53"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="53">To calculate the transactional statement, go to <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="53">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Calculate transactional statements in batch</strong>. To post the transactional statements in batch, go to <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="53">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Post transactional statements in batch</strong>.</p>
+</li>
+<li sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="55"><p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="55">To calculate the financial statement, go to <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="55">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Calculate financial statements in batch</strong>. To post the financial statements in batch, go to <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="55">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Post financial statements in batch</strong>.</p>
+</li>
+</ol>
+<div class="NOTE" sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="57">
+<h5>Note</h5>
+<p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="58">The menu items <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="58">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Calculate statements in batch</strong> and <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="58">Retail and Commerce &gt; Retail and Commerce IT &gt; POS Posting &gt; Post statements in batch</strong> are removed with this new feature.</p>
+</div>
+<p sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">Alternately, transactional and financial statement types can be created manually. Go to <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">Retail and Commerce &gt; Channels &gt; Stores</strong> and click <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">Statements</strong>. Click <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">New</strong> and then choose the type of statement that you want to create. Fields on the <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">Statements</strong> page and actions under the <strong sourcefile="commerce/trickle-feed.md" sourcestartlinenumber="60">Statement group</strong> of the page will show relevant data and actions based on the selected statement type.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/trickle-feed.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

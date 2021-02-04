@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Komprimieren gro&#223;er Dokumente, die in der elektronischen Berichterstellung generiert werden | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Komprimieren gro&#223;er Dokumente, die in der elektronischen Berichterstellung generiert werden | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="compress-large-documents-that-are-generated-in-electronic-reporting" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="27">Komprimieren großer Dokumente, die in der elektronischen Berichterstellung generiert werden</h1>
+
+[!include[banner](../includes/banner.md)]
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">Sie können das <a href="general-electronic-reporting.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">Framework für die elektronische Berichterstellung (EB)</a> verwenden, um eine Lösung zu konfigurieren, die Transaktionsdaten abruft, um ein ausgehendes Dokument zu generieren. Dieses generierte Dokument ist möglicherweise sehr groß. Wenn dieser Dokumenttyp generiert wird, wird der Speicher des <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/dev-tools/access-instances#location-of-packages-source-code-and-other-aos-configurations" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">Anwendungsobjektservers (AOS)</a> zur Speicherung verwendet. Irgendwann muss das Dokument dann aus Ihrer Microsoft Dynamics 365 Finance-Anwendung heruntergeladen werden. Derzeit ist die maximale Größe eines einzelnen Dokuments, das in EB generiert werden kann, auf 2 Gigabyte (GB) begrenzt. Des Weiteren <a href="https://fix.lcs.dynamics.com/Issue/Details?bugId=489291" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">begrenzt</a> Finance die Größe einer heruntergeladenene Datei derzeit auf 1 GB. Daher müssen Sie eine EB-Lösung konfigurieren, die die Wahrscheinlichkeit verringert, dass diese Einschränkungen überschritten werden und Sie eine Ausnahme <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">Stream war zu lang</strong> oder <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="31">Überlauf oder Unterlauf in der Rechenoperation</strong> erhalten.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="33">Wenn Sie eine Lösung konfigurieren, können Sie Ihr EB-Format im Vorgangs-Designer anpassen, indem Sie ein Stammelement vom Typ <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="33">Ordner</strong> hinzufügen, um den Inhalt zu komprimieren, der von einem der verschachtelten Elemente generiert wird. Die Komprimierung arbeitet „just in time“, sodass die maximale Speichernutzung und die Größe der herunterzuladenden Datei verringert werden können.</p>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="35">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="36">Die Komprimierung nimmt einen zusätzlichen Prozentsatz der CPU-Auslastung in Anspruch.</p>
+</div>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="38">Weitere Informationen zu diesem Ansatz erhalten Sie, wenn Sie das Beispiel in diesem Thema abschließen.</p>
+<h2 id="example-compress-an-outbound-document" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="40">Beispiel: Komprimieren eines ausgehenden Dokuments</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="42">Dieses Beispiel zeigt, wie ein Benutzer, dem die Rolle <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="42">Systemadministrator</strong> oder <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="42">Funktionaler Berater für elektronische Berichterstellung</strong> zugewiesen ist, ein EB-Format konfigurieren kann, um ein generiertes Dokument zu komprimieren.</p>
+<h3 id="prerequisites" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="44">Voraussetzungen</h3>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="46">Bevor Sie die Prozeduren in diesem Thema abschließen können, müssen die folgenden Schritte abgeschlossen werden.</p>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="48">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="48"><a href="er-defer-xml-element.html#activate-a-configuration-provider" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="48">Aktivieren eines Konfigurationsanbieters</a>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="49"><a href="er-defer-xml-element.html#import-the-sample-er-configurations" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="49">Importieren Sie die EB-Beispielkonfigurationen</a>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="50"><a href="er-defer-xml-element.html#review-the-imported-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="50">Überprüfen Sie das importierte Format</a>.</li>
+</ol>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="52">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="53">Derzeit beginnt die Formatstruktur mit dem Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="53">Bericht</strong> vom Typ <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="53">Datei</strong> und enthält XML-Elemente. Daher wird ein ausgehendes Dokument im XML-Format generiert und es wird keine Komprimierung verwendet.</p>
+</div>
+<h3 id="generate-an-er-format-to-get-an-uncompressed-document" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="55">Generieren Sie ein EB-Format, um ein unkomprimiertes Dokument zu erhalten</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="57">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="57"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="57"><a href="er-defer-xml-element.html#run-the-imported-format" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="57">Führen Sie das importierte Format aus</a>.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="58"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="58">Beachten Sie, dass die Größe des generierten Dokuments im XML-Format 3 Kilobyte (KB) beträgt.</p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="60"><img src="media/er-compress-outbound-files1.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="60" alt="Vorschau des unkomprimierten ausgehenden Dokuments"></p>
+</li>
+</ol>
+<h3 id="modify-the-format-to-compress-the-generated-output" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="62">Ändern des Formats, um die generierte Ausgabe zu komprimieren</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="64">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="64">Wechseln Sie zu <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="64">Organisationsverwaltung</strong> &gt; <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="64">Elektronische Berichterstellung</strong> &gt; <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="64">Konfigurationen</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="65">Erweitern Sie auf der Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="65">Konfigurationen</strong> die Konfigurationsstruktur für <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="65">Modell zum Erlernen verzögerter Elemente</strong>.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="66">Wähle Sie die Konfiguration <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="66">Format zum Verstehen verzögerter XML-Elemente</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="67">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="67">Designer</strong> aus, um die Formatstruktur zu ändern.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="68">Wählen Sie auf der Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="68">Formatdesigner</strong> auf der Registerkarte <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="68">Format</strong> die Option <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="68">Stamm hinzufügen</strong> aus, um ein Stammformatelement hinzuzufügen.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="69">Wählen Sie im Dialogfeld <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="69">Hinzufügen</strong> <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="69">Verbreitet\Ordner</strong> aus.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="70">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="70">OK</strong> aus, um das Hinzufügen des neuen Stammelements zu bestätigen.</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="71">Wählen Sie <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="71">Speichern</strong> aus.</li>
+</ol>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="73">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="74">Die Formatstruktur beginnt mit dem Element des Typs <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="74">Ordner</strong>. Dieses Element generiert eine Ausgabe als komprimierte Datei (ZIP-Format). Wenn ein Dokument, das vom Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="74">Bericht</strong> generiert wird, in eine ausgehende ZIP-Datei eingefügt wird, wird sein Inhalt komprimiert, um die Größe der ausgehenden Datei zu verringern.</p>
+</div>
+<h3 id="generate-an-er-format-to-get-a-compressed-document" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="76">Generieren eines EB-Formats, um ein komprimiertes Dokument zu erhalten</h3>
+<ol sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="78">
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="78"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="78">Wählen Sie auf der Seite <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="78">Formatdesigner</strong> die Option <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="78">Ausführen</strong> aus.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="79"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="79">Laden Sie die vom Webbrowser angebotene ZIP-Datei herunter und öffnen Sie sie zur Überprüfung.</p>
+</li>
+<li sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="80"><p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="80">Beachten Sie, dass die Größe des generierten Dokuments im ZIP-Format 1 KB beträgt.</p>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="82">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="83">Die Komprimierungsrate der XML-Datei, die diese ZIP-Datei enthält, beträgt 87 Prozent. Die Komprimierungsrate hängt von den Daten ab, die komprimiert werden.</p>
+</div>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="85"><img src="media/er-compress-outbound-files2.png" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="85" alt="Vorschau des komprimierten ausgehenden Dokuments"></p>
+</li>
+</ol>
+<div class="NOTE" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="87">
+<h5>Note</h5>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="88">Wenn das EB-<a href="electronic-reporting-destinations.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="88">Ziel</a> für das Formatelement konfiguriert ist, das die Ausgabe generiert (in diesem Beispiel das Element <strong sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="88">Bericht</strong>), wird die Komprimierung der Ausgabe umgangen.</p>
+</div>
+<h2 id="additional-resources" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="90">Zusätzliche Ressourcen</h2>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="92"><a href="general-electronic-reporting.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="92">Überblick über die elektronische Berichterstellung (ER)</a></p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="94"><a href="electronic-reporting-destinations.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="94">Zielorte für elektronische Berichterstellung (ER)</a></p>
+<p sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="96"><a href="er-defer-xml-element.html" sourcefile="articles_de/fin-ops-core/dev-itpro/analytics/er-compress-outbound-files.md" sourcestartlinenumber="96">Ausführung von XML-Elementen in ER-Formaten verzögern</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Backflush costing | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Backflush costing | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="backflush-costing">Backflush costing</h1>
+
+
+<p>This topic introduces the concept of backflush costing that is used for Lean manufacturing.</p>
+<p>Costing for Lean manufacturing enables the production flow to use the cost accumulation method that is known as backflush costing. In the backflush costing method, the direct materials that are consumed are accumulated in the production flow's work in progress (WIP) cost account. The standard cost inventory model group is used. The products that are received from the production flow are deducted from WIP at their standard cost. The main difference between backflush costing and standard cost is that, for backflush costing, variances aren't calculated per kanban or finished product. Instead, variances are calculated per production flow over a period. This method introduces a truly lean concept for reporting material consumption. Dedicated picked quantities of material aren't reported to a kanban or production order. Instead, full batches or handling units are staged to the production flow. After the batches or handling units are registered as empty, they are declared consumed. Advanced consumption might be used, depending on the <a href="../production-control/lean-manufacturing-modeling-lean-organization.html">configuration of the production flow</a>. Before advanced consumption can be used, organizations must allow themselves to make material vanish in the WIP of the production flow. The periodic backflush costing determines the effective value of WIP to the end of the period. This determination is based on the kanban handling units and the kanban job status. Deviations between the effective values and the actual WIP values per cost group and item are accounted and shown as variances.</p>
+<h2 id="configuring-backflush-costing">Configuring backflush costing</h2>
+<p>To enable costing, you must complete the following setup:</p>
+<ul>
+<li><strong>Set up WIP accounts for the production group and production flow.</strong> The WIP accounts for the production flow are specified in the production group. The backflush costing production flow calculates variances as the difference in the WIP value before and after backflush costing is run for each production flow. Therefore, we recommend that you create a WIP account for every production flow.</li>
+<li><strong>Assign a cost category to the resource group.</strong> You must assign a cost category to the run-time category of the work cell. To determine variances by activity, you should create a cost category for every work cell. The cost categories for setup and quantity aren't considered in costing for lean manufacturing. The WIP accounts per resource group are ignored in backflush costing. For subcontracted activities, no cost category is required. The cost group that is assigned to the active service is used instead.</li>
+<li><strong>Assign cost groups.</strong> To enable segmentation of the cost contribution in a production flow, you must assign cost groups by cost group type:
+<ul>
+<li><strong>Direct material cost group</strong> - Direct material requires a cost group that identifies the material category for costing. This cost group enables an aggregated view of cost, WIP, and variances by direct material.</li>
+<li><strong>Direct manufacturing cost group</strong> - The direct manufacturing cost group captures the direct cost contribution of operational resources to the production flow. This cost group enables an aggregated view of cost, WIP, and variances by direct manufacturing cost.</li>
+<li><strong>Indirect cost group</strong> - The indirect cost group is required in order to calculate the indirect cost contribution to the production flow. This cost group enables an aggregated view of cost, WIP, and variances by indirect cost.</li>
+<li><strong>Direct outsourcing cost group</strong> - The cost group for the services enables an aggregated view of assigned cost and WIP, and determines the cost variances of the subcontracted services.</li>
+<li><strong>Cost group for a finished product</strong> - Finished products require a cost group that identifies the product category for costing. This cost group enables an aggregated view of cost, WIP, and variances by product category. The standard cost for products is calculated by using the cost calculation that is based on the bill of materials (BOM), and either the production flow and kanban rules or the route.</li>
+</ul>
+</li>
+</ul>
+<h3 id="costing-sheet">Costing sheet</h3>
+<p>The costing sheet models the cost structure for the company and is built by the cost groups to classify the cost. The costing sheet has various forms. It shows cost information according to the structure that is designed in it. In the costing sheet, you also define the formula that is used to calculate the indirect cost. The calculation formula can be based on quantities, weight, volume, or value.</p>
+<ul>
+<li><strong>Define a costing version.</strong> In the costing version, the company defines how the cost should be maintained. A costing version can contain a set of standard cost records or a set of planned cost records, depending on the costing type that is assigned to the costing version. The costing version that is used for costing for Lean manufacturing must be based on standard cost.</li>
+<li><strong>Assign an inventory model group for released products.</strong> All products that are related to the production flow must be assigned to an inventory model group that uses the <strong>Standard cost</strong> inventory model group. Standard cost is maintained per site and activation date. For product masters, the inventory model group can be selected if the cost is maintained per variant or product master.</li>
+<li><strong>By definition, subcontracted services are non-inventoried services.</strong> Subcontracted activities have no inventory model group. To cost a subcontracted activity correctly, you must make sure that the service activity belongs to an inventory model group where the inventory policy is set to <strong>Stocked product = False</strong>.</li>
+</ul>
+<p>For output products, cost calculation that is based on the production flow requires that a standard cost be maintained for the services that are related to subcontracted activities. The cost group that is assigned to the services is used to determine the cost variances of the subcontracted activity.</p>
+<h2 id="cost-calculation-for-lean-manufacturing">Cost calculation for Lean manufacturing</h2>
+<p>For products that are supplied out of a production flow, the BOM calculation must be based on either a route version or a production flow. The BOM calculation calculates the cost of a product and the related breakdown to the resources and material that are required in order to build the product. The deduction from the WIP account for the production flow is done by using the breakdown of a product by item and cost group.</p>
+<h3 id="calculation-that-is-based-on-the-production-flow">Calculation that is based on the production flow</h3>
+<p>Lean manufacturing for Dynamics 365 Supply Chain Management is independent of routes. The cost calculation for products that are supplied from a production flow can be based on the production flow itself. Before the calculation can be done, a kanban rule must be created that supplies the product out of the production flow. If a product can be supplied from multiple production flows at the same site on the calculation date, you can select the production flow for the BOM calculation. On the <strong>Default production flow</strong> page, you can configure a default production flow for each item. If multiple kanban rules exist for the same product in the same production flow that is active on the calculation date, the calculation selects the first kanban rule that is active for the calculation.</p>
+<h3 id="calculation-that-is-based-on-the-route">Calculation that is based on the route</h3>
+<p>Calculation that is based on a route is as valid as calculation that is based on a production flow. However, calculation that is based on a route doesn't use the costing for Lean manufacturing functionality. The route should use resource requirements for resource groups. To avoid systematic variances, it should also use the same work cells, or at least the same cost categories. Again, you should avoid cost categories for setup and quantity. They don't help calculate the cost in a more granular breakdown than Lean manufacturing cost backflushing. To determine which option (production flow or route) you should use to calculate the cost, consider the results of the cost breakdown. The version that comes closer to reality and produces fewer variances overall is the better option. In a Lean manufacturing environment where a product is supplied by a single production flow and a single kanban rule, the calculation that is based on the production flow is probably more accurate. For a product that can be supplied by Lean manufacturing and production orders on the same site, or that can have multiple production flows or multiple kanban rules in the same flow, a calculation might be more accurate if it's based on a route version that is built specifically for the cost calculation, not for the production. The production flow calculation must be used to calculate products that involve subcontracting. The cost models for subcontracting via production orders and subcontracting in Lean manufacturing are using two different approaches. Lean manufacturing introduces a new cost group type, <strong>Direct outsourcing</strong>, to calculate subcontracted services.</p>
+<h2 id="material-consumption">Material consumption</h2>
+<p>When material is consumed from inventory to WIP, the cost of material is added to WIP at its actual standard cost for a cost group. This operation occurs under the following conditions:</p>
+<ul>
+<li>Kanban issues are posted for kanban picking lines that update inventory.</li>
+<li>Transfer jobs are completed that update inventory on pick but not receipt (Transfer of material from inventory to WIP).</li>
+</ul>
+<h2 id="receiving-products-from-the-production-flow">Receiving products from the production flow</h2>
+<p>Products are received from the production flow under the following conditions:</p>
+<ul>
+<li>Process jobs are completed that have <strong>Update inventory on receipt</strong> set to <strong>Yes</strong>.</li>
+<li>Transfer jobs are completed that update inventory on receipt, but that have <strong>Update inventory on pick set</strong> to <strong>No</strong> (Transfer from WIP to inventory). This option lets you receive any products out of a production flow independently of the BOM and route configuration. The process just follows the physical flows. This option is especially suitable for receiving by-products, co-products, or scrap out of a production flow, and for correcting the cost balance of the production flow WIP accordingly.</li>
+</ul>
+<p>Products that are received from the production flow are deducted from WIP.</p>
+<h2 id="products-in-wip">Products in WIP</h2>
+<p>The WIP model of Lean manufacturing lets you use the kanban handling unit status to manage the material, semi-finished products, and finished products that are part of WIP.</p>
+<ul>
+<li><strong>Assigned</strong> - The kanban can have consumed material that is accounted in WIP.</li>
+<li><strong>Received</strong> - If the kanban refers to a last activity where <strong>Update inventory on receipt</strong> is set to <strong>No</strong>, it represents a full handling unit of a product or a semi-finished product that isn't registered to inventory.</li>
+</ul>
+<p>Note that material in WIP isn't visible in inventory on-hand overviews. However, it's visible in the kanban quantity overviews.</p>
+<h2 id="consuming-products-in-wip">Consuming products in WIP</h2>
+<p>Products in WIP are consumed when the corresponding kanban handling units are emptied. A kanban empty signal doesn't produce an active costing transaction but will take effect when the next backflush costing is run. Emptied kanban handling units are no longer accounted as on-hand and therefore calculated as consumed within the period.</p>
+<h3 id="automatic-empty-registration">Automatic empty registration</h3>
+<p>Scheduled or event kanbans can be set to automatic empty registration in the kanban rule:</p>
+<ul>
+<li><strong>When handling units are received</strong> - By default, for scheduled kanbans, the material is declared as consumed when the last job of the kanban is completed. For fixed quantity kanbans, this option is recommended only for single-bin kanbans, because it returns the card to the source of demand whenever a kanban is received at the final destination.</li>
+<li><strong>When source requirement is registered</strong> - This option is available only for event kanbans and is the default option for them. In connection to WIP, this option is useful for keeping WIP clean, because kanbans for components in WIP are automatically emptied, and therefore consumed from WIP, when the parent kanban is prepared.</li>
+</ul>
+<p>In conclusion, kanban handling units can be assigned (= in process), received (=full), or emptied. There is no partial emptying. Therefore, to enable accurate registration of consumption, it's important that you limit the product quantities of a kanban so that they are less than the consumption per period. Products that are moved to the shop floor in big batches that cover days or weeks of demand should not be consumed to WIP. Instead, these products should be kept in inventory.</p>
+<h2 id="backflush-costing-1">Backflush costing</h2>
+<p>You should run backflush costing to periodically value the WIP and produce an end-of-period status that calculates the variances of material, labor, and indirect costs. The calculated variances are posted to the variance accounts. In the backflush costing process, all production flows of the legal entity are used in the same batch run. When backflush costing is run in a batch, the processing might be multi-threaded by production flow. The backflush period is defined by an end date. You can't post new transactions to a date when a backflush costing calculation has been run. You should never run backflush costing for the current date before the day is actually over. Backflush costing performs the following steps.</p>
+<ol>
+<li><p>Determine the unused quantities in the production flow as of the period's end date. After the backflush costing is run, you can view the unused quantities on the date of the costing run in the <strong>Unused quantities</strong> dialog box.</p>
+</li>
+<li><p>Calculate the production flow's net realized usage over the period.</p>
+</li>
+<li><p>Clear the WIP from the realized resource consumption and products.</p>
+</li>
+<li><p>Calculate production variances to standard cost for the period. <strong>For consumed components for the period:</strong></p>
+<ul>
+<li>Financially update the net realized quantities of material that the production flow consumed over the period. The system processes in first in, first out (FIFO) order on the individual inventory transactions as to financially update the physically updated transactions for the production flow, until the net realized quantities for the period are reached.</li>
+<li>Transactions are financially split to map the exact consumed quantities.</li>
+<li>Unused quantities in the production flow WIP remain in physically updated status.</li>
+</ul>
+<p><strong>For production completed quantities of the period:</strong></p>
+<ul>
+<li>Financially update the inventory transactions for the completed quantities for the period.</li>
+</ul>
+<p><strong>For the conversion cost:</strong></p>
+<ul>
+<li>The applied conversion cost transactions (route transactions) that were recorded for the period are financially updated.</li>
+<li>All direct manufacturing cost is financially updated. All kanban process jobs that are completed during the period are accumulated.</li>
+<li>All indirect cost calculated for the consumed material within the period is calculated and deducted from WIP. The remaining indirect cost is posted as a variance.</li>
+</ul>
+</li>
+<li><p>Calculate the production variances to standard cost. The variance is calculated per cost group.</p>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

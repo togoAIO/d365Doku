@@ -1,0 +1,692 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Inventory Visibility Add-in | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Inventory Visibility Add-in | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="inventory-visibility-add-in">Inventory Visibility Add-in</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/one-version">One version service updates FAQ</a>.</p>
+</div>
+[!include[cc-data-platform-banner](../../includes/cc-data-platform-banner.md)]
+<p>The Inventory Visibility Add-in is an independent and highly scalable microservice that enables real-time on-hand inventory tracking, thus providing a global view of inventory visibility.</p>
+<p>All information that relates to on-hand inventory is exported to the service in near real-time through low-level SQL integration. External systems access the service through RESTful APIs to query on-hand information on given sets of dimensions, thus retrieving a list of available on-hand positions.</p>
+<p>Inventory Visibility is a microservice built on Microsoft Dataverse, which means you can extend it by building Power Apps and applying Power BI to provide customized functionality to meet your business requirements. It is also possible to upgrade the index to do inventory queries.</p>
+<p>Inventory Visibility provides configuration options that let it integrate with multiple third-party systems. It supports the standardized inventory dimension, customized extensibility, and standardized, configurable calculated quantities.</p>
+<p>This topic describes how to install and configure the Inventory Visibility Add-in for Dynamics 365 Supply Chain Management, and how to use its application programming interface (API).</p>
+<h2 id="install-the-inventory-visibility-add-in">Install the Inventory Visibility Add-in</h2>
+<p>You need to install the Inventory Visibility Add-in using Microsoft Dynamics Lifecycle Services (LCS). LCS is a collaboration portal that provides an environment and a set of regularly updated services that help you manage the application lifecycle of your Dynamics 365 Finance and Operations apps.</p>
+<p>For more information, see <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/lifecycle-services/lcs">Lifecycle Services resources</a>.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before you install the Inventory Visibility Add-in, you must do the following:</p>
+<ul>
+<li>Obtain an LCS implementation project with at least one environment deployed.</li>
+<li>Generate the beta keys for your offering in LCS.</li>
+<li>Enable the beta keys for your offering for your user in LCS.</li>
+<li>Contact the Microsoft Inventory Visibility product team and provide an environment ID where you want to deploy the Inventory Visibility Add-in.</li>
+</ul>
+<p>If you have any questions about these prerequisites, please contact the Inventory Visibility product team.</p>
+<h3 id="install-add-in">Install the add-in</h3>
+<p>To install the Inventory Visibility Add-in, do the following:</p>
+<ol>
+<li><p>Sign in to the <a href="https://lcs.dynamics.com/Logon/Index">Lifecycle Services (LCS)</a> portal.</p>
+</li>
+<li><p>On the home page, select the project where your environment is deployed.</p>
+</li>
+<li><p>On the project page, select the environment where you want to install the add-in.</p>
+</li>
+<li><p>On the environment page, scroll down until you see the <strong>Environment add-ins</strong> section. If the section isn't visible, make sure the prerequisite beta keys have been fully processed.</p>
+</li>
+<li><p>In the <strong>Environment add-ins</strong> section, select <strong>Install a new add-in</strong>.
+<img src="media/inventory-visibility-environment.png" alt="The environment page in LCS" title="The environment page in LCS"></p>
+</li>
+<li><p>Select the <strong>Install a new add-in</strong> link. A list of available add-ins opens.</p>
+</li>
+<li><p>Select <strong>Inventory service</strong> from the list. (Note, this may now be listed as <strong>Inventory Visibility Add-in for Dynamics 365 Supply Chain Management</strong>.)</p>
+</li>
+<li><p>Enter values for the following fields for your environment:</p>
+<ul>
+<li><strong>AAD application ID</strong></li>
+<li><strong>AAD tenant ID</strong></li>
+</ul>
+<p><img src="media/inventory-visibility-setup.png" alt="Add in setup page" title="Add-in setup page"></p>
+</li>
+<li><p>Agree to the terms and condition by selecting the <strong>Terms and conditions</strong> check box.</p>
+</li>
+<li><p>Select <strong>Install</strong>. The status of the add-in will show as <strong>Installing</strong>. When it's done, refresh the page to see the status change to <strong>Installed</strong>.</p>
+</li>
+</ol>
+<h3 id="get-a-security-service-token">Get a security service token</h3>
+<p>Get a security service token by doing the following:</p>
+<ol>
+<li><p>Sign in to Azure Portal and use it to find the <code>clientId</code> and <code>clientSecret</code> for your Supply Chain Management application.</p>
+</li>
+<li><p>Fetch an Azure Active Directory token (<code>aadToken</code>) by submitting an HTTP request with the following properties:</p>
+<ul>
+<li><p><strong>URL</strong> - <code>https://login.microsoftonline.com/${aadTenantId}/oauth2/token</code></p>
+</li>
+<li><p><strong>Method</strong> - <code>GET</code></p>
+</li>
+<li><p><strong>Body content (form data)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client_id</td>
+<td>${aadAppId}</td>
+</tr>
+<tr>
+<td>client_secret</td>
+<td>${aadAppSecret}</td>
+</tr>
+<tr>
+<td>grant_type</td>
+<td>client_credentials</td>
+</tr>
+<tr>
+<td>resource</td>
+<td>0cdb527f-a8d1-4bf8-9436-b352c68682b2</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li><p>You should receive an <code>aadToken</code> in response, which resembles the following example.</p>
+<pre><code class="lang-json">{
+&quot;token_type&quot;: &quot;Bearer&quot;,
+&quot;expires_in&quot;: &quot;3599&quot;,
+&quot;ext_expires_in&quot;: &quot;3599&quot;,
+&quot;expires_on&quot;: &quot;1610466645&quot;,
+&quot;not_before&quot;: &quot;1610462745&quot;,
+&quot;resource&quot;: &quot;0cdb527f-a8d1-4bf8-9436-b352c68682b2&quot;,
+&quot;access_token&quot;: &quot;eyJ0eX...8WQ&quot;
+}
+</code></pre>
+</li>
+<li><p>Formulate a JSON request that resembles the following:</p>
+<pre><code class="lang-json">{
+    &quot;grant_type&quot;: &quot;client_credentials&quot;,
+    &quot;client_assertion_type&quot;:&quot;aad_app&quot;,
+    &quot;client_assertion&quot;: &quot;{Your_AADToken}&quot;,
+    &quot;scope&quot;:&quot;https://inventoryservice.operations365.dynamics.com/.default&quot;,
+    &quot;context&quot;: &quot;5dbf6cc8-255e-4de2-8a25-2101cd5649b4&quot;,
+    &quot;context_type&quot;: &quot;finops-env&quot;
+}
+</code></pre>
+<p>Where:</p>
+<ul>
+<li>The <code>client_assertion</code> value must be the <code>aadToken</code> you received in the previous step.</li>
+<li>The <code>context</code> value must be the environment ID where you want to deploy the add-in.</li>
+<li>Set all of other values as shown in the example.</li>
+</ul>
+</li>
+<li><p>Submit an HTTP request with the following properties:</p>
+<ul>
+<li><strong>URL</strong> - <code>https://securityservice.operations365.dynamics.com/token</code></li>
+<li><strong>Method</strong> - <code>POST</code></li>
+<li><strong>HTTP header</strong> - Include the API version (key is <code>Api-Version</code> and value is <code>1.0</code>)</li>
+<li><strong>Body content</strong> - Include the JSON request that you created in the previous step.</li>
+</ul>
+</li>
+<li><p>You will get an <code>access_token</code> in response. This is what you need as a bearer token to call the Inventory Visibility API. Here is an example.</p>
+<pre><code class="lang-json">{
+    &quot;access_token&quot;: &quot;{Returned_Token}&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;,
+    &quot;expires_in&quot;: 1200
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="uninstall-the-add-in">Uninstall the add-in</h3>
+<p>To uninstall the add-in, select <strong>Uninstall</strong>. Refresh LCS and the Inventory Visibility Add-in will be removed. The uninstall process will remove the add-in registration and also start a job to clean up all of the business data stored in the service.</p>
+<h2 id="inventory-visibility-add-in-public-api">Inventory Visibility Add-in public API</h2>
+<p>The public REST API of the of the Inventory Visibility Add-in presents several specific endpoints of integration. It supports three main interaction types:</p>
+<ul>
+<li>Posting on-hand changes to the add-in from an external system.</li>
+<li>Querying current on-hand quantities from an external system.</li>
+<li>Automatic synchronization with Supply Chain Management on-hand.</li>
+</ul>
+<p>The automatic synchronization isn't part of the public API but is instead handled in the background for environments that have enabled the Inventory Visibility Add-in.</p>
+<h3 id="authentication">Authentication</h3>
+<p>The platform security token is used to call the Inventory Visibility Add-in, so you must generate an Azure Active Directory token using your Azure Active Directory application.</p>
+<p>For more information about how to get the security token, see <a href="#install-add-in">Install the Inventory Visibility Add-in</a>.</p>
+<h3 id="configure-the-inventory-visibility-api">Configure the Inventory Visibility API</h3>
+<p>Before using the service, you must complete the configurations described in the following subsections. The configuration may vary based on the details of your environment. It primarily includes four parts:</p>
+<ul>
+<li><a href="#partitioning">Partitioning</a></li>
+<li><a href="#dimension-configurations">Dimension configurations</a></li>
+<li><a href="#indexing">Indexing</a></li>
+<li><a href="#custom-measurement">Custom measurement</a></li>
+</ul>
+<h4 id="partitioning">Partitioning</h4>
+<p>Partitioning can significantly influence the performance of the Inventory Visibility API. It's a good idea to define a scheme that allows for small groupings of data while still allowing for meaningful data queries.</p>
+<p>The <code>organizationId</code> (<code>dataAreaId</code> in Supply Chain Management) will always be part of the partitioning, and by default Inventory Visibility is set to partition by dimensions as <em>Site + Location</em>. This means that the service must always be queried with these dimensions defined on the filters.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p><em>Site</em> and <em>Location</em> are two general default dimensions in Inventory Visibility. In Supply Chain Management, those dimensions are called <em>Site</em> (<code>InventSiteId</code>) and <em>Warehouse</em> (<code>InventLocationId</code>)</p>
+</div>
+<h3 id="dimension-configurations">Dimension configurations</h3>
+<p>Inventory Visibility will provide a list of general default dimensions to enable the multiple source system integration.</p>
+<p>The following table lists the inventory dimensions that will be the default dimension names in Inventory Visibility.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension type</th>
+<th>Dimension name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td><code>ColorId</code></td>
+</tr>
+<tr>
+<td>Product</td>
+<td><code>SizeId</code></td>
+</tr>
+<tr>
+<td>Product</td>
+<td><code>StyleId</code></td>
+</tr>
+<tr>
+<td>Product</td>
+<td><code>ConfigId</code></td>
+</tr>
+<tr>
+<td>Tracking</td>
+<td><code>BatchId</code></td>
+</tr>
+<tr>
+<td>Tracking</td>
+<td><code>SerialId</code></td>
+</tr>
+<tr>
+<td>Location</td>
+<td><code>LocationId</code></td>
+</tr>
+<tr>
+<td>Location</td>
+<td><code>SiteId</code></td>
+</tr>
+<tr>
+<td>Inventory Status</td>
+<td><code>StatusId</code></td>
+</tr>
+<tr>
+<td>Warehouse Specific</td>
+<td><code>WMSLocationId</code></td>
+</tr>
+<tr>
+<td>Warehouse Specific</td>
+<td><code>WMSPalletId</code></td>
+</tr>
+<tr>
+<td>Warehouse Specific</td>
+<td><code>LicensePlateId</code></td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The dimension type listed in the previous table is for reference only. You don't need to define the dimension type in Inventory Visibility.</p>
+</div>
+<p>If a custom dimension exists and needs to flow to a default value when consumed by Inventory Visibility, you can configure the <strong>Custom dimension</strong> name in Inventory Visibility.</p>
+<p>External systems access Inventory Visibility through RESTful APIs that enable on-hand information on given sets of dimensions to be queried. For the integration, Inventory Visibility enables you to configure the <em>external channel data source</em> and the source dimension to the <em>target dimensions</em> in Inventory Visibility.</p>
+<p>The target dimensions should be one of the following:</p>
+<ul>
+<li>Default dimensions in Inventory Visibility</li>
+<li>Custom dimensions</li>
+</ul>
+<p>The purpose of dimension configuration is to standardize the multi-system integration for the query on dimensions and the posting event with dimensions.</p>
+<h4 id="indexing">Indexing</h4>
+<p>Most of the time, the inventory on-hand query will not only be on the highest &quot;total&quot; level, but you may want to see results aggregated based on the inventory dimensions.</p>
+<p>Inventory Visibility provides flexibility by allowing you to set up the indexes, which are based on the dimension or the combination of the dimensions.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Currently, you can only configure indexes to a maximum of five. You need to carefully consider which dimension or dimension combination you will use before the implementation to ensure that it will meet your business needs. For example, if you want to query products as follows:</p>
+</div>
+<ul>
+<li>Query the aggregated product on-hand by the <em>Color</em> and <em>Size</em> dimensions.</li>
+<li>In some cases, you just want to query on the product in total.</li>
+</ul>
+<p>You would have two indexes defined as the following:</p>
+<ul>
+<li><code>[&quot;ColorId&quot;, &quot;SizeId&quot;]</code></li>
+<li><code>[]</code></li>
+</ul>
+<p>The empty bracket will aggregate based on the product ID within the partition.</p>
+<p>The indexing defines how you can group your results based on the <code>groupBy</code> query setting. In this case if you don't define any <code>groupBy</code> values, you'll get totals by <code>productid</code>. Otherwise if you define <code>groupBy</code> as <code>groupBy=ColorId&amp;groupBy=SizeId</code>, you'll get multiple lines returned, based on the different color and size combinations in the system.</p>
+<p>You can put your query criteria in the request body.</p>
+<p>Here is a sample query on the product with color and size combination.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;LocationId&quot;: [&quot;21&quot;],
+        &quot;SiteId&quot;: [&quot;2&quot;],
+        &quot;ColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;SizeId&quot;,
+        &quot;ColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="custom-measurement">Custom measurement</h4>
+<p>The default measurement quantities are linked to Supply Chain Management, however you may want to have a quantity that is made up of a combination of the default measurements. To do this, you can have a configuration of custom quantities, which will be added to the output of the on-hand queries.</p>
+<p>The functionality simply allows you to define a set of measures that will be added, and/or a set of measures that will be subtracted, in order to form the custom measurement.</p>
+<p>For example, with the following query condition, you will configure the custom measurement quantity as <code>MyCustomAvailableforReservation</code> to be consumed by the consumption system.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            }
+        }
+    }
+]
+
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Consumption system</th>
+<th>Calculated measurers</th>
+<th>Data source</th>
+<th>Modifier</th>
+<th>Modifier calculation type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>availphysical</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>orderedintotal</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>orderedreserved</code></td>
+<td>Subtraction</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>mypos</code></td>
+<td><code>inbound</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>mypos</code></td>
+<td><code>outbound</code></td>
+<td>Subtraction</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>received</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>scheduled</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>issued</code></td>
+<td>Subtraction</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>reserved</code></td>
+<td>Subtraction</td>
+</tr>
+</tbody>
+</table>
+<p>With that, the query on the custom measurement quantity will return the following output.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            },
+            &quot;CustomChannel&quot;: {
+                &quot;MyCustomAvailableforReservation&quot;: 220.0
+            }
+        }
+    }
+]
+</code></pre>
+<p>The <code>MyCustomAvailableforReservation</code> output is based on the calculation setting in the custom measurements as:<br>
+<em>100 + 50 + 80 + 90 + 30 – 10 – 20 – 60 – 40 = 220</em></p>
+<h3 id="posting-on-hand-changes">Posting on-hand changes</h3>
+<p>The exact URL that the event will be posted to will depend on your geographical region. It will take the form:</p>
+<p><code>https://{serviceURL}/api/environment/{environmentId}/onhand</code></p>
+<p>When authenticated, this URL can be used along with the HTTP <code>POST</code> method to send on-hand change events to the service.</p>
+<p>A special header is used for communicating with Dynamics 365 services through HTTP requests, denoting the environment ID of the Supply Chain Management instance the data is linked to. For example:</p>
+<p><code>x-ms-environment-id: 2db79622-f97a-4d64-9844-d12efed41796</code></p>
+<h4 id="posting-on-hand-changes-query-example-1">Posting on-hand changes query example 1</h4>
+<p>This example shows a scenario where you will set up the dimension configuration in Power Apps.</p>
+<p>Use the following query to configure the dimension mapping in Power Apps:</p>
+<pre><code class="lang-json">{
+    &quot;PosSizeId&quot;: &quot;SizeId&quot;,
+    &quot;PosColorId&quot;: &quot;ColorId&quot;,
+    &quot;PosSiteId&quot;: &quot;SiteId&quot;,
+    &quot;PosLocationId&quot;: &quot;LocationId&quot;
+}
+</code></pre>
+<p>Now you can specify the <code>dimensionDataSource</code> and use custom dimensions in your queries. The system will automatically convert custom dimensions to base dimensions.</p>
+<pre><code class="lang-json">{
+    &quot;id&quot;: &quot;demo-test-00007&quot;,
+    &quot;organizationId&quot;: &quot;usmf&quot;,
+    &quot;productId&quot;: &quot;MyProduct&quot;,
+    &quot;quantities&quot;: {
+        &quot;pos&quot;: {
+            &quot;Outbound&quot;: 1
+        }
+    },
+    &quot;dimensionDataSource&quot;: &quot;pos&quot;,
+    &quot;dimensions&quot;: {
+        &quot;PosSizeId&quot;: &quot;Large&quot;,
+        &quot;PosColorId&quot;: &quot;Red&quot;,
+        &quot;PosSiteId&quot;: &quot;2&quot;,
+        &quot;PosLocationId&quot;: &quot;21&quot;
+    }
+}
+</code></pre>
+<h4 id="posting-on-hand-changes-query-example-2">Posting on-hand changes query example 2</h4>
+<p>This example shows a scenario where no mappings are set up for the dimension configuration in Power Apps, so the posting should also use the base dimensions. All dimensions must be base dimensions when the <code>dimensionDataSource</code> field is null, empty, or whitespace.</p>
+<pre><code class="lang-json">{
+    &quot;id&quot;: &quot;demo-test-00007&quot;,
+    &quot;organizationId&quot;: &quot;usmf&quot;,
+    &quot;productId&quot;: &quot;MyProduct&quot;,
+    &quot;quantities&quot;: {
+        &quot;pos&quot;: {
+            &quot;Outbound&quot;: 1
+        }
+    },
+    &quot;dimensions&quot;: {
+        &quot;SizeId&quot;: &quot;Large&quot;,
+        &quot;ColorId&quot;: &quot;Red&quot;,
+        &quot;SiteId&quot;: &quot;2&quot;,
+        &quot;LocationId&quot;: &quot;21&quot;
+    }
+}
+</code></pre>
+<h4 id="json-document-field-properties">JSON document field properties</h4>
+<p>The fields from the JSON query examples provided previously have the properties listed in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Field ID</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>A unique ID for the specific change event. This ID is used to ensure that if communication with the service fails during posting, resubmitting the event would not result in the same event being counted twice in the system.</td>
+</tr>
+<tr>
+<td><code>organizationId</code></td>
+<td>The identifier of the organization linked to the event. This maps to Supply Chain Management organizations or data area IDs.</td>
+</tr>
+<tr>
+<td><code>productId</code></td>
+<td>The identifier of the product in question.</td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td>The quantity by which the on-hand needs to be changed. If, for instance, 10 new bagels were added to a shelf, this value would be 10. If 3 bagels were then removed from the shelf or sold, this value would be -3.</td>
+</tr>
+<tr>
+<td><code>dimensionDataSource</code></td>
+<td>The data source of the dimensions used in the posting change event and query. If you specify the data source, you can use the custom dimensions from the specified data source. With the dimension configuration, Inventory Visibility can map the custom dimensions to the general default dimensions. If the <code>dimensionDataSource</code> is not specified, you can only use the general default dimensions in your queries.</td>
+</tr>
+<tr>
+<td><code>dimensions</code></td>
+<td>A dynamic bag of key/value pairs. These will map to some of the dimensions in Supply Chain Management, but you could also add custom dimensions (like <em>Source</em>) that may denote if the event was coming from Supply Chain Management or an external system.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="querying-current-on-hand">Querying current on-hand</h3>
+<p>The endpoint for querying the current on-hand will have a similar URL:</p>
+<p><code>https://{serviceURL}/api/environment/{environmentId}/onhand/indexquery</code></p>
+<p>It will be queried with the HTTP <code>POST</code> method.</p>
+<h4 id="current-on-hand-query-example-1">Current on-hand query example 1</h4>
+<p>This example shows a scenario where you have already completed the dimension configuration in Power Apps.</p>
+<p>Use the following query to configure the dimension mapping in Power Apps:</p>
+<pre><code class="lang-json">{
+    &quot;PosSizeId&quot;: &quot;SizeId&quot;,
+    &quot;PosColorId&quot;: &quot;ColorId&quot;,
+    &quot;PosSiteId&quot;: &quot;SiteId&quot;,
+    &quot;PosLocationId&quot;: &quot;LocationId&quot;
+}
+</code></pre>
+<p>Now you can specify the <code>dimensionDataSource</code> and use custom dimensions in your queries. The system will automatically convert custom dimensions to base dimensions. You can specify the <code>DimensionDataSource</code> in <code>filters</code> and specify custom dimensions in both <code>filters</code> and <code>groupByValues</code>. The system will automatically convert custom dimensions to base dimensions.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;DimensionDataSource&quot;: [&quot;Pos&quot;],
+        &quot;PosLocationId&quot;: [&quot;21&quot;],
+        &quot;PosSiteId&quot;: [&quot;2&quot;],
+        &quot;PosColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;PosSizeId&quot;,
+        &quot;PosColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="current-on-hand-query-example-2">Current on-hand query example 2</h4>
+<p>This example shows a scenario where no mappings are set up for the dimension configuration in Power Apps, so the posting should also use the base dimensions. All dimensions must be base dimensions when the <code>dimensionDataSource</code> field, under <code>filters</code> is null, empty, or whitespace.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;LocationId&quot;: [&quot;21&quot;],
+        &quot;SiteId&quot;: [&quot;2&quot;],
+        &quot;ColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;SizeId&quot;,
+        &quot;ColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="example-return-result">Example return result</h4>
+<p>The queries shown in the previous examples could return a result like this.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            },
+            &quot;CustomChannel&quot;: {
+                &quot;MyCustomAvailableforReservation&quot;: 220.0
+            }
+        }
+    }
+]
+</code></pre>
+<p>Note that the quantities fields are structured as a dictionary of measures and their associated values.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

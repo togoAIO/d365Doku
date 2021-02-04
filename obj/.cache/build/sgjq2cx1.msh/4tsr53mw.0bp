@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Zone threshold replenishment | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Zone threshold replenishment | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="zone-threshold-replenishment">Zone threshold replenishment</h1>
+
+
+<p>Zone-based replenishment uses a minimum/maximum (min/max) <a href="replenishment.html">replenishment</a> strategy, but it evaluates whole warehouse zones instead of just individual locations. Therefore, warehouse managers can more quickly learn when additional inventory is required in a picking zone.</p>
+<p>The setup for this feature resembles the setup for location-based replenishment. However, when you set up a template for min/max replenishment, you can also specify whether the threshold should be evaluated per location or per zone. If you set up evaluation that is based on zones, you must add specific zones to the zone selection query.</p>
+<p>Like location-based min/max replenishment, zone-based min/max replenishment is based the setup of a minimum inventory threshold that triggers the creation of replenishment work for selected items. This replenishment work will increase inventory up to the specified maximum threshold for the zone.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Zone replenishment processes for product variants aren't supported in the current release.</p>
+</div>
+<p>Unlike location-based min/max replenishment, zone-based min/max replenishment doesn't require fixed locations to evaluate whether locations should store a specific item. Therefore, zone-based replenishment lets you use min/max replenishment even if you don't have fixed locations for each item or item variant in the warehouse. When a quantity in the zone falls below the specified minimum threshold, replenishment work is created. Location directives will determine which specific location the inventory should be put into.</p>
+<h2 id="turn-on-the-zone-threshold-replenishment-feature">Turn on the Zone threshold replenishment feature</h2>
+<p>Before you can use the <em>Zone threshold replenishment</em> feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the feature and turn it on if it's required. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Zone threshold replenishment</em></li>
+</ul>
+<h2 id="setup">Set up zone-based replenishment</h2>
+<p>To set up zone-based replenishment, you must configure several parts of the system. This section introduces the various settings and provides demo data values that you can enter if you want to work through the scenario at the end of this topic.</p>
+<h3 id="set-up-directive-codes">Set up directive codes</h3>
+<p><a href="control-warehouse-location-directives.html">Directive codes</a> let you be more specific when you define the location template that is used in a work template. Each code establishes a common value that you can refer to when you configure each type of template.</p>
+<h4 id="view-and-edit-directive-codes">View and edit directive codes</h4>
+<p>To view or edit your directive codes, go to <strong>Warehouse management &gt; Setup &gt; Directive codes</strong>.</p>
+<h4 id="prepare-demo-data-directive-codes">Prepare demo data directive codes</h4>
+<p>This example shows how to prepare a directive code. If you're planning to work through the scenario at the end of this topic, use the demo data values that are provided here. Otherwise, use your own values.</p>
+<ol>
+<li><p>Select the <strong>USMF</strong> legal entity to work with the demo data.</p>
+</li>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Directive codes</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Directive code:</strong> <em>Zone replen</em></li>
+<li><strong>Directive description:</strong> <em>Zone replenishment</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new code.</p>
+</li>
+</ol>
+<h3 id="set-up-replenishment-templates">Set up replenishment templates</h3>
+<p><a href="tasks/set-up-min-max-replenishment-process.html">Min/max replenishment templates</a> are the primary mechanism for maintaining optimal levels in picking locations. In these templates, you must set up the rules that will be used to replenish inventory in the warehouse. The replenishment that the templates can be used for includes zone-based replenishment.</p>
+<h4 id="view-and-edit-replenishment-templates">View and edit replenishment templates</h4>
+<p>A replenishment template is a set of rules that control when and how a location is replenished. You select a template to control when and how replenishment is done. To view or edit your replenishment templates, go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Replenishment templates</strong>.</p>
+<h4 id="prepare-a-demo-data-replenishment-template">Prepare a demo data replenishment template</h4>
+<p>This example shows how to prepare a replenishment template. If you're planning to work through the scenario at the end of this topic, use the demo data values that are provided here. Otherwise, use your own values.</p>
+<ol>
+<li><p>Select the <strong>USMF</strong> legal entity to work with the demo data.</p>
+</li>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Replenishment templates</strong>.</p>
+</li>
+<li><p>Select <strong>Edit</strong> to put the page into edit mode.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to add a row to the <strong>Overview</strong> grid.</p>
+</li>
+<li><p>In the new row, set the following values. Accept the default values for all other fields.</p>
+<ul>
+<li><strong>Replenish template:</strong> <em>Zone min/max replen</em></li>
+<li><strong>Description:</strong> <em>Zone min/max replenishment</em></li>
+<li><strong>Replenishment type:</strong> <em>Minimum or maximum</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>While the new row is still selected in the <strong>Overview</strong> grid, select <strong>New</strong> above the <strong>Replenishment Template Details</strong> grid to add a row that is associated with the <em>Zone Min/Max replen</em> replenishment template that you just created.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Enter <em>1</em>.</li>
+<li><strong>Description:</strong> Enter <em>Pick zone replenishment</em>.</li>
+<li><strong>Replenishment unit:</strong> Select <em>ea</em>.</li>
+<li><strong>Request type:</strong> Leave this field blank.</li>
+<li><strong>Directive code:</strong> This field links the replenishment template with a location directive. Select the demo data directive code that you created earlier (<em>Zone replen</em>).</li>
+<li><strong>Work template:</strong> Leave this field blank.</li>
+<li><strong>Minimum quantity:</strong> This field sets the quantity that replenishment will be triggered at. Enter <em>50</em>.</li>
+<li><strong>Maximum quantity:</strong> This field sets the maximum quantity of an item that can be present in a zone. Generated replenishment work will increase inventory to this quantity. Enter <em>150</em>.</li>
+<li><strong>Unit:</strong> This field sets the unit for the minimum and maximum values. Select <em>ea</em>.</li>
+<li><strong>Demand increment:</strong> Select <em>Round up</em>.</li>
+<li><strong>Replenish empty fixed locations:</strong> Select this check box.</li>
+<li><strong>Replenish only fixed locations:</strong> Clear this check box.</li>
+<li><strong>Product query mode:</strong> Select <em>Product query</em>.</li>
+<li><strong>Replenishment threshold scope:</strong> This field defines whether the template should evaluate by zone or by specific location. Select <em>Zone</em>.</li>
+<li><strong>Warehouse:</strong> Select <em>61</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>Select products</strong> above the <strong>Replenishment Template Details</strong> grid.</p>
+</li>
+<li><p>In the <strong>Product query</strong> dialog box, on the <strong>Range</strong> tab, select <strong>Add</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Items</em></li>
+<li><strong>Derived table:</strong> <em>Items</em></li>
+<li><strong>Field:</strong> <em>Item number</em></li>
+<li><strong>Criteria:</strong> <em>A0001</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your query and close the dialog box.</p>
+</li>
+<li><p>Select <strong>Select zones to replenish</strong> above the <strong>Replenishment Template Details</strong> grid.</p>
+</li>
+<li><p>In the <strong>Zone query</strong> dialog box, on the <strong>Range</strong> tab, add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Warehouse zone</em></li>
+<li><strong>Derived table:</strong> <em>Warehouse zone</em></li>
+<li><strong>Field:</strong> <em>Zone ID</em></li>
+<li><strong>Criteria:</strong> <em>FLOOR</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your query and close the dialog box.</p>
+</li>
+</ol>
+<h3 id="set-up-location-directives">Set up location directives</h3>
+<p>Unlike location-based min/max replenishment, zone-based min/max replenishment requires that you set up both pick location directives and put location directives, because the system evaluates the whole zone instead of just the pick location for outbound work.</p>
+<h4 id="view-and-edit-location-directives">View and edit location directives</h4>
+<p>To view or edit your location directives, go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+<p>For examples that show how to use the settings to create the required pick location directives and put location directives, see the next section.</p>
+<h4 id="prepare-demo-data-location-directives">Prepare demo data location directives</h4>
+<p>To prepare demo data so that it can be used in the scenario at the end of this topic, you must create two location directives: one for pick and one for put.</p>
+<h5 id="create-a-replenishment-pick-directive">Create a replenishment pick directive</h5>
+<ol>
+<li><p>Select the <strong>USMF</strong> legal entity to work with the demo data.</p>
+</li>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the left pane, set the <strong>Work order type</strong> field to <em>Replenishment</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a new directive.</p>
+</li>
+<li><p>Set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Accept the default value.</li>
+<li><strong>Name:</strong> Enter <em>Zone pick</em>.</li>
+<li><strong>Work type:</strong> Select <em>Pick</em>.</li>
+<li><strong>Site:</strong> Select <em>6</em>.</li>
+<li><strong>Warehouse:</strong> Select <em>61</em>.</li>
+<li><strong>Directive code:</strong> Leave this field blank.</li>
+<li><strong>Multi SKU:</strong> Set this option to <em>No</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to create a directive that has the settings that you've configured so far.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Enter <em>1</em>.</li>
+<li><strong>From quantity:</strong> Enter <em>0</em>.</li>
+<li><strong>To quantity:</strong> Enter <em>10000000</em>.</li>
+<li><strong>Unit:</strong> Leave this field blank.</li>
+<li><strong>Locate quantity:</strong> Select <em>None</em>.</li>
+<li><strong>Restrict by unit:</strong> Clear this check box.</li>
+<li><strong>Round up to unit:</strong> Clear this check box.</li>
+<li><strong>Locate packing quantity:</strong> Clear this check box.</li>
+<li><strong>Allow split:</strong> Select this check box.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new line.</p>
+</li>
+<li><p>While your new line is still selected in the <strong>Lines</strong> grid, select <strong>New</strong> on the <strong>Location Directive Actions</strong> FastTab to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Enter <em>1</em>.</li>
+<li><strong>Name:</strong> Enter <em>Pick from bulk</em>.</li>
+<li><strong>Fixed location usage:</strong> Select <em>Fixed and non-fixed locations</em>.</li>
+<li><strong>Allow negative inventory:</strong> Clear this check box.</li>
+<li><strong>Batch enabled:</strong> Clear this check box.</li>
+<li><strong>Strategy:</strong> Select <em>None</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new action.</p>
+</li>
+<li><p>While your new action still selected, select <strong>Edit query</strong> above the <strong>Location Directive Actions</strong> grid.</p>
+</li>
+<li><p>A query dialog box appears, where you can select the locations to replenish from. On the <strong>Range</strong> tab, select <strong>Add</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Zone ID</em></li>
+<li><strong>Criteria:</strong> <em>BULK</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your query and close the dialog box.</p>
+</li>
+<li><p>Select <strong>Save</strong> to save your location directive.</p>
+</li>
+</ol>
+<h5 id="create-a-replenishment-put-directive">Create a replenishment put directive</h5>
+<ol>
+<li><p>On the <strong>Location directives</strong> page, in the left pane, make sure that the <strong>Work order type</strong> field is still set to <em>Replenishment</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create another new directive.</p>
+</li>
+<li><p>Set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Accept the default value.</li>
+<li><strong>Name:</strong> Enter <em>Zone put</em>.</li>
+<li><strong>Work order type:</strong> Select <em>Put</em>.</li>
+<li><strong>Site:</strong> Select <em>6</em>.</li>
+<li><strong>Warehouse:</strong> Select <em>61</em>.</li>
+<li><strong>Directive code:</strong> Select <em>Zone replen</em> to link this location directive with the replenishment template that you created earlier by using the code that you created earlier.</li>
+<li><strong>Multi SKU:</strong> Set this option to <em>No</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to create a directive that has the settings that you've configured so far.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Enter <em>1</em>.</li>
+<li><strong>From quantity:</strong> Enter <em>0</em>.</li>
+<li><strong>To quantity:</strong> Enter <em>10000000</em>.</li>
+<li><strong>Unit:</strong> Leave this field blank.</li>
+<li><strong>Locate quantity:</strong> Select <em>None</em>.</li>
+<li><strong>Restrict by unit:</strong> Clear this check box.</li>
+<li><strong>Round up to unit:</strong> Clear this check box.</li>
+<li><strong>Locate packing quantity:</strong> Clear this check box.</li>
+<li><strong>Allow split:</strong> Select this check box.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new line.</p>
+</li>
+<li><p>While your new line is still selected in the <strong>Lines</strong> grid, select <strong>New</strong> on the <strong>Location Directive Actions</strong> FastTab to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> Enter <em>1</em>.</li>
+<li><strong>Name:</strong> Enter <em>Zone put</em>.</li>
+<li><strong>Fixed location usage:</strong> Select <em>Fixed and non-fixed locations</em>.</li>
+<li><strong>Allow negative inventory:</strong> Clear this check box.</li>
+<li><strong>Batch enabled:</strong> Clear this check box.</li>
+<li><strong>Strategy:</strong> Select <em>Consolidate</em>.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the new action.</p>
+</li>
+<li><p>While your new action is still selected, select <strong>Edit query</strong> above the <strong>Location Directive Actions</strong> grid.</p>
+</li>
+<li><p>A query dialog box appears, where you can select the zone to replenish to. This zone should be the same zone that is specified in the replenishment template. On the <strong>Range</strong> tab, select <strong>Add</strong> to add a row to the grid.</p>
+</li>
+<li><p>In the new row, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Zone ID</em></li>
+<li><strong>Criteria:</strong> <em>FLOOR</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your query and close the dialog box.</p>
+</li>
+<li><p>Select <strong>Save</strong> to save your location directive.</p>
+</li>
+</ol>
+<h2 id="scenario">Scenario</h2>
+<p>This section provides a sample scenario that shows how to work with the feature.</p>
+<h3 id="prepare-the-sample-data-that-is-required-for-the-sample-scenario">Prepare the sample data that is required for the sample scenario</h3>
+<p>Before you start to work through the scenario, you must activate sample data and set up the feature as described in this section and in the previous sections of this topic.</p>
+<h4 id="use-the-usmf-legal-entity">Use the USMF legal entity</h4>
+<p>To work through the scenario by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<h4 id="prepare-additional-sample-data">Prepare additional sample data</h4>
+<p>After you've selected the <strong>USMF</strong> legal entity, add the additional sample data that is required, as described in the <a href="#setup">Set up zone-based replenishment</a> section earlier in this topic.</p>
+<h4 id="check-your-on-hand-inventory">Check your on-hand inventory</h4>
+<p>Follow these steps to make sure that your system includes enough inventory to support the sample scenario.</p>
+<ol>
+<li><p>Make sure that there is on-hand inventory for item <em>A0001</em> at two different locations in the pick zone (<em>FLOOR</em>) that is specified in the replenishment template. However, the total inventory should be less than the required minimum quantity (<em>50</em>) that is specified on the replenishment template. In this way, you can simulate how the calculation occurs for the whole zone instead of just for a single location. <strong>Use any of the warehouse processes to adjust inventory as required.</strong></p>
+</li>
+<li><p>Make sure that there is enough inventory for item <em>A0001</em> at a bulk location that is specified in the zone pick location directive where the replenishment work should pick the items from zone ID <em>BULK</em>. The total inventory must be more than the required maximum quantity (<em>150</em>) that is specified in the replenishment template.</p>
+</li>
+<li><p>Optional but recommended: Follow these steps to create an inventory adjustment journal:</p>
+<ol>
+<li><p>Go to <strong>Inventory management &gt; Journal entries &gt; Items &gt; Inventory adjustment</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create inventory journal</strong> dialog box, in the <strong>Warehouse</strong> field, select <em>61</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the <strong>Journal lines</strong> FastTab, use the <strong>New</strong> button to add three lines to the grid, and set the following values. After you've finished setting up each line, select <strong>Save</strong>.</p>
+<ul>
+<li><p><strong>Line 1:</strong></p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Location:</strong> <em>02A01R1S1B</em></li>
+<li><strong>License plate:</strong> Select an existing license plate in the list, or create a new license plate.</li>
+<li><strong>Quantity:</strong> <em>1000</em></li>
+</ul>
+</li>
+<li><p><strong>Line 2:</strong></p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Location:</strong> <em>07A01R2S1B</em></li>
+<li><strong>License plate:</strong> Select an existing license plate in the list, or create a new license plate.</li>
+<li><strong>Quantity:</strong> <em>15</em></li>
+</ul>
+</li>
+<li><p><strong>Line 3:</strong></p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Location:</strong> <em>07A01R1S1B</em></li>
+<li><strong>License plate:</strong> Select an existing license plate in the list, or create a new license plate.</li>
+<li><strong>Quantity:</strong> <em>10</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Validate</strong>. Address any errors that are found before you move on to the next step.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Post</strong> to post the inventory to the warehouse.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="sample-scenario-run-zone-based-minmax-replenishment">Sample scenario: Run zone-based min/max replenishment</h3>
+<p>After all the prerequisite sample data is in place, you can trigger replenishment by following these steps.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Replenishment &gt; Replenishments</strong>.</p>
+</li>
+<li><p>In the <strong>Replenishment</strong> dialog box, on the <strong>Records to include</strong> FastTab, select <strong>Filter</strong>.</p>
+</li>
+<li><p>In the <strong>Inquiry</strong> dialog box, on the <strong>Range</strong> tab, edit the default table row in the following way:</p>
+<ul>
+<li><strong>Table:</strong> Select <em>Replenishment templates</em>.</li>
+<li><strong>Derived table:</strong> Select <em>Replenishment templates</em>.</li>
+<li><strong>Field:</strong> Select <em>Replenishment template</em>.</li>
+<li><strong>Criteria:</strong> Select <em>Zone min/max replen</em>. This replenishment template is the replenishment template that you created while you were preparing the demo data for this scenario.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save the query and go back to the <strong>Replenishment</strong> dialog box.</p>
+</li>
+<li><p>Select <strong>OK</strong> to run the replenishment template.</p>
+</li>
+</ol>
+<p>Replenishment work is now created to pick inventory from the <em>BULK</em> zone and replenish it to the <em>FLOOR</em> zone.</p>
+<h2 id="notes-and-tips">Notes and tips</h2>
+<p>Here are a few notes and tips for working with the feature:</p>
+<ul>
+<li><p>To set up replenishment work that goes to the desired zone, you can link the replenishment template lines and location directives in either of the following ways:</p>
+<ul>
+<li>Edit the location directive header query, and filter the selected replenishment template lines.</li>
+<li>Use a directive code on the replenishment template line, and match it to the put location directive.</li>
+</ul>
+</li>
+<li><p>If you're using dynamic locations, replenishment work will be created either for the first available location or for a location that already contains inventory, if the location directive action is set up to use the <strong>Consolidate</strong> strategy.</p>
+</li>
+<li><p>If you're using fixed locations instead of zones, you should use <a href="tasks/set-up-min-max-replenishment-process.html">standard min/max replenishment</a>.</p>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

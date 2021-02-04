@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Debug data sources of an executed ER format to analyze data flow and transformation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Debug data sources of an executed ER format to analyze data flow and transformation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how you can debug the data sources of an executed ER format to better understand the configured data flow and transformation.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERSolutionTable, EROperationDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="debug-data-sources-of-an-executed-er-format-to-analyze-data-flow-and-transformation">Debug data sources of an executed ER format to analyze data flow and transformation</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/public-preview-releases">Service update availability</a>.</p>
+</div>
+
+<p>When you <a href="tasks/er-format-configuration-2016-11.html">configure</a> an Electronic reporting (ER) solution to generate outbound documents, you define the methods that are used to get data out of the application and enter it in the output that is generated. To make the life cycle support of the ER solution more efficient, your solution should consist of an ER <a href="general-electronic-reporting.html#DataModelComponent">data model</a> and its <a href="general-electronic-reporting.html#ModelMappingComponent">mapping</a> components, and also an ER <a href="general-electronic-reporting.html#FormatComponentOutbound">format</a> and its mapping components, so that the model mapping is application-specific, whereas other components remain application-agnostic. Therefore, several ER components might <a href="general-electronic-reporting.html#FormatComponentOutbound">affect</a> the process of entering data in the generated output.</p>
+<p>Sometimes, the data of the generated output looks different than the same data in the application database. In these cases, you will want to determine which ER component is responsible for the data transformation. The ER data source debugger feature significantly reduces the time and cost that are involved in this investigation. You can interrupt the execution of an ER format and open the data source debugger interface. There, you can browse the available data sources and select an individual data source for execution. This manual execution simulates the execution of the data source during the real run of an ER format. The result is presented on a page where you can analyze the data that is received.</p>
+<p>To turn on the data source debugging feature, set the <strong>Enable data debugging at format run</strong> option to <strong>Yes</strong> in the ER user parameters. You can then start data source debugging while you run an ER format to generate outbound documents. You can also use the <strong>Start debugging</strong> option to initiate data source debugging for an ER format that is configured in the <a href="tasks/er-format-configuration-2016-11.html#design-the-format-of-an-electronic-document">ER Operation designer</a>.</p>
+<p>This topic provides guidelines for initiating data source debugging for executed ER formats. It explains how the information can help you understand the data flow and data transformations. The examples in this topic use the business process for vendor payments processing.</p>
+<h2 id="limitations">Limitations</h2>
+<p>The data source debugger can be used to access the data of data sources that are used in ER formats that are run to generate outbound documents. It can't be used to debug data sources of ER formats that are designed to parse inbound documents.</p>
+<p>The following settings of ER formats aren't currently accessible for data source debugging:</p>
+<ul>
+<li>Format transformations</li>
+<li>Format and mapping validation rules</li>
+<li>Enabling expressions</li>
+<li>Details of in-memory data collection</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><p>To complete the examples in this topic, you must have the access to one of the following <a href="../sysadmin/tasks/assign-users-security-roles.html">roles</a>:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+<li><p>The company must be set to <strong>DEMF</strong>.</p>
+</li>
+<li><p>Follow the steps in <a href="#appendix1">Appendix 1</a> of this topic to download the components of the Microsoft ER solution that are required to process vendor payments.</p>
+</li>
+<li><p>Follow the steps in <a href="#appendix2">Appendix 2</a> of this topic to prepare Accounts payable for vendor payment processing by using the ER solution that you will download.</p>
+</li>
+</ul>
+<h2 id="process-a-vendor-payment-to-get-a-payment-file">Process a vendor payment to get a payment file</h2>
+<ol>
+<li><p>Follow the steps in <a href="#appendix3">Appendix 3</a> of this topic to process vendor payments.</p>
+<p><img src="media/er-data-debugger-process-payment.png" alt="Vendor payment processing in progress"></p>
+</li>
+<li><p>Download and save the zip file to your local computer.</p>
+</li>
+<li><p>Extract the <strong>ISO20022 Credit transfer.xml</strong> payment file from the zip file.</p>
+</li>
+<li><p>Open the extracted payment file by using the XML file viewer.</p>
+<p>In the payment file, the International Bank Account Number (IBAN) code of the vendor bank account contains no spaces. Therefore, it differs from the value that was <a href="#enteredIBANcode">entered</a> on the <strong>Bank accounts</strong> page.</p>
+<p><img src="media/er-data-debugger-payment-file.png" alt="IBAN code without spaces"></p>
+<p>You can use the ER data source debugger to learn which component of the ER solution is used to truncate spaces in the IBAN code.</p>
+</li>
+</ol>
+<h2 id="turn-on-data-source-debugging">Turn on data source debugging</h2>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, on the Action Pane, on the <strong>Configurations</strong> tab, in the <strong>Advanced settings</strong> group, select <strong>User parameters</strong>.</p>
+</li>
+<li><p>Set the <strong>Enable data debugging at format run</strong> option to <strong>Yes</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This parameter is user-specific and company-specific.</p>
+</div>
+<p><img src="media/er-data-debugger-user-parameters.png" alt="User parameters dialog box"></p>
+</li>
+</ol>
+<h2 id="process-a-vendor-payment-for-debugging">Process a vendor payment for debugging</h2>
+<ol>
+<li><p>Follow the steps in <a href="#appendix3">Appendix 3</a> of this topic to process vendor payments.</p>
+</li>
+<li><p>In the message box, select <strong>Yes</strong> to confirm that you want to interrupt vendor payment processing and instead start data source debugging on the <strong>Debug Datasources</strong> page.</p>
+<p><img src="media/er-data-debugger-start-debugging.png" alt="Confirmation message box"></p>
+</li>
+</ol>
+<h2 id="debug-data-sources-that-are-used-in-payment-processing">Debug data sources that are used in payment processing</h2>
+<h3 id="debug-the-model-mapping">Debug the model mapping</h3>
+<ol>
+<li><p>On the <strong>Debug Datasources</strong> page, on the Action Pane, select <strong>Model mapping</strong> to start to debug from this ER component.</p>
+</li>
+<li><p>In the data source pane on the left, select the <strong>$notSentTransactions</strong> data source, and then select <strong>Read all records</strong>.</p>
+<p>You can select <strong>Read 1 record</strong>, <strong>Read 10 records</strong>, <strong>Read 100 records</strong>, or <strong>Read all records</strong> to force the appropriate number of records to be read from the selected data source. In this way, you can simulate access to the data source from the running ER format.</p>
+</li>
+<li><p>In the data pane on the right, select <strong>Expand all</strong>.</p>
+<p>You can see that the selected data source of the <strong>Record list</strong> type contains a single record.</p>
+</li>
+<li><p>Expand the <strong>$notSentTransactions</strong> data source, and select the nested <strong>vendBankAccountInTransactionCompany()</strong> method.</p>
+</li>
+<li><p>Expand the <strong>vendBankAccountInTransactionCompany()</strong> method, and select the nested <strong>IBAN</strong> field.</p>
+</li>
+<li><p>Select <strong>Get value</strong>.</p>
+<p>You can select <strong>Get value</strong> to force the value of a selected field of the selected data source to be read. In this way, you can simulate access to this field from the running ER format.</p>
+</li>
+<li><p>Select <strong>Expand all</strong>.</p>
+<p><img src="media/er-data-debugger-debugging-model-mapping.png" alt="Value of the IBAN field in the model mapping"></p>
+<p>As you can see, the model mapping isn't responsible for the truncated spaces, because the IBAN code that it returns for the vendor bank account includes spaces. Therefore, you must continue data source debugging.</p>
+</li>
+</ol>
+<h3 id="debug-the-format-mapping">Debug the format mapping</h3>
+<ol>
+<li><p>On the <strong>Debug Datasources</strong> page, on the Action Pane, select <strong>Format mapping</strong> to continue to debug from this ER component.</p>
+</li>
+<li><p>Select the <strong>$PaymentByDebtor</strong> data source, and then select <strong>Read all records</strong>.</p>
+</li>
+<li><p>Expand <strong>$PaymentByDebtor</strong>.</p>
+</li>
+<li><p>Expand <strong>$PaymentByDebtor.Lines</strong>, and then select <strong>Read all records</strong>.</p>
+</li>
+<li><p>Expand <strong>$PaymentByDebtor.Lines.CreditorAccount</strong>.</p>
+</li>
+<li><p>Expand <strong>$PaymentByDebtor.Lines.CreditorAccount.Identification</strong>, and then select <strong>$PaymentByDebtor.Lines.CreditorAccount.Identification.IBAN</strong>.</p>
+</li>
+<li><p>Select <strong>Get value</strong>.</p>
+</li>
+<li><p>Select <strong>Expand all</strong>.</p>
+<p><img src="media/er-data-debugger-debugging-format-mapping.png" alt="Value of the IBAN field in the format mapping"></p>
+<p>As you can see, the data sources of the format mapping aren't responsible for the truncated spaces, because the IBAN code that they return for the vendor bank account includes spaces. Therefore, you must continue data source debugging.</p>
+</li>
+</ol>
+<h3 id="debug-the-format">Debug the format</h3>
+<ol>
+<li><p>On the <strong>Debug Datasources</strong> page, on the Action Pane, select <strong>Format</strong> to continue to debug from this ER component.</p>
+</li>
+<li><p>Expand the format elements to select <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong>, and then select <strong>Read all records</strong>.</p>
+</li>
+<li><p>Expand the format elements to select <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong>, and then select <strong>Read all records</strong>.</p>
+</li>
+<li><p>Expand the format elements to select <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong>, and then select <strong>Get value</strong>.</p>
+</li>
+<li><p>Select <strong>Expand all</strong>.</p>
+<p><img src="media/er-data-debugger-debugging-format.png" alt="Value of the IBAN field in the format"></p>
+<p>As you can see, the format binding isn't responsible for the truncated spaces because the IBAN code that it returns for the vendor bank account includes spaces. Therefore, the <strong>BankIBAN</strong> element is configured to use a format transformation that truncates spaces.</p>
+</li>
+<li><p>Close the data source debugger.</p>
+</li>
+</ol>
+<h3 id="review-the-format-transformations">Review the format transformations</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, select <strong>Payment model</strong> &gt; <strong>ISO20022 Credit transfer</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>, and then expand the elements to select <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong>.</p>
+<p><img src="media/er-data-debugger-referred-transformation.png" alt="BankIBAN element on the Format designer page"></p>
+<p>As you can see, the <strong>BankIBAN</strong> element is configured to use the <strong>remove not alphanumeric</strong> transformation.</p>
+</li>
+<li><p>Select the <strong>Transformations</strong> tab.</p>
+<p><img src="media/er-data-debugger-transformation.png" alt="Transformations tab for the BankIBAN element"></p>
+<p>As you can see, the <strong>remove not alphanumeric</strong> transformation is configured to use an expression that truncates spaces from the text string that is provided.</p>
+</li>
+</ol>
+<h2 id="start-to-debug-in-the-operation-designer">Start to debug in the Operation designer</h2>
+<p>When you configure a draft version of the ER format that can be run directly from the Operation designer, you can access the data source debugger by selecting <strong>Start Debugging</strong> on the Action Pane.</p>
+<p><img src="media/er-data-debugger-run-from-designer.png" alt="Start Debugging button on the Format designer page"></p>
+<p>The format mapping and format components of the ER format that is being edited are available for debugging.</p>
+<h2 id="start-to-debug-in-the-model-mapping-designer">Start to debug in the Model mapping designer</h2>
+<p>When you configure an ER model mapping that can be run from the <strong>Model mapping</strong> page, you can access the data source debugger by selecting <strong>Start Debugging</strong> on the Action Pane.</p>
+<p><img src="media/er-data-debugger-run-from-designer-mapping.png" alt="Start Debugging button the Model mapping designer page"></p>
+<p>The model mapping component of the ER mapping that is being edited is available for debugging.</p>
+<h2 id="appendix1">Appendix 1: Get an ER solution</h2>
+<h3 id="download-an-er-solution">Download an ER solution</h3>
+<p>If you want to use an ER solution to generate an electronic payment file for a vendor payment that is processed, you can <a href="download-electronic-reporting-configuration-lcs.html">download</a> the <strong>ISO20022 Credit transfer</strong> ER payment format that is available from the Shared asset library in Microsoft Dynamics Lifecycle Services (LCS) or from the Global repository.</p>
+<p><img src="media/er-data-debugger-import-from-repo.png" alt="Importing the ER payment format on the Configuration repository page"></p>
+<p>In addition to the selected ER format, the following <a href="general-electronic-reporting.html#Configuration">configurations</a> must be automatically imported into your Microsoft Dynamics 365 Finance instance as part of the <strong>ISO20022 Credit transfer</strong> ER solution:</p>
+<ul>
+<li><strong>Payment model</strong> <a href="general-electronic-reporting.html#DataModelComponent">ER data model configuration</a></li>
+<li><strong>ISO20022 Credit transfer</strong> <a href="general-electronic-reporting.html#FormatComponentOutbound">ER format configuration</a></li>
+<li><strong>Payment model mapping 1611</strong> <a href="general-electronic-reporting.html#ModelMappingComponent">ER model mapping configuration</a></li>
+<li><strong>Payment model mapping to destination ISO20022</strong> ER model mapping configuration</li>
+</ul>
+<p>You can find these configurations on the <strong>Configurations</strong> page of the ER framework (<strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>).</p>
+<p><img src="media/er-data-debugger-configurations.png" alt="Configurations imported on the Configurations page"></p>
+<p>If any of the previously listed configurations are missing in the configuration tree, you must manually download them from the LCS Shared asset library in the same way that you downloaded the <strong>ISO20022 Credit transfer</strong> ER payment format.</p>
+<h3 id="analyze-the-downloaded-er-solution">Analyze the downloaded ER solution</h3>
+<h4 id="review-the-model-mapping">Review the model mapping</h4>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>Select <strong>Payment model</strong> &gt; <strong>Payment model mapping 1611</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select the <strong>Payment model mapping ISO20022 CT</strong> mapping record.</p>
+</li>
+<li><p>Select <strong>Designer</strong>, and then review the model mapping that is opened.</p>
+<p>Notice that the <strong>Payments</strong> field of the data model is bound to the <strong>$notSentTransactions</strong> data source that returns the list of vendor payment lines that are being processed.</p>
+<p><img src="media/er-data-debugger-model-mapping.png" alt="Payments field on the Model mapping designer page"></p>
+</li>
+</ol>
+<h4 id="review-the-format-mapping">Review the format mapping</h4>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>Select <strong>Payment model</strong> &gt; <strong>ISO20022 Credit transfer</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, review the format mapping that is opened.</p>
+<p>Notice that the <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> element of the <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> file is bound to the <strong>$PaymentByDebtor</strong> data source that is configured to group records of the data model's <strong>Payments</strong> field.</p>
+<p><img src="media/er-data-debugger-format-mapping.png" alt="PmtInf element on the Format designer page"></p>
+</li>
+</ol>
+<h4 id="review-the-format">Review the format</h4>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>Select <strong>Payment model</strong> &gt; <strong>ISO20022 Credit transfer</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>, and then review the format that is opened.</p>
+<p>Notice that the format element under <strong>Document</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong> is configured to enter the IBAN code of the vendor account in the payment file.</p>
+<p><img src="media/er-data-debugger-format.png" alt="BankIBAN element on the Format designer page"></p>
+</li>
+</ol>
+<h2 id="appendix2">Appendix 2: Configure Accounts payable</h2>
+<h3 id="modify-a-vendor-property">Modify a vendor property</h3>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Vendors</strong> &gt; <strong>All vendors</strong>.</li>
+<li>Select vendor <strong>DE-01002</strong>, and then, on the Action Pane, on the <strong>Vendor</strong> tab, in the <strong>Set up</strong> group, select <strong>Bank accounts</strong>.</li>
+<li>On the <strong>Identification</strong> FastTab, in the <strong>IBAN</strong> field, <a name="enteredIBANcode"></a>enter <strong>GB33 BUKB 2020 1555 5555 55</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-iban.png" alt="IBAN field set on the Vendor bank accounts page"></p>
+<h3 id="set-up-a-method-of-payment">Set up a method of payment</h3>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Payment setup</strong> &gt; <strong>Methods of payment</strong>.</li>
+<li>Select the <strong>SEPA CT</strong> payment method.</li>
+<li>On the <strong>File formats</strong> FastTab, in the <strong>File formats</strong> section, set the <strong>Generic electronic Export format</strong> option to <strong>Yes</strong>.</li>
+<li>In the <strong>Export format configuration</strong> field, select the <strong>ISO20022 Credit transfer</strong> ER format.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-payment-method.png" alt="File format settings on the Methods of payment page"></p>
+<h3 id="add-a-vendor-payment">Add a vendor payment</h3>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Payments</strong> &gt; <strong>Vendor payment journal</strong>.</li>
+<li>Add a new payment journal.</li>
+<li>Select <strong>Lines</strong>, and add a new payment line.</li>
+<li>In the <strong>Account</strong> field, select vendor <strong>DE-01002</strong>.</li>
+<li>In the <strong>Debit</strong> field, enter a value.</li>
+<li>In the <strong>Method of payment</strong> field, select <strong>SEPA CT</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-payment-journal.png" alt="Vendor payment added on the Vendor payments page"></p>
+<h2 id="appendix3">Appendix 3: Process a vendor payment</h2>
+<ol>
+<li>Go to <strong>Accounts payable</strong> &gt; <strong>Payments</strong> &gt; <strong>Vendor payment journal</strong>.</li>
+<li>On the <strong>Vendor payment journal</strong> page, select the payment journal that you previously created, and then select <strong>Lines</strong>.</li>
+<li>Select the payment line, and then select <strong>Payment status</strong> &gt; <strong>None</strong>.</li>
+<li>Select <strong>Generate payments</strong>.</li>
+<li>In the <strong>Method of payment</strong> field, select <strong>SEPA CT</strong>.</li>
+<li>In the <strong>Bank account</strong> field, select <strong>DEMF OPER</strong>.</li>
+<li>In the <strong>Generate payments</strong> dialog box, select <strong>OK</strong>.</li>
+<li>In the <strong>Electronic report parameters</strong> dialog box, select <strong>OK</strong>.</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-debug-data-sources.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

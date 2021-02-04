@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Inbound inventory operation in POS </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Inbound inventory operation in POS ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes capabilities of the point of sale (POS) inbound inventory operation.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="inbound-inventory-operation-in-pos">Inbound inventory operation in POS</h1>
+
+
+<p>In Microsoft Dynamics 365 Commerce version 10.0.10 and later, inbound and outbound operations in the point of sale (POS) replace the picking and receiving operation.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In Commerce version 10.0.10 and later, any new features in the POS application that are related to receiving store inventory against purchase orders and transfer orders will be added to the <strong>Inbound operation</strong> POS operation. If you're currently using the picking and receiving operation in POS, we recommend that you develop a strategy for moving from that operation to the new inbound and outbound operations. Although the picking and receiving operation won't be removed from the product, there will be no further investments in it, from a functional or performance perspective, after version 10.0.9.</p>
+</div>
+<h2 id="prerequisite-configure-an-asynchronous-document-framework">Prerequisite: Configure an asynchronous document framework</h2>
+<p>The inbound operation includes performance improvements to ensure that users who have high volumes of receipt postings across many stores or companies, and large inventory documents, can process those documents to Commerce Headquarters without experiencing time-outs or failures. These improvements require use of an asynchronous document framework.</p>
+<p>When an asynchronous document framework is used, you can commit inbound document changes from POS to Commerce Headquarters and then move on to other tasks while the processing to Commerce Headquarters occurs in the background. You can check the status of a document through the <strong>Inbound operation</strong> document list page in POS to make sure that posting was successful. In the POS application, you can also use the inbound operation active document list to see any documents that could not be posted to Commerce Headquarters. If a document fails, POS users can make corrections to it and then try again to process it to Commerce Headquarters.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The asynchronous document framework must be configured before a company tries to use the inbound operation in POS.</p>
+</div>
+<p>To configure an asynchronous document framework, complete the following procedures.</p>
+<h3 id="create-and-configure-a-number-sequence">Create and configure a number sequence</h3>
+<ol>
+<li>Go to <strong>Organization administration &gt; Number sequences &gt; Number sequences</strong>.</li>
+<li>On the <strong>Number sequences</strong> page, create a number sequence.</li>
+<li>In the <strong>Number sequence code</strong> and <strong>Name</strong> fields, enter user-defined values.</li>
+<li>On the <strong>References</strong> FastTab, select <strong>Add</strong>.</li>
+<li>In the <strong>Area</strong> field, select <strong>Commerce parameters</strong>.</li>
+<li>In the <strong>Reference</strong> field, select <strong>Retail document operation identifier</strong>.</li>
+<li>On the <strong>General</strong> FastTab, in the <strong>Setup</strong> section, set the <strong>Continuous</strong> option to <strong>No</strong> to ensure that there are no performance issues.</li>
+</ol>
+<h3 id="create-and-schedule-two-batch-jobs-for-the-document-processing-and-monitoring-tasks">Create and schedule two batch jobs for the document processing and monitoring tasks</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In Commerce version 10.0.13 and later, you don't have to configure these batch jobs through the batch job framework. The batch processes can be configured from the <strong>Retail and Commerce  &gt;Retail and Commerce IT</strong> menu. Use the <strong>Retail document operation monitor</strong> and <strong>Retail document operation processing</strong> menu options to configure the batch jobs.</p>
+</div>
+<p>The batch jobs that you create will be used to process documents that fail or time out. They will also be used when the number of active inventory documents that are being processed from POS exceeds a system-configured value.</p>
+<ol>
+<li><p>Go to <strong>System administration &gt; Inquiries &gt; Batch jobs</strong>.</p>
+</li>
+<li><p>On the <strong>Batch job</strong> page, create two batch jobs:</p>
+<ul>
+<li>Configure one job to run the <strong>RetailDocumentOperationMonitorBatch</strong> class.</li>
+<li>Configure the other job to run the <strong>RetailDocumentOperationProcessingBatch</strong> class.</li>
+</ul>
+</li>
+<li><p>Schedule the new batch jobs to run on a recurring basis. For example, set the schedule so that the jobs are run every five minutes.</p>
+</li>
+</ol>
+<h2 id="prerequisite-add-inbound-operation-to-the-pos-screen-layout">Prerequisite: Add Inbound operation to the POS screen layout</h2>
+<p>Before your organization can use the inbound operation functionality, it must configure the <strong>Inbound operation</strong> POS operation on one or more of your <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/pos-screen-layouts">POS screen layouts</a>. Before you deploy the new operation in a production environment, make sure that you thoroughly test it and train your users to use it.</p>
+<h2 id="overview">Overview</h2>
+<p>The inbound operation lets POS users perform the following tasks:</p>
+<ul>
+<li>Receive inventory into store stock from either confirmed purchase order documents or shipped transfer order documents.</li>
+<li>View information about historical inventory receipts for a period of seven days after the document has been fully received.</li>
+<li>Create new inbound transfer order requests.</li>
+</ul>
+<p>When the inbound operation is started from the POS application, a list page view appears. This view shows open purchase order and transfer order documents that have inventory lines that are scheduled to be received by the current store. To find and select a specific document, users can scroll the list or use the search feature.</p>
+<p>The inbound inventory document list has three tabs:</p>
+<ul>
+<li><strong>Active</strong> – This tab shows documents that are fully or partially open, and that contain lines or quantities on lines that must still be received.</li>
+<li><strong>Draft</strong> – This tab shows new inbound transfer order requests that the store has created. However, the documents have only been saved locally. They haven't yet been submitted to Commerce Headquarters for processing.</li>
+<li><strong>Complete</strong> – This tab shows a list of purchase order or transfer order documents that the store has fully received during the last seven days. This tab is for informational purposes only. All the information about the documents is read-only data for the store.</li>
+</ul>
+<p>When you view documents on any of the tabs, the <strong>Status</strong> field can help you understand the stage that the document is in.</p>
+<ul>
+<li><strong>Draft</strong> – The transfer order document has only been saved locally to the store's channel database. No information about the transfer order request has yet been submitted to Commerce Headquarters.</li>
+<li><strong>Requested</strong> – The purchase order or transfer order has been created in Commerce Headquarters, and is fully open. No receipts have yet been processed against the document. For documents of the purchase order document type, receiving can begin at any time while the status is <strong>Requested</strong>.</li>
+<li><strong>Partially shipped</strong> – The transfer order document has one or more lines or partial line quantities that have been posted as shipped by the outbound warehouse. These shipped lines are available to be received through the inbound operation.</li>
+<li><strong>Fully shipped</strong> – The transfer order has had all its lines and full line quantities posted as shipped by the outbound warehouse. The whole document is available to be received through the inbound operation.</li>
+<li><strong>Partially received</strong> – Some of the lines or line quantities on the purchase order or transfer order document have been received by the store, but some lines remain open.</li>
+<li><strong>Fully received</strong> – All lines and quantities on the purchase order or transfer order document have been fully received. The documents are accessible only on the <strong>Complete</strong> tab and are read-only by store users.</li>
+<li><strong>In progress</strong> – This status is used to inform device users that the document is being actively worked on by another user.</li>
+<li><strong>Paused</strong> – This status is shown after <strong>Pause receiving</strong> is selected to temporarily stop the receiving process.</li>
+<li><strong>Processing in HQ</strong> – The document was submitted to Commerce Headquarters from the POS application, but it hasn't yet been successfully posted to Commerce Headquarters. The document is going through the asynchronous document posting process. After the document is successfully posted to Commerce Headquarters, its status should be updated to <strong>Fully received</strong> or <strong>Partially received</strong>.</li>
+<li><strong>Processing failed</strong> – The document was posted to Commerce Headquarters and rejected. The <strong>Details</strong> pane shows the reason for the posting failure. The document must be edited to fix data issues, and then it must be resubmitted to Commerce Headquarters for processing.</li>
+</ul>
+<p>When you select a document line in the list, a <strong>Details</strong> pane appears. This pane shows additional information about the document, such as shipment and date information. A progress bar shows how many items must still be processed. If the document wasn't successfully processed to Commerce Headquarters, the <strong>Details</strong> pane also shows error messages that are related to the failure.</p>
+<p>In the document list page view, you can select <strong>Order details</strong> on the app bar to view the document details. You can also activate receipt processing on eligible document lines.</p>
+<p>In the document list page view, you can also create a new inbound transfer order request for a store. The documents remain in <strong>Draft</strong> status, and they can be adjusted or deleted until they are submitted to Commerce Headquarters for processing. After they are submitted to Commerce Headquarters, the transfer order lines can no longer be changed from the POS application.</p>
+<h2 id="receiving-process">Receiving process</h2>
+<p>After you select a purchase order or transfer order document on the <strong>Active</strong> tab, you can select <strong>Order details</strong> to begin the receiving process.</p>
+<p>By default, the <strong>Receiving now</strong> view is shown. This view is optimized for bar code scanning. It can be used to build a list of the items that have been scanned, so that those items can be received. To begin the receiving process, you can start to scan item bar codes.</p>
+<p>As item bar codes are scanned in the <strong>Receiving now</strong> view, the application validates the items against the selected purchase or transfer order document, to make sure that each scanned item matches a valid item on the document. In the <strong>Receiving now</strong> view, each scan of a bar code is assumed to represent the receipt of a quantity of one unit, unless a quantity is embedded in the bar code. You can repeatedly scan bar codes in this view to build a list of all the items and quantities for the receipt.</p>
+<h3 id="example-scenario">Example scenario</h3>
+<p>A user receives a purchase order that contains 10 units of bar code 5657900266. The user can scan that bar code 10 times to update the <strong>Receiving now</strong> field by one unit per scan. When the user has completed the scans, the <strong>Receiving now</strong> field for the item's line will show that a quantity of 10 was received.</p>
+<p>Alternatively, in a scenario where the item quantity is large, the user might prefer to manually enter the quantity instead of scanning the bar code for each item that is received. In this case, the user can scan the bar code one time to add the item to the <strong>Receiving now</strong> list. The user can then select the associated line in the <strong>Receiving now</strong> view and then, in the <strong>Details</strong> pane that appears on the right side of the page, update the <strong>Receiving quantity</strong> field for the item.</p>
+<p>Although the <strong>Receiving now</strong> view is optimized for bar code scanning, users can also select <strong>Receive product</strong> on the app bar, and then enter the item ID or bar code data through a dialog box. After the item that was entered is validated, the user is prompted to enter the receipt quantity.</p>
+<p>The <strong>Receiving now</strong> view provides a focused way for users to see which products they are receiving. Alternatively, the <strong>Full order list</strong> view can be used. This view shows the whole list of document lines for the selected purchase or transfer order document. Users can manually select lines manually in the list and then, in the <strong>Details</strong> pane, update the <strong>Receiving quantity</strong> field for the selected line. In the <strong>Full order list</strong> view, users can scan bar codes, or they can use the <strong>Receive product</strong> function to enter the item ID or bar code, and data about the received quantity, without first having to select the matching item line in the list.</p>
+<h3 id="over-receiving-validations">Over-receiving validations</h3>
+<p>Validations occur during the receiving process for the document lines. They include validations for over-delivery. If a user tries to receive more inventory than was ordered on a purchase order, but either over-delivery isn't configured or the amount that is received exceeds the over-delivery tolerance that is configured for the purchase order line, the user receives an error and isn't allowed to receive the excess quantity.</p>
+<p>Over-receiving isn't permitted for transfer order documents. Users will always receive errors if they try to receive more than was shipped for the transfer order line.</p>
+<h3 id="close-purchase-order-lines">Close purchase order lines</h3>
+<p>You can close the remaining quantity on an inbound purchase order during the receiving process if the shipper has confirmed that they can’t ship the full quantity that was requested. To do so, the company must be configured to allow underdelivery of purchase orders. Additionally, an underdelivery tolerance percentage must be defined for the purchase order line.</p>
+<p>To configure the company to allow underdelivery of purchase orders, in Commerce headquarters, go to <strong>Procurement and sourcing</strong> &gt; <strong>Setup</strong> &gt; <strong>Procurement and sourcing parameters</strong>. On the <strong>Delivery</strong> tab, turn on the <strong>Accept underdelivery</strong> parameter. Then run the <strong>1070</strong> (<strong>Channel configuration</strong>) distribution schedule job to sync the setting changes to channels.</p>
+<p>Underdelivery tolerance percentages for a purchase order line can be predefined on products as part of the product configurations in Commerce headquarters. Alternatively, they can be set or overwritten on a specific purchase order in Commerce headquarters.</p>
+<p>After an organization completes the purchase order underdelivery configurations, POS users will see a new <strong>Close remaining quantity</strong> option in the <strong>Details</strong> pane when an inbound purchase order line is selected in the <strong>Inbound inventory</strong> operation. If the user closes the remaining quantity, POS performs a validation to verify whether the quantity being closed is within the underdelivery tolerance percentage defined on the purchase order line. If the underdelivery tolerance is exceeded, an error message is displayed and the user won’t be able to close the remaining quantity until the previously received quantity plus the <strong>Receiving now</strong> quantity meets or exceeds the minimal quantity that needs to be received based on the underdelivery tolerance percentage.</p>
+<p>With <strong>Close remaining quantity</strong> option turned on for a purchase order line, when the user completes the receipt by using the <strong>Finish receiving</strong> action, a closure request is also sent to Commerce headquarters, and any unreceived quantity of this order line will be cancelled. At that point the line is considered fully received.</p>
+<h3 id="receiving-location-controlled-items">Receiving location-controlled items</h3>
+<p>If the items that are being received are location-controlled, users can select the location where they want to receive the items during the receiving process. We recommend that you configure a default receiving location for your store warehouse, to make this process more efficient. Even if a default location is configured, users can override the receiving location on selected lines as they require.</p>
+<p>The operation respects the <strong>Blank receipt allowed</strong> configuration on the <strong>Location</strong> storage dimension and doesn't require that a location dimension be entered if blank receipt is configured. If blank receipt locations aren't allowed for an item, the POS application shows an error and requires that a location be entered before the receipt can be posted.</p>
+<h3 id="receive-all">Receive all</h3>
+<p>As you require, you can select <strong>Receive all</strong> on the app bar to quickly update the <strong>Receiving now</strong> quantity for all the document lines to the maximum value that is available to be received for those lines.</p>
+<h3 id="receipt-of-unplanned-items-on-purchase-orders">Receipt of unplanned items on purchase orders</h3>
+<p>In Commerce version 10.0.14 and later, users can receive a product that was not originally on the purchase order. To enable this functionality, turn on <strong>Add lines to Purchase Order during Point of Sale receiving</strong>.</p>
+<p>This feature only works for purchase order receiving. It's not possible to receive items against transfer orders when the items weren't previously ordered and shipped from the outbound warehouse.</p>
+<p>Users can't add new products to the purchase order during POS receiving if purchase order <a href="https://docs.microsoft.com/dynamics365/supply-chain/procurement/purchase-order-approval-confirmation">change management workflow</a> is enabled in Commerce headquarters (HQ). To enable change management, all changes to a purchase order must first be approved before receiving is allowed. Because this process allows a receiver to add new lines to the purchase order, receiving will fail if the change management workflow is enabled. If change management is enabled for all purchase orders or for the vendor linked to the purchase order actively being received in POS, the user can't add new products to the purchase order during receiving in POS.</p>
+<p>The functionality that enables adding lines can't be used as a workaround for receiving additional quantities of products already on the purchase order. Over-receiving is managed through the standard <a href="https://docs.microsoft.com/dynamics365/commerce/pos-inbound-inventory-operation#over-receiving-validations">over-receiving</a> settings for the product line on the purchase order.</p>
+<p>If <strong>Add lines to Purchase Order during Point of Sale receiving</strong> is enabled and a user is receiving with the <strong>Inbound operation</strong> in POS, if the user scans or keys a product barcode or product number that isn't recognized as an item on the current purchase order, but is recognized as a valid item, the user receives a message about adding the item to the purchase order. If the user adds the item to the purchase order, the quantity entered in <strong>Receiving now</strong> is considered the ordered quantity for the purchase order line.</p>
+<p>When the purchase order receipt is complete and submitted to HQ for processing, the added lines are created on the purchase order master document. On the purchase order line in HQ, there will be an <strong>Added by POS</strong> flag on the <strong>General</strong> tab of the purchase order line. The <strong>Added by POS</strong> flag indicates that the purchase order line was added by the POS receiving process and was not a line that was on the purchase order prior to receiving.</p>
+<h3 id="cancel-receiving">Cancel receiving</h3>
+<p>You should use the <strong>Cancel receiving</strong> function on the app bar only if you want to back out of the document and don't want to save any changes. For example, you initially selected the wrong document and don't want any of the previous receiving data saved.</p>
+<h3 id="pause-receiving">Pause receiving</h3>
+<p>If you're receiving inventory, you can use the <strong>Pause receiving</strong> function if you want to take a break from the receiving process. For example, you might want to perform another operation from the POS, such as ringing up a customer sale, or delay posting of the receipt.</p>
+<p>When you select <strong>Pause receiving</strong>, the document's status is changed to <strong>Paused</strong>. Therefore, users will know that data has been entered for the document, but the document hasn't yet been committed. When you're ready to resume the receiving process, select the paused document, and then select <strong>Order details</strong>. Any <strong>Receiving now</strong> quantities that were previously saved are retained and can be viewed from the <strong>Full order list</strong> view.</p>
+<h3 id="review">Review</h3>
+<p>Before the final commitment of the receipt to Commerce headquarters (HQ), you can use the review functionality to validate the inbound document. The review will alert you to any missing or incorrect data that may cause processing failure and provide you the opportunity to correct problems before submitting the receipt request. To enable the <strong>Review</strong> function on the app bar, enable the <strong>Enable validation in POS inbound and outbound inventory operations</strong> feature through the <strong>Feature management</strong> workspace in Commerce headquarters (HQ).</p>
+<p>The <strong>Review</strong> function validates the following issues in an inbound document:</p>
+<ul>
+<li><strong>Over-receiving</strong> – the receiving now quantity is greater than the ordered quantity. The severity of this issue is determined by the overdelivery configuration in Commerce headquarters (HQ).</li>
+<li><strong>Under-receiving</strong> – the receiving now quantity is less than the ordered quantity. The severity of this issue is determined by the underdelivery configuration in Commerce headquarters (HQ).</li>
+<li><strong>Serial number</strong> – the serial number is not provided or validated for a serialized item that requires serial number to be registered in inventory.</li>
+<li><strong>Location not set</strong> – the location is not specified for a location-controlled item where blank location is not allowed.</li>
+<li><strong>Deleted lines</strong> – the order has lines deleted by aa Commerce headquarters (HQ) user that is not known to POS application.</li>
+</ul>
+<p>Set the <strong>Enable automatic validation</strong> parameter to <strong>Yes</strong> in <strong>Commerce parameters</strong> &gt; <strong>Inventory</strong> &gt; <strong>Store inventory</strong> to have the validation executed automatically when <strong>Finish receiving</strong> is selected.</p>
+<h3 id="finish-receiving">Finish receiving</h3>
+<p>When you've finished entering all the <strong>Receiving now</strong> quantities for products, you must select <strong>Finish receiving</strong> on the app bar to process the receipt.</p>
+<p>When users complete a purchase order receipt, they are prompted to enter a value in the <strong>Receipt number</strong> field, if this functionality is configured. Typically, this value is equivalent to the identifier of the vendor packing slip. The <strong>Receipt number</strong> data will be stored in the Product receipt journal in Commerce Headquarters. Receipt numbers aren't captured for transfer order receipts.</p>
+<p>When asynchronous document processing is used, the receipt is submitted through an asynchronous document framework. The time that it takes for the document to be posted depends on the size of the document (the number of lines) and the general processing traffic that is occurring on the server. Typically, this process occurs in a matter of seconds. If document posting fails, the user is notified through the <strong>Inbound operation</strong> document list, where the document status will be updated to <strong>Processing failed</strong>. The user can then select the failed document in POS to view the error messages and the reason for the failure in the <strong>Details</strong> pane. A failed document remains unposted and requires that the user return to the document lines by selecting <strong>Order details</strong> in POS. The user must then update the document with corrections, based on the errors. After a document is corrected, the user can try again to process it by selecting <strong>Finish fulfillment</strong> on the app bar.</p>
+<h2 id="create-an-inbound-transfer-order">Create an inbound transfer order</h2>
+<p>From POS, users can create new transfer order documents. To begin the process, select <strong>New</strong> on the app bar while you're in the main <strong>Inbound operation</strong> document list. You're then prompted to select a <strong>Transfer from</strong> warehouse or store that will provide the inventory to your store location. The values are limited to the selection that is defined in the configuration of the store's fulfillment group. In an inbound transfer request, your current store will always be the <strong>Transfer to</strong> warehouse for the transfer order. That value can't be changed.</p>
+<p>You can enter values in the <strong>Ship date</strong>, <strong>Receive date</strong>, and <strong>Mode of delivery</strong> fields as you require. You can also add a note that will be stored together with the transfer order header, as an attachment to the document in Commerce Headquarters.</p>
+<p>After the header information is created, you can add products to the transfer order. To start the process of adding items and requested quantities, select <strong>Add product</strong>. In the <strong>Details</strong> pane, you can also add a line-specific note to the journal lines. These notes will be stored as a line attachment.</p>
+<p>After lines are entered on the inbound transfer order, you must select <strong>Save</strong> to save the document changes locally or <strong>Submit request</strong> to submit the order details to Commerce Headquarters for further processing. If you select <strong>Save</strong>, the draft document is stored in the channel database, and the outbound warehouse can't run the document until it has been successfully processed via <strong>Submit request</strong>. You should select <strong>Save</strong> only if you aren't ready to commit the request to Commerce Headquarters for processing.</p>
+<p>If a document is saved locally, it can be found on the <strong>Drafts</strong> tab of the <strong>Inbound operation</strong> document list. While a document is in <strong>Draft</strong> status, you can edit it by selecting <strong>Edit</strong>. You can update, add, or delete lines as you require. You can also delete the whole document while it's in <strong>Draft</strong> status, by selecting <strong>Delete</strong> on the <strong>Drafts</strong> tab.</p>
+<p>After the draft document is successfully submitted to Commerce Headquarters, it appears on the <strong>Active</strong> tab and has a status of <strong>Requested</strong>. At this point, users in the inbound store or warehouse can no longer edit the requested inbound transfer order document. Only users in the outbound warehouse can edit the document, by selecting <strong>Outbound operation</strong> in the POS application. The editing lock ensures that no conflicts occur because an inbound requestor changes the transfer order at the same time that the outbound shipper is actively picking and shipping the order. If changes are required from the inbound store or warehouse after the transfer order has been submitted, the outbound shipper should be contacted and asked to enter the changes.</p>
+<p>After the document is in <strong>Requested</strong> status, it's visible on the <strong>Active</strong> tab. However, it can't yet be received by the inbound store or warehouse. After the outbound warehouse has shipped some or all of the transfer order, the inbound store or warehouse can post receipts in POS. When the outbound side processes the transfer order documents, their status is updated from <strong>Requested</strong> to <strong>Shipped</strong> or <strong>Partially Shipped</strong>. After the documents are in <strong>Shipped</strong> or <strong>Partially Shipped</strong> status, the inbound store or warehouse can post receipts against them using the inbound operation receiving process.</p>
+<h2 id="related-topics">Related topics</h2>
+<p><a href="pos-outbound-inventory-operation.html">Outbound inventory operation in POS</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/pos-inbound-inventory-operation.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

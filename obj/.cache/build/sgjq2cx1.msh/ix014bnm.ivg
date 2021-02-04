@@ -1,0 +1,2088 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Prospect-to-cash in dual-write | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Prospect-to-cash in dual-write | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="prospect-to-cash-in-dual-write">Prospect-to-cash in dual-write</h1>
+
+
+<p>An important goal of most businesses is to convert prospects to customers and then maintain an ongoing business relationship with those customers. In Microsoft Dynamics 365 apps, the prospect-to-cash process occurs through quotations or order processing workflows, and the financials are reconciled and recognized. Integration of prospect-to-cash with dual-write creates a workflow that takes a quotation and an order that originate in either Dynamics 365 Sales or Dynamics 365 Supply Chain Management, and makes the quotation and order available in both apps.</p>
+<p>In the app interfaces, you can access the processing statuses and invoice information in real time. Therefore, you can more easily manage functions such as product stocking, inventory handling, and fulfillment in Supply Chain Management, without having to re-create the quotations and orders.</p>
+<p><img src="../dual-write/media/dual-write-prospect-to-cash%5B1%5D.png" alt="Dual-write dataflow in prospect-to-cash"></p>
+<p>For information about customer and contact integration, see <a href="customer-mapping.html">Integrated customer master</a>. For information about product integration, see <a href="product-mapping.html">Unified product experience</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In Dynamics 365 Sales, both prospect and customer refer to a record in the <strong>Account</strong> table where the <strong>RelationshipType</strong> column is either <strong>Prospect</strong> or <strong>Customer</strong>. If your business logic includes an <strong>Account</strong> qualification process where the <strong>Account</strong> record is created and qualified as a prospect first and then as a customer, that record synchronizes to the Finance and Operations app only when it is a customer (<code>RelationshipType=Customer</code>). If you want the <strong>Account</strong> row to synchronize as a prospect, then you need a custom map to integrate the prospect data.</p>
+</div>
+<h2 id="prerequisites-and-mapping-setup">Prerequisites and mapping setup</h2>
+<p>Before you can sync sales quotations, you must update the following settings.</p>
+<h3 id="setup-in-sales">Setup in Sales</h3>
+<p>In Sales, go to <strong>Settings &gt; Administration &gt; System settings &gt; Sales</strong>, and make sure that the following settings are used:</p>
+<ul>
+<li>The <strong>Use system prizing calculation</strong> system option is set to <strong>Yes</strong>.</li>
+<li>The <strong>Discount calculation method</strong> column is set to <strong>Line item</strong>.</li>
+</ul>
+<h3 id="sites-and-warehouses">Sites and warehouses</h3>
+<p>In Supply Chain Management, the <strong>Site</strong> and <strong>warehouse</strong> columns are required for quotation lines and order lines. If you set the site and warehouse in the default order settings, those columns will automatically be set when you add a product to a quotation line or an order line.</p>
+<h3 id="number-sequences-for-quotations-and-orders">Number sequences for quotations and orders</h3>
+<p>The number sequences for Supply Chain Management and Sales aren't connected when quotations and orders are created and synced in Sales and Supply Chain Management. If a sales order that is created in Sales is synced to Supply Chain Management, it has the same sales order number in Supply Chain Management. To help ensure that the sales order number isn't duplicated, you must use different number sequence systems in the two apps.</p>
+<p>For example, the number sequence in Supply Chain Management is <strong>1, 2, 3, 4, 5, ...</strong>, and the number sequence in Sales is <strong>100, 99, 98, ...</strong>. If you create 100 sales orders in Sales, an order number will eventually be generated that already exists in Supply Chain Management. In other words, the two number sequences will eventually overlap as sales orders are created in Supply Chain Management and Sales. Instead, you might use a number sequence such as <strong>F1, F2, F3, ...</strong> in Supply Chain Management and a number sequence such as <strong>C1, C2, C3, ...</strong> in Sales. These number sequences will never produce duplicate sales order numbers.</p>
+<h2 id="sales-quotations">Sales quotations</h2>
+<p>Sales quotations can be created in either Sales or Supply Chain Management. If you create a quotation in Sales, it's synced to Supply Chain Management in real time. Likewise, if you create a quotation in Supply Chain Management, it's synced to Sales in real time. Note the following points:</p>
+<ul>
+<li>You can add a discount to the product on the quotation. In this case, the discount will be synced to Supply Chain Management. The <strong>Discount</strong>, <strong>Charges</strong>, and <strong>Tax</strong> columns on the header are controlled by a setup in Supply Chain Management. This setup doesn't support integration mapping. Instead, the <strong>Price</strong>, <strong>Discount</strong>, <strong>Charge</strong>, and <strong>Tax</strong> columns are maintained and handled in Supply Chain Management.</li>
+<li>The <strong>Discount %</strong>, <strong>Discount</strong>, and <strong>Freight Amount</strong> columns on the sales quotation header are read-only columns.</li>
+<li>The <strong>Freight terms</strong>, <strong>Delivery terms</strong>, <strong>Shipping method</strong>, and <strong>Delivery mode</strong> columns aren't part of the default mappings. To map these columns, you must set up a value mapping that is specific to the data in the organizations that the table is synced between.</li>
+</ul>
+<p>If you are also using the Field Service solution, make sure to re-enable the <strong>Quote Line Quick Create</strong> parameter. Re-enabling the parameter lets you continue creating quote lines using the quick create function.</p>
+<ol>
+<li>Navigate to your Dynamics 365 Sales application.</li>
+<li>Select the settings icon in the top navigation bar.</li>
+<li>Select <strong>Advanced Settings</strong>.</li>
+<li>Choose the <strong>Customize the System</strong> option.</li>
+<li>Select the <strong>Quote Line</strong> menu item.</li>
+<li>Go to the <strong>Data Services</strong> section and select the <strong>Allow quick create</strong> checkbox.</li>
+</ol>
+<h2 id="sales-orders">Sales orders</h2>
+<p>Sales orders can be created in either Sales or Supply Chain Management. If you create a sales order in Sales, it's synced to Supply Chain Management in real time. Likewise, if you create a sales order in Supply Chain Management, it's synced to Sales in real time. Note the following points:</p>
+<ul>
+<li><p>Write-in products on Dynamics 365 Sales will appear as product categories in Dynamics 365 Supply Chain Management.</p>
+</li>
+<li><p>Discount calculation and rounding:</p>
+<ul>
+<li>The discount calculation model in Sales differs from the discount calculation model in Supply Chain Management. In Supply Chain Management, the final discount amount on a sales line can be the result of a combination of discount amounts and discount percentages. If this final discount amount is divided by the quantity on the line, rounding can occur. However, this rounding isn't considered if a rounded per-unit discount amount is synced to Sales. To help ensure that the full discount amount from a sales line in Supply Chain Management is correctly synced to Sales, the full amount must be synced without being divided by the line quantity. Therefore, you must define the discount calculation method as <strong>Line item</strong> in Sales.</li>
+<li>When a sales order line is synced from Sales to Supply Chain Management, the full line discount amount is used. Because Supply Chain Management has no column that can store the full discount amount for a line, the amount is divided by the quantity and stored in the <strong>Line discount</strong> column. Any rounding that occurs during this division is stored in the <strong>Sales charges</strong> column on the sales line.</li>
+</ul>
+</li>
+</ul>
+<h3 id="example-synchronization-from-sales-to-supply-chain-management">Example: Synchronization from Sales to Supply Chain Management</h3>
+<p>You have the following sales order:</p>
+<ul>
+<li><strong>Sales:</strong> Quantity = 3, per-line discount = $10.00</li>
+<li><strong>Supply Chain Management:</strong> Quantity = 3, line discount amount = $3.33, sales charge = –$0.01</li>
+</ul>
+<p>If you sync from Supply Chain Management to Sales, you get the following result:</p>
+<ul>
+<li><strong>Supply Chain Management:</strong> Quantity = 3, line discount amount = $3.33, sales charge = –$0.01</li>
+<li><strong>Sales:</strong> Quantity = 3, per-line discount = (3 × $3.33) + $0.01 = $10.00</li>
+</ul>
+<h2 id="dual-write-solution-for-sales">Dual-write solution for Sales</h2>
+<p>New columns have been added to the <strong>Order</strong> table and appear on the page. Most of these columns appear on the <strong>Integration</strong> tab in Sales. To learn more about how the status columns are mapped, see <a href="sales-status-map.html">Set up the mapping for sales order status columns</a>.</p>
+<ul>
+<li>The <strong>Create Invoice</strong> and <strong>Cancel Order</strong> buttons on the <strong>Sales order</strong> page are hidden in Sales.</li>
+<li>The <strong>Sales order status</strong> value will remain <strong>Active</strong> to help ensure that changes from Supply Chain Management can flow to the sales order in Sales. To control this behavior, set the default <strong>Statecode [Status]</strong> value to <strong>Active</strong>.</li>
+</ul>
+<h2 id="invoices">Invoices</h2>
+<p>Sales invoices are created in Supply Chain Management and synced to Sales. Note the following points:</p>
+<ul>
+<li>An <strong>Invoice number</strong> column has been added to the <strong>Invoice</strong> table and appears on the page.</li>
+<li>The <strong>Create invoice</strong> button on the <strong>Sales order</strong> page is hidden, because invoices will be created in Supply Chain Management and synced to Sales. The <strong>Invoice</strong> page can't be edited, because invoices will be synced from Supply Chain Management.</li>
+<li>The <strong>Sales order status</strong> value is automatically changed to <strong>Invoiced</strong> when the related invoice from Supply Chain Management has been synced to Sales. Additionally, the owner of the sales order that the invoice was created from is assigned as the owner of the invoice. Therefore, the owner of the sales order can view the invoice.</li>
+<li>The <strong>Freight terms</strong>, <strong>Delivery terms</strong>, and <strong>Delivery mode</strong> columns aren't included in the default mappings. To map these columns, you must set up a value mapping that is specific to the data in the organizations that the table is synced between.</li>
+</ul>
+<h2 id="templates">Templates</h2>
+<p>Prospect-to-cash includes a collection of core table maps that work together during data interaction, as shown in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Customer engagement apps</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sales invoice headers V2</td>
+<td>invoices</td>
+<td>The Sales invoice headers V2 table in the Finance and Operations app contains invoices for sales orders and free text invoices. A filter is applied in Dataverse for dual-write that will filter out any free text invoice documents.</td>
+</tr>
+<tr>
+<td>Sales invoice lines V2</td>
+<td>invoicedetails</td>
+<td></td>
+</tr>
+<tr>
+<td>CDS sales order headers</td>
+<td>salesorders</td>
+<td></td>
+</tr>
+<tr>
+<td>CDS sales order lines</td>
+<td>salesorderdetails</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales order origin codes</td>
+<td>msdyn_salesorderorigins</td>
+<td></td>
+</tr>
+<tr>
+<td>CDS sales quotation header</td>
+<td>quotes</td>
+<td></td>
+</tr>
+<tr>
+<td>CDS sales quotation lines</td>
+<td>quotedetails</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Here are the related core table maps for prospect-to-cash:</p>
+<ul>
+<li><a href="customer-mapping.html#customers-v3-to-accounts">Customers V3 to accounts</a></li>
+<li><a href="customer-mapping.html#cds-contacts-v2-to-contacts">CDS Contacts V2 to contacts</a></li>
+<li><a href="customer-mapping.html#customers-v3-to-contacts">Customers V3 to contacts</a></li>
+<li><a href="product-mapping.html#released-products-v2-to-msdyn_sharedproductdetails">Released products V2 to msdyn_sharedproductdetails</a></li>
+<li><a href="product-mapping.html#all-products-to-msdyn_globalproducts">All products to msdyn_globalproducts</a></li>
+<li><a href="product-mapping.html">Pricelist</a></li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Return orders are not supported.</li>
+<li>Credit notes are not supported.</li>
+<li>Financial dimensions must be set for the master data, for example, customer and vendor. When a customer is added to a quotation or sales order, the financial dimensions associated with the customer record flow to the order automatically. Currently dual-write does not include financial dimensions data for master data.</li>
+</ul>
+<h2 id="mapping-tables">Mapping tables</h2>
+<h3 id="mapping-types">Mapping types</h3>
+<p>There are several different mapping types. The following table explains the symbols used in the template tables.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>One-way</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>=</td>
+<td>Bidirectional</td>
+</tr>
+<tr>
+<td>&gt;&lt;</td>
+<td>Bidirectional, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filters">Filters</h3>
+<p>The source filter and reverse source filter determine which rows are synchronized.</p>
+<h3 id="default-values">Default values</h3>
+<p>If a synchronized field does not exist in either the Finance and Operations table or the other Dynamics 365 table, then a default value is assigned in the synchronized table. In some cases, the default value is an integer that is a lookup to an attribute value in the Common Data Model. For example, in the Contacts table of the Common Data Model, the default value of <a href="customer-mapping.html#customers-v3-to-contacts"><strong>address1_addresstypecode</strong></a> is <strong>3</strong>. In the Common Data Model, for <a href="https://docs.microsoft.com/common-data-model/schema/core/applicationcommon/foundationcommon/contact#address1AddressTypeCode">address1AddressTypeCode</a> the value of <strong>3</strong> is <strong>Primary address</strong>.</p>
+<h2 id="sales-invoice-headers-v2-to-invoices">Sales invoice headers V2 to invoices</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<p>Source filter: <code>(SalesOrderNumber != &quot;&quot;)</code></p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>ispricelocked</td>
+<td>False</td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>statuscode</td>
+<td>4</td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_contactperson.msdyn_contactpersonid</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>&gt;&gt;</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERSORDERREFERENCE</td>
+<td>&gt;&gt;</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td>&gt;&gt;</td>
+<td>billto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATE</td>
+<td>&gt;&gt;</td>
+<td>billto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td>&gt;&gt;</td>
+<td>billto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREETNUMBER</td>
+<td>&gt;&gt;</td>
+<td>billto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICECUSTOMERACCOUNTNUMBER</td>
+<td>&gt;&gt;</td>
+<td>customerid.Account(accountnumber).Contact(msdyn_contactpersonid)</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEDATE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoicedate</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICENUMBER</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoicenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDGERVOUCHER</td>
+<td>&gt;&gt;</td>
+<td>msdyn_ledgervoucher</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_paymentterms.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERNUMBER</td>
+<td>&gt;&gt;</td>
+<td>salesorderid.msdyn_salesordernumber</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALCHARGEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>freightamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totaldiscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTCUSTOMERGROUPCODE</td>
+<td>&gt;&gt;</td>
+<td>discountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALINVOICEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totalamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totaltax</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-invoice-lines-v2-to-invoicedetails">Sales invoice lines V2 to invoicedetails</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONFIRMEDSHIPPINGDATE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_confirmedshippingdate</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>&gt;&gt;</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>INVENTORYSITEID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_inventorysite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>INVENTORYWAREHOUSEID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_inventorywarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEDATE</td>
+<td>&gt;&gt;</td>
+<td>invoiceid.msdyn_invoicedate</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEDQUANTITY</td>
+<td>&gt;&gt;</td>
+<td>quantity</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICENUMBER</td>
+<td>&gt;&gt;</td>
+<td>invoiceid.msdyn_invoicenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LEDGERVOUCHER</td>
+<td>&gt;&gt;</td>
+<td>invoiceid.msdyn_ledgervoucher</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>extendedamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINECREATIONSEQUENCENUMBER</td>
+<td>&gt;&gt;</td>
+<td>sequencenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LINETOTALCHARGEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>msdyn_totalchargeamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINETOTALDISCOUNTAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>manualdiscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINETOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>tax</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNAME</td>
+<td>&gt;&gt;</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNUMBER</td>
+<td>&gt;&gt;</td>
+<td>productid.msdyn_productnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRICE</td>
+<td>&gt;&gt;</td>
+<td>priceperunit</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYHIERARCHYNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_salesproductcategory.msdyn_hierarchy.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_salesproductcategory.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESUNITSYMBOL</td>
+<td>&gt;&gt;</td>
+<td>uomid.msdyn_symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>producttypecode</td>
+<td>1</td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>propertyconfigurationstatus</td>
+<td>2</td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>ispriceoverridden</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-sales-order-headers-to-salesorders">CDS sales order headers to salesorders</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<p>Reversed source filter: msdyn_ordertype eq 192350000</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SALESORDERNUMBER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesordernumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERINGCUSTOMERACCOUNTNUMBER</td>
+<td>&gt;&lt;</td>
+<td>customerid.Account(accountnumber).Contact(msdyn_contactpersonid)</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>&gt;&lt;</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>&gt;&lt;</td>
+<td>shipto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td>&gt;&lt;</td>
+<td>shipto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>&gt;&lt;</td>
+<td>shipto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>&gt;&lt;</td>
+<td>shipto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERNAME</td>
+<td>&gt;&gt;</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td>&gt;&gt;</td>
+<td>billto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td>&gt;&gt;</td>
+<td>billto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREETNUMBER</td>
+<td>&gt;&gt;</td>
+<td>billto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATEID</td>
+<td>&gt;&gt;</td>
+<td>billto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERTOTALAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totalamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>discountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERTOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totaltax</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERTOTALCHARGESAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>freightamount</td>
+<td></td>
+</tr>
+<tr>
+<td>AREPRICESINCLUDINGSALESTAX</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arepricesincludingsalestax</td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDRECEIPTDATE</td>
+<td>=</td>
+<td>msdyn_confirmedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDSHIPPINGDATE</td>
+<td>=</td>
+<td>msdyn_confirmedshippingdate</td>
+<td></td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td>=</td>
+<td>msdyn_contactperson.msdyn_contactpersonid</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERREQUISITIONNUMBER</td>
+<td>=</td>
+<td>msdyn_customerrequisitionnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTSHIPPINGSITEID</td>
+<td>=</td>
+<td>msdyn_defaultshippingsite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTSHIPPINGWAREHOUSEID</td>
+<td>=</td>
+<td>msdyn_defaultshippingwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdunsnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslocationid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td>=</td>
+<td>msdyn_deliveryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td>=</td>
+<td>msdyn_deliverybuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELVERYADDRESS</td>
+<td>&gt;&gt;</td>
+<td>msdyn_formatteddeliveryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td>=</td>
+<td>emailaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDINVOICEADDRESS</td>
+<td>&gt;&gt;</td>
+<td>msdyn_formattedinvoiceaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTYID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSDISTRICTNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLATITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLONGITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSPOSTBOX</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEBUILDINGCOMPLIMENT</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoicebuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICECUSTOMERACCOUNTNUMBER</td>
+<td>=</td>
+<td>msdyn_invoicecustomer.accountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSORDERSPECIFIC</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressorderspecific</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSPRIVATE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>ISINVOICEADDRESSPRIVATE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_isinvoiceaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>ISONETIMECUSTOMER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isonetimecustomer</td>
+<td></td>
+</tr>
+<tr>
+<td>ISSALESPROCESSINGSTOPPED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_issalesprocessingstopped</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSBASEDATE</td>
+<td>=</td>
+<td>msdyn_paymenttermsbasedate</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSNAME</td>
+<td>=</td>
+<td>msdyn_paymentterms.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PRICECUSTOMERGROUPCODE</td>
+<td>=</td>
+<td>msdyn_pricecustomergroup.msdyn_groupcode</td>
+<td></td>
+</tr>
+<tr>
+<td>QUOTATIONNUMBER</td>
+<td>=</td>
+<td>msdyn_quotationnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDRECEIPTDATE</td>
+<td>=</td>
+<td>msdyn_requestedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSHIPPINGDATE</td>
+<td>=</td>
+<td>requestdeliveryby</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERPROMISINGMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesorderpromisingmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>URL</td>
+<td>=</td>
+<td>msdyn_url</td>
+<td></td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>statecode</td>
+<td>0</td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>statuscode</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SALESORDERPROCESSINGSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_processingstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_language</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERSORDERREFERENCE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_customersorderreference</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYMODECODE</td>
+<td>=</td>
+<td>msdyn_deliverymode.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYTERMSCODE</td>
+<td>=</td>
+<td>msdyn_deliveryterms.msdyn_termscode</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERORIGINCODE</td>
+<td>=</td>
+<td>msdyn_salesorderorigin.msdyn_origincode</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-sales-order-lines-to-salesorderdetails">CDS sales order lines to salesorderdetails</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CURRENCYCODE</td>
+<td>&gt;&gt;</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>&gt;&lt;</td>
+<td>shipto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>&gt;&lt;</td>
+<td>shipto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>&gt;&lt;</td>
+<td>shipto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td>&gt;&lt;</td>
+<td>shipto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>extendedamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINECREATIONSEQUENCENUMBER</td>
+<td>&gt;&lt;</td>
+<td>sequencenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ORDEREDSALESQUANTITY</td>
+<td>&gt;&lt;</td>
+<td>quantity</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNAME</td>
+<td>&gt;&lt;</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNUMBER</td>
+<td>&gt;&lt;</td>
+<td>productid.msdyn_productnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERNUMBER</td>
+<td>&gt;&lt;</td>
+<td>salesorderid.msdyn_salesordernumber</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESUNITSYMBOL</td>
+<td>&gt;&lt;</td>
+<td>uomid.msdyn_symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTAMOUNT</td>
+<td>&gt;&lt;</td>
+<td>manualdiscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>tax</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRICE</td>
+<td>&gt;&lt;</td>
+<td>priceperunit</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>baseamount</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYNAME</td>
+<td>=</td>
+<td>msdyn_salesproductcategory.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYHIERARCHYNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_salesproductcategory.msdyn_hierarchy.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSORDERSPECIFIC</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressspecific</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSPRIVATE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>ISLINESTOPPED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_islinestopped</td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOWEDOVERDELIVERYPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_allowedoverdeliverypercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOWEDUNDERDELIVERYPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_allowedunderdeliverypercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDSHIPPINGDATE</td>
+<td>=</td>
+<td>msdyn_confirmedshippingdate</td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDRECEIPTDATE</td>
+<td>=</td>
+<td>msdyn_confirmedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdunsnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslocationid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td>=</td>
+<td>msdyn_deliveryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td>=</td>
+<td>msdyn_deliverybuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALITEMNUMBER</td>
+<td>=</td>
+<td>msdyn_externalitemnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>FIXEDPRICECHARGES</td>
+<td>=</td>
+<td>msdyn_fixedpricecharges</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELIVERYADDRESS</td>
+<td>=</td>
+<td>msdyn_formatteddeliveryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_linedescription</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTAMOUNT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_linediscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTPERCENTAGE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_linediscountpercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>MULTILINEDISCOUNTAMOUNT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_multilinediscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>MULTILINEDISCOUNTPERCENTAGE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_multilinediscountpercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDRECEIPTDATE</td>
+<td>=</td>
+<td>msdyn_requestedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSHIPPINGDATE</td>
+<td>=</td>
+<td>requestdeliveryby</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERLINESTATUS</td>
+<td>&gt;&gt;</td>
+<td>msdyn_linestatus</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERPROMISINGMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesorderpromisingmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRICEQUANTITY</td>
+<td>=</td>
+<td>msdyn_salespricequantity</td>
+<td></td>
+</tr>
+<tr>
+<td>SHIPPINGSITEID</td>
+<td>=</td>
+<td>msdyn_shippingsite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>SHIPPINGWAREHOUSEID</td>
+<td>=</td>
+<td>msdyn_shippingwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>ispriceoverridden</td>
+<td>true</td>
+</tr>
+<tr>
+<td>TOTALCHARGESAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>msdyn_totalchargesamount</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYMODECODE</td>
+<td>=</td>
+<td>msdyn_deliverymode.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYTERMSID</td>
+<td>=</td>
+<td>msdyn_deliveryterms.msdyn_termscode</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-order-origin-codes-to-msdyn_salesorderorigins">Sales order origin codes to msdyn_salesorderorigins</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORIGINCODE</td>
+<td>=</td>
+<td>msdyn_origincode</td>
+<td></td>
+</tr>
+<tr>
+<td>ORIGINDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_origindescription</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-sales-quotation-header-to-quotes">CDS sales quotation header to quotes</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<p>Reversed source filter: statecode eq 0</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SALESQUOTATIONNUMBER</td>
+<td>=</td>
+<td>msdyn_quotenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTINGCUSTOMERACCOUNTNUMBER</td>
+<td>=</td>
+<td>customerid.Account(accountnumber).Contact(msdyn_contactpersonid)</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>=</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERSREFERENCE</td>
+<td>=</td>
+<td>msdyn_customersreference</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>=</td>
+<td>shipto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td>=</td>
+<td>shipto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>=</td>
+<td>shipto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>=</td>
+<td>shipto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>=</td>
+<td>shipto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONNAME</td>
+<td>=</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td>&gt;&gt;</td>
+<td>billto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td>&gt;&gt;</td>
+<td>billto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREETNUMBER</td>
+<td>&gt;&gt;</td>
+<td>billto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATEID</td>
+<td>&gt;&gt;</td>
+<td>billto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td>&gt;&gt;</td>
+<td>billto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>QUOTATIONTOTALAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totalamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>discountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>QUOTATIONTOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>totaltax</td>
+<td></td>
+</tr>
+<tr>
+<td>QUOTATIONTOTALCHARGESAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>freightamount</td>
+<td></td>
+</tr>
+<tr>
+<td>AREPRICESINCLUDINGSALESTAX</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arepricesincludingsalestax</td>
+<td></td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td>=</td>
+<td>msdyn_contactperson.msdyn_contactpersonid</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERREQUISITIONNUMBER</td>
+<td>=</td>
+<td>msdyn_customerrequisitionnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTSHIPPINGSITEID</td>
+<td>=</td>
+<td>msdyn_defaultshippingsite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTSHIPPINGWAREHOUSEID</td>
+<td>=</td>
+<td>msdyn_defaultshippingwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdunsnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslocationid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td>=</td>
+<td>msdyn_deliveryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td>=</td>
+<td>msdyn_deliverybuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELIVERYADDRESS</td>
+<td>&gt;&gt;</td>
+<td>msdyn_formatteddeliveryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDINVOICEADDRESS</td>
+<td>&gt;&gt;</td>
+<td>msdyn_formattedinvoiceaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>GENERATEDSALESORDERNUMBER</td>
+<td>=</td>
+<td>msdyn_generatedsalesordernumber.msdyn_salesordernumber</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONID</td>
+<td>&gt;</td>
+<td>msdyn_invoiceaddresscountryregionid</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTYID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSDISTRICTNAME</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLATITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLONGITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSPOSTBOX</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoiceaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEBUILDINGCOMPLIMENT</td>
+<td>&gt;&gt;</td>
+<td>msdyn_invoicebuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICECUSTOMERACCOUNTNUMBER</td>
+<td>=</td>
+<td>msdyn_invoicecustomer.accountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSORDERSPECIFIC</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressorderspecific</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSPRIVATE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>ISINVOICEADDRESSPRIVATE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_isinvoiceaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_language</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSNAME</td>
+<td>=</td>
+<td>msdyn_paymentterms.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PRICECUSTOMERGROUPCODE</td>
+<td>=</td>
+<td>msdyn_pricecustomergroup.msdyn_groupcode</td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIPTDATEREQUESTED</td>
+<td>=</td>
+<td>msdyn_requestedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSHIPPINGDATE</td>
+<td>=</td>
+<td>requestdeliveryby</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESORDERPROMISINGMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesorderpromisingmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONCONFIRMATIONDATE</td>
+<td>=</td>
+<td>msdyn_salesquotationconfirmationdate</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONEXPIRYDATE</td>
+<td>=</td>
+<td>msdyn_salesquotationexpirydate</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONFOLLOWUPDATE</td>
+<td>=</td>
+<td>msdyn_salesquotationfollowupdate</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesquotationstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_totaldiscountpercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>URL</td>
+<td>=</td>
+<td>msdyn_url</td>
+<td></td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td>=</td>
+<td>emailaddress</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-sales-quotation-lines-to-quotedetails">CDS sales quotation lines to quotedetails</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Map type</th>
+<th>Customer engagement apps</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALLOWEDOVERDELIVERYPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_allowedoverdeliverypercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOWEDUNDERDELIVERYPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_allowedunderdeliverypercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONNUMBER</td>
+<td>=</td>
+<td>quoteid.msdyn_quotenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LINECREATIONSEQUENCENUMBER</td>
+<td>=</td>
+<td>sequencenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>&gt;&gt;</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>=</td>
+<td>shipto_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>&gt;&lt;</td>
+<td>shipto_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td>=</td>
+<td>msdyn_deliveryaddressdunsnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslocationid</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>=</td>
+<td>msdyn_deliveryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>=</td>
+<td>msdyn_deliveryaddressname</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td>=</td>
+<td>msdyn_deliveryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>=</td>
+<td>shipto_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>=</td>
+<td>shipto_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td>=</td>
+<td>shipto_line2</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>=</td>
+<td>shipto_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td>=</td>
+<td>msdyn_deliverybuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALITEMNUMBER</td>
+<td>=</td>
+<td>msdyn_externalitemnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>FIXEDPRICECHARGES</td>
+<td>=</td>
+<td>msdyn_fixedpricecharges</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELIVERYADDRESS</td>
+<td>=</td>
+<td>msdyn_formatteddeliveryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSPRIVATE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressprivate</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSORDERSPECIFIC</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdeliveryaddressspecific</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>baseamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>extendedamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_linedescription2</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTAMOUNT</td>
+<td>=</td>
+<td>msdyn_linediscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_linediscountpercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>MULTILINEDISCOUNTAMOUNT</td>
+<td>=</td>
+<td>msdyn_multilinediscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>MULTILINEDISCOUNTPERCENTAGE</td>
+<td>=</td>
+<td>msdyn_multilinediscountpercentage</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNAME</td>
+<td>=</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNUMBER</td>
+<td>=</td>
+<td>productid.msdyn_productnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDRECEIPTDATE</td>
+<td>=</td>
+<td>msdyn_requestedreceiptdate</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSALESQUANTITY</td>
+<td>=</td>
+<td>quantity</td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSHIPPINGDATE</td>
+<td>=</td>
+<td>requestdeliveryby</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRICE</td>
+<td>=</td>
+<td>priceperunit</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRICEQUANTITY</td>
+<td>=</td>
+<td>msdyn_salespricequantity</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONPROMISINGMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesquotationpromisingmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESQUOTATIONSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salesquotationstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESUNITSYMBOL</td>
+<td>=</td>
+<td>uomid.msdyn_symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>SHIPPINGSITEID</td>
+<td>=</td>
+<td>msdyn_shippingsite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>SHIPPINGWAREHOUSEID</td>
+<td>=</td>
+<td>msdyn_shippingwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALCHARGESAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>msdyn_totalchargesamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTAMOUNT</td>
+<td>=</td>
+<td>manualdiscountamount</td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALTAXAMOUNT</td>
+<td>&gt;&gt;</td>
+<td>tax</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYHIERARCHYNAME</td>
+<td>&gt;</td>
+<td>msdyn_salesproductcategory.msdyn_hierarchy.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESPRODUCTCATEGORYNAME</td>
+<td>=</td>
+<td>msdyn_salesproductcategory.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>none</td>
+<td>&gt;&gt;</td>
+<td>ispriceoverridden</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

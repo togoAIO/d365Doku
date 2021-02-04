@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Organisationshierarchie in Dataverse </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Organisationshierarchie in Dataverse ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird die Integration von Organisationsdaten zwischen Finance and Operations Apps und Dataverse beschrieben.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="organization-hierarchy-in-dataverse" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="28">Organisationshierarchie in Dataverse</h1>
+
+[!include[banner](../../includes/banner.md)][!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="34">Da Dynamics 365 Finance ein Finanzsystem ist, ist <em sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="34">Organisation</em> ein Grundkonzept, und die Systemeinrichtung beginnt mit der Konfiguration einer Organisationshierarchie. Unternehmensfinanzen können auf Organisationsebene und auch auf jeder anderen Ebene in der Organisationshierarchie verfolgt werden.</p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="36">Obwohl es in Dataverse nicht das Konzept einer Organisationshierarchie gibt, gibt es mehrere lose Konzepte, beispielsweise Gesamtverkaufserlös. Im Rahmen der Dataverse-Integration wird die Datenstruktur der Organisationshierarchie zu Dataverse hinzugefügt.</p>
+<h2 id="data-flow" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="38">Datenfluss</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="40">Ein Geschäftsökosystem, das aus Finance and Operations Apps und Dataverse besteht, wird weiterhin eine Organisationshierarchie haben. Diese Organisationshierarchie basiert auf Finance and Operations Apps, wird aber in Dataverse zu Informations- und Erweiterbarkeitszwecken verfügbar gemacht. Die folgende Abbildung zeigt die Organisationshierarchieinformationen, die in Dataverse als unidirektionaler Datenfluss von Finance and Operations Apps nach Dataverse verfügbar gemacht werden.</p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="42"><img src="media/dual-write-data-flow.png" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="42" alt="Architekturabbildung"></p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="44">Tabellenzuordnungen der Organisationshierarchie sind für die unidirektionale Synchronisierung von Finance and Operations-Apps zu Dataverse verfügbar.</p>
+<h2 id="templates" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="46">Vorlagen</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="48">Produktinformationen enthält alle Informationen, die mit dem Produkt und seiner Definition in Verbindung stehen, z. B. den Produktdimensionen oder den Nachverfolgungs- und Lagerdimensionen. Wie die folgende Tabelle zeigt, wird eine Sammlung von Tabellenzuordnungen erstellt, um Produkte und zugehörige Informationen zu synchronisieren.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="50">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="50">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="50">Finance and Operations Apps</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="50">Sonstige Dynamics 365-Apps</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="50">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="52">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="52">Organisationshierarchiezwecke</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="52">msdyn_internalorganizationhierarchypurposes</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="52">Diese Vorlage ermöglicht eine unidirektionale Synchronisierung der Entität „Zweck der Organisationshierarchie“.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="53">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="53">Organisationshierarchietyp</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="53">msdyn_internalorganizationhierarchytypes</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="53">Diese Vorlage ermöglicht eine unidirektionale Synchronisierung der Entität „Organisationshierarchietyp“.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="54">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="54">Organisationshierarchie – veröffentlicht</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="54">msdyn_internalorganizationhierarchies</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="54">Diese Vorlage bietet eine unidirektionale Synchronisierung der Entität „Veröffentlichte Organisationshierarchie“.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="55">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="55">Organisationseinheit</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="55">msdyn_internalorganizations</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="56">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="56">Juristische Personen</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="56">msdyn_internalorganizations</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="57">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="57">Juristische Personen</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="57">cdm_companies</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="57">Bietet eine bidirektionale Synchronisierung von Daten von juristischen Person (Unternehmen).</td>
+</tr>
+</tbody>
+</table>
+[!include[banner](../../includes/dual-write-symbols.md)]<h2 id="organization-hierarchy-purposes-to-msdyn_internalorganizationhierarchypurposes" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1">Organisationshierarchiezwecke zu msdyn_internalorganizationhierarchypurposes</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="7">HIERARCHYTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="7">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="7">msdyn_hierarchypurposetypename</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="8">HIERARCHYTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="8">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="8">msdyn_hierarchytype.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="9">HIERARCHYPURPOSE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="9">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="9">msdyn_hierarchypurpose</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="10">IMMUTABLE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="10">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="10">msdyn_immutable</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="11">SETASDEFAULT</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="11">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="11">msdyn_setasdefault</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPurpose-msdyn-internalorganizationhierarchypurposes.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="organization-hierarchy-type-to-msdyn_internalorganizationhierarchytypes" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="1">Organisationshierarchietyp zu msdyn_internalorganizationhierarchytypes</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="7">NAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="7">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="7">msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyType-msdyn-internalorganizationhierarchytypes.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="organization-hierarchy---published-to-msdyn_internalorganizationhierarchies" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1">Organisationshierarchie – veröffentlicht in msdyn_internalorganizationhierarchies</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="7">VALIDTO</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="7">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="7">msdyn_validto</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="8">VALIDFROM</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="8">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="8">msdyn_validfrom</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="9">HIERARCHYTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="9">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="9">msdyn_hierarchytypename</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="10">PARENTORGANIZATIONPARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="10">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="10">msdyn_parentpartyid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="11">CHILDORGANIZATIONPARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="11">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="11">msdyn_childpartyid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="12">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="12">HIERARCHYTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="12">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="12">msdyn_hierarchytypeid.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="13">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="13">CHILDORGANIZATIONPARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="13">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="13">msdyn_childid.msdyn_partynumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="14">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="14">PARENTORGANIZATIONPARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="14">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="14">msdyn_parentid.msdyn_partynumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OrganizationHierarchyPublished-msdyn-internalorganizationhierarchies.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="internal-organization" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="67">Interne Organisation</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="69">Interne Organisationsinformationen in Dataverse stammen aus zwei Tabellen, <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="69">Organisationseinheit</strong> und <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md" sourcestartlinenumber="69">Juristische Personen</strong>.</p>
+<h2 id="operating-unit-to-msdyn_internalorganizations" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1">Organisationseinheit zu msdyn_internalorganizations</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="7">LANGUAGEID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="7">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="7">msdyn_languageid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="8">NAMEALIAS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="8">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="8">msdyn_namealias</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="9">NAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="9">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="9">msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="10">PARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="10">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="10">msdyn_partynumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="11">OPERATINGUNITTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="11">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="11">msdyn_type</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/OperatingUnit-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="legal-entities-to-msdyn_internalorganizations" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1">Juristische Personen zu msdyn_internalorganizations</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="7">NAMEALIAS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="7">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="7">msdyn_namealias</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="8">LANGUAGEID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="8">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="8">msdyn_languageid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="9">NAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="9">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="9">msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="10">PARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="10">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="10">msdyn_partynumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="11">nichts</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="11">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="11">msdyn_type</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="11">806380000</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="12">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="12">LEGALENTITYID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="12">&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="12">msdyn_companycode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-msdyn-internalorganizations.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="legal-entities-to-cdm_companies" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="1">Juristische Personen zu cdm_companies</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="7">NAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="7">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="7">cdm_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="8">LEGALENTITYID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="8">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="8">cdm_companycode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/LegalEntities-Companies.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/organization-mapping.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Overview of fiscal integration for Commerce channels </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Overview of fiscal integration for Commerce channels ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides an overview of the fiscal integration capabilities that are available in Dynamics 365 Commerce.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="RetailFunctionalityProfile, RetailFormLayout, RetailParameters">
+    <meta name="ms.search.scope" content="Operations, Retail, Commerce">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="overview-of-fiscal-integration-for-commerce-channels">Overview of fiscal integration for Commerce channels</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>This topic is an overview of the fiscal integration capabilities that are available in Dynamics 365 Commerce. Fiscal integration includes integration with various fiscal devices and services that enable fiscal registration of sales in accordance with local fiscal laws that are aimed at preventing tax fraud in the retail industry. Here are some typical scenarios that can be covered by using fiscal integration:</p>
+<ul>
+<li>Register a sale on a fiscal device that is connected to point of sale (POS), such as a fiscal printer, and print a fiscal receipt for the customer.</li>
+<li>Securely submit information that is related to sales and returns that are completed in Retail POS to an external web-service that is operated by the tax authority.</li>
+<li>Help guarantee inalterability of sales transaction data through digital signatures.</li>
+</ul>
+<p>The fiscal integration functionality is a framework that provides a common solution for further development and customization of the integration between Retail POS and fiscal devices and services. The functionality also includes fiscal integration samples that support basic scenarios for specific countries or regions, and that work with specific fiscal devices or services. A fiscal integration sample consists of several extensions of Commerce components and is included in the software development kit (SDK). For more information about the fiscal integration samples, see <a href="#fiscal-integration-samples-in-the-retail-sdk">Fiscal integration samples in the Retail SDK</a>. For information about how to install and use the Retail SDK, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-overview">Retail software development kit (SDK) architecture (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<p>To support other scenarios that aren't supported by a fiscal integration sample, to integrate Retail POS with other fiscal devices or services, or to cover requirements of other countries or regions, you must either extend an existing fiscal integration sample or create a new sample by using an existing sample as an example.</p>
+<h2 id="fiscal-registration-process-and-fiscal-integration-samples-for-fiscal-devices">Fiscal registration process and fiscal integration samples for fiscal devices</h2>
+<p>A fiscal registration process in Retail POS can consist of one or more steps. Each step involves fiscal registration of specific transactions or events in one fiscal device or service. The following solution components participate in the fiscal registration in a fiscal device that is connected to a Hardware station:</p>
+<ul>
+<li><strong>Commerce runtime (CRT) extension</strong> – This component serializes transaction/event data in the format that is also used for interaction with the fiscal device, parses responses from the fiscal device, and stores the responses in the channel database. The extension also defines the specific transactions and events that must be registered. This component is often referred to as a <em>fiscal document provider</em>.</li>
+<li><strong>Hardware station extension</strong> – This component initializes the communication with the fiscal device, sends requests and direct commands to the fiscal device based on the transaction/event data that is extracted from the fiscal document, and receives responses from the fiscal device. This component is often referred to as a <em>fiscal connector</em>.</li>
+</ul>
+<p>A fiscal integration sample for a fiscal device contains the CRT and Hardware station extensions for a fiscal document provider and a fiscal connector, respectively. It also contains the following component configurations:</p>
+<ul>
+<li><strong>Fiscal document provider configuration</strong> – This configuration defines an output method and a format for fiscal documents. It also contains a data mapping for taxes and payment methods, to make data from Retail POS compatible with the values that are predefined in the fiscal device firmware.</li>
+<li><strong>Fiscal connector configuration</strong> – This configuration defines the physical communication with the specific fiscal device.</li>
+</ul>
+<p>A fiscal registration process for a specific POS register is defined by a corresponding setting in the POS functionality profile. For more details about how to configure a fiscal registration process, upload fiscal document provider and fiscal connector configurations, and change their parameters, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process">Set up a fiscal registration process</a>.</p>
+<p>The following example shows a typical fiscal registration execution flow for a fiscal device. The flow starts with an event in the POS (for example, finalization of a sales transaction) and implements the following sequence of steps:</p>
+<ol>
+<li>The POS requests a fiscal document from CRT.</li>
+<li>CRT determines whether the current event requires fiscal registration.</li>
+<li>Based on the fiscal registration process settings, CRT identifies a fiscal connector and corresponding fiscal document provider to use for the fiscal registration.</li>
+<li>CRT runs the fiscal document provider that generates a fiscal document (for example, an XML document) that represents the transaction or event.</li>
+<li>The POS sends the fiscal document that CRT prepares to a Hardware station.</li>
+<li>The Hardware station runs the fiscal connector that processes the fiscal document and communicates it to the fiscal device or service.</li>
+<li>The POS analyzes the response from the fiscal device or service to determine whether the fiscal registration was successful.</li>
+<li>CRT saves the response to the channel database.</li>
+</ol>
+<p><img src="media/emea-fiscal-integration-solution.png" alt="Solution schema" title="Solution schema"></p>
+<h2 id="error-handling">Error handling</h2>
+<p>The fiscal integration framework provides the following options to handle failures during fiscal registration:</p>
+<ul>
+<li><strong>Retry</strong> – Operators can use this option when the failure can be resolved quickly, and the fiscal registration can be rerun. For example, this option can be used when the fiscal device isn't connected, the fiscal printer is out of paper, or there is a paper jam in the fiscal printer.</li>
+<li><strong>Cancel</strong> – This option lets operators postpone the fiscal registration of the current transaction or event if it fails. After the registration is postponed, the operator can continue to work on the POS and can complete any operation that the fiscal registration isn't required for. When any event that requires the fiscal registration occurs in the POS (for example, a new transaction is opened), the error handling dialog box automatically appears to notify the operator that the previous transaction wasn't correctly registered and to provide the error handling options.</li>
+<li><strong>Skip</strong> – Operators can use this option when the fiscal registration can be omitted under specific conditions and regular operations can be continued on the POS. For example, this option can be used when a sales transaction that the fiscal registration failed for can be registered in a special paper journal.</li>
+<li><strong>Mark as registered</strong> – Operators can use this option when the transaction was actually registered in the fiscal device (for example, a fiscal receipt was printed), but a failure occurred when the fiscal response was being saved to the channel database.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Skip</strong> and <strong>Mark as registered</strong> options must be activated in the fiscal registration process before they are used. In addition, corresponding permissions must be granted to operators.</p>
+</div>
+<p>The <strong>Skip</strong> and <strong>Mark as registered</strong> options enable info codes to capture some specific information about the failure, such as the reason for the failure or a justification for skipping the fiscal registration or marking the transaction as registered. For more details about how to set up error handling parameters, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings">Set error handling settings</a>.</p>
+<h3 id="optional-fiscal-registration">Optional fiscal registration</h3>
+<p>Fiscal registration might be mandatory for some operations but optional for others. For example, the fiscal registration of regular sales and returns might be mandatory, but the fiscal registration of operations that are related to customer deposits might be optional. In this case, failure to complete the fiscal registration of a sale should block further sales, but failure to complete the fiscal registration of a customer deposit should not block further sales. To distinguish mandatory and optional operations, we recommend that you handle them through different document providers, and that you set up separate steps in the fiscal registration process for those providers. The <strong>Continue on error</strong> parameter should be enabled for any step that is related to optional fiscal registration. For more details about how to set up error handling parameters, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings">Set error handling settings</a>.</p>
+<h3 id="manually-running-fiscal-registration">Manually running fiscal registration</h3>
+<p>If the fiscal registration of a transaction or event has been postponed after a failure (for example, if the operator selected <strong>Cancel</strong> in the error handling dialog box), you can manually rerun the fiscal registration by invoking a corresponding operation. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#enable-manual-execution-of-postponed-fiscal-registration">Enable manual execution of postponed fiscal registration</a>.</p>
+<h3 id="fiscal-registration-health-check">Fiscal registration health check</h3>
+<p>The health check procedure for fiscal registrations verifies the availability of the fiscal device or service when specific events occur. If the fiscal registration can't currently be completed, the operator is notified in advance.</p>
+<p>The POS runs the health check when the following events occur:</p>
+<ul>
+<li>A new transaction is opened.</li>
+<li>A suspended transaction is recalled.</li>
+<li>A sales or return transaction is finalized.</li>
+</ul>
+<p>If the health check fails, the POS shows the health check dialog box. This dialog box provides the following buttons:</p>
+<ul>
+<li><strong>OK</strong> – This button lets the operator ignore a health check error and continue to process the operation. Operators can select this button only if the <strong>Allow skip health check error</strong> permission is enabled for them.</li>
+<li><strong>Cancel</strong> – If the operator selects this button, the POS cancels the last action (for example, an item isn't added to a new transaction).</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The health check is run only if the current operation requires fiscal registration, and if  the <strong>Continue on error</strong> parameter is disabled for the current step of the fiscal registration process. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings">Set error handling settings</a>.</p>
+</div>
+<h2 id="storing-fiscal-response-in-fiscal-transaction">Storing fiscal response in fiscal transaction</h2>
+<p>When fiscal registration of a transaction or event is successful, a fiscal transaction is created in the channel database and linked to the original transaction or event. Similarly, if the <strong>Skip</strong> or <strong>Mark as registered</strong> option is selected for a failed fiscal registration, this information is stored in a fiscal transaction. A fiscal transaction holds the fiscal response of the fiscal device or service. If the fiscal registration process consists of several steps, a fiscal transaction is created for each step of the process that resulted in a successful or failed registration.</p>
+<p>Fiscal transactions are transferred to Headquarters by the <em>P-job</em>, together with transactions. On the <strong>Fiscal transactions</strong> FastTab of the <strong>Store transactions</strong> page, you can view the fiscal transactions that are linked to transactions.</p>
+<p>A fiscal transaction stores the following details:</p>
+<ul>
+<li>Fiscal registration process details (process, connector group, connector, and so on). It also stores the serial number of the fiscal device in the <strong>Register number</strong> field, if this information is included in the fiscal response.</li>
+<li>The status of the fiscal registration: <strong>Completed</strong> for successful registration, <strong>Skipped</strong> if the operator selected the <strong>Skip</strong> option for a failed registration, or <strong>Marked as registered</strong> if the operator selected the <strong>Mark as registered</strong> option.</li>
+<li>Info code transactions that are related to a selected fiscal transaction. To view the info code transactions, on the <strong>Fiscal transactions</strong> FastTab, select a fiscal transaction that has a status of <strong>Skipped</strong> or <strong>Marked as registered</strong>, and then select <strong>Info code transactions</strong>.</li>
+</ul>
+<h2 id="fiscal-texts-for-discounts">Fiscal texts for discounts</h2>
+<p>Some countries or regions have special requirements about additional texts that must be printed on fiscal receipts when different kinds of discounts are applied. The fiscal integration functionality lets you set up a special text for a discount that is printed after a discount line on a fiscal receipt. For manual discounts, you can configure a fiscal text for the info code that is specified as the <strong>Product discount</strong> info code in the POS functionality profile. For more details about how to set up fiscal texts for discounts, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-fiscal-texts-for-discounts">Set up fiscal texts for discounts</a>.</p>
+<h2 id="printing-fiscal-x-and-fiscal-z-reports">Printing fiscal X and fiscal Z reports</h2>
+<p>Fiscal integration functionality supports generation of end-of-day statements that are specific to the integrated fiscal device or service:</p>
+<ul>
+<li>New buttons that run corresponding operations should be added to the POS screen layout. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-fiscal-xz-reports-from-the-pos">Set up fiscal X/Z reports from the POS</a>.</li>
+<li>In the fiscal integration sample, these operations should be matched to the corresponding operations of the fiscal device.</li>
+</ul>
+<h2 id="fiscal-integration-samples-in-the-retail-sdk">Fiscal integration samples in the Retail SDK</h2>
+<p>The following fiscal integration samples are currently available in the Retail SDK:</p>
+<ul>
+<li><a href="emea-ita-fpi-sample.html">Fiscal printer integration sample for Italy</a></li>
+<li><a href="emea-pol-fpi-sample.html">Fiscal printer integration sample for Poland</a></li>
+<li><a href="emea-aut-fi-sample.html">Fiscal registration service integration sample for Austria</a></li>
+<li><a href="emea-cze-fi-sample.html">Fiscal registration service integration sample for Czech Republic</a></li>
+<li><a href="emea-swe-fi-sample.html">Control unit integration sample for Sweden</a></li>
+<li><a href="emea-deu-fi-sample.html">Fiscal registration service integration sample for Germany</a></li>
+</ul>
+<p>The following fiscal integration functionality is also available in the Retail SDK but doesn't currently take advantage of the fiscal integration framework. Migration of this functionality to the fiscal integration framework is planned for later updates.</p>
+<ul>
+<li><a href="emea-fra-cash-registers.html">Digital signature for France</a></li>
+<li><a href="emea-nor-cash-registers.html">Digital signature for Norway</a></li>
+</ul>
+<p>The following legacy fiscal integration functionality that is available in Retail SDK does not use the fiscal integration framework and will be deprecated in later updates:</p>
+<ul>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/localizations/retail-sdk-control-unit-sample">Control unit integration sample for Sweden (legacy) (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/localizations/fiscal-integration-for-retail-channel.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

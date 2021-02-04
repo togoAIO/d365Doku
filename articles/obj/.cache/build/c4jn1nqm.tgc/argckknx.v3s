@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Dual currency </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Dual currency ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about dual currency, where the reporting currency is used as a second accounting currency for Microsoft Dynamics 365 Finance.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="LedgerJournalTable, Ledger, AssetTransReportingCurrencyAmountsWizard,BankAccountTransReportingCurrencyAmountsWizard, LedgerTrialBalanceListPage">
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="dual-currency" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="30">Dual currency</h1>
+
+
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="34">Functionality that was introduced in Microsoft Dynamics 365 for Finance and Operations version 8.1 (October 2018) enables the reporting currency to be repurposed and used as a second accounting currency. This functionality is referred to as <em sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="34">dual currency</em>. The changes for dual currency can't be turned off through a configuration key or parameter. Because the reporting currency is used as a second accounting currency, the way that the reporting currency is calculated in the posting logic has changed.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="36">In addition, several modules have been enhanced to track, report, and use the reporting currency in various processes. The modules that are affected include:</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="38">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="38">General ledger</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="39">Financial reporting</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="40">Accounts payable</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="41">Accounts receivable</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="42">Cash and bank management</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="43">Fixed assets</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="44">Consolidations</li>
+</ul>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="46">After an upgrade, you must complete specific steps for Cash and bank management and Fixed assets. Therefore, be sure to read and understand the relevant sections of this topic.</p>
+<h2 id="posting-process" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="48">Posting process</h2>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="50">The posting logic has been changed for all transactions that generate an accounting entry to general ledger. Here is how the reporting currency was previously calculated:</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="52">Transaction currency amount &gt; Accounting currency amount &gt; Reporting currency amount</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="54">For example, a transaction is entered in the Canadian dollar (CAD) currency. The CAD amount is translated to the accounting currency, which is the US dollar (USD). The USD amount is then translated to the reporting currency, which is the euro (EUR). Therefore, the exchange rates must exist between CAD and USD, and between USD and EUR.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="56">Here is the new calculation:</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="58">Transaction currency amount &gt; Accounting currency amount</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="60">Transaction currency amount &gt; Reporting currency amount</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="62">Because of this change, exchange rates must now exist between CAD and USD, and between CAD and EUR.</p>
+<h2 id="reports-and-inquiries" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="64">Reports and inquiries</h2>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="66">Various reports and inquiries now show both reporting currency amounts and accounting currency amounts. Not every report and inquiry has been updated. For example, reports that show amounts only in the transaction currency haven't changed.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="68">The changes follow one of two patterns:</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="70">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="70">If the report or inquiry had enough space to show amounts in both the accounting currency and the reporting currency, the reporting currency amounts were added.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="71">If the report or inquiry didn't have enough space to show amounts in both currencies, an option was added so that users can select which currency is shown.</li>
+</ul>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="73">For various reports and inquiries, logic was also added to suppress the reporting currency amounts if the reporting currency is the same as the accounting currency, or if the reporting currency wasn't defined on the ledger for the legal entity.</p>
+<h2 id="financial-journals" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="75">Financial journals</h2>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="77">The financial journals, such as the general journal and vendor invoice journal, have been updated so that they include additional information about the reporting currency. Totals for the voucher and journal are now shown in the reporting currency. Additionally, information about the reporting currency's exchange rate now appears on the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="77">General</strong> tab of the journal lines. Therefore, you can override the reporting currency's exchange rate when you enter transactions.</p>
+<h2 id="vendor-invoices-sales-orders-and-sales-agreements" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="79">Vendor invoices, sales orders, and sales agreements</h2>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="80">Vendor invoices, sales orders, and sales agreements have been updated to include a fixed exchange rate for the reporting currency. A fixed exchange rate can be defined for both the accounting currency and reporting currency when the transaction currency is different. When the accounting currency and reporting currency are the same, the fixed exchange rate will be kept in sync by using the accounting currency’s fixed rate as the reporting currency’s fixed rate. The reporting currency fixed exchange rate cannot be changed for this configuration. When the accounting currency and reporting currency differ, a fixed exchange rate can be defined for both the accounting currency and reporting currency during transaction entry. If the reporting currency has not been defined on the ledger, the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="80">Reporting currency fixed exchange rate</strong> field is not enabled, and no reporting currency amount is calculated.</p>
+<h2 id="module-changes" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="82">Module changes</h2>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="84">The following modules use the reporting currency as a second accounting currency:</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="86">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="86"><a href="#general-ledger" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="86">General ledger</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="87"><a href="#financial-reporting" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="87">Financial reporting</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="88"><a href="#accounts-payable-and-accounts-receivable" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="88">Accounts payable</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="89"><a href="#accounts-payable-and-accounts-receivable" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="89">Accounts receivable</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="90"><a href="#cash-and-bank-management" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="90">Cash and bank management</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="91"><a href="#fixed-assets" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="91">Fixed assets</a></li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="92"><a href="#consolidations" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="92">Consolidations</a></li>
+</ul>
+<h3 id="general-ledger" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="94">General ledger</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="96">If a reporting currency was defined on the ledger, the general ledger already tracked reporting currency amounts on every accounting entry. However, those amounts are now translated from the transaction currency amounts.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="98">The following additional changes were made in the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="98">General ledger</strong> module:</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="100">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="100">A separate exchange rate type for the reporting currency can be defined on the ledger. If an organization doesn't want to use a different exchange rate type, you can leave the field for the exchange rate type for the reporting currency blank. Alternatively, you can select the same exchange rate type that is used for the accounting currency. If you leave the field blank, the system uses the exchange rate type for the accounting currency.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="101">A new journal, the Reporting currency adjustment journal, enables adjustments to be posted to ledger accounts in the reporting currency only. This journal enables posting only to ledger accounts. It doesn't support intercompany, and the currency must be the reporting currency of the legal entity where the journal is posted. When the journal is posted, the transaction currency and accounting currency amounts are 0 (zero), and the reporting currency amount is posted with the amount that is entered on the transaction. Because the way that the reporting currency is used in the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="101">Accounts payable</strong>, <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="101">Accounts receivable</strong>, and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="101">Fixed assets</strong> modules has changed, this journal can be used for adjustments after an upgrade. For examples that show how this journal can be used, see the sections for those modules.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="102">The process for period allocation has been updated so that it allocates amounts in the transaction, accounting, and reporting currencies. Previously, amounts were allocated in the transaction and accounting currencies, and then the accounting currency amount was translated to the reporting currency. That behavior could cause a balance to remain on the ledger account in the reporting currency. Now, when amounts are calculated and used in the accounting entry, no translation occurs.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="103">The process for foreign currency revaluation already revalued amounts in the reporting currency. However, the reporting currency amount is now calculated through the transaction currency amount, as described in the <a href="#posting-process" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="103">Posting process</a> section earlier in this topic.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="104">Many reports and inquiries in General ledger already had the reporting currency, but a few didn't. One example is the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="104">Trial balance</strong> list page. This list page now includes columns for both the accounting currency and the reporting currency. Note that the columns for the reporting currency are hidden if the accounting currency and the reporting currency are the same, or if no reporting currency was defined on the ledger.</li>
+</ul>
+<h3 id="financial-reporting" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="106">Financial reporting</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="108">An enhancement to the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="108">Financial reporting</strong> module lets you include reporting currency amounts on a financial statement in two ways. On the column definition, you can report directly on the reporting currency amounts that are posted to the ledger (new functionality). Alternatively, you can continue to translate amounts from the accounting currency to the reporting currency (existing functionality).</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="110">This change is available through the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="110">Currency display</strong> setting in the column definition. If you select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="110">Reporting currency from ledger</strong>, amounts in the column aren't translated. Instead, they are reported directly from the general ledger. If you want the column to show translated amounts, select the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="110">Translate to XXXX</strong> option, where <em sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="110">XXXX</em> is the reporting currency that the column should show. In this case, accounting currency amounts will be translated to the selected currency by using the existing translation functionality.</p>
+<h3 id="accounts-payable-and-accounts-receivable" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="112">Accounts payable and Accounts receivable</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="114">The <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="114">Accounts payable</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="114">Accounts receivable</strong> modules already tracked reporting currency amounts. However, the amounts weren't shown or used for various processes. The following changes were made:</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="116">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="116">Reporting currency amounts are now shown on transactions for both customers and vendors. Reporting currency amounts are also shown for the open balance of each transaction.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="117">The aging process has been updated so that an organization can view the aging buckets in either the accounting currency or the reporting currency.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="118">Various inquiries and reports were updated so that they show reporting currency amounts. Examples include the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="118">Customer to ledger reconciliation</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="118">Vendor to ledger reconciliation</strong> reports.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="119">The process for foreign currency revaluation already revalued amounts in the reporting currency. However, the reporting currency amount is now calculated through the transaction currency amount, as described in the <a href="#posting-process" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="119">Posting process</a> section.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="120"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="120">Upgrade consideration:</strong> Before an upgrade, the reporting currency amounts for documents (invoices, payments, and so on) are calculated through the accounting currency. For example, an invoice is posted before an organization upgrades, and the invoice isn't paid. During the upgrade, the invoice's accounting entry isn't changed. However, after the upgrade, the changes for dual currency are in effect. Therefore, when a payment is made for the invoice, the payment's reporting currency amount is now calculated through the transaction currency amount. When the payment and invoice are settled, a slight difference might be calculated in the realized gain/loss amount, because reporting currency amounts are now calculated differently. If the difference that is calculated is considered significant, the new Reporting currency adjustment journal can be used to adjust the balance of the realized gain/loss and Accounts payable/Accounts receivable ledger accounts in the reporting currency only.</li>
+</ul>
+<h3 id="cash-and-bank-management" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="122">Cash and bank management</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="124">Previously, the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="124">Cash and bank management</strong> module didn't track any reporting currency amounts for transactions that were posted against each bank account. After an upgrade, reporting currency amounts are automatically tracked for any new transactions that are posted. However, reporting currency amounts must be added to previously posted transactions in the subledger.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="126">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="126"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="126"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="126">Upgrade consideration:</strong> Because bank account transactions didn't previously track reporting currency amounts in the subledger, a wizard has been added so that you can add reporting currency amounts to bank account transactions. This wizard does <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="126">not</strong> post to the general ledger again. Instead, it takes the reporting currency amounts from the general ledger and updates them in the subledger tables.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="128">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="128">To start the wizard, select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="128">Cash and bank management</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="128">Setup</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="128">Add reporting currency amounts to bank account transactions</strong>.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="129">The wizard shows transactions for all bank accounts in the current company that have a reporting currency amount of 0 (zero). Only transactions that were posted before the upgrade are included.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="130">For each bank account transaction, the wizard finds the corresponding accounting entries in the general ledger and enters a default reporting currency amount. Although the amounts can be edited, we recommend that you <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="130">not</strong> edit them. Otherwise, you might not be able to reconcile the bank account balances to the general ledger. The only time that you should edit an amount should is if the reporting currency amount can't be found in the general ledger. In that case, the wizard will show an amount of 0 (zero) for the reporting currency.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="131">If you select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="131">Cancel</strong> in the wizard, the bank account transactions and any changes to the reporting currency amounts are saved until the next time that you run the wizard. However, the reporting currency amounts aren't updated on the bank account transactions. That update occurs only when you select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="131">Finish</strong> in the wizard. You can run the wizard multiple times. Therefore, you can fix any incorrect reporting currency amounts if you make a mistake.</li>
+</ul>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="133"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="133">No processes in Cash and bank management were changed, but various reports and inquiries were updated so that they show reporting currency amounts. The cash flow forecasting reports are an exception. They weren't updated to include the reporting currency amounts.</p>
+</li>
+</ul>
+<h3 id="fixed-assets" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="135">Fixed assets</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="137">Previously, the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="137">Fixed assets</strong> module didn't track any reporting currency amounts for transactions that were posted against each fixed asset book. After an upgrade, reporting currency amounts are automatically tracked for any new transactions that are posted. However, reporting currency amounts must be added to previously posted transactions in the subledger.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="139">In addition, major changes have been made to the depreciation process. These changes require user action after an upgrade. It's important that you read and understand the following changes, even if you aren't yet using Fixed assets.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="141">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="141"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="141">The way that the depreciation process determines the reporting currency amount has changed. The following scenario compares how depreciation previously determined the reporting currency amount and how it determines the reporting currency amount now.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="145"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="145">Depreciation scenario</strong></p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="147">An asset is acquired and posted with the following amounts. Note that the reporting currency amount is posted in the general ledger, but it isn't stored in the Fixed asset subledger tables.</p>
+<table sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">
+<thead>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Transaction type</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Transaction amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Accounting currency amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="149">Reporting currency amount</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">Acquisition</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">1,000,000 DKK</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">2.0</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">500,000 USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">2.5</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="151">200,000 EUR</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="153"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="153">Previous depreciation for the reporting currency</strong></p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="155">At the end of the year, the depreciation proposal is run and calculates the following amounts.</p>
+<table sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">
+<thead>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Transaction type</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Transaction amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Accounting currency amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="157">Reporting currency amount</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">Depreciation</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">50,000 USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">1.0</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">50,000 USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">2.6</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="159">19,230.77 EUR</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="161">When the depreciation proposal is run, it calculates the accounting currency amount by using the depreciation method. It then translates that amount to the reporting currency by using the current exchange rate between USD and EUR. This translation causes issues, because the asset can't be fully depreciated in the reporting currency when the spot rate is used.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="163"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="163">New depreciation for the reporting currency</strong></p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="165">The depreciation process has been changed so that the reporting currency amount is also calculated by using the depreciation method. Here are the results when depreciation is run on the asset.</p>
+<table sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">
+<thead>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Transaction type</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Transaction amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Accounting currency amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Exchange rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="167">Reporting currency amount</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">Depreciation</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">50,000 USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">1.0</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">50,000 USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">2.5<blockquote>[!NOTE] Although this exchange rate is shown, it isn't used to translate to the reporting currency.</blockquote></td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="169">20,000 EUR</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="171">When the depreciation proposal is run, it calculates both the accounting currency amount and the reporting currency amount by using the depreciation method. The amounts are then used in the accounting entry in the general ledger. No translation is done to determine the reporting currency amount.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="173"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="173"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="173">Upgrade consideration:</strong> Because fixed asset book transactions didn't previously track the reporting currency, a wizard has been added so that you can add reporting currency amounts to fixed asset book transactions. This wizard does <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="173">not</strong> post to the general ledger again. Because the way that the depreciation proposal calculates reporting currency amounts has changed, the wizard <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="173">must</strong> be run and completed for every company before an organization can enter any depreciation transactions.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175">To start the wizard, select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175">Fixed assets</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175">Setup</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="175">Add reporting currency amounts to fixed asset books</strong>.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="176"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="176">The wizard shows transactions for all fixed asset books in the current company that have a reporting currency amount of 0 (zero). Only transactions that were posted before the upgrade are included.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="177"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="177">The wizard does <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="177">not</strong> pull the reporting currency amounts from the general ledger. As was described in the previous scenario, the reporting currency amounts that were originally posted to the general ledger incorrectly used the spot rate. Those amounts should not appear in the fixed asset subledger, because the next depreciation calculation will use the incorrect amounts. Instead, the wizard finds the exchange rate on the date of the first acquisition. It then uses that exchange rate to recommend the reporting currency amount that should be posted in the subledger. For example, here is what the wizard might show for the previous scenario.</p>
+<table sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">
+<thead>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Fixed asset</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Book</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Transaction type</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Transaction date</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Currency</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Amount in transaction currency</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Amount</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Exch rate</th>
+<th sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="179">Reporting currency amount</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">BUIL-00001</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">200_SLLT</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">Acquisition</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">6/3/2016</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">DKK</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">1,000,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">500,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">2.5</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="181">250,000</td>
+</tr>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">BUIL-00001</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">200_SLLT</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">Depreciation</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">6/3/2016</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">2.5</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="182">25,000</td>
+</tr>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">BUIL-00001</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">200_SLLT</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">Depreciation</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">6/3/2016</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">2.5</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="183">25,000</td>
+</tr>
+<tr sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">BUIL-00001</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">200_SLLT</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">Depreciation</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">6/3/2016</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">USD</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">50,000</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">2.5</td>
+<td sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="184">25,000</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="186"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="186">Many customers tracked their asset transaction details in workbooks. These details include the exchange rates and amounts. If you have this data in a workbook, you can create a custom exchange rate type and update it with the exchange rates from the workbook. This exchange rate type will then be used to enter a default exchange rate on the acquisition date and calculate the reporting currency amount. If an exchange rate type isn't selected, the wizard uses the exchange rate type that was defined on the ledger.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="187"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="187">The exchange rate and reporting currency amounts can be changed. If the exchange rate is changed, the reporting currency amount is recalculated by using the new rate.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="188"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="188">If you select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="188">Cancel</strong> in the wizard, the fixed asset book transactions and any changes to the exchange rate or reporting currency amounts are saved until the next time that you run the wizard. However, the reporting currency amounts aren't updated on the fixed asset book transactions. That update occurs only when you select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="188">Finish</strong> in the wizard. You can run the wizard multiple times. Therefore, you can fix any incorrect reporting currency amounts if you make a mistake.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">When the reporting currency amounts are completely updated in the subledger, you <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">must</strong> set the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Have you updated all the reporting currency amounts on the fixed asset book transactions?</strong> option to <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Yes</strong> and then select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Finish</strong>. Depreciation calculations can't be completed until you set the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Have you updated all the reporting currency amounts on the fixed asset book transactions?</strong> option to <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Yes</strong>. After that option is set to <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="189">Yes</strong>, the wizard is no longer available.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="190"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="190">After the fixed asset transactions in the subledger are updated with reporting currency amounts, those amounts won't match the amounts that were originally posted to the general ledger. However, the Reporting currency adjustment journal can be used to update the balances of the depreciation ledger accounts in the general ledger, so that they match the amounts that were originally posted.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="191"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="191">A new <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="191">Asset transaction reporting currency amounts</strong> entity that has been added in the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="191">Data management</strong> workspace lets you export the data from the wizard. You can then use the data to determine the balance in the fixed asset subledger for the depreciation transactions. That balance can then be used to determine the amount of the reporting currency adjustment in the general ledger.</p>
+</li>
+</ul>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="193"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="193"><strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="193">Upgrade consideration:</strong> New setup fields have been added to fixed assets and are used in the depreciation calculation. You might have to update these fields before the next depreciation calculation.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">On the fixed asset book (<strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">Fixed assets</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">Books</strong>), the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">General</strong> FastTab has a new <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="195">Acquisition price in reporting currency</strong> field.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="196">On the fixed asset book (<strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="196">Fixed assets</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="196">Books</strong>), the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="196">Depreciation</strong> FastTab has a new <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="196">Expected scrap value in reporting currency</strong> field.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">In the Fixed asset parameters (<strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">Fixed assets</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">Setup</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">Fixed asset parameters</strong>), the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">General</strong> FastTab has a new <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="197">Minimum depreciation amount in reporting currency</strong> field.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">On books (<strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">Fixed assets</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">Setup</strong> &gt; <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">Books</strong>), the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">General</strong> FastTab has two new fields: <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">Round off depreciation in reporting currency</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="198">Leave net book value at reporting currency</strong>.</li>
+</ul>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200">Because the depreciation proposal now calculates amounts in both the accounting currency and the reporting currency, the Fixed asset journal has been updated so that it shows depreciation amounts in the reporting currency. For depreciation transactions, the transaction currency is always the accounting currency. Therefore, those amounts will continue to appear in the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200">Debit</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200">Credit</strong> columns. Two new columns, <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200">Debit in reporting currency</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="200">Credit in reporting currency</strong>, have been added to the grid.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">The new fields are available only when the transaction type is one of the four depreciation types: <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">Deprecation</strong>, <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">Depreciation adjustment</strong>, <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">Extraordinary depreciation</strong>, or <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="202">Special depreciation allowance</strong>.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="203">If a deprecation transaction type is entered in the Fixed asset journal, the reporting currency amounts will appear in the new columns. Those amounts can be changed.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="204">If the accounting currency and the reporting currencies on the ledger are the same, the amounts will be kept in sync. If you change the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="204">Credit</strong> amount, the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="204">Credit in reporting currency</strong> amount will automatically be changed so that it matches it.</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="205">If any other transaction type is entered in the Fixed asset journal, the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="205">Debit in reporting currency</strong> and <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="205">Credit in reporting currency</strong> amounts are never shown, either before or after posting. The accounting currency and reporting currency amounts are still available on the voucher that posts to the general ledger.</li>
+</ul>
+</li>
+</ul>
+<h3 id="consolidations" sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="207">Consolidations</h3>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="209">Functionality that was introduced in Dynamics 365 Finance version 10.0.5 (October 2019) enables functionality through feature management for enhanced flexibility for consolidation and dual currency. To enable this functionality, go to the <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="209">Feature management</strong> workspace and select <strong sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="209">Enable dual currency functionality in General ledger consolidation</strong>.</p>
+<p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="211">In General ledger consolidation, a new option has been added to consolidate either the accounting or reporting currency amounts from the source companies. If the accounting or reporting currency is the same as the accounting or reporting currency in the consolidation company, the amounts will be copied directly rather than translated.</p>
+<ul sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="213">
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="213"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="213">You can now choose whether to use the accounting currency or the reporting currency from the source company as the transaction currency in the consolidation company.</p>
+</li>
+<li sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="215"><p sourcefile="finance/general-ledger/dual-currency.md" sourcestartlinenumber="215">The accounting or reporting currency amounts from the source company will be copied directly to the accounting or reporting currency amounts in the consolidation company, if either of the currencies are the same. The accounting and reporting currency amounts in the consolidation company are calculated using the exchange rate if neither of the currencies is the same.</p>
+</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/general-ledger/dual-currency.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

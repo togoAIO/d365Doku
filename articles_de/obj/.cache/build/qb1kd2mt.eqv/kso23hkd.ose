@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Verbessern der Leistung des Planungsmoduls </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Verbessern der Leistung des Planungsmoduls ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieses Thema enth&#228;lt Informationen zum Planungsmodul und zur Verbesserung der Leistung.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="improve-scheduling-engine-performance" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="29">Verbessern der Leistung des Planungsmoduls</h1>
+
+<div class="IMPORTANT" sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="33">Das Ressourcenplanungsmodul wird verwendet, um Arbeitspläne für geplante und freigegebene Produktionsaufträge zu planen. Das Modul wurde ursprünglich als Teil von Dynamics AX 2012 veröffentlicht und hat seit seiner Veröffentlichung mehrere Verbesserungen durchlaufen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="35">Das <a href="https://en.wikipedia.org/wiki/Job_shop_scheduling" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="35">Feinterminierungsproblem</a> ist ein äußerst komplexes kombinatorisches Problem, bei dem die Lösungszeit exponential mit der Anzahl der Entscheidungsvariablen wächst. Oft richten Kunden Produktionsarbeitspläne und zugehörige Daten so ein, dass ein Planungsarbeitsplan entsteht, das selbst auf modernster Hardware nicht in angemessener Zeit gelöst werden kann. Dieses Thema hilft Ihnen dabei, das Planungsmodul zu verstehen und zu verstehen, wie ein bestimmtes Setup die Leistung beeinflussen kann.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="37">Wenn es darum geht, die Leistung der Planung zu verbessern, empfehlen allgemeine Richtlinien, die Komplexität des Problems zu reduzieren, das das Modul lösen muss. Einige der Hauptfaktoren, die die Leistung beeinflussen können, sind:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="39">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="39">Arbeitspläne mit vielen Arbeitsgängen</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="40">Arbeitspläne mit parallelen Arbeitsgängen</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="41">Arbeitsgänge mit einer Ressourcenmenge von mehr als eins</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="42">Arbeitsgänge mit vielen anwendbaren Ressourcen</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="43">Verwendung von festen Links</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="44">Nutzung begrenzter Kapazität</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="45">Die Anzahl der verschiedenen verwendeten Kalender</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="46">Die Anzahl der Arbeitszeitfenster pro Tag im Kalender</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="47">Gesamtdauer des Arbeitsplans</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="48">Paralleles Ausführen mehrerer Planungsmodule</li>
+</ul>
+<h2 id="overview-of-basic-scheduling-flow" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="50">Übersicht über den grundlegenden Planungsflow</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="52">Um zu verstehen, wie sich ein bestimmtes Setup auf die Leistung auswirken kann, ist es wichtig, etwas über den Ablauf des Prozesses zu verstehen, sowohl innerhalb des Moduls als auch im umgebenden X++–Code.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="54">Der grundlegende Prozess zum Planen eines Auftrags besteht aus drei Hauptschritten:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="56">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="56"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="56">Daten laden</strong> – Hier werden die X++–Datenmodelle in Form von Einzelvorgängen und Einschränkungen in das interne Datenmodell des Moduls integriert.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="57"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="57">Planung</strong> – Dies ist die Hauptquelle für die Planung, die das angegebene Modell und die Einschränkungen verarbeitet und ein Ergebnis generiert. Während dieses Vorgangs fordert das Modul bei Bedarf Arbeitszeitinformationen und vorhandene Kapazitätsreservierungen von X++ an.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="58"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="58">Daten speichern</strong> – Das Modulergebnis in Form von Slots für Einzelvorgangs-Kapazitätsreservierungen wird von X++ Code verarbeitet, um Kapazitätsreservierungen zu speichern und die Start- und Endzeiten der Einzelvorgänge/des Arbeitsgangs/des Auftrags zu aktualisieren.</li>
+</ul>
+<h2 id="load-data-into-the-engine" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="60">Laden der Daten in das Modul</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="62">Das Planungsmodul verfügt über ein abstrakteres Datenmodell als die Supply Chain Management-Datenbank, da es als generisches Modul erstellt wurde, das verschiedene Datenquellen verarbeiten kann. Die Konzepte des Arbeitsplans, der sekundären Arbeitsgänge und der Laufzeit müssen in das generische Einzelvorgangs- und Einschränkungsmodell „übersetzt“ werden, das das Modul verfügbar macht. Die Logik zum Erstellen des Modells enthält eine erhebliche Menge an Geschäftslogik und ist je nach Quelldaten unterschiedlich. Die verantwortliche X++– Klasse ist <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="62">WrkCtrScheduler</code>. Zudem gibt es abgeleitete Klassen für geplante Produktionsaufträge, freigegebene Produktionsaufträge und Projektplanungen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="64">Betrachten Sie als Beispiel einen Arbeitsplan, der in der folgenden Tabelle und im folgenden Bild dargestellt ist und relativ einfach zu sein scheint.</p>
+<table sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">
+<thead>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Arbeitsgang- Nr.</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Priorität</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Rüstzeit</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Bearbeitungszeit</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Wartezeit danach</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Ressourcenmenge</th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="66">Nächster</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">10</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">Primär</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">1.00</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">2.00</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68"></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">1</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="68">20</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69">10</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69">Sekundär 1</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69"></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69"></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69"></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69">1</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="69">20</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">20</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">Primär</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70"></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">3.00</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">1.00</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">3</td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="70">0</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="72"><img src="media/scheduling-engine-route.png" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="72" alt="Beispiel eines Arbeitsplandiagramms" title="Beispiel eines Arbeitsplandiagramms"></p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="74">Wenn Sie dies an das Modul senden, wird es in acht Einzelvorgänge aufgeteilt, wie in der folgenden Abbildung gezeigt (wählen Sie das Bild aus, um es zu vergrößern).</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="76"><a href="media/scheduling-engine-jobs-large.png" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="76"><img src="media/scheduling-engine-jobs.png" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="76" alt="Planen von Moduleinzelvorgängen" title="Planen von Moduleinzelvorgängen"></a></p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">Die Standardverbindung zwischen zwei Einzelvorgängen ist <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">FinishStart</code>. Dies bedeutet, dass die Endzeit eines Einzelvorgangs vor der Startzeit eines anderen Einzelvorgangs liegen muss. Da das Setup von derselben Ressource ausgeführt werden muss, die später den Prozess ausführt, gibt es <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">OnSameResource</code>-Einschränkungen zwischen ihnen. Zwischen den Einzelvorgängen für den primären und den sekundären Betrieb für 10 gibt es <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">StartStart</code>- und<code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">FinishFinish</code>-Links, was bedeutet, dass die Einzelvorgänge gleichzeitig beginnen und enden müssen, und es gibt <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="78">NotOnSameResource</code>-Einschränkungen, die verhindern, dass die gleiche Ressource für primäre und sekundäre Arbeitsvorgänge verwendet wird.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="80">Für Arbeitsgang 20, bei dem die Ressourcenmenge auf 3 festgelegt wurde, wurde der Prozesseinzelvorgang in drei verschiedene Einzelvorgänge aufgeteilt, bei denen alle Einzelvorgänge genau zur gleichen Zeit ausgeführt werden müssen.
+In diesem Fall wurde die Arbeitsplangruppe so eingerichtet, dass keine Kapazität für die Warteschlange nach Zeiten reserviert wird. Daher gibt es nur einen einzigen Einzelvorgang für die Warteschlange danach.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="83">Das Planungsmodul versteht nur die Konzepte von Einzelvorgängen und hat keine Vorstellung von Arbeitsgängen. Dies bedeutet, dass bei der Arbeitsgangplanung die Arbeitsgänge auch in Einzelvorgänge aufgeteilt werden, obwohl diese nicht in der Datenbank gespeichert werden.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="85">Für jeden Einzelvorgang definieren wir auch die zugehörige Kapazitätsanforderung (die Anzahl der erforderlichen Sekunden). Abhängig davon, wie die Ressourcenanforderungen definiert wurden, können wir für jeden Einzelvorgang auch eine Liste aller potenziell anwendbaren Ressourcen senden, mit denen der Einzelvorgang ausgeführt werden könnte, und die Kapazitätsanforderungen für diese bestimmte Ressource angeben. Obwohl die Liste der anwendbaren Ressourcen beim Erstellen des Modells gesendet wird, muss das Modul dennoch sicherstellen, dass die Ressourcenzuweisung tatsächlich für die gesamte Einzelvorgangsdauer gültig ist.</p>
+<h2 id="scheduling-engine-internals" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="87">Interne Komponenten des Planungsmoduls</h2>
+<h3 id="scheduling-engine-interface" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="89">Schnittstelle des Planungsmoduls</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="91">Um eine Vorstellung davon zu bekommen, wie das Modul intern funktioniert, sollten Sie sich die Funktionen ansehen, die es extern bereitstellt. In X++ ist die Hauptschnittstelle <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="91">WrkCtrSchedulerEngineInterface</code>. Sie verfügt über die in den folgenden Unterabschnitten beschriebenen Methoden.</p>
+<h4 id="general-engine" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="93">Allgemeines Modul</h4>
+<table sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95">
+<thead>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95">
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95">Methode</strong></th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="95">Kostenträger</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="97">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="97"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="97">run</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="97">Plant alle geladenen Einzelvorgänge und gibt den Fehlercode zurück.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="98">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="98"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="98">getJobSchedulingSequenceResult</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="98">Ruft das Planungsergebnis und den ersten Einzelvorgang mit Fehler für die von einem bestimmten Einzelvorgang identifizierte Sequenz ab.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="99">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="99"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="99">validateJobCapacityReservations</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="99">Überprüft die Kapazitätsreservierungen für alle vom Modul gespeicherten Einzelvorgänge.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="100">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="100"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="100">setReservationsTimeStamp</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="100">Sendet einen Zeitstempel an das Modul, der für alle neuen Kapazitätsreservierungen für die geplanten Einzelvorgänge im Cache des Moduls festgelegt wurde.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="101">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="101"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="101">addPropertyToGroupAggregation</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="101">Fügt dem Satz von Eigenschaften, die beim Aggregieren der Kapazität verwendet werden, ein Eigenschaftspräfix hinzu.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="102">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="102"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="102">addResource</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="102">Fügt dem Ressourcenpool des Planungsmoduls eine Ressource hinzu.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="103">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="103"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="103">addResourceGroup</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="103">Fügt dem Ressourcengruppenpool des Planungsmoduls eine Ressourcengruppe hinzu.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="104">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="104"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="104">addResourceGroupMembership</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="104">Fügt einer Ressourcengruppe eine Ressource als Mitglied hinzu.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="105">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="105"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="105">addOptimizationGoal</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="105">Fügt ein Planungsoptimierungsziel hinzu (Dauer oder Priorität).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="individual-jobs" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="107">Einzelne Einzelvorgänge</h4>
+<table sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109">
+<thead>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109">
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109">Methode</strong></th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="109">Kostenträger</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="111">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="111"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="111">addJobInfo</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="111">Fügt einen Datensatz mit Einzelvorgangsinformationen hinzu, der das Modul über einen Einzelvorgang informiert, der geplant werden soll.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="112">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="112"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="112">addConstraintJobEndsAt</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="112">Fügt eine Einschränkung hinzu, dass ein Einzelvorgang zu einem bestimmten Datum und einer bestimmten Uhrzeit enden soll.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="113">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="113"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="113">addConstraintJobStartsAt</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="113">Fügt eine Einschränkung hinzu, dass ein Einzelvorgang zu einem bestimmten Datum und einer bestimmten Uhrzeit starten soll.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="114">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="114"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="114">addConstraintMaxJobDays</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="114">Definiert die Einschränkung, dass sich ein Einzelvorgang über eine bestimmte maximale Anzahl von Tagen erstrecken kann.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="115">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="115"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="115">addConstraintResourceRequirement</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="115">Fügt die Einschränkung hinzu, dass der Einzelvorgang für eine bestimmte Ressource geplant werden muss.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="116">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="116"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="116">addJobBindPriority</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="116">Fügt eine Einzelvorgangs-Bindungspriorität für ein Paar (Einzelvorgang, Einschränkungsebene) hinzu. Ein höherer Prioritätswert bedeutet, dass die Einzelvorgangsvariablen früher gebunden werden. Der Einzelvorgang wird vor Einzelvorgängen mit niedrigerer Priorität in derselben Sequenz verarbeitet.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="117">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="117"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="117">addJobCapacity</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="117">Fügt Kapazitätsauslastungsinformationen für einen Einzelvorgang hinzu (z. B. die erforderliche Einzelvorgangs-Laufzeit), unabhängig davon, mit welcher Ressource der Einzelvorgang ausgeführt wird.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="118">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="118"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="118">addJobResourceCapacity</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="118">Fügt der Gruppe von Ressourcen, die zum Ausführen eines Einzelvorgangs verwendet werden können, eine Ressource hinzu und gibt die Kapazität an, die für die Ausführung mit dieser Ressource erforderlich ist.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="119">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="119"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="119">addJobGoal</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="119">Fügt Einzelvorgangsziel-Informationen für eine bestimmte Einschränkungsebene hinzu (früheste Endzeit oder späteste Startzeit).</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="120">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="120"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="120">addJobResourcePriority</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="120">Fügt die Priorität hinzu, die verwendet werden soll, wenn ein Einzelvorgang für eine Ressource geplant ist.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="121">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="121"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="121">addJobResourceRuntime</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="121">Gibt eine Einzelvorgangszeit an, die von der Ressource abhängt, für die der Einzelvorgang geplant wird.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="122">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="122"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="122">addJobRuntime</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="122">Gibt eine Einzelvorgangszeit an, die von der Ressource unabhängig ist, für die der Einzelvorgang geplant wird.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="123">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="123"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="123">scheduleJobOnResourceGroup</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="123">Markiert einen Einzelvorgang für die Planung auf Ressourcengruppenebene.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="124">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="124"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="124">setJobResourcePreemptionAllowed</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="124">Legt fest, ob für einen Einzelvorgang einer Ressource eine Vorwegnahme zulässig ist (wenn das Modul den Einzelvorgang nicht in zusammenhängenden Kapazitätsslots planen darf).</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="125">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="125"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="125">setRequiredNumberOfResources</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="125">Legt die Anzahl der Ressourcen fest, die zum Planen eines Einzelvorgangs erforderlich sind (nur für die Planung von Arbeitsgängen).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="constraints-between-jobs" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="127">Einschränkungen zwischen Einzelvorgängen</h4>
+<table sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129">
+<thead>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129">
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129">Methode</strong></th>
+<th sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="129">Kostenträger</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="131">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="131"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="131">addJobLink</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="131">Fügt einen Link (z. B. Ende&gt;Start) zwischen zwei Einzelvorgängen hinzu.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="132">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="132"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="132">addConstraintEndsDelayed</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="132">Definiert die Einschränkung, dass ein Einzelvorgang nicht vor dem Ende eines anderen Einzelvorgangs beendet werden kann, zuzüglich einer gewissen Verzögerungszeit.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="133">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="133"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="133">addConstraintJobListWorkingTimeIntersect</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="133">Fügt eine Einschränkung hinzu, dass sich die für die Einzelvorgänge reservierten Kapazitätsslots in den sich überschneidenden Arbeitszeiten für die beiden von den Einzelvorgängen verwendeten Ressourcen befinden müssen.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="134">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="134"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="134">addConstraintJobOverlap</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="134">Fügt eine Einschränkung hinzu, die definiert, wie Einzelvorgänge sequenziert werden, wenn eine bestimmte Menge eines Artikels zwischen zwei Ressourcen verschoben werden kann, während die erste Ressource die Verarbeitung noch nicht beendet hat, sodass die zweite Ressource mit der Verarbeitung beginnen kann.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="135">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="135"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="135">addConstraintNotOnSameResource</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="135">Fügt eine Einschränkung hinzu, dass zwei Einzelvorgänge nicht für dieselbe Ressource geplant werden sollen.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="136">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="136"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="136">addConstraintOnSameResource</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="136">Fügt eine Einschränkung hinzu, dass zwei Einzelvorgänge dieselbe Ressource verwenden müssen.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="137">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="137"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="137">addJobSameReservations</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="137">Fügt eine Einschränkung hinzu, dass ein Einzelvorgang am Ende Kapazitätsreservierungen für dieselben Zeitfenster wie der primäre Einzelvorgang haben muss.</td>
+</tr>
+<tr sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="138">
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="138"><code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="138">setPrimaryParallelJob</code></td>
+<td sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="138">Fügt Informationen darüber hinzu, welcher Einzelvorgang der primäre Einzelvorgang in einer Reihe von parallelen Einzelvorgängen ist.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="solver" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="140">Solver</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="142">Das Modul selbst ist im Wesentlichen ein spezialisierter Einschränkungssolver mit benutzerdefinierten Heuristiken. Der Solver basiert auf zwei Hauptelementen: Variablen und Einschränkungen.</p>
+<h4 id="variable" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="144">Variabel</h4>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="146">Eine Variable repräsentiert eine Domäne möglicher Werte. Das Planungsmodul verfügt über zwei Arten von Variablen:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="148">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="148"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="148">DateTime-Variable</strong> – Hat eine Domäne mit allen Daten und Zeiten, und die Domäne kann eingeschränkt werden, indem die Unter- und Obergrenze für die Zeit der Variablen näher aneinander verschoben werden.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="149"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="149">Ressourcenvariable</strong> – Verfügt über eine Domäne mit anwendbaren Ressourcen, und die Domäne kann eingeschränkt werden, indem Ressourcen aus der Liste entfernt werden.</li>
+</ul>
+<h4 id="constraint" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="151">Einschränkung</h4>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="153">Eine Einschränkung wirkt sich auf Variablen aus, indem sie ihre Domänen einschränkt. Sie hängt jedoch auch von Variablen ab, sodass sie aktiviert wird, wenn sich Variablen ändern. Der Prozess der „Einschränkungsweitergabe“ ist, wenn eine Einschränkung ihre Hauptfunktion ausführt und bei Erfolg an die Hauptlogik zurückmeldet.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="155">Eine Variable gilt als gebunden, wenn sie nicht weiter eingeschränkt werden kann. Dies bedeutet für die DateTime-Variable, dass obere und untere Grenze identisch sind, und für die Ressourcenvariable, dass sie nur eine einzige anwendbare Ressource hat. Wenn alle Variablen gebunden sind, wird eine Lösung gefunden.</p>
+<h3 id="constraint-levels" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="157">Einschränkungsebenen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="159">Wenn die Planung im Rahmen der Phase der Materialbedarfsplanung (MRP) ausgeführt wird, werden die Aufträge ab dem Anforderungsdatum rückwärts geplant. Wenn es jedoch nicht möglich ist, einen Zeitplan zu finden, der heute oder später beginnt und vor dem Anforderungsdatum endet, ändert sich die Planungsrichtung ab heute in die Zukunft.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="161">Diese Hauptgeschäftsregel wird durch Organisieren der Einschränkungen in Ebenen abgewickelt. Wenn bei Verwendung der Einschränkungen auf der höchsten Ebene keine Lösung gefunden wird, werden alle Einschränkungen auf dieser Ebene verworfen, und die niedrigere Ebene wird ausprobiert. In der Praxis bedeutet dies, dass das Modell für die Rückwärtsterminierung eine Ebene 1 mit Einzelvorgangszielen der spätesten Startzeit bei einer maximalen Endzeitbeschränkung (dem Anforderungsdatum) und eine Ebene 0 mit Einzelvorgangszielen der frühesten Endzeit und einer minimalen Startzeitbeschränkung von heute enthält.</p>
+<h3 id="algorithm" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="163">Algorithmus</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="165">Die Hauptschritte des Modulalgorithmus sind:</p>
+<ol sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="167">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="167">Finden Sie Sequenzen (Einzelvorgangsketten), die separat gelöst werden können.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="168">Versuchen Sie, eine erste Lösung für die Sequenz für die höchste Einschränkungsebene zu finden.
+<ol sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="169">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="169">Sortieren Sie die Einzelvorgänge in der Reihenfolge nach Einzelvorgangsziel und Prioritäten, sodass ein Starteinzelvorgang gefunden werden kann.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="170">Ordnen Sie die Einzelvorgänge in der folgenden Reihenfolge in einer Schleife an:
+<ol sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="171">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="171">Finden Sie alle Einschränkungen, die weitergegeben werden müssen, und die Weitergabe ausführen.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="172">Wenn alle Variablen für den Einzelvorgang gebunden wurden, wurde eine Lösung für diesen Einzelvorgang gefunden.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="173">Wenn eine der Variablen nicht gebunden werden konnte, ohne die Einschränkungen zu verletzen, führen Sie ein Rollback der Variablenbindung aus, versuchen Sie einen anderen Wert in der Domäne (für Ressourcenvariable), und führen Sie die Weitergabe der Einschränkungen erneut aus.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="174">Wenn keine Lösung gefunden wurde, werden alle Einschränkungen auf der aktuellen Einschränkungsebene entfernt, eine niedrigere Einschränkungsebene wird verwendet (sofern niedrigere Ebenen verfügbar sind) und die Lösungssuche mit dem neuen Satz von Einschränkungen wiederholt.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="175">Wenn eine praktikable Lösung gefunden wurde, wird die Optimierungsphase gestartet, in der versucht wird, eine bessere Lösung zu finden, bis das Optimierungszeitlimit erreicht ist oder alle Ressourcenkombinationen erschöpft sind.</li>
+</ol>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="177">Dem Einschränkungssolver sind die Besonderheiten des Planungsalgorithmus nicht bekannt. In der Definition und Kombination der verschiedenen Einschränkungen geschieht die „Magie“.</p>
+<h3 id="determining-working-times" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="179">Arbeitszeiten bestimmen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="181">Ein großer Teil der (internen) Einschränkungen im Modul steuert die Arbeitszeit und Kapazität einer Ressource. Im Wesentlichen besteht die Aufgabe darin, die Arbeitszeitfenster für eine Ressource von einem bestimmten Punkt in eine bestimmte Richtung zu durchlaufen und ein ausreichend langes Intervall zu finden, in das die für die Einzelvorgänge erforderliche Kapazität (Zeit) passen kann.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="183">Dazu muss da Modul die Arbeitszeiten einer Ressource kennen. Im Gegensatz zu den Hauptmodelldaten sind die Arbeitszeiten <em sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="183">faul geladen</em>. Dies bedeutet, dass sie nach Bedarf in das Modul geladen werden. Der Grund für diesen Ansatz ist, dass es in Supply Chain Management häufig Arbeitszeiten für einen Kalender über einen sehr langen Zeitraum gibt und in der Regel viele Kalender vorhanden sind, sodass die Daten zum Vorabladen ziemlich groß sind.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="185">Kalenderinformationen werden vom Modul in Blöcken angefordert, indem die X++–Klassenmethode aufgerufen wird <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="185">WrkCtrSchedulingInteropDataProvider.getWorkingTimes</code>. Die Anforderung betrifft eine bestimmte Kalender-ID in einem bestimmten Zeitintervall. Abhängig vom Status des Servercaches in Supply Chain Management kann jede dieser Anforderungen zu mehreren Datenbankaufrufen führen, was lange dauert (relativ zur reinen Rechenzeit). Wenn der Kalender sehr ausgefeilte Arbeitszeitdefinitionen mit vielen Arbeitszeitintervallen pro Tag enthält, verlängert sich die Ladezeit ebenfalls.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="187">Wenn die Arbeitszeitdaten in das Planungsmodul geladen werden, werden diese im internen Cache für den jeweiligen Kalender gespeichert. Wenn also andere Jobs oder Ressourcen denselben Kalender verwenden, können die nächsten Suchvorgänge schnell aus dem Speicher ausgeführt werden. Eine häufige Ursache für schlechte Leistung ist die Verwendung einer separaten Kalender-ID für jede Ressource, da dann für jeden Kalender Daten angefordert werden müssen, obwohl der Inhalt der Kalender möglicherweise identisch ist.</p>
+<h3 id="finite-capacity" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="189">Begrenzte Kapazität</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="191">Bei Verwendung einer begrenzten Kapazität werden die Arbeitszeitfenster aus dem Kalender basierend auf den vorhandenen Kapazitätsreservierungen aufgeteilt und reduziert. Diese Reservierungen werden auch über dieselbe <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="191">WrkCtrSchedulingInteropDataProvider</code>-Klasse wie die Kalender abgerufen, aber verwenden stattdessen die Methode <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="191">getCapacityReservations</code>. Bei der Planung während der Produktprogrammplanung werden die Reservierungen für den jeweiligen Produktprogrammplan berücksichtigt und, falls auf der Seite <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="191">Produktprogrammplanungsparameter</strong> aktiviert, sind auch die Reservierungen aus festen Produktionsaufträgen enthalten. Ebenso ist es bei der Planung eines Produktionsauftrags möglich, Reservierungen aus vorhandenen geplanten Aufträgen einzubeziehen, obwohl dies nicht so häufig ist wie umgekehrt.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="193">Bei Verwendung einer begrenzten Kapazität dauert die Planung aus mehreren Gründen länger:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="195">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="195">Das Abrufen der Kapazitätsinformationen aus der Datenbank ist ein langsamer Vorgang, und das serverseitige Zwischenspeichern von Kapazitätsinformationen ist normalerweise nicht so gut wie bei Arbeitszeiten, da sie normalerweise nicht wie Kalender von Ressourcen gemeinsam genutzt werden.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="196">Die Anzahl der zu durchlaufenden Arbeitszeitfenster nimmt aufgrund der Teilungen zu, und Zeitfenster für einen längeren Zeitraum müssen typischerweise untersucht werden, bevor eine Lösung gefunden werden kann.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="197">Nach Abschluss der Planung muss eine Überprüfung auf widersprüchliche Reservierungen durchgeführt werden (Einzelheiten finden Sie im Abschnitt „Paralleles Ausführen von Planungsmodulen“).</li>
+</ul>
+<h3 id="examining-the-resource-combinations" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="199">Untersuchen der Ressourcenkombinationen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="201">Wenn die Abfolge der Einzelvorgänge nur die standardmäßigen <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="201">FinishStart</code>-Links enthält – sie also eine einfache Kette ohne Verzweigungen darstellt –, kann ein optimales Ergebnis (aus der Perspektive einzelner Aufträge, nicht über Aufträge hinweg) erzielt werden, indem die beste Lösung für den ersten Einzelvorgang gefunden und dann die beste Lösung für den nächsten Einzelvorgang gefunden wird. Die beste Lösung für einen Einzelvorgang besteht darin, die Ressource zu finden, mit der das Startdatum und das Enddatum geplant werden können, die am nächsten am Einzelvorgangsziel liegen (bei der Vorausplanung bedeutet dies, dass das Enddatum des Einzelvorgangs so früh wie möglich liegt), wobei die Einschränkungen weiterhin beachtet werden.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="203">Bei parallelen Einzelvorgängen kann das Finden einer Lösung das Untersuchen verschiedener Ressourcenkombinationen umfassen. Die Anzahl der möglichen Ressourcenkombinationen ergibt sich aus der Anzahl der anwendbaren Ressourcen für die verbundenen parallelen Einzelvorgänge. Insbesondere wenn ein Auftrag ab einem Anforderungsdatum rückwärts geplant wird, kann es eine Weile dauern, bis die Logik erkennt, dass es keine Lösung für das Problem gibt, bei dem die parallelen Einzelvorgänge vor das heutige Datum passen, da alle Kombinationen überprüft werden müssen, weil es einige Ressourcen geben könnte, die eine höhere Effizienz hatten oder einen anderen Kalender, der ein Ergebnis liefern könnte. Dies bedeutet, dass, wenn kein Zeitlimit festgelegt wurde, die Ausführung lange Zeit andauert, bevor die Richtung in vorwärts geändert wird.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="205">Diese kombinatorische Logik bedeutet auch, dass das Modul möglicherweise langsamer ausgeführt wird, wenn mehr anwendbare Ressourcen hinzugefügt werden. Wenn Leistungsprobleme bei parallelen Arbeitsgängen und bei der Planung mit unbegrenzter Kapazität auftreten, kann dies teilweise behoben werden, indem der Arbeitsplan-Designer entscheidet, welche Ressource verwendet werden soll, und die Ressource dann direkt dem Arbeitsgang zuweist (das Modul wird in den meisten Fällen am Ende immer die gleiche Ressource auswählen, sodass das Endergebnis das gleiche sein wird).</p>
+<h3 id="hard-links" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="207">Feste Links</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="209">Wenn Sie den Linktyp zwischen zwei Einzelvorgänge auf „Fest“ setzen, wird sichergestellt, dass zwischen dem Ende eines Einzelvorgangs und dem Beginn des nächsten Einzelvorgangs keine Zeitlücke besteht. Dies kann in Szenarien sehr nützlich sein, in denen Metall in einem Einzelvorgang erhitzt und dann im nächsten Einzelvorgang verarbeitet wird und in denen es nicht wünschenswert ist, das Metall dazwischen abkühlen zu lassen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="211">Wenn der Arbeitsplan bei standardmäßigen weichen Links und Vorwärtsplanung eine einfache Kette ohne Verzweigungen bildet, kann ein Ergebnis erzielt werden, indem eine Lösung für den ersten Einzelvorgang gefunden wird, der seine eigenen Einschränkungen erfüllt, und dann in der Kette weitergegangen wird und die Endzeit vom vorherigen Einzelvorgang zum nächsten Einzelvorgang weitergegeben wird. Wenn für den aktuellen Einzelvorgang keine Kapazität zu finden ist, wird seine Startzeit weiter verschoben, ohne dass dies Auswirkungen auf die vorherigen Einzelvorgänge hat, wodurch möglicherweise Lücken zwischen den Einzelvorgängen entstehen. Bei festen Links (insbesondere im Zusammenhang mit begrenzter Kapazität) für dasselbe Szenario bedeutet die Tatsache, dass ein Einzelvorgang später in der Kette keine Kapazität finden kann, dass alle vorher geplanten Einzelvorgänge einzeln nachgezogen und damit mehrmals umgeplant werden müssen. Insbesondere in Szenarien mit hoher Auslastung für mehrere Ressourcen können die harten Links eine Kettenreaktion verursachen, bei der sich die Einzelvorgänge gegenseitig beeinflussen und eine Reihe von Iterationen durchgeführt werden müssen, bevor sich das Ergebnis in einem realisierbaren Zeitplan stabilisiert.</p>
+<h2 id="running-scheduling-engines-in-parallel" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="213">Paralleles Ausführen von Planungsmodulen</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="215">Wenn Sie die Planung als Teil eines Produktprogrammplanungslaufs durchführen, in dem Hilfsprogramme verwendet werden, kann jeder der Produktprogrammplanung-Hilfsprogrammthreads auch Planungsaufgaben für Produktionsaufträge übernehmen. Dies bedeutet, dass mehrere Planungsmodule gleichzeitig ausgeführt werden können. Während Multithreading im Allgemeinen einen sehr bedeutenden Leistungsvorteil darstellt, gibt es auch einige funktionale Nachteile, wenn es um die Planung geht.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="217">In der MRP werden alle Produktionsaufträge für eine bestimmte Stücklistenebene in der Reihenfolge des Anforderungsdatums geplant. Dies bedeutet, dass die Aufträge mit dem frühesten Anforderungsdatum zuerst geplant werden sollten und daher die höchste Chance haben, die verfügbare Ressourcenkapazität zu erhalten. Wenn jedoch mehrere Module aus der Liste der nicht geplanten Aufträge auswählen, ist die Reihenfolge nicht mehr gewährleistet, da eins möglicherweise schneller als das andere ausgeführt wird.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="219">Wenn Sie mit begrenzter Kapazität planen und mehrere Modulinstanzen versuchen, Aufträge zu planen, die möglicherweise dieselben Ressourcen im selben Zeitintervall verwenden, kann eine Racebedingung auftreten. Die Anzahl solcher Racebedingungen wird im Feld <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="219">Planungskonflikte</strong> auf der Verlaufsseite der Produktprogrammpläne erfasst. Die Konfliktlösungslogik lautet wie folgt:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="221">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="221">Planen Sie einen Auftrag (sperrenfrei) und erhalten Sie Kapazitätsreservierungen.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="222">Setzen Sie die Sperre.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="223">Überprüfen Sie, ob in der Zeitspanne neuere Kapazitätsreservierungen für die geplanten Ressourcen vorhanden sind.
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="224">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="224">Wenn nein, schreiben Sie die Kapazität und heben Sie die Sperre auf.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="225">Wenn ja, heben Sie die Sperre auf und planen Sie den Auftrag ganz neu.</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="227">Wenn Sie also mit mehreren Modulinstanzen planen, ist das Ergebnis nicht vollständig deterministisch, da es vom genauen Timing jedes Threads abhängt.</p>
+<h2 id="operation-scheduling-performance" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="229">Leistung der Grobterminierung</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="231">Obwohl die Grobterminierung auch als grobe Kapazitätsplanung bezeichnet wird, kann es vom Standpunkt des Moduls aus schwieriger sein, das Problem zu lösen, wenn eine begrenzte Kapazität verwendet wird, da mehr Daten benötigt werden, um die Durchführbarkeit zu bestimmen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="233">Die Kapazität einer Ressourcengruppe hängt davon ab, welche und wie viele Ressourcen Mitglieder der Ressourcengruppe sind. Eine Ressourcengruppe an sich hat keine Kapazität – nur wenn Ressourcen Mitglied der Gruppe sind, verfügen sie über Kapazität. Da die Mitgliedschaft in Ressourcengruppen im Laufe der Zeit variieren kann, muss die Kapazität pro Tag bewertet werden.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="235">Bei der Grobterminierung wird der Kalender der Ressourcengruppe verwendet, um die Start- und Endzeiten für jeden Arbeitsgang zu bestimmen. Dies bedeutet, dass der Kalender der Ressourcengruppe begrenzt, wie viel Zeit für einen Arbeitsgang an einem Tag in einer Ressourcengruppe grobterminiert werden kann. Im Gegensatz zum Kalender für die spezifischen Ressourcen werden die Effizienzdaten des Kalenders für die Ressourcengruppe ignoriert, da sie lediglich die Öffnungszeiten und nicht die tatsächliche Kapazität angeben.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="237">Wenn beispielsweise die Arbeitszeit für eine Ressourcengruppe an einem bestimmten Datum zwischen 8:00 und 16:00 Uhr liegt, kann ein Arbeitsgang die Ressourcengruppe nicht mehr belasten, als in 8 Stunden passt, egal über wie viel Kapazität diese Ressourcengruppe an diesem Tag insgesamt verfügt. Die verfügbare Kapazität kann die Last jedoch weiter begrenzen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="239">Die Auslastung der Einzelvorgangsplanung für alle Ressourcen in der Ressourcengruppe an einem bestimmten Tag wird berücksichtigt, wenn die verfügbare Kapazität für die Ressourcengruppe am selben Tag berechnet wird. Für jedes Datum lautet die Berechnung:</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="241"><em sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="241">Verfügbare Ressourcengruppenkapazität = Kapazität für Ressourcen in der Gruppe basierend auf ihrem Kalender – Job geplante Auslastung der Ressourcen in der Gruppe – Geplante Operationen laden die Ressourcen in der Gruppe – Geplante Operationen laden die Ressourcengruppe</em></p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="243">Auf der Registerkarte <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="243">Ressourcenanforderungen</strong> des Arbeitsplan-Arbeitsgangs können die Ressourcenanforderungen entweder mithilfe einer bestimmten Ressource (in diesem Fall wird der Arbeitsgang mit dieser Ressource geplant), für eine Ressourcengruppe, für einen Ressourcentyp oder für eine oder mehrere Funktionen, Qualifikationen, Kurse oder Zertifikate angegeben werden. Die Verwendung all dieser Optionen bietet zwar eine große Flexibilität beim Arbeitsplandesign, erschwert jedoch auch die Planung für das Modul, da die Kapazität pro „Eigenschaft“ berücksichtigt werden muss (der abstrakte Name, der im Modul für Funktionen, Qualifikationen usw. verwendet wird).</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="245">Die Kapazität der Ressourcengruppe für eine Funktion ist die Summe der Kapazität für alle Ressourcen in der Ressourcengruppe, die über die betreffende Funktionen verfügen. Wenn eine Ressource in der Gruppe über eine Funktion verfügt, wird diese unabhängig von der erforderlichen Kapazität berücksichtigt.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="247">Bei der Grobterminierung wird die verfügbare Kapazität für eine bestimmte Funktion für eine Ressourcengruppe reduziert, wenn sie mit einem Arbeitsgang geladen wird, für den die betreffende Funktion erforderlich ist. Wenn für den Vorgang mehr als eine Funktion erforderlich ist, wird die Kapazität für alle erforderlichen Funktionen reduziert.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="249">Für jedes Datum lautet die erforderliche Berechnung:</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="251"><em sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="251">Verfügbare Kapazität für eine Fähigkeit = Kapazität für die Fähigkeit – Job geplante Auslastung der Ressourcen mit der spezifischen Funktion, die in der Ressourcengruppe enthalten ist – Geplante Operationen laden die Ressourcen mit der spezifischen Funktion, die in der Ressourcengruppe enthalten ist – Geplante Operationen laden die Ressourcengruppe selbst, für die die jeweilige Funktion erforderlich ist</em></p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="253">Dies bedeutet, dass bei einer Auslastung einer bestimmten Ressource die Auslastung bei der Berechnung der verfügbaren Kapazität der Ressourcengruppe pro Funktion berücksichtigt wird, da die Auslastung einer bestimmten Ressource ihren Beitrag zur Kapazität der Ressourcengruppe für eine Funktion reduziert, unabhängig davon, ob die Auslastung der spezifischen Ressource sich auf diese spezifische Funktion bezieht. Wenn auf Ressourcengruppenebene eine Auslastung vorhanden ist, wird diese bei der Berechnung der verfügbaren Kapazität der Ressourcengruppe pro Funktion nur berücksichtigt, wenn die Auslastung von einem Arbeitsgang stammt, für den die spezifische Funktion erforderlich ist.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="255">Die obige Logik ist kompliziert, weil diese für jeden Typ von „Eigenschaft“ gleich ist. Daher erfordert die Verwendung der Grobterminierung mit begrenzter Kapazität das Laden einer erheblichen Datenmenge.</p>
+<h2 id="viewing-scheduling-engine-input-and-output" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="257">Anzeigen der Ein- und Ausgabe des Planungsmoduls</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="259">Aktivieren Sie die Protokollierung, um bestimmte Details zur Eingabe und Ausgabe des Planungsprozesses abzurufen, indem Sie zu <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="259">Organisationsverwaltung &gt; Einrichten &gt; Planung &gt; Planungsverfolgungs-Cockpit</strong> wechseln.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="261">Wählen Sie auf dieser Seite zuerst <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="261">Protokollierung aktivieren</strong> im Aktivitätsbereich aus. Führen Sie dann die Planung für den Produktionsauftrag aus. Wenn Sie fertig sind, kehren Sie zur Seite <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="261">Planungsverfolgungs-Cockpit</strong> zurück und wählen <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="261">Protokollierung deaktivieren</strong> im Aktivitätsbereich aus. Aktualisieren Sie die Seite und eine neue Zeile wird im Raster angezeigt. Wählen Sie die neue Zeile aus und wählen Sie im Aktivitätsbereich <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="261">Herunterladen</strong> aus. Dadurch erhalten Sie einen komprimierten ZIP-Ordner mit den folgenden Dateien:</p>
+<ul sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="263">
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="263"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="263">Log.txt</strong> – Dies ist die Protokolldatei, die die Schritte beschreibt, die das Modul durchläuft. Es ist sehr präzise und kann etwas überwältigend sein, aber wenn es als Teil des Experimentierens mit den Arbeitsplaneinstellungen verwendet wird, um Leistungsprobleme zu lösen, ist das erste, wonach gesucht werden muss, der Zeitunterschied zwischen der ersten und der letzten Zeile, da dies die genaue Zeit ist, die der Scheduler benötigt hat.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">XmlModel.xml</strong> – Dies enthält das Modell, das in X++ erstellt wurde und mit dem das Modul arbeitet. Die in der Datei verwendete <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">JobId</code> korreliert mit der <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">RecId</code> aus der Quelltabelle mit den Einzelvorgängen (<code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">ReqRouteJob</code> oder <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">ProdRouteJob</code>). Die typische Sache, nach der in dieser Datei gesucht werden muss, ist, dass die in <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">ConstraintJobStartsAt</code> und <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">ConstraintJobEndsAt</code> angegebenen Daten wie erwartet sind und dass die <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">JobGoal</code>-Eigenschaft korrekt festgelegt ist und die Einzelvorgänge über die <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="264">JobLink</code>-Einschränkungen miteinander verknüpft sind.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="265"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="265">XmlSlots.xml</strong> – Dies enthält alle Arbeitszeiten und Kapazitätsreservierungen, die das Modul angefordert hat. Die Arbeitszeiten und Reservierungen des Kalenders werden von dem Modul nur für die Zeiträume angefordert, in denen versucht wird, die Einzelvorgänge (und einen zusätzlichen Puffer) zu platzieren. Wenn die Datei also Zeiten enthält, die sehr weit in der Zukunft liegen, kann dies ein Hinweis auf ein Problem mit dem Setup sein. Die <code sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="265">ResourceProperty</code>-Knoten zeigen für jede Ressource an, welcher Ressourcengruppe und welchen Funktionen sie für welche Zeiträume zugeordnet ist.</li>
+<li sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="266"><strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="266">Result.xml</strong> – Dies enthält das Ergebnis des Planungslaufs.</li>
+</ul>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="268">Beachten Sie, dass die Ablaufverfolgungsfunktion einen erheblichen Leistungsaufwand verursachen kann. Verwenden Sie sie daher nur, um die Planung bestimmter Aufträge auf kontrollierte Weise zu untersuchen. Wenn sie während eines Produktprogrammplanungslaufs eingeschaltet wird, erreicht sie schnell ihre Größenbeschränkung und stoppt.</p>
+<h2 id="troubleshooting-performance" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="270">Problembehandlung bei der Leistung</h2>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="272">Wie aus allen vorherigen Abschnitten hervorgeht, gibt es einige Fallstricke bei der Einrichtung und Verwendung des Planungsmoduls, was zu Leistungsproblemen führen kann. Die folgende Prüfliste kann zur Problembehandlung verwendet werden. Es ist wichtig, alle Punkte zu betrachten, da es meistens eine Kombination mehrerer Faktoren ist, die zu Problemen führt.</p>
+<h3 id="performing-scheduling-as-part-of-mrp-when-it-is-not-needed" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="274">Durchführen der Planung als Teil der Materialbedarfsplanung, wenn diese nicht benötigt wird</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="276">Obwohl Arbeitspläne für Produktionskontrollzwecke wie Kostenrechnung und Berichterstellung verwendet werden, ist es möglicherweise nicht erforderlich, sie während der Materialbedarfsplanung zu berücksichtigen. In einigen Fällen reicht es für die Planung aus, eine für den Artikel festgelegte standardmäßige Produktionsdurchlaufzeit zu haben. Um die Arbeitsplanplanung zu deaktivieren, setzen Sie den Kapazitätszeitrahmen auf Null. Wenn eine Planung durchgeführt werden soll, muss der Kapazitätszeitraum sorgfältig festgelegt werden, da möglicherweise nicht die Arbeitspläne für den ganzen Planungszeitraum der MRP berücksichtigt werden müssen.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="278">Beachten Sie, dass der Auftrag, wenn er während der Materialbedarfsplanung nicht geplant ist, stattdessen geplant werden muss, wenn der geplante Auftrag umgewandelt wird. Dies bedeutet, dass der Umwandlungsvorgang länger dauert. Je nachdem, wie viele der vorgeschlagenen geplanten Aufträge umgewandelt werden, kann der Leistungsgewinn aus der Materialbedarfsplanung beim Umwandeln verloren gehen.</p>
+<h3 id="route-with-unnecessary-operations" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="280">Arbeitsplan mit unnötigen Arbeitsgängen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="282">Bei der Gestaltung des Arbeitsplans ist es verlockend zu versuchen, die reale Welt mit allen Schritten, die die Produktion durchläuft, genau zu modellieren. Dies kann in einigen Fällen nützlich sein, ist jedoch nicht gut für die Leistung, da das Modell, mit dem das Modul arbeiten muss, größer wird (sowohl in Bezug auf Einzelvorgänge als auch in Bezug auf Einschränkungen) und mehr SQL-Anweisungen zum Einfügen und Aktualisieren der Einzelvorgänge und Kapazitätsreservierungen ausgeführt werden. Es gibt auch den nachgelagerten Effekt, dass eventuell Fortschritte bei den Einzelvorgängen gemeldet werden müssen, was durch automatische Buchungen gemindert werden kann. Wenn die Daten für nichts verwendet werden, entsteht eine unnötige Auslastung.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="284">Wir empfehlen, dass Sie nur Arbeitsgänge erstellen, die für die Planung (in der Regel die Engpassressourcen) und/oder für Kalkulationszwecke unbedingt erforderlich sind. Alternativ sollten Sie viele kleinere unterschiedliche Arbeitsgänge zu einem größeren Arbeitsgang zusammenfassen, der einen größeren Teil des Prozesses darstellt.</p>
+<h3 id="many-applicable-resources-for-an-operation" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="286">Viele anwendbare Ressourcen für einen Arbeitsgang</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="288">Die Anzahl der anwendbaren Ressourcen für einen Arbeitsgang wird durch die Ressourcenanforderungen bestimmt, die für die Arbeitsgangbeziehung festgelegt wurden. Die Anforderung kann entweder für eine bestimmte (einzelne) Ressource gelten oder auf der Mitgliedschaft der Ressource in einer Ressourcengruppe oder Funktion basieren.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="290">Wenn die Planung nicht mit begrenzter Kapazität durchgeführt wird und alle anwendbaren Ressourcen den gleichen Kalender und die gleiche Effizienz haben, wählt das Planungsmodul letztendlich immer dieselbe Ressource für einen Arbeitsgang aus, jedoch erst, nachdem alle anwendbaren Ressourcen ausprobiert wurden, um zu überprüfen, ob es eine Ressource gibt, die sich besser eignet als die anderen. In diesem Fall kann die Auslastung der Planung erheblich reduziert werden, indem dem Arbeitsgang zum Zeitpunkt des Arbeitsplandesigns immer eine bestimmte Ressource zugewiesen wird.</p>
+<h3 id="route-with-parallel-operations" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="292">Arbeitsplan mit parallelen Arbeitsgängen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="294">Parallele Arbeitsgänge (primär/sekundär) sind ein leistungsstarkes Tool zur Modellierung von Szenarien, z. B. wenn eine Maschine und ein Bediener zur Ausführung einer bestimmten Aufgabe benötigt werden. Sie sind jedoch auch die Ursache für viele Leistungsprobleme. Wenn eine Anforderung für eine bestimmte einzelne Ressource sowohl der primäre als auch der sekundäre Arbeitsgang zugewiesen wird, ist dies normalerweise kein Problem. Wenn jedoch für jeden der Arbeitsgänge viele mögliche Ressourcen vorhanden sind, erhöht dies die Planungskomplexität erheblich.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="296">Eine Alternative zur Verwendung paralleler Arbeitsgänge besteht darin, die Paare entweder als „virtuelle“ Ressourcen zu modellieren (die dann das Team darstellen, das für den Arbeitsgang immer zusammenarbeitet) oder einfach keinen der Arbeitsgänge zu modellieren, wenn sie keinen Engpass darstellen.</p>
+<h3 id="route-with-quantity-of-resources-higher-than-1" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="298">Arbeitsgang mit einer Ressourcenmenge von mehr als 1</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="300">Wenn Sie die für einen Arbeitsgang erforderliche Ressourcenmenge auf mehr als eins festlegen, entspricht dies effektiv der Verwendung von primären/sekundären Arbeitsgängen, da mehrere parallele Einzelvorgänge an das Modul gesendet werden. In diesem Fall besteht jedoch keine Möglichkeit, bestimmte Ressourcenzuweisungen zu verwenden, da für eine höhere Menge als eins mehr als eine Ressource für den Einzelvorgang anwendbar sein muss.</p>
+<h3 id="excessive-use-of-finite-capacity" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="302">Übermäßige Nutzung begrenzter Kapazität</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="304">Die Nutzung begrenzter Kapazität erfordert, dass das Modul die Kapazitätsinformationen aus einer Datenbank lädt, und kann einen Rechenaufwand verursachen, da es schwieriger ist, eine Lösung zu finden, insbesondere in Umgebungen, in denen die Ressourcen nahe ihrer maximalen Kapazität gebucht sind. Daher ist es wichtig, sorgfältig zu prüfen, ob eine Ressource wirklich eine begrenzte Kapazität benötigt oder überbucht werden kann. Da es bei begrenzten Kapazitätsressourcen möglicherweise unterschiedlich wichtig ist, dass sie nicht überbucht werden, empfehlen wir, die Engpassoption für eine Ressource in Kombination mit einem separaten Wert im Plan unter „Kapazitätsplanungszeitraum für Engpassressourcen“ zu verwenden. Durch die Nutzung des Engpasskonzepts kann der allgemeine Zeitrahmen für begrenzte Kapazitäten verringert werden.</p>
+<h3 id="setting-hard-links" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="306">Feste Links setzen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="308">Der Standardlinktyp des Arbeitsplans ist <em sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="308">weich</em>. Dies bedeutet, dass zwischen der Endzeit eines Arbeitsgangs und dem Beginn des nächsten Arbeitsgangs eine Zeitlücke zulässig ist. Dies zuzulassen kann den unglücklichen Effekt haben, dass die Produktion für eine Weile stillstehen kann, wenn Materialien oder Kapazitäten für einen der Arbeitsgänge für eine sehr lange Zeit nicht verfügbar sind, was eine mögliche Erhöhung der laufenden Arbeit bedeutet. Dies ist bei harten Links nicht der Fall, da Ende und Start perfekt ausgerichtet sein müssen. Das Festlegen fester Links erschwert jedoch das Planungsproblem, da Arbeitszeit- und Kapazitätsschnittpunkte für die beiden Ressourcen der Arbeitsgänge berechnet werden müssen. Wenn auch parallele Arbeitsgänge beteiligt sind, erhöht dies die Rechenzeit erheblich. Wenn die Ressourcen der beiden Arbeitsgänge unterschiedliche Kalender haben, die sich überhaupt nicht überschneiden, ist das Problem nicht lösbar.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="310">Wir empfehlen, harte Links nur dann zu verwenden, wenn dies unbedingt erforderlich ist, und sorgfältig zu prüfen, ob dies für jeden Arbeitsgang des Arbeitsplans erforderlich ist.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="312">Um die laufende Arbeit zu reduzieren, ohne feste Links anzuwenden, kann ein Trick angewendet werden: Ein Auftrag wird zweimal geplant, und für den zweiten Durchgang wird die entgegengesetzte Richtung verwendet. Wenn der erste Zeitplan ab dem Liefertermin rückwärts erstellt wurde, sollte der zweite ab dem geplanten Startdatum vorwärts erstellt werden. Dies führt dazu, dass die Arbeitsgänge so weit wie möglich komprimiert werden, sodass die laufende Arbeiten minimiert wird.</p>
+<h3 id="separate-calendar-for-each-resource" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="314">Separater Kalender für jede Ressource</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="316">Eine der Hauptdatenquellen für das Planungsmodul sind Kalenderinformationen, deren Laden aus der Datenbank teuer sein kann. Da Kalender basierend auf Vorlagen generiert werden, wäre es verlockend, für jede Ressource einen Kalender zu generieren und dann die Informationen in diesem Kalender anzupassen, wenn die Ressource Ausfallzeiten und andere Probleme aufweist. Dies schränkt jedoch die Fähigkeit der Module, die Kalenderdaten zwischenzuspeichern, erheblich ein, da sie neue Daten für jede Ressource anfordern müssten, was eine große Quelle von Leistungsproblemen sein kann. Stattdessen empfehlen wir, dass Sie die Kalender so weit wie möglich zwischen den Ressourcen wiederverwenden und dann Änderungen der Ausfallzeit steuern, indem Sie für einen bestimmten Zeitraum eine andere Kalender-ID zuweisen.</p>
+<h3 id="high-number-of-working-time-slots-per-calendar-day" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="318">Hohe Anzahl der Arbeitszeitfenster pro Kalendertag</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="320">Da das Modul die Zeitfenster einzeln auf ihre Kapazität überprüft, ist es vorteilhaft, die Anzahl der Zeitfenster pro Kalendertag zu minimieren. Dies könnte zum Beispiel dadurch geschehen, dass überlegt wird, ob es wichtig ist, dass der resultierende Zeitplan widerspiegelt, dass die Arbeitskräfte jede Stunde eine Pause von 5 Minuten einlegen.</p>
+<h3 id="large-or-none-scheduling-timeouts" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="322">Große (oder keine) Planungszeitüberschreitungen</h3>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Die Leistung des Planungsmoduls kann mithilfe der Parameter auf der Seite <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Planungsparameter</strong> optimiert werden. Die Einstellungen <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Zeitlimit für Zeitplanung aktiviert</strong> und <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Zeitlimit für Planungsoptimierung aktiviert</strong> sollten immer auf <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Ja</strong> eingestellt sein. Sind sie auf <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="324">Nein</strong> gesetzt, kann die Planung möglicherweise unbegrenzt ausgeführt werden, wenn ein nicht realisierbarer Arbeitsplan mit vielen Optionen erstellt wurde.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="326">Der Wert für <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="326">Maximale Planungszeit pro Sequenz</strong> steuert, wie viele Sekunden höchstens für die Suche nach einer Lösung für eine einzelne Sequenz aufgewendet werden können (in den meisten Fällen entspricht eine Sequenz einem einzelnen Auftrag). Der hier zu verwendende Wert hängt stark von der Komplexität des Arbeitsplans und den Einstellungen wie der begrenzten Kapazität ab, aber ein Maximum von etwa 30 Sekunden ist ein guter Ausgangspunkt.</p>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="328">Der Wert für <strong sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="328">Zeitlimit für Optimierungsversuche</strong> steuert, wie viele Sekunden höchstens verwendet werden können, um eine bessere Lösung als die ursprünglich gefundene zu finden. Dies wirkt sich nur auf Arbeitspläne aus, die parallele Arbeitsgänge verwenden, da diese das Testen verschiedener Kombinationen erforderlich machen.</p>
+<div class="NOTE" sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="330">
+<h5>Note</h5>
+<p sourcefile="supply-chain/master-planning/scheduling-engine-performance.md" sourcestartlinenumber="331">Die für die Zeitüberschreitungen festgelegten Werte werden sowohl für die Planung von freigegebenen Produktionsaufträgen und von geplanten Aufträgen im Rahmen der Materialbedarfsplanung angewendet. Infolgedessen kann das Festlegen sehr hoher Werte die Laufzeit der Materialbedarfsplanung erheblich verlängern, wenn ein Plan mit vielen geplanten Produktionsaufträgen ausgeführt wird.</p>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/master-planning/scheduling-engine-performance.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

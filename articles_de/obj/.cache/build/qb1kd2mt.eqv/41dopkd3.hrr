@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Abschreibungseffekte bei R&#252;ckbuchungen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Abschreibungseffekte bei R&#252;ckbuchungen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieser Artikel behandelt m&#246;gliche Auswirkung beim Stornieren einer Anlagentransaktion.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="AssetTrans">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="depreciation-effects-with-reversals">Abschreibungseffekte bei Rückbuchungen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Dieser Artikel behandelt mögliche Auswirkung beim Stornieren einer Anlagentransaktion.</p>
+<p>Anlagenbuchungen können storniert werden. Gleiches gilt für die Buchungen, die einer Anlage zugeordnet sind. Darüber hinaus besteht die Möglichkeit zum Widerrufen stornierter Buchungen.</p>
+<p>Sie können eine Buchung stornieren oder widerrufen, bei der es sich nicht um den Posten handelt, der zuletzt in das Wertmodell oder in das Abschreibungsbuch der Anlage gebucht wurde. Prüfen Sie in diesem Fall zunächst, ob nach der zu stornierenden Buchungen bereits Abschreibungsbuchungen erfolgt sind. Dieser Schritt ist erforderlich, da Abschreibungen beim Stornieren einer Buchung nicht neu berechnet werden. Aus diesem Grund ist die Abschreibung nach einer Stornierung häufig zu hoch oder zu niedrig bewertet, was in den entsprechenden Beispielen veranschaulicht wird.</p>
+<p>Wenn eine Meldung mit dem Hinweis angezeigt wird, dass keine Neuberechnung der Abschreibung stattfindet, setzen Sie den Stornovorgang nicht fort, um eine korrekte Abschreibung zu gewährleisten. Stornieren Sie stattdessen zunächst die Abschreibungsbuchung, die nach der zu stornierenden Buchung erfolgt ist, und setzen Sie dann den eigentlichen Stornovorgang fort. Sie erhalten keinen Hinweis zur Neuberechnung der Abschreibung, und die Stornierung kann fortgesetzt werden.</p>
+<p>In den folgenden Beispielen werden die Berechnungen veranschaulicht, die ausgeführt werden, wenn der Vorgang ungeachtet der Warnmeldung und ohne vorherige Stornierung der Abschreibungsbuchungen fortgesetzt wird:</p>
+<h2 id="example-1-depreciation-is-overstated">Beispiel 1: Zu hohe Bewertung der Abschreibung</h2>
+<p>Eine Anlage ist mit einer Nutzungsdauer von fünf Jahren und mit einer linearen Abschreibung (60 Abschreibungsperioden) konfiguriert. In diesem Beispiel ergibt sich eine zu hohe Bewertung der Abschreibung.</p>
+<h4 id="asset-transaction-history">Anlagenbuchungshistorie</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Buchungstyp</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Januar</td>
+<td>Anschaffung</td>
+<td>59.000,00</td>
+</tr>
+<tr>
+<td>1. Januar</td>
+<td>Anschaffungsänderung</td>
+<td>1.000,00</td>
+</tr>
+<tr>
+<td>31. Januar</td>
+<td>Abschreibung (unter Verwendung eines Vorschlags für eine Abschreibungsperiode)</td>
+<td>1.000,00; Berechnung: Buchwert (59.000 + 1.000) / Anzahl der verbleibenden Abschreibungsperioden (60)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="reversal-action">Storno</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Transaktionstyp</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Januar</td>
+<td>Storno der Anschaffungsänderung</td>
+<td>-1.000,00</td>
+</tr>
+</tbody>
+</table>
+<h4 id="depreciation-effect">Abschreibungseffekt</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Transaktionstyp</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28. Februar</td>
+<td>Abschreibung (Vorschlag)</td>
+<td>983,05; Berechnung: Buchwert (59.000 - 1.000 Abschreibung) / Anzahl der verbleibenden Abschreibungsperioden (59)</td>
+</tr>
+</tbody>
+</table>
+<p>Die Abschreibung ist um 16,95 (1.000 - 983,05) zu hoch bewertet.</p>
+<h2 id="example-2-depreciation-is-understated">Beispiel 2: Zu niedrige Bewertung der Abschreibung</h2>
+<p>Eine Anlage ist mit einer Nutzungsdauer von fünf Jahren und mit einer linearen Abschreibung (60 Abschreibungsperioden) konfiguriert. In diesem Beispiel ergibt sich eine zu niedrige Bewertung der Abschreibung.</p>
+<h4 id="asset-transaction-history">Anlagenbuchungshistorie</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Buchungsart</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Januar</td>
+<td>Anschaffung</td>
+<td>59.000,00</td>
+</tr>
+<tr>
+<td>1. Januar</td>
+<td>Regulierung vom Typ &quot;Niedrigerbewertung&quot;</td>
+<td>1.000,00</td>
+</tr>
+<tr>
+<td>31. Januar</td>
+<td>Abschreibung (unter Verwendung eines Vorschlags für eine Abschreibungsperiode)</td>
+<td>966,67; Berechnung: Buchwert (59.000 – 1.000) / Anzahl der verbleibenden Abschreibungsperioden (60)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="reversal-action">Storno</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Transaktionstyp</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Januar</td>
+<td>Storno der Regulierung vom Typ &quot;Niedrigerbewertung&quot;</td>
+<td>-1.000,00</td>
+</tr>
+</tbody>
+</table>
+<h4 id="depreciation-effect">Abschreibungseffekt</h4>
+<table>
+<thead>
+<tr>
+<th>Datum</th>
+<th>Transaktionstyp</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28. Februar</td>
+<td>Abschreibung (Vorschlag)</td>
+<td>983,62; Berechnung: Buchwert (59.000 - 966,67 Abschreibung) / Anzahl der verbleibenden Abschreibungsperioden (59)</td>
+</tr>
+</tbody>
+</table>
+<p>Die Abschreibung ist um 16,95 (983,62 - 966,67) zu niedrig bewertet.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="fixed-asset-depreciation.html">Anlagenabschreibung</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/finance/fixed-assets/depreciation-effects-reversals.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

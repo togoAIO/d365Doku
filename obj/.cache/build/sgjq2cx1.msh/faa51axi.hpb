@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Expression constraints and table constraints in product configuration models | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Expression constraints and table constraints in product configuration models | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="expression-constraints-and-table-constraints-in-product-configuration-models">Expression constraints and table constraints in product configuration models</h1>
+
+
+<p>This topic describes the use of expression constraints and table constraints. Constraints control the attribute values that you can select when you configure products for a sales order, sales quotation, purchase order, or production order. You can use expression constraints or table constraints, depending on how you prefer to build the constraints.</p>
+<p>Constraints are used to control the attribute values that you can select when you configure products for a sales order, sales quotation, purchase order, or production order. You can use expression constraints or table constraints, depending on how you prefer to build the constraints.</p>
+<h2 id="what-are-expression-constraints">What are expression constraints?</h2>
+<p>Expression constraints are characterized by an expression that uses arithmetic and Boolean operators and functions. An expression constraint is written for a specific component in a product configuration model. It can't be reused by or shared with another component. However, the expression constraints for a component can reference attributes of the component's subcomponents.</p>
+<h2 id="what-are-table-constraints">What are table constraints?</h2>
+<p>Table constraints list the combinations of values that are allowed for attributes when you configure a product. Table constraint definitions can be used generically. When you create a table constraint for a component in a product configuration model, you select a table constraint definition. To create the combinations that are allowed, you add attributes of specific types to the components. Each attribute type has a specific value.</p>
+<h3 id="example-of-a-table-constraint">Example of a table constraint</h3>
+<p>This example shows how you can limit the configuration of a speaker to specific cabinet finishes and fronts. The first table shows the cabinet finishes and fronts that are generally available for configuration. The values are defined for the <strong>Cabinet finish</strong> and <strong>Front grill</strong> attribute types.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute type</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cabinet finish</td>
+<td>Black, Oak, Rosewood, White</td>
+</tr>
+<tr>
+<td>Front grill</td>
+<td>Black, Metal, White</td>
+</tr>
+</tbody>
+</table>
+<p>The next table shows the combinations that are defined by the <strong>Color and finish</strong> table constraint. By using this table constraint, you can configure a speaker that has an oak finish and a black grill, a Rosewood finish and a white grill, and so on.</p>
+<table>
+<thead>
+<tr>
+<th>Finish</th>
+<th>Grill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oak</td>
+<td>Black</td>
+</tr>
+<tr>
+<td>Rosewood</td>
+<td>White</td>
+</tr>
+<tr>
+<td>White</td>
+<td>Black</td>
+</tr>
+<tr>
+<td>White</td>
+<td>White</td>
+</tr>
+<tr>
+<td>Black</td>
+<td>Black</td>
+</tr>
+<tr>
+<td>Black</td>
+<td>Metal</td>
+</tr>
+</tbody>
+</table>
+<p>You can create system-defined and user-defined table constraints. For more information, see <a href="system-defined-user-defined-table-constraints.html">System-defined and user-defined table constraints</a>.</p>
+<h2 id="what-syntax-should-be-used-to-write-constraints">What syntax should be used to write constraints?</h2>
+<p>You must use Optimization Modeling Language (OML) syntax when you write constraints. The system uses Microsoft Solver Foundation constraint solver to solve the constraints.</p>
+<h2 id="should-i-use-table-constraints-or-expression-constraints">Should I use table constraints or expression constraints?</h2>
+<p>You can use either expression constraints or table constraints, depending on how you prefer to build the constraints. You build a table constraint as a matrix, whereas an expression constraint is an individual statement. When you configure a product, it doesn't matter what kind of constraint is used. The following example shows how the two methods differ.</p>
+<p>When you configure a product by using the following constraint setups, these combinations are allowed:</p>
+<ul>
+<li>A product in the color Black, and in size 30 or 50</li>
+<li>A product in the color Red and in size 20</li>
+</ul>
+<h3 id="table-constraint-setup">Table constraint setup</h3>
+<table>
+<thead>
+<tr>
+<th>Color</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Black</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Black</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Red</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<h3 id="expression-constraint-setup">Expression constraint setup</h3>
+<p>(Color == &quot;Black&quot; &amp; (size == &quot;30&quot; | size == &quot;50&quot;)) | (color == &quot;Red&quot; &amp; size = &quot;20&quot;)</p>
+<h2 id="should-i-use-operators-or-infix-notation-when-i-write-expression-constraints">Should I use operators or infix notation when I write expression constraints?</h2>
+<p>You can write an expression constraint by using either the available prefix operators or infix notation. For the <strong>Min</strong>, <strong>Max</strong>, and <strong>Abs</strong> operators, you can't use infix notation. These operators are included as standard operators in most programming languages.</p>
+<h2 id="what-operators-and-infix-notation-can-i-use-when-i-write-expression-constraints">What operators and infix notation can I use when I write expression constraints?</h2>
+<p>The following tables list the operators and infix notation that you can use when you write an expression constraint for a component in a product configuration model. The examples in the first table show how to write an expression by using either infix notation or operators.</p>
+<table>
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+<th>Syntax</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Implies</td>
+<td>This is true if the first condition is false, the second condition is true, or both.</td>
+<td>Implies[a, b], infix: a -: b</td>
+<td><ul>
+<li><strong>Operator:</strong> Implies[x != 0, y &gt;= 0]</li>
+<li><strong>Infix notation:</strong> x != 0 -: y &gt;= 0</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>And</td>
+<td>This is true only if all conditions are true. If the number of conditions is 0 (zero), it produces <strong>True</strong>.</td>
+<td>And[args], infix: a &amp; b &amp; ... &amp; z</td>
+<td><ul>
+<li><strong>Operator:</strong> And[x == 2, y &lt;= 2]</li>
+<li><strong>Infix notation:</strong> x == 2 &amp; y &lt;= 2</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Or</td>
+<td>This is true if any condition is true. If the number of conditions is 0 (zero), it produces <strong>False</strong>.</td>
+<td>Or[args], infix: a | b | ... | z</td>
+<td><ul>
+<li><strong>Operator:</strong> Or[x == 2, y &lt;= 2]</li>
+<li><strong>Infix notation:</strong> x == 2 | y &lt;= 2</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Plus</td>
+<td>This sums its conditions. If the number of conditions is 0 (zero), it produces <strong>0</strong>.</td>
+<td>Plus[args], infix: a + b + ... + z</td>
+<td><ul>
+<li><strong>Operator:</strong> Plus[x, y, 2] == z</li>
+<li><strong>Infix notation:</strong> x + y + 2 == z</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Minus</td>
+<td>This negates its argument. It must have exactly one condition.</td>
+<td>Minus[expr], infix: -expr</td>
+<td><ul>
+<li><strong>Operator:</strong> Minus[x] == y</li>
+<li><strong>Infix notation:</strong> -x == y</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Abs</td>
+<td>This takes the absolute value of its condition. It must have exactly one condition.</td>
+<td>Abs[expr]</td>
+<td><strong>Operator:</strong> Abs[x]</td>
+</tr>
+<tr class="odd">
+<td>Times</td>
+<td>This takes the product of its conditions. If the number of conditions is 0 (zero), it produces <strong>1</strong>.</td>
+<td>Times[args], infix: a * b * ... * z</td>
+<td><ul>
+<li><strong>Operator:</strong> Times[x, y, 2] == z</li>
+<li><strong>Infix notation:</strong> x * y * 2 == z</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Power</td>
+<td>This takes an exponential. It applies exponentiation from right to left. (In other words, it&#39;s right-associative.) Therefore, <strong>Power[a, b, c]</strong> is equivalent to <strong>Power[a, Power[b, c]]</strong>. <strong>Power</strong> can be used only if the exponent is a positive constant.</td>
+<td>Power[args], infix: a ^ b ^ ... ^ z</td>
+<td><ul>
+<li><strong>Operator:</strong> Power[x, 2] == y</li>
+<li><strong>Infix notation:</strong> x ^ 2 == y</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Max</td>
+<td>This produces the largest condition. If the number of conditions is 0 (zero), it produces <strong>Infinity</strong>.</td>
+<td>Max[args]</td>
+<td><strong>Operator:</strong> Max[x, y, 2] == z</td>
+</tr>
+<tr class="even">
+<td>Min</td>
+<td>This produces the smallest condition. If the number of conditions is 0 (zero), it produces <strong>Infinity</strong>.</td>
+<td>Min[args]</td>
+<td><strong>Operator:</strong> Min[x, y, 2] == z</td>
+</tr>
+<tr class="odd">
+<td>Not</td>
+<td>This produces the logical inverse of its condition. It must have exactly one condition.</td>
+<td>Not[expr], infix: !expr</td>
+<td><ul>
+<li><strong>Operator:</strong> Not[x] &amp; Not[y == 3]</li>
+<li><strong>Infix notation:</strong> !x!(y == 3)</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p>The examples in the next table show how to write infix notation.</p>
+<table>
+<thead>
+<tr>
+<th>Infix notation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x + y + z</td>
+<td>Addition</td>
+</tr>
+<tr>
+<td>x * y * z</td>
+<td>Multiplication</td>
+</tr>
+<tr>
+<td>x - y</td>
+<td>Binary subtraction is translated the same as binary addition where there is a negated second.</td>
+</tr>
+<tr>
+<td>x ^ y ^ z</td>
+<td>Exponentiation that has right associativity</td>
+</tr>
+<tr>
+<td>!x</td>
+<td>Boolean not</td>
+</tr>
+<tr>
+<td>x -: y</td>
+<td>Boolean implication</td>
+</tr>
+<tr>
+<td>x</td>
+<td>y</td>
+</tr>
+<tr>
+<td>x &amp; y &amp; z</td>
+<td>Boolean and</td>
+</tr>
+<tr>
+<td>x == y == z</td>
+<td>Equality</td>
+</tr>
+<tr>
+<td>x != y != z</td>
+<td>Distinct</td>
+</tr>
+<tr>
+<td>x &lt; y &lt; z</td>
+<td>Less than</td>
+</tr>
+<tr>
+<td>x &gt; y &gt; z</td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td>x &lt;= y &lt;= z</td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td>x &gt;= y &gt;= z</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td>(x)</td>
+<td>Parentheses override default precedence.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-arent-my-expression-constraints-validated-correctly">Why aren't my expression constraints validated correctly?</h2>
+<p>You can't use reserved keywords as solver names for attributes, components, or subcomponents in a product configuration model. Here is a list of the reserved keywords that you can't use:</p>
+<ul>
+<li>Ceiling</li>
+<li>Element</li>
+<li>Equal</li>
+<li>Floor</li>
+<li>If</li>
+<li>Less</li>
+<li>Greater</li>
+<li>Implies</li>
+<li>Log</li>
+<li>Max</li>
+<li>Min</li>
+<li>Minus</li>
+<li>Plus</li>
+<li>Power</li>
+<li>Times</li>
+<li>Slot</li>
+<li>Model</li>
+<li>Decision</li>
+<li>Goal</li>
+</ul>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="tasks/add-expression-constraint-product-configuration-model.html">Create an expression constraint</a></p>
+<p><a href="tasks/add-calculation-product-configuration-model.html">Add a calculation to a product configuration model</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

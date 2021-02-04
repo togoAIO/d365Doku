@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird das Aktivieren und Testen von Azure Data Lake Storage f&#252;r eine Dynamics 365 Commerce-Umgebung erl&#228;utert. Dies ist eine Grundvoraussetzung f&#252;r die Aktivierung von Produktempfehlungen.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail, eCommerce">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="enable-azure-data-lake-storage-in-a-dynamics-365-commerce-environment">Azure Data Lake Storage in einer Dynamics 365 Commerce Umgebung aktivieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema wird das Aktivieren und Testen von Azure Data Lake Storage für eine Dynamics 365 Commerce-Umgebung erläutert. Dies ist eine Grundvoraussetzung für die Aktivierung von Produktempfehlungen.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Bei der Dynamics 365 Commerce-Lösung werden alle Produkt- und Transaktionsinformationen im Entitätsspeicher der Umgebung nachverfolgt. Um diese Daten für andere Dynamics 365-Dienste wie Datenanalyse, Business Intelligence und personalisierte Empfehlungen zugänglich zu machen, muss die Umgebung mit einer kundeneigenen Azure Data Lake Storage Gen 2 Lösung verbunden werden.</p>
+<p>Da Azure Data Lake Storage in einer Umgebung konfiguriert ist, werden alle erforderlichen Daten aus dem Entitätsspeicher gespiegelt, während sie weiterhin geschützt sind und vom Kunden gesteuert werden können.</p>
+<p>Wenn Produktempfehlungen oder personalisierte Empfehlungen auch in der Umgebung aktiviert sind, erhält der Produktempfehlungsstapel Zugriff auf den dedizierten Ordner in Azure Data Lake Storage, um die Kundendaten abzurufen und Empfehlungen basierend auf diesen zu berechnen.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<p>Kunden müssen Azure Data Lake Storage in einem Azure-Abonnement konfiguriert haben, dessen Inhaber sie sind. Dieses Thema behandelt nicht den Kauf eines Azure-Abonnements oder die Einrichtung eines Azure Data Lake Storage fähigen Speicherkontos.</p>
+<p>Weitere Informationen zu Azure Data Lake Storage finden Sie in der <a href="https://azure.microsoft.com/pricing/details/storage/data-lake">offiziellen Gen2 Azure Data Lake Storage</a>-Dokumentation.</p>
+<h2 id="configuration-steps">Konfigurationsschritte</h2>
+<p>Dieser Abschnitt behandelt die Konfigurationsschritte, die zum Aktivieren von Azure Data Lake Storage in einer Umgebung erforderlich sind, und bezieht sich auf Produktempfehlungen.
+Eine ausführlichere Übersicht über die zum Aktivieren von Azure Data Lake Storage erforderlichen Schritte finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/entity-store-data-lake">Stellen Sie den Entity Store als Data Lake zur Verfügung (This is an external link)</a>.</p>
+<h3 id="enable-azure-data-lake-storage-in-the-environment">Aktivieren Sie Azure Data Lake Storage in der Umgebung</h3>
+<ol>
+<li>Melden Sie sich beim Back-Office-Portal der Umgebung an.</li>
+<li>Suchen Sie nach <strong>Systemparameter</strong> und navigieren Sie zur Registerkarte <strong>Datenverbindungen</strong>.</li>
+<li>Setzen Sie <strong>Integration von Data Lake aktivieren</strong> auf <strong>Ja</strong>.</li>
+<li>Setzen Sie <strong>Data Lake schrittweise aktualisieren</strong> auf <strong>Ja</strong>.</li>
+<li>Geben Sie die folgenden erforderlichen Informationen ein:
+<ol>
+<li><strong>Anwendungs-ID</strong> // <strong>Anwendungsschlüssel</strong> // <strong>DNS-Name</strong> – Erforderlich, um eine Verbindung zu KeyVault herzustellen, in dem der Azure Data Lake Storage Schlüssel gespeichert ist.</li>
+<li><strong>Schlüsselname</strong> – Der geheime Schlüssel, der in KeyVault gespeichert und zur Azure Data Lake Storage Authentifizierung verwendet wird.</li>
+</ol>
+</li>
+<li>Speichern Sie Ihre Änderungen in der oberen linken Ecke der Seite.</li>
+</ol>
+<p>Das folgende Bild zeigt ein Beispiel für eine Azure Data Lake Storage Konfiguration.</p>
+<p><img src="media/exampleADLSConfig1.png" alt="Beispiel einer Azure Data Lake Storage Konfiguration"></p>
+<h3 id="test-the-azure-data-lake-storage-connection">Testen Sie die Azure Data Lake Storage Verbindung</h3>
+<ol>
+<li>Testen Sie die Verbindung zu KeyVault mit dem Link <strong>Azure Key Vault testen</strong>.</li>
+<li>Testen Sie die Verbindung zu Azure Data Lake Storage mit dem Link <strong>Azure Storage testen</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn die Tests fehlschlagen, überprüfen Sie noch einmal, ob alle oben hinzugefügten KeyVault-Informationen korrekt sind, und versuchen Sie es dann erneut.</p>
+</div>
+<p>Sobald die Verbindungstests erfolgreich sind, müssen Sie die automatische Aktualisierung für den Entitätsspeicher aktivieren.</p>
+<p>Gehen Sie folgendermaßen vor, um die automatische Aktualisierung für den Entitätsspeicher zu aktivieren.</p>
+<ol>
+<li>Suchen Sie nach <strong>Entitätsspeicher</strong>.</li>
+<li>Navigieren Sie in der Liste auf der linken Seite zum <strong>RetailSales</strong>-Eintrag, und wählen Sie <strong>Bearbeiten</strong> aus.</li>
+<li>Vergewissern Sie sich, dass <strong>Automatische Aktualisierung aktiviert</strong> auf <strong>Ja</strong> gesetzt ist, und wählen Sie <strong>Aktualisieren</strong> und dann <strong>Speichern</strong> aus.</li>
+</ol>
+<p>Die folgende Abbildung zeigt ein Beispiel für einen Entitätsspeicher mit aktivierter automatischer Aktualisierung.</p>
+<p><img src="media/exampleADLSConfig2.png" alt="Beispiel eines Entitätsspeichers mit aktivierter automatischer Aktualisierung"></p>
+<p>Azure Data Lake Storage ist jetzt für die Umgebung konfiguriert.</p>
+<p>Ist die Konfiguration noch nicht vollständig, befolgen Sie für die Umgebung die Schritte <a href="enable-product-recommendations.html">Produktempfehlungen und -personalisierung aktivieren</a>.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/entity-store-data-lake">Entitätsspeicher als Data Lake zur Verfügung stellen (This is an external link)</a></p>
+<p><a href="product-recommendations.html">Überblick über Produktempfehlungen</a></p>
+<p><a href="enable-product-recommendations.html">Produktempfehlungen aktivieren</a></p>
+<p><a href="personalized-recommendations.html">Personalisierte Empfehlungen aktivieren</a></p>
+<p><a href="personalization-gdpr.html">Personalisierte Empfehlungen kündigen</a></p>
+<p><a href="shop-similar-looks.html">Die Empfehlungen „Produkte mit ähnlichem Aussehen kaufen“ aktivieren</a></p>
+<p><a href="product.html">Produktempfehlungen in POS hinzufügen</a></p>
+<p><a href="add-recommendations-control-pos-screen.html">Empfehlungen dem Transaktionsbildschirm hinzufügen</a></p>
+<p><a href="modify-product-recommendation-results.html">Anpassung der Ergebnisse der AI-ML-Empfehlungen</a></p>
+<p><a href="create-editorial-recommendation-lists.html">Manuell kuratierte Empfehlungen erstellen</a></p>
+<p><a href="product-recommendations-demo-data.html">Empfehlungen mit Demodaten erstellen</a></p>
+<p><a href="faq-recommendations.html">Produktempfehlungs-FAQs</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/enable-ADLS-environment.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

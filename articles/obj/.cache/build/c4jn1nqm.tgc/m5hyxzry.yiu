@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Depreciation book upgrade overview </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Depreciation book upgrade overview ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In previous releases, there were two valuation concepts for fixed assets, value models, and depreciation books.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="depreciation-book-upgrade-overview" sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="32">Depreciation book upgrade overview</h1>
+
+
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="36">In previous releases, there were two valuation concepts for fixed assets -  value models and depreciation books. In Microsoft Dynamics 365 for Operations (1611), the value model functionality and depreciation book functionality have been merged into a single concept that is known as a book. This topic provides some things to consider for the upgrade.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="38">The upgrade process will move your existing setup and all existing transactions to the new book structure. Value models will remain as they currently are, as a book that posts to the general ledger. Depreciation books will be moved to a book that has the <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="38">Post to general ledger</strong> option set to <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="38">No</strong>. Depreciation book journal names will be moved to a general ledger journal name with the posting layer set to <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="38">None</strong>. Depreciation book transactions will be moved to Fixed asset transactions.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="40">Before running the data upgrade, you should understand the two options available for upgrading depreciation book journal lines to transaction vouchers, and the number sequence that will be used for the voucher series.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="42">Option 1:  <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="42">System-defined number sequence</strong> - This is the default option to optimize upgrade performance. The upgrade will not use the number sequences framework, but instead will allocate vouchers with a set-based approach. After the upgrade, the new number sequence will be created with the <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="42">Next number set</strong> appropriately based on the upgraded transactions. By default, the number sequence used will be in the FADBUpgr######### format. There are a few parameters available to you to adjust the format when using this approach:</p>
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="44">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="44"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="44">Number sequence code</strong> – The code to identify the number sequence. This number sequence code cannot exist since it will be created by the upgrade.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="45">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="45">Constant name: <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="45">NumberSequenceDefaultCode</strong></li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="46">Default value: &quot;FADBUpgr&quot;</li>
+</ul>
+</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="47"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="47">Prefix</strong> – The constant string value that will be used as a prefix for the voucher numbers.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="48">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="48">Constant name: <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="48">NumberSequenceDefaultParameterPrefix</strong></li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="49">Default value: &quot;FADBUpgr&quot;</li>
+</ul>
+</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="50"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="50">Alphanumeric length</strong> – The length of the alphanumeric segment of the number sequence.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="51">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="51">Constant name: **NumberSequenceDefaultParameterAlpanumericLength **</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="52">Default value: 9</li>
+</ul>
+</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="53"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="53">Start number</strong> - The first number to be used in the number sequence.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="54">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="54">Constant name: **NumberSequenceDefaultParameterStartNumber  **</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="55">Default value: 1</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="57">Option 2: <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="57">Existing user-defined number sequence</strong> - This option will allow you to define the number sequence to be used for the upgrade. Consider using this option if you need advanced number sequence configuration. To use a number sequence, you must modify the upgrade class ReleaseUpdateDB70_FixedAssetJournalDepBookRemovalDepBookJournalTrans with the following information:</p>
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="59">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="59"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="59">Number sequence code</strong> – The code of the number sequence.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="60">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="60">Constant name: **NumberSequenceExistingCode **</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="61">Default value: No default, this must be updated to the number sequence code.</li>
+</ul>
+</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="62"><strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="62">Shared number sequence</strong> – A boolean value to identify the scope of the number sequence. Use &quot;true&quot; for shared number sequences across all companies, and &quot;false&quot; for a company-specific scope. When using &quot;false&quot;, the number sequence with the specified name must exist in every company that contains depreciation book transactions. Shared number sequences exist in every partition that contains depreciation book transactions.
+<ul sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="63">
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="63">Constant name: **NumberSequenceExistingIsShared **</li>
+<li sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="64">Default value: true</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="66">The parameters are located at the beginning of the ReleaseUpdateDB70_FixedAssetJournalDepBookRemovalDepBookJournalTrans class.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="68"><em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="68">// Specify a preferable approach of vouchers allocation</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="69">// true, if you want to use an existing number sequence code</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="70">// false, if you intend to use the system-defined number sequence (default)</em> const boolean NumberSequenceUseExistingCode = false;</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="72"><em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="72">// If using the system-defined number sequence approach, specify the parameters for the number sequence.</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="73">// A new number sequence will be created with these parameters.</em>
+const str NumberSequenceDefaultCode = 'FADBUpgr';
+const str NumberSequenceDefaultParameterPrefix = 'FADBUpgr';
+const int NumberSequenceDefaultParameterAlpanumericLength = 9;
+const int NumberSequenceDefaultParameterStartNumber = 1;</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="79"><em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="79">// If using the existing number sequence approach, specify the existing number sequence code.</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="80">// Voucher allocation will go row-by-row for existing number sequences.</em>
+const str NumberSequenceExistingCode = '';
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="82">// Specify the scope of the existing number sequence code</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="83">// true, if the specified number sequence is shared</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="84">// false, if the specified number sequence is per-company</em>
+<em sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="85">// The default system-defined number sequence will be used if a number sequence code with the specified scope is not found.</em>
+const boolean NumberSequenceExistingIsShared = true;</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="88">Rebuild the project that contains the class after the constants have been modified.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="90">When using the system-generated number sequence approach (option 1), the upgrade will use set-based processing to allocate the voucher numbers as specified in the upgrade script parameters. It will also create a new number sequence with specified parameters after the allocation.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="92">When using the user-defined existing number sequence approach (option 2), the data upgrade checks whether the number sequence with the specified scope exists in the database for each partition and company with depreciation book transactions. If it does exist, the upgrade will use row-by-row processing to allocate the voucher numbers as specified by the number sequence using the number sequence framework. If the number sequence does not exist with the specified scope, the upgrade will use the default system-defined number sequence approach to allocate the voucher numbers, and will create a new number sequence with specified default parameters after the allocation.</p>
+<p sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="94">With either approach, the data upgrade script will also use the number sequence for the <strong sourcefile="finance/fixed-assets/depreciation-book-upgrade-considerations.md" sourcestartlinenumber="94">Voucher series</strong> field on the new general ledger journal names created for the former depreciation book journal names.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/fixed-assets/depreciation-book-upgrade-considerations.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

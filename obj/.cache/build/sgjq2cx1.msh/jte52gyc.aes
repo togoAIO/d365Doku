@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Design ER configurations to parse incoming documents | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Design ER configurations to parse incoming documents | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="design-er-configurations-to-parse-incoming-documents">Design ER configurations to parse incoming documents</h1>
+
+
+<p>This procedure shows how to design Electronic reporting (ER) configurations to parse an incoming electronic document. In this procedure, you will import the required ER configurations that have been created for the sample company, Litware, Inc. and use them for parsing incoming electronic documents. To complete the steps in this procedure, you must first complete the procedure, &quot;ER Create a configuration provider and mark it as active.&quot;</p>
+<p>This procedure is created for users with the assigned role of System administrator or Electronic reporting developer.</p>
+<p>These steps can be completed using any dataset. Before you begin, download and save the files listed in the topic, &quot;Parse incoming documents to update application data&quot; (<a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/parse-incoming-electronic-documents">Parse incoming documents (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>). The files are: EFSTA model.xml, EFSTA format.xml, Response1.xml, Response2.xml, Response3.xml, Response4.xml.</p>
+<ol>
+<li>Go to Organization administration &gt; Workspaces &gt; Electronic reporting.
+<ul>
+<li>Make sure that the configuration provider for the sample company, Litware, Inc., is available and marked as Active. If you don't see this configuration provider, complete the steps in the procedure, &quot;Create a configuration provider and mark it as active&quot;.</li>
+</ul>
+</li>
+<li>Select Reporting configurations.
+<ul>
+<li>The following scenario will be used to show the capabilities of parsing incoming electronic documents in XML format: ERP application requests data from the web service (such as <a href="http://efsta.org/">efsta</a> fiscal service) and parses the incoming responses to update application data accordingly. For the most efficient way to parse, a single ER format is used despite the different structure of expected incoming documents in XML format.</li>
+</ul>
+</li>
+</ol>
+<h2 id="import-and-review-er-configurations">Import and review ER configurations</h2>
+<p>Import the ER model configuration that contains the sample data model designed to store the details of the incoming file.</p>
+<ol>
+<li>Select Exchange.</li>
+<li>Select Load from XML file.
+<ul>
+<li>Select Browse and select the EFSTA model.xml file.</li>
+</ul>
+</li>
+<li>Select OK.</li>
+<li>In the tree, select 'EFSTA model'.</li>
+<li>Select Designer.
+<ul>
+<li>Review the structure of the imported data model. The enumType enumeration is defined to recognize the following types of service responses: to get confirmation about transaction's submission, to get info about last transaction submitted, and to recognize unsupported response types.</li>
+</ul>
+</li>
+<li>In the tree, expand 'Response'.
+<ul>
+<li>The root item 'Response' is defined to specify what kind of data must be taken from a supported service response to update application data accordingly.</li>
+</ul>
+</li>
+<li>Close the page.
+<ul>
+<li>You will import the ER format configuration that specifies how the incoming documents will be parsed to store data in the ER data model.</li>
+</ul>
+</li>
+<li>Select Exchange.</li>
+<li>Select Load from XML file.
+<ul>
+<li>Select Browse and select the EFSTA format.xml file.</li>
+</ul>
+</li>
+<li>Select OK.</li>
+<li>In the tree, expand 'EFSTA model'.</li>
+<li>In the tree, select 'EFSTA model\EFSTA format'.</li>
+<li>Select Designer.</li>
+<li>Select Expand/collapse.
+<ul>
+<li>The CASE format element is used as the root and contains three nested FILE elements, which means that this format has been designed to parse incoming files of several formats.</li>
+</ul>
+</li>
+<li>In the tree, select 'Responses\Transaction completion\TraC'.
+<ul>
+<li>The response about the submitted transaction starts from the 'TraC' root element.</li>
+</ul>
+</li>
+<li>In the tree, select 'Responses\Last transaction request\Tra'.
+<ul>
+<li>The response about the last submitted transaction starts from the 'Era' root element.</li>
+</ul>
+</li>
+<li>In the tree, select 'Responses\Unexpected response\Text'.
+<ul>
+<li>The third FILE element with nested TEXT element has been added to recognize any other types of responses that differ from mentioned above.</li>
+</ul>
+</li>
+<li>Select Map format to model.
+<ul>
+<li>This model mapping contains the definition of data flow to store details of the parsed incoming document with using the data model's items.</li>
+</ul>
+</li>
+<li>Select Designer.</li>
+<li>In the tree, expand 'format'.</li>
+<li>In the tree, expand 'format\Responses: Case(Responses)'.
+<ul>
+<li>Review the structure of the 'format' data source. All three response types are offered separately.</li>
+</ul>
+</li>
+<li>In the tree, select 'format\Responses: Case(Responses)\aType'.
+<ul>
+<li>The data source item 'aType' has been added to indicate the response type and is bound to the data model item 'Type'.</li>
+</ul>
+</li>
+<li>Select the Validations tab.</li>
+<li>In the tree, select 'Type = format.Responses.aType'.
+<ul>
+<li>The ER validation has been configured to inform the user about the situation when the response structure does not match the confirmation about transaction's submission or the information about last transaction submitted (unsupported response case).</li>
+</ul>
+</li>
+<li>Close the page.</li>
+</ol>
+<h2 id="run-model-mapping-of-er-format-configured-for-parsing-incoming-files">Run model mapping of ER format configured for parsing incoming files</h2>
+<p>You will run the created model mapping for testing purposes to see how the configured ER format will parse incoming service responses. This step uses different XML files to simulate different type of web service responses.</p>
+<ol>
+<li>Open the Response1.xml file in an xml reader, such as a web browser. This file contains confirmation details about the completed transaction ('TraC' is the root element).</li>
+<li>Select Run.
+<ul>
+<li>Select Browse and select the Response1.xml file.</li>
+</ul>
+</li>
+<li>Select OK.
+<ul>
+<li>Review the generated output. The response type has been correctly recognized and parsed (<code>ERModelEnumDataSourceHandler#EFSTA model#enumType#C</code> means transaction completion case).</li>
+<li>Open the Response2.xml file in an XML reader. This file contains information about last transaction submitted (<code>Tra</code> is the root element).</li>
+</ul>
+</li>
+<li>Select Run.
+<ul>
+<li>Select Browse and select the Response2.xml file.</li>
+</ul>
+</li>
+<li>Select OK.
+<ul>
+<li>Review the generated output. The response type has been correctly recognized and parsed (<code>ERModelEnumDataSourceHandler#EFSTA model#enumType#R</code> means system restart case).</li>
+<li>Open the Response3.xml file in an XML reader. This file starts from the TraZ root item and that this structure is not configured using ER format.</li>
+</ul>
+</li>
+<li>Select Run.
+<ul>
+<li>Select Browse and select the Response3.xml file.</li>
+</ul>
+</li>
+<li>Select OK.
+<ul>
+<li>Review the generated output. The response type has been correctly recognized as not-supported (<code>ERModelEnumDataSourceHandler#EFSTA model#enumType#U</code>). The corresponding message has been placed in the Infolog (according to the ER validation setting), and most of the data model has not been filled in.</li>
+<li>Open the Response4.xml file in an XML reader. The structure of this file is almost the same as the successfully parsed Response1.xml, except the sequence of nested elements of the root element 'TraC'.</li>
+</ul>
+</li>
+<li>Select Run.
+<ul>
+<li>Select Browse and select the Response4.xml file.</li>
+</ul>
+</li>
+<li>Select OK.
+<ul>
+<li>Review the generated output. The response type has been correctly recognized as not-supported (<code>ERModelEnumDataSourceHandler#EFSTA model#enumType#U</code>)). The corresponding message has been placed in the Infolog, and most of the data model has not been filled in. This behavior is because the current setting of this ER format assumes a certain sequence of nested elements of the root item of the incoming file.</li>
+</ul>
+</li>
+<li>Close the page.</li>
+<li>In the tree, select 'Responses\Transaction completion\TraC'.</li>
+<li>In the Parsing order of nested elements field, select 'Any'.
+<ul>
+<li>Select Any in the 'Parsing order of nested elements' field to allow any sequence of nested elements for this root XML item.</li>
+</ul>
+</li>
+<li>Select Save.</li>
+<li>Select Map format to model.</li>
+<li>Select Run.
+<ul>
+<li>Select Browse and select the Response4.xml file.</li>
+</ul>
+</li>
+<li>Select OK.
+<ul>
+<li>Review the generated output. The response type has now been properly recognized as equal for Response1.xml file.</li>
+</ul>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

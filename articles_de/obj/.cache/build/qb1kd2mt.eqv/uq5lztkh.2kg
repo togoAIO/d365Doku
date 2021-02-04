@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einrichten des Add-Ons f&#252;r die elektronische Rechnungsstellung </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einrichten des Add-Ons f&#252;r die elektronische Rechnungsstellung ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie das Add-On f&#252;r die elektronische Rechnungsstellung in Microsoft Dynamics 365 Finance und Dynamics 365 Supply Chain Management eingerichtet wird.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="set-up-the-electronic-invoicing-add-on" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="28">Einrichten des Add-Ons für die elektronische Rechnungsstellung</h1>
+
+<div class="IMPORTANT" sourcefile="finance/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="finance/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="33">Bei der Einrichtung der Add-On-Funktion für die elektronische Rechnungsstellung wird die erforderliche Konfiguration über die RCS-Umgebung (Regulatory Configuration Services) erstellt und auf dem Add-On-Server für die elektronische Rechnungsstellung veröffentlicht. Mit der Einrichtung können Sie die konfigurierbaren Regeln erstellen, die es dem Add-On für die elektronische Rechnungsstellung ermöglichen, ein sicheres Protokoll über das Internet zu verwenden, um über Webdienste mit einer Drittanbieterentität zu kommunizieren und Daten auszutauschen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="35">Die Konfigurierbarkeit basiert auf der Konfiguration des Formats der elektronischen Berichterstattung (EB), um Inhalte zu erstellen, die über digitale Dateien gesendet und empfangen werden. Sie basiert auch auf der Orchestrierung von Kommunikationsaktionen, um Anforderungen an Webdienste von Drittanbietern zu senden und Antworten von diesen zu empfangen, ohne dass Sie Code schreiben müssen.</p>
+<h2 id="overview" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="37">Übersicht</h2>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="39">„Die Add-On-Funktion für die elektronische Rechnungsstellung“ ist der generische Name für die Ressource, die so konfiguriert und veröffentlicht ist, dass sie den Add-On-Server für die elektronische Rechnungsstellung verwendet. Das Einrichten der Funktion umfasst unter anderem die Verwendung von EB-Konfigurationsformaten zum Erstellen konfigurierbarer Export- und Importdateien sowie die Verwendung von Aktionen und Aktionsabläufen, um die Erstellung konfigurierbarer Regeln zum Senden von Anforderungen, zum Importieren von Antworten und zum Analysieren des Inhalts der Antworten zu ermöglichen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="41">Die folgende Abbildung zeigt die Hauptkomponenten einer Add-On-Funktion für die elektronische Rechnungsstellung.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="43"><img src="media/e-Invoicing-services-feature-setup-Overview-e-Invoicing-feature.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="43" alt="Übersicht über die Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="45">Aufgrund unterschiedlicher Rechnungsformate und Aktivitätsabläufe kann die Einrichtung der Funktionen je nach Land oder Region oder je nach Geschäftsanforderungen variieren.</p>
+<h2 id="set-up-the-electronic-invoicing-add-on-feature" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="47">Einrichten der Add-On-Funktion für die elektronische Rechnungsstellung</h2>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="49">Der Einrichtungsprozess muss in Ihrer RCS-Umgebung abgeschlossen sein. Befolgen Sie diese Schritte, um eine neue Add-On-Funktion für die elektronische Rechnungsstellung zu erstellen.</p>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="51">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="51"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="51">Melden Sie sich bei Ihrer RCS-Umgebung an.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="52"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="52">Wählen Sie im Arbeitsbereich <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="52">Globalisierungsfunktionen</strong> im Abschnitt <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="52">Funktionen</strong> die Kachel <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="52">Add-On für die elektronische Rechnungsstellung</strong> aus.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="53"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="53">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="53">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="53">Importieren</strong> aus, um die EB-Datenmodellkonfiguration aus dem globalen Repository zu importieren.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="54"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="54">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="54">Hinzufügen</strong> aus, um eine Add-On-Funktion für die elektronische Rechnungsstellung zu erstellen. Sie können die Funktion entweder von Grund auf neu erstellen oder aus einer vorhandenen Add-On-Funktion für die elektronische Rechnungsstellung ableiten.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="56"><img src="media/e-Invoicing-services-feature-setup-Select-Add-e-Invoicing-feature.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="56" alt="Hinzufügen einer Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+</li>
+</ol>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="58">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="59">Wenn Sie eine neue Add-On-Funktion für die elektronische Rechnungsstellung erstellen, hat diese eine Versionsnummer und der Standardstatus ist auf <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="59">Entwurf</strong> festgelegt.</p>
+</div>
+<h3 id="configurations" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="61">Varianten</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="63">Konfigurationen enthalten die EB-Formatkonfigurationen, die für Transformationen und zum Erstellen der Dateien erforderlich sind, die während der Kommunikation mit Webdiensten von Drittanbietern ausgetauscht werden. Eine Add-On-Funktion für die elektronische Rechnungsstellung kann so viele EB-Dateiformatkonfigurationen aufweisen, wie erforderlich sind, je nach den vom Webdienstanbieter bereitgestellten technischen Integrationsspezifikation.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="65">Befolgen Sie diese Schritte, um der Add-On-Funktion für die elektronische Rechnungsstellung EB-Formate hinzuzufügen.</p>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67">Konfigurationen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="67">Hinzufügen</strong> aus, um EB-Dateiformatkonfigurationen für die Add-On-Funktion für die elektronische Rechnungsstellung hinzuzufügen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="69"><img src="media/e-Invoicing-services-feature-setup-Select-Add-e-Invoicing-feature-Configurations.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="69" alt="Hinzufügen von Konfigurationen für die Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="71">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="72">Wenn Sie eine Add-On-Funktion für die elektronische Rechnungsstellung von Grund auf neu erstellen, müssen Sie alle EB-Dateiformatkonfigurationen manuell hinzufügen. Wenn Sie eine Add-On-Funktion für die elektronische Rechnungsstellung von einer vorhandenen Funktion ableiten, werden die EB-Dateiformatkonfigurationen automatisch erstellt, da sie von der ursprünglichen Add-On-Funktion für die elektronische Rechnungsstellung geerbt werden.</p>
+</div>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="74"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="74">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="74">Bearbeiten</strong> aus, um die Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="74">Formatdesigner</strong> zu öffnen, auf der Sie die Konfiguration des EB-Dateiformats bearbeiten können.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="76"><img src="media/e-Invoicing-services-feature-setup-Select-Edit-e-Invoicing-feature-Configurations.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="76" alt="Bearbeiten von Konfigurationen für die Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="78">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="79">Während Sie das Format bearbeiten, wird der Status der Konfigurationsversion auf <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="79">Entwurf</strong> festgelegt.</p>
+</div>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="81"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="81">Verwenden Sie die Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="81">Formatdesigner</strong>, um die Dateiformatkonfiguration zu bearbeiten. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/analytics/electronic-reporting-configuration" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="81">Erstellen elektronischer Berichterstellungskonfigurationen</a>.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="83"><img src="media/e-Invoicing-services-feature-setup-ER-Format-designer.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="83" alt="Formatdesignerseite"></p>
+</li>
+</ol>
+<h3 id="feature-setups" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="85">Funktionseinrichtungen</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="87">Funktionseinrichtungen beinhalten die Regeln für Kommunikation und Sicherheit mit dem Webdienst eines Drittanbieters. Eine Add-On-Funktion für die elektronische Rechnungsstellung kann basierend auf der Geschäftsregel, die Sie umsetzen möchten, so viele Funktionseinrichtungen haben, wie erforderlich sind.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="89">Befolgen Sie diese Schritte, um der Add-On-Funktion für die elektronische Rechnungsstellung Funktionseinrichtungen hinzuzufügen.</p>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91">Einrichtungen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="91">Hinzufügen</strong> aus, um Funktionseinrichtungen zur Add-On-Funktion für die elektronische Rechnungsstellung hinzuzufügen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="93"><img src="media/e-Invoicing-services-feature-setup-Select-Add-e-Invoicing-feature-Setups.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="93" alt="Hinzufügen von Funktionseinrichtungen zur Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="95">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="96">Wenn Sie eine Add-On-Funktion für die elektronische Rechnungsstellung von Grund auf neu erstellen, müssen Sie alle erforderlichen Funktionseinrichtungen manuell hinzufügen. Wenn Sie eine Add-On-Funktion für die elektronische Rechnungsstellung von einer vorhandenen Funktion ableiten, werden alle Funktionseinrichtungen automatisch erstellt, da sie von der ursprünglichen Add-On-Funktion für die elektronische Rechnungsstellung geerbt werden.</p>
+</div>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="98"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="98">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="98">Bearbeiten</strong> aus, um die Einrichtung der Funktionsversion zu bearbeiten.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="100"><img src="media/e-Invoicing-services-feature-setup-Select-Edit-e-Invoicing-feature-Setups.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="100" alt="Bearbeiten von Funktionseinrichtungen der Add-On-Funktion für die elektronische Rechnungsstellung"></p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="102"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="102">Verwenden Sie die Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="102">Einrichtung der Funktionsversion</strong> zum Konfigurieren von Aktionen, Anwendbarkeitsregeln und Variablen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="104"><img src="media/e-Invoicing-services-feature-setup-View-Actions-Applicability-Rules-Variables.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="104" alt="Aktionen, Anwendbarkeitsregeln und Variablen"></p>
+</li>
+</ol>
+<h3 id="actions" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="106">Aktionen</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="108">Aktionen sind eine vordefinierte Liste von Vorgängen, die in sequenzieller Reihenfolge ausgeführt werden. Diese Liste enthält die Aufschlüsselung der Schritte, die für die vollständige Ausführung der Add-On-Funktion für die elektronische Rechnungsstellung erforderlich sind. Die Aktionen können in derselben Add-On-Funktion für die elektronische Rechnungsstellung die Kommunikation in beide Richtungen umfassen: Senden einer Anforderung für ein Ziel sowie Empfangen einer Antwort und Analysieren Ihres Inhalts.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="110">Jede Aktion enthält eine vordefinierte Liste von Parametern, die erforderlich sind, damit die Aktion ihren Zweck erfüllt. Optional können zusätzliche Parameter bereitgestellt werden.</p>
+<h4 id="actions-fasttab" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="112">Inforegister „Aktionen“</h4>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="114">Führen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="114">Einrichtung der Funktionsversionen</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="114">Aktionen</strong> auf dem Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="114">Aktionen</strong> einen oder beide der folgenden Schritte aus, um Aktionen zu verwalten:</p>
+<ul sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="116">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="116">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="116">Neu</strong> oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="116">Löschen</strong> aus, um neue Aktionen hinzuzufügen oder vorhandene Aktionen zu löschen.</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="117">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="117">Nach oben</strong> oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="117">Nach unten</strong> aus, um ausgewählte Aktionen im Raster nach oben oder unten zu verschieben und dadurch die Reihenfolge zu ändern, in der sie ausgeführt werden. Aktionen werden in der Reihenfolge ausgeführt, in der sie im Raster von oben nach unten angezeigt werden.</li>
+</ul>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="119"><img src="media/e-Invoicing-services-feature-setup-Manage-Actions.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="119" alt="Aktionen verwalten"></p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="121">In der folgenden Tabelle werden die Felder beschrieben, die auf dem Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="121">Aktionen</strong> verfügbar sind.</p>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="123">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="123">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="123">Feld</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="123">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="125">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="125">Vorgang</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="125">Es gibt acht vordefinierte Aktionen.<ul><li><strong>Dokument signieren</strong></li><li><strong>FileStoreActionName</strong></li><li><strong>Umwandeln des Dokuments</strong></li><li><strong>Verarbeiten der Antwort</strong></li><li><strong>Aufrufen des REST-Webdienstes</strong></li><li><strong>Aufrufen des mexikanischen PAC-Dienstes</strong></li><li><strong>Aufrufen des brasilianischen SEFAZ-Dienstes</strong></li><li><strong>Aufrufen des italienischen SDI-Dienstes</strong></li></ul></td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="126">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="126">Aktivitätsname</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="126">Der Name der Aktion und ihre Ausführungsreihenfolge.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="127">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="127">Beschreibung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="127">Eine Beschreibung der Aktion ein.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="128">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="128">Wiederholung aktivieren</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="128">Ein aktiviertes Kontrollkästchen zeigt an, dass die Aktion wiederholt werden kann, wenn der vorherige Versuch nicht erfolgreich war.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="129">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="129">Aktivität wiederholen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="129">Im Falle eines erneuten Versuchs die Aktion, von der aus der erneute Versuch gestartet wird. Der Wiederholungsversuch endet dann mit der aktuellen Aktion (einschließlich Wiederholungsversuch). Für Aktionen mit den Parametern <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="129">Minimaler Backoff</strong> und <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="129">Maximaler Backoff</strong> geben diese die minimale und die maximale Anzahl von Wiederholungsversuchen an.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="parameters-fasttab" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="131">Inforegister „Parameter“</h4>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="133">Das Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="133">Parameter</strong> enthält die Parameter für die Aktion, die auf dem Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="133">Aktionen</strong> ausgewählt ist.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="135"><img src="media/e-Invoicing-services-feature-setup-View-Actions-Parameters.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="135" alt="Inforegister „Parameter“"></p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="137">In der folgenden Tabelle werden die Felder beschrieben, die auf dem Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="137">Parameter</strong> verfügbar sind.</p>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="139">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="139">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="139">Feld</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="139">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="141">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="141">Name</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="141">Eine vordefinierte Liste von Parametern. Weitere Informationen finden Sie im Abschnitt <a href="#list-of-parameters-by-action" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="141">Liste der Parameter nach Aktion</a>.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="142">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="142">Beschreibung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="142">Eine Beschreibung des Parameters.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="143">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="143">Wert</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="143">Der Wert des Parameters.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="list-of-parameters-by-action" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="145">Liste der Parameter nach Aktion</h4>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="147">Die verfügbaren Parameter variieren je nach der Aktion, die auf dem Inforegister <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="147">Aktionen</strong> ausgewählt ist.</p>
+<h6 id="action-sign-document" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="149">Aktion: Dokument signieren</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="151">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="151">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="151">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="151">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="153">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="153">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="153">Die eingegebene XML-Dokumentdatei, die mit einer elektronischen Signatur signiert werden muss.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="154">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="154">Zertifikatname</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="154">Der Name des gespeicherten Zertifikats.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="155">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="155">Signaturtyp</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="155">Der Typ der zu verwendenden Signatur.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="156">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="156">Name der Signaturmethode</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="156">Der Name der Signaturmethode, mit der eine elektronische Signatur generiert wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="157">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="157">Name der Digest-Methode</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="157">Die Digest-Methode, mit der eine Digest-Zeichenfolge in der digitalen Signatur generiert wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="158">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="158">Name der Kanonisierungsmethode</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="158">Die Kanonisierungsmethode, die zur Berechnung des Signatur-Hash verwendet wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="159">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="159">Name des Referenzattributs</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="159">Der Attributname, der angibt, wo die Referenz-ID in das Signaturelement eingefügt werden soll.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="160">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="160">Name des zu signierenden Elements</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="160">Der Name des XML-Elements im Dokument, das mit einer elektronischen Signatur signiert werden muss. Wenn kein Element angegeben ist, wird der Dokumentenstamm signiert.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="161">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="161">Name des Elements, in das die Signatur eingefügt werden soll</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="161">Der Name des XML-Elements, in das eine generierte digitale Signatur eingefügt werden soll. Wenn kein Element angegeben ist, wird die Signatur in den Dokumentenstamm eingefügt.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="162">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="162">XLST-Datei mit Digest-Transformation</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="162">Die XSLT-Datei (Extensible Stylesheet Language Transformations), die Digest-Transformationsregeln zum Generieren der Digest-Zeichenfolge für eine elektronische Signatur enthält.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="163">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="163">Pfad zum Einfügen der Digest-Zeichenfolge</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="163">Der Pfad im Format <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="163">&lt;elementName&gt;.&lt;Attribute.Path&gt;</strong> des Speicherorts, an dem die generierte Digest-Zeichenfolge eingefügt werden muss.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="164">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="164">Speicherort der Zertifikatnummer</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="164">Der Name des Elements und Attributs, an dem die Zertifikatsnummer abgelegt werden soll.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="165">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="165">Speicherort der Zertifikatdaten</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="165">Der Name des Elements und Attributs, an dem die Zertifikatdaten (base64) eingefügt werden müssen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="166">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="166">Zertifikatnummer im ASCII-Format</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="166">Ein Wert, der angibt, ob die Nummer des Zertifikats im ASCII-Format codiert ist.</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-filestoreactionname" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="168">Aktion: FileStoreActionName</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="170">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="170">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="170">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="170">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="172">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="172">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="172">Die zu speichernde Eingabedatei.</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-transform-document" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="174">Aktion: Transformieren des Dokuments</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="176">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="176">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="176">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="176">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="178">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="178">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="178">Die Quelldatei, die die Daten bereitstellt, die für die Aktion ausgeführt werden müssen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="179">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="179">Planungsrichtung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="179">Ein Wert, der angibt, ob das Importformat oder das Exportformat verwendet werden soll.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="180">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="180">Konfigurationskennung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="180">Das Format, das ausgeführt werden soll.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="181">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="181">Konfigurationsversion</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="181">Wenn keine Konfigurationsversion angegeben ist, wird die neueste Version verwendet.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="182">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="182">Integrationspunkt der Konfiguration</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="182">Die Quelldatei, die Daten für die Berichtslaufzeit bereitstellt.</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-process-response" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="184">Aktion: Verarbeiten der Antwort</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="186">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="186">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="186">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="186">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="188">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="188">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="188">Die zu analysierende Antwort.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="189">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="189">Berichtskonfigurationsliste</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="189">Eine Liste von Konfigurationen, mit denen Antworten analysiert werden.</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-call-rest-web-service" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="191">Aktion: Aufrufen des REST-Webdienstes</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="193">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="193">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="193">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="193">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="195">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="195">Webdienst-URL</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="195">Die URL, an die Anforderungen gesendet werden sollen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="196">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="196">Lautzeitüberschreitung der Webanforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="196">Die maximale Zeit (in Millisekunden), die auf eine Antwort des Webdienstes gewartet wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">Vorgangstyp anfordern</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">Der Typ der HTTP-Anforderungsoperation (z. B. <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">GET</strong>, <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">POST</strong> oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="197">DELETE</strong>).</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="198">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="198">Zertifikatnamen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="198">Die Zertifikatnamen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="199">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="199">Codierung des Antwortkörpers</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="199">Die erwartete Codierung des HTTP-Antwortkörpers, damit dieser korrekt decodiert werden kann.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="200">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="200">Inhaltstyp der HTTP-Anforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="200">Die Header-Eingabe zum Inhaltstyp für HTTP-Anforderungen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="201">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="201">Inhaltskörper der HTTP-Anforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="201">Der HTTP-Anforderungstext. (Der Körper kann leer sein.)</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="202">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="202">Abfragewerte für HTTP-Parameter</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="202">Parameterabfragewerte, mit denen die URL mit variablen Parametern gefüllt wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="203">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="203">Anforderungsroute</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="203">Der Routenpfad für die HTTP-Anforderung. Die variablen Parameter können in der Notation <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="203">{paramName}</strong> geschrieben werden. Ein Beispiel: <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="203">&quot;api/{id}/submit&quot;</strong>.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="204">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="204">Routenparameterliste</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="204">Die Routenparameter in Schlüsselwertnotation, mit denen Variablen in die Route eingefügt werden.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="205">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="205">Benutzerdefinierte HTTP-Header</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="205">Die benutzerdefinierten HTTP-Header, die in die Anforderung eingefügt werden sollen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="206">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="206">HTTP-Anforderungscookies</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="206">Eine Liste von Cookies in Schlüsselwertnotation, die in die HTTP-Cookie-Header-Anforderung eingefügt werden sollen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="207">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="207">Sicherheitsprotokoll</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="207">Das Sicherheitsprotokoll, das für HTTP-Anforderungen zur Kommunikation mit dem Server verwendet werden soll. (Standardmäßig wird Transport Layer Security [TLS] 1.2 verwendet.)</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-call-mexican-pac-service" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="209">Aktion: Aufrufen des mexikanischen PAC-Dienstes</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="211">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="211">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="211">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="211">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="213">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="213">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="213">Die Datei, die XML-Daten enthält, die als Methodeneingabeparameter an den Webdienst gesendet werden.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="214">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="214">URL-Adresse</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="214">Die Webdienstadresse (Endpunkt).</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="215">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="215">Name der Webmethode (Aktion)</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="215">Der Name der Webmethode (Aktion), die ausgeführt werden muss.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="216">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="216">Bescheinigungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="216">Die Zertifikatkette, die für die Clientauthentifizierung durch den Webdienst erforderlich ist. Das Clientzertifikat sollte das letzte Zertifikat in der Kette sein. Die Stamm- und Zwischenzertifikate sollten an erster Stelle stehen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="217">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="217">Lautzeitüberschreitung der Webanforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="217">Die maximale Zeit (in Millisekunden), die auf eine Antwort des Webdienstes gewartet wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="218">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="218">Wiederholungsintervall</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="218">Das Intervall zwischen den Versuchen, eine Antwort vom Webdienst abzurufen und zu empfangen. Wenn kein Intervall angegeben ist, werden keine weiteren Wiederholungsversuche durchgeführt, nachdem der erste Aufruf nicht erfolgreich war.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="219">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="219">Anzahl von Wiederholungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="219">Die maximale Anzahl von Wiederholungsversuchen zum Aufrufen und Abrufen einer Antwort vom Webdienst.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="220">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="220">Wiederholen bis</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="220">Die maximale Zeit (in Millisekunden), in der Wiederholungsaufrufe fortgesetzt werden können.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="221">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="221">Minimaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="221">Die minimale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="222">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="222">Maximaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="222">Die maximale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="223">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="223">Sicherheitsprotokoll</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="223">Das Sicherheitsprotokoll, das für HTTP-Anforderungen zur Kommunikation mit dem Server verwendet werden soll. (Standardmäßig wird TLS 1.2 verwendet.)</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-call-brazilian-sefaz-service" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="225">Aktion: Aufrufen des brasilianischen SEFAZ-Dienstes</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="227">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="227">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="227">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="227">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="229">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="229">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="229">Die Datei, die XML-Daten enthält, die als Methodeneingabeparameter an den Webdienst gesendet werden.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="230">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="230">URL-Adresse</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="230">Die Webdienstadresse (Endpunkt).</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="231">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="231">Name der Webmethode (Aktion)</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="231">Der Name der Webmethode (Aktion), die ausgeführt werden muss.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="232">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="232">Bescheinigungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="232">Die Zertifikatkette, die für die Clientauthentifizierung durch den Webdienst erforderlich ist. Das Clientzertifikat sollte das letzte Zertifikat in der Kette sein. Die Stamm- und Zwischenzertifikate sollten an erster Stelle stehen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="233">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="233">Lautzeitüberschreitung der Webanforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="233">Die maximale Zeit (in Millisekunden), die auf eine Antwort des Webdienstes gewartet wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="234">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="234">Wiederholungsintervall</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="234">Das Intervall zwischen den Versuchen, eine Antwort vom Webdienst abzurufen und zu empfangen. Wenn kein Intervall angegeben ist, werden keine weiteren Wiederholungsversuche durchgeführt, nachdem der erste Aufruf nicht erfolgreich war.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="235">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="235">Anzahl von Wiederholungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="235">Die maximale Anzahl von Wiederholungsversuchen zum Aufrufen und Abrufen einer Antwort vom Webdienst.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="236">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="236">Wiederholen bis</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="236">Die maximale Zeit (in Millisekunden), in der Wiederholungsaufrufe fortgesetzt werden können.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="237">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="237">Minimaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="237">Die minimale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="238">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="238">Maximaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="238">Die maximale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="239">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="239">Sicherheitsprotokoll</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="239">Das Sicherheitsprotokoll, das für HTTP-Anforderungen zur Kommunikation mit dem Server verwendet werden soll. (Standardmäßig wird TLS 1.2 verwendet.)</td>
+</tr>
+</tbody>
+</table>
+<h6 id="action-call-italian-sdi-service" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="241">Aktion: Aufrufen des italienischen SDI-Dienstes</h6>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="243">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="243">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="243">Parameter</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="243">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="245">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="245">Eingabedatei</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="245">Die Datei, die XML-Daten enthält, die als Methodeneingabeparameter an den Webdienst gesendet werden.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="246">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="246">URL-Adresse</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="246">Die Webdienstadresse (Endpunkt).</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="247">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="247">Name der Webmethode (Aktion)</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="247">Der Name der Webmethode (Aktion), die ausgeführt werden muss.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="248">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="248">Bescheinigungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="248">Die Zertifikatkette, die für die Clientauthentifizierung durch den Webdienst erforderlich ist. Das Clientzertifikat sollte das letzte Zertifikat in der Kette sein. Die Stamm- und Zwischenzertifikate sollten an erster Stelle stehen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="249">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="249">Lautzeitüberschreitung der Webanforderung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="249">Die maximale Zeit (in Millisekunden), die auf eine Antwort des Webdienstes gewartet wird.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="250">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="250">Wiederholungsintervall</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="250">Das Intervall zwischen den Versuchen, eine Antwort vom Webdienst abzurufen und zu empfangen. Wenn kein Intervall angegeben ist, werden keine weiteren Wiederholungsversuche durchgeführt, nachdem der erste Aufruf nicht erfolgreich war.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="251">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="251">Anzahl von Wiederholungen</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="251">Die maximale Anzahl von Wiederholungsversuchen zum Aufrufen und Abrufen einer Antwort vom Webdienst.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="252">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="252">Wiederholen bis</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="252">Die maximale Zeit (in Millisekunden), in der Wiederholungsaufrufe fortgesetzt werden können.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="253">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="253">Minimaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="253">Die minimale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="254">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="254">Maximaler Backoff</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="254">Die maximale Backoff-Rate für die exponentielle Berechnung von Wiederholungsintervallen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="255">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="255">Sicherheitsprotokoll</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="255">Das Sicherheitsprotokoll, das für HTTP-Anforderungen zur Kommunikation mit dem Server verwendet werden soll. (Standardmäßig wird TLS 1.2 verwendet.)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="applicability-rules" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="257">Regeln für die Anwendbarkeit</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="259">Mit den Anwendbarkeitsregeln können Sie logische Regeln erstellen, die den Nutzungskontext für die Funktionseinrichtung bestimmen. Die Übereinstimmung zwischen dem Kontext des Geschäftsdokuments, das zur Verarbeitung gesendet wird, und den Kriterien für die Anwendbarkeitsregel bestimmt somit, welche Add-On-Funktion für die elektronische Rechnungsstellung zur Verarbeitung dieser Übermittlung verwendet wird.</p>
+<h4 id="set-up-applicability-rules" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="261">Einrichten von Anwendbarkeitsregeln</h4>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263">Einrichtung der Funktionsversion</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263">Anwendbarkeitsregeln</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="263">Neu</strong> aus, um eine Anwendbarkeitsregel hinzuzufügen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="265"><img src="media/e-Invoicing-services-feature-setup-Manage-Actions-Applicability-rules.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="265" alt="Verwalten von Anwendbarkeitsregeln"></p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="267"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="267">Wählen Sie im Raster die Klauseln aus, die gruppiert werden sollen.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="268"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="268">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="268">Klausel gruppieren</strong> aus.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="270"><img src="media/e-Invoicing-services-feature-setup-Manage-Applicability-rules-Group-clause.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="270" alt="Gruppierung von Klauseln"></p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="272">Wenn Klauseln gruppiert werden, wird dem Raster eine neue Spalte hinzugefügt. Diese Spalte gibt den logischen Operator für die gruppierten Klauseln an.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="274"><img src="media/e-Invoicing-services-feature-setup-Manage-Applicability-rules-Group-criterias.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="274" alt="Logischer Operator für gruppierte Klauseln"></p>
+</li>
+</ol>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="276">Um die Gruppierung von Klauseln aufzuheben, wählen Sie die gruppierten Klauseln aus, für die die Gruppierung aufgehoben werden soll, und wählen Sie dann <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="276">Gruppierung für Klausel aufheben</strong>.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="278"><img src="media/e-Invoicing-services-feature-setup-Manage-Applicability-rules-UnGroup-criterias.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="278" alt="Gruppierung für Klauseln aufheben"></p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="280">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="281">Wenn Sie die Gruppierung für eine Klausel aufheben, beginnen Sie immer mit der innersten Gruppierungsebene.</p>
+</div>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="283">In der folgenden Tabelle werden die Felder beschrieben, die auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="283">Anwendbarkeitsregeln</strong> verfügbar sind.</p>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="285">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="285">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="285">Feld</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="285">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="287">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="287">Und/oder</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="287">Der logische Operator.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="288">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="288">Feld</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="288">Das Feld, das zum Erstellen der Regel verwendet werden soll.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="289">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="289">Operatortyp</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="289">Der Typ des Operators:<ul><li>Gleich</li><li>Ungleich</li><li>Größer als, kleiner als</li><li>Größer als oder gleich, kleiner als oder gleich</li><li>Enthält</li><li>Beginnen mit</li></ul></td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="290">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="290">Wert</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="290">Das Kriterium für die Regel.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="variables" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="292">Variable</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="294">Sie können Variablen erstellen und diese dann als Eingabewert für einen Parameter einer bestimmten Aktion verwenden. Sie können sie auch verwenden, um zwischen den Add-On-Diensten für die elektronische Rechnungsstellung und dem Client Informationen auszutauschen, die das Ergebnis der Ausführung einer bestimmten Aktion als Teil des Übermittlungs-Flows sind.</p>
+<h4 id="set-up-variables" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="296">Variablen einrichten</h4>
+<ul sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">Einrichtung der Funktionsversion</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">Variablen</strong> entweder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">Neu</strong> oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="298">Löschen</strong> aus, um Variablen zu verwalten.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="300"><img src="media/e-Invoicing-services-feature-setup-Manage-Variables.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="300" alt="Verwalten von Variablen"></p>
+</li>
+</ul>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="302">In der folgenden Tabelle werden die Felder beschrieben, die auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="302">Variablen</strong> verfügbar sind.</p>
+<table sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="304">
+<thead>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="304">
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="304">Feld</th>
+<th sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="304">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="306">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="306">Name</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="306">Der Name der Variablen.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="307">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="307">Beschreibung</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="307">Eine kurze Beschreibung der Variable.</td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="308">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="308">Typ</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="308">Der Typ der Variable:<ul><li><strong>Konstante</strong> – Der Inhalt der Variablen ist fest.</li><li><strong>Vom Client</strong> – Der Inhalt der Variablen wird vom Microsoft Dynamics 365-Client während der Ausführung des Übermittlungsprozesses erfasst.</li><li><strong>An Client</strong> – Der Inhalt der Variablen wird dem Microsoft Dynamics 365-Client während der Ausführung des Übermittlungsprozesses zum Import zur Verfügung gestellt.</li></ul></td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="309">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="309">Datentyp</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="309">Der Datentyp der Variablen:<ul><li>Aktiv</li><li>Datum</li><li>Anzahl</li><li>UUID</li><li>Zeichenfolge</li><li>Datei</li></ul></td>
+</tr>
+<tr sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="310">
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="310">Wert</td>
+<td sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="310">Der Wert der Variablen oder der Name der Aktion, die den Wert der Variablen festlegt.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="validate-the-feature-setup" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="312">Überprüfen der Funktionseinrichtung</h3>
+<ul sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="314">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="314"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="314">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="314">Einrichtung der Funktionsversion</strong> im Aktivitätsbereich die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="314">Überprüfen</strong> aus, um die Einrichtung der Funktionsversion zu überprüfen.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="316"><img src="media/e-Invoicing-services-feature-setup-Select-Validate-Button.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="316" alt="Auswählen der Schaltfläche „Überprüfen“"></p>
+</li>
+</ul>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="318">Die Validierung überprüft die Konsistenz der gesamten Konfiguration. Wenn beispielsweise ein bestimmter Parameter für eine Aktion obligatorisch ist, sein Wert jedoch leer bleibt, erkennt die Validierung diese Inkonsistenz und Sie erhalten eine Warnung.</p>
+<h2 id="environments" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="320">Umgebungen</h2>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="322">Eine Add-On-Umgebung für die elektronische Rechnungsstellung muss der Add-On-Funktion für die elektronische Rechnungsstellung zugeordnet und für diese aktiviert sein. Add-On-Umgebungen für die elektronische Rechnungsstellung müssen im Voraus erstellt und veröffentlicht werden, indem die Globalisierungsfunktionen im RCS-Konto Ihres Unternehmens konfiguriert werden.</p>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="324">Befolgen Sie diese Schritte, um eine Add-On-Umgebung für die elektronische Rechnungsstellung für die Add-On-Funktion für die elektronische Rechnungsstellung zu aktivieren.</p>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="326">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="326">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="326">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="326">Umgebungen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="326">Aktivieren</strong> aus, um eine Add-On-Umgebung für die elektronische Rechnungsstellung hinzuzufügen.</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="327">Wählen Sie im Feld <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="327">Gültig ab</strong> das Datum aus, an dem die neue Umgebung wirksam wird.</li>
+</ol>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="329"><img src="media/e-Invoicing-services-feature-setup-Select-Enable-e-Invoicing-feature-Environment.png" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="329" alt="Aktivieren einer Add-On-Umgebung für die elektronische Rechnungsstellung"></p>
+<h2 id="organizations" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="331">Organisation</h2>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="333">Die Add-On-Funktion für die elektronische Rechnungsstellung kann von mehreren Organisationen gemeinsam genutzt werden.</p>
+<ul sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="335">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="335">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="335">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="335">Organisationen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="335">Teilen mit</strong> aus, um die Organisation hinzuzufügen, mit der Sie die Add-On-Funktion für die elektronische Rechnungsstellung teilen möchten.</li>
+</ul>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="337">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="337">Freigabe aufheben</strong> aus, um die Freigabe der Add-On-Funktion für die elektronische Rechnungsstellung für die Organisation zu beenden.</p>
+<h2 id="versions" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="339">Versionen</h2>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="341">Mit Versionen können Sie den Lebenszyklus der Add-On-Funktion für die elektronische Rechnungsstellung steuern, indem Sie ihren Status verwalten. Sie können eine neue Version einer vorhandenen Add-On-Funktion für die elektronische Rechnungsstellung erstellen. Alternativ können Sie, wenn die gesamte Konfiguration für die Add-On-Funktion für die elektronische Rechnungsstellung abgeschlossen ist, den Status der Funktion in <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="341">Abgeschlossen</strong> und dann in <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="341">Veröffentlichen</strong> ändern.</p>
+<h3 id="create-a-new-version-of-an-existing-electronic-invoicing-add-on-feature" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="343">Erstellen einer neuen Version einer vorhandenen Add-On-Funktion für die elektronische Rechnungsstellung</h3>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="345">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="345">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="345">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> im Raster auf der linken Seite die Add-On-Funktion für die elektronische Rechnungsstellung aus.</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="346">Wählen Sie auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="346">Versionen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="346">Neu</strong> aus, um eine neue Version der Add-On-Funktion für die elektronische Rechnungsstellung hinzuzufügen.</li>
+</ol>
+<h3 id="change-the-status-of-the-electronic-invoicing-add-on-feature" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="348">Ändern des Status der Add-On-Funktion für die elektronische Rechnungsstellung</h3>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="350">Befolgen Sie diese Schritte, um den Lebenszyklus der Add-On-Funktion für die elektronische Rechnungsstellung zu verwalten.</p>
+<ol sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="352">
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="352"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="352">Wählen Sie auf der Seite <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="352">Add-On-Funktionen für die elektronische Rechnungsstellung</strong> im Raster auf der linken Seite die Add-On-Funktion für die elektronische Rechnungsstellung aus.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353">Wählen Sie auf der Registerkarte <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353">Versionen</strong> die Option <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353">Status ändern</strong> aus und ändern Sie dann den Status von <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353">Entwurf</strong> zu <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="353">Abgeschlossen</strong>.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="354"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="354">Sie werden aufgefordert, zu bestätigen, dass Sie die Add-On-Funktion für die elektronische Rechnungsstellung und alle ihre Komponenten abschließen möchten. Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="354">Ja</strong> aus, um die Aktion zu bestätigen, oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="354">Nein</strong> um sie abzubrechen.</p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="356">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="357">Wenn Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="357">Ja</strong> auswählen, wird der Status von Konfigurationsversionen, die Bestandteile der Add-On-Funktion für die elektronische Rechnungsstellung sind, automatisch von <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="357">Entwurf</strong> zu <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="357">Abgeschlossen</strong> geändert.</p>
+</div>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="359"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="359">Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="359">Status ändern</strong> aus und ändern Sie dann den Status von <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="359">Abgeschlossen</strong> zu <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="359">Veröffentlichen</strong>.</p>
+</li>
+<li sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="360"><p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="360">Sie werden aufgefordert, zu bestätigen, dass Sie die Add-On-Funktion für die elektronische Rechnungsstellung und alle ihre Komponenten im globalen Repository veröffentlichen möchten. Wählen Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="360">Ja</strong> aus, um die Aktion zu bestätigen, oder <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="360">Nein</strong> um sie abzubrechen.</p>
+<div class="NOTE" sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="362">
+<h5>Note</h5>
+<p sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="363">Wenn Sie <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="363">Ja</strong> auswählen, wird der Status von Konfigurationsversionen automatisch von <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="363">Abgeschlossen</strong> zu <strong sourcefile="finance/localizations/e-invoicing-setup.md" sourcestartlinenumber="363">Freigegeben</strong> geändert.</p>
+</div>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/finance/localizations/e-invoicing-setup.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

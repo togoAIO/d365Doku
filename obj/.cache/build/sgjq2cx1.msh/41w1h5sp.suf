@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Nahtloser Offline-Schalter f&#252;r Geschenkkarten- und Gutschriftsvorg&#228;nge | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Nahtloser Offline-Schalter f&#252;r Geschenkkarten- und Gutschriftsvorg&#228;nge | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="seamless-offline-switch-for-gift-card-and-credit-memo-operations" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="27">Nahtloser Offline-Schalter für Geschenkkarten- und Gutschriftsvorgänge</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="31">Wenn ein POS-Gerät (Point of Sale) die Verbindung zur Kanaldatenbank verliert, können die meisten laufenden POS-Operationen und Transaktionen fortgesetzt werden, nachdem der Kassierer eine Warnmeldung über den Verlust der Verbindung erhalten hat. In einigen Fällen weisen Transaktionen jedoch Elemente auf, die auf den Echtzeitdienst angewiesen sind, und diese Elemente werden nicht unterstützt, wenn das POS-Gerät offline ist. In diesem Thema werden einige Funktionen beschrieben, die dazu beitragen, die Auswirkungen des Konnektivitätsverlusts in diesen Szenarien zu reduzieren.</p>
+<h2 id="completing-gift-card-transactions-in-offline-mode" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="33">Abschließen von Geschenkkartentransaktionen im Offline-Modus</h2>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="35">Interne Geschenkkarten sind auf den Echtzeitdienst angewiesen, da das Guthaben für die Geschenkkarten zentral in der Microsoft Dynamics 365 Commerce Headquarters verwaltet werden muss. Um Betrug oder andere Synchronisierungsprobleme zu verhindern, werden Geschenkkarten gesperrt, sobald sie einer Transaktion hinzugefügt werden. Die Sperrfunktion stellt sicher, dass eine Geschenkkarte nicht gleichzeitig an mehreren Terminals verwendet werden kann. Wenn eine Transaktion abgeschlossen ist, wird die Geschenkkarte aktualisiert und entsperrt.</p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="37">Verliert die Kasse jedoch die Verbindung, nachdem eine Geschenkkarte einer Transaktion hinzugefügt wurde, kann die Geschenkkarte unbrauchbar werden. Um diese Situation zu verhindern, verfügt Dynamics 365 Commerce über einen Parameter, der es ermöglicht, Transaktionen, die eine Geschenkkartenzeile enthalten, abzuschließen, während das Kassensystem offline ist. Wenn dieser Parameter aktiviert ist, werden Geschenkkartentransaktionen, die offline erzwungen werden, zusammen mit Offline-Transaktionen gespeichert und mit Commerce Headquarters synchronisiert, wenn die Offline-Transaktionen synchronisiert werden. Durch die Synchronisation wird auch die Geschenkkarte entsperrt, sodass sie an einem anderen Terminal verwendet werden kann.</p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Um die Funktionalität zum Abschluss von Geschenkkartentransaktionen nach dem Wechsel in den Offline-Modus zu aktivieren, gehen Sie auf die Registerkarte <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Buchung</strong> auf der Seite <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Commerce-Parameter</strong>. Suchen Sie auf dieser Registerkarte die Registerkarte <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Geschenkkarte</strong> und stellen Sie <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Abschließen von Geschenkkartentransaktionen im Offline-Modus</strong> auf <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="39">Ja</strong> ein.</p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="41"><img src="../media/gift.png" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="41" alt="Offline-Geschenkkarteneinstellung"></p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="43">Commerce-Prameter werden normalerweise im Cache gespeichert. Daher kann es nach der Aktualisierung der Einstellung dieses Parameters und der Einleitung des Verteilungsplans zur Synchronisierung der Änderung mit dem Kanal bis zu 24 Stunden dauern, bis die Änderung wirksam wird. Um die Änderung sofort wirksam werden zu lassen, setzen Sie Microsoft Internet Information Services (IIS) zurück.</p>
+<h2 id="completing-credit-memo-transactions-in-offline-mode" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="45">Abschließen von Gutschriftstransaktionen im Offline-Modus</h2>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="47">Wie die internen Geschenkkarten werden auch die Gutschriften zentral in Commerce Headquartersverwaltet. Commerce verfügt über einen Parameter, der es ermöglicht, Gutschriftstransaktionen durchzuführen, während die Kasse offline ist. Dieser Parameter funktioniert wie der im vorigen Abschnitt erwähnte Geschenkkartenparameter. Wenn der Parameter eingeschaltet wird, werden Gutschriftstransaktionen, die offline erzwungen werden, zusammen mit anderen Transaktionen, die durchgeführt wurden, während die Kasse offline war, mit der Kanaldatenbank synchronisiert.</p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Um die Funktionalität zum Abschluss von Gutschriftstransaktionen nach dem Wechsel in den Offline-Modus zu aktivieren, gehen Sie auf die Registerkarte <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Posting</strong> auf der Seite <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Commerce-Parameter</strong>. Suchen Sie auf dieser Registerkarte die Registerkarte <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Gutschrift</strong> und stellen Sie <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Abschließen von Gutschriftstransaktionen im Offline-Modus</strong> auf <strong sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="49">Ja</strong> ein.</p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="51"><img src="../media/creditmemo.png" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="51" alt="Einstellung der Offline-Gutschrift"></p>
+<p sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="53">Commerce-Prameter werden normalerweise im Cache gespeichert. Daher kann es nach der Aktualisierung der Einstellung dieses Parameters und der Einleitung des Verteilungsplans zur Synchronisierung der Änderung mit dem Kanal bis zu 24 Stunden dauern, bis die Änderung wirksam wird. Um die Änderung sofort wirksam werden zu lassen, setzen Sie den IIS zurück.</p>
+<h2 id="related-topics" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="55">Verwandte Themen</h2>
+<ul sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="57">
+<li sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="57"><a href="https://docs.microsoft.com/dynamics365/retail/pos-offline-functionality" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="57">Offline-Verkaufsstellen (POS) Funktionalität</a></li>
+<li sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="58"><a href="https://docs.microsoft.com/dynamics365/retail/pos-operations" sourcefile="articles_de/commerce/dev-itpro/seamless-offline-improvements.md" sourcestartlinenumber="58">Online- und Offlineverkaufsstellen-(POS)-Vorgänge</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

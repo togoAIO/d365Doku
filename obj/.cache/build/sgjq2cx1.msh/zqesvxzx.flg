@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Warehouse management on-hand entries cleanup job | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Warehouse management on-hand entries cleanup job | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="warehouse-management-on-hand-entries-cleanup-job">Warehouse management on-hand entries cleanup job</h1>
+
+<p>The performance of queries that are used to calculate on-hand inventory is affected by the number of records in the tables that are involved. One way to help improve the performance is to reduce the number of records that the database must consider.</p>
+<p>This topic describes the on-hand entries cleanup job, which deletes unneeded records in the InventSum and WHSInventReserve tables. These tables store on-hand information for items that are enabled for warehouse management processing. (These items are referred to as WHS items.) Deletion of these records can significantly improve the performance of on-hand calculations.</p>
+<h2 id="what-the-cleanup-job-does">What the cleanup job does</h2>
+<p>The on-hand entries cleanup job deletes any records in the WHSInventReserve and InventSum tables where all the field values are <em>0</em> (zero). These records can be deleted because they don't contribute to the on-hand information. The job deletes only records that are below the <strong>Location</strong> level.</p>
+<p>If negative physical inventory is allowed, the cleanup job might not be able to delete all the relevant entries. The reason for this limitation is that the job must allow for a special scenario where a license plate has multiple serial numbers, and one of those serial numbers has become negative. For example, the system will have zero on hand at the license plate level when a license plate has +1 pcs of serial number 1 and –1 pcs of serial number 2. For this special scenario, the job does a breadth-first deletion, where it tries to delete from lower levels first.</p>
+<h2 id="schedule-and-configure-the-cleanup-job">Schedule and configure the cleanup job</h2>
+<p>The on-hand entries cleanup job is available at <strong>Inventory management &gt; Periodic tasks &gt; Clean up &gt; Warehouse management on-hand entries cleanup</strong>. Use the standard job settings to control the scope and schedule for running the job. In addition, the following settings are provided:</p>
+<ul>
+<li><strong>Delete if not updated for this many days</strong> – Enter the minimum number of days that the job should wait before it deletes an on-hand entry that has dropped to zero quantity. Use this setting to help reduce the risk of deleting on-hand entries that are still being used. If you want cleanup to occur as soon as possible, either enter <em>0</em> (zero) or leave the field blank.</li>
+<li><strong>Maximum execution time (hours)</strong> – Enter the maximum execution time of the cleanup job, in hours. If the job isn't completed before this time passes, it will save the work that it has completed so far and then close itself. This capability is especially relevant for implementations that have high inventory use. In these cases, you should schedule the job to run at times when the system load is as light as possible. If you want the batch job to continue to run until it's completed, either enter <em>0</em> (zero) or leave the field blank. This setting is available only if the related feature has been <a href="#max-execution-time">turned on in your system</a>.</li>
+</ul>
+<p>Although you can run the job during regular business hours, we recommend that you run it outside working hours. In this way, you help prevent conflicts that can occur if a user is working with a record that is also being cleaned up.</p>
+<p>If the job tries to delete a record for an item while that record is being used by another user, a deadlock error occurs for either the cleanup job or the user.</p>
+<p>When the job runs, it has a commit size of 100. In other words, it will try to commit one time for every 100 deletions. However, because some deletions are set-based, there might be scenarios where more than 100 records can be deleted in the same transaction. Therefore, lock escalations can still sometimes occur.</p>
+<h2 id="possible-user-impact">Possible user impact</h2>
+<p>Users might be affected if the on-hand entries cleanup job deletes all the records for a given level (such as the license plate level). In this case, the functionality for seeing that inventory was previously available on-hand at a license plate might not work as expected because the relevant on-hand entries are no longer available. This can, for example, be experienced in the following situations:</p>
+<ul>
+<li>On the <strong>On-hand list</strong>, when the user deselects the condition <strong>Quantity &lt;&gt; 0</strong> or selects the condition <strong>Closed transactions</strong> in the <strong>Dimensions display</strong> settings.</li>
+<li>In a <strong>Physical inventory by inventory dimension</strong> report for past periods, when the user sets the <strong>As of date</strong> parameter.</li>
+</ul>
+<p>However, the performance improvement that the cleanup job provides should make up for these small losses in functionality.</p>
+<h2 id="max-execution-time">Make the Maximum execution time setting available</h2>
+<p>By default, the <strong>Maximum execution time</strong> setting isn't available. If you want to use it, you must use <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> to turn on the related feature in your system. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Maximum execution time for the warehouse management on-hand entries cleanup job</em></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

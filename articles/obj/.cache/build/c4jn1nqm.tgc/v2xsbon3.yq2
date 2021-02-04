@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronize contacts directly from Sales to contacts or customers in Supply Chain Management </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronize contacts directly from Sales to contacts or customers in Supply Chain Management ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic discusses the templates and underlying tasks that are used to synchronize Contact (Contacts) and Contact (Customers) entities from Dynamics 365 Sales to Dynamics 365 Supply Chain Managements.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="synchronize-contacts-directly-from-sales-to-contacts-or-customers-in-supply-chain-management">Synchronize contacts directly from Sales to contacts or customers in Supply Chain Management</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<div class="NOTE">
+<h5>Note</h5>
+<p>Before you can use the Prospect to cash solution, you should be familiar with <a href="https://docs.microsoft.com/powerapps/administrator/data-integrator">Integrate data into Microsoft Dataverse for Apps</a>.</p>
+</div>
+<p>This topic discusses the templates and underlying tasks that are used to synchronize Contact (Contacts) and Contact (Customers) tables directly from Dynamics 365 Sales to Dynamics 365 Supply Chain Management.</p>
+<h2 id="data-flow-in-prospect-to-cash">Data flow in Prospect to cash</h2>
+<p>The Prospect to cash solution uses the Data integration feature to synchronize data across instances of Supply Chain Management and Sales. The Prospect to cash templates that are available with the Data integration feature enable the flow of data about accounts, contacts, products, sales quotations, sales orders, and sales invoices between Supply Chain Management and Sales. The following illustration shows how the data is synchronized between Supply Chain Management and Sales.</p>
+<p><a href="media/prospect-to-cash-data-flow.png"><img src="media/prospect-to-cash-data-flow.png" alt="Data flow in Prospect to cash"></a></p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>To access the available templates, open <a href="https://preview.admin.powerapps.com/dataintegration">PowerApps Admin Center</a>. Select <strong>Projects</strong>, and then, in the upper-right corner, select <strong>New project</strong> to select public templates.</p>
+<p>The following templates and underlying tasks are used to synchronize Contact (Contacts) tables in Sales to Contact (Customers) tables in Supply Chain Management.</p>
+<ul>
+<li><p><strong>Names of the templates in Data integration</strong></p>
+<ul>
+<li>Contacts (Sales to Supply Chain Management) - Direct</li>
+<li>Contacts to Customer (Sales to Supply Chain Management) - Direct</li>
+</ul>
+</li>
+<li><p><strong>Names of the tasks in the Data integration project</strong></p>
+<ul>
+<li>Contacts</li>
+<li>ContactToCustomer</li>
+</ul>
+</li>
+</ul>
+<p>The following synchronization task is required before contact synchronization can occur: Accounts (Sales to Supply Chain Management)</p>
+<h2 id="entity-sets">Entity sets</h2>
+<table>
+<thead>
+<tr>
+<th>Sales</th>
+<th>Supply Chain Management</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contacts</td>
+<td>Dataverse Contacts</td>
+</tr>
+<tr>
+<td>Contacts</td>
+<td>Customers V2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entity flow</h2>
+<p>Contacts are managed in Sales and synchronized to Supply Chain Management.</p>
+<p>A contact in Sales can become either a contact or a customer in Supply Chain Management. To determine whether a contact in Sales should be synchronized to Supply Chain Management as a contact or a customer, the system looks at the following properties on the contact in Sales:</p>
+<ul>
+<li><strong>Synchronization to a customer in Supply Chain Management:</strong> Contacts where <strong>Is Active Customer</strong> is set to <strong>Yes</strong></li>
+<li><strong>Synchronization to a contact in Supply Chain Management:</strong> Contacts where <strong>Is Active Customer</strong> is set to <strong>No</strong> and <strong>Company</strong> (parent account/contact) points to an account (not a contact)</li>
+</ul>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to cash solution for Sales</h2>
+<p>A new <strong>Is Active Customer</strong> column has been added to the contact. This column is used to differentiate contacts that have sales activity and contacts that don't have sales activity. <strong>Is Active Customer</strong> is set to <strong>Yes</strong> only for contacts that have related quotations, orders, or invoices. Only those contacts are synchronized to Supply Chain Management as customers.</p>
+<p>A new <strong>IsCompanyAnAccount</strong> column has been added to the contact. This column indicates whether a contact is linked to a company (parent account/contact) of the <strong>Account</strong> type. This information is used to identify contacts that should be synchronized to Supply Chain Management as contacts.</p>
+<p>A new <strong>Contact Number</strong> column has been added to the contact to help guarantee a natural and unique key for the integration. When a new contact is created, a <strong>Contact Number</strong> value is automatically generated by using a number sequence. The value consists of <strong>CON</strong>, followed by an increasing number sequence and then a suffix of six characters. Here is an example: <strong>CON-01000-BVRCPS</strong></p>
+<p>When the integration solution for Sales is applied, an upgrade script sets the <strong>Contact Number</strong> column for existing contacts by using the number sequence that was mentioned earlier. The upgrade script also sets the <strong>Is Active Customer</strong> column to <strong>Yes</strong> for any contacts that have sales activity.</p>
+<h2 id="in-supply-chain-management">In Supply Chain Management</h2>
+<p>Contacts are tagged by using the <strong>IsContactPersonExternallyMaintained</strong> property. This property indicates that a given contact is maintained externally. In this case, externally maintained contacts are maintained in Sales.</p>
+<h2 id="preconditions-and-mapping-setup">Preconditions and mapping setup</h2>
+<h3 id="contact-to-customer">Contact to customer</h3>
+<ul>
+<li><p><strong>CustomerGroup</strong> is required in Supply Chain Management. To help prevent synchronization errors, you can specify a default value in the mapping. That default value is then used if the column is left blank in Sales.</p>
+<p>The default template value is <strong>10</strong>.</p>
+</li>
+<li><p>By adding the following mappings, you can help reduce the number of manual updates that are required in Supply Chain Management. You can use a default value or a value map from, for example, <strong>Country/Region</strong> or <strong>City</strong>.</p>
+<ul>
+<li><p><strong>SiteId</strong> – A default site can also be defined on products in Supply Chain Management. A site is required in order to generate quotations and sales orders in Supply Chain Management.</p>
+<p>A template value for <strong>SiteId</strong> isn't defined.</p>
+</li>
+<li><p><strong>WarehouseId</strong> – A default warehouse can also be defined on products in Supply Chain Management. A warehouse is required in order to generate quotations and sales orders in Supply Chain Management.</p>
+<p>A template value for <strong>WarehouseId</strong> isn't defined.</p>
+</li>
+<li><p><strong>LanguageId</strong> – A language is required in order to generate quotations and sales orders in Supply Chain Management.</p>
+<p>The default template value for is <strong>en-us</strong>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<p>The following illustrations show an example of a template mapping in Data integration.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The mapping shows which column information will be synchronized from Sales to Supply Chain Management.</p>
+</div>
+<h3 id="contact-to-contact">Contact to contact</h3>
+<p><img src="media/contacts-direct-template-mapping-data-integrator-1.png" alt="Template mapping in Data integrator"></p>
+<h3 id="contact-to-customer-1">Contact to customer</h3>
+<p><img src="media/contacts-direct-template-mapping-data-integrator-2.png" alt="Template mapping in Data integrator"></p>
+<h2 id="related-topics">Related topics</h2>
+<p><a href="prospect-to-cash.html">Prospect to cash</a></p>
+<p><a href="accounts-template-mapping-direct.html">Synchronize accounts directly from Sales to customers in Supply Chain Management</a></p>
+<p><a href="products-template-mapping-direct.html">Synchronize products directly from Supply Chain Management to products in Sales</a></p>
+<p><a href="sales-order-template-mapping-direct-two-ways.html">Synchronization of sales orders directly between Sales and Supply Chain Management</a></p>
+<p><a href="sales-invoice-template-mapping-direct.html">Synchronize sales invoice headers and lines directly from Supply Chain Management to Sales</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/sales-marketing/contacts-template-mapping-direct.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

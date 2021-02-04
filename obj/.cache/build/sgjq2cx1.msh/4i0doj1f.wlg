@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Scenario setup for IoT Intelligence | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Scenario setup for IoT Intelligence | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="scenario-setup-for-iot-intelligence">Scenario setup for IoT Intelligence</h1>
+
+
+<p>This topic explains how to configure scenarios for IoT Intelligence in Microsoft Dynamics 365 Supply Chain Management. Before you can set up the scenarios, you must <a href="iot-lcs-setup.html">set up Microsoft Dynamics Lifecycle Services (LCS)</a>.</p>
+<p>In this topic, you will configure the <strong>Equipment downtime</strong> scenario so that a notification is generated in Supply Chain Management when a machine goes down. The topic also shows how to configure the <strong>Product quality</strong> scenario so that a notification is generated if an attribute of an item is outside a specified range, and how to configure the <strong>Production delays</strong> scenario so that a notification is generated if the production throughput falls below a threshold value.</p>
+<h2 id="configure-the-equipment-downtime-scenario-in-supply-chain-management">Configure the Equipment downtime scenario in Supply Chain Management</h2>
+<p>The <strong>Equipment downtime</strong> scenario maps a <strong>PartOut</strong> signal to a machine alert threshold. The machine is monitored only when it's selected for the scenario and when is set to <strong>Running</strong> in Supply Chain Management. If the time since a <strong>PartOut</strong> signal was last received from the machine exceeds the alert threshold, a <strong>Machine down</strong> notification is triggered. If the machine is still running, a <strong>Machine up</strong> notification is triggered when the next <strong>PartOut</strong> signal is received. If a machine stays down for 30 minutes, a new <strong>Machine down</strong> notification is triggered.</p>
+<p>The <strong>Equipment downtime</strong> scenario has the following dependencies:</p>
+<ul>
+<li>An alert can be triggered only if a production order is running on a mapped machine.</li>
+<li>A signal that represents a mapped machine's <strong>PartOut</strong> signal must be sent to the IoT hub, and a unique property name must be included.</li>
+<li>A UNIX <strong>timestamp</strong> property, where the value is expressed in milliseconds (ms), must be present in the Azure IoT Hub message.</li>
+</ul>
+<p>To configure the scenario, follow these steps.</p>
+<ol>
+<li><p>Sign in to Supply Chain Management.</p>
+</li>
+<li><p>Enable the IoT Intelligence feature flag. For more information, see <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview">Feature management overview</a>.</p>
+</li>
+<li><p>Configure the metrics. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/supply-chain/iot/iot-metrics-setup">How to configure metrics (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li><p>Go to <strong>Production control &gt; Setup &gt; IoT Intelligence &gt; Scenario management</strong>.</p>
+</li>
+<li><p>On the <strong>Equipment downtime</strong> tile, select <strong>Configure</strong> to open the configuration wizard.</p>
+<p>The first page in the wizard is the <strong>Equipment sensor schema definition</strong> page. On this page, your goal is to set up the schema in Supply Chain Management so that it matches the JavaScript Object Notation (JSON) format of the IoT Hub messages. Multiple message schemas can be defined. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/supply-chain/iot/iot-schema-format">Schema formats for IoT Hub messages (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>. In this example, the message payload contains a batch of messages that has the following format.</p>
+<pre><code class="lang-json">{
+    &quot;timestamp&quot;: 1576016821614,
+    &quot;payload&quot;: [
+        {
+            &quot;id&quot;: &quot;IoTInt.Machine1225.PartOut&quot;,
+            &quot;timestamp&quot;: 1576016821614,
+            &quot;value&quot;: True
+        },
+        {
+            &quot;id&quot;: &quot;IoTInt.Machine1226.PartOut&quot;,
+            &quot;timestamp&quot;: 1576016991616,
+            &quot;value&quot;: True
+        }
+    ]
+}
+</code></pre>
+</li>
+<li><p>Add a row to the table, and set the following values:</p>
+<ol>
+<li>Set the <strong>Schema name</strong> field to <strong>ID</strong>.</li>
+<li>Set the <strong>Schema path</strong> field to <strong>/payload[*]/id</strong>.</li>
+<li>Set the <strong>Description</strong> field to <strong>Message ID</strong>.</li>
+</ol>
+</li>
+<li><p>Add another row to the table, and set the following values:</p>
+<ol>
+<li>Set the <strong>Schema name</strong> field to <strong>Timestamp</strong>.</li>
+<li>Set the <strong>Schema path</strong> field to <strong>/payload[*]/timestamp</strong>.</li>
+<li>Set the <strong>Description</strong> field to <strong>Message timestamp</strong>.</li>
+</ol>
+</li>
+<li><p>Add another row to the table, and set the following values:</p>
+<ol>
+<li>Set the <strong>Schema name</strong> field to <strong>Value</strong>.</li>
+<li>Set the <strong>Schema path</strong> field to <strong>/payload[*]/value</strong>.</li>
+<li>Set the <strong>Description</strong> field to <strong>Message value</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You don't have to define all the properties in the message. Define only the properties that you require. In the preceding steps, you didn't create a row for <strong>Root timestamp</strong>. The path of <strong>Root timestamp</strong> would be <strong>/timestamp</strong>.</p>
+</div>
+</li>
+<li><p>Select <strong>Next</strong> to go to the <strong>Equipment sensor schema map</strong> page.</p>
+</li>
+<li><p>In the row for <strong>Equipment resource ID</strong>, in the <strong>Schema name</strong> field, select <strong>ID</strong>.</p>
+</li>
+<li><p>In the row for <strong>UTC time</strong>, in the <strong>Schema name</strong> field, select <strong>Timestamp</strong>.</p>
+</li>
+<li><p>In the row for <strong>Part produced signal</strong>, in the <strong>Schema name</strong> field, select <strong>Value</strong>.</p>
+</li>
+<li><p>Select <strong>Next</strong> to go to the <strong>Equipment resource ID configuration</strong> page.</p>
+</li>
+<li><p>Follow these steps to map the values in the IoT Hub message to the Supply Chain Management resources:</p>
+<ol>
+<li>In the <strong>Signal Data Values</strong> table, add a new row. In the <strong>Value</strong> field, enter <strong>IoTInt.Machine1225.PartOut</strong>. This value  comes from the JSON <strong>id</strong> property in the IoT Hub message.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>In the <strong>Business Record Mapping</strong> table, select <strong>New</strong>. A default value for the <strong>Business record type</strong> field is automatically filled in, and you don't have to change it.</li>
+<li>In the <strong>Business record</strong> field, select the Supply Chain Management machine resource that the signal value is being sent from.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>Repeat these steps to add a new business record mapping for <strong>Machine1226</strong>. You can map multiple signal data values to a single record in Supply Chain Management.</li>
+</ol>
+</li>
+<li><p>Use the <strong>Selected</strong> column to select the machines that you want to process. You don't have to define all signal values, and you don't have to select all machines.</p>
+</li>
+<li><p>Select <strong>Next</strong> to go to the <strong>Part produced signal configuration</strong> page.</p>
+</li>
+<li><p>In the <strong>Signal Data Values</strong> table, add a row, and set the <strong>Value</strong> field to <strong>True</strong>. This value comes from the JSON <strong>value</strong> property in the IoT Hub message. You can add as many values as you require for your scenario.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Select <strong>Next</strong> to go to the <strong>Equipment downtime threshold</strong> page. The machines that are listed are the machines that were previously mapped to signal values. On this page, you will define a threshold to determine whether a machine is down. For example, if you set the threshold to <strong>10</strong>, Supply Chain Management will generate a notification if no <strong>PartOut</strong> signal is received from a machine for 10 minutes.</p>
+</li>
+<li><p>Select <strong>Next</strong> to go to the <strong>Enable scenario</strong> page. Set the option to enable the scenario.</p>
+</li>
+<li><p>Select <strong>Finish</strong>.</p>
+</li>
+</ol>
+<p>The scenario setup is now completed. IoT Intelligence will automatically start to process the IoT Hub messages.</p>
+<h2 id="configure-the-product-quality-scenario-in-supply-chain-management">Configure the Product quality scenario in Supply Chain Management</h2>
+<p>The <strong>Product quality</strong> scenario generates a notification if an attribute of an item is outside a specified range. For example, a sensor sends the weight of each item to IoT Hub. If an item is too heavy or too light, a notification is generated in Supply Chain Management.</p>
+<p>The <strong>Product quality</strong> scenario has the following dependencies:</p>
+<ul>
+<li>An alert can be triggered only if a production order is running on a mapped machine and producing a product that has a mapped batch attribute.</li>
+<li>A signal that represents the batch attribute must be sent to the IoT hub, and a unique property name must be included.</li>
+<li>A UNIX <strong>timestamp</strong> property, where the value is expressed in ms, must be present in the IoT Hub message.</li>
+</ul>
+<h2 id="configure-the-production-delays-scenario-in-supply-chain-management">Configure the Production delays scenario in Supply Chain Management</h2>
+<p>The <strong>Production delays</strong> scenario generates a notification if the production throughput falls below a threshold value. In this scenario, a <strong>PartOut</strong> signal is sent to IoT Hub for each item that is produced. In Supply Chain Management, the order delay is calculated based on the amount of time that the production order is scheduled to run, the number of items that should be produced, the amount of time that the job has been running, and the number of <strong>PartOut</strong> signals that are received. A delay notification is generated if the number of <strong>PartOut</strong> signals for the job falls below the threshold value.</p>
+<p>The <strong>Production delays</strong> scenario has the following dependencies:</p>
+<ul>
+<li>An alert can be triggered only if a production order is running on a mapped machine.</li>
+<li>A signal that represents a mapped machine's <strong>PartOut</strong> signal must be sent to the Azure IoT hub, and a unique property name must be included.</li>
+<li>A UNIX <strong>timestamp</strong> property, where the value is expressed in ms, must be present in the IoT Hub message.</li>
+</ul>
+<h2 id="disable-a-scenario">Disable a scenario</h2>
+<p>To disable a scenario, follow these steps.</p>
+<ol>
+<li>In Supply Chain Management, go to <strong>Production control &gt; Setup &gt; IoT Intelligence &gt; Scenario management</strong>.</li>
+<li>On the tile for the scenario, select <strong>Configure</strong>.</li>
+<li>Select <strong>Next</strong> to go to the last wizard page.</li>
+<li>Set the option to disable the scenario.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Add support for a content delivery network (CDN) </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Add support for a content delivery network (CDN) ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes how to add a content delivery network (CDN) to your Microsoft Dynamics 365 Commerce environment.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="add-support-for-a-content-delivery-network-cdn">Add support for a content delivery network (CDN)</h1>
+
+
+<p>This topic describes how to add a content delivery network (CDN) to your Microsoft Dynamics 365 Commerce environment.</p>
+<h2 id="overview">Overview</h2>
+<p>When you set up an e-commerce environment in Dynamics 365 Commerce, you can configure it to work with your CDN service.</p>
+<p>Your custom domain can be enabled during the provisioning process for your e-commerce environment. Alternatively, you can use a service request to set it up after the provisioning process is completed. The provisioning process for the e-commerce environment generates a host name that is associated with the environment. This host name has the following format, where &lt;<em>e-commerce-tenant-name</em>&gt; is the name of your environment:</p>
+<p>&lt;e-commerce-tenant-name&gt;.commerce.dynamics.com</p>
+<p>The host name or endpoint that is generated during the provisioning process supports a Secure Sockets Layer (SSL) certificate only for *.commerce.dynamics.com. It doesn't support SSL for custom domains. Therefore, you must terminate SSL for custom domains in your CDN and forward traffic from the CDN to the host name or endpoint that Commerce generated.</p>
+<p>Additionally, the <em>statics</em> (JavaScript or Cascading Style Sheets [CSS] files) from Commerce are served from the endpoint that Commerce generated (*.commerce.dynamics.com). The statics can be cached only if the host name or endpoint that Commerce generated is put behind the CDN.</p>
+<h2 id="set-up-ssl">Set up SSL</h2>
+<p>To help guarantee that SSL is set up, and that statics are cached, you must configure your CDN so that it is associated with the host name that Commerce generated for your environment. You must also cache the following pattern for statics only:</p>
+<p>/_msdyn365/_scnr/*</p>
+<p>After you provision your Commerce environment with the custom domain that is provided, or after you provide the custom domain for your environment by using a service request, point your custom domain to the host name or endpoint that Commerce generated.</p>
+<p>As was previously mentioned, the generated host name or endpoint supports an SSL certificate only for *.commerce.dynamics.com. It doesn't support SSL for custom domains.</p>
+<h2 id="cdn-services">CDN services</h2>
+<p>Any CDN service can be used with a Commerce environment. Here are two examples:</p>
+<ul>
+<li><strong>Microsoft Azure Front Door Service</strong> – The Azure CDN solution. For more information about Azure Front Door Service, see <a href="https://docs.microsoft.com/azure/frontdoor/">Azure Front Door Service Documentation</a>.</li>
+<li><strong>Akamai Dynamic Site Accelerator</strong> – For more information, see <a href="https://www.akamai.com/us/en/products/performance/dynamic-site-accelerator.jsp">Dynamic Site Accelerator</a>.</li>
+</ul>
+<h2 id="cdn-setup">CDN setup</h2>
+<p>The CDN setup process consists of these general steps:</p>
+<ol>
+<li>Add a front-end host.</li>
+<li>Configure a backend pool.</li>
+<li>Set up rules for routing and caching.</li>
+</ol>
+<h3 id="add-a-front-end-host">Add a front-end host</h3>
+<p>Any CDN service can be used, but for the example in this topic, Azure Front Door Service is used.</p>
+<p>For information about how to set up Azure Front Door Service, see <a href="https://docs.microsoft.com/azure/frontdoor/quickstart-create-front-door">Quickstart: Create a Front Door for a highly available global web application</a>.</p>
+<h3 id="configure-a-backend-pool-in-azure-front-door-service">Configure a backend pool in Azure Front Door Service</h3>
+<p>To configure a backend pool in Azure Front Door Service, follow these steps.</p>
+<ol>
+<li>Add <strong>&lt;ecom-tenant-name&gt;.commerce.dynamics.com</strong> to a backend pool as a custom host that has an empty backend host header.</li>
+<li>Under <strong>Load balancing</strong>, leave the default values.</li>
+</ol>
+<p>The following illustration shows the <strong>Add a backend</strong> dialog box in Azure Front Door Service with the backend host name entered.</p>
+<p><img src="media/CDN_BackendPool.png" alt="Add a backend pool dialog box"></p>
+<p>The following illustration shows the <strong>Add a backend pool</strong> dialog box in Azure Front Door Service with the default load balancing values.</p>
+<p><img src="media/CDN_BackendPool_2.png" alt="Add a backend pool dialog box continued"></p>
+<h3 id="set-up-rules-in-azure-front-door-service">Set up rules in Azure Front Door Service</h3>
+<p>To set up a routing rule in Azure Front Door Service, follow these steps.</p>
+<ol>
+<li>Add a routing rule.</li>
+<li>In the <strong>Name</strong> field, enter <strong>default</strong>.</li>
+<li>In the <strong>Accepted protocol</strong> field, select <strong>HTTP and HTTPS</strong>.</li>
+<li>In the <strong>Frontend hosts</strong> field, enter <strong>dynamics-ecom-tenant-name.azurefd.net</strong>.</li>
+<li>Under <strong>Patterns to match</strong>, in the upper field, enter <strong>/*</strong>.</li>
+<li>Under <strong>Route Details</strong>, set the <strong>Route type</strong> option to <strong>Forward</strong>.</li>
+<li>In the <strong>Backend pool</strong> field, select <strong>ecom-backend</strong>.</li>
+<li>In the <strong>Forwarding protocol</strong> field group, select the <strong>Match request</strong> option.</li>
+<li>Set the <strong>URL rewrite</strong> option to <strong>Disabled</strong>.</li>
+<li>Set the <strong>Caching</strong> option to <strong>Disabled</strong>.</li>
+</ol>
+<p>To set up a caching rule in Azure Front Door Service, follow these steps.</p>
+<ol>
+<li>Add a caching rule.</li>
+<li>In the <strong>Name</strong> field, enter <strong>statics</strong>.</li>
+<li>In the <strong>Accepted protocol</strong> field, select <strong>HTTP and HTTPS</strong>.</li>
+<li>In the <strong>Frontend hosts</strong> field, enter <strong>dynamics-ecom-tenant-name.azurefd.net</strong>.</li>
+<li>Under <strong>Patterns to match</strong>, in the upper field, <strong>/_msdyn365/_scnr/*</strong>.</li>
+<li>Under <strong>Route Details</strong>, set the <strong>Route type</strong> option to <strong>Forward</strong>.</li>
+<li>In the <strong>Backend pool</strong> field, select <strong>ecom-backend</strong>.</li>
+<li>In the <strong>Forwarding protocol</strong> field group, select the <strong>Match request</strong> option.</li>
+<li>Set the <strong>URL rewrite</strong> option to <strong>Disabled</strong>.</li>
+<li>Set the <strong>Caching</strong> option to <strong>Disabled</strong>.</li>
+<li>In the <strong>Query string caching behavior</strong> field, select <strong>Cache every unique URL</strong>.</li>
+<li>In the <strong>Dynamic compression</strong> field group, select the <strong>Enabled</strong> option.</li>
+</ol>
+<p>The following illustration shows the <strong>Add a rule</strong> dialog box in Azure Front Door Service.</p>
+<p><img src="media/CDN_CachingRule.png" alt="Add a rule dialog box"></p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>If the domain that you will use is already active and live, create a support ticket from the <strong>Support</strong> tile in <a href="https://lcs.dynamics.com/">Microsoft Dynamics Lifecycle Services</a> to get assistance for your next steps. For more information, see <a href="../fin-ops-core/dev-itpro/lifecycle-services/lcs-support.html">Get support for Finance and Operations apps or Lifecycle Services (LCS)</a>.</p>
+</div>
+<p>If your domain is new and is not a pre-existing live domain, you can add your custom domain to the configuration for Azure Front Door Service. This will enable web traffic to direct to your site via the Azure Front Door instance. To add the custom domain (for example, <code>www.fabrikam.com</code>), you must configure a Canonical Name (CNAME) for the domain.</p>
+<p>The following illustration shows the <strong>CNAME configuration</strong> dialog box in Azure Front Door Service.</p>
+<p><img src="media/CNAME_Configuration.png" alt="CNAME Configuration dialog box"></p>
+<p>You can use Azure Front Door Service to manage the certificate, or you can use your own certificate for the custom domain.</p>
+<p>The following illustration shows the <strong>Custom Domain HTTPS</strong> dialog box in Azure Front Door Service.</p>
+<p><img src="media/Custom_Domain_HTTPS.png" alt="Custom Domain HTTPS dialog box"></p>
+<p>For detailed instructions on adding a custom domain to your Azure Front Door, see <a href="https://docs.microsoft.com/azure/frontdoor/front-door-custom-domain">Add a custom domain to your Front Door</a>.</p>
+<p>Your CDN should now be correctly configured so that it can be used with your Commerce site.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="configure-your-domain-name.html">Configure your domain name</a></p>
+<p><a href="deploy-ecommerce-site.html">Deploy a new e-commerce tenant</a></p>
+<p><a href="create-ecommerce-site.html">Create an e-commerce site</a></p>
+<p><a href="associate-site-online-store.html">Associate a Dynamics 365 Commerce site with an online channel</a></p>
+<p><a href="manage-robots-txt-files.html">Manage robots.txt files</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/upload-bulk-redirects">Upload URL redirects in bulk (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<p><a href="set-up-B2C-tenant.html">Set up a B2C tenant in Commerce</a></p>
+<p><a href="custom-pages-user-logins.html">Set up custom pages for user logins</a></p>
+<p><a href="configure-multi-B2C-tenants.html">Configure multiple B2C tenants in a Commerce environment</a></p>
+<p><a href="enable-store-detection.html">Enable location-based store detection</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/add-cdn-support.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

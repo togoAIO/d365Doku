@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>EB-Ausdr&#252;cke entwerfen, um Anwendungsklassenmethoden aufzurufen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="EB-Ausdr&#252;cke entwerfen, um Anwendungsklassenmethoden aufzurufen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieser Leitfaden enth&#228;lt Informationen dar&#252;ber, wie die vorhandene Anwendungslogik in Konfigurationen der elektronischen Berichterstellung (EB) erneut verwendet wird, indem erforderliche Methoden von Anwendungsklassen in EB-Ausdr&#252;cken aufgerufen werden.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="design-er-expressions-to-call-application-class-methods" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="24">EB-Ausdrücke entwerfen, um Anwendungsklassenmethoden aufzurufen</h1>
+
+[!include[banner](../../includes/banner.md)]
+<p sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="28">Dieser Leitfaden enthält Informationen darüber, wie die vorhandene Anwendungslogik in Konfigurationen der elektronischen Berichterstellung (EB) erneut verwendet wird, indem erforderliche Methoden von Anwendungsklassen in EB-Ausdrücken aufgerufen werden. Werte von Argumenten zum Aufrufen von Klassen können dynamisch zur Laufzeit definiert werden: beispielsweise basierend auf Informationen im Analysedokument, um dessen Richtigkeit sicherzustellen. In diesem Handbuch erstellen Sie die erforderlichen ER-Konfigurationen für das Beispielunternehmen, Litware, Inc. Dieses Verfahren wird für Benutzer mit der zugewiesenen Rolle des Systemadministrators oder elektronischer Berichterstellungsentwicklers erstellt.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="30">Die Schritte können abgeschlossen werden, indem Sie einen beliebigen Dataset verwenden. Sie müssen auch folgende Datei herunterladen und lokal speichern: (<a href="https://go.microsoft.com/fwlink/?linkid=862266" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="30">https://go.microsoft.com/fwlink/?linkid=862266</a>): SampleIncomingMessage.txt.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="32">Um diese Schritte auszuführen, müssen Sie zunächst die Schritte in der Prozedur „EB Konfigurationsanbieter erstellen und als aktiv markieren“ abschließen.</p>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="34">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="34">Wechseln Sie zu Organisationsverwaltung &gt; Arbeitsbereiche &gt; Elektronische Berichterstellung.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="35">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="35">Überprüfen Sie, dass der Konfigurationsanbieter für Beispielunternehmen „Litware, Inc.” verfügbar und als aktiv markiert ist. Sollten Sie diesen Konfigurationsanbieter nicht sehen, müssen Sie zunächst die Schritte der Prozedur „Konfigurationsanbieter erstellen und als aktiv markieren“ abschließen.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="36">Sie entwerfen einen Prozess für die Analyse von eingehenden Bankauszügen für eine Anwendungsdatenaktualisierung. Sie erhalten die eingehenden Bankauszüge als TXT-Dateien, die IBAN-Codes enthalten. Als Teil des Bankauszug-Importprozesses müssen Sie die Korrektheit dieser IBAN-Codes mithilfe der Logik überprüfen, die bereits verfügbar ist.</li>
+</ul>
+</li>
+</ol>
+<h2 id="import-a-new-er-model-configuration" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="38">Neue EB-Modellkonfiguration importieren</h2>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="39">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="39">Suchen Sie in der Liste den gewünschten Datensatz, und wählen Sie ihn aus.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="40">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="40">Wählen Sie die Microsoft-Anbieterkachel aus.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="41">Klicken Sie auf Repositorys.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="42">Klicken Sie auf &quot;Filter anzeigen&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="43">Fügen Sie ein Filterfeld Typname ein. Geben Sie im Feld „Name“ den Wert „Ressourcen“ ein, wählen Sie dann den Filteroperator „enthält“ aus, und klicken Sie dann auf „Übernehmen“.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="44">Klicken Sie auf &quot;Öffnen&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="45">Wählen Sie in der Struktur die Option &quot;Zahlungsmodell&quot; aus.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="46">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="46">Wenn die Schaltfläche „Importieren“ im Inforegister „Versionen“ nicht aktiviert ist, haben Sie die Version 1 der EB-Konfiguration „Zahlungsmodell“ bereits importiert. Sie können die übrigen Schritte in dieser Unteraufgabe überspringen.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="47">Klicken Sie auf Import.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="48">Klicken Sie auf &quot;Ja&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="49">Schließen Sie die Seite.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="50">Schließen Sie die Seite.</li>
+</ol>
+<h2 id="add-a-new-er-format-configuration" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="52">Neues ER-Modellformat hinzufügen</h2>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="53">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="53">Klicken Sie auf &quot;Berichterstellungskonfigurationen&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="54">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="54">Fügen Sie ein neues EB-Format hinzu, um eingehende Bankauszüge im TXT-Format zu analysieren.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="55">Wählen Sie in der Struktur die Option &quot;Zahlungsmodell&quot; aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="56">Klicken Sie auf „Konfiguration erstellen”, um das Dropdown-Menü zu öffnen.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="57">Wählen Sie im neuen Feld geben Sie &quot;Format auf Grundlage Datenmodell PaymentModel&quot; ein.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="58">Geben Sie im Feld „Name” die Bezeichnung „Bankauszug-Importformat (Beispiel)” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="59">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="59">Bankauszug-Importformat (Beispiel)</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="60">Wählen Sie die Option „Ja” im Feld „Unterstützt Datenimport” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="61">Klicken Sie auf Konfiguration erstellen.</li>
+</ol>
+<h2 id="design-the-er-format-configuration---format" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="63">Die Formatkonfiguration für die elektronische Berichterstellung (EB) entwerfen – Format</h2>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="64">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="64">Klicken Sie auf Designer.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="65">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="65">Das entworfene Format stellt die erwartete Struktur der externen Datei im TXT-Format dar.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="66">Klicken Sie auf „Stamm hinzufügen”, um das Dialogmenü zu öffnen.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="67">Wählen Sie in der Struktur 'Text\Sequence'..</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="68">Geben Sie im Feld Name &quot;Root&quot; ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="69">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="69">Stamm</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="70">Wählen Sie im Feld &quot;Sonderzeichen&quot; &quot;Neue Zeile - Windows (CR LF)&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="71">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="71">Die Option „Neue Postion – Windows (CR LF)“ wurde im Feld „Sonderzeichen“ ausgewählt. Basierend auf dieser Einstellung wird jede Position in der Analysedatei als ein separater Datensatz behandelt.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="72">Klicken Sie auf &quot;OK&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="73">Klicken Sie zum Öffnen des Ablage-Dialogfelds auf &quot;Hinzufügen&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="74">Wählen Sie in der Struktur 'Text\Sequence'..</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="75">Geben Sie im Feld „Name” die Bezeichnung „Zeilen” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="76">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="76">Zeilen</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="77">Wählen Sie im Vielfältigkeitsgebiet wählen Sie &quot;viele&quot; aus.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="78">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="78">Die Option „viele“ wurde im Feld „Multiplizität“ ausgewählt. Basierend auf dieser Einstellung wird erwartet, dass mindestens eine Position in der Analysedatei dargestellt wird.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="79">Klicken Sie auf &quot;OK&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="80">Wählen Sie in der Struktur „Stamm\Zeilen” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="81">Klicken Sie auf „Nummernkreis hinzufügen”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="82">Geben Sie im Feld „Name” die Bezeichnung „Felder” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="83">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="83">Felder</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="84">Wählen Sie im Vielfältigkeitsgebiet wählen Sie &quot;Genau eines&quot; aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="85">Klicken Sie auf &quot;OK&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="86">Wählen Sie in der Struktur „Stamm\Zeilen\Felder”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="87">Klicken Sie zum Öffnen des Ablage-Dialogfelds auf &quot;Hinzufügen&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="88">Wählen Sie in der Struktur 'Text\String' aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="89">Geben Sie im Feld &quot;Name&quot; &quot;IBAN&quot; ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="90">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="90">IBAN</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="91">Klicken Sie auf &quot;OK&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="92">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="92">Es wurde so konfiguriert, dass jede Position in der Analysedatei den einzigen IBAN-Code enthält.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="93">Klicken Sie auf &quot;Speichern&quot;.</li>
+</ol>
+<h2 id="design-the-er-format-configuration--mapping-to-data-model" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="95">Die EB-Formatkonfiguration entwerfen – Zuordnung zu Datenmodell</h2>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="96">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="96">Klicken Sie auf „Format zu Modell zuordnen”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="97">Klicken Sie auf &quot;Neu&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="98">Geben Sie im Feld „Definition” die Bezeichnung „BankToCustomerDebitCreditNotificationInitiation” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="99">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="99">BankToCustomerDebitCreditNotificationInitiation</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="100">ResolveChanges die Definition.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="101">Geben Sie im Feld „Name” die Bezeichnung „Zuordnung zu Datenmodell” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="102">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="102">Zu Datenmodell zuordnen</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="103">Klicken Sie auf &quot;Speichern&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="104">Klicken Sie auf Designer.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="105">Wählen Sie in der Struktur &quot;Dynamics 365 for Operations\Klasse&quot; aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="106">Klicken Sie auf &quot;Stamm hinzufügen&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="107">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="107">Fügen Sie eine neue Datenquelle hinzu, um die vorhandene Anwendungslogik für die IBAN-Codeprüfung aufzurufen.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="108">Geben Sie im Feld „Name” die Bezeichnung „Codes überprüfen” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="109">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="109">Code prüfen</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="110">Geben Sie im Feld „Klasse” den Wert „ISO7064” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="111">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="111">ISO7064</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="112">Klicken Sie auf &quot;OK&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="113">Erweitern Sie in der Struktur Format.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="114">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="115">Wählen Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="116">Klicken Sie auf Binden.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="117">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="118">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)Felder: Nummernkreis 1..1 (Felder)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="119">Wählen Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)Felder: Nummernkreis 1..1 (Felder)\IBAN: Zeichenfolge(IBAN)” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="120">Erweitern Sie in der Struktur „Zahlungen = format.Root.Rows”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="121">In der Struktur erweitern Sie „Zahlungen = format.Root.Rows\Kreditorenkonto (CreditorAccount)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="122">In der Struktur erweitern Sie „Zahlungen = format.Root.Rows\Kreditorenkonto (CreditorAccount)\Identifizierung”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="123">In der Struktur wählen Sie „Zahlungen = format.Root.Rows\Kreditorenkonto (CreditorAccount)\Identifizierung\IBAN” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="124">Klicken Sie auf Binden.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="125">Klicken Sie auf die Registerkarte „Überprüfungen”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="126">Klicken Sie auf &quot;Neu&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="127">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="127">Fügen Sie eine neue Überprüfungsregel hinzu, die in der Analysedatei für jede Position einen Fehler anzeigt, die ungültigen IBAN-Code enthält.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="128">Klicken Sie auf &quot;Bedingung bearbeiten&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="129">Erweitern Sie in der Struktur „check_codes”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="130">Wählen Sie in der Struktur „check_codes\verifyMOD1271_36” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="131">Klicken Sie auf Datenquelle hinzufügen.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="132">Im Feld „Formel” geben Sie „check_codes.verifyMOD1271_36(” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="133">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="133">check_codes.verifyMOD1271_36(</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="134">Erweitern Sie in der Struktur Format.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="135">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="136">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="137">Erweitern Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)Felder: Nummernkreis 1..1 (Felder)”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="138">Wählen Sie in der Struktur „Format\Stamm: Nummernkreis(Stamm)\Zeilen: Nummernkreis 1..* (Zeilen)Felder: Nummernkreis 1..1 (Felder)\IBAN: Zeichenfolge(IBAN)” aus.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="139">Klicken Sie auf Datenquelle hinzufügen.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="140">Im Feld „Formel” geben Sie „check_codes.verifyMOD1271_36(format.Root.Rows.Fields.IBAN)” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="141">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="141">check_codes.verifyMOD1271_36(format.Root.Rows.Fields.IBAN)</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="142">Klicken Sie auf &quot;Speichern&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="143">Schließen Sie die Seite.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="144">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="144">Die Überprüfungsbedingung wurde so konfiguriert, dass sie FALSE für jeden ungültigen IBAN-Code zurückgibt, indem die vorhandene Methode „verifyMOD1271_36“ von der Anwendungsklasse „ISO7064“ aufgerufen wird. Beachten Sie, dass der Wert des IBAN-Codes dynamisch zur Laufzeit als Argument der aufrufenden Methode basierend auf dem Inhalt der analysierenden TXT-Datei definiert wird.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="145">Klicken Sie auf „Nachricht bearbeiten”.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="146">Geben Sie im Feld „Formel” die Zeichenfolge „CONCATENATE(&quot;ungültiger IBAN-Code wurde gefunden: &quot;, format.Root.Rows.Fields.IBAN)” ein.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="147">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="147">CONCATENATE(&quot;Ungültiger IBAN-Code wurde gefunden: &quot;, format.Root.Rows.Fields.IBAN)</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="148">Klicken Sie auf &quot;Speichern&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="149">Schließen Sie die Seite.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="150">Klicken Sie auf &quot;Speichern&quot;.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="151">Schließen Sie die Seite.</li>
+</ol>
+<h2 id="run-the-format-mapping" sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="153">Die Formatzuordnung ausführen</h2>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="154">Zu Textwecken führen Sie die Formatzuordnung mithilfe der Datei SampleIncomingMessage.txt aus, die Sie zuvor heruntergeladen haben. Die generierte Ausgabe umfasst Daten, die aus der ausgewählten TXT-Datei importiert werden und im benutzerdefinierte Datenmodell während des tatsächlichen Imports aufgefüllt werden.</p>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="155">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="155">Klicken Sie auf &quot;Ausführen&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="156">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="156">Klicken Sie auf „Durchsuchen”, und navigieren Sie zur Datei SampleIncomingMessage.txt, die Sie bereits zuvor heruntergeladen haben.</li>
+</ul>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="157">Klicken Sie auf &quot;OK&quot;.
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="158">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md" sourcestartlinenumber="158">Überprüfen Sie die Ausgabe im XML-Format, das die Daten darstellt, die aus der ausgewählten Datei importiert wurden und in das Datenmodell übertragen wurden. Beachten Sie, dass nur 3 Positionen der importierten TXT-Datei verarbeitet wurden. Der IBAN-Code in Position 4, der ungültig ist, wurde übersprungen, und eine Fehlermeldung wird im Infolog bereitgestellt.</li>
+</ul>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/tasks/design-expressions-app-class-er.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Set up a B2C tenant in Commerce </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Set up a B2C tenant in Commerce ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes how to set up your Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants for user site authentication in Dynamics 365 Commerce.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="set-up-a-b2c-tenant-in-commerce">Set up a B2C tenant in Commerce</h1>
+
+
+<p>This topic describes how to set up your Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants for user site authentication in Dynamics 365 Commerce.</p>
+<h2 id="overview">Overview</h2>
+<p>Dynamics 365 Commerce uses Azure AD B2C to support user credential and authentication flows. A user can sign up, sign in, and reset their password through these flows. Azure AD B2C stores sensitive user authentication information, such as username and password. The user record in the B2C tenant will store either a B2C local account record or a B2C social identity provider record. These B2C records will link back to the customer record in the Commerce environment.</p>
+<h2 id="create-or-link-to-an-existing-aad-b2c-tenant-in-the-azure-portal">Create or link to an existing AAD B2C tenant in the Azure portal</h2>
+<ol>
+<li><p>Sign in to the <a href="https://portal.azure.com/">Azure portal</a>.</p>
+</li>
+<li><p>From the Azure portal menu, select <strong>Create a resource</strong>. Be sure to use the subscription and directory that will be connected with your Commerce environment.</p>
+<p><img src="media/B2CImage_1.png" alt="Create a Resource in Azure Portal"></p>
+</li>
+<li><p>Go to <strong>Identity &gt; Azure Active Directory B2C</strong>.</p>
+</li>
+<li><p>Once on the <strong>Create New B2C Tenant or Link to existing Tenant</strong> page, use one of the options below that best suits your company's needs:</p>
+<ul>
+<li><strong>Create a new Azure AD B2C Tenant</strong>: Use this option to create a new AAD B2C tenant.
+<ol>
+<li>Select <strong>Create a new Azure AD B2C Tenant</strong>.</li>
+<li>Under <strong>Organization name</strong>, enter the organization name.</li>
+<li>Under <strong>Initial domain name</strong>, enter the initial domain name.</li>
+<li>For <strong>Country or region</strong>, select the country or region.</li>
+<li>Select <strong>Create</strong> to create the tenant.</li>
+</ol>
+</li>
+</ul>
+<p><img src="media/B2CImage_2.png" alt="Create a new Azure AD Tenant"></p>
+<ul>
+<li><strong>Link an existing Azure AD B2C Tenant to my Azure subscription</strong>: Use this option if you already have an Azure AD B2C tenant you want to link to.
+<ol>
+<li>Select <strong>Link an existing Azure AD B2C Tenant to my Azure subscription</strong>.</li>
+<li>For <strong>Azure AD B2C Tenant</strong>, select the appropriate B2C tenant. If the message &quot;No eligible B2C Tenants found&quot; appears in the selection box, you do not have an existing eligible B2C tenant and will need to create a new one.</li>
+<li>For <strong>Resource group</strong>, select <strong>Create new</strong>. Enter a <strong>Name</strong> for the resource group that will contain the tenant, select the <strong>Resource group location</strong>, and then select <strong>Create</strong>.</li>
+</ol>
+</li>
+</ul>
+<p><img src="media/B2CImage_3.png" alt="Link an existing Azure AD B2C Tenant to Azure Subscription"></p>
+</li>
+<li><p>Once the new Azure AD B2C directory is created (this may take a few moments), a link to the new directory will appear on the dashboard. This link will direct you to the &quot;Welcome to Azure Active Directory B2C&quot; page.</p>
+<p><img src="media/B2CImage_4.png" alt="Link to new AAD Directory"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you have multiple subscriptions within your Azure account or have set up the B2C tenant without linking to an active subscription, a <strong>Troubleshoot</strong> banner will direct you to link the tenant to a subscription. Select the troubleshooting message and follow the instructions to resolve the subscription issue.</p>
+</div>
+<p>The following image shows an example of an Azure AD B2C <strong>Troubleshoot</strong> banner.</p>
+<p><img src="media/B2CImage_5.png" alt="Warning showing directory has no Active Subscription"></p>
+<h2 id="create-the-b2c-application">Create the B2C application</h2>
+<p>Once the B2C tenant has been created, you will create a B2C application within the tenant to interact with the Commerce actions.</p>
+<p>To create the B2C application, follow these steps.</p>
+<ol>
+<li>In the Azure portal, select <strong>Applications(Legacy)</strong> and then select <strong>Add</strong>.</li>
+<li>Under <strong>Name</strong>, enter the name of the desired AAD B2C application.</li>
+<li>Under <strong>Web App/Web API</strong>, for <strong>Include web app / web API</strong>, select <strong>Yes</strong>.</li>
+<li>For <strong>Allow implicit flow</strong>, select <strong>Yes</strong> (the default value).</li>
+<li>Under <strong>Reply URL</strong>, enter your dedicated reply URLs. See <a href="#reply-urls">Reply URLs</a> below for information on reply URLs and how to format them here.</li>
+<li>For <strong>Include native client</strong>, select <strong>No</strong> (the default value).</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<h3 id="reply-urls">Reply URLs</h3>
+<p>Reply URLs are important as they provide an allow list of the return domains when your site calls Azure AD B2C to authenticate a user. This permits the return of the authenticated user back to the domain from which they are signing into (your site domain).</p>
+<p>In the <strong>Reply URL</strong> box on the <strong>Azure AD B2c - Applications &gt; New application</strong> screen, you need to add separate lines for both your site domain and (once your environment is provisioned) the Commerce-generated URL. These URLs must always use a valid URL format and must be base URLs only (no trailing forward slashes or paths). The string <code>/_msdyn365/authresp</code> then needs to be appended to the base URLs, as in the following examples.</p>
+<ul>
+<li><code>https://www.fabrikam.com/_msdyn365/authresp</code> (The domain should match the e-commerce domain completely. If you have multiple domains, you need to add this URL for each domain.)</li>
+<li><code>https://fabrikam-prod.commerce.dynamics.com/_msdyn365/authresp</code></li>
+</ul>
+<h2 id="create-user-flow-policies">Create user flow policies</h2>
+<p>User flows are the policies Azure AD B2C uses to provide secure sign in, sign up, edit profile, and forget password user experiences. Dynamics 365 Commerce uses these flows to perform the policy actions to interact with the Azure AD B2C tenant. When a user interacts with these policies, they are redirected to the Azure AD B2C tenant to perform the actions.</p>
+<p>Azure AD B2C provides three basic user flow types:</p>
+<ul>
+<li>Sign up and sign in</li>
+<li>Profile editing</li>
+<li>Password reset</li>
+</ul>
+<p>You can choose to use the default user flows provided by Azure AD, which will display a page hosted by AAD B2C. Alternately, you can create an HTML page to control the look and feel of these user flow experiences.</p>
+<p>To customize the user policy pages for Dynamics 365 Commerce, see <a href="custom-pages-user-logins.html">Set up custom pages for user logins</a>. For additional information, see <a href="https://docs.microsoft.com/azure/active-directory-b2c/tutorial-customize-ui">Customize the interface of user experiences in Azure Active Directory B2C</a>.</p>
+<h3 id="create-a-sign-up-and-sign-in-user-flow-policy">Create a sign up and sign in user flow policy</h3>
+<p>To create a sign up and sign in user flow policy, follow these steps.</p>
+<ol>
+<li><p>In the Azure portal, select <strong>User flows (policies)</strong> in the left navigation pane.</p>
+</li>
+<li><p>On the <strong>Azure AD B2C – User flows (policies)</strong> page, select <strong>New User Flow</strong>.</p>
+</li>
+<li><p>On the <strong>Recommended</strong> tab, select <strong>Sign up and sign in</strong>.</p>
+</li>
+<li><p>Under <strong>Name</strong>, enter a policy name. This name will display afterwards with a prefix the portal assigns (for example, &quot;B2C_1_&quot;).</p>
+</li>
+<li><p>Under <strong>Identity providers</strong>, select the appropriate check box.</p>
+</li>
+<li><p>Under <strong>Multifactor Authentication</strong>, select the appropriate choice for your company.</p>
+</li>
+<li><p>Under <strong>User attributes and claims</strong>, select options to collect attributes or return claims as appropriate. Commerce requires the following default options:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Collect  attribute</strong></th>
+<th><strong>Return  claim</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email Address</td>
+<td>Email Addresses</td>
+</tr>
+<tr>
+<td>Given Name</td>
+<td>Given Name</td>
+</tr>
+<tr>
+<td></td>
+<td>Identity Provider</td>
+</tr>
+<tr>
+<td>Surname</td>
+<td>Surname</td>
+</tr>
+<tr>
+<td></td>
+<td>User’s Object ID</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Select <strong>Create</strong>.</p>
+</li>
+</ol>
+<p>The following image is an example of the Azure AD B2C sign up and sign in user flow.</p>
+<p><img src="media/B2CImage_11.png" alt="Sign Up and Sign In policy settings"></p>
+<p>The following image shows the <strong>Run user flow</strong> option in the Azure AD B2C sign up and sign in user flow.</p>
+<p><img src="media/B2CImage_23.png" alt="Run user flow option in policy flow"></p>
+<h3 id="create-a-profile-editing-user-flow-policy">Create a profile editing user flow policy</h3>
+<p>To create a profile editing user flow policy, follow these steps.</p>
+<ol>
+<li>In the Azure portal, select <strong>User flows (policies)</strong> in the left navigation pane.</li>
+<li>On the <strong>Azure AD B2C – User flows (policies)</strong> page, select <strong>New User Flow</strong>.</li>
+<li>On the <strong>Recommended</strong> tab, select <strong>Profile editing</strong>.</li>
+<li>Under <strong>Name</strong>, enter the profile editing user flow. This name will display afterwards with a prefix the portal assigns (for example, &quot;B2C_1_&quot;).</li>
+<li>Under <strong>Identity providers</strong>, select <strong>Local Account SignIn</strong>.</li>
+<li>Under <strong>User attributes</strong>, select the following check boxes:
+<ul>
+<li><strong>Email Addresses</strong> (<strong>Return claim</strong> only)</li>
+<li><strong>Given Name</strong> (<strong>Collect attribute</strong> and <strong>Return claim</strong>)</li>
+<li><strong>Identity Provider</strong> (<strong>Return claim</strong> only)</li>
+<li><strong>Surname</strong> (<strong>Collect attribute</strong> and <strong>Return claim</strong>)</li>
+<li><strong>User's Object ID</strong> (<strong>Return claim</strong> only)</li>
+</ul>
+</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<p>The following image shows an example of the Azure AD B2C profile editing user flow.</p>
+<p><img src="media/B2CImage_12.png" alt="Create the Profile Editing user flow"></p>
+<h3 id="create-a-password-reset-user-flow-policy">Create a password reset user flow policy</h3>
+<p>To create a password reset user flow policy, follow these steps.</p>
+<ol>
+<li>In the Azure portal, select <strong>User flows (policies)</strong> in the left navigation pane.</li>
+<li>On the <strong>Azure AD B2C – User flows (policies)</strong> page, select <strong>New User Flow</strong>.</li>
+<li>On the <strong>Recommended</strong> tab, select <strong>Password Reset</strong>.</li>
+<li>Under <strong>Name</strong>, enter a name for the password reset user flow.</li>
+<li>Under <strong>Identity providers</strong>, select <strong>Reset password using email address</strong>.</li>
+<li>Select <strong>Create</strong>.</li>
+<li>Under <strong>Application claims</strong>, select the following check boxes:
+<ul>
+<li><strong>Email addresses</strong></li>
+<li><strong>Given Name</strong></li>
+<li><strong>Surname</strong></li>
+<li><strong>User's Object ID</strong></li>
+</ul>
+</li>
+<li>Select <strong>Create</strong>.</li>
+</ol>
+<p>The following image shows where to set <strong>Reset Password using mail address</strong> in the Azure AD B2C password reset user flow.</p>
+<p><img src="media/B2CImage_13.png" alt="Set &quot;Reset Password using mail address&quot; in Password Reset policy"></p>
+<h2 id="add-social-identity-providers-optional">Add social identity providers (Optional)</h2>
+<p>Social identity providers allow users to use their social accounts for authentication. Adding social identity provider authentication is optional in Dynamics 365 Commerce.</p>
+<p>If social identity provider authentication is not added, the default Azure AD B2C profiles will be the main profiles for your user base. Users will select their own username (their preferred email address) and set a password. Azure AD B2C will authenticate users directly.</p>
+<p>If social identity provider authentication is added and a user chooses one of the social identity providers offered, an entity is still created in the Azure AD B2C tenant. Azure AD B2C will then authenticate the user's credentials with the social identity provider.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The identity provider sign in creates a record in the B2C tenant, but in a different format than local accounts since it will call the external social identity provider reference for authentication. The user can use the same email address across social identity providers, meaning that the email username used for authentication may not be unique to the tenant. Azure AD B2C will only enforce that users have a unique email address on local B2C accounts.</p>
+</div>
+<p>Before you can add a social identity provider for authentication, you must go to the identity provider's portal and set up an identity provider application as instructed in the Azure AD B2C documentation. A list of links to the documentation is provided below.</p>
+<ul>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-amzn-app">Amazon</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-oidc-azure-active-directory">Azure AD (Single Tenant)</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-msa-app">Microsoft Account</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-fb-app">Facebook</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-github-app">GitHub</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-goog-app">Google</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-li-app">LinkedIn</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-oidc-idp">OpenID Connect</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-twitter-app">Twitter</a></li>
+</ul>
+<h3 id="add-and-set-up-a-social-identity-provider">Add and set up a social identity provider</h3>
+<p>To add and set up a social identity provider, follow these steps.</p>
+<ol>
+<li>In the Azure portal, navigate to <strong>Identity Providers</strong>.</li>
+<li>Select <strong>Add</strong>. The <strong>Add identity provider</strong> screen appears.</li>
+<li>Under <strong>Name</strong>, enter the name to be displayed to users on your sign in screen.</li>
+<li>Under <strong>Identity provider type</strong>, select an identity provider from the list.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Select <strong>Set up this identity provider</strong> to access the <strong>Set up the social identity provider</strong> screen.</li>
+<li>Under <strong>Client ID</strong>, enter the client ID as obtained from the identity provider application setup.</li>
+<li>Under <strong>Client secret</strong>, enter the client secret as obtained from the identity provider application setup.</li>
+<li>Attach user flow for sign in sign up policies:</li>
+<li>Go to <strong>Azure AD B2C – User flows (policies) &gt; {your sign-in sign-up policy} &gt; Identity providers</strong>.</li>
+<li>To attach the sign in/sign up user flow policy, select each identity provider you have set up for your account. To test these, select <strong>Run user flow</strong> for each identity provider. A new tab will display the sign-in page displaying the new identity provider selection box.</li>
+</ol>
+<p>The following image shows examples of the <strong>Add identity provider</strong> and <strong>Set up the social identity provider</strong> screens in Azure AD B2C.</p>
+<p><img src="media/B2CImage_14.png" alt="Adding a Social Identity Provider to your application"></p>
+<p>The following image shows an example of how to select identity providers on the Azure AD B2C <strong>Identity Providers</strong> page.</p>
+<p><img src="media/B2CImage_16.png" alt="Select each Social Identity Provider to enable for your policy"></p>
+<p>The following image shows an example of a default sign-in screen with a social identity provider sign-in button displayed.</p>
+<p><img src="media/B2CImage_17.png" alt="Example default login screen with Social Identity Provider sign-in button displayed"></p>
+<h2 id="update-commerce-headquarters-with-the-new-azure-ad-b2c-information">Update Commerce headquarters with the new Azure AD B2C information</h2>
+<p>Once the Azure AD B2C provisioning steps above are completed, the Azure AD B2C application must be registered in your Dynamics 365 Commerce environment.</p>
+<p>To update headquarters with the new Azure AD B2C information, follow these steps.</p>
+<ol>
+<li>In Commerce, go to <strong>Commerce Shared Parameters</strong> and select <strong>Identity Providers</strong> in the left menu.</li>
+<li>Under <strong>Identity Providers</strong>, do the following:
+<ol>
+<li>In the <strong>Issuer</strong> box, enter the identity provider issuer URL. To find your issuer URL, see <a href="#obtain-issuer-url">Obtain issuer URL</a> below.</li>
+<li>In the <strong>Name</strong> box, enter a name for your issuer record.</li>
+<li>In the <strong>Type</strong> box, enter <strong>Azure AD B2C (id_token)</strong>.</li>
+</ol>
+</li>
+<li>Under <strong>Relying Parties</strong>, with the above B2C identity provider item selected, do the following:
+<ol>
+<li>In the <strong>ClientID</strong> box, enter your B2C application ID. You can find this in the <strong>Application ID</strong> box of your B2C application's properties page.</li>
+<li>In the <strong>Type</strong> box, enter <strong>Public</strong>.</li>
+<li>In the <strong>User Type</strong> box, enter <strong>Customer</strong>.</li>
+</ol>
+</li>
+<li>On the action pane, select <strong>Save</strong>.</li>
+<li>In the Commerce search box, search for <strong>Distribution schedule</strong></li>
+<li>In the left navigation menu of the <strong>Distribution schedules</strong> page, select job <strong>1110 Global configuration</strong>.</li>
+<li>On the action pane, select <strong>Run Now</strong>.</li>
+</ol>
+<h3 id="obtain-issuer-url">Obtain issuer URL</h3>
+<p>To obtain your identity provider issuer URL, follow these steps.</p>
+<ol>
+<li>Create a metadata address URL in the following format using your B2C tenant and policy: <code>https://&lt;B2CTENANTNAME&gt;.b2clogin.com/&lt;B2CTENANTNAME&gt;.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=&lt;B2CSIGN-INPOLICY&gt;</code>
+<ul>
+<li>Example: <code>https://d365plc.b2clogin.com/d365plc.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_signinup</code>.</li>
+</ul>
+</li>
+<li>Enter the metadata address URL into a browser address bar.</li>
+<li>In the metadata, copy the identity provider issuer URL (the value for <strong>&quot;issuer&quot;</strong>).
+<ul>
+<li>Example: <code>https://login.fabrikam.com/073405c3-0113-4f43-b5e2-df01266e24ae/v2.0/</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="configure-your-b2c-tenant-in-commerce-site-builder">Configure your B2C tenant in Commerce site builder</h2>
+<p>Once setup of your Azure AD B2C tenant is completed, you must configure the B2C tenant in Commerce site builder. Configuration steps include collecting B2C application information from the Azure portal, entering that B2C application information into site builder, and then associating the B2C application with your site and channel.</p>
+<h3 id="collect-the-required-application-information">Collect the required application information</h3>
+<p>To collect the required application information, follow these steps.</p>
+<ol>
+<li>In the Azure portal, go to <strong>Home &gt; Azure AD B2C - Applications</strong>.</li>
+<li>Select your application, and then in the left navigation pane select <strong>Properties</strong> to obtain the application details.</li>
+<li>From the <strong>Application ID</strong> box, collect the application ID of the B2C application created in your B2C tenant. This will later be entered as the <strong>Client GUID</strong> in site builder.</li>
+<li>Under <strong>Reply URL</strong>, collect the reply URL.</li>
+<li>Go to <strong>Home &gt; Azure AD B2C – User flows (policies)</strong>, and then collect the names of each user flow policy.</li>
+</ol>
+<p>The following image shows an example of the <strong>Azure AD B2C - Applications</strong> page.</p>
+<p><img src="media/B2CImage_19.png" alt="Navigate to the B2C Application within your tenant"></p>
+<p>The following image shows an example of an application <strong>Properties</strong> page in Azure AD B2C.</p>
+<p><img src="media/B2CImage_21.png" alt="Copy the Application ID from the B2C Application's Properties"></p>
+<p>The following image shows an example of user flow policies on the <strong>Azure AD B2C – User flows (policies)</strong> page.</p>
+<p><img src="media/B2CImage_22.png" alt="Collect the names of each B2C policy flow"></p>
+<h3 id="enter-your-aad-b2c-tenant-application-information-into-commerce">Enter your AAD B2C tenant application information into Commerce</h3>
+<p>You must enter details of the Azure AD B2C tenant into Commerce site builder before associating the B2C tenant with your site(s).</p>
+<p>To add your AAD B2C tenant application information to Commerce, follow these steps.</p>
+<ol>
+<li><p>Sign in as an administrator to Commerce site builder for your environment.</p>
+</li>
+<li><p>In the left navigation pane, select <strong>Tenant Settings</strong>  to expand it.</p>
+</li>
+<li><p>Under <strong>Tenant Settings</strong>, select <strong>B2C Settings</strong>.</p>
+</li>
+<li><p>In the main window next <strong>B2C Applications</strong>, select <strong>Manage</strong>. (If your tenant appears in the B2C Applications list, then it was already added by an administrator. Verify that the items in step 6 below match your B2C Application.)</p>
+</li>
+<li><p>Select <strong>Add B2C Application</strong>.</p>
+</li>
+<li><p>Enter the following required items in the form displayed, using values from your B2C tenant and application. Fields that are not required (those without an asterisk) may be left blank.</p>
+<ul>
+<li><strong>Application Name</strong>: The name for your B2C Application, for example &quot;Fabrikam B2C&quot;.</li>
+<li><strong>Tenant Name</strong>: The name of your B2C tenant (for example, use &quot;fabrikam&quot; if the domain appears as &quot;fabrikam.onmicrosoft.com&quot; for the B2C tenant).</li>
+<li><strong>Forget Password Policy ID</strong>: The forget password user flow policy ID, for example &quot;B2C_1_PasswordReset&quot;.</li>
+<li><strong>Signup Signin Policy ID</strong>: The sign up and sign in user flow policy ID, for example &quot;B2C_1_signup_signin&quot;.</li>
+<li><strong>Client GUID</strong>: The B2C application ID, for example &quot;22290eb2-c52e-42e9-8b35-a2b0a3bcb9e6&quot;.</li>
+<li><strong>Edit Profile Policy ID</strong>: The profile editing user flow policy ID, for example &quot;B2C_1A_ProfileEdit&quot;.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>. You should now see the name of your B2C application appear in the list.</p>
+</li>
+<li><p>Select <strong>Save</strong> to save your changes.</p>
+</li>
+</ol>
+<h3 id="associate-the-b2c-application-to-your-site-and-channel">Associate the B2C application to your site and channel</h3>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>If your site is already associated with a B2C application, changing to a different B2C application will remove the current references established for users already signed up in this environment. If changed, any credentials associated with the currently-assigned B2C application will not be available to users.</p>
+<p>Only update the B2C application if you are setting up the channel's B2C application for the first time or if you intend to have users re-sign up with new credentials to this channel with the new B2C application. Take caution when associating channels to B2C applications, and name applications clearly. If a channel is not associated to a B2C application in the steps below, users signing into that channel for your site will be entered into the B2C application showing as <strong>default</strong> in the <strong>Tenant Settings &gt; B2C Settings</strong> list of B2C applications.</p>
+</div>
+<p>To associate the B2C application to your site and channel, follow these steps.</p>
+<ol>
+<li>Navigate to your site in Commerce site builder.</li>
+<li>In the left navigation pane, select <strong>Site Settings</strong> to expand it.</li>
+<li>Below <strong>Site Settings</strong>, select <strong>Channels</strong>.</li>
+<li>In the main window under <strong>Channels</strong>, select your channel.</li>
+<li>In the channel properties pane on the right, select your B2C application name from the <strong>Select B2C Application</strong> drop down menu.</li>
+<li>Select <strong>Close</strong>, and then select <strong>Save and Publish</strong>.</li>
+</ol>
+<h2 id="additional-b2c-information">Additional B2C information</h2>
+<h3 id="customer-migration">Customer migration</h3>
+<p>If you are considering migrating customer records from a previous identity provider platform, please work with the Dynamics 365 Commerce team to review your customer migration needs.</p>
+<p>For additional Azure AD B2C documentation on customer migration, see <a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-user-migration">Migrate users to Azure Active Directory B2C</a>.</p>
+<h3 id="custom-policies">Custom policies</h3>
+<p>For additional information regarding customizing Azure AD B2C interactions and policy flows beyond what is offered by B2C standard policies, see <a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-overview-custom">Custom policies in Azure Active Directory B2C</a>.</p>
+<h3 id="secondary-admin">Secondary admin</h3>
+<p>An optional, secondary administrator account can be added in the <strong>Users</strong> section of your B2C tenant. This can be a direct account or a general account. If you need to share an account across team resources, a common account can also be created. Due to the sensitivity of the data stored in Azure AD B2C, a common account should be monitored closely per your company's security practices.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="configure-your-domain-name.html">Configure your domain name</a></p>
+<p><a href="deploy-ecommerce-site.html">Deploy a new e-commerce tenant</a></p>
+<p><a href="create-ecommerce-site.html">Create an e-commerce site</a></p>
+<p><a href="associate-site-online-store.html">Associate a Dynamics 365 Commerce site with an online channel</a></p>
+<p><a href="manage-robots-txt-files.html">Manage robots.txt files</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/upload-bulk-redirects">Upload URL redirects in bulk (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>Associate a Dynamics 365 Commerce site with an online channel</p>
+<p><a href="custom-pages-user-logins.html">Set up custom pages for user logins</a></p>
+<p><a href="configure-multi-B2C-tenants.html">Configure multiple B2C tenants in a Commerce environment</a></p>
+<p><a href="add-cdn-support.html">Add support for a content delivery network (CDN)</a></p>
+<p><a href="enable-store-detection.html">Enable location-based store detection</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/set-up-B2C-tenant.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

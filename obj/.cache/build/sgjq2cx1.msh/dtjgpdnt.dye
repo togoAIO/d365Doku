@@ -1,0 +1,1020 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kostenaufschl&#252;sselungsrichtlinie und Gemeinkostenberechnung | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Kostenaufschl&#252;sselungsrichtlinie und Gemeinkostenberechnung | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cost-rollup-policy-and-overhead-calculation">Kostenaufschlüsselungsrichtlinie und Gemeinkostenberechnung</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Mit Kostenrechnung können Sie einen Einblick erhalten, wie sich der Kostenfluss auf Produkte und Dienste bezieht, die innerhalb einer Organisation geliefert werden. Um die Kostentransparenz anzuzeigen, ist es wichtig, Kostenzuweisung zwischen Kostenobjekten auf Grundlage einer entsprechenden Zuweisungsgrundlage zu erreichen. Standardmäßig wird die Kostenzuweisung für das primäre Kostenelement erreicht. Das ist in einigen Situationen wünschenswert, hat aber mehrere Auswirkungen, die berücksichtigt werden sollten.</p>
+<ul>
+<li><p>Zusätzliche Kostenobjekte werden mit Nullsaldo für das primäre Kostenelement nach Gemeinkostenberechnung beendet.</p>
+</li>
+<li><p>Die Menge der Kosteneinträgen, die durch Gemeinkostenberechnung generiert wird, kann sehr hoch sein.</p>
+</li>
+<li><p>Es ist nicht möglich, den Kostenfluss zwischen Kostenobjekten zu verfolgen.</p>
+</li>
+</ul>
+<p>Um diese Auswirkungen zu vermeiden, können Sie mit der Kostenrechnung die Kostenzuweisung konfigurieren, damit sie in den Anforderungen der Berichterstellung auf Führungsebene in Ihrer Organisation entspricht. Dieses Thema erklärt, wie Sie die korrekte Stufe der sekundären Kostenelemente bestimmen und Kostenrollupregeln erstellen können, die in Organisationsberichterstellung und Kostennachweisbarkeit passen.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie können Konfigurationen ändern, wenn sich Meldeanforderungen ändern.</p>
+</div>
+<h2 id="example-of-cost-rollup-policy-setup">Beispiel für die Einrichtung der Kostenrolluprichtlinie</h2>
+<p>Stellen Sie sich vor, dass eine Organisation die folgende Struktur mit 4 Kostenstellen hat.</p>
+<p><img src="media/dimension-hierarchy-org.png" alt="Beispiel einer Organisationsstruktur"></p>
+<p><strong>Kostenobjektdimension</strong></p>
+<table>
+<thead>
+<tr>
+<th>Kostenstellen</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC001</td>
+<td>Personalverwaltung</td>
+</tr>
+<tr>
+<td>CC002</td>
+<td>Finanzen</td>
+</tr>
+<tr>
+<td>CC003</td>
+<td>Montage</td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Verpackung</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kostenelementdimension</strong></p>
+<table>
+<thead>
+<tr>
+<th>Kostenelemente</th>
+<th>Beschreibung</th>
+<th>Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1001</td>
+<td>Elektrizität</td>
+<td>Primär</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>Löhne</td>
+<td>Primär</td>
+</tr>
+<tr>
+<td>1003</td>
+<td>Werbung</td>
+<td>Primär</td>
+</tr>
+</tbody>
+</table>
+<p>Eine Dimensionshierarchie, die die Meldeanforderungen der Organisation erfüllt, kann wie folgt eingerichtet werden.</p>
+<p><strong>Dimensionshierarchiedetails</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dimensionshierarchiename</th>
+<th>Dimensionen</th>
+<th>Dimensionshierarchie-Typname</th>
+<th>Zugriffslistenhierarchie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Organisation</td>
+<td>Kostenstellen</td>
+<td>Dimensionsklassifizierungshierarchie</td>
+<td>Nr.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dimensionshierarchie</strong></p>
+<table>
+<thead>
+<tr>
+<th> </th>
+<th>Dimensionsmitgliedsbereiche</th>
+<th> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Knoten</strong></td>
+<td><strong>Ausgangsdimensionsmitglied</strong></td>
+<td><strong>Zieldimensionsmitglied</strong></td>
+</tr>
+<tr>
+<td>Organisation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>  Verwaltung</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>    Finanzen</td>
+<td>CC001</td>
+<td>CC001</td>
+</tr>
+<tr>
+<td>    Personalverwaltung</td>
+<td>CC002</td>
+<td>CC002</td>
+</tr>
+<tr>
+<td>  Produktion</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>    Verpackung</td>
+<td>CC003</td>
+<td>CC003</td>
+</tr>
+<tr>
+<td>    Montage</td>
+<td>CC004</td>
+<td>CC004</td>
+</tr>
+</tbody>
+</table>
+<p>Eine Dimensionshierarchie, die die Meldeanforderungen der Organisation erfüllt, kann wie folgt eingerichtet werden.</p>
+<p><strong>Dimensionshierarchiedetails</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dimensionshierarchiename</th>
+<th>Dimensionen</th>
+<th>Dimensionshierarchie-Typname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gewinn- und Verlustaufstellung</td>
+<td>Kostenelemente</td>
+<td>Dimensionsklassifizierungshierarchie</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dimensionshierarchie</strong></p>
+<table>
+<thead>
+<tr>
+<th> </th>
+<th>Dimensionsmitgliedsbereiche</th>
+<th> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knoten</td>
+<td>Ausgangsdimensionsmitglied</td>
+<td>Zieldimensionsmitglied</td>
+</tr>
+<tr>
+<td>Gewinn- und Verlustaufstellung</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>    Primäre Kosten</td>
+<td>10001</td>
+<td>10003</td>
+</tr>
+</tbody>
+</table>
+<p>Nachdem die Hauptbucheinträge verarbeitet wurden, sieht das Kosteneintragssaldo nach Kostenobjekt so aus.</p>
+<table>
+<thead>
+<tr>
+<th> </th>
+<th><strong>Kostenobjekt</strong></th>
+<th> </th>
+<th> </th>
+<th> </th>
+<th><strong>Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kostenelement</strong></td>
+<td><strong>CC001</strong></td>
+<td><strong>CC002</strong></td>
+<td><strong>CC003</strong></td>
+<td><strong>CC004</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>1001 Elektrizität</strong></td>
+<td>100,00</td>
+<td>200.00</td>
+<td>6.000,00</td>
+<td>2.000,00</td>
+<td><strong>8.300,00</strong></td>
+</tr>
+<tr>
+<td><strong>1002 Löhne</strong></td>
+<td>10.000,00</td>
+<td>10.000,00</td>
+<td>8.000,00</td>
+<td>6.500,00</td>
+<td><strong>34.500,00</strong></td>
+</tr>
+<tr>
+<td><strong>1003 Werbung</strong></td>
+<td>0.00</td>
+<td>4.000,00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td><strong>4.000,00</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>10.100,00</td>
+<td>14.200,00</td>
+<td>14.000,00</td>
+<td>8.500,00</td>
+<td><strong>46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Statistische Dimension</strong></p>
+<table>
+<thead>
+<tr>
+<th>Statistische Elemente</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SE-1</td>
+<td>HR-Dienste</td>
+</tr>
+<tr>
+<td>SE-2</td>
+<td>Finanzdienste</td>
+</tr>
+</tbody>
+</table>
+<p>Kostenobjekt CC001 Personalverwaltung trägt HR-Dienste zu mehreren Kostenobjekten bei.</p>
+<p>HR-Dienste werden nach folgender Verteilung der Größe genutzt.</p>
+<table>
+<thead>
+<tr>
+<th>Kostenobjekt</th>
+<th>Beschreibung</th>
+<th>HR-Dienste</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC002</td>
+<td>Finanzen</td>
+<td>35</td>
+</tr>
+<tr>
+<td>CC003</td>
+<td>Montage</td>
+<td>55</td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Verpackung</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>Kostenobjekt CC002 Finanzen trägt zu mehreren Kostenobjekten bei.</p>
+<p>Finanzdienstleistungen werden nach folgender Verteilung der Größe genutzt.</p>
+<table>
+<thead>
+<tr>
+<th>Kostenobjekt</th>
+<th>Beschreibung</th>
+<th>Finanzdienste</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC003</td>
+<td>Montage</td>
+<td>65</td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Verpackung</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>Kostenzuweisungsrichtlinien können wie folgt eingerichtet werden.</p>
+<table>
+<thead>
+<tr>
+<th>Richtlinienname</th>
+<th>Beschreibung</th>
+<th>Kostenobjekt-Dimensionshierarchie</th>
+<th>Statistische Dimension</th>
+<th>Kostenelementdimension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017</td>
+<td>Kostenzuweisung</td>
+<td>Organisation</td>
+<td>Statistische Elemente</td>
+<td>Kostenelemente</td>
+</tr>
+</tbody>
+</table>
+<p>Kostenzuweisungsregeln können wie folgt eingerichtet werden.</p>
+<table>
+<thead>
+<tr>
+<th>Kostenobjekt-Dimensionshierarchieknoten</th>
+<th>Kostenverhalten</th>
+<th>Verteilschlüssel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC001</td>
+<td>Gesamt</td>
+<td><strong>HR-Dienste</strong></td>
+</tr>
+<tr>
+<td>CC002</td>
+<td>Gesamt</td>
+<td><strong>Finanzdienstleistungen</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="brhow-cost-flows-between-cost-centers"><br>Wie Kosten zwischen Kostenstellen fließen</h2>
+<p>Wenn Sie mehr darüber erfahren möchten, wie Kosten zwischen den Kostenstellen in der Organisation fließen, können Sie für jede Kostenstelle Kostenelemente vom Typ <strong>Sekundär</strong> erstellen. Diese Kostenelemente werden dann dazu verwendet, während der Gemeinkostenberechnung Salden zwischen den Kostenstellen zu übertragen.</p>
+<p>Kostenelementdimensionsmitglieder können wie folgt eingerichtet werden.</p>
+<table>
+<thead>
+<tr>
+<th>Kostenelemente</th>
+<th>Typ</th>
+<th> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1001</td>
+<td>Elektrizität</td>
+<td>Primär</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>Löhne</td>
+<td>Primär</td>
+</tr>
+<tr>
+<td>1003</td>
+<td>Werbung</td>
+<td>Primär</td>
+</tr>
+<tr>
+<td><strong>SC-CC001</strong></td>
+<td><strong>Personalverwaltung</strong></td>
+<td><strong>Sekundär</strong></td>
+</tr>
+<tr>
+<td><strong>SC-CC002</strong></td>
+<td><strong>Finanzen</strong></td>
+<td><strong>Sekundär</strong></td>
+</tr>
+<tr>
+<td><strong>SC-CC003</strong></td>
+<td><strong>Montage</strong></td>
+<td><strong>Sekundär</strong></td>
+</tr>
+<tr>
+<td><strong>SC-CC004</strong></td>
+<td><strong>Verpackung</strong></td>
+<td><strong>Sekundär</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Die Dimensionshierarchie <strong>Gewinn und Verlustaufstellung</strong> muss mit den neuen Dimensionsmitgliedern aktualisiert werden, sodass die Dimensionshierarchie die richtigen Daten enthält, die zum Definieren von Richtlinien und der Berichterstellung verwendet werden können.</p>
+<p><strong>Dimensionshierarchiedetails</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dimensionshierarchiename</th>
+<th>Dimensionen</th>
+<th>Dimensionshierarchie-Typname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gewinn- und Verlustaufstellung</td>
+<td>Kostenelemente</td>
+<td>Dimensionsklassifizierungshierarchie</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dimensionshierarchie</strong></p>
+<table>
+<thead>
+<tr>
+<th> </th>
+<th>Dimensionsmitgliedsbereiche</th>
+<th> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knoten</td>
+<td>Ausgangsdimensionsmitglied</td>
+<td>Zieldimensionsmitglied</td>
+</tr>
+<tr>
+<td>Gewinn- und Verlustaufstellung</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>    Primäre Kosten</td>
+<td>10001</td>
+<td>10003</td>
+</tr>
+<tr>
+<td>    Sekundäre Kosten</td>
+<td><strong>SC-CC001</strong></td>
+<td><strong>SC-CC004</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Erstellen Sie eine <strong>Kostenrolluprichtlinie</strong>, bei der jede Kostenstelle einem entsprechenden Kostenelement vom Typ <strong>Sekundär</strong> zugeordnet ist.</p>
+<p><strong>Kostenaufschlüsselungsrichtlinien</strong></p>
+<table>
+<thead>
+<tr>
+<th>Richtlinienname</th>
+<th>Beschreibung</th>
+<th>Kostenobjekt-Dimensionshierarchie</th>
+<th>Kostenelement-Dimensionshierarchie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017</td>
+<td>Kostenfluss</td>
+<td>Organisation</td>
+<td>Gewinn- und Verlustaufstellung</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kostenaufschlüsselungsregeln</strong></p>
+<table>
+<thead>
+<tr>
+<th>Kostenobjekt-Dimensionshierarchieknoten</th>
+<th>Kostenelement-Dimensionshierarchieknoten</th>
+<th>Sekundäres Kostenelement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC001</td>
+<td>Gewinn- und Verlustaufstellung</td>
+<td><strong>SC-CC001</strong></td>
+</tr>
+<tr>
+<td>CC002</td>
+<td>Gewinn- und Verlustaufstellung</td>
+<td><strong>SC-CC002</strong></td>
+</tr>
+<tr>
+<td>CC003</td>
+<td>Gewinn- und Verlustaufstellung</td>
+<td><strong>SC-CC003</strong></td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Gewinn- und Verlustaufstellung</td>
+<td><strong>SC-CC004</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="perform-overhead-calculation">Gemeinkostenberechnung durchführen</h2>
+<p><strong>Erfassung</strong></p>
+<table>
+<thead>
+<tr>
+<th>Erfassung</th>
+<th>Journaltyp</th>
+<th>Steuerkalenderperiode</th>
+<th>Jahr</th>
+<th>Periode</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00002</td>
+<td>Kostenzuteilungserfassung</td>
+<td>Steuerlich</td>
+<td>2017</td>
+<td>Periode 1</td>
+<td>Gemeinkostenberechnung / 01-02-2017 11:51:00 PM / Sachkonto /2017 / Periode 1</td>
+</tr>
+</tbody>
+</table>
+<p>Das System wendet nun die <strong>Kostenrolluprichtlinie</strong> an, wenn die <strong>Kostenobjektsaldo-Erfassungseinträge</strong> erstellt werden.</p>
+<p><strong>Kostenobjektsaldo-Erfassungseinträge</strong></p>
+<table>
+<thead>
+<tr>
+<th>Abschlussstichtag</th>
+<th>Kostenobjekt</th>
+<th>Beschreibung</th>
+<th>Kostenelement</th>
+<th>Beschreibung</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31-01-2017</td>
+<td>CC001</td>
+<td>Personalverwaltung</td>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>10.100,00</td>
+</tr>
+<tr>
+<td>31-01-2017</td>
+<td>CC002</td>
+<td>Finanzen</td>
+<td>SC-CC002</td>
+<td>Finanzen</td>
+<td>17.735,00</td>
+</tr>
+<tr>
+<td>31-01-2017</td>
+<td>CC003</td>
+<td>Montage</td>
+<td>SC-CC003</td>
+<td>Montage</td>
+<td>31.082,75</td>
+</tr>
+<tr>
+<td>31-01-2017</td>
+<td>CC004</td>
+<td>Verpackung</td>
+<td>SC-CC004</td>
+<td>Verpackung</td>
+<td>15.717,25</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Journaleinträge werden auf den Regeln in der <strong>Kostenrolluprichtlinie</strong> erstellt, wenn eine Richtlinie vorhanden ist. Der angezeigte Saldo ist der Saldo der Gemeinkostenberechnung.</p>
+</div>
+<p>Die Seite <strong>Kostenobjekt-Kostenobjektsaldo-Journaleintragsdetails</strong>, auf die von den Journaleinträgen zugegriffen wird, zeigt, wie der Saldo erhalten wird.</p>
+<p><strong>Beispiel: Der Journaleintrag für Kostenobjekt CC002 Finanzen</strong></p>
+<p><strong>Kostenobjekt-Kostenobjektsaldo-Journaleintragsdetails</strong></p>
+<table>
+<thead>
+<tr>
+<th>Kostenelement-Dimensionsmitglied</th>
+<th>Beschreibung</th>
+<th>Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1001</td>
+<td>Elektrizität</td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>Löhne</td>
+<td>10.000,00</td>
+</tr>
+<tr>
+<td>1003</td>
+<td>Werbung</td>
+<td>4.000,00</td>
+</tr>
+<tr>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>3.535,00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Durch Gemeinkostenberechnung erstellte Kosteneinträge</strong></p>
+<table>
+<thead>
+<tr>
+<th>Kostenobjekt</th>
+<th>Beschreibung</th>
+<th>Kostenelement</th>
+<th>Beschreibung</th>
+<th>Betrag</th>
+<th>Abschlussstichtag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC001</td>
+<td>Personalverwaltung</td>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>10.100,00. -</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC002</td>
+<td>Finanzen</td>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>3.535,00</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC003</td>
+<td>Montage</td>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>5.555,00</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Verpackung</td>
+<td>SC-CC001</td>
+<td>Personalverwaltung</td>
+<td>1.010,00</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC002</td>
+<td>Finanzen</td>
+<td>SC-CC002</td>
+<td>Finanzen</td>
+<td>17.735,00. -</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC003</td>
+<td>Montage</td>
+<td>SC-CC002</td>
+<td>Finanzen</td>
+<td>11.527,75</td>
+<td>31-01-2017</td>
+</tr>
+<tr>
+<td>CC004</td>
+<td>Verpackung</td>
+<td>SC-CC002</td>
+<td>Finanzen</td>
+<td>6.207,25</td>
+<td>31-01-2017</td>
+</tr>
+</tbody>
+</table>
+<p>Nachdem die <strong>Gemeinkostenberechnung</strong> abgeschlossen wurde, können Sie die Ergebnisse mithilfe von Tools wie Microsoft SharePoint Workspace, Excel oder Power BI melden.</p>
+<h2 id="view-reporting-in-excel">Berichtserstellung in Excel anzeigen</h2>
+<p>Die Dimensionshierarchien ermöglichen Ihnen, Daten auf verschiedenen Aggregationsebenen anzuzeigen.</p>
+<p>Es folgt das Beispiel einer Power Pivot-Berichterstellung in Excel.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Gewinn- und Verlustaufstellung</strong></th>
+<th><strong>Kostenobjekt</strong></th>
+<th> </th>
+<th> </th>
+<th> </th>
+<th><strong>Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong>CC001</strong></td>
+<td><strong>CC002</strong></td>
+<td><strong>CC003</strong></td>
+<td><strong>CC004</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Primäre Kosten</strong></td>
+<td><strong>10.100,00</strong></td>
+<td><strong>14.200,00</strong></td>
+<td><strong>14.000,00</strong></td>
+<td><strong>8.500,00</strong></td>
+<td><strong>46.800,00</strong></td>
+</tr>
+<tr>
+<td>1001.     </td>
+<td>100,00</td>
+<td>200.00</td>
+<td>6.000,00</td>
+<td>2.000,00</td>
+<td><strong>8.300,00</strong></td>
+</tr>
+<tr>
+<td>1002.     </td>
+<td>10.000,00</td>
+<td>10.000,00</td>
+<td>8.000,00</td>
+<td>6.500,00</td>
+<td><strong>34.500,00</strong></td>
+</tr>
+<tr>
+<td>1003.     </td>
+<td>0.00</td>
+<td>4.000,00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td><strong>4.000,00</strong></td>
+</tr>
+<tr>
+<td><strong>Sekundäre Kosten</strong></td>
+<td><strong>-10.100,00</strong></td>
+<td><strong>-14.200,00</strong></td>
+<td><strong>17.082.75</strong></td>
+<td><strong>7.217,25</strong></td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>    SC-CC001</td>
+<td>10.100,00. -</td>
+<td>3.535,00</td>
+<td>5.555,00</td>
+<td>1.010,00</td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>    SC-CC002</td>
+<td>0.00</td>
+<td>17.735,00. -</td>
+<td>11.527,75</td>
+<td>6.207,25</td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>    SC-CC003</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>    SC-CC004</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td><strong>Summe</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>31.082,75</strong></td>
+<td><strong>15.717,25</strong></td>
+<td><strong>46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Mithilfe von einer <strong>Kostenrolluprichtlinie</strong> und <strong>Kostenelementen vom Typs &quot;sekundär&quot;</strong> können Sie die primären Kosten pro Kostenobjekt für interne Berichte als primäre Kosten nutzen, die nach der <strong>Gemeinkostenberechnung</strong> verbleiben.</p>
+<p>Wenn das gleiche Beispiel ausgeführt wird, ohne die <strong>Kostenrolluprichtlinie</strong> zu erstellen, sieht das Berichterstellungsergebnis wie unten dargestellt aus. Die Kosten fließen ordnungsgemäß, aber die Nachweisbarkeit und der Einblick darin, wie Kosten zwischen Kostenstellen fließen, gehen verloren.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Gewinn- und Verlustaufstellung</strong></th>
+<th><strong>Kostenobjekt</strong></th>
+<th> </th>
+<th> </th>
+<th> </th>
+<th><strong>Summe</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong>CC001</strong></td>
+<td><strong>CC002</strong></td>
+<td><strong>CC003</strong></td>
+<td><strong>CC004</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Primäre Kosten</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>31.082,75</strong></td>
+<td><strong>15.717,25</strong></td>
+<td><strong>46.800,00</strong></td>
+</tr>
+<tr>
+<td>1001.     </td>
+<td>0.00</td>
+<td>0.00</td>
+<td>6.207,75</td>
+<td>2.092,25</td>
+<td><strong>8.300,00</strong></td>
+</tr>
+<tr>
+<td>1002.     </td>
+<td>0.00</td>
+<td>0.00</td>
+<td>22.275,00</td>
+<td>12.225,00</td>
+<td><strong>34.500,00</strong></td>
+</tr>
+<tr>
+<td>1003.     </td>
+<td>0.00</td>
+<td>0.00</td>
+<td>2600,00</td>
+<td>1.400,00</td>
+<td><strong>4.000,00</strong></td>
+</tr>
+<tr>
+<td><strong>Sekundäre Kosten</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>     SC-CC001</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>     SC-CC002</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td><strong>0,00</strong></td>
+</tr>
+<tr>
+<td>     SC-CC003</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>     SC-CC004</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td><strong>Summe</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>0,00</strong></td>
+<td><strong>31.082,75</strong></td>
+<td><strong>15.717,25</strong></td>
+<td><strong>46.800,00</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Abhängig von den Anforderungen für Berichterstellung und Nachweisbarkeit in Ihrer Organisation können Sie die richtige Ebene der sekundären Kosten bestimmen und Kostenrollupregeln erstellen, die Ihrem Bedarf entsprechen.</p>
+<p>Die eindeutige Trennung zwischen <strong>Kostenzuweisung</strong> und <strong>Kostenrolluprichtlinien</strong> bietet die Flexibilität, um fortlaufende Aktualisierungen vornehmen, ohne dass sie sich gegenseitig beeinflussen.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="cost-objects.html">Kostenträgerdimensionen</a></li>
+<li><a href="cost-elements.html">Kostenelementdimensionen</a></li>
+<li><a href="dimension-hierarchy.html">Dimensionshierarchie</a></li>
+<li><a href="overhead-calculation.html">Gemeinkostenberechnung</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

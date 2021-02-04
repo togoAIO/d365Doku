@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Design ER expressions to call application class methods | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Design ER expressions to call application class methods | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="design-er-expressions-to-call-application-class-methods">Design ER expressions to call application class methods</h1>
+
+
+<p>This guide provides information about how to reuse the existing application logic in Electronic reporting (ER) configurations by calling required methods of application classes in ER expressions. Values of arguments for calling classes can be defined dynamically at run-time: for example, based on information in the parsing document to ensure its correctness. In this guide, you will create the required ER configurations for the sample company, Litware, Inc. This procedure is created for users with the assigned role of System administrator or Electronic reporting developer.</p>
+<p>These steps can be completed using any data set. You must also download and save the following file locally: (<a href="https://go.microsoft.com/fwlink/?linkid=862266">https://go.microsoft.com/fwlink/?linkid=862266</a>): SampleIncomingMessage.txt.</p>
+<p>To complete these steps, you must first complete the steps in the procedure, &quot;ER Create a configuration provider and mark it as active.&quot;</p>
+<ol>
+<li>Go to Organization administration &gt; Workspaces &gt; Electronic reporting.
+<ul>
+<li>Verify that the configuration provider for sample company, Litware, Inc. is available and marked as active. If you don't see this configuration provider, you must first complete the steps in the procedure, &quot;Create a configuration provider and mark it as active&quot;.</li>
+<li>You are designing a process for parsing incoming bank statements for an application data update. You will receive the incoming bank statements as TXT files that contain IBAN codes. As part of the bank statement import process, you need to validate the correctness of this IBAN codes using the logic that is already available.</li>
+</ul>
+</li>
+</ol>
+<h2 id="import-a-new-er-model-configuration">Import a new ER model configuration</h2>
+<ol>
+<li>In the list, find and select the desired record.
+<ul>
+<li>Select the Microsoft provider tile.</li>
+</ul>
+</li>
+<li>Click Repositories.</li>
+<li>Click Show filters.</li>
+<li>Add a filter field 'Type name'. In the Name field, enter the value &quot;resources&quot;, select the &quot;contains&quot; filter operator, and then click Apply.</li>
+<li>Click Open.</li>
+<li>In the tree, select 'Payment model'.
+<ul>
+<li>If the Import button on the Versions FastTab is not enabled, you have already imported the version 1 one of the ER configuration 'Payment model'. You can skip the rest steps in this sub-task.</li>
+</ul>
+</li>
+<li>Click Import.</li>
+<li>Click Yes.</li>
+<li>Close the page.</li>
+<li>Close the page.</li>
+</ol>
+<h2 id="add-a-new-er-format-configuration">Add a new ER format configuration</h2>
+<ol>
+<li>Click Reporting configurations.
+<ul>
+<li>Add a new ER format to parse incoming bank statements in TXT format.</li>
+</ul>
+</li>
+<li>In the tree, select 'Payment model'.</li>
+<li>Click Create configuration to open the dialog menu.</li>
+<li>In the New field, enter 'Format based on data model PaymentModel'.</li>
+<li>In the Name field, type 'Bank statement import format (sample)'.
+<ul>
+<li>Bank statement import format (sample)</li>
+</ul>
+</li>
+<li>Select Yes in the Supports data import field.</li>
+<li>Click Create configuration.</li>
+</ol>
+<h2 id="design-the-er-format-configuration---format">Design the ER format configuration - format</h2>
+<ol>
+<li>Click Designer.
+<ul>
+<li>The designed format represents the expected structure of the external file in TXT format.</li>
+</ul>
+</li>
+<li>Click Add root to open the dialog menu.</li>
+<li>In the tree, select 'Text\Sequence'.</li>
+<li>In the Name field, type 'Root'.
+<ul>
+<li>Root</li>
+</ul>
+</li>
+<li>In the Special characters field, select 'New line - Windows (CR LF)'.
+<ul>
+<li>The option 'New line - Windows (CR LF)' has been selected in the 'Special characters' field. Based on this setting, each line in the parsing file is considered a separate record.</li>
+</ul>
+</li>
+<li>Click OK.</li>
+<li>Click Add to open the drop dialog.</li>
+<li>In the tree, select 'Text\Sequence'.</li>
+<li>In the Name field, type 'Rows'.
+<ul>
+<li>Rows</li>
+</ul>
+</li>
+<li>In the Multiplicity field, select 'One many'.
+<ul>
+<li>The option 'One many' has been selected in the 'Multiplicity' field. Based on this setting, it is expected that at least one line will be presented in the parsing file.</li>
+</ul>
+</li>
+<li>Click OK.</li>
+<li>In the tree, select 'Root\Rows'.</li>
+<li>Click Add Sequence.</li>
+<li>In the Name field, type 'Fields'.
+<ul>
+<li>Fields</li>
+</ul>
+</li>
+<li>In the Multiplicity field, select 'Exactly one'.</li>
+<li>Click OK.</li>
+<li>In the tree, select 'Root\Rows\Fields'.</li>
+<li>Click Add to open the drop dialog.</li>
+<li>In the tree, select 'Text\String'.</li>
+<li>In the Name field, type 'IBAN'.
+<ul>
+<li>IBAN</li>
+</ul>
+</li>
+<li>Click OK.
+<ul>
+<li>It has been configured that each line in the parsing file contains the only IBAN code.</li>
+</ul>
+</li>
+<li>Click Save.</li>
+</ol>
+<h2 id="design-the-er-format-configuration--mapping-to-data-model">Design the ER format configuration – mapping to data model</h2>
+<ol>
+<li>Click Map format to model.</li>
+<li>Click New.</li>
+<li>In the Definition field, type 'BankToCustomerDebitCreditNotificationInitiation'.
+<ul>
+<li>BankToCustomerDebitCreditNotificationInitiation</li>
+</ul>
+</li>
+<li>ResolveChanges the Definition.</li>
+<li>In the Name field, type 'Mapping to data model'.
+<ul>
+<li>Mapping to data model</li>
+</ul>
+</li>
+<li>Click Save.</li>
+<li>Click Designer.</li>
+<li>In the tree, select 'Dynamics 365 for Operations\Class'.</li>
+<li>Click Add root.
+<ul>
+<li>Add a new data source to call the existing application logic for IBAN codes validation.</li>
+</ul>
+</li>
+<li>In the Name field, type 'check_codes'.
+<ul>
+<li>check_codes</li>
+</ul>
+</li>
+<li>In the Class field, type 'ISO7064'.
+<ul>
+<li>ISO7064</li>
+</ul>
+</li>
+<li>Click OK.</li>
+<li>In the tree, expand 'format'.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)'.</li>
+<li>In the tree, select 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)'.</li>
+<li>Click Bind.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)'.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)\Fields: Sequence 1..1 (Fields)'.</li>
+<li>In the tree, select 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)\Fields: Sequence 1..1 (Fields)\IBAN: String(IBAN)'.</li>
+<li>In the tree, expand 'Payments = format.Root.Rows'.</li>
+<li>In the tree, expand 'Payments = format.Root.Rows\Creditor Account(CreditorAccount)'.</li>
+<li>In the tree, expand 'Payments = format.Root.Rows\Creditor Account(CreditorAccount)\Identification'.</li>
+<li>In the tree, select 'Payments = format.Root.Rows\Creditor Account(CreditorAccount)\Identification\IBAN'.</li>
+<li>Click Bind.</li>
+<li>Click the Validations tab.</li>
+<li>Click New.
+<ul>
+<li>Add a new validation rule that displays an error for any line in the parsing file that contains invalid IBAN code.</li>
+</ul>
+</li>
+<li>Click Edit condition.</li>
+<li>In the tree, expand 'check_codes'.</li>
+<li>In the tree, select 'check_codes\verifyMOD1271_36'.</li>
+<li>Click Add data source.</li>
+<li>In the Formula field, enter 'check_codes.verifyMOD1271_36('.
+<ul>
+<li>check_codes.verifyMOD1271_36(</li>
+</ul>
+</li>
+<li>In the tree, expand 'format'.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)'.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)'.</li>
+<li>In the tree, expand 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)\Fields: Sequence 1..1 (Fields)'.</li>
+<li>In the tree, select 'format\Root: Sequence(Root)\Rows: Sequence 1..* (Rows)\Fields: Sequence 1..1 (Fields)\IBAN: String(IBAN)'.</li>
+<li>Click Add data source.</li>
+<li>In the Formula field, enter 'check_codes.verifyMOD1271_36(format.Root.Rows.Fields.IBAN)'.
+<ul>
+<li>check_codes.verifyMOD1271_36(format.Root.Rows.Fields.IBAN)</li>
+</ul>
+</li>
+<li>Click Save.</li>
+<li>Close the page.
+<ul>
+<li>The validation condition has been configured to return FALSE for any invalid IBAN code by calling the existing method 'verifyMOD1271_36' of the application class 'ISO7064'. Note that the value of the IBAN code is defined dynamically at run-time as the argument of the calling method based on the content of the parsing TXT file.</li>
+</ul>
+</li>
+<li>Click Edit message.</li>
+<li>In the Formula field, enter 'CONCATENATE(&quot;Invalid IBAN code has been found:  &quot;, format.Root.Rows.Fields.IBAN)'.
+<ul>
+<li>CONCATENATE(&quot;Invalid IBAN code has been found:  &quot;, format.Root.Rows.Fields.IBAN)</li>
+</ul>
+</li>
+<li>Click Save.</li>
+<li>Close the page.</li>
+<li>Click Save.</li>
+<li>Close the page.</li>
+</ol>
+<h2 id="run-the-format-mapping">Run the format mapping</h2>
+<p>For testing purposes, execute the format mapping using the SampleIncomingMessage.txt file that you downloaded. The generated output includes data that will be imported from the selected TXT file and populated to the custom data model during the real import.</p>
+<ol>
+<li>Click Run.
+<ul>
+<li>Click Browse and navigate to the SampleIncomingMessage.txt file that you previously downloaded.</li>
+</ul>
+</li>
+<li>Click OK.
+<ul>
+<li>Review the output in XML format that represents the data that has been imported from the selected file and ported to the data model. Note that only 3 lines of the imported TXT file were processed. The IBAN code on line 4 that is not valid was skipped and an error message is provided in the Infolog.</li>
+</ul>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enable customer payment predictions (preview) | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enable customer payment predictions (preview) | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="enable-customer-payment-predictions-preview">Enable customer payment predictions (preview)</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/public-preview-releases">Service update availability</a>.</p>
+</div>
+
+<p>This topic explains how to turn on and configure the Customer payment predictions feature in Finance insights. You turn on the feature in the <strong>Feature management</strong> workspace and enter configuration settings on the <strong>Financial insights parameters</strong> page. This topic also includes information that can help you effectively use the feature.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Before you complete the following steps, be sure to complete the prerequisite steps in the <a href="configure-for-fin-insites.html">Configure for Finance insights</a> topic.</p>
+</div>
+<ol>
+<li><p>Use information from the environment page in Microsoft Dynamics Lifecycle Services (LCS) to connect to the primary instance of Azure SQL for that environment. Run the following Transact-SQL (T-SQL) command to turn on flights for the sandbox environment. (You might have to turn on access for your IP address in LCS before you can connect remotely to Application Object Server [AOS].)</p>
+<p><code>INSERT INTO SYSFLIGHTING (FLIGHTNAME, ENABLED, PARTITION) VALUES ('PayPredEnableFeature', 1, 5637144576)</code></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If your deployment of Microsoft Dynamics 365 Finance is a Service Fabric deployment, you can skip this step. The Finance insights team should already have turned on the flight for you. If you don't see the feature in the <strong>Feature management</strong> workspace, or if experience issues when you try to turn it on, contact <a href="mailto:fiap@microsoft.com">fiap@microsoft.com</a>.</p>
+</div>
+</li>
+<li><p>Turn on the Customer payment insights feature:</p>
+<ol>
+<li>Go to <strong>System administration &gt; Workspaces &gt; Feature management</strong>.</li>
+<li>Find the feature that is named <strong>Customer payment insights (preview)</strong>.</li>
+<li>Select <strong>Enable now</strong>.</li>
+</ol>
+<p>The Customer payment insights feature is now turned on and ready to be configured.</p>
+</li>
+<li><p>Configure the Customer payment insights feature:</p>
+<ol>
+<li><p>Go to <strong>Credit and collections &gt; Setup &gt; Finance insights &gt; Finance insights parameters</strong>.</p>
+<p><a href="./media/finance-insights-parameters.png"><img src="./media/finance-insights-parameters.png" alt="Financial insights parameters page before the feature is configured"></a></p>
+</li>
+<li><p>On the <strong>Financial insights parameters</strong> page, on the <strong>Customer payment insights</strong> tab, select the <strong>View the data fields used in the prediction model</strong> link to open the <strong>Data fields for prediction model</strong> page. There, you can view the default list of fields that are used to create the artificial intelligence (AI) prediction model for customer payment predictions.</p>
+<p>To use the default list of fields to create the prediction model, close the <strong>Data fields for prediction model</strong> page, and then, on the <strong>Financial insights parameters</strong> page, set the <strong>Enable feature</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>Specify the &quot;very late&quot; transaction period to define what the <strong>Very late</strong> prediction bucket means for your business.</p>
+<p>For each open invoice, the system predicts the probability of payment in three buckets: <strong>On time</strong>, <strong>Late</strong>, and <strong>Very late</strong>.</p>
+<ul>
+<li><strong>On time</strong> – This bucket includes payments that are predicted to be paid on or before the transaction due date.</li>
+<li><strong>Late</strong> – This bucket includes payments that are predicted to be paid after the transaction due date but before the start of the &quot;very late&quot; transaction period.</li>
+<li><strong>Very late</strong> – This bucket includes payments that are predicted to be paid after the start of the &quot;very late&quot; transaction period.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you change the &quot;very late&quot; transaction period and select <strong>Change late threshold</strong> after the AI prediction model for customer payments has been created, the existing prediction model is deleted, and a new model is created. The new prediction model will move transactions into the &quot;very late&quot; period, based on the settings that were entered to define it.</p>
+</div>
+</li>
+<li><p>After you've finished defining the &quot;very late&quot; transaction period, select <strong>Create prediction model</strong> to create the prediction model. The <strong>Prediction model</strong> section on the <strong>Financial insights parameters</strong> page shows the status of the prediction model.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>At any time while the prediction model is being created, you can select <strong>Reset model creation</strong> to restart the process.</p>
+</div>
+</li>
+</ol>
+<p>The feature has now been configured and is ready to be used.</p>
+</li>
+</ol>
+<p>After the feature has been turned on and configured, and the prediction model has been created and is working, the <strong>Prediction model</strong> section of the <strong>Financial insights parameters</strong> page shows the accuracy of the model, as shown in the following illustration.</p>
+<p><a href="./media/finance-insights-parameters-accuracy.png"><img src="./media/finance-insights-parameters-accuracy.png" alt="Accuracy of the prediction model on the Financial insights parameters page"></a></p>
+<h2 id="release-details">Release details</h2>
+<p>Finance insights public preview is available for trial deployments in the United States of America, Europe, and the United Kingdom. Microsoft is incrementally adding support for more regions.</p>
+<p>Public preview features can and should be turned on only in Tier-2 sandbox environments. Setup and AI models that are created in a sandbox environment can't be migrated to a production environment. For more information, see <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/fin-ops/get-started/public-preview-terms">Supplemental Terms of Use for Microsoft Dynamics 365 Previews</a>.</p>
+<h2 id="privacy-notice">Privacy notice</h2>
+<p>Previews (1) might use less privacy and fewer security measures than the Dynamics 365 Finance and Operations service, (2) aren't included in the service level agreement (SLA) for this service, (3) should not be used to process personal data or other data that is subject to legal or regulatory compliance requirements, and (4) have limited support.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

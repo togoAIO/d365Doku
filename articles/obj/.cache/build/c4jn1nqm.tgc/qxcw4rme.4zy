@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Support parameterized calls of ER data sources of the Calculated field type </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Support parameterized calls of ER data sources of the Calculated field type ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about how to use the Calculated field type for ER data sources.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="support-parameterized-calls-of-er-data-sources-of-the-calculated-field-type">Support parameterized calls of ER data sources of the Calculated field type</h1>
+
+
+<p>This topic explains how you can design an Electronic reporting (ER) data source by using the <strong>Calculated field</strong> type. This data source may contain an ER expression that, when executed, can be controlled by the values of the parameter arguments that are configured in a binding that calls this data source. By configuring parameterized calls of such a data source, you can reuse a single data source in many bindings, which reduces the total number of data sources that must be configured in ER model mappings or ER formats. It also simplifies the configured ER component, which reduces the maintenance costs and the cost of use by other consumers.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To complete the examples in this topic, you must have the following access:</p>
+<ul>
+<li><p>Access to one of these roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+<li><p>Access to Regulatory Configuration Services (RCS) that have been provisioned for the same tenant as Finance and Operations for one of the following roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+</ul>
+<p>You must also download and locally store the following files.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Content</strong></th>
+<th><strong>File name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample ER data model configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Model to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr>
+<td>Sample ER metadata configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Metadata to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr>
+<td>Sample ER model mapping configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Mapping to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td>Sample ER format configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Format to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sign-in-to-your-rcs-instance">Sign in to your RCS instance</h2>
+<p>In this example, you will create a configuration for the sample company, Litware, Inc. First, in RCS, you must complete the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create configuration providers and mark them as active</a> procedure:</p>
+<ol>
+<li><p>On the default dashboard, select <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>Import the downloaded configurations to RCS in the following sequence: data model, metadata, model mapping, format. Complete the following steps for each ER configuration:</p>
+<ol>
+<li>Select <strong>Exchange.</strong></li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, and then select the required ER configuration in XML format.</li>
+<li>Select <strong>OK.</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="review-the-provided-er-solution">Review the provided ER solution</h2>
+<h3 id="review-model-mapping">Review model mapping</h3>
+<ol>
+<li><p>In the configuration tree, expand the content of the <strong>Model to learn parameterized calls</strong> item.</p>
+</li>
+<li><p>Select <strong>Mapping to learn parameterized calls</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+<p>This ER model mapping is designed to do the following:</p>
+<ul>
+<li><p>Fetch the list of tax codes (<strong>Tax</strong> data source) residing in the <strong>TaxTable</strong> table.</p>
+</li>
+<li><p>Fetch the list of tax transactions (<strong>Trans</strong> data source) residing in the <strong>TaxTrans</strong> table:</p>
+<ul>
+<li><p>Group the list of fetched transactions (<strong>Gr</strong> data source) by tax code.</p>
+</li>
+<li><p>Calculate for grouped transactions following aggregated values per tax code:</p>
+<ul>
+<li>Sum of tax base values.</li>
+<li>Sum of tax values.</li>
+<li>Minimum value of applied tax rate.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The model mapping in this configuration implements the base data model for any of the ER formats created for this model and executed in Finance and Operations. As a result, the content of the <strong>Tax</strong> and <strong>Gr</strong> data sources is exposed for ER formats such as abstract data sources.</p>
+<p><img src="media/er-calculated-field-type-01.png" alt="Model mapping designer page showing Tax and Gr data sources"></p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+</li>
+<li><p>Close the <strong>Model mapping</strong> page.</p>
+</li>
+</ol>
+<h3 id="review-format">Review format</h3>
+<ol>
+<li><p>In the configuration tree, expand the content of the <strong>Model to learn parameterized calls</strong> item.</p>
+</li>
+<li><p>Select <strong>Format to learn parameterized calls</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>. This ER format is designed to do the following:</p>
+<ul>
+<li>Generate a tax statement in XML format.</li>
+<li>Present the following levels of taxation in the tax statement: regular, reduced, and none.</li>
+<li>Present multiple details at each taxation level, having a different number of details in each level.</li>
+</ul>
+<p><img src="media/er-calculated-field-type-02.png" alt="Format designer page"></p>
+</li>
+<li><p>Select <strong>Mapping</strong>.</p>
+</li>
+<li><p>Expand the <strong>Model</strong>, <strong>Data,</strong> and <strong>Summary</strong> items.</p>
+<p>The calculated field <strong>Model.Data.Summary.Level</strong> contains the expression that returns the code of the taxation level (<strong>Regular</strong>, <strong>Reduced</strong>, <strong>None,</strong> or <strong>Other</strong>) as a text value for any tax code that can be retrieved from the <strong>Model.Data.Summary</strong> data source at run time.</p>
+<p><img src="media/er-calculated-field-type-03.png" alt="Format designer page showing details of the Data model Model to learn parameterized calls"></p>
+</li>
+<li><p>Expand the <strong>Model</strong>.<strong>Data2</strong> item.</p>
+</li>
+<li><p>Expand the <strong>Model</strong>.<strong>Data2.Summary2</strong> item.</p>
+<p>The <strong>Model</strong>.<strong>Data2.Summary2</strong> data source is configured to group the <strong>Model.Data.Summary</strong> data source transaction details by taxation level (returned by the <strong>Model.Data.Summary.Level</strong> calculated field) and compute the aggregations.</p>
+<p><img src="media/er-calculated-field-type-04.png" alt="Format designer page showing details of the Model.Data2.Summary2 data source"></p>
+</li>
+<li><p>Review the calculated fields <strong>Model</strong>.<strong>Data2.Level1</strong>, <strong>Model</strong>.<strong>Data2.Level2</strong>, and <strong>Model</strong>.<strong>Data2.Level3.</strong> These calculated fields are used to filter the <strong>Model</strong>.<strong>Data2.Summary2</strong> records list and return only records that represent a particular taxation level.</p>
+</li>
+<li><p>Close the <strong>Format designer</strong> page.</p>
+</li>
+</ol>
+<h2 id="create-a-derived-format">Create a derived format</h2>
+<p>You can improve the provided format by adding one calculated field to filter the required taxation level instead of using the existing three fields: <strong>Model</strong>.<strong>Data2.Level1</strong>, <strong>Model</strong>.<strong>Data2.Level2,</strong> and <strong>Model</strong>.<strong>Data2.Level3</strong>. The required taxation level can be specified in the location where this new calculated field will be called.</p>
+<ol>
+<li>In the configuration tree, expand the content of the <strong>Model to learn parameterized calls</strong> item.</li>
+<li>Select <strong>Format to learn parameterized calls</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>Select <strong>Derive from Name: Format to learn parameterized calls, Microsoft</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Format to learn parameterized calls (custom)</strong>.</li>
+<li>Select <strong>Create configuration.</strong></li>
+</ol>
+<h2 id="configure-a-parameterized-calculated-field-that-returns-a-list-of-records">Configure a parameterized calculated field that returns a list of records</h2>
+<h3 id="start-adding-a-new-calculated-field">Start adding a new calculated field</h3>
+<ol>
+<li>Select <strong>Designer</strong>.</li>
+<li>Select <strong>Expand/collapse</strong> to expand all format items.</li>
+<li>Select <strong>Mapping</strong>.</li>
+<li>Expand the <strong>Model</strong> item.</li>
+<li>Select the <strong>Model.Data2</strong> item.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>Select <strong>Functions\Calculated field</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Levels</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field">Define a parameter for adding a calculated field</h3>
+<ol>
+<li><p>Select <strong>Parameters</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Taxation Level</strong>.</p>
+</li>
+<li><p>In the <strong>Type</strong> field, select <strong>String</strong>.</p>
+<p>Only primitive data types can be used to specify the type of the parameter’s argument. Therefore, <strong>Record list</strong>, <strong>Record</strong>, and <strong>Enum</strong> types cannot be used for this purpose.</p>
+<p>The maximum number of parameters that can be specified for a single calculated field is 8.</p>
+<p><img src="media/er-calculated-field-type-05.png" alt="Parameter data source list"></p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>By adding this parameter, you specify the condition that must be in place to call this calculated field. When you call this calculated field, you need to specify the argument of the <strong>Taxation Level</strong> parameter as a value with <strong>String</strong> format.</p>
+<p>Make sure that you define parameters only for those calculated fields that reside in a container (either <strong>Record list</strong>, <strong>Record</strong>, or <strong>Container</strong>).</p>
+<p>The configured parameter is available in the list of data sources for this calculated field. You can add the parameter to the configured expression by selecting <strong>Add data source</strong>.</p>
+<p><img src="media/er-calculated-field-type-06.png" alt="Data source fields"></p>
+<h3 id="define-an-expression-for-adding-a-calculated-field">Define an expression for adding a calculated field</h3>
+<ol>
+<li><p>In the <strong>Formula</strong> field, enter:</p>
+<p><strong>WHERE(@.Summary2, @.Summary2.grouped.Level =</strong></p>
+</li>
+<li><p>Select the <strong>Taxation Level</strong> parameter in the list of data sources.</p>
+</li>
+<li><p>Select <strong>Add data source</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, finalize the expression as:</p>
+<p><strong>WHERE(@.Summary2, @.Summary2.grouped.Level = 'Taxation Level')</strong></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+<p><img src="media/er-calculated-field-type-07.png" alt="Data source field information"></p>
+</li>
+<li><p>Close the <strong>Formula designer</strong> page.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field">Finish adding a new calculated field</h3>
+<ul>
+<li>Select <strong>OK</strong>.</li>
+</ul>
+<p>On the <strong>Format designer</strong> page, the configured parameterized calculated field <strong>Levels</strong> requires a <strong>String</strong> argument.</p>
+<p><img src="media/er-calculated-field-type-08.png" alt="Expanded list of calculated field levels"></p>
+<h3 id="use-the-configured-calculated-field-for-binding-format-elements">Use the configured calculated field for binding format elements</h3>
+<ol>
+<li><p>Select <strong>Model.Data2.Levels</strong> to select the configured calculated field.</p>
+</li>
+<li><p>Select the <strong>Statement.Taxation.Regular</strong> format element.</p>
+</li>
+<li><p>Select <strong>Bind</strong>.</p>
+</li>
+<li><p>Select <strong>Yes</strong> to confirm the replacement of the currently used data source, <strong>Level1</strong>, by the new data source, <strong>Levels</strong>, in all nested format elements of the selected format element.</p>
+<p>Applied binding has been built as a call of the parameterized calculated field. By default, the name of the bound format element is used as an argument for parameterized calculated field under the following conditions:</p>
+<ul>
+<li>The calculated field is configured to use a single parameter.</li>
+<li>The data type of this parameter is defined as <strong>String</strong>.</li>
+</ul>
+<p>When the name of the bound format element is blank, the data source name of this element is used in applied binding.</p>
+</li>
+<li><p>Select the <strong>Statement.Taxation.Reduced</strong> format element.</p>
+</li>
+<li><p>Select <strong>Bind</strong>.</p>
+</li>
+<li><p>Select <strong>Yes</strong> to confirm the replacement of the currently used data source, <strong>Level2</strong>, by the new data source, <strong>Levels</strong>, in all nested format elements under the selected format element.</p>
+</li>
+<li><p>Select the <strong>Statement.Taxation.None</strong> format element.</p>
+</li>
+<li><p>Select <strong>Bind</strong>.</p>
+</li>
+<li><p>Select <strong>Yes</strong> to confirm the replacement of the currently used data source, <strong>Level3</strong>, by the new data source, <strong>Levels</strong>, in all nested format elements under the selected format element.</p>
+</li>
+</ol>
+<p>When you specify the argument of the parameterized calculated field for the XML element representing taxation level (for example, <strong>Model.Data2.Levels(&quot;Reduced&quot;)</strong> as a text value), you don’t need to do the same for nested XML attributes—their bindings will automatically inherit the value of the argument defined on the parent level (<strong>Model.Data2.Levels.aggregated.Base</strong>, not <strong>Model.Data2.Levels(&quot;Reduced&quot;).aggregated.Base</strong>).</p>
+<p>Recurrent calls of any parameterized calculated field are not supported.</p>
+<p>You can select <strong>Edit formula</strong>, and change the applied-by-default argument of the parameterized calculated field in the selected binding. If this argument is missing, it can cause errors at run time — users are informed about such a situation when the current format is validated.</p>
+<p><img src="media/er-calculated-field-type-10.png" alt="Validation warning notification"></p>
+<h2 id="configure-a-parameterized-calculated-field-to-return-a-record">Configure a parameterized calculated field to return a record</h2>
+<p>When a parameterized calculated field returns a record, you need to support binding of individual fields of this record to format elements. In such cases there will be no parent binding that contains the value of an argument to call a parameterized calculated field — this value must be defined in the binding of a single record’s field.</p>
+<h3 id="start-adding-a-new-calculated-field-1">Start adding a new calculated field</h3>
+<ol>
+<li>Select the <strong>Model.Data2</strong> item.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>Select <strong>Functions\Calculated field</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>LevelRecord</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field-1">Define a parameter for adding a calculated field</h3>
+<ol>
+<li>Select <strong>Parameters</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Taxation Level</strong>.</li>
+<li>In the <strong>Type</strong> field, select <strong>String</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h3 id="define-an-expression-for-adding-a-calculated-field-1">Define an expression for adding a calculated field</h3>
+<ol>
+<li><p>In the <strong>Formula</strong> field, enter the following:</p>
+<p><strong>FIRSTORNULL(@.Levels(</strong></p>
+</li>
+<li><p>Select the <strong>Taxation Level</strong> parameter.</p>
+</li>
+<li><p>Select <strong>Add data source</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, append <strong>'Taxation Level'))</strong> to what you entered in Step 1 to finalize the expression to:</p>
+<p><strong>FIRSTORNULL(@.Levels('Taxation Level'))</strong></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close <strong>the Formula designer</strong> page.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field-1">Finish adding a new calculated field</h3>
+<ul>
+<li>Select <strong>OK</strong>.</li>
+</ul>
+<h3 id="use-the-configured-calculated-field-to-bind-format-elements">Use the configured calculated field to bind format elements</h3>
+<ol>
+<li>Expand <strong>Model.Data2.LevelRecord</strong> to select the configured calculated field.</li>
+<li>Expand the <strong>Model.Data2.LevelRecord.aggregated</strong> container of the configured calculated field.</li>
+<li>Select the <strong>Model.Data2.LevelRecord.aggregated.Base</strong> field.</li>
+<li>Select the <strong>Statement.Taxation.None</strong> format element.</li>
+<li>Select <strong>Unbind</strong>.</li>
+<li>Select the <strong>Statement.Taxation.None.Base</strong> format element.</li>
+<li>Select <strong>Bind</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>Change the expression to <strong>Model.Data2.LevelRecord(&quot;None&quot;).aggregated.Base</strong>.</li>
+</ol>
+<p><img src="media/er-calculated-field-type-11.png" alt="Updated expression"></p>
+<h2 id="remove-calculated-fields-that-are-not-used">Remove calculated fields that are not used</h2>
+<ol>
+<li>Select <strong>Model.Data2.Level1</strong>.</li>
+<li>Select <strong>Delete</strong>.</li>
+<li>Select <strong>Model.Data2.Level2</strong>.</li>
+<li>Select <strong>Delete</strong>.</li>
+<li>Select <strong>Model.Data2.Level3</strong>.</li>
+<li>Select <strong>Delete</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You reused the same calculated field <strong>Model.Data2.Levels</strong> several times in format bindings. It is much easier to use and maintain a single calculated field instead of doing this for multiple similar fields.</p>
+</div>
+<ol start="8">
+<li>Close the <strong>Format designer</strong> page.</li>
+</ol>
+<h2 id="complete-adjusted-version-of-a-derived-format">Complete adjusted version of a derived format</h2>
+<ol>
+<li>In the <strong>Versions</strong> FastTab, select <strong>Change status</strong>.</li>
+<li>Select <strong>Complete</strong>.</li>
+</ol>
+<h2 id="export-completed-version-of-a-derived-format">Export completed version of a derived format</h2>
+<ol>
+<li>Select <strong>Format to learn parameterized calls (custom)</strong> format in the configurations tree.</li>
+<li>In the <strong>Versions</strong> FastTab, select the completed version 1.1.1.</li>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Export as XML file</strong>.</li>
+<li>Store the downloaded configuration locally, in XML format.</li>
+</ol>
+<h2 id="test-er-formats">Test ER formats</h2>
+<p>You can run the initial and improved ER formats to make sure that configured parameterized calculated fields work properly.</p>
+<h3 id="import-er-configurations">Import ER configurations</h3>
+<p>You can import reviewed configurations from RCS by using the ER repository of the <strong>RCS</strong> type. If you already went through the steps in the topic, <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/rcs-download-configurations">Import Electronic reporting (ER) configurations from Regulatory Configuration Services (RCS) (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>, use the configured ER repository to import configurations discussed earlier in this topic to your environment. Otherwise, follow these steps:</p>
+<ol>
+<li><p>Select the <strong>DEMF</strong> company and on the default dashboard, select <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>Import the configurations from Microsoft Download Center in the following sequence: data model, model mapping, format. Complete the following steps for each ER configuration:</p>
+<ol>
+<li>Select <strong>Exchange.</strong></li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to select the required ER configuration in XML format.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Import the exported from RCS completed version 1.1.1 of the <strong>Format to learn parameterized calls (custom)</strong> format:</p>
+<ol>
+<li>Select <strong>Exchange.</strong></li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to select the locally stored <strong>Format to learn parameterized calls (custom)</strong> file in XML format.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="run-er-formats">Run ER formats</h3>
+<ol>
+<li>In the configuration tree, expand the content of the <strong>Model to learn parameterized calls</strong> item.</li>
+<li>Select <strong>Format to learn parameterized calls</strong>.</li>
+<li>Select <strong>Run</strong> on the top-most ribbon.</li>
+<li>Save the locally generated output.</li>
+<li>Select the <strong>Format to learn parameterized calls (custom)</strong> item.</li>
+<li>Select <strong>Run</strong> on the top-most ribbon.</li>
+<li>Save the generated output locally.</li>
+<li>Compare the contents of the generated outputs.</li>
+</ol>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="general-electronic-reporting-formula-designer.html">Formula designer in Electronic reporting (ER)</a></li>
+<li><a href="er-calculated-field-ds-performance.html">Improve performance of ER solutions by adding parameterized CALCULATED FIELD data sources</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Solver strategy for product configuration </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Solver strategy for product configuration ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes how you can use the solver strategy to improve the performance of product configuration.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="PCCreateProductConfigurationModel, PCProductConfigurationModelListPage">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="solver-strategy-for-product-configuration">Solver strategy for product configuration</h1>
+
+
+<p>This topic describes how you can use the solver strategy to improve the performance of product configuration.</p>
+<p>The concept of solver strategies was first introduced in Cumulative update 7 (CU7) for Microsoft Dynamics AX 2012 R2. It was extended in Cumulative update 8 (CU8) for Microsoft Dynamics AX 2012 R3 and Microsoft Dynamics 365 for Finance and Operations, Enterprise edition 7.3.</p>
+<p>The solver strategy concept now consists of the following strategies:</p>
+<ul>
+<li>Default</li>
+<li>Minimal domains first</li>
+<li>Top-down</li>
+<li>Z3</li>
+</ul>
+<h2 id="solver-strategy">Solver strategy</h2>
+<p>A product configuration model can be formulated as a <a href="http://aima.cs.berkeley.edu/2nd-ed/newchap05.pdf">constraint satisfaction problem (CSP)</a>. Microsoft Solver Foundation (MSF) provides two types of solver strategies to solve the CSPs that can be used from product configuration models. These solver strategies rely on <a href="https://techterms.com/definition/heuristic">heuristics</a>, which are used to determine the order that the variables of the CSPs are considered in when the problem is being solved. Heuristics can significantly affect performance when a problem or class of problems is being solved.</p>
+<p>The solver strategy for product configuration models determines which solver is used with heuristics. The <strong>Default</strong>, <strong>Minimal domains first</strong>, and <strong>Top-down</strong> strategies use the two solvers from MSF, whereas the <strong>Z3</strong> strategy uses the Z3 solver.</p>
+<p>Real customer implementation studies have shown that a change in the solver strategy for a product configuration model can reduce the response time from minutes to milliseconds. Therefore, it's worth the effort to try different solver strategies to find the most efficient strategy for your product configuration model.</p>
+<h2 id="change-the-settings-for-the-solver-strategy">Change the settings for the solver strategy</h2>
+<p>To change the solver strategy, on the <strong>Product configuration models</strong> page, on the Action Pane, select <strong>Model properties</strong>. Then, in the <strong>Edit the model details</strong> dialog box, select a solver strategy.</p>
+<p><a href="media/solver-strategy.png"><img src="media/solver-strategy.png" alt="Changing the solver strategy"></a></p>
+<p>Currently, there is no logic that automatically detects which solver strategy will be the most efficient strategy for constraint-based product configuration. Therefore, you must try the solver strategies one by one.</p>
+<p>The following table provides recommendations about the solver strategy to use in various scenarios.</p>
+<table>
+<thead>
+<tr>
+<th>Solver strategy</th>
+<th>Use the strategy in this scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td>The <strong>Default</strong> strategy has been optimized to solve models that rely on table constraints. Customer implementation studies have shown that this strategy is the most efficient strategy in scenarios where table constraints are used extensively.</td>
+</tr>
+<tr>
+<td>Minimal domains first</td>
+<td>The <strong>Minimal domains first</strong> and <strong>Top-down</strong> strategies are closely related. Customer implementation studies have shown that the <strong>Top-down</strong> strategy, outperforms the <strong>Minimal domains first</strong> strategy. However, the <strong>Minimal domains first</strong> strategy is kept in the product for backward compatibility. Both these solver strategies have been shown to be more efficient at solving models that contain several arithmetic expressions where no table constraints are used. However, in some cases, the <strong>Default</strong> strategy outperforms these two strategies. Therefore, remember to try each strategy.</td>
+</tr>
+<tr>
+<td>Top-down</td>
+<td>The <strong>Minimal domains first</strong> and <strong>Top-down</strong> strategies are closely related. Customer implementation studies have shown that the <strong>Top-down</strong> strategy, outperforms the <strong>Minimal domains first</strong> strategy. However, the <strong>Minimal domains first</strong> strategy is kept in the product for backward compatibility. Both these solver strategies have been shown to be more efficient at solving models that contain several arithmetic expressions where no table constraints are used. However, in some cases, the <strong>Default</strong> strategy outperforms these two strategies. Therefore, remember to try each strategy.</td>
+</tr>
+<tr>
+<td>Z3</td>
+<td>We recommend that you use the <strong>Z3</strong> strategy as the default solver strategy. If you're concerned about performance and scalability, you can evaluate the other strategies.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="build-product-configuration-model.html">Product configuration overview</a></p>
+<p><a href="https://techterms.com/definition/heuristic">Heuristics</a></p>
+<p><a href="http://aima.cs.berkeley.edu/2nd-ed/newchap05.pdf">Constraint Satisfaction Problem</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/pim/solver-strategy-product-configuration.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

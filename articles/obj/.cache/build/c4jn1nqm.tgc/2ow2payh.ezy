@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Health check for POS peripherals and services </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Health check for POS peripherals and services ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides an overview of the health check operation in the point of sale (POS).">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="health-check-for-pos-peripherals-and-services" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="32">Health check for POS peripherals and services</h1>
+
+
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="36">This topic describes the health check operation in the point of sale (POS).</p>
+<h2 id="overview" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="38">Overview</h2>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="40">Retail stores can be complex environments where many applications and devices are used. As operations grow, it can become difficult to ensure that operations always run smoothly, because of dependencies on, for example, peripherals that can break or accidentally become unplugged over the course of a day. Troubleshooting for issues that are related to devices and services can be costly for larger merchants and equally frustrating for smaller operations.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="42">Microsoft Dynamics 365 Commerce versions 10.0.10 and later include a health check operation that can help prevent some of this cost and frustration. This operation provides a method for testing devices directly from the POS outside of normal operations. Therefore, it can help retailers detect issues before they occur.</p>
+<h2 id="key-terms" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="44">Key terms</h2>
+<table sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="46">
+<thead>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="46">
+<th sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="46">Term</th>
+<th sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="46">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="48">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="48">Peripheral</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="48">Any device that the POS application uses to facilitate transactions and other operations in the store. Examples include cash drawers, bar code scanners, and payment terminals.</td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="49">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="49">Service</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="49">In this topic, a service is an ancillary application that the POS application depends on to perform transactions and daily operations. Examples include apps that help with tax or shipping calculations.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="health-check-operation" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="51">Health check operation</h2>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="53">The health check operation is operation 717 on the <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="53">POS Operations</strong> page in Commerce Headquarters. It can be used while the POS is in non-drawer mode. However, a hardware station must be active.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="55">By default, the health check tests only devices that are configured in the hardware profile for the hardware station that is currently active for a register. If a register uses multiple hardware stations over the course of a day, to do health checks for all of them, it must connect to one hardware station at a time. There is no store-level health check. However, it's possible that this type of check can be done through Commerce Server extensibility.</p>
+<h3 id="out-of-box-health-checks" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="57">Out-of-box health checks</h3>
+<table sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="59">
+<thead>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="59">
+<th sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="59">Type</th>
+<th sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="59">Connection</th>
+<th sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="59">Details</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">Printer</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">This check tests basic object linking and embedding for POS (OPOS) functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="61">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">Line display</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="62">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="63">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="63">Dual display</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="63">Windows</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="63">This check ensures that the operating system detects a second Windows display.</td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">MSR</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="64">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">Drawer</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="65">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">Scanner</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="66">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">Scale</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="67">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">PIN pad</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">OPOS</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">This check tests basic OPOS functions. Here are some examples:<ul><li>Open: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">Open</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">ClaimDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">DeviceEnabled=True</strong></li><li>Close: <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">DeviceEnabled=False</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">ReleaseDevice</strong> &gt; <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="68">Close</strong></li></ul></td>
+</tr>
+<tr sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="69">
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="69">Payment terminal</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="69">Payments SDK</td>
+<td sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="69">This check tests basic payment terminal functions provided by the Payments SDK. <ul><li>Lock</li><li>BeginTransaction</li><li>EndTransaction</li><li>ReleaseDevice</li><li>Close</li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="using-the-health-check-operation-in-the-pos" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="71">Using the health check operation in the POS</h3>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="73">When the health check operation is initiated in the POS, a pane on the right lists the configured devices and shows the status of each device. To do a health check for a single device, select the device, and then select <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="73">Test selected</strong>. To do a health check for all devices, select <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="73">Test all</strong>. The <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="73">Test all</strong> function tests all the devices, one at a time, and updates the status of each device in the <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="73">Status</strong> column.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="75">The <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="75">Last check</strong> column shows when the health check was last done for each device.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="77">If the health check for a device passes (that is, if no errors are encountered), the device's status will be <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="77">OK</strong>. If the health check fails, the status will indicate that there was an error. In this case, the pane on the right provides details that are related to the error, or it instructs the user to contact the system admin.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="79">Some devices, such as the OPOS keylock, don't have out-of-box health check tests. If a health check test isn't detected for any device that is used, the status will be <strong sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="79">Not supported</strong>.</p>
+<h3 id="extending-health-checks" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="81">Extending health checks</h3>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="83">The out-of-box health check tests are configured to provide some user-friendly messages for typical errors. However, not all scenarios are covered. Through extensibility, merchants can map user-friendly messages to errors that might be specific to their environment.</p>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="85">Custom health checks can also be created to test devices that aren't supported out of the box, or to test any services that the POS depends on.</p>
+<h2 id="related-articles" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="87">Related articles</h2>
+<p sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="89"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/pos-trigger-printing" sourcefile="commerce/pos-healthcheck.md" sourcestartlinenumber="89">Modern POS (MPOS) triggers and printing (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/pos-healthcheck.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

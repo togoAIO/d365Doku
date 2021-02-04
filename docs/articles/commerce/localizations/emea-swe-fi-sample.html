@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Control unit integration sample for Sweden | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Control unit integration sample for Sweden | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="control-unit-integration-sample-for-sweden">Control unit integration sample for Sweden</h1>
+
+
+<div class="NOTE">
+<h5>Note</h5>
+<p>This sample fiscal integration functionality replaces the earlier <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/localizations/retail-sdk-control-unit-sample">Sample for POS integration with control units for Sweden (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>. The earlier sample doesn't take advantage of the <a href="fiscal-integration-for-retail-channel.html">fiscal integration framework</a> and will become obsolete in later updates. For information about how to migrate from the earlier sample to the current sample, see the <a href="#migrating-from-the-earlier-integration-sample">Migrating from the earlier integration sample</a> section.</p>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The Commerce functionality for Sweden includes a sample integration of the point of sale (POS) with Sweden-specific fiscal devices that are known as <em>control units</em>. This sample extends the <a href="fiscal-integration-for-retail-channel.html">fiscal integration functionality</a>. It's assumed that a control unit is physically connected to a Hardware station that the POS is paired with. As an example, this sample uses the application programming interface (API) of the <a href="https://www.retailinnovation.se/produkter">CleanCash Type A</a> control unit by Retail Innovation HTT AB. Version 1.1.4 of the CleanCash API is used.</p>
+<p>The sample is provided in the form of source code and is part of the Retail software development kit (SDK).</p>
+<p>Microsoft doesn't release any hardware, software, or documentation from Retail Innovation HTT AB. For information about how to get the control unit and operate it, contact <a href="https://www.retailinnovation.se/">Retail Innovation HTT AB</a>.</p>
+<h2 id="scenarios">Scenarios</h2>
+<p>The control unit integration sample for Sweden includes the following capabilities:</p>
+<ul>
+<li><p>Sales, returns, and receipt copies are automatically registered in a control unit that is connected to the Hardware station that is paired with the POS.</p>
+</li>
+<li><p>The control code and the manufacturing number of the control unit for a registered transaction are captured from the control unit and saved in the transaction. This data is also referred to as a <em>fiscal response</em>. The fiscal response can be viewed on the <strong>Store transactions</strong> page.</p>
+</li>
+<li><p>Custom fields for the control code and the manufacturing number of the control unit can be added to a receipt layout. In that way, you can print the fiscal response for a transaction on a receipt.</p>
+</li>
+<li><p>The fiscal response for a transaction is shown on the <strong>Electronic journal (Sweden)</strong> channel report.</p>
+</li>
+<li><p>Several error handling options are available. Here are some examples:</p>
+<ul>
+<li>Retry fiscal registration, if a retry is possible. You can retry fiscal registration if, for example, the control unit isn't connected, isn't ready, or isn't responding.</li>
+<li>Postpone fiscal registration.</li>
+<li>Skip fiscal registration, or mark the transaction as registered, and include info codes to capture the reason for the failure and additional information.</li>
+<li>Verify the availability of the control unit before a new sales transaction is opened or a sales transaction is finalized.</li>
+</ul>
+</li>
+</ul>
+<h3 id="default-data-mapping">Default data mapping</h3>
+<p>The following default data mapping is included in the fiscal document provider configuration that is distributed as a part of the fiscal integration sample.</p>
+<p><strong>Value-added tax (VAT) code mapping</strong> sets device-specific value-added tax (VAT) codes to corresponding sales tax codes. VAT code mapping should have the following format:</p>
+<p><em>1 : code1 ; 2 : code2</em></p>
+<p>Here is an explanation of this format:</p>
+<ul>
+<li><em>1</em> and <em>2</em> are device-specific VAT codes.</li>
+<li>A semicolon (;) is used as a separator.</li>
+<li><em>code1</em> and <em>code2</em> are sales tax codes that are configured in Headquarters.</li>
+</ul>
+<p>Control units support up to four different VAT codes. Therefore, the VAT code mapping might be set up as shown here:</p>
+<p><em>1 : code1 ; 2 : code2 ; 3 : code3 ; 4 : code4</em></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Multiple sales tax codes can be mapped to the same device-specific VAT code.</p>
+</div>
+<h3 id="limitations-of-the-sample">Limitations of the sample</h3>
+<p>The control unit integration sample for Sweden doesn't currently support customer order scenarios.</p>
+<h2 id="setting-up-the-integration-with-control-units">Setting up the integration with control units</h2>
+<p>For more information about the setup that is required for Sweden, see <a href="emea-swe-cash-registers.html#setting-up-commerce-for-sweden">Setting up Commerce for Sweden</a>.</p>
+<h3 id="configuring-swedenspecific-receipts">Configuring Sweden–specific receipts</h3>
+<h4 id="configure-custom-fields-so-that-they-can-be-used-in-receipt-formats-for-sales-receipts">Configure custom fields so that they can be used in receipt formats for sales receipts</h4>
+<p>You can configure the language text and custom fields that are used in POS receipt formats. The default company of the user who creates the receipt setup should be the same legal entity where the language text setup is created. Alternatively, the same language texts should be created in both the user's default company and the legal entity of the store that the setup is created for.</p>
+<p>On the <strong>Language text</strong> page, add the following records for the labels of the custom fields for receipt layouts. Note that the <strong>Language ID</strong>, <strong>Text ID</strong>, and <strong>Text</strong> values that are shown in the table are just examples. You can change them to meet your requirements. However, the <strong>Text ID</strong> values that you use must be unique, and they must be equal to or greater than 900001.</p>
+<p>Add the following POS labels in the <strong>POS</strong> section of the <strong>Language text</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Language ID</th>
+<th>Text ID</th>
+<th>Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>en-US</td>
+<td>900001</td>
+<td>Register control code</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900002</td>
+<td>Register device</td>
+</tr>
+</tbody>
+</table>
+<p>On the <strong>Custom fields</strong> page, add the following records for the custom fields for receipt layouts. Note that <strong>Caption text ID</strong> values must correspond to the <strong>Text ID</strong> values that you specified on the <strong>Language text</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Caption text ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SE_FISCALREGISTERCONTROLCODE</td>
+<td>Receipt</td>
+<td>900001</td>
+</tr>
+<tr>
+<td>SE_FISCALREGISTERID</td>
+<td>Receipt</td>
+<td>900002</td>
+</tr>
+</tbody>
+</table>
+<h4 id="configure-receipt-formats">Configure receipt formats</h4>
+<p>For every receipt format that is required, change the value of the <strong>Print behavior</strong> field to <strong>Always print</strong>.</p>
+<p>In the Receipt format designer, add the following custom fields to the <strong>Footer</strong> section. Note that field names correspond to the language texts that you defined in the previous section of this topic.</p>
+<ul>
+<li><strong>Register control code</strong> – This field prints the control code.</li>
+<li><strong>Register device</strong> – This field prints the manufacturing number of the control unit.</li>
+</ul>
+<p>For more information about how to work with receipt formats, see <a href="../receipt-templates-printing.html">Receipt templates and printing</a>.</p>
+<h3 id="configure-fiscal-integration">Configure fiscal integration</h3>
+<p>Complete the fiscal integration setup steps that are described in <a href="setting-up-fiscal-integration-for-retail-channel.html">Set up the fiscal integration for Commerce channels</a>:</p>
+<ul>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process">Set up a fiscal registration process</a>. Be sure to note the settings for the fiscal registration process that are <a href="#set-up-the-registration-process">specific to this control unit integration sample</a>.</li>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings">Set error handling settings</a>.</li>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#enable-manual-execution-of-postponed-fiscal-registration">Enable manual execution of postponed fiscal registration</a>.</li>
+</ul>
+<h2 id="deployment-guidelines-for-cash-registers-for-sweden">Deployment guidelines for cash registers for Sweden</h2>
+<p>This topic serves as a deployment guide that shows how to enable the localization of Microsoft Dynamics 365 Commerce for Sweden. The localization is part of the Retail SDK. For information about how to install and use the Retail SDK, see the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-overview">Retail SDK documentation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<p>This sample consists of extensions for the Commerce runtime (CRT), POS, and Hardware station. To run this sample, you must modify and build the CRT and Hardware station projects. We recommend that you use an unmodified Retail SDK to make the changes that are described in this topic. We also recommend that you use a source control system, such as Microsoft Azure DevOps, where no files have been changed yet.</p>
+<p>Follow these steps to configure a development environment so that you can test and extend the sample. You must also complete all the required setup tasks that are described in the <a href="#setting-up-the-integration-with-control-units">Setting up the integration with control units</a> section.</p>
+<h3 id="enable-crt-extensions">Enable CRT extensions</h3>
+<p>The CRT extension components are included in the CRT samples. To complete the following procedures, open the CRT solution, <strong>CommerceRuntimeSamples.sln</strong>, under <strong>RetailSdk\SampleExtensions\CommerceRuntime</strong>.</p>
+<h4 id="documentprovidercleancashsample-component">DocumentProvider.CleanCashSample component</h4>
+<ol>
+<li><p>Find the <strong>Runtime.Extensions.DocumentProvider.CleanCashSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Runtime.Extensions.DocumentProvider.CleanCashSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the assembly file to the CRT extensions folder:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> Copy the assembly to the <strong>\bin\ext</strong> folder under the Microsoft Internet Information Services (IIS) Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> Copy the assembly to the <strong>\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Find the extension configuration file for CRT:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> The file is named <strong>commerceruntime.ext.config</strong>, and it's in the <strong>bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> The file is named <strong>CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Register the CRT change in the extension configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-the-extension-configuration-file">Update the extension configuration file</h4>
+<ol>
+<li><p>Find the extension configuration file for CRT:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> The file is named <strong>commerceruntime.ext.config</strong>, and it's in the <strong>bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> The file is named <strong>CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Register the CRT change in the extension configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsSweden&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-hardware-station-extensions">Enable Hardware station extensions</h3>
+<p>The Hardware station extension components are included in the Hardware station samples. To complete the following procedures, open the solution, <strong>HardwareStationSamples.sln.sln</strong>, under <strong>RetailSdk\SampleExtensions\HardwareStation</strong>.</p>
+<h4 id="cleancash-component">CleanCash component</h4>
+<ol>
+<li><p>Find the <strong>HardwareStation.Extension.CleanCashSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Extension.CleanCashSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.HardwareStation.CleanCashSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the assembly file to the Hardware station extensions folder:</p>
+<ul>
+<li><strong>Shared hardware station:</strong> Copy the file to the <strong>bin</strong> folder under the IIS Hardware station site location.</li>
+<li><strong>Dedicated hardware station on Modern POS:</strong> Copy the file to the Modern POS client broker location.</li>
+</ul>
+</li>
+<li><p>Find the extension configuration file for the Hardware station's extensions. The file is named <strong>HardwareStation.Extension.config</strong>.</p>
+<ul>
+<li><strong>Shared hardware station:</strong> The file is under the IIS Hardware station site location.</li>
+<li><strong>Dedicated hardware station on Modern POS:</strong> The file is under the Modern POS client broker location.</li>
+</ul>
+</li>
+<li><p>Add the following line to the <strong>composition</strong> section of the configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-modern-pos-extension-components">Enable Modern POS extension components</h3>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\ModernPOS.sln</strong>, and make sure that it can be compiled without errors. Additionally, make sure that you can run Modern POS from Microsoft Visual Studio by using the <strong>Run</strong> command.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Modern POS must not be customized. You must enable User Account Control (UAC), and you must uninstall previously installed instances of Modern POS as required.</p>
+</div>
+</li>
+<li><p>Enable the extensions that must be loaded by adding the following lines in the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For more information, and for samples that show how to include source code folders and enable extensions to be loaded, see the instructions in the readme.md file in the <strong>Pos.Extensions</strong> project.</p>
+</div>
+</li>
+<li><p>Rebuild the solution.</p>
+</li>
+<li><p>Run Modern POS in the debugger, and test the functionality.</p>
+</li>
+</ol>
+<h3 id="enable-cloud-pos-extension-components">Enable Cloud POS extension components</h3>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\CloudPOS.sln</strong>, and make sure that it can be compiled without errors.</p>
+</li>
+<li><p>Enable the extensions that must be loaded by adding the following lines in the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For more information, and for samples that show how to include source code folders and enable extensions to be loaded, see the instructions in the readme.md file in the <strong>Pos.Extensions</strong> project.</p>
+</div>
+</li>
+<li><p>Rebuild the solution.</p>
+</li>
+<li><p>Run the solution by using the <strong>Run</strong> command and following the steps in the Retail SDK handbook.</p>
+</li>
+</ol>
+<h3 id="set-up-the-registration-process">Set up the registration process</h3>
+<p>To enable the registration process, follow these steps to set up Headquarters. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process">Set up a fiscal registration process</a>.</p>
+<ol>
+<li>Go to <strong>Retail and Commerce &gt; Headquarters setup &gt; Parameters &gt; Shared parameters</strong>. On the <strong>General</strong> tab, set the <strong>Enable fiscal integration</strong> option to <strong>Yes</strong>.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal connectors</strong>, and load the connector configuration. The file location is <strong>RetailSdk\SampleExtensions\HardwareStation\Extension.CleanCashSample\Configuration\ConnectorCleanCashSample.xml</strong>.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal document providers</strong>, and load the document provider configuration. The file location is <strong>RetailSdk\SampleExtensions\CommerceRuntime\Extensions.DocumentProvider.CleanCashSample\Configuration\DocumentProviderFiscalCleanCashSample.xml</strong>.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Connector functional profiles</strong>. Create a new connector functional profile, and select the document provider and the connector that you loaded earlier. Update the data mapping settings as required.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Connector technical profiles</strong>. Create a new connector technical profile, and select the connector that you loaded earlier. Update the connection settings as required.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal connector groups</strong>. Create a new fiscal connector group for the connector functional profile that you created earlier.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; Fiscal integration &gt; Fiscal registration processes</strong>. Create a new fiscal registration process, create a fiscal registration process step, and select the fiscal connector group that you created earlier.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Functionality profiles</strong>. Select a functionality profile that is linked to the store where the registration process should be activated. On the <strong>Fiscal registration process</strong> FastTab, select the fiscal registration process that you created earlier.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Hardware profiles</strong>. Select a hardware profile that is linked to the Hardware station that the control unit will be connected to. On the <strong>Fiscal peripherals</strong> FastTab, select the connector technical profile that you created earlier.</li>
+<li>Open the distribution schedule (<strong>Retail and Commerce &gt; Retail and Commerce IT &gt; Distribution schedule</strong>), and select jobs <strong>1070</strong> and <strong>1090</strong> to transfer data to the channel database.</li>
+</ol>
+<h3 id="production-environment">Production environment</h3>
+<p>The previous procedure enables the extensions that are components of the fiscal registration service integration sample. In addition to completing that procedure, you must follow these steps to create deployable packages that contain Commerce components, and to apply those packages in a production environment.</p>
+<ol>
+<li><p>Make the following changes in the package configuration files under the <strong>RetailSdk\Assets</strong> folder:</p>
+<ul>
+<li><p>In the <strong>commerceruntime.ext.config</strong> and <strong>CommerceRuntime.MPOSOffline.Ext.config</strong> configuration files, add the following lines to the <strong>composition</strong> section.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsSweden&quot; /&gt;
+</code></pre>
+</li>
+<li><p>In the <strong>HardwareStation.Extension.config</strong> configuration file, add the following line to the <strong>composition</strong> section.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.CleanCashSample&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Make the following changes in the <strong>Customization.settings</strong> package customization configuration file under the <strong>BuildTools</strong> folder:</p>
+<ul>
+<li><p>Add the following lines to include the CRT extensions in the deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+<li><p>Add the following line to include the Hardware station extension in the deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Enable the POS extension by adding the following lines in the <strong>extensions.json</strong> file under the <strong>RetailSDK\POS\Extensions</strong> folder.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+        &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+</li>
+<li><p>Start the MSBuild Command Prompt for Visual Studio utility, and run <strong>msbuild</strong> under the Retail SDK folder to create deployable packages.</p>
+</li>
+<li><p>Apply the packages via Microsoft Dynamics Lifecycle Services (LCS) or manually. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-packaging">Create deployable packages (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+</ol>
+<h2 id="design-of-the-extensions">Design of the extensions</h2>
+<h3 id="crt-extension-design">CRT extension design</h3>
+<p>The purpose of the extension that is a fiscal document provider is to generate service-specific documents and handle responses from the fiscal registration service.</p>
+<p>The CRT extension is <strong>Runtime.Extensions.DocumentProvider.CleanCashSample</strong>.</p>
+<p>For more details about the design of the fiscal integration solution, see <a href="fiscal-integration-for-retail-channel.html#fiscal-registration-process-and-fiscal-integration-samples-for-fiscal-devices">Fiscal registration process and fiscal integration samples for fiscal devices</a>.</p>
+<h4 id="request-handler">Request handler</h4>
+<p>There is a single <strong>DocumentProviderCleanCash</strong> request handler for the document provider. This handler is used to generate fiscal documents for the fiscal registration service.</p>
+<p>This handler is inherited from the <strong>INamedRequestHandler</strong> interface. The <strong>HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the connector document provider name that is specified in Headquarters.</p>
+<p>The connector supports the following requests:</p>
+<ul>
+<li><strong>GetFiscalDocumentDocumentProviderRequest</strong> – This request contains information about what document should be generated. It returns a service-specific document that should be registered in the fiscal registration service.</li>
+<li><strong>GetSupportedRegistrableEventsDocumentProviderRequest</strong> – This request returns the list of events to subscribe to. Currently, sales events and audit events are supported.</li>
+</ul>
+<h4 id="configuration">Configuration</h4>
+<p>The <strong>DocumentProviderFiscalCleanCashSample</strong> configuration file is in the <strong>Configuration</strong> folder of the extension project. The purpose of this file is to enable settings for the document provider to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following settings are added:</p>
+<ul>
+<li>VAT codes mapping</li>
+</ul>
+<h3 id="hardware-station-extension-design">Hardware station extension design</h3>
+<p>The purpose of the extension that is a fiscal connector is to communicate with the fiscal registration service.</p>
+<p>The Hardware station extension is <strong>HardwareStation.Extension.CleanCashSample</strong>. It uses the HTTP protocol to submit documents that the CRT extension generates to the fiscal registration service. It also handles the responses that are received from the fiscal registration service.</p>
+<h4 id="request-handler-1">Request handler</h4>
+<p>The <strong>CleanCashHandler</strong> request handler is the entry point for handling requests to the fiscal registration service.</p>
+<p>The handler is inherited from the <strong>INamedRequestHandler</strong> interface. The <strong>HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the fiscal connector name that is specified in Headquarters.</p>
+<p>The connector supports the following requests:</p>
+<ul>
+<li><strong>SubmitDocumentFiscalDeviceRequest</strong> – This request sends documents to the fiscal registration service and returns a response from it.</li>
+<li><strong>IsReadyFiscalDeviceRequest</strong> – This request is used for a health check of the fiscal registration service.</li>
+<li><strong>InitializeFiscalDeviceRequest</strong> – This request is used to initialize the fiscal registration service.</li>
+</ul>
+<h4 id="configuration-1">Configuration</h4>
+<p>The configuration file is in the <strong>Configuration</strong> folder of the extension project. The purpose of the file is to enable settings for the fiscal connector to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following settings are added:</p>
+<ul>
+<li><strong>Connections string</strong> – The control unit connection settings.</li>
+<li><strong>Timeout</strong> – The amount of time, in milliseconds, that the driver will wait for a response from the fiscal registration service.</li>
+</ul>
+<h2 id="migrating-from-the-earlier-integration-sample">Migrating from the earlier integration sample</h2>
+<p>If you're using the earlier <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/localizations/retail-sdk-control-unit-sample">Sample for POS integration with control units for Sweden (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>, you might have to migrate from it to the current integration sample. To uptake the change and receive timely updates for the features for Sweden in the future, you might have to upgrade, make minor code and configuration adjustments in the extensions that you built, and rebuild your solutions. No major changes are required in the extension logic that you created. The earlier integration sample and your customizations will continue to work if no changes are made from your side. Therefore, you can plan, prepare for, and do the uptake for your environment.</p>
+<h3 id="migration-process">Migration process</h3>
+<p>The migration from the earlier integration sample to the current control unit integration sample should be based on the concept of a gradual update. In other words, all Headquarters and Commerce Scale Unit components should already be updated before you start to update the POS and Hardware station components.</p>
+<p>To help prevent a situation where an event or transaction is signed twice (that is, it's signed by both the earlier extension and the current extension), or where it can't be signed because of the missing configuration, we recommend that you turn off all POS and Hardware station devices that use the earlier sample, and then update them simultaneously. This simultaneous update can be done, for example, on a store-by-store basis by updating the store's functionality profile and the Hardware station's hardware profile.</p>
+<p>The migration process should consist of the following steps.</p>
+<ol>
+<li><p>Update the Headquarters components.</p>
+</li>
+<li><p>Update the Commerce Scale Unit components, and enable the extensions of the current sample.</p>
+</li>
+<li><p>Make sure that all offline transactions are synced from offline-enabled MPOS devices.</p>
+</li>
+<li><p>Turn off all devices that use the components of the earlier sample.</p>
+</li>
+<li><p>Complete the setup tasks that are described in the <a href="#setting-up-the-integration-with-control-units">Setting up the integration with control units</a> section.</p>
+</li>
+<li><p>Update the POS and Hardware station components, disable the extensions that are parts of the earlier sample, and enable the extensions of the current sample.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Depending on the type of environment, you can find more technical details about the migration process in either the <a href="#migration-in-a-development-environment">Migration in a development environment</a> section or the <a href="#migration-in-a-production-environment">Migration in a production environment</a> section.</p>
+</div>
+</li>
+</ol>
+<h3 id="migration-in-a-development-environment">Migration in a development environment</h3>
+<h4 id="update-crt">Update CRT</h4>
+<ol>
+<li><p>Find the <strong>Runtime.Extensions.DocumentProvider.CleanCashSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Runtime.Extensions.DocumentProvider.CleanCashSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the assembly file to the CRT extensions folder:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> Copy the assembly to the <strong>\bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> Copy the assembly to the <strong>\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Find the extension configuration file for CRT:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> The file is named <strong>CommerceRuntime.ext.config</strong>, and it's in the <strong>bin\ext</strong> folder under the IIS Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> The file is named <strong>CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's in the <strong>bin\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Do <strong>not</strong> edit the CommerceRuntime.config and CommerceRuntime.MPOSOffline.config files. These files aren't intended for any customizations.</p>
+</div>
+</li>
+<li><p>Find and remove the earlier CRT extension from the extension configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.FiscalRegisterReceiptSample&quot; /&gt;
+</code></pre>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Don't complete this step until you update all POS devices that work with this CRT instance.</p>
+</div>
+</li>
+<li><p>Register the current sample CRT extensions in the extension configuration file by adding the following lines.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsSweden&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-hardware-station">Update Hardware station</h4>
+<ol>
+<li><p>Find the <strong>HardwareStation.Extension.CleanCashSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Extension.CleanCashSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.HardwareStation.CleanCashSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the assembly file to the Hardware station extensions folder:</p>
+<ul>
+<li><strong>Shared hardware station:</strong> Copy the file to the <strong>bin</strong> folder under the IIS Hardware station site location.</li>
+<li><strong>Dedicated hardware station on Modern POS:</strong> Copy the file to the Modern POS client broker location.</li>
+</ul>
+</li>
+<li><p>Find the <strong>HardwareStation.Extension.config</strong> extension configuration file:</p>
+<ul>
+<li><strong>Remote Hardware station:</strong> The file is under the IIS Hardware station site location.</li>
+<li><strong>Local Hardware station on Modern POS:</strong> The file is under the Modern POS client broker location.</li>
+</ul>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Do <strong>not</strong> edit the CommerceRuntime.config and CommerceRuntime.MPOSOffline.config files. These files aren't intended for any customizations.</p>
+</div>
+</li>
+<li><p>Find and remove the earlier Hardware station extension from the extension configuration file.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q_retail-7-3" role="tab" aria-controls="tabpanel_CeZOj-G++Q_retail-7-3" data-tab="retail-7-3" tabindex="0" aria-selected="true">Retail 7.3 and earlier</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q_retail-7-3-1" role="tab" aria-controls="tabpanel_CeZOj-G++Q_retail-7-3-1" data-tab="retail-7-3-1" tabindex="-1">Retail 7.3.1 and later</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q_retail-10-0" role="tab" aria-controls="tabpanel_CeZOj-G++Q_retail-10-0" data-tab="retail-10-0" tabindex="-1">Retail 10.0 and later</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q_retail-7-3" role="tabpanel" data-tab="retail-7-3">
+
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.Extension.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q_retail-7-3-1" role="tabpanel" data-tab="retail-7-3-1" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.Extension.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q_retail-10-0" role="tabpanel" data-tab="retail-10-0" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+</div>
+</li>
+<li><p>Add the following line to the <strong>composition</strong> section of the extension configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-modern-pos">Update Modern POS</h4>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\CloudPOS.sln</strong>.</p>
+</li>
+<li><p>Disable the earlier POS extension by removing the following lines from the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;baseUrl&quot;: &quot;FiscalRegisterSample&quot;
+}
+</code></pre>
+</li>
+<li><p>Enable the current sample POS extension by adding the following lines in the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+</li>
+</ol>
+<h4 id="update-cloud-pos">Update Cloud POS</h4>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\ModernPOS.sln</strong>.</p>
+</li>
+<li><p>Disable the earlier POS extension by removing the following lines from the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;baseUrl&quot;: &quot;FiscalRegisterSample&quot;
+}
+</code></pre>
+</li>
+<li><p>Enable the current sample POS extension by adding the following lines in the <strong>extensions.json</strong> file.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="migration-in-a-production-environment">Migration in a production environment</h3>
+<h4 id="update-crt-1">Update CRT</h4>
+<ol>
+<li><p>Remove the earlier CRT extension from the <strong>CommerceRuntime.ext.config</strong> and <strong>CommerceRuntime.MPOSOffline.Ext.config</strong> configuration files under the <strong>RetailSdk\Assets</strong> folder.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.FiscalRegisterReceiptSample&quot; /&gt;
+</code></pre>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Don't complete this step until you update all POS devices that work with this CRT instance.</p>
+</div>
+</li>
+<li><p>Enable the current sample CRT extensions by making the following changes in the <strong>CommerceRuntime.ext.config</strong> and <strong>CommerceRuntime.MPOSOffline.Ext.config</strong> configuration files under the <strong>RetailSdk\Assets</strong> folder.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsSweden&quot; /&gt;
+</code></pre>
+</li>
+<li><p>In the <strong>Customization.settings</strong> package customization configuration file under the <strong>BuildTools</strong> folder, add the following lines to include the current sample CRT extension in deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-hardware-station-1">Update Hardware station</h4>
+<ol>
+<li><p>Remove the earlier Hardware station extension by modifying the <strong>HardwareStation.Extension.config</strong> configuration file.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_retail-7-3" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_retail-7-3" data-tab="retail-7-3" tabindex="0" aria-selected="true">Retail 7.3 and earlier</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_retail-7-3-1" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_retail-7-3-1" data-tab="retail-7-3-1" tabindex="-1">Retail 7.3.1 and later</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_retail-10-0" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_retail-10-0" data-tab="retail-10-0" tabindex="-1">Retail 10.0 and later</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-1_retail-7-3" role="tabpanel" data-tab="retail-7-3">
+
+<p>Remove the following section from the <strong>HardwareStation.Shared.config</strong> and <strong>HardwareStation.Dedicated.config</strong> configuration files.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.Extension.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-1_retail-7-3-1" role="tabpanel" data-tab="retail-7-3-1" aria-hidden="true" hidden="hidden">
+
+<p>Remove the following section from the <strong>HardwareStation.Extension.config</strong> configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.Extension.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-1_retail-10-0" role="tabpanel" data-tab="retail-10-0" aria-hidden="true" hidden="hidden">
+
+<p>Remove the following section from the <strong>HardwareStation.Extension.config</strong> configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.FiscalRegisterSample&quot; /&gt;
+</code></pre>
+</section>
+</div>
+</li>
+<li><p>Enable the current sample Hardware station extension by adding the following line to the <strong>composition</strong> section in the <strong>HardwareStation.Extension.config</strong> configuration file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.CleanCashSample&quot; /&gt;
+</code></pre>
+</li>
+<li><p>Make the following changes in the <strong>Customization.settings</strong> package customization configuration file under the <strong>BuildTools</strong> folder:</p>
+<ul>
+<li><p>Remove the following lines to exclude the earlier Hardware station extension from deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_CommerceRuntime_CustomizableFileInclude=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.Extension.FiscalRegisterSample.dll&quot; /&gt;
+</code></pre>
+</li>
+<li><p>Add the following line to include the current sample Hardware station extension in deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.CleanCashSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="update-modern-pos-1">Update Modern POS</h4>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\CloudPOS.sln</strong>.</p>
+</li>
+<li><p>Disable the earlier POS extension:</p>
+<ul>
+<li><p>In the <strong>tsconfig.json</strong> file, add the <strong>FiscalRegisterSample</strong> folder to the exclude list.</p>
+</li>
+<li><p>Remove the following lines from the <strong>extensions.json</strong> file under the <strong>RetailSDK\POS\Extensions</strong> folder.</p>
+<pre><code class="lang-json">{
+    &quot;baseUrl&quot;: &quot;FiscalRegisterSample&quot;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Enable the current sample POS extension by adding the following lines in the <strong>extensions.json</strong> file under the <strong>RetailSDK\POS\Extensions</strong> folder.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+</li>
+</ol>
+<h4 id="update-cloud-pos-1">Update Cloud POS</h4>
+<ol>
+<li><p>Open the solution at <strong>RetailSdk\POS\ModernPOS.sln</strong>.</p>
+</li>
+<li><p>Disable the earlier POS extension:</p>
+<ul>
+<li><p>In the <strong>tsconfig.json</strong> file, add the <strong>FiscalRegisterSample</strong> folder to the exclude list.</p>
+</li>
+<li><p>Remove the following lines from the <strong>extensions.json</strong> file under the <strong>RetailSDK\POS\Extensions</strong> folder.</p>
+<pre><code class="lang-json">{
+    &quot;baseUrl&quot;: &quot;FiscalRegisterSample&quot;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Enable the current sample POS extension by adding the following lines in the <strong>extensions.json</strong> file under the <strong>RetailSDK\POS\Extensions</strong> folder.</p>
+<pre><code class="lang-json">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.SE&quot;
+        }
+    ]
+}
+</code></pre>
+</li>
+</ol>
+<h4 id="create-deployable-packages">Create deployable packages</h4>
+<p>Run <strong>msbuild</strong> for the whole Retail SDK to create deployable packages. Apply the packages via LCS or manually. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-packaging">Retail SDK packaging (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

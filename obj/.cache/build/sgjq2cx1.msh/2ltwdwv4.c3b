@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure Electronic reporting (ER) to pull data into Power BI | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure Electronic reporting (ER) to pull data into Power BI | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-electronic-reporting-er-to-pull-data-into-power-bi">Configure Electronic reporting (ER) to pull data into Power BI</h1>
+
+
+<p>This topic explains how you can use your Electronic reporting (ER) configuration to arrange the transfer of data from your instance to Power BI services. As an example, this topic uses Intrastat transactions as business data that must be transferred. The Power BI map visualization uses this Intrastat transaction data to present a view for analysis of company import/export activities on the Power BI report.</p>
+<h2 id="overview">Overview</h2>
+<p>Microsoft Power BI is a collection of software services, apps, and connectors that work together to turn external sources of data into coherent, visually immersive, and interactive insights. Electronic reporting (ER) lets users easily configure data sources and arrange the transfer of data from the application to Power BI. The data is transferred as files in the OpenXML worksheet (Microsoft Excel workbook file) format. The transferred files are stored on a Microsoft SharePoint Server that has been configured for that purpose. The stored files are used in Power BI to make reports that include visualizations (tables, charts, maps, and so on). Power BI reports are shared with Power BI users, and they are accessed in Power BI dashboards and on the application pages. This topic explains the following tasks:</p>
+<ul>
+<li>Configure Microsoft Dynamics 365 Finance.</li>
+<li>Prepare your ER format configuration to get data from the Finance application.</li>
+<li>Configure the ER environment to transfer data to Power BI.</li>
+<li>Use transferred data to create a Power BI report.</li>
+<li>Make the Power BI report accessible in Finance.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To complete the example in this topic, you must have the following access:</p>
+<ul>
+<li><p>Access for one of the following roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+<li><p>Access to the SharePoint Server that is configured for use with the application</p>
+</li>
+<li><p>Access to the Power BI framework</p>
+</li>
+</ul>
+<h2 id="configure-document-management-parameters">Configure document management parameters</h2>
+<ol>
+<li><p>On the <strong>Document management parameters</strong> page, configure access to the SharePoint Server that will be used in the company that you're signed in to (the DEMF company in this example).</p>
+</li>
+<li><p>Test the connection to the SharePoint Server to make sure that you've been granted access.</p>
+<p><a href="./media/ger-power-bi-sharepoint-server-setting.png"><img src="./media/ger-power-bi-sharepoint-server-setting-1024x369.png" alt="Document management parameters page"></a></p>
+</li>
+<li><p>Open the configured SharePoint site. Create a new folder where ER will store Excel files that have the business data that the Power BI reports require as a source of Power BI datasets.</p>
+</li>
+<li><p>On the <strong>Document types</strong> page, create a new document type that will be used to access the SharePoint folder that you just created. Enter <strong>File</strong> in the <strong>Group</strong> field and <strong>SharePoint</strong> in the <strong>Location</strong> field, and then enter the address of the SharePoint folder.</p>
+<p><a href="./media/ger-power-bi-sharepoint-document-type.png"><img src="./media/ger-power-bi-sharepoint-document-type-1024x485.png" alt="Document types page"></a></p>
+</li>
+</ol>
+<h2 id="configure-er-parameters">Configure ER parameters</h2>
+<ol>
+<li>In the <strong>Electronic reporting</strong> workspace, click the <strong>Electronic reporting parameters</strong> link.</li>
+<li>On the <strong>Attachments</strong> tab, select the <strong>File</strong> document type for all the fields.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, make the required provider active by clicking <strong>Set active</strong>. For more information, play the <strong>ER Select service provider</strong> task guide.</li>
+</ol>
+<h2 id="use-an-er-data-model-as-the-source-of-data">Use an ER data model as the source of data</h2>
+<p>You must have an ER data model as the source of business data that will be used on Power BI reports. This data model is uploaded from the ER configurations repository. For more information, see <a href="download-electronic-reporting-configuration-lcs.html">Download Electronic reporting configurations from Lifecycle Services</a>, or play the <strong>ER Import a configuration from Lifecycle Services</strong> task guide. Select <strong>Intrastat</strong> as the data model that will be uploaded from the selected ER configurations repository. (In this example, version 1 of the model is used.) You can then access the <strong>Intrastat</strong> ER model configuration on the <strong>Configurations</strong> page.</p>
+<p><a href="./media/ger-power-bi-data-model.png"><img src="./media/ger-power-bi-data-model-1024x371.png" alt="Configurations page"></a></p>
+<h2 id="design-an-er-format-configuration">Design an ER format configuration</h2>
+<p>You must create a new ER format configuration that uses the <strong>Intrastat</strong> data model as the source of business data. This format configuration must generate output results as electronic documents in OpenXML (Excel file) format. For more information, play the <strong>ER Create a configuration for reports in OPENXML format</strong> task guide. Name the new configuration <strong>Import / export activities</strong>, as shown in the following illustration. Use the <a href="https://go.microsoft.com/fwlink/?linkid=845208">ER data - import and export details</a> Excel file as a template when you design the ER format. (For information about how to import a format template, play the task guide.)</p>
+<p><a href="media/ger-power-bi-format-configuration.png"><img src="media/ger-power-bi-format-configuration.png" alt="Import / export activities configuration"></a></p>
+<p>To modify the <strong>Import / export activities</strong> format configuration, follow these steps.</p>
+<ol>
+<li><p>Click <strong>Designer</strong>.</p>
+</li>
+<li><p>On the <strong>Format</strong> tab, name the file element for this format <strong>Excel output file</strong>.</p>
+<p><a href="./media/ger-power-bi-format-configuration-file-element-name.png"><img src="./media/ger-power-bi-format-configuration-file-element-name-1024x395.png" alt="Excel output file element"></a></p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, specify the name of the Excel file that will be generated whenever this format is run. Configure the related expression to return the value <strong>Import and export details</strong> (the .xlsx file name extension will be added automatically).</p>
+<p><a href="./media/ger-power-bi-format-configuration-output-file-name.png"><img src="./media/ger-power-bi-format-configuration-output-file-name-1024x396.png" alt="Format designer"></a></p>
+</li>
+<li><p>Add a new data source item for this format. (This enumeration will be required for further data binding.)</p>
+<ol>
+<li>Name the data source <strong>direction_enum</strong>.</li>
+<li>Select <strong>Data model enumeration</strong> as the data source type.</li>
+<li>Refer to the <strong>Direction</strong> data model enumeration.</li>
+</ol>
+<p><a href="./media/ger-power-bi-format-configuration-mapping-added-enum.png"><img src="./media/ger-power-bi-format-configuration-mapping-added-enum-1024x454.png" alt="direction_enum"></a></p>
+</li>
+<li><p>Complete the binding of elements of the <strong>Intrastat</strong> data model and elements of the designed format, as shown in the following illustration.</p>
+<p><a href="./media/ger-power-bi-format-configuration-mapping-details.png"><img src="./media/ger-power-bi-format-configuration-mapping-details-1024x454.png" alt="Completing the binding"></a></p>
+</li>
+</ol>
+<p>After it's run, the ER format generates the output result in Excel format. It sends the details of the Intrastat transactions to the output result, and separates them as transactions that describe either import activities or export activities. Click <strong>Run</strong> to test the new ER format for the list of Intrastat transactions on the <strong>Intrastat</strong> page (<strong>Tax</strong> &gt; <strong>Declarations</strong> &gt; <strong>Foreign trade</strong> &gt; <strong>Intrastat</strong>).</p>
+<p><a href="./media/ger-power-bi-format-test-run-transactions.png"><img src="./media/ger-power-bi-format-test-run-transactions-1024x322.png" alt="Intrastat page"></a></p>
+<p>The following output result is generated. The file is named <strong>Import and export details.xlsx</strong>, as you specified in the format settings.</p>
+<p><a href="./media/ger-power-bi-format-test-run-output.png"><img src="./media/ger-power-bi-format-test-run-output-1024x472.png" alt="Import and export details.xlsx"></a></p>
+<h2 id="configure-the-er-destination">Configure the ER destination</h2>
+<p>You must configure the ER framework to send the output result of the new ER format configuration in a special way.</p>
+<ul>
+<li>The output result must be sent to the folder of the selected SharePoint Server.</li>
+<li>Each execution of the format configuration must create a new version of same Excel file.</li>
+</ul>
+<p>On the <strong>Electronic reporting</strong> page (<strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong>), click the <strong>Electronic reporting destination</strong> item, and add a new destination. In the <strong>Reference</strong> field, select the <strong>Import / export activities</strong> format configuration that you created earlier. Follow these steps to add a new file destination record for the reference.</p>
+<ol>
+<li>In the <strong>Name</strong> field, enter the title of the file destination.</li>
+<li>In the <strong>File name</strong> field, select the name <strong>Excel output file</strong> for the Excel file format component.</li>
+</ol>
+<p>Click the <strong>Settings</strong> button for the new destination record. Then, in the <strong>Destination settings</strong> dialog box, follow these steps.</p>
+<ol>
+<li>On the <strong>Power BI</strong> tab, set the <strong>Enabled</strong> option to <strong>Yes</strong>.</li>
+<li>In the <strong>SharePoint</strong> field, select the <strong>Shared</strong> document type that you created earlier.</li>
+</ol>
+<h2 id="schedule-execution-of-the-configured-er-format">Schedule execution of the configured ER format</h2>
+<ol>
+<li><p>On the <strong>Configurations</strong> page (<strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>), in the configurations tree, select the <strong>Import / export activities</strong> configuration that you created earlier.</p>
+</li>
+<li><p>Change the status of version 1.1 from <strong>Draft</strong> to <strong>Complete</strong> to make this format available for use.</p>
+<p><a href="./media/ger-power-bi-format-configuration-complete.png"><img src="./media/ger-power-bi-format-configuration-complete-1024x401.png" alt="Configurations page"></a></p>
+</li>
+<li><p>Select the completed version of the <strong>Import / export activities</strong> configuration, and then click <strong>Run</strong>. Note that the configured destination is applied to the output result that is generated in Excel format.</p>
+</li>
+<li><p>Set the <strong>Batch processing</strong> option to <strong>Yes</strong> to run this report in unattended mode.</p>
+</li>
+<li><p>Click <strong>Recurrence</strong> to schedule the required recurrence of this batch execution. The recurrence defines how often the updated data will be transferred to Power BI.</p>
+<p><a href="./media/ger-power-bi-format-configuration-run-to-schedule.png"><img src="./media/ger-power-bi-format-configuration-run-to-schedule-1024x413.png" alt="Electronic report parameters dialog box"></a></p>
+</li>
+<li><p>After it's configured, you can find the ER report execution job on the <strong>Batch jobs</strong> page (<strong>System administration &gt; Inquiries &gt; Batch jobs</strong>).</p>
+<p><a href="./media/ger-power-bi-format-configuration-running-job.png"><img src="./media/ger-power-bi-format-configuration-running-job-1024x410.png" alt="Batch jobs page"></a></p>
+</li>
+<li><p>When this job is run for the first time, the destination creates a new Excel file that has the configured name in the selected SharePoint folder. Every subsequent time that the job is run, the destination creates a new version of this Excel file.</p>
+<p><a href="./media/ger-power-bi-output-file-in-sharepoint-server-folder-2.png"><img src="./media/ger-power-bi-output-file-in-sharepoint-server-folder-2-1024x412.png" alt="New version of the Excel file"></a></p>
+</li>
+</ol>
+<h2 id="create-a-power-bi-dataset-by-using-the-output-result-of-the-er-format">Create a Power BI dataset by using the output result of the ER format</h2>
+<ol>
+<li><p>Sign in to Power BI, and either open an existing Power BI group (workspace) or create a new group. Either click <strong>Add</strong> under <strong>Files</strong> in the <strong>Import or Connect to Data</strong> section, or click the plus sign (<strong>+</strong>) next to <strong>Datasets</strong> in the left pane.</p>
+<p><a href="./media/ger-power-bi-add-dataset.png"><img src="./media/ger-power-bi-add-dataset-1024x524.png" alt="Creating a dataset"></a></p>
+</li>
+<li><p>Select the <strong>SharePoint – Team sites</strong> option, and then enter the path of SharePoint Server that you're using (<code>https://ax7partner.litware.com</code> in our example).</p>
+</li>
+<li><p>Browse to the <strong>/Shared Documents/GER data/PowerBI</strong> folder, and select the Excel file that you created as the source of data for the new Power BI dataset.</p>
+<p><a href="./media/ger-power-bi-add-dataset-select-excel-file.png"><img src="./media/ger-power-bi-add-dataset-select-excel-file-1024x522.png" alt="Selecting the Excel file"></a></p>
+</li>
+<li><p>Click <strong>Connect</strong>, and then click <strong>Import</strong>. A new dataset is created that is based on the selected Excel file. The dataset can also be added automatically to the newly created dashboard.</p>
+<p><a href="./media/ger-power-bi-added-dataset.png"><img src="./media/ger-power-bi-added-dataset-1024x489.png" alt="Dataset on the dashboard"></a></p>
+</li>
+<li><p>Configure the refresh schedule for this dataset to force a periodic update. Periodic updates enable the consumption of new business data that comes via periodic execution of the ER report through new versions of the Excel file that are created on the SharePoint Server.</p>
+</li>
+</ol>
+<h2 id="create-a-power-bi-report-by-using-the-new-dataset">Create a Power BI report by using the new dataset</h2>
+<ol>
+<li><p>Click the <strong>Import and export details</strong> Power BI dataset that you created.</p>
+</li>
+<li><p>Configure the visualization. For example, select the <strong>Filled map</strong> visualization, and configure it as follows:</p>
+<ul>
+<li>Assign the <strong>CountryOrigin</strong> dataset field to the <strong>Location</strong> field of the map visualization.</li>
+<li>Assign the <strong>Amount</strong> dataset field to the <strong>Color saturation</strong> field of the map visualization.</li>
+<li>Add the <strong>Activity</strong> and <strong>Year</strong> dataset fields to the <strong>Filters</strong> fields collection of the map visualization.</li>
+</ul>
+</li>
+<li><p>Save the Power BI report as <strong>Import and export details report</strong>.</p>
+<p><a href="./media/ger-power-bi-added-report.png"><img src="./media/ger-power-bi-added-report-1024x498.png" alt="Import and export details report"></a></p>
+<p>Note that the map shows the countries/regions that are mentioned in the Excel file (Austria and Switzerland in this example). These countries/regions are colored to show the proportion of invoiced amounts for each.</p>
+</li>
+<li><p>Update the list of Intrastat transactions. The export transaction that originated from Italy is added.</p>
+<p><a href="./media/ger-power-bi-new-run-new-transaction.png"><img src="./media/ger-power-bi-new-run-new-transaction-1024x321.png" alt="Intrastat transactions list"></a></p>
+</li>
+<li><p>Wait for the next scheduled execution of the ER report and the next scheduled update of the Power BI dataset. Then review the Power BI report (select to show import transactions only). The updated map now shows Italy.</p>
+<p><a href="./media/ger-power-bi-new-run-new-map.png"><img src="./media/ger-power-bi-new-run-new-map-1024x511.png" alt="Updated map"></a></p>
+</li>
+</ol>
+<h2 id="access-power-bi-report-in-finance">Access Power BI report in Finance</h2>
+<p>Set up the integration with Power BI. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/configure-power-bi-integration">Configure Power BI integration for workspaces (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<ol>
+<li><p>On the <strong>Electronic reporting</strong> workspace page that supports Power BI integration (<strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting workspace</strong>), click <strong>Options</strong> &gt; <strong>Open report catalog</strong>.</p>
+</li>
+<li><p>Select the <strong>Import and export details</strong> Power BI report that you created, to show that report as an action item on the selected page.</p>
+</li>
+<li><p>Click the action item to open the page that shows the report that you designed in Power BI.</p>
+<p><a href="./media/ger-power-bi-review-bi-report-in-ax-form.png"><img src="./media/ger-power-bi-review-bi-report-in-ax-form-1024x586.png" alt="Import and export details report"></a></p>
+</li>
+</ol>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="electronic-reporting-destinations.html">Electronic reporting (ER) destinations</a></p>
+<p><a href="general-electronic-reporting.html">Electronic reporting (ER) overview</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

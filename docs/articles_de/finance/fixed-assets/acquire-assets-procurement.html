@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Erwerben von Anlagen durch Beschaffung | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Erwerben von Anlagen durch Beschaffung | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="acquire-assets-through-procurement">Erwerben von Anlagen durch Beschaffung</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Dieser Artikel beschreibt, wie eine Integration zwischen den Modulen &quot;Anlagevermögen&quot; und &quot;Kreditoren&quot; eingerichtet wird. Dadurch können Anlagen automatisch auf Grundlage von Bestellungen oder Kreditorenrechnungen erstellt oder Anschaffungs- und Anschaffungsänderungsbuchungen für Anlagen automatisch vorgenommen werden. Eine Einkaufsposition erstellt eine Anlage, unabhängig von der Menge auf der Einkaufsposition. Wenn Sie mehrere Anlagen erstellen müssen, müssen Sie mehrere Einkaufspositionen erstellen.</p>
+<p>Für die Integration von Anlagen und Kreditoren stehen die folgenden Methoden zur Verfügung. Dabei muss für alle Anlagen die gleiche Methode verwendet werden:</p>
+<ul>
+<li>Sie erstellen manuell eine Anlage, bevor Sie die Anlagennummer der Position in der Bestellung oder Kreditorenrechnung hinzufügen. Beim Buchen der Kreditorenrechnung erfolgt für die Anlage automatisch eine Anschaffungsbuchung. Dies ist die Standardmethode.</li>
+<li>Sie erstellen manuell eine Anlage, bevor Sie die Anlagennummer der Position in der Bestellung oder Kreditorenrechnung hinzufügen. Beim Buchen der Kreditorenrechnung erfolgt keine Anschaffungsbuchung für die Anlage.</li>
+<li>Eine Anlage wird automatisch erstellt, wenn Sie einen Produktzugang oder eine Kreditorenrechnung mit aktiviertem Kontrollkästchen &quot;Neue Anlage erstellen&quot; buchen. Beim Buchen der Kreditorenrechnung erfolgt für die Anlage automatisch eine Anschaffungsbuchung.</li>
+<li>Eine Anlage wird automatisch erstellt, wenn Sie einen Produktzugang oder eine Kreditorenrechnung mit aktiviertem Kontrollkästchen &quot;Neue Anlage erstellen&quot; buchen. Beim Buchen der Kreditorenrechnung erfolgt keine Anschaffungsbuchung für die Anlage.</li>
+</ul>
+<p>Verwenden Sie eine der ersten beiden Methoden, wenn Sie Anlagen manuell erstellen möchten, und weisen Sie anschließend die Anlagennummer der Bestellung oder Kreditorenrechnung zu. Wählen Sie eine der letzten beiden Methoden aus, wenn Sie eine flexiblere Vorgehensweise bevorzugen: Dadurch können Sie neue Anlagen je nach Situation entweder manuell oder automatisch (auf Basis der Anlageninformationen aus den Positionsartikeldetails) erstellen.</p>
+<p>Unabhängig davon, ob Sie Anlagen manuell erstellen oder einen flexibleren Ansatz verwenden, muss auch festgelegt werden, ob eine Anschaffungsbuchung nur im Modul &quot;Anlagevermögen&quot; oder beim Buchen einer Kreditorenrechnung ausgeführt werden kann. In manchen Organisationen wird als bevorzugte Vorgehensweise die manuelle Erstellung von Anschaffungen und Anschaffungsbuchungen im Modul &quot;Anlagevermögen&quot; mithilfe manueller Journaleinträge oder Vorschläge verwendet.</p>
+<p>In diesem Thema werden die Details der einzelnen Methoden erläutert.</p>
+<h2 id="methods-for-manually-creating-fixed-assets">Methoden zum manuellen Erstellen von Anlagen</h2>
+<p>Beim Buchen einer Kreditorenrechnung, deren Positionen eine Anlagennummer enthalten, wenn die Option &quot;Anlagenanschaffung aus Einkauf zulassen&quot; auf der Seite &quot;Anlagenparameter&quot; ausgewählt ist, wird die Anschaffung automatisch gebucht und der Status der Anlage ändert sich in &quot;Offen&quot;.</p>
+<p>Sollte eine Anschaffung nicht gebucht werden können, kann entweder im Modul &quot;Anlagen&quot; manuell eine Anschaffungstransaktion eingegeben oder in der Erfassung &quot;Anlagen&quot; ein Anschaffungsvorschlag zum gleichzeitigen Erstellen mehrerer Anschaffungstransaktionen verwendet werden.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Ist die Ausführung von Anschaffungsbuchungen durch die Einstellungen des Moduls &quot;Anlagevermögen&quot; auf eine bestimmte Benutzergruppe beschränkt, müssen Sie zum Ausführen rechnungsbasierter Anschaffungsbuchungen Mitglied dieser Benutzergruppe sein.</p>
+</div>
+<h2 id="methods-for-automatically-creating-fixed-assets"> Methoden zum automatischen Erstellen von Anlagen</h2>
+<p>Beim Buchen eines Produktzugangs, bei dem für eine Position die Option &quot;Neue Anlage erstellen&quot; aktiviert ist, wird eine neue Anlage mit dem Status &quot;Noch nicht erworben&quot; erstellt. Wird anschließend eine Kreditorenrechnung mit einer neuen Anlage gebucht, wird eine Anschaffungstransaktion für die neue Anlage gebucht, und der Status der Anlage ändert sich in &quot;Offen&quot;, sofern &quot;Anlagen&quot; so konfiguriert ist, dass Anlagenanschaffungen über &quot;Kreditoren&quot; zulässig sind, und Sie Mitglied einer Benutzergruppe sind, die Anschaffungstransaktionen buchen kann.</p>
+<p>Wurde die Option &quot;Neue Anlage?&quot; in der Bestellposition nicht beim Buchen des Produktzugangs, aber beim Buchen der Kreditorenrechnung ausgewählt, wird die neue Anlage mit dem Status &quot;Offen&quot; erstellt und angeschafft, sofern &quot;Anlagen&quot; so eingerichtet ist, dass die Erstellung und Anschaffung zulässig ist. Wurde beim Buchen des Produktzugangs bereits eine Anlage erstellt, wird beim Buchen einer Kreditorenrechnung keine zusätzliche Anlage erstellt.</p>
+<h3 id="capitalization-threshold">Aktivierungsschwellenwert</h3>
+<p>Bei Verwendung einer Methode mit automatischer Erstellung und Anschaffung der Anlage kann vom System überprüft werden, ob der Einkaufsbetrag der Anlage einem angegebenen Aktivierungsschwellenwert für die Anlagenabschreibung entspricht. Ist dies der Fall die Option &quot;Abschreibung&quot; in den Büchern für die Anlage ausgewählt, wenn sie aus &quot;Kreditorenkonto&quot; erstellt wird.</p>
+<p>Bei einem Aktivierungsschwellenwert handelt es sich um einen Währungsbetrag, durch den bestimmt wird, ob Anlagen bei Erreichen des angegebenen Betrags abgeschrieben werden. Wird beispielsweise eine Anlage erworben, deren Einkaufspreis unter dem Aktivierungsschwellenwert liegt, wird die Anlage nicht für die Abschreibung vorgesehen. Entspricht der Einkaufspreis dagegen mindestens dem Schwellenwert, wird die Anlage zur Abschreibung vorgemerkt.</p>
+<p>Sie können den Aktivierungsschwellenwert auf der Seite &quot;Anlagengruppen&quot; einrichten.</p>
+<h2 id="scenario">Szenario</h2>
+<p>Im folgenden Szenario wird der vollständige Zyklus einer Anlagen- und Kreditorenintegration erläutert. Hier finden Sie Beispieleinstellungen sowie Informationen zu Anschaffungsvorschlägen.</p>
+<p>Für dieses Szenario ist das System folgendermaßen konfiguriert:</p>
+<ul>
+<li>Anlagen werden automatisch beim Buchen von Produktzugängen oder Kreditorenrechnungen erstellt, das Modul &quot;Anlagevermögen&quot; ist jedoch so konfiguriert, dass die Ausführung von Anschaffungsbuchungen im Modul &quot;Kreditoren&quot; nicht zulässig ist.</li>
+<li>Konten werden im Feld &quot;Kontotyp&quot; für die Kontentypen &quot;Anlagenzugang&quot; und &quot;Anlagenabgang&quot; auf der Seite &quot;Artikelgruppen&quot; angegeben.</li>
+<li>Der Aktivierungsschwellenwert für die Computergruppe (COMP) ist auf 1500 festgelegt.</li>
+<li>Ihre Aufgabe besteht darin, eine Bestellung für einen neuen Laptop für einen Mitarbeiter einzugeben. Anschließend muss die Bestellung gebucht und überprüft werden, ob vom Sachbearbeiter im Versand ein Produktzugang gebucht wurde. Danach muss die Kreditorenrechnung gebucht und überprüft werden, ob die Anlage &quot;Laptop&quot; vom Buchhalter auf den Status &quot;Offen&quot; aktualisiert wurde.</li>
+</ul>
+<p>Verwenden Sie zunächst die Seite &quot;Bestellung&quot;, um Details zum Laptop einzugeben, für den Kosten in Höhe von 1.600 EUR anfallen. Sie wählen Die Option &quot;Neue Anlage?&quot; auf dem Inforegister &quot;Anlagen&quot; der Bestellpositionen aus, wählen COMP als Anlagengruppe aus und speichern die Bestellung.</p>
+<p>Nach Eingang des Laptops wird von einem Sachbearbeiter im Versand ein Produktzugang eingegeben und gebucht, um den Eingang des Laptops zu erfassen. Die Anlage &quot;Laptop&quot; wird erstellt und hat den Status &quot;Noch nicht erworben&quot;. Der Betrag übersteigt den Aktivierungsschwellenwert. Aus diesem Grund wird die Option &quot;Abschreibung&quot; in den Büchern für die Anlage &quot;Laptop&quot; ausgewählt. Die folgenden Buchungen wurden ausgeführt.</p>
+<table>
+<thead>
+<tr>
+<th>Beschreibung</th>
+<th>Konto</th>
+<th>Soll</th>
+<th>Haben</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einkauf, Produktzugang (Einkauf)</td>
+<td>Nicht fakturierte Zugänge</td>
+<td>1600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Einkauf, Produktzugang - Gegenkonto</td>
+<td>Antizipierte Einkäufe</td>
+<td></td>
+<td>1600,00</td>
+</tr>
+</tbody>
+</table>
+<p>Als Nächstes wird die Kreditorenrechnung für den Laptop gebucht. Der Status des Laptops ändert sich nicht, da das Modul &quot;Anlagevermögen&quot; so konfiguriert ist, dass beim Buchen einer Kreditorenrechnung keine Anlagenanschaffungsbuchungen ausgeführt werden. Die Option &quot;Neue Anlage erstellen&quot; wurde ausgewählt, als die Kreditorenrechnung gebucht wurde. Daher wurde das Zugangskonto &quot;Anlage&quot; verwendet. Das Abgangskonto &quot;Anlage&quot; wurde nicht verwendet, weil keine Anschaffung gebucht wurde. Dieses Konto wird später verwendet, wenn der Buchhalter der Organisation mithilfe von Anschaffungsvorschlägen eine Anschaffungstransaktion in &quot;Anlagen&quot; bucht.</p>
+<p>Die folgenden Buchungen wurden ausgeführt.</p>
+<table>
+<thead>
+<tr>
+<th>Beschreibung</th>
+<th>Konto</th>
+<th>Soll</th>
+<th>Haben</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Einkauf, Produktzugang - Gegenkonto</td>
+<td>Antizipierte Einkäufe</td>
+<td>1600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Kreditorensaldo</td>
+<td>Kreditoren</td>
+<td></td>
+<td>1600,00</td>
+</tr>
+<tr>
+<td>Einkauf, Anlagenzugang</td>
+<td>Computerausgabe</td>
+<td>1600,00</td>
+<td></td>
+</tr>
+<tr>
+<td>Einkauf, Produktzugang (Einkauf)</td>
+<td>Nicht fakturierte Zugänge</td>
+<td></td>
+<td>1600,00</td>
+</tr>
+</tbody>
+</table>
+<p>Zum Schluss überprüft der Buchhalter alle Anlagen mit dem Status &quot;Noch nicht erworben&quot;. Daher wird auch die neue Anlage &quot;Laptop&quot; überprüft. Der Buchhalter öffnet anschließend über die Erfassungspositionen &quot;Anlagen&quot; die Seite Anschaffungsvorschläge&quot; und erstellt Anschaffungstransaktionen für alle Anlagen, für die zwar eine Rechnung vorhanden ist, die aber noch den Status &quot;Noch nicht erworben&quot; besitzen. Nach dem Buchen der Erfassung ändert sich der Status der Anlage &quot;Laptop&quot; in &quot;Offen&quot;. Für das Abgangskonto &quot;Anlage&quot; erfolgt eine Habenbuchung und für das Anlagenanschaffungskonto erfolgt eine Sollbuchung.</p>
+<p>Im Folgenden finden Sie Variationen dieses Szenarios:</p>
+<ul>
+<li>Ist aufgrund der Einstellungen des Moduls &quot;Anlagevermögen&quot; beim Buchen von Kreditorenrechnungen die Ausführung von Anlagenanschaffungsbuchungen zulässig, muss der Buchhalter nicht auf Anschaffungsvorschläge im Modul &quot;Anlagevermögen&quot; zurückgreifen, da die Anschaffungsbuchung erstellt wird. Zudem werden beim Buchen der Kreditorenrechnung verschiedene Konten aktualisiert. Anstelle der Ausgaben &quot;Computer&quot; erfolgt für das Lagerkonto &quot;Anlagenzugang&quot; eine Sollbuchung und zwei zusätzliche Transaktionen finden statt: Für das Anlagenanschaffungskonto erfolgt eine Sollbuchung und für das Lagerkonto &quot;Anlagenzugang&quot; erfolgt eine Habenbuchung.</li>
+<li>Ist die Option &quot;Neue Anlage erstellen&quot; beim Buchen des Produktzugangs nicht ausgewählt, wird zu dem Zeitpunkt keine Anlage erstellt. Wenn Sie die Option &quot;Neue Anlage erstellen&quot; vor dem Buchen der Kreditorenrechnung auswählen, wird die Anlage mit dem Status &quot;Noch nicht erworben&quot; erstellt. Werden beim Buchen von Kreditorenrechnungen auch Anschaffungstransaktionen gebucht, wird die Anlage mit dem Status &quot;Offen&quot; erstellt.</li>
+<li>Betragen die Kosten für den Laptop nicht EUR 1600, sondern EUR 1400, wird der Aktualisierungsschwellenwert nicht erreicht. Daher wird die Anlage erstellt und die Option &quot;Abschreibung&quot; wird deaktiviert.</li>
+<li>Wenn ein Rechnungsbuch verwendet wird, verwenden Sie die Erfassungsseite &quot;Rechnungsgenehmigung&quot;, nachdem das Rechnungsbuch gebucht wurde, um den Beleg abzurufen, Sie verknüpfen die Bestellung mit der Kreditorenrechnung, wählen die Option &quot;Neue Anlage erstellen&quot; aus und buchen dann die Kreditorenrechnung. Sollten Sie Mitglied einer Benutzergruppe sein, die zum Erstellen von Anschaffungstransaktionen berechtigt ist, wird die Anschaffung erstellt, und die Anlage erhält den Status &quot;Offen&quot;.</li>
+<li>Geht nur eine Teilmenge ein, wird für die erste Kreditorenrechnung aufgrund der Benutzergruppeneinschränkungen keine Anlagenanschaffung erstellt. Eine Anschaffung für die zweite Kreditorenrechnung, durch die die bestellte Menge komplettiert wird, kann nur gebucht werden, wenn bereits für die erste Kreditorenrechnung eine Anschaffungsbuchung eingegeben wurde und Sie Mitglied einer Benutzergruppe sind, die zum Buchen von Anschaffungen berechtigt ist.</li>
+</ul>
+<p>Weitere Informationen finden Sie unter <a href="fixed-asset-integration.html">Anlage-Integration</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

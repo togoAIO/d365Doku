@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Add analytics to workspaces by using Power BI Embedded </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Add analytics to workspaces by using Power BI Embedded ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic shows how to embed a Power BI report on the Analytics tab of a workspace.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="add-analytics-to-workspaces-by-using-power-bi-embedded">Add analytics to workspaces by using Power BI Embedded</h1>
+
+
+<div class="NOTE">
+<h5>Note</h5>
+<p>This feature is supported in Finance and Operations (version 7.2 and later).</p>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>This topic shows how to embed a Microsoft Power BI report on the <strong>Analytics</strong> tab of a workspace. For the example that is given here, we will extend the <strong>Reservation management</strong> workspace in the Fleet Management application to embed an analytical workspace on an <strong>Analytics</strong> tab.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Access to a developer environment that runs Platform update 8 or later.</li>
+<li>An analytical report (.pbix file) that was created by using Microsoft Power BI Desktop, and that has a data model that is sourced from the Entity store database.</li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>Whether you extend an existing application workspace or introduce a new workspace of your own, you can use embedded analytical views to deliver insightful and interactive views of your business data. The process for adding an analytical workspace tab has four steps.</p>
+<ol>
+<li>Add a .pbix file as a Dynamics 365 resource.</li>
+<li>Define an analytical workspace tab.</li>
+<li>Embed the .pbix resource on the workspace tab.</li>
+<li>Optional: Add extensions to customize the view.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For more information about how to create analytical reports, see <a href="https://powerbi.microsoft.com/documentation/powerbi-desktop-getting-started/">Getting started with Power BI Desktop</a>. This page is a great source for insights that can help you create compelling analytical reporting solutions.</p>
+</div>
+<h2 id="add-a-pbix-file-as-a-resource">Add a .pbix file as a resource</h2>
+<p>Before you begin, you must create or obtain the Power BI report that you will embed in the workspace. For more information about how to create analytical reports, see <a href="https://powerbi.microsoft.com/documentation/powerbi-desktop-getting-started/">Getting started with Power BI Desktop</a>.</p>
+<p>Follow these steps to add a .pbix file as a Visual Studio project artifact.</p>
+<ol>
+<li><p>Create a new project in the appropriate model.</p>
+</li>
+<li><p>In Solution Explorer, select the project, right-click, and then select <strong>Add</strong> &gt; <strong>New Item</strong>.</p>
+</li>
+<li><p>In the <strong>Add New Item</strong> dialog box, under <strong>Operations Artifacts</strong>, select the <strong>Resource</strong> template.</p>
+</li>
+<li><p>Enter a name that will be used to reference the report in X++ metadata, and then click <strong>Add</strong>.</p>
+<p><img src="media/analytical-workspace-add.png" alt="Add New Item dialog box"></p>
+</li>
+<li><p>Find the .pbix file that contains the definition of the analytical report, and then click <strong>Open</strong>.</p>
+<p><img src="media/analytical-workspace-select-resource.png" alt="Select a Resource file dialog box"></p>
+</li>
+</ol>
+<p>Now that you've added the .pbix file as a Dynamics 365 resource, you can embed the reports in workspaces and add direct links by using menu items.</p>
+<h2 id="add-a-tab-control-to-an-application-workspace">Add a tab control to an application workspace</h2>
+<p>In this example, we will extend the <strong>Reservation management</strong> workspace in the Fleet Management model by adding the <strong>Analytics</strong> tab to the definition of the <strong>FMClerkWorkspace</strong> form.</p>
+<p>The following illustration shows what the <strong>FMClerkWorkspace</strong> form looks like in the designer in Microsoft Visual Studio.</p>
+<p><img src="media/analytical-workspace-definition-before.png" alt="FMClerkWorkspace form before changes"></p>
+<p>Follow these steps to extend the form definition for the <strong>Reservation management</strong> workspace.</p>
+<ol>
+<li>Open the form designer to extend the design definition.</li>
+<li>In the design definition, select the top element that is labeled <strong>Design | Pattern: Workspace Operational</strong>.</li>
+<li>Right-click, and then select <strong>New</strong> &gt; <strong>Tab</strong> to add a new control that is named <strong>FormTabControl1</strong>.</li>
+<li>In the form designer, select <strong>FormTabControl1</strong>.</li>
+<li>Right-click, and then select <strong>New Tab Page</strong> to add a new tab page.</li>
+<li>Rename the tab page to something meaningful, such as <strong>Workspace</strong>.</li>
+<li>In the form designer, select <strong>FormTabControl1</strong>.</li>
+<li>Right-click, and then select <strong>New Tab Page</strong>.</li>
+<li>Rename the tab page to something meaningful, such as <strong>Analytics</strong>.</li>
+<li>In the form designer, select <strong>Analytics (Tab Page)</strong>.</li>
+<li>Set the <strong>Caption</strong> property to <strong>Analytics</strong>, and set the <strong>Auto Declaration</strong> property to <strong>Yes</strong>.</li>
+<li>Right-click the control, and then select <strong>New</strong> &gt; <strong>Group</strong> to add a new form group control.</li>
+<li>Rename the form group to something meaningful, such as <strong>powerBIReportGroup</strong>.</li>
+<li>In the form designer, select <strong>PanoramaBody (Tab)</strong>, and then drag the control onto the <strong>Workspace</strong> tab.</li>
+<li>In the design definition, select the top element that is labeled <strong>Design | Pattern: Workspace Operational</strong>.</li>
+<li>Right-click, and then select <strong>Remove pattern</strong>.</li>
+<li>Right-click again, and then select <strong>Add pattern</strong> &gt; <strong>Workspace Tabbed</strong>.</li>
+<li>Perform a build to verify your changes.</li>
+</ol>
+<p>The following illustration shows what the design looks like after these changes are applied.</p>
+<p><img src="media/analytical-workspace-definition-after.png" alt="FMClerkWorkspace after changes"></p>
+<p>Now that you've added the form controls that will be used to embed the workspace report, you must define the size of the parent control so that it accommodates the layout. By default, both the <strong>Filters Pane</strong> page and the <strong>Tab</strong> page will be visible on the report. However, you can change the visibility of these controls as appropriate for the target consumer of the report.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For embedded workspaces, we recommend that you use extensions to hide both the <strong>Filters Pane</strong> and <strong>Tab</strong> pages, for consistency.</p>
+</div>
+<p>You've now completed the task of extending the application form definition. For more information about how to use extensions to do customizations, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/extensibility/customization-overlayering-extensions">Customize through extension and overlayering (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<h2 id="add-x-business-logic-to-embed-a-viewer-control">Add X++ business logic to embed a viewer control</h2>
+<p>Follow these steps to add business logic that initializes the report viewer control that is embedded in the <strong>Reservation management</strong> workspace.</p>
+<ol>
+<li><p>Open the <strong>FMClerkWorkspace</strong> form designer to extend the design definition.</p>
+</li>
+<li><p>Press F7 to access the code behind the code definition.</p>
+</li>
+<li><p>Add the following X++ code.</p>
+<pre><code class="lang-xpp">[Form] 
+public class FMClerkWorkspace extends FormRun
+{
+    private boolean initReportControl = true;
+    protected void initAnalyticalReport()
+    {
+        if (!initReportControl)
+        {
+            return;
+        }
+        // Note: secure entry point into the Workspace's Analytics report
+        if (Global::hasMenuItemAccess(menuItemDisplayStr(FMClerkWorkspace), MenuItemType::Display))
+        {
+            // initialize the PBI report control using shared helper
+            PBIReportHelper::initializeReportControl('FMPBIWorkspaces', powerBIReportGroup);
+        }
+        initReportControl = false;
+    }
+    /// &lt;summary&gt;
+    /// Initializes the form.
+    /// &lt;/summary&gt;
+    public void init()
+    {
+        super();
+        this.initAnalyticalReport();
+    }
+}
+</code></pre>
+</li>
+<li><p>Perform a build to verify your changes.</p>
+</li>
+</ol>
+<p>You've now completed the task of adding business logic to initialize the embedded report viewer control. The following illustration shows what the workspace looks like after these changes are applied.</p>
+<p><img src="media/analytical-workspace-final.png" alt="Report embedded in the workspace"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can access the existing operational view by using the workspace tabs below the page title.</p>
+</div>
+<h2 id="reference">Reference</h2>
+<h3 id="pbireporthelperinitializereportcontrol-method">PBIReportHelper.initializeReportControl method</h3>
+<p>This section provides information about the helper class that is used to embed a Power BI report (.pbix resource) in a form group control.</p>
+<h4 id="syntax">Syntax</h4>
+<pre><code class="lang-xpp">public static void initializeReportControl(
+    str                 _resourceName,
+    FormGroupControl    _formGroupControl,
+    str                 _defaultPageName = '',
+    boolean             _showFilterPane = false,
+    boolean             _showNavPane = false,
+    List                _defaultFilters = new List(Types::Class))
+</code></pre>
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resourceName</td>
+<td>The name of the .pbix resource.</td>
+</tr>
+<tr>
+<td>formGroupControl</td>
+<td>The form group control to apply the Power BI report control to.</td>
+</tr>
+<tr>
+<td>defaultPageName</td>
+<td>The default page name.</td>
+</tr>
+<tr>
+<td>showFilterPane</td>
+<td>A Boolean value that indicates whether the filter pane should be shown (<strong>true</strong>) or hidden (<strong>false</strong>).</td>
+</tr>
+<tr>
+<td>showNavPane</td>
+<td>A Boolean value that indicates whether the navigation pane should be shown (<strong>true</strong>) or hidden (<strong>false</strong>).</td>
+</tr>
+<tr>
+<td>defaultFilters</td>
+<td>The default filters for the Power BI report.</td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/add-analytics-tab-workspaces.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

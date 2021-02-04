@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shipment auto-updates | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Shipment auto-updates | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="shipment-auto-updates">Shipment auto-updates</h1>
+
+
+<p>The auto-update shipment functionality automatically updates quantities (both increases and decreases) on a load line that is associated with a shipment, after the load has been released to a warehouse. This functionality remains turned on until the load line on the shipment or load is processed on a wave. When it's used, order updates can automatically flow through to the warehouse, without requiring manual intervention, until warehouse work is created.</p>
+<p>When the auto-update shipment functionality isn't used, only quantity decreases automatically flow until warehouse work is created. Users must manually update or delete lines, and they must then re-release lines if order quantities are increased or new order lines are added. By using the auto-update shipment functionality, businesses can seamlessly provide updates to the warehouse without having to worry that related shipments and loads won't reflect order line updates.</p>
+<p>The auto-update shipment functionality applies to both sales order lines and transfer order lines, and it's turned on for a specific warehouse. Therefore, companies can apply different auto-update shipment policies across warehouses, as they require. By default, the auto-update shipment policy for quantity decreases is applied for all warehouses that use warehouse management processes. When this default policy setting is used, only quantity decreases automatically flow through to a shipment and load until warehouse work is created. This behavior resembles the behavior that was used before the auto-update shipment functionality was introduced.</p>
+<h2 id="main-elements-of-the-functionality">Main elements of the functionality</h2>
+<p>The auto-update shipment functionality relies primarily on the shipment status to determine whether the quantity on a load line should be changed when a change is made on a sales order line or transfer order line. It also relies primarily on the shipment status to determine when a new load line should automatically be added to an existing load. When the shipment status is <strong>Waved</strong> or higher, no automatic update occurs.</p>
+<p>Wave status is also considered for automatic updates. When the wave that is related to the load line has a status of <strong>Held</strong>, <strong>Executing</strong>, <strong>Released</strong>, <strong>Picked</strong>, or <strong>Shipped</strong>, if a user tries to reduce the quantity on a load line (via a quantity decrease on the sales order line or transfer order line), the following error message is shown: &quot;Reservations cannot be removed because there is work created which relies on the reservations.&quot; Additionally, when the wave has one of the previously mentioned wave statuses, if a user tries to indirectly increase the load line quantity by increasing the quantity on the sales order line or transfer order line, the quantity on the load line isn't automatically increased. In this case, the load line must be manually updated.</p>
+<h2 id="scenarios">Scenarios</h2>
+<p>The auto-update shipment functionality supports four scenarios: adding a new order line, increasing the quantity on an order line, decreasing the quantity on an order line, and removing an order line.</p>
+<ul>
+<li><strong>Add a new order line</strong> – When the <strong>Auto update shipment</strong> field on the <strong>Warehouse</strong> FastTab of the <strong>Warehouses</strong> page (<strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Warehouses</strong>) is set to <strong>Always</strong>, if a shipment exists for the order, and a new order line is added to a sales order or transfer order after a load has already been created for the sales order, the existing load isn't updated. A new load line that has no reference to the existing load is created and associated with the existing shipment. The new line is added to the load and released.</li>
+<li><strong>Increase the quantity on an order line</strong> – When the <strong>Auto update shipment</strong> field is set to <strong>Always</strong>, if a shipment exists for the order, and the quantity on an existing sales order line or transfer order line is increased after a load has already been created for the sales order, the load line is increased by the same quantity as the order line. If the load was released, but no work was created, the load line is increased by the same quantity as the order line.</li>
+<li><strong>Decrease the quantity on an order line</strong> – When the <strong>Auto update shipment</strong> field is set to <strong>Always</strong> or <strong>On quantity decrease</strong>, if a shipment exists for the order, and the quantity on an existing sales order line or transfer order line is decreased after a load has already been created for the sales order, the quantity on the associated load line is updated to match, unless the quantity on that load line already equals or is less than the new quantity on the order line. In that case, the load line isn't affected. If the load was released, but no work was created, the quantity on the associated load line is updated to match, unless the quantity on the load line already equals or is less than the new quantity on the order line. In that case, the load line is affected.</li>
+<li><strong>Remove an order line</strong> – When the <strong>Auto update shipment</strong> field is set to <strong>Always</strong> or <strong>On quantity decrease</strong>, if the user tries to remove an order line that a load line exists for, an error message is shown.</li>
+</ul>
+<h2 id="example-scenario">Example scenario</h2>
+<p>For this scenario, you must have demo data installed, and you must use the <strong>USMF</strong> demo data company.</p>
+<h3 id="turn-on-the-auto-update-shipment-functionality">Turn on the auto-update shipment functionality</h3>
+<p>To turn on the auto-update shipment functionality, follow these steps.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Warehouses</strong>.</li>
+<li>Select warehouse <strong>24</strong>.</li>
+<li>On the <strong>Warehouse</strong> FastTab, in the <strong>Auto update shipment</strong> field, change the value from <strong>On quantity decrease</strong> to <strong>Always</strong>.</li>
+</ol>
+<p>After you change the value to <strong>Always</strong>, any increases or decreases in the quantities on sales order lines and transfer order lines, and any additions of new lines, are reflected on shipments and loads for the selected warehouse, given the previously mentioned update constraints.</p>
+<h3 id="change-the-wave-template-so-that-load-lines-arent-automatically-processed">Change the wave template so that load lines aren't automatically processed</h3>
+<p>To configure the wave template so that it doesn't automatically process load lines, follow these steps.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave templates</strong>.</li>
+<li>Select wave template <strong>24 Shipping default</strong>.</li>
+<li>Select <strong>Edit</strong>.</li>
+<li>On the <strong>General</strong> FastTab, set the <strong>Automate wave creation</strong> option to <strong>Yes</strong>, and make sure that all other options are set to <strong>No</strong>.</li>
+</ol>
+<p>It's important that no work be automatically created and released as part of the wave creation process. After work is created that is related to the load line that was created for the sales order line, the load line is no longer automatically updated if the quantity on the sales order line is changed.</p>
+<h3 id="create-a-sales-order">Create a sales order</h3>
+<p>To create a sales order, follow these steps.</p>
+<ol>
+<li>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</li>
+<li>Select customer <strong>US-003</strong>.</li>
+<li>Create a line for item number <strong>A0001</strong>.</li>
+<li>Enter a quantity of <strong>10</strong>. (Make sure that you're using warehouse <strong>24</strong>.)</li>
+<li>Select <strong>Save</strong>.</li>
+<li>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Actions</strong> group, select <strong>Release to warehouse</strong>. A shipment and a wave are created.</li>
+</ol>
+<p>Because you changed the wave template in the previous procedure, no load or work is created. The shipment status is <strong>Open</strong>, and the wave status is <strong>Created</strong>.</p>
+<h3 id="decrease-the-quantity-on-a-sales-order-line">Decrease the quantity on a sales order line</h3>
+<p>To decrease the quantity on a sales order line, follow these steps.</p>
+<ol>
+<li>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</li>
+<li>Select the sales order that you just released to the warehouse.</li>
+<li>Select the sales order line. In the <strong>Quantity</strong> field, change the value from <strong>10</strong> to <strong>8</strong>.</li>
+<li>From the sales order line, select <strong>Warehouse &gt; Shipment details</strong>. On the <strong>Shipment details</strong> page, on the <strong>Load lines</strong> FastTab, the quantity reflects the change on the sales order line.</li>
+</ol>
+<h3 id="increase-the-quantity-on-a-sales-order-line">Increase the quantity on a sales order line</h3>
+<p>To increase the quantity on a sales order line, follow these steps.</p>
+<ol>
+<li>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</li>
+<li>Select the sales order that you previously released to the warehouse.</li>
+<li>Change the line quantity from <strong>8</strong> to <strong>12</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>Go back to the <strong>All sales orders</strong> page, and select the sales order again.</li>
+<li>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Related information</strong> group, select <strong>Shipment details</strong>. On the <strong>Shipment details</strong> page, on the <strong>Load lines</strong> FastTab, the quantity reflects the change on the sales order line.</li>
+</ol>
+<p>Although the quantity on the load line was increased from 8 to 12, only eight items remain reserved, unless automatic reservation is turned on. Because the quantity that was added to the existing shipment hasn't been reserved, if the wave is processed at this point, without reservation, work is created only for the quantity that has already been reserved.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When the quantity on an order line is decreased, the quantity on the load line isn't affected if it already equals or is less than the new quantity on the order line. When the quantity on an order line is increased, the load line is increased by the same quantity as the order line. If the quantity on the order line differs from the quantity on the load line, the difference remains.</p>
+</div>
+<h3 id="add-a-sales-order-line">Add a sales order line</h3>
+<p>To add a sales order line, follow these steps.</p>
+<ol>
+<li>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</li>
+<li>Select the sales order that you previously released to the warehouse.</li>
+<li>Create a line for item number <strong>A0002</strong>.</li>
+<li>In the <strong>Quantity</strong> field, enter <strong>10</strong>. (Make sure that you're using warehouse <strong>24</strong>.) The new line is automatically added to the existing shipment.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>Go back to the <strong>All sales orders</strong> page, and select the sales order again.</li>
+<li>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Related information</strong> group, select <strong>Shipment details</strong>. On the <strong>Shipment details</strong> page, on the <strong>Load lines</strong> FastTab, notice the second load line.</li>
+</ol>
+<p>Because the sales order line that you just added to the existing shipment hasn't been reserved, if the wave is processed at this point, work is created only for the quantity on the first sales order line and the first load line.</p>
+<h3 id="process-a-wave">Process a wave</h3>
+<p>To process the wave, follow these steps.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Outbound waves &gt; Shipment waves &gt; All waves</strong>.</li>
+<li>Select the wave that you previously created.</li>
+<li>On the Action Pane, on the <strong>Wave</strong> tab, in the <strong>Wave</strong> group, select <strong>Process</strong>.</li>
+</ol>
+<p>The wave is processed and creates work for the reserved quantities on the load lines. The shipment status is updated from <strong>Open</strong> to <strong>Waved</strong>. As the shipment status is updated to <strong>Waved</strong>, any changes that occur, such as decreases or increases in line quantities, or the addition of new lines to the sales order, don't affect the existing load lines that are associated with the waved shipment.</p>
+<p>If a shipment has a status of <strong>Waved</strong> or higher, updates to the quantity on a sales order line aren't reflected on or validated against a load line that is associated with the shipment. Changes to the quantity on a load line must be made directly on the load line.</p>
+<p>Validation is done after work has been created for the load line and a reservation has been made. A decrease in the quantity on the sales order line is then validated against the work line reservation.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

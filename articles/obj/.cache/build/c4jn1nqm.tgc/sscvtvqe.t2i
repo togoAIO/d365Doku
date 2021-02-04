@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Put to wall - put to store </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Put to wall - put to store ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about the Put to wall - put to store functionality. This functionality lets you handle scenarios where you must consolidate a product to a prepack staging area, based on configurable criteria. It helps decrease picking time because it allows for picking to a single target license plate and can use more put positions than cluster picking.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSLocationType, WHSLocationProfile, WHSLocation, WHSPackProfile, WHSWaveStepCode, WHSOutboundSortTemplate, WHSPostMethod, WHSWaveTemplateTable, WHSLocDirTable, WHSWorkClass, WHSWorkTemplateTable">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="put-to-wall---put-to-store">Put to wall - put to store</h1>
+
+
+<p>The <em>Put to wall - put to store</em> functionality lets you handle scenarios where you must consolidate a product to a prepack staging area, based on configurable criteria. Because this functionality allows for picking to a single target license plate and can use more put positions than cluster picking, companies that ship to stores or handle small items will benefit from decreased picking time.</p>
+<p>The workflow for this functionality directs picked product to a sorting location for distribution into various types of containers. Generally, each sorting location includes multiple sort positions. Each sort position is assigned according to the criteria that are set by the business process. Typical criteria are the final destination, shipment, or load. After a product arrives, it's distributed to each sort position, based on the quantity that is associated with the order, destination, shipment, or load. When a container is full or complete, it's moved to a staging location or a shipping location for further handling, depending on the business process.</p>
+<p>This warehousing functionality is also referred to by other names, such as put-to-light and break opens.</p>
+<h2 id="turn-on-the-outbound-sorting-feature">Turn on the Outbound sorting feature</h2>
+<p>Before you can use the <em>Put to wall - put to store</em> functionality, the <em>Outbound sorting</em> feature must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Feature management</a> workspace to check the status of the feature and turn it on if it's required. There, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Outbound sorting</em></li>
+</ul>
+<p>The <em>Outbound sorting</em> feature can be used in conjunction with the <em>Organization wide wave step code</em> feature if it's turned on. You must also turn on this feature if you will use predefined codes that are set up in wave step codes. In the <strong>Feature management</strong> workspace, this feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Organization wide wave step code</em></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>For this demo, standard Contoso data and warehouse <em>62</em> are used. Some additions that are noted later are also used.</p>
+<h3 id="location-type">Location type</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Location types</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a location type for sorting.</p>
+</li>
+<li><p>Set the following values:</p>
+<ul>
+<li><strong>Location type:</strong> <em>SORT</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="warehouse-management-parameters">Warehouse management parameters</h3>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse management parameters</strong>.</li>
+<li>On the <strong>General</strong> tab, on the <strong>Location types</strong> FastTab, in the <strong>Sorting location type</strong> field, enter <em>SORT</em>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="location-profile">Location profile</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Location profiles</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a location profile for the sorting location.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Location profile ID:</strong> <em>Sort</em></li>
+<li><strong>Name:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Location format:</strong> <em>PACK</em></li>
+<li><strong>Location type:</strong> <em>SORT</em></li>
+<li><strong>Use license plate tracking:</strong> <em>Yes</em></li>
+<li><strong>Allow mixed items:</strong> <em>Yes</em></li>
+<li><strong>Allow mixed inventory statuses:</strong> <em>Yes</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="locations">Locations</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations</strong>.</p>
+</li>
+<li><p>Clear the <strong>Generate check digits for location</strong> check box.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>, and then set the following values:</p>
+<ul>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Location:</strong> <em>Sort</em></li>
+<li><strong>Location profile ID:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="packing-profiles">Packing profiles</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Packing &gt; Packing profiles</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>, and then set the following values:</p>
+<ul>
+<li><strong>Packing profile ID:</strong> <em>Sort</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+<li><strong>Container packing policy:</strong> Leave this field blank.</li>
+<li><strong>Container ID mode:</strong> <em>Auto</em></li>
+<li><strong>Container type:</strong> <em>PALLET 48X48</em></li>
+<li><strong>Autocreate container at container close:</strong> Leave this field blank.</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="wave-step-codes">Wave step codes</h3>
+<p>If you turned on the <em>Organization wide wave step code</em> feature, set up the following code.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave step codes</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>, and then set the following values:</p>
+<ul>
+<li><strong>Wave step code:</strong> <em>Sort</em></li>
+<li><strong>Wave step description:</strong> <em>Sort</em></li>
+<li><strong>Wave step type:</strong> <em>Sort template</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="outbound-sorting-template">Outbound sorting template</h3>
+<p>The sorting template controls whether sort positions are created, what criteria are used, and other attributes of the sorting process.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Packing &gt; Outbound sorting template</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a sorting template.</p>
+</li>
+<li><p>In the header of the new template, set the following values:</p>
+<ul>
+<li><p><strong>Outbound sorting template ID:</strong> <em>Wave Sort</em></p>
+</li>
+<li><p><strong>Description:</strong> <em>Wave sort</em></p>
+</li>
+<li><p><strong>Sort template type:</strong> <em>Wave demand</em></p>
+<p>This field defines the process that the sorting template is used for. The following values are available:</p>
+<ul>
+<li><strong>Wave demand</strong> – The sorting template is used for the <em>Put to wall</em> process. This template type is used to bypass the pack station and process inventory directly out of the wave. You can use this type only if the <strong>sorting</strong> wave process method is included in the wave template.</li>
+<li><strong>Container</strong> – The sorting template is used for the <em>Pallet building after packing</em> process. This template type is used to process containers that are closed at the pack station and must be sorted onto pallets.</li>
+</ul>
+</li>
+<li><p><strong>Warehouse:</strong> <em>62</em></p>
+</li>
+<li><p><strong>Location:</strong> <em>Sort</em></p>
+</li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><p><strong>Sort verification:</strong> <em>Position scan</em></p>
+<p>This field defines the verification that is required during sorting. The following values are available:</p>
+<ul>
+<li>None</li>
+<li>License plate scan</li>
+<li>Position scan</li>
+</ul>
+</li>
+<li><p><strong>Create work on position close:</strong> <em>Yes</em></p>
+<p>If this option is set to <em>Yes</em>, when the position is closed, work will be created to move inventory to the final shipping location. If it's set to <em>No</em>, inventory will immediately be picked to the order when the position is closed.</p>
+</li>
+<li><p><strong>Position assignment:</strong> <em>Manual</em></p>
+<p>This field defines the type of position assignment. The following values are available:</p>
+<ul>
+<li><strong>Manual</strong> – The user must always indicate which position the inventory should be sorted to.</li>
+<li><strong>Automatic</strong> – The system will automatically guide the inventory to a position whenever it can, based on the sort template breaks.</li>
+</ul>
+</li>
+<li><p><strong>Assign sort position criteria:</strong> <em>Only use empty position</em></p>
+<p>This field controls whether inventory that is already present on sort positions is taken into account when a position is assigned for the demand. The following values are available:</p>
+<ul>
+<li><strong>Only use empty position</strong> – Positions that already have inventory associated with them will be taken into account</li>
+<li><strong>Assume position empty</strong> – Any inventory that is already on the position will be disregarded during assignment. All available positions will be used.</li>
+</ul>
+</li>
+<li><p><strong>Wave step code:</strong> <em>Sort</em></p>
+<p>If the <em>Organization wide wave step code</em> feature is turned on, the <em>Sort</em> wave step code must also be set up in wave step codes.</p>
+</li>
+<li><p><strong>Auto close sort position:</strong> <em>Yes</em></p>
+<p>If this option is set to <em>Yes</em>, the sort position will automatically be closed when all work that comes to the position has been completed.</p>
+</li>
+<li><p><strong>Number of sort positions:</strong> <em>3</em></p>
+<p>This field defines the maximum number of sort positions that the system will create.</p>
+</li>
+<li><p><strong>Sort position prefix:</strong> <em>SP-</em></p>
+<p>This field defines the prefix that the system assigns before the position number.</p>
+</li>
+<li><p><strong>Auto pack sort position:</strong> <em>Yes</em></p>
+<p>If this option is set to <em>Yes</em>, the inventory on the sort position will be packed into a container when the position is closed.</p>
+</li>
+<li><p><strong>Packing profile ID:</strong> <em>Sort</em></p>
+<p>This field defines the packing profile that will be used when the sort position is packed into a container.</p>
+</li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Edit query</strong> to specify the criteria that are used for this sorting template.</p>
+</li>
+<li><p>In the query dialog box, on the <strong>Sorting</strong> tab, select <strong>New</strong> to add a line, and then set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Load details</em></li>
+<li><strong>Derived table:</strong> <em>Load details</em></li>
+<li><strong>Field:</strong> <em>Shipment ID</em></li>
+<li><strong>Search direction:</strong> <em>Ascending</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>You might receive the following message: &quot;Grouping will be reset, continue?&quot; Select <strong>Yes</strong>.</p>
+<p>The <strong>Outbound sorting template breaks</strong> button on the Action Pane becomes available.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Outbound sorting template breaks</strong>.</p>
+</li>
+<li><p>Select the <strong>Group by field</strong> check box to group by shipment ID.</p>
+<p>This setting will create one sort position per shipment that is a container in the wave.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<h3 id="wave-process-methods">Wave process methods</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave process methods</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Regenerate methods</strong>.</p>
+<p>The <strong>sorting</strong> method is added to the list of available methods, and the <em>Shipping</em> wave template type is selected for it.</p>
+</li>
+</ol>
+<h3 id="wave-templates">Wave templates</h3>
+<p>Edit the wave template that is used for wave demand sorting.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave templates</strong>.</p>
+</li>
+<li><p>In the <strong>Wave template type</strong> field, select <em>Shipping</em>.</p>
+</li>
+<li><p>Select the existing <strong>62 Shipping default</strong> template.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, make the following changes:</p>
+<ul>
+<li>Set the <strong>Process wave at release to warehouse</strong> option to <em>No</em>.</li>
+<li>Set the <strong>Assign to open waves</strong> option to <em>Yes</em>.</li>
+</ul>
+</li>
+<li><p>On the <strong>Methods</strong> FastTab, set up the <strong>sorting</strong> method:</p>
+<ol>
+<li>In the <strong>Remaining Methods</strong> grid, select <strong>sorting</strong>.</li>
+<li>Select the right arrow button to move <strong>sorting</strong> to the <strong>Selected Methods</strong> grid.</li>
+<li>In the <strong>Selected Methods</strong> grid, select <strong>sorting</strong>.</li>
+<li>Set the <strong>Wave step code</strong> field to <em>Sort</em>.</li>
+</ol>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="mobile-device-menu-items">Mobile device menu items</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Menu item name:</strong> <em>Sort</em></li>
+<li><strong>Title:</strong> <em>Sort</em></li>
+<li><strong>Mode:</strong> <em>Indirect</em></li>
+<li><strong>Use existing work:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Activity code:</strong> <em>Outbound sorting</em></li>
+<li><strong>Use process guide:</strong> <em>Yes</em> (default value)</li>
+<li><strong>Outbound sorting template ID:</strong> <em>Wave Sort</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="mobile-device-menu">Mobile device menu</h3>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu</strong>.</li>
+<li>In the list of menus, select <strong>Outbound</strong>.</li>
+<li>On the Action Pane, select <strong>Edit</strong>.</li>
+<li>In the <strong>Available Menus And Menu Items</strong> grid, find and select the <strong>Sort</strong> menu item that you just created.</li>
+<li>Select the right arrow button to move <strong>Sort</strong> to the <strong>Menu Structure</strong> grid. In this way, you add the menu item to the <strong>Outbound</strong> menu.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="location-directives">Location directives</h3>
+<p>You must create location directives to guide the work that is created after the sorting is completed.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the <strong>Work order type</strong> field, select <em>Sorted inventory picking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>Put to Baydoor</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Location directives</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Directive code:</strong> Leave this field blank.</li>
+<li><strong>Multiple SKU:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Lines</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong>, and then set the following values. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence number:</strong> <em>1</em></li>
+<li><strong>From quantity:</strong> <em>0</em></li>
+<li><strong>To quantity:</strong> <em>1000000</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>New</strong>, and then set the following values. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence number:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>Baydoor</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Edit query</strong> button on the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>Edit query</strong>.</p>
+</li>
+<li><p>In the query dialog box, on the <strong>Range</strong> tab, find the row where the <strong>Field</strong> field is set to <em>Location</em>. Set the <strong>Criteria</strong> field for this row to <em>Baydoor</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the edit.</p>
+</li>
+</ol>
+<h3 id="work-classes">Work classes</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work classes</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>Sorting</em></li>
+<li><strong>Description:</strong> <em>Sorting</em></li>
+<li><strong>Work order type:</strong> <em>Sorted inventory picking</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="work-templates">Work templates</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>In the <strong>Work order type</strong> field, select <em>Sales orders</em>.</p>
+</li>
+<li><p>In the grid, select the <strong>62 Pick to pack</strong> work template.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Work header breaks</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>On the line where the <strong>Field name</strong> field is set to <em>Shipment ID</em>, clear the <strong>Group by this field</strong> check box.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and then close the <strong>Work header breaks</strong> dialog box.</p>
+</li>
+<li><p>In the <strong>Work order type</strong> field, select <em>Sorted inventory picking</em>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a work template.</p>
+</li>
+<li><p>In the <strong>Overview</strong> section, set the following values. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Work template:</strong> <em>Sorted picking</em></li>
+<li><strong>Work template description:</strong> <em>Sorted picking</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Work Template Details</strong> section available.</p>
+</li>
+<li><p>In the <strong>Work Template Details</strong> section, you will create two lines. Select <strong>New</strong>, and then set the following values for line 1:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Pick</em></li>
+<li><strong>Mandatory:</strong> Selected (= <em>Yes</em>)</li>
+<li><strong>Work class ID:</strong> <em>Sorting</em></li>
+</ul>
+</li>
+<li><p>Select <strong>New</strong> again, and then set the following values for line 2:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Mandatory:</strong> Selected (= <em>Yes</em>)</li>
+<li><strong>Work class ID:</strong> <em>Sorting</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h2 id="example-scenario">Example scenario</h2>
+<p>This scenario simulates a situation where the warehouse stores small items in locations and must pack them into boxes before they are shipped, and where packing station functionality isn't really suitable. Workers pick orders for multiple customers and different addresses at the same time to increase the picking speed. After picking has been completed, the workers arrive at the sorting location, where the picked items can be sorted to the correct box, based on required criteria. In this example, the shipment ID will be used to determine the correct box, because each shipment has a different address. After all items from the load are packed and sorted by shipment, the boxes will be moved to the staging area and eventually loaded onto a truck.</p>
+<p>Before you start the scenario, make sure that all standard warehouse functionality is set up correctly for your warehouse. Standard Contoso warehouse <em>62</em> is used for this purpose. Standard configurations haven't been changed, besides what is described in the setup.</p>
+<h3 id="create-demand">Create demand</h3>
+<p>Before the functionality can be demonstrated, you must create some demand. For this scenario, you will create three sales orders for three different customers to simulate different delivery addresses. In this way, you will create three separate shipments.</p>
+<p>Before you create sales orders and shipments, make sure that the pick locations have enough inventory for all the items on the orders. Review the location directive settings to confirm the picking locations that are used for sales order picking. If you must adjust the inventory, you can create manual movements, use replenishment, or use any other flow. Then reserve the inventory.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a sales order for order 1.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer:</strong> <em>US-001</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>A new line is added to the <strong>Sales order lines</strong> FastTab. Set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>5</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Add line</strong> to add a second line, and set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0002</em></li>
+<li><strong>Quantity:</strong> <em>10</em></li>
+</ul>
+</li>
+<li><p>Repeat the following steps for each sales line on the order to reserve inventory for it:</p>
+<ol>
+<li>On the <strong>Sales order lines</strong> FastTab, on the <strong>Inventory</strong> menu, select <strong>Reservation</strong>.</li>
+<li>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>, and then close the page.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+</li>
+<li><p>Select <strong>New</strong> to create a sales order for order 2.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer:</strong> <em>US-004</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>A new line is added to the <strong>Sales order lines</strong> FastTab. Set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>7</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Add line</strong> to add a second line, and set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0002</em></li>
+<li><strong>Quantity:</strong> <em>3</em></li>
+</ul>
+</li>
+<li><p>Repeat the following steps for each sales line on the order to reserve inventory for it:</p>
+<ol>
+<li>On the <strong>Sales order lines</strong> FastTab, on the <strong>Inventory</strong> menu, select <strong>Reservation</strong>.</li>
+<li>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>, and then close the page.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+</li>
+<li><p>Select <strong>New</strong> to create a sales order for order 3.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer:</strong> <em>US-007</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>A new line is added to the <strong>Sales order lines</strong> FastTab. Set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>8</em></li>
+</ul>
+</li>
+<li><p>Follow these steps to reserve inventory for the sales line:</p>
+<ol>
+<li>On the <strong>Sales order lines</strong> FastTab, on the <strong>Inventory</strong> menu, select <strong>Reservation</strong>.</li>
+<li>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>, and then close the page.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+</li>
+</ol>
+<p>Complete the following procedure to release each sales order to the warehouse. Three different shipments will be created. You will then add all three shipments to one new wave.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>In the grid, select the first sales order that you created.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>You receive an informational message that shows the wave ID and shipment ID that were created.</p>
+</li>
+<li><p>Repeat the previous steps to release sales orders 2 and 3 to the warehouse. Notice that the informational message that you receive indicates that a shipment has been added to the wave that was created when you released sales order 1.</p>
+</li>
+<li><p>Go to <strong>Warehouse management &gt; Outbound waves &gt; Shipment waves &gt; All waves</strong>.</p>
+</li>
+<li><p>Select the wave ID that was created from the release of the sales orders to open the <strong>Waves</strong> page. This page shows the wave details. The <strong>Wave lines</strong> FastTab shows the shipments that were created.</p>
+<p>You must now create work to bring items from the picking locations to the sorting location.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Process</strong>.</p>
+<p>During wave processing, the sorting method will use the sorting template to assign the inventory to sort positions. When wave processing is completed, you receive an informational message that states that the wave has been posted and work has been created.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Wave</strong> tab, in the <strong>Related information</strong> group, select <strong>Work</strong> to view the work that was created. Make a note of the work ID.</p>
+</li>
+<li><p>Go to <strong>Warehouse management &gt; Packing and containerization &gt; Outbound sorting position assignments</strong>.</p>
+</li>
+<li><p>In the left column, you can view the outbound sorting position that was created for each shipment.</p>
+</li>
+<li><p>On the <strong>Sort position criteria</strong> FastTab, you can view the shipment ID for that position.</p>
+</li>
+</ol>
+<p>One work ID has been created to bring inventory from the picking locations to the sorting location. To complete the work, you will need the work ID that was created during wave processing.</p>
+<h3 id="sales-order-picking-to-the-sorting-location">Sales order picking to the sorting location</h3>
+<ol>
+<li><p>Sign in to the mobile app as a worker in warehouse <em>62</em>.</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Sales Picking</strong>.</p>
+</li>
+<li><p>Select the <strong>ID</strong> field, and then enter the work ID from the wave processing.</p>
+</li>
+<li><p>Confirm your entry.</p>
+<p>Next, you're prompted to enter a target license plate (LP). Notice that line 1 from sales order 1 is what must be picked and added to the target license plate. The item number, quantity, item description, and pick location are shown.</p>
+</li>
+<li><p>In the <strong>Target LP</strong> field, enter a license plate number.</p>
+<p>You will pick all lines that were created from the processed wave onto the same target license plate.</p>
+</li>
+<li><p>Confirm your entry.</p>
+<p>The mobile app now presents a series of <strong>Pick</strong> pages that point you to the picking location, and to the item and quantity that must be picked. After the picked item is added to the license plate, you will confirm the pick work. The last page will be the work to put the picked items into the sorting location.</p>
+</li>
+<li><p>Confirm the first pick work.</p>
+</li>
+<li><p>The next pick work is shown. Confirm the pick.</p>
+</li>
+<li><p>Continue to confirm the remaining pick work.</p>
+</li>
+<li><p>The last step is to complete the put work. Confirm the put-away to the sorting location.</p>
+<p>You receive a &quot;Work completed&quot; message.</p>
+</li>
+<li><p>Exit <strong>Sales Picking</strong> on the mobile app.</p>
+</li>
+</ol>
+<h3 id="sortingput-to-wall">Sorting/put-to-wall</h3>
+<p>Now that all inventory has been put to the sorting location, it must be sorted to the correct sort position.</p>
+<ol>
+<li><p>Sign in to the mobile app.</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Sort</strong> to start to sort the items.</p>
+</li>
+<li><p>In the <strong>LP/CON</strong> field, enter the target license plate of the picked sales order work.</p>
+</li>
+<li><p>Confirm your entry.</p>
+</li>
+<li><p>Enter the item number to sort first.</p>
+</li>
+<li><p>The system determines the first sort position that should be shown. Confirm the sort position.</p>
+</li>
+<li><p>You're prompted to assign a license plate to the sort position. Select the <strong>LP</strong> field, enter a license plate number, and then confirm your entry.</p>
+<p>Because the sort position is related to the shipment ID, you will sort the picked items into a license plate that is specific to the outbound shipment and sales order.</p>
+<p>The next page shows the item ID, quantity, sort position ID, and the &quot;from&quot; (picking) and &quot;to&quot; (sorting) license plate IDs. The information on this page instructs you to sort the specified item and quantities from the picking license plate into the sorting license plate.</p>
+</li>
+<li><p>Confirm the sort position.</p>
+</li>
+<li><p>Sort the items in the first sort position. When you've finished, the system directs you to the next sort position.</p>
+</li>
+<li><p>Repeat this process for all picked lines on the work order. You should also use this process when there are multiple pick lines that have the same item number.</p>
+<p>As you repeat this process for all items, the system evaluates the criteria from the next scanned item (work line) and determines which sorting position it should be put to. You're automatically directed to put the item to the correct sort position. Depending on the confirmation setup, you're also directed to confirm this action by entering the position number or license plate ID.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If automatic sorting is turned on, manual override isn't available.</p>
+</div>
+</li>
+<li><p>When you've finished, in Microsoft Dynamics 365 Supply Chain Management, open the <strong>Outbound sorting position assignments</strong> page to review the status of the positions.</p>
+<ul>
+<li>If positions are closed automatically, select <strong>Show closed</strong> to show the closed positions.</li>
+<li>Notice that sort position transactions are shown. The item and quantity that were processed through the position are shown.</li>
+</ul>
+<p>When you set up the outbound sorting template, you set the <strong>Auto close sort position</strong> option to <em>Yes</em>. Therefore, the position is automatically closed after the last expected inventory is put to it. The sort positions are in <strong>Closed</strong> status, and work has been created to move the sorted inventory to <em>Baydoor</em> location.</p>
+</li>
+<li><p>Complete the sorted inventory picking work to move the inventory to the shipping location. When the inventory is ready, ship-confirm it.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For sorted inventory picking work to be processed correctly, a mobile device menu item that has a work class ID where the <strong>Work order type</strong> field is set to <em>Sorted inventory picking</em> should be used for the movement and loading process.</p>
+</div>
+<h3 id="manually-close-a-position-optional">Manually close a position (optional)</h3>
+<p>If sort positions should be closed manually, the <strong>Auto close sort position</strong> option for the outbound sorting template must be set to <em>No</em>, and closing must be done before inventory can be moved to the bay door area. Positions can be closed in various ways:</p>
+<ul>
+<li><p>Via the warehouse app:</p>
+<ul>
+<li>The user can scan one of the items that are already on the position and then select <strong>Close</strong> to close the position.</li>
+<li>If the user scans a container that has already been sorted container, an error message is shown. However, the user can still continue to close the position.</li>
+</ul>
+</li>
+<li><p>From the Microsoft Dynamics 365 Supply Chain Management <strong>Outbound sorting position assignments</strong> page:</p>
+<ul>
+<li>The user can select the outbound sorting position record and then select <strong>Close position</strong> on the Action Pane.</li>
+</ul>
+</li>
+</ul>
+<h2 id="tips">Tips</h2>
+<ul>
+<li>Items can't be moved between positions after they have been assigned to one. The system evaluates how many of each item should go to a specific position.</li>
+<li>Sorts template can be configured to automatically create containers when positions are closed. This approach will create standard container ID structure that is based on the specified packing profile.</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>After movement work has been created from the sorting location, you must not cancel the work. Otherwise, the position and the containers in it will be deleted from the system and unavailable for further processing. The inventory will also be removed.</p>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/warehousing/put-to-wall-put-to-store.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

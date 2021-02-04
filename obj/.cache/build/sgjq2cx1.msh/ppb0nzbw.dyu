@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Estimate a production order | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Estimate a production order | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="estimate-a-production-order" sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="28">Estimate a production order</h1>
+
+
+<p sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="32">You can run this procedure by using the USMF demo data company or your own data set. In both cases, you need to have an open production order that has the Created status. This is the second procedure out of seven which explains the production order lifecycle.</p>
+<h2 id="estimate-a-production-order-1" sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="35">Estimate a production order</h2>
+<ol sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="36">
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="36">Go to Production control &gt; Production orders &gt; All production orders.</li>
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="37">Select an order that has the Created status in the grid.</li>
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="38">On the Action Pane, click Production order.</li>
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="39">Click Estimate.
+<ul sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="40">
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="40">In this step, the estimated costs of a single production order is calculated.</li>
+</ul>
+</li>
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="41">Click OK.</li>
+</ol>
+<h2 id="view-the-calculation-details" sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="43">View the calculation details</h2>
+<ol sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="44">
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="44">On the Action Pane, click Manage costs.</li>
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="45">Click View calculation details.
+<ul sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="46">
+<li sourcefile="articles/supply-chain/production-control/tasks/estimate-production-order.md" sourcestartlinenumber="46">This page displays the cost breakdown. For example, you can view the total cost price per unit for the finished product in the first row. The subsequent rows contain costs according to the bill of materials, production route, and indirect costs.</li>
+</ul>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

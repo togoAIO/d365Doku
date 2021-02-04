@@ -1,0 +1,943 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Electronic messaging </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Electronic messaging ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides overview and setup information for electronic messaging in Microsoft Dynamics 365 Finance.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="electronic-messaging">Electronic messaging</h1>
+
+
+<p>This topic provides overview and setup information for electronic messaging.</p>
+<p>Recently, the governments and legislative authorities of various countries and regions around the world have implemented reporting requirements for companies that are registered in those countries or regions. The purpose of the requirements is to enable data to be obtained from those companies in electronic format, directly from the systems where it was accounted, stored, and processed.</p>
+<p>The Electronic messages functionality in Finance supports various processes for electronic interoperation between Finance and the systems that governments and legislative authorities offer for reporting, submitting, and receiving official information.</p>
+<p>The Electronic messages functionality is integrated with the <strong>Electronic Reporting</strong> (ER) module. Therefore, you can set up ER formats for electronic messages. For more information, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/analytics/general-electronic-reporting">Electronic reporting (ER)</a>.</p>
+<p>Electronic messaging is based on the following entities:</p>
+<ul>
+<li><strong>Electronic message</strong> – A report or declaration that should be reported and/or transmitted internally. An example is a report that is sent to a tax office.</li>
+<li><strong>Electronic message items</strong> – Records that should be included in the message that is reported.</li>
+<li><strong>Electronic message processing</strong> – A chain of actions that should be run to collect the required data, generate reports, store data in Microsoft Azure Blob storage, transmit reports outside the system, receive responses from outside the system, and, based on the information that is received, update the database. The actions in the chain can be either linked or unlinked</li>
+</ul>
+<p>The following illustration shows the flow of data for electronic messaging.</p>
+<p><img src="media/electronic-messaging-data-flow.png" alt="Electronic messaging data flow"></p>
+<p>The Electronic messages functionality supports the following scenarios:</p>
+<ul>
+<li>Manually create messages, and generate reports that are based on associated exporting ER formats of various types: Microsoft Excel, XML, JavaScript Object Notation (JSON), PDF, text, and Microsoft Word.</li>
+<li>Automatically create and process messages that are based on information that was requested and received from an authority via an associated importing ER format.</li>
+<li>Collect and process information from a data source as message items. The data source is a Finance table.</li>
+<li>Store additional information, and evaluate various values by calling specifically defined executable classes in relation to messages or message items.</li>
+<li>Aggregate information that is collected in message items, split that information by message, and generate reports that are in associated exporting ER formats.</li>
+<li>Transmit the reports that are generated to a web service by using security information that is stored in Azure Key Vault.</li>
+<li>Receive a response from a web service, interpret the response, and update data in Finance as appropriate.</li>
+<li>Store and review all the reports that are generated.</li>
+<li>Store and review all the log information that is related to actions that are run for a message or message item.</li>
+<li>Control the processing through various message statuses and message item statuses.</li>
+</ul>
+<h2 id="set-up-electronic-messaging">Set up electronic messaging</h2>
+<p>Electronic messaging can help you maintain different electronic reporting processes for different document types. In some complex scenarios, electronic messaging is set up so that it has a combination of many message statuses, message items statuses, actions, additional fields, and executable classes. For these scenarios, packages of data entities are available for import. If you use these data entity packages, you should import them to a legal entity by using the Data management tool. For more information about how to use the Data management tool, see <a href="../../dev-itpro/data-entities/data-entities-data-packages.md">Data management</a>.</p>
+<p>If you don't import a data entity package, you can manually set up the Electronic messages functionality. In this case, you must set up the following elements:</p>
+<ul>
+<li><a href="#number-sequences">Number sequences</a></li>
+<li><a href="#message-item-types-and-statuses">Message item types and statuses</a></li>
+<li><a href="#message-statuses">Message statuses</a></li>
+<li><a href="#additional-fields">Additional fields</a></li>
+<li><a href="#executable-class-settings">Executable class settings</a></li>
+<li><a href="#populate-records-actions">Populate records actions</a></li>
+<li><a href="#web-applications">Web applications</a></li>
+<li><a href="#web-service-settings">Web service settings</a></li>
+<li><a href="#message-processing-actions">Message processing actions</a></li>
+<li><a href="#electronic-message-processing">Electronic message processing</a></li>
+</ul>
+<p>The following sections provide more information about each of these elements.</p>
+<h3 id="number-sequences">Number sequences</h3>
+<p>Set up number sequences for both messages and message items. The number sequences are used to automatically number the messages and the message items. The numbers that are assigned will be used as unique identifiers for the messages and message items in the system. You can set up number sequences for electronic messaging on the <strong>General ledger parameters</strong> page (<strong>General ledger</strong> &gt; <strong>Ledger setup</strong> &gt; <strong>General ledger parameters</strong>).</p>
+<h3 id="message-item-types-and-statuses">Message item types and statuses</h3>
+<p>Message item types identify the types of records that will be used in electronic messages. You can set up message item types on the <strong>Message item types</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Message item types</strong>).</p>
+<p>Message item statuses identify the statuses that will apply to message items in the processing that you're setting up. You can set up message item types on the <strong>Message item statuses</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Message item statuses</strong>).</p>
+<p>The <strong>Allow delete</strong> parameter of a message item status defines whether users can delete message items that have this status on the <strong>Electronic messages</strong> page or the <strong>Electronic message items</strong> page.</p>
+<h3 id="message-statuses">Message statuses</h3>
+<p>Set up the message statuses that should be available in message processing. You can set up message statuses on the <strong>Message statuses</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Message statuses</strong>).</p>
+<p>The following table describes the fields on the <strong>Message statuses</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message status</td>
+<td>Enter a unique name for the message status. Message statuses are used to characterize the state of an electronic message at every moment. The name that you enter is shown on the <strong>Electronic messages</strong> page and in a log that is related to electronic messages.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the message status.</td>
+</tr>
+<tr>
+<td>Response type</td>
+<td>Select the type of response for the message status. Some actions in a processing can produce more than one response type. For example, actions of the <strong>Web service</strong> type can produce responses of either the <strong>Successfully executed</strong> type or the <strong>Technical error</strong> type, depending on the result of its execution. In this case, you must define message statuses for both response types. For more information about action types and the types of responses that are related to them, see <a href="#message-processing-action-types">Message processing action types</a>.</td>
+</tr>
+<tr>
+<td>Message item status</td>
+<td>Sometimes, the status of an electronic message must influence the status of related message items. Select a message item status in this field to associate it with the message status.</td>
+</tr>
+<tr>
+<td>Allow delete</td>
+<td>Select this check box if users should be able to delete electronic messages that have this status on the <strong>Electronic messages</strong> page.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-fields">Additional fields</h3>
+<p>The Electronic messages functionality lets you fill in records from a transactional table. In this way, you can prepare the records for reporting and then report them. However, transactional tables sometimes don't have enough information to fill in records in a manner that meets the reporting requirements. To fill in all the information that must be reported for a record, you can set up additional fields. Additional fields can be associated with both messages and message items. You can set up additional fields on the <strong>Additional fields</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Additional fields</strong>).</p>
+<p>The following table describes the general fields on the <strong>Additional fields</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field name</td>
+<td>Enter the name of an additional attribute of message items that are related to the process. This name is shown in the user interface (UI) while you work with the process. It can also be used in ER configurations that are related to the process.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the additional field.</td>
+</tr>
+<tr>
+<td>User edit</td>
+<td>Set this option to <strong>Yes</strong> if users should be able to change the value of the additional field from the UI.</td>
+</tr>
+<tr>
+<td>Counter</td>
+<td>Set this option to <strong>Yes</strong> if the additional field should contain a number sequence in an electronic message. Value of the additional field will be filled in automatically when an action of the <strong>Electronic reporting export</strong> is run.</td>
+</tr>
+<tr>
+<td>Hidden</td>
+<td>Set this option to <strong>Yes</strong> if the additional field should be hidden in the UI.</td>
+</tr>
+</tbody>
+</table>
+<p>Each additional field can have different values for the processing. You define these values on <strong>Values</strong> FastTab. The following table describes the fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field value</td>
+<td>Enter the field value to use for a message or message item during reporting.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the field value.</td>
+</tr>
+<tr>
+<td>Account type</td>
+<td>Some field values might be limited to specific account types. Select one of the following values: <strong>All</strong>, <strong>Customer</strong>, or <strong>Vendor</strong>.</td>
+</tr>
+<tr>
+<td>Account code</td>
+<td>If you selected <strong>Customer</strong> or <strong>Vendor</strong> in the <strong>Account type</strong> field, you can further limit the use of the field value to a specific group or table.</td>
+</tr>
+<tr>
+<td>Account/Group number</td>
+<td>If you selected <strong>Customer</strong> or <strong>Vendor</strong> in the <strong>Account type</strong> field, and if you entered a group or table in the <strong>Account code</strong> field, you can enter a specific group or counteragent in this field.</td>
+</tr>
+<tr>
+<td>Effective</td>
+<td>Specify the date when the value should start to be considered.</td>
+</tr>
+<tr>
+<td>Expiration</td>
+<td>Specify the date when the value should stop being considered.</td>
+</tr>
+</tbody>
+</table>
+<p>By default, combinations of criteria that are defined by the <strong>Account/Group number</strong>, <strong>Account code</strong>, <strong>Effective</strong>, and <strong>Expiration</strong> fields don't influence the selection of values for additional fields. However, these combinations can be used in an executable class to implement specific logic that calculates values for additional fields.</p>
+<h3 id="executable-class-settings">Executable class settings</h3>
+<p>An executable class is an X++ method or class that the electronic message processing can call in relation to an action if some evaluation is required for the process.</p>
+<p>You can manually set up an executable class on the <strong>Executable class settings</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Executable class settings</strong>). Create a line, and set the following fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executable class</td>
+<td>Enter the name that will be used during the setup of a message processing action that this class is called in relation to.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the executable class.</td>
+</tr>
+<tr>
+<td>Executable class name</td>
+<td>Select an X++ executable class.</td>
+</tr>
+<tr>
+<td>Execution level</td>
+<td>This field is set automatically, because the value should be predefined for the selected executable class. This field limits the level that related evaluation is run on.</td>
+</tr>
+<tr>
+<td>Class description</td>
+<td>This field is set automatically, because the value should be predefined for the selected executable class.</td>
+</tr>
+</tbody>
+</table>
+<p>Some executable classes might have mandatory parameters that must be defined before the executable class is run for the first time. To define these parameters, select <strong>Parameters</strong> on the Action Pane, set the fields in the dialog box that appears, and then select <strong>OK</strong>. It's important that you select <strong>OK</strong>. Otherwise, the parameters won't be saved to the database, and the executable class won't be called correctly.</p>
+<h3 id="populate-records-actions">Populate records actions</h3>
+<p>You use populate records actions to set up actions that add records to the Message items table so that they can be added to an electronic message. For example, if your electronic message must report customer invoices, you must set up a populate records action that is linked to the <strong>Data source</strong> field in the Customer invoice journal table. You can set up populate records actions on the <strong>Populate records action</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Populate records actions</strong>). Create a new record for every action that should add records to the table, and set the following fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Enter a name for the action that fills in records in your process.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the populate records action.</td>
+</tr>
+</tbody>
+</table>
+<p>On the <strong>Datasources setup</strong> FastTab, add a line for every data source that is used for the process, and set the following fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Enter a name for the data source.</td>
+</tr>
+<tr>
+<td>Message item type</td>
+<td>Select the type of message item that should be used when records are created for the data source.</td>
+</tr>
+<tr>
+<td>Account type</td>
+<td>Select the type of account that should be associated with records from the data source.</td>
+</tr>
+<tr>
+<td>Master table name</td>
+<td>Select the table that should be a data source.</td>
+</tr>
+<tr>
+<td>Document number field</td>
+<td>Select the field that the document number should be taken from in the selected table.</td>
+</tr>
+<tr>
+<td>Document date field</td>
+<td>Select the field that the document date should be taken from in the selected table.</td>
+</tr>
+<tr>
+<td>Document account field</td>
+<td>Select the field that the document account should be taken from in the selected table.</td>
+</tr>
+<tr>
+<td>User query</td>
+<td>If this check box is selected, you can set up a query by selecting <strong>Edit query</strong> above the grid. Otherwise, all the records will be filled in from the selected data source.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="web-applications">Web applications</h3>
+<p>You use web application settings to set up a web application so that it supports Open Authorization (OAuth) 2.0. OAuth is the open standard that lets users grant &quot;secure delegated access&quot; to the application on their behalf, without sharing their access credentials. You can also go through the authorization process by getting an authorization code and access token. You can set up web application settings on the <strong>Web applications</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Web applications</strong>).</p>
+<p>The following table describes the fields on the <strong>Web applications</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application name</td>
+<td>Enter a name for the web application.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the web application.</td>
+</tr>
+<tr>
+<td>Base URL</td>
+<td>Enter the base internet address of the web application.</td>
+</tr>
+<tr>
+<td>Authorization URL path</td>
+<td>Specify the path that is used to compose the URL for authorization.</td>
+</tr>
+<tr>
+<td>Token URL path</td>
+<td>Specify the path that is used to compose the URL for the token.</td>
+</tr>
+<tr>
+<td>Redirect URL</td>
+<td>Enter the redirect URL.</td>
+</tr>
+<tr>
+<td>Client ID</td>
+<td>Enter the client ID of the web application.</td>
+</tr>
+<tr>
+<td>Client secret</td>
+<td>Enter the client secret of the web application.</td>
+</tr>
+<tr>
+<td>Server token</td>
+<td>Enter the server token of the web application.</td>
+</tr>
+<tr>
+<td>Authorization format mapping</td>
+<td>Select the ER format that is used to generate the request for authorization.</td>
+</tr>
+<tr>
+<td>Import token model mapping</td>
+<td>Select the ER importing model mapping that is used to store the access token.</td>
+</tr>
+<tr>
+<td>Granted scope</td>
+<td>The scope that is granted for requests to the application. This field is automatically updated.</td>
+</tr>
+<tr>
+<td>Access token will expire in</td>
+<td>The remaining time before the access token expires.</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>Specify the <strong>Accept</strong> property of the web request. For example, enter <strong>application/vnd.hmrc.1.0+json</strong>.</td>
+</tr>
+<tr>
+<td>Content type</td>
+<td>Specify the content type. For example, enter <strong>application/json</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the following buttons are available on the Action Pane of the <strong>Web applications</strong> page to support the authorization process:</p>
+<ul>
+<li><strong>Get authorization code</strong> – Initialize authorization of the web application.</li>
+<li><strong>Obtain access token</strong> – Initialize the process of getting an access token.</li>
+<li><strong>Refresh access token</strong> – Refresh an access token.</li>
+</ul>
+<p>When an access token to a web application is stored in the system's database in encrypted format, it can be used for requests to a web service. For security purposes, access to the access token must be limited to security roles that must be allowed to address those requests. If users outside the security group try to address a request, they receive an error that states that they aren't allowed to interoperate via the selected web application. To set up the security roles that must have access to the access token, use the <strong>Security roles</strong> FastTab on the <strong>Web applications</strong> page. If security roles aren't defined for a web application, only a system admin can interoperate via this web application.</p>
+<h3 id="web-service-settings">Web service settings</h3>
+<p>You use web service settings to set up direct data transmission to a web service. You can set up web service settings on the <strong>Web service settings</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Web service settings</strong>).</p>
+<p>The following table describes the fields on the <strong>Web service settings</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web service</td>
+<td>Enter a name for the web service.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Enter a description of the web service.</td>
+</tr>
+<tr>
+<td>Internet address</td>
+<td>Enter the internet address of the web service. If a web application is specified for the web service, and if the internet address of the web service should be the same as the internet address that is defined for that web application, select <strong>Copy base URL</strong> to copy the base URL of the web application to this field.</td>
+</tr>
+<tr>
+<td>Certificate</td>
+<td>Select a Key Vault certificate that has previously been set up.</td>
+</tr>
+<tr>
+<td>Web application</td>
+<td>Select a Key Vault certificate that has previously been set up.</td>
+</tr>
+<tr>
+<td>The response type – XML</td>
+<td>Set this option to <strong>Yes</strong> if the response type is XML.</td>
+</tr>
+<tr>
+<td>Request method</td>
+<td>Specify the method of the request. HTTP defines a set of request methods that indicate the action that should be performed for a given resource. The request method can be <strong>GET</strong>, <strong>POST</strong>, or another HTTP method.</td>
+</tr>
+<tr>
+<td>Request headers</td>
+<td>Specify request headers. A request header is an HTTP header that can be used in an HTTP request, and that isn't related to the content of the message.</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>Specify the <strong>Accept</strong> property of the web request.</td>
+</tr>
+<tr>
+<td>Accept encoding</td>
+<td>Specify the <strong>Accept-Encoding</strong> value. The Accept-Encoding request HTTP header advertises the content encoding that the client can understand. This content encoding is usually a compression algorithm.</td>
+</tr>
+<tr>
+<td>Content type</td>
+<td>Specify the content type. The Content-Type entity HTTP header indicates the media type of the resource.</td>
+</tr>
+<tr>
+<td>Successful response code</td>
+<td>Specify the HTTP status code that indicates that the request was successful.</td>
+</tr>
+<tr>
+<td>Request headers format mapping</td>
+<td>Select the ER format that is used to generate web request headers.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-processing-actions">Message processing actions</h3>
+<p>You use message processing actions to create actions for your processes and set up their parameters. You can set up message processing actions on the <strong>Message processing actions</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Message processing actions</strong>).</p>
+<p>The following tables describe the fields on the <strong>Message processing actions</strong> page.</p>
+<h4 id="general-fasttab">General FastTab</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Action type</td>
+<td>Select the type of action. For information about the available options, see the <a href="#message-processing-action-types">Message processing action types</a> section.</td>
+</tr>
+<tr>
+<td>Format mapping</td>
+<td>Select the ER format that should be called for the action. This field is available only for actions of the <strong>Electronic reporting export</strong>, <strong>Electronic reporting import</strong>, and <strong>Electronic reporting export message</strong> types.</td>
+</tr>
+<tr>
+<td>Format mapping for URL path</td>
+<td>Select the ER format that should be called for the action. This field is available only for actions of the <strong>Web service</strong> type. It's used to compose the path of the URL address that will be added to the base internet address that is specified for the selected web server.</td>
+</tr>
+<tr>
+<td>Message item type</td>
+<td>Select the type of records that the action should be evaluated for. This field is available for actions of the <strong>Message item execution level</strong>, <strong>Electronic reporting export</strong>, <strong>Electronic reporting import</strong>, and <strong>Web service</strong> types, and also some other types. If you leave this field blank, all the message item types that are defined for the message processing are evaluated.</td>
+</tr>
+<tr>
+<td>Executable class</td>
+<td>Select executable class settings that were previously created. This field is available only for actions of the <strong>Message item execution level</strong> and <strong>Message item execution level</strong> types.</td>
+</tr>
+<tr>
+<td>Populate records action</td>
+<td>Select a populate records action that was previously set up. This field is available only for actions of the <strong>Populate records</strong> type.</td>
+</tr>
+<tr>
+<td>Web service</td>
+<td>Select a web service that was previously set up. This field is available only for actions of the <strong>Web service</strong> type.</td>
+</tr>
+<tr>
+<td>File name</td>
+<td>Specify the name of the file that will be the result of the action. This file can be the response from the web server or the report that is generated. This field is available only for actions of the <strong>Web service</strong> and <strong>Electronic reporting export message</strong> types.</td>
+</tr>
+<tr>
+<td>Show dialog</td>
+<td>Set this option to <strong>Yes</strong> if a dialog box must be shown to users before report generation. This field is available only for actions of the <strong>Electronic reporting export message</strong> type.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="message-processing-action-types">Message processing action types</h5>
+<p>The following options are available in the <strong>Action type</strong> field:</p>
+<ul>
+<li><strong>Create message</strong> – Use this action type to let users manually create messages on the <strong>Electronic message</strong> page. An initial status can't be set up for an action of this type.</li>
+<li><strong>Populate records</strong> – An action of the <strong>Populate records</strong> type must previously be set up. Associate this action type with a populate records action to enable that action to be included in processing. It's assumed that this action type is used either for the first action in message processing (when no electronic message was created in advance) or for an action that adds message items to a message that was previously created by an action of <strong>Create message</strong> type. Therefore, for actions of this type, a result status can be set up only for message items. An initial status can be set up only for messages.</li>
+<li><strong>Message execution level</strong> – Use this action type to set up an executable class that should be evaluated at the message level.</li>
+<li><strong>Message item execution level</strong> – Use this action type to set up an executable class that should be evaluated at the message item level.</li>
+<li><strong>Electronic reporting export</strong> – Use this action type for actions that should generate a report that is based on an exporting ER configuration at the message item level.</li>
+<li><strong>Electronic reporting export message</strong> – Use this action type for actions that should generate a report that is based on an exporting ER configuration at the message level (for example, when a message doesn't have any message items).</li>
+<li><strong>Electronic reporting import</strong> – Use this action type for actions that should generate a report that is based on an importing ER configuration.</li>
+<li><strong>Message level user processing</strong> – Use this action type for actions that assume some manual action by the user at the message level. For example, the user might update the status of messages.</li>
+<li><strong>User processing</strong> – Use this action type for actions that assume some manual action by the user at the message item level. For example, the user might update the status of messages items.</li>
+<li><strong>Web service</strong> – Use this action type for actions that should transmit a generated report to a web service. This action type isn't used for Italian Purchase and Sales Invoices Communication reporting. For actions of <strong>Web service</strong> type, the <strong>Message processing actions</strong> page includes a <strong>Miscellaneous details</strong> FastTab, where you can specify a confirmation text. This confirmation text will be shown to users before requests to the selected web service are addressed.</li>
+<li><strong>Request verification</strong> – Use this action type to request verification from a server.</li>
+</ul>
+<h4 id="initial-statuses-fasttab">Initial statuses FastTab</h4>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Initial statuses</strong> FastTab isn't available for actions that have an initial action type of <strong>Create message</strong>.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message item status</td>
+<td>Select the message item status that the selected message processing action should be evaluated for.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>A description of the selected message item status.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="result-statuses-fasttab">Result statuses FastTab</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message status</td>
+<td>Select the message statuses that the selected message processing action should be evaluated for. This field is available only for message processing actions that are evaluated at the message level. For example, it's available for actions of the <strong>Electronic reporting export</strong> and <strong>Electronic reporting import</strong> types, but it isn't available for actions of the <strong>User processing</strong> and <strong>Message item execution level</strong> types.</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>A description of the selected message status.</td>
+</tr>
+<tr>
+<td>Response type</td>
+<td>The response type of the selected message status.</td>
+</tr>
+<tr>
+<td>Message item status</td>
+<td>Select the resulting statuses that should be available after the selected message processing action is evaluated. This field is available only for message processing actions that are evaluated at the message item level. For example, it's available for actions of the <strong>User processing</strong> and <strong>Message item execution level</strong> types. For message processing actions that are evaluated at the message level, this field shows the message item status that was set up for the selected message status.</td>
+</tr>
+</tbody>
+</table>
+<p>The following table shows the result statuses that must be set up for different action types and response types.</p>
+<table>
+<thead>
+<tr>
+<th>Electronic message action type/Response type</th>
+<th>Successfully executed</th>
+<th>Business error</th>
+<th>Technical error</th>
+<th>User defined</th>
+<th>Cancel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create message</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Electronic reporting export</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Electronic reporting import</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Web service</td>
+<td>X</td>
+<td></td>
+<td>X</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>User processing</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Message execution level</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Populate records</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Message item execution level</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Request verification</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Electronic reporting export message</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Message level user processing</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="electronic-message-processing">Electronic message processing</h3>
+<p>Electronic message processing is a basic concept of the Electronic messages functionality. It aggregates actions that should be evaluated for the electronic message. The actions can be linked via an initial status and a result status. Alternatively, actions of the <strong>User processing</strong> type can be started independently. On the <strong>Electronic message processing</strong> page (<strong>Tax</strong> &gt; <strong>Setup</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Electronic message processing</strong>), you can also select additional fields that should be supported for the processing on either the message level or the message items level.</p>
+<p>The <strong>Action</strong> FastTab lets you add predefined actions to the processing. You can specify whether an action must be run separately, or whether it can be started by the processing. To specify that an action in the processing can be initialized only by a user, set the <strong>Run separately</strong> field to <strong>Yes</strong> for that action. If an action should be started by the processing for messages or message items that are in the status that is defined as the initial status for the action, set the <strong>Run separately</strong> field to <strong>No</strong>. Actions of the <strong>User action</strong> type must always be run separately.</p>
+<p>Sometimes, several actions must be aggregated into a sequence, even though the first action is set up so that it runs separately. For example, a user must initialize report generation, but immediately after the report is generated, it must be sent to a web service, and the response from the web service must be reflected in the system. In this situation, you can create an inseparable sequence for the actions that must always run together. On the <strong>Action</strong> FastTab, select <strong>Inseparable sequences</strong> above the grid, and create a sequence. Then, for all the actions that must run together, select the sequence in the <strong>Inseparable sequence</strong> field. In this case, the <strong>Run separately</strong> field can be set to <strong>Yes</strong> for the first action in the sequence but <strong>No</strong> for all the other action.</p>
+<p>The <strong>Message item additional fields</strong> FastTab lets you add predefined additional fields that are related to message items. You must add additional fields for each type of message item that the fields are related to.</p>
+<p>The <strong>Message additional fields</strong> FastTab lets you add predefined additional fields that are related to messages.</p>
+<p>The <strong>Security roles</strong> FastTab lets you set up the security roles that are predefined in the system for specific processing. Users who have a specific role will see only processing that is defined for that role.</p>
+<p>The <strong>Batch</strong> FastTab lets you set up processing to work in a batch regime.</p>
+<h2 id="work-with-the-electronic-messages-functionality">Work with the Electronic messages functionality</h2>
+<p>If you're working at the message level, the <strong>Electronic messages</strong> page (<strong>Tax</strong> &gt; <strong>Inquiries and reports</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Electronic messages</strong>) is more useful. If you're operating at the data collection (message item) level, the <strong>Electronic message items</strong> page (<strong>Tax</strong> &gt; <strong>Inquires and reports</strong> &gt; <strong>Electronic messages</strong> &gt; <strong>Electronic message items</strong>) is more useful.</p>
+<h3 id="electronic-messages">Electronic messages</h3>
+<p>The <strong>Electronic messages</strong> page presents the processing that is available to you, based on your role. Security roles are associated with processing in the setup of that processing. For each processing that is available to you, the page shows electronic messages and information that is related to them.</p>
+<p>The <strong>Messages</strong> FastTab shows electronic messages for the selected processing. Depending on the status of the selected message and predefined processing, you can run some actions by using the buttons above the grid:</p>
+<ul>
+<li><strong>New</strong> – This button is associated with actions of the <strong>Create message</strong> type.</li>
+<li><strong>Delete</strong> – This button is available if the <strong>Allow delete</strong> check box is selected for the current status of the selected message.</li>
+<li><strong>Collect data</strong> – This button is associated with actions of the <strong>Populate records</strong> type.</li>
+<li><strong>Generate report</strong> – This button is associated with actions of the <strong>Electronic reporting export message</strong> type.</li>
+<li><strong>Send report</strong> – This button is associated with actions of the <strong>Web service</strong> type.</li>
+<li><strong>Import response</strong> – This button is associated with actions of the <strong>Electronic reporting import</strong> type.</li>
+<li><strong>Update status</strong> – This button is associated with actions of the <strong>Message level user processing</strong> type.</li>
+<li><strong>Message items</strong> – Open the <strong>Electronic message items</strong> page.</li>
+</ul>
+<p>The <strong>Action log</strong> FastTab shows information about all the actions that have been run for the selected message. If an action caused an error, information about the error is attached to the related line in the grid. To review the information about the error, select the line in the grid, and then select the <strong>Attachment</strong> button (the paper clip symbol) in the upper-right corner on the page.</p>
+<p>The <strong>Message additional fields</strong> FastTab shows all the additional fields that are defined for messages in the processing setup. It also shows the values of those additional fields.</p>
+<p>The <strong>Message items</strong> FastTab shows all the message items that are related to the selected message. Depending on the status of the selected message item, you can run some actions by using the buttons above the grid:</p>
+<ul>
+<li><strong>Delete</strong> – This button is available if the <strong>Allow delete</strong> check box is selected for the current status of the selected message item.</li>
+<li><strong>Update status</strong> – This button is associated with actions of the <strong>User processing</strong> type.</li>
+<li><strong>Original document</strong> – Open a page that shows the original document for the selected message item.</li>
+</ul>
+<p>All reports that have already been generated and received for a message are attached to that message. To review the attachments that are related to a message, select the message, and then select the <strong>Attachment</strong> button (the paper clip symbol) in the upper-right corner of the page.</p>
+<p><img src="media/attachment-icon.png" alt="Attachment button"></p>
+<p>The <strong>Attachments</strong> page shows all the attachments that are related to the selected message. To view a file, select it in the list on the left, and then select <strong>Open</strong> on the Action Pane.</p>
+<p><img src="media/open-button.png" alt="Open button"></p>
+<p>You can also review attachments that are related to a specific action that was previously run for a message. On the <strong>Electronic messages</strong> page, select the message on the <strong>Messages</strong> FastTab, select the action on <strong>Action log</strong> FastTab, and then select the <strong>Attachment</strong> button in the upper-right corner of the page.</p>
+<p>You can also run either the whole processing or just a specific action by selecting <strong>Run processing</strong> on the Action Pane.</p>
+<h3 id="electronic-message-items">Electronic message items</h3>
+<p>The <strong>Electronic message items</strong> page presents all message items and a log of the actions that have been run for each message item. It also shows the additional fields that are defined for the message items, and the values of those additional fields.</p>
+<p>The following table describes the fields on the <strong>Message items</strong> tab.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Processing</td>
+<td>The name of the processing that was used to create the message item.</td>
+</tr>
+<tr>
+<td>Message item</td>
+<td>The ID of the message item. This ID is assigned automatically, based on the <strong>Message item</strong> number sequence that is defined on the <strong>General ledger parameters</strong> page.</td>
+</tr>
+<tr>
+<td>Message item date</td>
+<td>The date when the message item was created.</td>
+</tr>
+<tr>
+<td>Message item type</td>
+<td>The type of message item. Several types of messages items can be set up for the same processing (for example, <strong>Incoming invoices</strong> and <strong>Outgoing invoices</strong>). This field can be filled in automatically only when an invoice is added to the Message items table.</td>
+</tr>
+<tr>
+<td>Message item status</td>
+<td>The actual status of the message item. The available statuses vary, depending on the type of message item. Here are some examples:
+<ul>
+<li><strong>Populated</strong> – A record was added to the Message items table.</li>
+<li><strong>Evaluated</strong> – Additional attributes were calculated for the message item.</li>
+<li><strong>Reported</strong> – The message item was successfully added to a report.</li>
+<li><strong>Excluded</strong> – This status can be useful if you must exclude some message items from a report before it's exported.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>Transmission date</td>
+<td>For processing that automatically transmits a generated report outside the system, the date when the message item was transmitted.</td>
+</tr>
+<tr>
+<td>Document number</td>
+<td>This field is filled in automatically, based on the setup of the populate records action. This field can be filled in automatically only when an invoice is added to the Message items table.</td>
+</tr>
+<tr>
+<td>Account number</td>
+<td>The account number of a customer or vendor (or another field value, depending on the field that is defined on the populate records action). This field can be filled in automatically only when an invoice is added to the Message items table.</td>
+</tr>
+<tr>
+<td>Message</td>
+<td>The number of the message. This number is assigned automatically, based on the <strong>Message</strong> number sequence that is defined on the <strong>General ledger parameters</strong> page.</td>
+</tr>
+<tr>
+<td>Message status</td>
+<td>The actual status of the electronic message.</td>
+</tr>
+<tr>
+<td>Next action</td>
+<td>The next actions that can be started for the current status of the message item.</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>Additional fields</strong> tab shows the additional fields for the selected message item, and their values.</p>
+<h4 id="run-processing">Run processing</h4>
+<p>Select <strong>Run processing</strong> on the Action Pane to run the processing for message items. To run a specific action, in the <strong>Run processing</strong> dialog box, set the <strong>Choose action</strong> option to <strong>Yes</strong>, and then select an action. To run the whole processing, leave the <strong>Choose action</strong> option set to <strong>No</strong>.</p>
+<h4 id="generate-report">Generate report</h4>
+<p>Select <strong>Generate report</strong> on the Action Pane to generate a report. This button is associated with actions of the <strong>Electronic reporting export</strong> type.</p>
+<h4 id="update-status">Update status</h4>
+<p>Select <strong>Update status</strong> on the Action Pane to update the status of one or more message items. In the <strong>Update status</strong> dialog box, use the <strong>Records to include</strong> FastTab to select the message items to update. Make sure that you correctly define the selection criteria, because message item statuses will be updated according to these criteria, the initial status of the selected action, and the <strong>New status</strong> value that you specify. After a status update is completed, it will be difficult to determine which items were updated. Therefore, it will be difficult to roll back the status update.</p>
+<h4 id="electronic-messages-1">Electronic messages</h4>
+<p>Select <strong>Electronic messages</strong> on the Action Pane to review an electronic message that is related to the selected message item.</p>
+<p>You can also review all the files that are related to a specific message item. Select the <strong>Message</strong> field for the message item, or select <strong>Electronic messages</strong> on the Action Pane. Then, on the <strong>Electronic message</strong> page, select the message to review files for, and then select the <strong>Attachment</strong> button (the paper clip symbol) in the upper-right corner of the page.</p>
+<p><img src="media/attachment-icon.png" alt="Attachment button"></p>
+<p>The <strong>Attachments</strong> page shows all the attachments that are related to the message. To view a file, select it in the list on the left, and then select <strong>Open</strong> on the Action Pane.</p>
+<p><img src="media/open-button.png" alt="Open button"></p>
+<h4 id="original-document">Original document</h4>
+<p>Select <strong>Original document</strong> on the Action Pane to open the original document for the selected message item.</p>
+<h2 id="example-set-up-and-run-processing-to-call-a-simple-er-exporting-format-to-generate-an-excel-report">Example: Set up and run processing to call a simple ER exporting format to generate an Excel report</h2>
+<p>After you've created your ER format, mapped it to data sources, and completed it, you can run it by using the <strong>Electronic reporting</strong> workspace. A report is generated, and you can save it locally.</p>
+<p>To control the following aspects of the reporting process, you must set up electronic messaging processing:</p>
+<ul>
+<li>Log information about who generated the report.</li>
+<li>Log information about when the report was generated.</li>
+<li>Save the reports that were generated for previous periods.</li>
+</ul>
+<p>This section provides an example that shows how you can set up electronic messaging to generate a report that is based on an exporting ER format for Excel. If you want to follow this example, the ER Excel exporting format must already be created, mapped to data sources, and completed. Additionally, a number sequence must already be set up for electronic messages.</p>
+<p>When you build processing, it's helpful if you first define the processing actions and statuses that will be set up. The following illustration shows what the processing looks like for this example.</p>
+<p><img src="media/processing-scheme.png" alt="Processing scheme"></p>
+<h4 id="create-message-statuses">Create message statuses</h4>
+<ol>
+<li><p>Go to <strong>Tax &gt; Setup &gt; Electronic messages &gt; Message statuses</strong>.</p>
+</li>
+<li><p>Create the following message statuses:</p>
+<ul>
+<li>New</li>
+<li>Prepared</li>
+<li>Generated</li>
+</ul>
+<p><img src="media/message-statuses.png" alt="Message statuses"></p>
+</li>
+<li><p>On the line for the <strong>New</strong> status, select the <strong>Allow delete</strong> check box to let users delete messages that have this status.</p>
+</li>
+</ol>
+<h4 id="create-additional-fields">Create additional fields</h4>
+<ol>
+<li><p>Go to <strong>Tax &gt; Setup &gt; Electronic messages &gt; Additional fields</strong>.</p>
+</li>
+<li><p>Add an additional field and its values. Here is an example.</p>
+<p><img src="media/additional-fields.png" alt="Additional fields"></p>
+</li>
+<li><p>Set the <strong>User edit</strong> option to <strong>Yes</strong> to let users edit the field.</p>
+</li>
+</ol>
+<h4 id="create-message-processing-actions">Create message processing actions</h4>
+<p>For this example, you will create the following actions:</p>
+<ul>
+<li><strong>Create message</strong></li>
+<li><strong>Update to Prepared</strong></li>
+<li><strong>Generate report</strong></li>
+<li><strong>Update to initial status</strong> (optional)</li>
+</ul>
+<ol>
+<li><p>Go to <strong>Tax &gt; Setup &gt; Electronic messages &gt; Message processing actions</strong>.</p>
+</li>
+<li><p>Create an action that is named <strong>Create message</strong>. On the <strong>General</strong> FastTab, in the <strong>Action type</strong> field, select <strong>Create message</strong>.</p>
+</li>
+<li><p>Create an action that is named <strong>Update to Prepared</strong>, and set the following fields:</p>
+<ul>
+<li>On the <strong>General</strong> FastTab, in the <strong>Action type</strong> field, select <strong>Message level user processing</strong>.</li>
+<li>On the <strong>Initial statuses</strong> FastTab, in the <strong>Message status</strong> field, select <strong>New</strong>.</li>
+<li>On the <strong>Result statuses</strong> FastTab, in the <strong>Message status</strong> field, select <strong>Prepared</strong>. In the <strong>Response type</strong> field, enter <strong>Successfully executed</strong>.</li>
+</ul>
+</li>
+<li><p>Create an action that is named <strong>Generate report</strong>, and set the following fields:</p>
+<ul>
+<li>On the <strong>General</strong> FastTab, in the <strong>Action type</strong> field, select <strong>Electronic reporting export</strong>. In the <strong>Format mapping</strong> field, select the exporting ER format. The options are <strong>Excel</strong>, <strong>XML</strong>, <strong>JSON</strong>, <strong>Text</strong>, and <strong>Other</strong>.</li>
+<li>On the <strong>Initial statuses</strong> FastTab, in the <strong>Message status</strong> field, select <strong>Prepared</strong>.</li>
+<li>On the <strong>Result statuses</strong> FastTab, in the <strong>Message status</strong> field, select <strong>Generated</strong>. In the <strong>Response type</strong> field, enter <strong>Successfully executed</strong>.</li>
+</ul>
+<p><img src="media/generate-report-action.png" alt="Generate report action"></p>
+</li>
+<li><p>Optional: To let users regenerate a report several times, you can create an <strong>Update to initial status</strong> action and set the following fields:</p>
+<ul>
+<li>On the <strong>General</strong> FastTab, in the <strong>Action type</strong> field, select <strong>Message level user processing</strong>.</li>
+<li>On the <strong>Initial statuses</strong> FastTab, in the <strong>Message status</strong> field, select <strong>Generated</strong>.</li>
+<li>On the <strong>Result statuses</strong> FastTab, add a separate line for each of the two message statuses (<strong>Prepared</strong> and <strong>New</strong>). For both lines, set the <strong>Response type</strong> field to <strong>Successfully executed</strong>.</li>
+</ul>
+</li>
+</ol>
+<h4 id="electronic-message-processing-1">Electronic message processing</h4>
+<p>In this example, all the actions should be set up so that they run separately. The assumption is that the user will initialize every action.</p>
+<ol>
+<li><p>Go to <strong>Tax &gt; Setup &gt; Electronic messages &gt; Electronic message processing</strong>.</p>
+</li>
+<li><p>Add a record for your processing, and add all previously defined actions and an additional field.</p>
+</li>
+<li><p>Optional: On the <strong>Security roles</strong> FastTab, define security roles for your processing to limit access to specific reporting.</p>
+</li>
+<li><p>Go to <strong>Tax &gt; Inquires and reports &gt; Electronic messages &gt; Electronic messages</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a message. At this point, you can add dates and a description. You can also update the value of the additional field as you require.</p>
+<p><img src="media/create-electronic-message.png" alt="Create an electronic message"></p>
+</li>
+</ol>
+<p>The grid on the <strong>Action log</strong> FastTab is automatically filled in with a log of all actions that are performed on the message.</p>
+<p>You can now either delete or update the message status. To update the message status, select <strong>Update status</strong>. In the <strong>New status</strong> field, select <strong>Prepared</strong>, and then select <strong>OK</strong>.</p>
+<p><img src="media/update-status.png" alt="Update the message status"></p>
+<p>The message status is updated to <strong>Prepared</strong>, and you can now generate the report by selecting <strong>Generate report</strong>. The report is generated, and the message status and action log are updated. To view the generated report, select the <strong>Attachment</strong> button (the paper clip symbol) in the upper-right corner of the page.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/general-ledger/electronic-messaging.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

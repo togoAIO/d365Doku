@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronize sales invoice headers and lines directly from Supply Chain Management to Sales | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronize sales invoice headers and lines directly from Supply Chain Management to Sales | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronize-sales-invoice-headers-and-lines-directly-from-finance-and-operations-to-sales">Synchronize sales invoice headers and lines directly from Finance and Operations to Sales</h1>
+
+
+<p>This topic discusses the templates and underlying tasks that are used to synchronize sales invoice headers and lines directly from Dynamics 365 Supply Chain Management to Dynamics 365 Sales.</p>
+<h2 id="data-flow-in-prospect-to-cash">Data flow in Prospect to cash</h2>
+<p>The Prospect to cash solution uses the Data integration feature to synchronize data across instances of Supply Chain Management and Sales. The Prospect to cash templates that are available with the Data integration feature enable the flow of data about accounts, contacts, products, sales quotations, sales orders, and sales invoices between Supply Chain Management and Sales. The following illustration shows how the data is synchronized between Supply Chain Management and Sales.</p>
+<p><a href="./media/prospect-to-cash-data-flow.png"><img src="./media/prospect-to-cash-data-flow.png" alt="Data flow in Prospect to cash"></a></p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>To access the available templates, open <a href="https://preview.admin.powerapps.com/dataintegration">Power Apps Admin Center</a>. Select <strong>Projects</strong>, and then, in the upper-right corner, select <strong>New project</strong> to select public templates.</p>
+<p>The following template and underlying tasks are used to synchronize sales invoice headers and lines from Supply Chain Management to Sales:</p>
+<ul>
+<li><p><strong>Name of the template in Data integration:</strong> Sales Invoices (Fin and Ops to Sales) - Direct</p>
+</li>
+<li><p><strong>Names of the tasks in the Data integration project:</strong></p>
+<ul>
+<li>SalesInvoiceHeader</li>
+<li>SalesInvoiceLine</li>
+</ul>
+</li>
+</ul>
+<p>The following synchronization tasks are required before synchronization of sales invoice headers and lines can occur:</p>
+<ul>
+<li>Products (Supply Chain Management to Sales) - Direct</li>
+<li>Accounts (Sales to Supply Chain Management) - Direct (if used)</li>
+<li>Contacts (Sales to Supply Chain Management) - Direct (if used)</li>
+<li>Sales order header and lines (Supply Chain Management to Sales) - Direct</li>
+</ul>
+<h2 id="entity-set">Entity set</h2>
+<table>
+<thead>
+<tr>
+<th>Supply Chain Management</th>
+<th>Sales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Externally maintained customer sales invoice headers</td>
+<td>Invoices</td>
+</tr>
+<tr>
+<td>Externally maintained customer sales invoice lines</td>
+<td>InvoiceDetails</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entity flow</h2>
+<p>Sales invoices are created in Supply Chain Management and synchronized to Sales.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Currently, tax that is related to charges on the sales invoice header isn't included in the synchronization from Supply Chain Managements to Sales. Sales doesn't support tax information at the header level. However, tax that is related to charges at the line level is included in the synchronization.</p>
+</div>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to cash solution for Sales</h2>
+<ul>
+<li>An <strong>Invoice number</strong> field has been added to the <strong>Invoice</strong> entity and appears on the page.</li>
+<li>The <strong>Create invoice</strong> button on the <strong>Sales order</strong> page is hidden, because invoices will be created in Supply Chain Management and synchronized to Sales. The <strong>Invoice</strong> page can't be edited, because invoices will be synchronized from Supply Chain Management.</li>
+<li>The <strong>Sales order status</strong> value is automatically changed to <strong>Invoiced</strong> when the related invoice from Supply Chain Management has been synchronized to Sales. Additionally, the owner of the sales order that the invoice was created from is assigned as the owner of the invoice. Therefore, the owner of the sales order can view the invoice.</li>
+</ul>
+<h2 id="preconditions-and-mapping-setup">Preconditions and mapping setup</h2>
+<p>Before you synchronize sales invoices, it's important that you update the following settings in the systems.</p>
+<h3 id="setup-in-sales">Setup in Sales</h3>
+<p>Go to <strong>Settings</strong> &gt; <strong>Administration</strong> &gt; <strong>System settings</strong> &gt; <strong>Sales</strong>, and make sure that the following settings are used:</p>
+<ul>
+<li>The <strong>Use system prizing calculation system</strong> option is set to <strong>Yes</strong>.</li>
+<li>The <strong>Discount calculation method</strong> field is set to <strong>Line item</strong>.</li>
+</ul>
+<h3 id="setup-in-the-data-integration-project">Setup in the Data integration project</h3>
+<h4 id="salesinvoiceheader-task">SalesInvoiceHeader task</h4>
+<ul>
+<li><p>Make sure that the required mapping exists for <strong>InvoiceCountryRegionId</strong> to <strong>BillingAddress_Country</strong>.</p>
+<p>The template value is a value map where several countries or regions are mapped.</p>
+</li>
+<li><p>A price list is required in order to create invoices in Sales. Update the value map for <strong>pricelevelid.name [Price list name]</strong> to the price list that is used in Sales per currency. You can use the default price list for a single currency. Alternatively, if you have price lists in multiple currencies, you can use a value map.</p>
+<p>The template value for <strong>pricelevelid.name [Price list name]</strong> is a value map that is based on currency with USD = CRM Service USA (sample).</p>
+</li>
+</ul>
+<h4 id="salesinvoiceline-task">SalesInvoiceLine task</h4>
+<ul>
+<li><p>Make sure that the required mapping exists for <strong>Unit of measure</strong>.</p>
+</li>
+<li><p>Make sure that the required value map for <strong>SalesUnitSymbol</strong> in Supply Chain Management exists.</p>
+<p>A template value that has a value map is defined for <strong>SalesUnitSymbol</strong> to <strong>Quantity_UOM</strong>.</p>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Payment terms</strong>, <strong>Freight terms</strong>, <strong>Delivery terms</strong>, <strong>Shipping method</strong>, and <strong>Delivery mode</strong> fields aren't included in the default mappings. To map these fields, you must set up a value mapping that is specific to the data in the organizations that the entity is synchronized between.</p>
+</div>
+<p>The following illustrations show an example of a template mapping in Data integration.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The mapping shows which field information will be synchronized from Sales to Supply Chain Management.</p>
+</div>
+<h3 id="salesinvoiceheader">SalesInvoiceHeader</h3>
+<p><img src="./media/sales-invoice-direct-template-mapping-data-integrator-1.png" alt="Template mapping in Data integration"></p>
+<h3 id="salesinvoiceline">SalesInvoiceLine</h3>
+<p><img src="./media/sales-invoice-direct-template-mapping-data-integrator-2.png" alt="Template mapping in Data integration"></p>
+<h2 id="related-topics">Related topics</h2>
+<p><a href="prospect-to-cash.html">Prospect to cash</a></p>
+<p><a href="accounts-template-mapping-direct.html">Synchronize accounts directly from Sales to customers in Supply Chain Management</a></p>
+<p><a href="products-template-mapping-direct.html">Synchronize products directly from Supply Chain Management to products in Sales</a></p>
+<p><a href="contacts-template-mapping-direct.html">Synchronize contacts directly from Sales to contacts or customers in Supply Chain Management</a></p>
+<p><a href="sales-order-template-mapping-direct-two-ways.html">Synchronization of sales orders directly between Sales and Supply Chain Management</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

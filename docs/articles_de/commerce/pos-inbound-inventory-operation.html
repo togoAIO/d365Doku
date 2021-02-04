@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Eingangsbestandsvorgang in POS | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Eingangsbestandsvorgang in POS | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="inbound-inventory-operation-in-pos">Eingangsbestandsvorgang in POS</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In Microsoft Dynamics 365 Commerce Version 10.0.10 und höher ersetzen Ein- und Ausgangsvorgänge am POS (Point of Sale) den Kommissionier- und Empfangsvorgang.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In der Commerce-Version 10.0.10 und später werden alle neuen Funktionen in der POS-Anwendung, die sich auf den Empfang von Filialbeständen gegen Bestellungen und Transportaufträge beziehen, zum <strong>Eingangsvorgang</strong> POS-Vorgang hinzugefügt. Wenn Sie derzeit den Kommissionier- und Empfangsvorgang in der POS-Anwendung verwenden, empfehlen wir Ihnen, eine Strategie für den Übergang von diesem Vorgang zu den neuen Eingangs- und Ausgangsvorgängen zu entwickeln. Obwohl der Kommissionier- und Wareneingangsvorgang nicht aus dem Produkt entfernt wird, werden ab Version 10.0.9 keine weiteren Investitionen in das Produkt getätigt, weder aus funktionaler noch aus leistungsbezogener Sicht.</p>
+</div>
+<h2 id="prerequisite-configure-an-asynchronous-document-framework">Voraussetzung: Konfigurieren Sie ein asynchrones Dokumenten-Framework.</h2>
+<p>Der Eingangsvorgang umfasst Leistungsverbesserungen, um sicherzustellen, dass Benutzer, die ein hohes Volumen an Eingangsbuchungen in vielen Filialen oder Unternehmen und große Bestandsbelege haben, diese Belege ohne Zeitüberschreitungen oder Ausfälle an Commerce Headquarters verarbeiten können. Diese Verbesserungen erfordern die Verwendung eines asynchronen Dokumenten-Frameworks.</p>
+<p>Wenn ein asynchrones Belegframework verwendet wird, können Sie Eingangsbelegänderungen vom POS an Commerce Headquarters übergeben und dann zu anderen Aufgaben übergehen, während die Verarbeitung an Commerce Headquarters im Hintergrund erfolgt. Sie können den Status eines Belegs über die <strong>Eingangsvorgang</strong>-Belegliste in der POS-Abteilung überprüfen, um sicherzustellen, dass die Buchung erfolgreich war. In der POS-Anwendung können Sie auch die Belegliste der Eingangsoperation aktiv verwenden, um alle Belege zu sehen, die nicht an Commerce Headquarters gebucht werden konnten. Wenn ein Beleg fehlschlägt, können POS-Benutzer Korrekturen an ihm vornehmen und dann erneut versuchen, ihn an Commerce Headquarters zu verarbeiten.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Das asynchrone Belegframework muss konfiguriert werden, bevor ein Unternehmen versucht, die Eingangsoperation in der POS-Anwendung zu verwenden.</p>
+</div>
+<p>Um ein asynchrones Belegframework zu konfigurieren, führen Sie die folgenden Verfahren durch.</p>
+<h3 id="create-and-configure-a-number-sequence">Erstellen und konfigurieren Sie eine Zahlenfolge</h3>
+<ol>
+<li>Gehen Sie zu <strong>Organisationsverwaltung &gt; Nummernkreis &gt; Nummernkreise</strong>.</li>
+<li>Erstellen Sie auf der Seite <strong>Nummernkreise</strong> einen Nummernkreis.</li>
+<li>Geben Sie in die Felder <strong>Nummernkreiscode</strong> und <strong>Name</strong> benutzerdefinierte Werte ein.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Referenzen</strong> <strong>Hinzufügen</strong>.</li>
+<li>Im Feld <strong>Bereich</strong> wählen Sie <strong>Commerce-Parameter</strong>.</li>
+<li>Wählen Sie im Feld <strong>Referenz</strong> <strong>Dokumentvorgangskennung</strong>.</li>
+<li>Setzen Sie im Inforegister <strong>Allgemein</strong> im Abschnitt <strong>Einrichten</strong> die Option <strong>Kontinuierlich</strong> auf <strong>Nein</strong>, um sicherzustellen, dass es keine Leistungsprobleme gibt.</li>
+</ol>
+<h3 id="create-and-schedule-two-batch-jobs-for-the-document-processing-and-monitoring-tasks">Erstellen und planen Sie zwei Batch-Jobs für die Dokumentverarbeitung und die Überwachungsaufgaben</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In Commerce Version 10.0.13 und höher müssen Sie diese Stapeljobs nicht über das Stapeljob-Framework konfigurieren. Die Stapelverarbeitungsvorgänge können über das Menü <strong>Retail and Commerce &gt;Retail and Commerce IT</strong> konfiguriert werden. Verwenden Sie die Menüoptionen <strong>Überwachung für den Betrieb von Einzelhandelsdokumenten</strong> und <strong>Verarbeitung von Einzelhandelsdokumenten</strong> zum Konfigurieren der Stapeljobs.</p>
+</div>
+<p>Die von Ihnen erstellten Batch-Jobs werden zur Verarbeitung von Dokumenten verwendet, die fehlschlagen oder ein Time-Out aufweisen. Sie werden auch verwendet, wenn die Anzahl der aktiven Bestandsbelege, die von der Kasse aus verarbeitet werden, einen vom System konfigurierten Wert überschreitet.</p>
+<ol>
+<li><p>Gehen Sie zu <strong>Systemverwaltung &gt; Anfragen &gt; Batch-Jobs</strong>.</p>
+</li>
+<li><p>Legen Sie auf der Seite <strong>Batch-Job</strong> zwei Batch-Jobs an:</p>
+<ul>
+<li>Konfigurieren Sie einen Job für die Ausführung der Klasse <strong>RetailDocumentOperationMonitorBatch</strong>.</li>
+<li>Konfigurieren Sie den anderen Job so, dass er die Klasse <strong>RetailDocumentOperationProcessingBatch</strong> ausführt.</li>
+</ul>
+</li>
+<li><p>Planen Sie die neuen Batch-Jobs so ein, dass sie wiederkehrend ausgeführt werden. Stellen Sie den Zeitplan z.B. so ein, dass die Jobs alle fünf Minuten ausgeführt werden.</p>
+</li>
+</ol>
+<h2 id="prerequisite-add-inbound-operation-to-the-pos-screen-layout">Voraussetzung: Hinzufügen des Eingangsvorgangs zum POS-Bildaufbau</h2>
+<p>Bevor Ihr Unternehmen die Eingangsoperationsfunktionalität nutzen kann, muss es die <strong>Eingangsoperation</strong> POS-Operation auf einem oder mehreren Ihrer <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/pos-screen-layouts">POS-Bildlayouts</a> konfigurieren. Bevor Sie den neuen Vorgang in einer Produktionsumgebung einsetzen, sollten Sie ihn gründlich testen und Ihre Benutzer in der Verwendung schulen.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Die Eingangsoperation ermöglicht es den POS-Benutzern, die folgenden Aufgaben durchzuführen:</p>
+<ul>
+<li>Empfang von Bestand in den Filialbestand entweder aus bestätigten Bestellbelegen oder aus versandten Transportauftragsbelegen.</li>
+<li>Informationen über historische Bestandszugänge für einen Zeitraum von sieben Tagen nach dem vollständigen Eingang des Belegs anzeigen.</li>
+<li>Neue eingehende Transportauftragsanforderungen erstellen.</li>
+</ul>
+<p>Wenn der Eingangsvorgang von der POS-Anwendung aus gestartet wird, erscheint eine Listenseitenansicht. Diese Ansicht zeigt offene Bestell- und Transportauftragsbelege mit Bestandszeilen, die für den Eingang in der aktuellen Filiale vorgesehen sind. Um einen bestimmten Beleg zu finden und auszuwählen, können Benutzer die Liste durchblättern oder die Suchfunktion verwenden.</p>
+<p>Die Liste der eingehenden Bestandsbelege hat drei Registerkarten:</p>
+<ul>
+<li><strong>Aktiv</strong> - Auf dieser Registerkarte werden Belege angezeigt, die ganz oder teilweise geöffnet sind und Zeilen oder Mengen auf Zeilen enthalten, die noch empfangen werden müssen.</li>
+<li><strong>Entwurf</strong> - Auf dieser Registerkarte werden neue eingehende Transportauftragsanforderungen angezeigt, die die Filiale erstellt hat. Die Belege wurden jedoch nur lokal gespeichert. Sie wurden noch nicht zur Bearbeitung an Commerce Headquarters übermittelt.</li>
+<li><strong>Abschließen</strong> - Diese Registerkarte zeigt eine Liste von Bestell- oder Transportauftragsbelegen, die die Filiale in den letzten sieben Tagen vollständig erhalten hat. Diese Registerkarte dient nur zu Informationszwecken. Alle Informationen zu den Belegen sind schreibgeschützte Daten für die Filiale.</li>
+</ul>
+<p>Wenn Sie Dokumente auf einer der Registerkarten anzeigen, kann das Feld <strong>Status</strong> Ihnen helfen, den Status des Dokuments zu verstehen.</p>
+<ul>
+<li><strong>Entwurf</strong> - Das Transportauftragsdokument wurde nur lokal in der Kanaldatenbank der Filiale gespeichert. Es wurden noch keine Informationen über den Transportauftragsantrag an Commerce Headquarters übermittelt.</li>
+<li><strong>Anforderung</strong> - Die Bestellung oder der Transportauftrag wurde in Commerce Headquarters angelegt und ist vollständig geöffnet. Es wurden noch keine Belege für den Beleg verarbeitet. Für Dokumente der Belegart Bestellung kann der Empfang jederzeit beginnen, solange der Status <strong>Beantragt</strong> ist.</li>
+<li><strong>Teilweise versandt</strong> - Der Transportauftragsbeleg hat eine oder mehrere Zeilen oder Teilzeilenmengen, die als vom Ausgangslager versandt gebucht wurden. Diese versandten Zeilen können über den Eingangsvorgang empfangen werden.</li>
+<li><strong>Vollständig versandt</strong> - Der Transportauftrag wurde mit allen Zeilen und vollen Zeilenmengen als vom Auslieferungslager versandt gebucht. Das gesamte Dokument steht für den Empfang über den Eingangsvorgang zur Verfügung.</li>
+<li><strong>Teilweise empfangen</strong> - Einige der Zeilen oder Zeilenmengen auf dem Bestell- oder Transportauftragsbeleg sind in der Filiale eingegangen, aber einige Zeilen bleiben offen.</li>
+<li><strong>Vollständig empfangen</strong> - Alle Zeilen und Mengen auf dem Bestell- oder Transportauftragsbeleg sind vollständig empfangen worden. Die Belege sind nur auf der Registerkarte <strong>Vollständig</strong> zugänglich und für Filialbenutzer schreibgeschützt.</li>
+<li><strong>In Bearbeitung</strong> - Dieser Status wird verwendet, um Gerätebenutzer darüber zu informieren, dass der Beleg von einem anderen Benutzer aktiv bearbeitet wird.</li>
+<li><strong>Pausiert</strong> - Dieser Status wird angezeigt, nachdem <strong>Empfang pausieren</strong> gewählt wurde, um den Empfangsvorgang vorübergehend zu stoppen.</li>
+<li><strong>Bearbeitung in HQ</strong> - Das Dokument wurde von der POS-Anwendung an Commerce Headquarters übermittelt, aber es wurde noch nicht erfolgreich an Commerce Headquarters gesendet. Der Beleg durchläuft gerade den asynchronen Belegverbuchungsprozess. Nachdem der Beleg erfolgreich an Commerce Headquarters gebucht wurde, sollte sein Status auf <strong>Vollständig erhalten</strong> oder <strong>Teilweise erhalten</strong> aktualisiert werden.</li>
+<li><strong>Verarbeitung fehlgeschlagen</strong> - Das Dokument wurde an Commerce Headquarters gebucht und abgelehnt. Der Bereich <strong>Details</strong> zeigt den Grund für das Fehlschlagen der Buchung. Der Beleg muss bearbeitet werden, um Datenprobleme zu beheben, und dann erneut zur Verarbeitung an Commerce Headquarters geschickt werden.</li>
+</ul>
+<p>Wenn Sie eine Belegzeile in der Liste auswählen, erscheint ein Fenster <strong>Details</strong>. Dieser Bereich zeigt zusätzliche Informationen über den Beleg an, wie z.B. Transport- und Datumsinformationen. Ein Fortschrittsbalken zeigt an, wie viele Positionen noch bearbeitet werden müssen. Wenn der Beleg nicht erfolgreich an Commerce Headquarters verarbeitet wurde, zeigt der Bereich <strong>Details</strong> auch Fehlermeldungen an, die mit dem Fehler zusammenhängen.</p>
+<p>In der Seitenansicht der Dokumentliste können Sie in der Anwendungsleiste <strong>Details</strong> wählen, um die Dokumentdetails anzuzeigen. Sie können auch die Eingangsverarbeitung für berechtigte Belegzeilen aktivieren.</p>
+<p>In der Seitenansicht der Belegliste können Sie auch eine neue eingehende Transportauftragsanforderung für eine Filiale anlegen. Die Belege bleiben im Status <strong>Entwurf</strong> und können angepasst oder gelöscht werden, bis sie zur Bearbeitung an Commerce Headquarters übermittelt werden. Nachdem sie an Commerce Headquarters übermittelt wurden, können die Transportauftragszeilen nicht mehr von der POS-Anwendung aus geändert werden.</p>
+<h2 id="receiving-process">Eingangsprozess</h2>
+<p>Nachdem Sie eine Bestellung oder einen Transportauftragsbeleg auf der Registerkarte <strong>Aktiv</strong> ausgewählt haben, können Sie <strong>Bestelldetails</strong> wählen, um den Empfangsvorgang zu starten.</p>
+<p>Standardmäßig wird die Ansicht <strong>Empfang jetzt</strong> angezeigt. Diese Ansicht ist für das Scannen von Barcodes optimiert. Sie kann verwendet werden, um eine Liste der gescannten Artikel zu erstellen, sodass diese Artikel empfangen werden können. Um den Empfangsvorgang zu beginnen, können Sie mit dem Scannen von Artikel-Barcodes beginnen.</p>
+<p>Wenn Artikel-Barcodes in der Ansicht <strong>Empfang jetzt</strong> gescannt werden, validiert die Anwendung die Artikel gegen den ausgewählten Einkaufs- oder Transportauftragsbeleg, um sicherzustellen, dass jeder gescannte Artikel einem gültigen Artikel auf dem Beleg entspricht. In der Ansicht <strong>Empfang jetzt</strong> wird bei jedem Scannen eines Barcodes davon ausgegangen, dass es sich um den Empfang einer Menge von einer Einheit handelt, es sei denn, im Barcode ist eine Menge eingebettet. Sie können in dieser Ansicht wiederholt Strichcodes scannen, um eine Liste aller Artikel und Mengen für den Empfang zu erstellen.</p>
+<h3 id="example-scenario">Beispielszenario</h3>
+<p>Ein Benutzer erhält eine Bestellung, die 10 Einheiten des Barcodes 5657900266 enthält. Der Benutzer kann diesen Barcode 10 Mal scannen, um das Feld <strong>Jetzt empfangen</strong> um eine Einheit pro Scan zu aktualisieren. Wenn der Benutzer die Scans abgeschlossen hat, zeigt das Feld <strong>Jetzt empfangen</strong> für die Zeile des Artikels an, dass eine Menge von 10 Stück eingegangen ist.</p>
+<p>In einem Szenario, in dem die Artikelmenge groß ist, kann der Benutzer es alternativ vorziehen, die Menge manuell einzugeben, anstatt den Strichcode für jeden eingegangenen Artikel zu scannen. In diesem Fall kann der Benutzer den Barcode einmal einscannen, um den Artikel der Liste <strong>Empfang jetzt</strong> hinzuzufügen. Der Benutzer kann dann die zugehörige Zeile in der Ansicht <strong>Jetzt empfangen</strong> auswählen und dann im Fenster <strong>Details</strong>, das auf der rechten Seite der Seite erscheint, das Feld <strong>Empfangsmenge</strong> für den Artikel aktualisieren.</p>
+<p>Obwohl die Ansicht <strong>Jetzt empfangen</strong> für das Scannen von Barcodes optimiert ist, können Benutzer auch <strong>Produkt empfangen</strong> in der Anwendungsleiste auswählen und dann die Artikel-ID oder die Barcodedaten über ein Dialogfenster eingeben. Nachdem der eingegebene Artikel validiert wurde, wird der Benutzer aufgefordert, die Empfangsmenge einzugeben.</p>
+<p>Die Ansicht <strong>Jetzt empfangen</strong> bietet eine gezielte Möglichkeit für Benutzer, zu sehen, welche Produkte sie erhalten. Alternativ kann die Ansicht <strong>Vollständige Auftragsliste</strong> verwendet werden. Diese Ansicht zeigt die gesamte Liste der Belegzeilen für den ausgewählten Einkaufs- oder Transportauftragsbeleg. Benutzer können Zeilen manuell in der Liste auswählen und dann im Bereich <strong>Details</strong> das Feld <strong>Empfangsmenge</strong> für die ausgewählte Zeile aktualisieren. In der Ansicht <strong>Vollständige Auftragsliste</strong> können die Benutzer Barcodes einscannen oder sie können die Funktion <strong>Produkt empfangen</strong> verwenden, um die Artikel-ID oder den Barcode und Daten über die empfangene Menge einzugeben, ohne zuerst die entsprechende Artikelzeile in der Liste auswählen zu müssen.</p>
+<h3 id="over-receiving-validations">Übereingangsvalidierungen</h3>
+<p>Validierungen erfolgen während des Empfangsprozesses für die Belegzeilen. Dazu gehören auch Validierungen für Überlieferungen. Wenn ein Benutzer versucht, mehr Bestand zu erhalten, als in einer Bestellung bestellt wurde, aber entweder keine Überlieferung konfiguriert ist oder der erhaltene Betrag die für die Bestellposition konfigurierte Überlieferungstoleranz überschreitet, erhält der Benutzer einen Fehler und darf die überschüssige Menge nicht erhalten.</p>
+<p>Für Transportauftragsbelege ist der Überempfang nicht zulässig. Benutzer erhalten immer Fehler, wenn sie versuchen, mehr zu erhalten, als für die Transportauftragsposition geliefert wurde.</p>
+<h3 id="close-purchase-order-lines">Bestellpositionen schließen</h3>
+<p>Sie können die verbleibende Menge einer eingehenden Bestellung während des Empfangsprozesses schließen, wenn der Versender bestätigt hat, dass er die angeforderte volle Menge nicht versenden kann. Um diese Funktion nutzen zu können, muss das Unternehmen so konfiguriert sein, dass eine Unterlieferung von Bestellungen möglich ist. Zusätzlich muss ein Unterlieferungstoleranzprozentsatz für die Bestellung definiert werden.</p>
+<p>Um das Unternehmen so zu konfigurieren, dass eine Unterlieferung von Bestellungen in der Commerce-Zentrale möglich ist, gehen Sie zu <strong>Beschaffung</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Beschaffungsparameter</strong>. Aktivieren Sie auf der Registerkarte <strong>Lieferung</strong> den Parameter <strong>Unterlieferung akzeptieren</strong>. Führen Sie dann den Verteilungsplan-Einzelvorgang <strong>1070</strong> (<strong>Kanalkonfiguration</strong>) aus, um die Einstellungsänderungen mit den Kanälen zu synchronisieren.</p>
+<p>Unterlieferungstoleranzprozentsätze für eine Bestellungsposition können für Produkte als Teil der Produktkonfiguration in der Commerce-Zentrale vordefiniert werden. Alternativ können sie für eine bestimmte Bestellung in der Commerce-Zentrale festgelegt oder überschrieben werden.</p>
+<p>Nachdem eine Organisation die Konfiguration der Unterlieferung von Bestellungen abgeschlossen hat, wird den POS-Benutzern eine neue Option <strong>Restmenge schließen</strong> im Bereich <strong>Details</strong> angezeigt, wenn sie eine eingehende Bestellungsposition über den Vorgang <strong>Eingehender Bestand</strong> auswählen. Wenn ein Benutzer die verbleibende Menge schließt, führt POS eine Prüfung durch, ob die geschlossene Menge innerhalb der prozentualen Toleranz für die Unterlieferung liegt, die in der Bestellungsposition definiert ist. Wenn die Unterlieferungstoleranz überschritten wurde, wird eine Fehlermeldung angezeigt, und der Benutzer kann die Restmenge erst dann abschließen, wenn die zuvor eingegangene Menge zuzüglich der Menge <strong>Jetzt empfangen</strong> die Mindestmenge erreicht oder überschreitet, die auf der Grundlage des Unterlieferungstoleranzprozentsatzes empfangen werden muss.</p>
+<p>Wenn die Option <strong>Restmenge schließen</strong> für eine Bestellposition aktiviert ist und der Benutzer den Empfang mit der Aktion <strong>Empfang abschließen</strong> abschließt, wird auch eine Abschlussanforderung an die Commerce-Zentrale gesendet, und alle nicht erhaltenen Mengen dieser Bestellposition werden storniert. Zu diesem Zeitpunkt gilt die Position als vollständig empfangen.</p>
+<h3 id="receiving-location-controlled-items">Empfangen von standortgesteuerten Positionen</h3>
+<p>Wenn die empfangenen Artikel ortsgesteuert sind, können die Benutzer den Ort auswählen, an dem sie die Artikel während des Empfangsprozesses erhalten möchten. Wir empfehlen Ihnen, einen Standard-Empfangsort für Ihr Filiallager zu konfigurieren, um diesen Prozess effizienter zu gestalten. Selbst wenn ein Standardort konfiguriert ist, können Benutzer den Empfangsort auf ausgewählten Zeilen nach Bedarf überschreiben.</p>
+<p>Der Vorgang respektiert die Konfiguration <strong>Leerbeleg zulässig</strong> Konfiguration auf der Lagerdimension <strong>Lagerort</strong> und erfordert keine Eingabe einer Ortsdimension, wenn ein leerer Beleg konfiguriert ist. Wenn leere Belegpositionen für einen Artikel nicht erlaubt sind, zeigt die POS-Anwendung einen Fehler an und verlangt die Eingabe einer Position, bevor der Beleg gebucht werden kann.</p>
+<h3 id="receive-all">Alle empfangen</h3>
+<p>Bei Bedarf können Sie in der Anwendungsleiste <strong>Alles empfangen</strong> wählen, um die <strong>Jetzt empfangen</strong> Menge für alle Belegzeilen schnell auf den maximalen Wert zu aktualisieren, der für diese Zeilen zum Empfang verfügbar ist.</p>
+<h3 id="receipt-of-unplanned-items-on-purchase-orders">Erhalt ungeplanter Artikel bei Bestellungen</h3>
+<p>In Commerce Version 10.0.14 und höher können Benutzer ein Produkt erhalten, das ursprünglich nicht in der Bestellung enthalten war. Um diese Funktion zu aktivieren, aktivieren Sie <strong>Der Bestellung des Verkaufsstellenzugangs Positionen hinzufügen</strong>.</p>
+<p>Diese Funktion funktioniert nur für den Zugang von Bestellungen. Es ist nicht möglich, Artikel bei Umlagerungsaufträgen zu erhalten, wenn die Artikel zuvor nicht bestellt und aus dem Ausgangslager versendet wurden.</p>
+<p>Benutzer können der Bestellung während des POS-Zugangs keine neuen Produkte hinzufügen, wenn der <a href="https://docs.microsoft.com/dynamics365/supply-chain/procurement/purchase-order-approval-confirmation">Änderungsverwaltungsworkflow</a> für die Bestellung in der Commerce-Zentrale (HQ) aktiviert ist. Um die Änderungsverwaltung zu aktivieren, müssen alle Änderungen an einer Bestellung zuerst genehmigt werden, bevor der Zugang zulässig ist. Da dieser Prozess es einem Empfänger ermöglicht, der Bestellung neue Positionen hinzuzufügen, schlägt der Zugang fehl, wenn der Änderungsverwaltungs-Workflow aktiviert ist. Wenn die Veränderungsverwaltung für alle Bestellungen oder für den Lieferanten aktiviert ist, der mit der Bestellung verknüpft ist, die aktiv am POS zugeht, kann der Benutzer der Bestellung während des Zugangs am POS keine neuen Produkte hinzufügen.</p>
+<p>Die Funktion zum Hinzufügen von Positionen kann nicht als Problemumgehung für den Zugang zusätzlicher Mengen von Produkten verwendet werden, die bereits in der Bestellung enthalten sind. Überhöhter Zugang wird über den Standard verwaltet <a href="https://docs.microsoft.com/dynamics365/commerce/pos-inbound-inventory-operation#over-receiving-validations">Überhöhter Zugang</a>-Einstellungen für die Produktposition in der Bestellung.</p>
+<p>Wenn <strong>Der Bestellung während des Zugangs an der Verkaufsstelle Positionen hinzufügen</strong> aktiviert ist und ein Benutzer mit dem <strong>Eingehender Vorgang</strong> in POS empfängt, die nicht als Artikel in der aktuellen Bestellung erkannt wird, aber als gültiger Artikel erkannt wird, erhält der Benutzer eine Nachricht über das Hinzufügen des Artikels zur Bestellung. Wenn der Benutzer den Artikel zur Bestellung hinzufügt, wird die in <strong>Jetzt zugegangen</strong> eingegebene Menge als bestellte Menge für die Bestellposition betrachtet.</p>
+<p>Wenn der Bestellzugang vollständig ist und zur Bearbeitung an die Zentrale übermittelt wurde, werden die hinzugefügten Positionen im Bestellungszentraldokument erstellt. In der Bestellposition in der Zentrale befindet sich eine Kennzeichnung <strong>Hinzugefügt von POS</strong> in der Registerkarte <strong>Allgemein</strong> der Bestellposition. Die Kennzeichnung <strong>Hinzugefügt von POS</strong> zeigt an, dass die Bestellposition durch den POS-Zugangsprozess hinzugefügt wurde und keine Position war, die sich vor dem Zugang in der Bestellung befand.</p>
+<h3 id="cancel-receiving">Empfang stornieren</h3>
+<p>Sie sollten die Funktion <strong>Empfang abbrechen</strong> in der Anwendungsleiste nur dann verwenden, wenn Sie aus dem Dokument aussteigen und keine Änderungen speichern möchten. Sie haben z.B. zunächst das falsche Dokument ausgewählt und möchten keine der bisherigen Empfangsdaten speichern.</p>
+<h3 id="pause-receiving">Empfang anhalten</h3>
+<p>Wenn Sie eine Bestandsaufnahme erhalten, können Sie die Funktion <strong>Empfang unterbrechen</strong> verwenden, wenn Sie eine Pause vom Empfangsvorgang einlegen möchten. Sie können beispielsweise eine andere Operation vom POS aus durchführen, wie z.B. einen Kundenverkauf anrufen oder die Buchung des Bons verzögern.</p>
+<p>Wenn Sie <strong>Empfang pausieren</strong> wählen, wird der Status des Belegs auf <strong>Pausiert</strong> geändert. Daher wissen die Benutzer, dass Daten für den Beleg eingegeben wurden, der Beleg aber noch nicht bestätigt wurde. Wenn Sie bereit sind, den Empfangsvorgang fortzusetzen, wählen Sie das angehaltene Dokument aus und wählen Sie dann <strong>Auftragsdetails</strong>. Alle <strong>Jetzt empfangen</strong> Mengen, die zuvor gespeichert wurden, bleiben erhalten und können in der Ansicht <strong>Vollständige Auftragsliste</strong> angezeigt werden.</p>
+<h3 id="review">Überprüfen</h3>
+<p>Vor des endgültigen Eingang der empfangenen Mengen im Commerce Headquaraters (HQ) können Sie die Überprüfungsfunktion verwenden, um das eingehende Dokument zu validieren. Die Überprüfung macht Sie auf fehlende oder falsche Daten aufmerksam, die zu Verarbeitungsfehlern führen können, und bietet Ihnen die Möglichkeit, Probleme zu beheben, bevor Sie die Empfangsanforderung senden. Um die Funktion <strong>Überprüfen</strong> in der App-Symbolleiste zu aktivieren, aktivieren Sie die Funktion <strong>Prüfung eingehender und ausgehender Bestandsvorgänge am POS aktivieren</strong> über den Arbeitsbereich <strong>Funktionsverwaltung</strong> im Commerce Headquarters (HQ).</p>
+<p>Die Funktion <strong>Überprüfen</strong> überprüft die folgenden Probleme in einem eingehenden Dokument:</p>
+<ul>
+<li><strong>Zu viel empfangen</strong>: Die Empfangsmenge ist größer als die bestellte Menge. Der Schweregrad dieses Problems wird durch die Konfiguration der Mehrlieferung des Commerce Headquarters (HQ) bestimmt.</li>
+<li><strong>Zu wenig empfangen</strong>: Die Empfangsmenge ist kleiner als die bestellte Menge. Der Schweregrad dieses Problems wird durch die Konfiguration der Unterlieferung des Commerce Headquarters (HQ) bestimmt.</li>
+<li><strong>Seriennummer</strong>: Die Seriennummer wird für einen serialisierten Artikel, für den die Seriennummer im Bestand registriert werden muss, nicht angegeben oder überprüft.</li>
+<li><strong>Standort nicht festgelegt</strong>: Der Standort ist für standortgesteuerte Artikel nicht angegeben, wenn ein leerer Standort nicht zulässig ist.</li>
+<li><strong>Gelöschte Zeilen</strong>: In dem Auftrag wurden Zeilen von einem Benutzer des Commerce Headquarters (HQ) gelöscht, der der POS-Anwendung nicht bekannt ist.</li>
+</ul>
+<p>Stellen Sie den Parameter <strong>Automatische Prüfung aktivieren</strong> auf <strong>Ja</strong> unter <strong>Commerce-Parameter</strong> &gt; <strong>Bestand</strong> &gt; <strong>Bestand speichern</strong>, um die Prüfung automatisch ausführen zu lassen, wenn <strong>Empfang abschließen</strong> ausgewählt wurde.</p>
+<h3 id="finish-receiving">Empfang abschließen</h3>
+<p>Wenn Sie die Eingabe aller <strong>Jetzt empfangen</strong> Mengen für Produkte abgeschlossen haben, müssen Sie <strong>Empfang beenden</strong> in der Anwendungsleiste wählen, um den Beleg zu bearbeiten.</p>
+<p>Wenn Benutzer einen Bestelleingang abschließen, werden sie aufgefordert, einen Wert in das Feld <strong>Belegnummer</strong> einzugeben, wenn diese Funktion konfiguriert ist. In der Regel entspricht dieser Wert der Kennung des Lieferantenpackzettels. Die Daten <strong>Quittungsnummer</strong> werden im Wareneingangsjournal in Commerce Headquarters gespeichert. Belegnummern werden nicht für Transportauftragseingänge erfasst.</p>
+<p>Bei der asynchronen Belegverarbeitung wird der Beleg über ein asynchrones Dokumenten-Framework eingereicht. Die Zeit, die für die Verbuchung des Belegs benötigt wird, hängt von der Größe des Belegs (Anzahl der Zeilen) und dem allgemeinen Verarbeitungsverkehr, der auf dem Server stattfindet, ab. Normalerweise erfolgt dieser Vorgang in wenigen Sekunden. Wenn die Belegbuchung fehlschlägt, wird der Benutzer über die Liste <strong>Eingangsvorgang</strong> Belege benachrichtigt, wobei der Belegstatus auf <strong>Verarbeitung fehlgeschlagen</strong> aktualisiert wird. Der Benutzer kann dann den fehlgeschlagenen Beleg in POS auswählen, um die Fehlermeldungen und den Grund für den Fehlschlag im Bereich <strong>Details</strong> anzuzeigen. Ein fehlgeschlagener Beleg bleibt ungebucht und erfordert, dass der Benutzer zu den Belegzeilen zurückkehrt, indem er <strong>Bestelldetails</strong> in POS wählt. Der Benutzer muss dann das Dokument mit Korrekturen auf der Grundlage der Fehler aktualisieren. Nachdem ein Beleg korrigiert wurde, kann der Benutzer erneut versuchen, ihn zu verarbeiten, indem er in der Anwendungsleiste <strong>Erfüllung beenden</strong> wählt.</p>
+<h2 id="create-an-inbound-transfer-order">Einen eingehenden Transportauftrag erstellen</h2>
+<p>Vom POS aus können Benutzer neue Transportauftragsbelege erstellen. Um den Prozess zu beginnen, wählen Sie <strong>Neu</strong> in der Anwendungsleiste, während Sie sich in der Hauptmenüleiste befinden <strong>Eingangsvorgang</strong>-Dokumentenliste. Sie werden dann aufgefordert, ein <strong>Umlagerung von</strong>-Lager oder Filiale auszuwählen, die den Bestand an Ihrem Filialstandort bereitstellen wird. Die Werte sind auf die Auswahl beschränkt, die in der Konfiguration der Erfüllungsgruppe der Filiale definiert ist. Bei einem eingehenden Transportauftrag ist Ihre aktuelle Filiale immer das <strong>Transfer an</strong>-Lager für den Transportauftrag. Dieser Wert kann nicht geändert werden.</p>
+<p>Sie können in den Feldern <strong>Versanddatum</strong>, <strong>Empfangsdatum</strong> und <strong>Lieferart</strong> je nach Bedarf Werte eingeben. Sie können auch eine Notiz hinzufügen, die zusammen mit dem Transportauftragskopf als Anlage zum Dokument in Commerce Headquarters gespeichert wird.</p>
+<p>Nachdem die Kopfinformationen erstellt wurden, können Sie dem Transportauftrag Produkte hinzufügen. Um den Prozess der Hinzufügung von Artikeln und angeforderten Mengen zu starten, wählen Sie <strong>Produkt hinzufügen</strong>. Im Bereich <strong>Details</strong> können Sie auch eine zeilenspezifische Notiz zu den Journalzeilen hinzufügen. Diese Notizen werden als Zeilenanhang gespeichert.</p>
+<p>Nachdem die Zeilen auf dem eingehenden Transportauftrag eingegeben wurden, müssen Sie <strong>Sichern</strong> wählen, um die Belegänderungen lokal zu speichern, oder <strong>Anfrage senden</strong>, um die Auftragsdetails zur weiteren Bearbeitung an Commerce Headquarters zu senden. Wenn Sie <strong>Speichern</strong> wählen, wird der Belegentwurf in der Kanaldatenbank gespeichert, und das Ausgangslager kann den Beleg erst dann ausführen, wenn er erfolgreich über <strong>Anfrage senden</strong> verarbeitet wurde. Sie sollten <strong>Speichern</strong> nur dann wählen, wenn Sie nicht bereit sind, die Anforderung zur Verarbeitung an Commerce Headquarters zu übergeben.</p>
+<p>Wenn ein Dokument lokal gespeichert wird, finden Sie es auf der Registerkarte <strong>Entwürfe</strong> der Dokumentenliste <strong>Eingangsvorgang</strong>. Solange sich ein Dokument im Status <strong>Entwurf</strong> befindet, können Sie es bearbeiten, indem Sie <strong>Bearbeiten</strong> wählen. Sie können Zeilen nach Bedarf aktualisieren, hinzufügen oder löschen. Sie können auch das gesamte Dokument löschen, während es sich im Status <strong>Entwurf</strong> befindet, indem Sie <strong>Löschen</strong> auf der Registerkarte <strong>Entwürfe</strong> wählen.</p>
+<p>Nachdem der Dokumententwurf erfolgreich bei Commerce Headquarters eingereicht wurde, erscheint er auf der Registerkarte <strong>Aktiv</strong> und hat den Status <strong>Beantragt</strong>. Zu diesem Zeitpunkt können Benutzer in der Eingangsfiliale oder im Lager den angeforderten eingehenden Transportauftragsbeleg nicht mehr bearbeiten. Nur Benutzer im Ausgangslager können den Beleg bearbeiten, indem sie in der POS-Anwendung <strong>Ausgangsvorgang</strong> wählen. Die Bearbeitungssperre stellt sicher, dass keine Konflikte auftreten, weil ein eingehender Anforderer den Transportauftrag zur gleichen Zeit ändert, zu der der ausgehende Verlader den Auftrag aktiv kommissioniert und versendet. Wenn nach der Übermittlung des Transportauftrags Änderungen aus dem eingehenden Lager oder dem Lager erforderlich sind, sollte der ausgehende Verlader kontaktiert und aufgefordert werden, die Änderungen einzugeben.</p>
+<p>Nachdem sich der Beleg im Status <strong>Anforderung</strong> befindet, ist er auf der Registerkarte <strong>Aktiv</strong> sichtbar. Er kann jedoch noch nicht von der Eingangsfiliale oder dem Lager empfangen werden. Nachdem das Ausgangslager einen Teil oder den gesamten Transportauftrag versendet hat, kann die eingehende Filiale oder das Lager Belege in POS buchen. Wenn die Ausgangsseite die Transportauftragsbelege verarbeitet, wird ihr Status von <strong>Anforderung</strong> auf <strong>Versandt</strong> oder <strong>Teilweise versandt</strong> fortgeschrieben. Nachdem sich die Belege im Status <strong>Versandt</strong> oder <strong>Teilweise versandt</strong> befinden, kann die eingehende Filiale oder das Lager über den Eingangsvorgangs-Empfangsprozess Eingänge gegen sie buchen.</p>
+<h2 id="related-topics">Verwandte Themen</h2>
+<p><a href="pos-outbound-inventory-operation.html">Bestandsaufnahme am Ausgang in POS</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1655 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Design a new ER solution to print a custom report </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Design a new ER solution to print a custom report ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how to design an Electronic reporting (ER) solution to print a custom report.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERWorkspace, ERSolutionTable, ERParameters, ERDataModelDesigner, ERModelMappingTable, ERModelMappingDesigner, EROperationDesigner, ERVendorTable">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="design-a-new-er-solution-to-print-a-custom-report">Design a new ER solution to print a custom report</h1>
+
+
+<p>The following steps explain how a user in the System Administrator, Electronic Reporting Developer, or Electronic Reporting Functional Consultant role can configure parameters of the ER framework, design the required ER configurations of a new ER solution to access the data of a particular business domain, and generate a custom report in Microsoft Office format. These steps can be completed in the <strong>USMF</strong> company.</p>
+<ul>
+<li><p><a href="#ConfigureFramework">Configure the ER framework</a></p>
+<ul>
+<li><p><a href="#ConfigureParameters">Configure ER parameters</a></p>
+</li>
+<li><p><a href="#ActivateProvider">Activate an ER configuration provider</a></p>
+<ul>
+<li><a href="#ReviewProvidersList">Review the list of ER configuration providers</a></li>
+<li><a href="#AddProvider">Add a new ER configuration provider</a></li>
+<li><a href="#ActivateAddedProvider">Activate an ER configuration provider</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="#DesignModel">Design a domain-specific data model</a></p>
+<ul>
+<li><p><a href="#ImportDataModel">Import a new data model configuration</a></p>
+</li>
+<li><p><a href="#DesignDataModel">Create a new data model configuration</a></p>
+<ul>
+<li><a href="#NameDataModel">Name the data model</a></li>
+<li><a href="#FieldsEntry">Add data model fields</a></li>
+<li><a href="#CompleteDataModel">Complete the design of the data model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="#DesignMapping">Design a model mapping for the configured data model</a></p>
+<ul>
+<li><p><a href="#ImportModelMapping">Import a new model mapping configuration</a></p>
+</li>
+<li><p><a href="#CreateModelMapping">Create a new model mapping configuration</a></p>
+<ul>
+<li><a href="#DesignMappingComponent">Design a new model mapping component</a></li>
+<li><a href="#AddMmDataSource1">Add data sources to access application tables</a></li>
+<li><a href="#AddMmDataSource2">Add data sources to access application enumerations</a></li>
+<li><a href="#AddMmLabels">Add ER labels to generate a report in a specified language</a></li>
+<li><a href="#AddMmDataSource3">Add a data source to transform the results of comparing enumeration values to a text value</a></li>
+<li><a href="#AddMmBindings1">Bind data sources to data model fields</a></li>
+<li><a href="#CompleteModelMapping">Complete the design of the model mapping</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="#DesignReportTemplate">Design a template for a custom report</a></p>
+</li>
+<li><p><a href="#DesignFormat">Design a format</a></p>
+<ul>
+<li><p><a href="#FormatImport">Import a designed format configuration</a></p>
+</li>
+<li><p><a href="#FormatCreate">Create a new format configuration</a></p>
+<ul>
+<li><a href="#ImportReportTemplate">Import a report template</a></li>
+<li><a href="#ConfigureFormat">Configure a format</a></li>
+<li><a href="#DefineFormatBindings">Define the data binding for a report title</a></li>
+<li><a href="#ReviewModelDataSource">Review the model data source</a></li>
+<li><a href="#BindFormatElements">Bind format elements to data source fields</a></li>
+</ul>
+</li>
+<li><p><a href="#RunFormatFromER">Run a designed format from ER</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#TuneFormat">Tune a designed format</a></p>
+<ul>
+<li><a href="#ModifyToChangeName">Modify a format to change the name of a generated document</a></li>
+<li><a href="#ModifyToOrder">Modify a format to change the order of questions</a></li>
+<li><a href="#RunFormatFromER2">Run a modified format from ER</a></li>
+<li><a href="#CompleteFormat">Complete the format design</a></li>
+</ul>
+</li>
+<li><p><a href="#DevelopCustomCode">Develop application artefacts to call the designed report</a></p>
+<ul>
+<li><p><a href="#ModifySourceCode">Modify source code</a></p>
+<ul>
+<li><a href="#DataContractClass">Add a data contract class</a></li>
+<li><a href="#UIBuilderClass">Add a UI builder class</a></li>
+<li><a href="#DataProviderClass">Add a data provider class</a></li>
+<li><a href="#LabelsFile">Add a labels file</a></li>
+<li><a href="#ServiceClass">Add a report service class</a></li>
+<li><a href="#ControllerClass">Add a report controller class</a></li>
+<li><a href="#MenuItem">Add a menu item</a></li>
+<li><a href="#Menu">Add a menu item to a menu</a></li>
+<li><a href="#BuildVSProject">Build a Visual Studio project</a></li>
+</ul>
+</li>
+<li><p><a href="#RunFormatFromApp">Run a format from the application</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#TuneSolution">Tune a designed ER solution</a></p>
+<ul>
+<li><p><a href="#ModifyModelMapping">Modify a model mapping</a></p>
+<ul>
+<li><a href="#AddDataSource1">Add data sources to access a data contract object</a></li>
+<li><a href="#AddDataSource2">Add a data source to access ER format mapping records</a></li>
+<li><a href="#AddDataSource3">Add a data source to access a format mapping record of a running ER format</a></li>
+<li><a href="#AddBinding">Enter the name of the running ER format in the data model</a></li>
+<li><a href="#CompleteModelMapping2">Complete the design of the model mapping</a></li>
+</ul>
+</li>
+<li><p><a href="#ModifyFormat">Modify a format</a></p>
+<ul>
+<li><a href="#AddFormatElement">Add a new format element</a></li>
+<li><a href="#BindAddedFormatElement">Bind the added format element</a></li>
+<li><a href="#CompleteFormat2">Complete the format design</a></li>
+</ul>
+</li>
+<li><p><a href="#RunFormatFromApp2">Run a format from the application</a></p>
+</li>
+<li><p><a href="#RunFormatFromER3">Run a format from ER</a></p>
+</li>
+<li><p><a href="#ConfigureDestination">Configure a format destination for on-screen preview</a></p>
+</li>
+<li><p><a href="#RunFormatFromApp3">Run a format from the application to preview it as a PDF document</a></p>
+</li>
+</ul>
+</li>
+<li><p><a href="#References">Additional resources</a></p>
+</li>
+</ul>
+<p>In this example, you will create a new ER solution for the <a href="https://docs.microsoft.com/dynamics365/human-resources/hr-learning-questionnaires">Questionnaire</a> module. This new ER solution lets you design a report by using a Microsoft Excel worksheet as a template. You can then generate the <strong>Questionnaire</strong> report in Excel or PDF format, in addition to generating the existing SQL Server Reporting Services (SSRS) report. You can also modify the new report later, upon request. No coding is required.</p>
+<ol>
+<li><p>To run the existing report, go to <strong>Questionnaire</strong> &gt; <strong>Design</strong> &gt; <strong>Questionnaires report</strong>.</p>
+<p><img src="media/er-quick-start1-application-menu-origin.png" alt="Selecting the Questionnaires report menu item in the Questionnaire module to run the existing SSRS report"></p>
+</li>
+<li><p>In the <strong>Questionnaires report</strong> dialog box, specify selection criteria. Apply a filter so that the report includes only the <strong>SBCCrsExam</strong> questionnaire.</p>
+<p><img src="media/er-quick-start1-ssrs-report-dialog.png" alt="Specifying selection criteria in the Questionnaires report dialog box"></p>
+</li>
+</ol>
+<p>The following illustration shows the generated version of the SSRS report for the <strong>SBCCrsExam</strong> questionnaire.</p>
+<p><img src="media/er-quick-start1-ssrs-report.png" alt="Generated SSRS report"></p>
+<h2 id="ConfigureFramework">Configure the ER framework</h2>
+<p>As a user in the Electronic Reporting Developer role, you must configure the minimal set of ER parameters before you can start to use the ER framework to design your new ER solution.</p>
+<h3 id="ConfigureParameters">Configure ER parameters</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>In the <strong>Electronic reporting</strong> workspace, select <strong>Electronic reporting parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Electronic reporting parameters</strong> page, on the <strong>General</strong> tab, set the <strong>Enable design mode</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>On the <strong>Attachments</strong> tab, set the following parameters:</p>
+<ul>
+<li>Set the <strong>Configurations</strong> field to <strong>File</strong> for the <strong>USMF</strong> company.</li>
+<li>Set <strong>Job archive</strong>, <strong>Temporary</strong>, <strong>Baseline</strong>, and <strong>Others</strong> fields to <strong>File</strong>.</li>
+</ul>
+</li>
+</ol>
+<p>For more information about ER parameters, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Configure the ER framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<h3 id="ActivateProvider">Activate an ER configuration provider</h3>
+<p>Every ER configuration is marked as owned by an ER configuration provider. Therefore, you must activate an ER configuration provider in the <strong>Electronic reporting</strong> workspace before you start to add or edit any ER configurations.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Only the owner of an ER configuration can edit it. Therefore, before an ER configuration can be edited, the appropriate ER configuration provider must be activated in the <strong>Electronic reporting</strong> workspace.</p>
+</div>
+<h4 id="ReviewProvidersList">Review the list of ER configuration providers</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, in the <strong>Related links</strong> section, select <strong>Configuration providers</strong>.</li>
+<li>On the <strong>Configuration providers</strong> page, each configuration provider record has a unique name and URL. Review the contents of this page. If a record for <strong>Litware, Inc.</strong> (<code>https://www.litware.com</code>) already exists, skip the next procedure, <a href="#ActivateProvider">Add a new ER configuration provider</a>.</li>
+</ol>
+<h4 id="AddProvider">Add a new ER configuration provider</h4>
+<ol>
+<li>On the <strong>Configuration providers</strong> page, select <strong>New</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Litware, Inc.</strong></li>
+<li>In the <strong>Internet address</strong> field, enter <code>https://www.litware.com</code>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h4 id="ActivateAddedProvider">Activate an ER configuration provider</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, select the <strong>Litware, Inc.</strong> configuration provider.</li>
+<li>Select <strong>Set active</strong>.</li>
+</ol>
+<p>For more information about ER configuration providers, see <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create configuration providers and mark them as active</a>.</p>
+<h2 id="DesignModel">Design a domain-specific data model</h2>
+<p>You must create a new ER configuration that contains a <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">data model</a> component for the <strong>Questionnaire</strong> business domain. This data model will later be used as a data source when you design an ER format to generate the <strong>Questionnaire</strong> report.</p>
+<p>By completing the steps in the <a href="#ImportDataModel">Import a new data model configuration</a> section, you can import the required data model from the provided XML file. Alternatively, you can complete the steps in the <a href="#DesignDataModel">Create a new data model configuration</a> section to design this data model from scratch.</p>
+<h3 id="ImportDataModel">Import a new data model configuration</h3>
+<ol>
+<li>Download the <a href="https://go.microsoft.com/fwlink/?linkid=851448">Questionnaires model.version.1.xml</a> file, and save it to your local computer.</li>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, select <strong>Reporting configurations</strong>.</li>
+<li>On the Action Pane, select <strong>Exchange</strong> &gt; <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, and then find and select the <strong>Questionnaires model.version.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong> to import the configuration.</li>
+</ol>
+<p>To continue, skip the next procedure, <a href="#DesignDataModel">Create a new data model configuration</a>.</p>
+<h3 id="DesignDataModel">Create a new data model configuration</h3>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, select <strong>Reporting configurations</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>Name</strong> field, enter <strong>Questionnaire model</strong>.</li>
+<li>Select <strong>Create configuration</strong> to create the configuration.</li>
+</ol>
+<h4 id="NameDataModel">Name the data model</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire model</strong>.</li>
+<li>Select <strong>Designer</strong>.</li>
+<li>On the <strong>Data model designer</strong> page, on the <strong>General</strong> FastTab, in the <strong>Name</strong> field, enter <a name="DataModeName"></a><strong>Questionnaires</strong>.</li>
+</ol>
+<h4 id="FieldsEntry">Add new data model fields</h4>
+<ol>
+<li><p>On the <strong>Data model designer</strong> page, select <strong>New</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box for adding a data model node, follow these steps:</p>
+<ol>
+<li>Select <strong>Model root</strong> as the type of the new node.</li>
+<li>In the <strong>Name</strong> field, enter <a name="RootDefinitionName"></a><strong>Root</strong>.</li>
+<li>Select <strong>Add</strong> to add the new node.</li>
+</ol>
+<p>This root descriptor will be used to provide data for the <strong>Questionnaire</strong> report. A single data model can have multiple descriptors. Each descriptor can be specified for a single ER format, to identify data that is required to generate the report.</p>
+</li>
+<li><p>Select <strong>New</strong> again, and then, in the drop-down dialog box for adding a data model node, follow these steps:</p>
+<ol>
+<li>Select <strong>Child of an active node</strong> as the type of the new node.</li>
+<li>In the <strong>Name</strong> field, enter <strong>CompanyName</strong>.</li>
+<li>In the <strong>Item type</strong> field, select <strong>String</strong>.</li>
+<li>Select <strong>Add</strong> to add the new field.</li>
+</ol>
+<p>This field is required to pass the name of the current company to an ER report that consumes this data model as a data source.</p>
+</li>
+<li><p>Select <strong>New</strong> again, and then, in the drop-down dialog box for adding a data model node, follow these steps:</p>
+<ol>
+<li>Select <strong>Child of an active node</strong> as the type of the new node.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Questionnaire</strong>.</li>
+<li>In the <strong>Item type</strong> field, select <strong>Record list</strong>.</li>
+<li>Select <strong>Add</strong> to add the new field.</li>
+</ol>
+<p>This field will be used to pass the list of questionnaires to an ER report that consumes this data model as a data source.</p>
+</li>
+<li><p>Select the <strong>Questionnaire</strong> node.</p>
+</li>
+<li><p>Continue to add the required fields of the editable data model in the same manner until you complete the following data model structure.</p>
+<table>
+<thead>
+<tr>
+<th>Field path</th>
+<th>Data type</th>
+<th>Field designation/returned value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root</td>
+<td></td>
+<td>The reference point to request questionnaire data.</td>
+</tr>
+<tr>
+<td>Root\CompanyName</td>
+<td>String</td>
+<td>The name of the current company.</td>
+</tr>
+<tr>
+<td>Root\ExecutionContext</td>
+<td>Record</td>
+<td>Format execution details.</td>
+</tr>
+<tr>
+<td>Root\ExecutionContext\FormatName</td>
+<td>String</td>
+<td>The name of the ER format that is being run.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire</td>
+<td>Record list</td>
+<td>The list of questionnaires</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Active</td>
+<td>String</td>
+<td>The status of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Code</td>
+<td>String</td>
+<td>The code of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Description</td>
+<td>String</td>
+<td>The description of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\QuestionnaireType</td>
+<td>String</td>
+<td>The type of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\QuestionOrder</td>
+<td>String</td>
+<td>The numerical order of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\ResultsGroup</td>
+<td>Record</td>
+<td>The result parameters of the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\ResultsGroup\Code</td>
+<td>String</td>
+<td>The identification code of the current result group.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\ResultsGroup\Description</td>
+<td>String</td>
+<td>The description of the current result group.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\ResultsGroup\MaxNumberOfPoints</td>
+<td>Real</td>
+<td>The maximum number of points that could be earned.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question</td>
+<td>Record list</td>
+<td>The list of questions for the current questionnaire.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\CollectionSequenceNumber</td>
+<td>Integer</td>
+<td>The sequence number of the current answer collection.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Id</td>
+<td>String</td>
+<td>The identification code of the current question.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\MustBeCompleted</td>
+<td>String</td>
+<td>A flag that indicates whether the current question must be answered.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\PrimaryQuestion</td>
+<td>String</td>
+<td>A flag that indicates whether the current question is primary.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\SequenceNumber</td>
+<td>Integer</td>
+<td>The sequence number of the current question.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Text</td>
+<td>String</td>
+<td>The text of the current question.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Answer</td>
+<td>Record list</td>
+<td>The list of answers for the current question.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Answer\CorrectAnswer</td>
+<td>String</td>
+<td>A flag that indicates whether the current answer is correct.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Answer\Points</td>
+<td>Real</td>
+<td>The points that are earned when the current answer is selected.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Answer\SequenceNumber</td>
+<td>Integer</td>
+<td>The sequence number of the current answer.</td>
+</tr>
+<tr>
+<td>Root\Questionnaire\Question\Answer\Text</td>
+<td>String</td>
+<td>The text of the current answer.</td>
+</tr>
+</tbody>
+</table>
+<p>The following illustration shows the completed editable data model on the <strong>Data model designer</strong> page.</p>
+<p><img src="media/er-quick-start1-model2.png" alt="Configured data model in the ER data model designer"></p>
+</li>
+<li><p>Save your changes.</p>
+</li>
+<li><p>Close the <strong>Data model designer</strong> page.</p>
+</li>
+</ol>
+<h4 id="CompleteDataModel">Complete the design of the data model</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire model</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select the configuration version that has a status of <strong>Draft</strong>.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>.</li>
+</ol>
+<p>The status of version 1 of this configuration is changed from <strong>Draft</strong> to <strong>Completed</strong>. Version 1 can no longer be changed. This version contains the configured data model and can be used as the basis for other ER configurations. Version 2 of this configuration is created and has a status of <strong>Draft</strong>. You can edit this version to adjust the <strong>Questionnaire</strong> data model.</p>
+<p><img src="media/er-quick-start1-model-configuration.png" alt="Versions of the editable ER configuration on the Configurations page"></p>
+<p>For more information about versioning for ER configurations, see <a href="general-electronic-reporting.html#component-versioning">Electronic reporting (ER) overview</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The configured data model is your abstract representation of the <strong>Questionnaire</strong> business domain and contains no relations to artefacts that are specific to Microsoft Dynamics 365 Finance.</p>
+</div>
+<h2 id="DesignMapping">Design a model mapping for the configured data model</h2>
+<p>As a user in the Electronic Reporting Developer role, you must create a new ER configuration that contains a <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">model mapping</a> component for the <strong>Questionnaire</strong> data model. Because this component implements the configured data model for Finance, it's Finance-specific. You must configure the model mapping component to specify the application objects that must be used to fill in the configured data model with application data at runtime. To complete this task, you must be aware of the implementation details of the data structure of the <strong>Questionnaire</strong> business domain in Finance.</p>
+<p>By completing the steps in the <a href="#ImportModelMapping">Import a new model mapping configuration</a> section that follows, you can import the required model mapping configuration from the provided XML file. Alternatively, you can complete the steps in the <a href="#CreateModelMapping">Create a new model mapping configuration</a> section to design this model mapping from scratch.</p>
+<h3 id="ImportModelMapping">Import a new model mapping configuration</h3>
+<ol>
+<li>Download the <a href="https://go.microsoft.com/fwlink/?linkid=851448">Questionnaires mapping.version.1.1.xml</a> file, and save it to your local computer.</li>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, select <strong>Reporting configurations</strong>.</li>
+<li>On the Action Pane, select <strong>Exchange</strong> &gt; <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, and then find and select the <strong>Questionnaires mapping.version.1.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong> to import the configuration.</li>
+</ol>
+<p>To continue, skip the next procedure, <a href="#CreateModelMapping">Create a new model mapping configuration</a>.</p>
+<h3 id="CreateModelMapping">Create a new model mapping configuration</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire model</strong>.</p>
+</li>
+<li><p>Select <strong>Create configuration</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, follow these steps:</p>
+<ol>
+<li>In the <strong>New</strong> field, select <strong>Model Mapping based on data model Questionnaires</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Questionnaire mapping</strong>.</li>
+<li>In the <strong>Data model definition</strong> field, select the <strong>Root</strong> definition.</li>
+<li>Select <strong>Create configuration</strong> to create the configuration.</li>
+</ol>
+</li>
+</ol>
+<h4 id="DesignMappingComponent">Design a new model mapping component</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire mapping</strong>.</li>
+<li>Select <strong>Designer</strong> to open the list of mappings.</li>
+<li>Select the <strong>Questionnaires mapping</strong> mapping that was automatically added for the <strong>Root</strong> definition</li>
+<li>Select <strong>Designer</strong> to start to configure the selected mapping.</li>
+</ol>
+<p>A new mapping is automatically added for the <strong>Root</strong> definition. This mapping has the <strong>To model</strong> direction. Therefore, this mapping can be used to fill in a data model with required data.</p>
+<h4 id="AddMmDataSource1">Add data sources to access application tables</h4>
+<p>You must configure data sources to access the application tables that contain questionnaire details.</p>
+<ol>
+<li><p>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Table records</strong>.</p>
+</li>
+<li><p>Add a new data source that will be used to access the KMCollection table, where every record represents a single questionnaire:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In dialog box, in the <strong>Name</strong> field, enter <strong>Questionnaire</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>KMCollection</strong>.</li>
+<li>Set the <strong>Ask for query</strong> option to <strong>Yes</strong>. You will then be able to specify <a href="../../fin-ops/get-started/advanced-filtering-query-options.html">filtering</a> options for this table in the system query dialog box at runtime.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Table records</strong>.</p>
+</li>
+<li><p>Add a new data source that will be used to access the KMQuestion table, where every record represents a single question in a questionnaire:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Question</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>KMQuestion</strong>.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Table records</strong>.</p>
+</li>
+<li><p>Add a new data source try that will be used to access the KMAnswer table, where every record represents a single answer to a question in a questionnaire:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Answer</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>KMAnswer</strong>.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Functions\Calculated field</strong>.</p>
+</li>
+<li><p>Add a new calculated field that will be used to access a record of the KMQuestionResultGroup table from every record of the parent KMCollection table:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Questionnaire</strong>.</li>
+<li>Select <strong>Add</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>$ResultGroup</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>In the <a href="general-electronic-reporting-formula-designer.html">ER formula editor</a>, in the <strong>Formula</strong> field, enter <strong>FIRSTORNULL(@.'&lt;Relations'.KMQuestionResultGroup)</strong> to use the <a href="er-formula-language.html#paths">path</a> of the one-to-many relation between the KMCollection and KMQuestionResultGroup tables.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>OK</strong> to add the new calculated field.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Functions\Calculated field</strong>.</p>
+</li>
+<li><p>Add a new calculated field that will be used to access question records of the KMQuestion table from every record of the parent KMCollectionQuestion table:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Questionnaire</strong>.</li>
+<li>Expand the <strong>&lt;Relations</strong> node that contains one-to-many relations of the KMCollection table.</li>
+<li>Select the related <strong>KMCollectionQuestion</strong> table, and then select <strong>Add</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>$Question</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>In the formula editor, in the <strong>Formula</strong> field, enter <strong>FIRSTORNULL (FILTER(Question, Question.kmQuestionId = @.kmQuestionId))</strong> to return the appropriate question records from the KMQuestion table.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>OK</strong> to add the new calculated field.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Functions\Calculated field</strong>.</p>
+</li>
+<li><p>Add a new calculated field that will be used to access answer records of the KMAnswer table from every record of the parent KMQuestion table:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Questionnaire.&lt;Relations.KMCollectionQuestion.$Question</strong>, and then select <strong>Add</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>$Answer</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>In the formula editor, in the <strong>Formula</strong> field, enter <strong>FILTER (Answer, Answer.kmAnswerCollectionId = @.kmAnswerCollectionId)</strong> to return the appropriate answer records from the KMAnswer table.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>OK</strong> to add the new calculated field.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Table</strong>.</p>
+</li>
+<li><p>Add a new data source that will be used to access methods of the CompanyInfo table. Note that the <strong>find()</strong> method of this table returns a record that represents a company of the current Finance instance that this mapping is called in the context of.</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>CompanyInfo</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>CompanyInfo</strong>.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+</ol>
+<h4 id="AddMmDataSource2">Add data sources to access application enumerations</h4>
+<p>You must configure data sources to access application enumerations and compare their values with values of fields of the <strong>Enumeration</strong> type in the application tables. You must use the result of the comparison to fill in appropriate fields of the data model.</p>
+<ol>
+<li><p>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Enumeration</strong>.</p>
+</li>
+<li><p>Add a new data source that will be used to access values of the <strong>EnumAppNoYes</strong> enumeration:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>EnumAppNoYes</strong>.</li>
+<li>In the <strong>Enumeration</strong> field, enter <strong>NoYes</strong>.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Enumeration</strong>.</p>
+</li>
+<li><p>Add a new data source that will be used to access the values of the <strong>KMCollectionQuestionMode</strong> enumeration:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>EnumAppQuestionOrder</strong>.</li>
+<li>In the <strong>Enumeration</strong> field, enter <strong>KMCollectionQuestionMode</strong>.</li>
+<li>Select <strong>OK</strong> to add the new data source.</li>
+</ol>
+</li>
+</ol>
+<h4 id="AddMmLabels">Add ER labels to generate a report in a specified language</h4>
+<p>You can add ER labels to configure some of your data sources to return values that depend on the language that is defined in the context of the model mapping's call.</p>
+<ol>
+<li><p>On the <strong>Model mapping designer</strong> page, in the <strong>Data sources</strong> pane, select <strong>Answer</strong>, and then select <strong>Edit</strong>.</p>
+</li>
+<li><p>Activate the <strong>Label</strong> field.</p>
+</li>
+<li><p>Select <strong>Translate</strong>.</p>
+</li>
+<li><p>In the <strong>Text translation</strong> dialog box, follow these steps:</p>
+<ol>
+<li>In the <strong>Label Id</strong> field, enter <strong>PositiveAnswer</strong>.</li>
+<li>In the <strong>Text in default language</strong> field, enter <strong>Yes</strong>.</li>
+<li>Select <strong>Translate</strong>.</li>
+<li>In the <strong>Label Id</strong> field, enter <strong>NegativeAnswer</strong>.</li>
+<li>In the <strong>Text in default language</strong> field, enter <strong>No</strong>.</li>
+<li>Select <strong>Translate</strong>.</li>
+</ol>
+</li>
+<li><p>Close the <strong>Text translation</strong> dialog box.</p>
+</li>
+<li><p>Select <strong>Cancel</strong>.</p>
+</li>
+</ol>
+<p><img src="media/er-quick-start1-adding-labels.png" alt="Adding ER labels for the editable model mapping"></p>
+<p>You've entered ER labels only for the default language. For information about how ER labels can be translated into other languages, see <a href="er-design-multilingual-reports.html">Design multilingual reports</a>.</p>
+<h4 id="AddMmDataSource3">Add a data source to transform the results of comparing enumeration values to a text value</h4>
+<p>Because you must transform the results of the comparison between enumeration values and text values several times for difference sources, it's a good idea to configure this logic as a single data source. However, to make this data source reusable, you must then configure it as the parametrized data source. For more information, see <a href="er-calculated-field-type.html">Support parameterized calls of ER data sources of the Calculated field type</a>.</p>
+<ol>
+<li><p>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>General\Empty container</strong>.</p>
+</li>
+<li><p>Add a new container data source:</p>
+<ol>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Helper</strong>.</li>
+<li>Select <strong>OK</strong> to add the new container data source.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data source types</strong> pane, select <strong>Functions\Calculated field</strong>.</p>
+</li>
+<li><p>Add a new data source:</p>
+<ol>
+<li><p>In the <strong>Data sources</strong> pane, select <strong>Helper</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>In the dialog box, in the <strong>Name</strong> field, enter <strong>NoYesEnumToString</strong>.</p>
+</li>
+<li><p>Select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>In the formula editor, select <strong>Parameters</strong>.</p>
+</li>
+<li><p>Follow these steps to specify parameters for the configured expression:</p>
+<ol>
+<li>Select <strong>New</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>Argument</strong>.</li>
+<li>In the <strong>Type</strong> field, select the <strong>Boolean</strong> data type.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>IF (Argument = true, @&quot;GER_LABEL:PositiveAnswer&quot;, @&quot;GER_LABEL:NegativeAnswer&quot;)</strong> to return the text of the appropriate ER label, depending on the language of the execution context and value of the specified parameter.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and close the formula editor.</p>
+</li>
+<li><p>Select <strong>OK</strong> to add the new data source.</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="media/er-quick-start1-added-data-sources.png" alt="Configured model mapping in the ER model mapping designer"></p>
+<h4 id="AddMmBindings1">Bind data sources to data model fields</h4>
+<p>You must bind the configured data sources to the fields of the data model to specify how the data model will by filled in with application data at runtime.</p>
+<ol>
+<li><p>On the <strong>Model mapping designer</strong> page, in the <strong>Data model</strong> pane, select <strong>CompanyName</strong>.</p>
+</li>
+<li><p>In the <strong>Data sources</strong> pane, expand <strong>CompanyInfo</strong>, and then follow these steps:</p>
+<ol>
+<li>Expand the <strong>CompanyInfo.find()</strong> node that represents the <strong>find()</strong> method of the CompanyInfo table.</li>
+<li>Select <strong>CompanyInfo.find().Name</strong>.</li>
+<li>Select <strong>Bind</strong> to fill in the name of the company that the configured model mapping is called in the context of at runtime.</li>
+</ol>
+</li>
+<li><p>In the <strong>Data model</strong> pane, select <strong>Questionnaire</strong>.</p>
+</li>
+<li><p>In the <strong>Data sources</strong> pane, select <strong>Questionnaire</strong>, and then select <strong>Bind</strong> to fill in questionnaire records.</p>
+</li>
+<li><p>In the <strong>Data model</strong> pane, expand <strong>Questionnaire</strong>, and then follow these steps:</p>
+<ol>
+<li>In the <strong>Data model</strong> pane, select <strong>Active</strong>.</li>
+<li>In the <strong>Data model</strong> pane, select <strong>Edit</strong>.</li>
+<li>In the <strong>Formula</strong> field, enter <strong>Helper.NoYesEnumToString (@.Active = EnumAppNoYes.Yes)</strong> to fill the text-dependent and language-dependent result of the comparison between enumeration values.</li>
+</ol>
+</li>
+<li><p>Continue to bind data sources to data model fields in the same manner until you achieve the following result.</p>
+<table>
+<thead>
+<tr>
+<th>Field path</th>
+<th>Data type</th>
+<th>Action</th>
+<th>Binding expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CompanyName</td>
+<td>String</td>
+<td>Bind</td>
+<td>CompanyInfo.'find()'.Name</td>
+</tr>
+<tr>
+<td>Questionnaire</td>
+<td>Record list</td>
+<td>Bind</td>
+<td>Questionnaire</td>
+</tr>
+<tr>
+<td>Questionnaire\Active</td>
+<td>String</td>
+<td>Edit</td>
+<td>Helper.NoYesEnumToString(@.active = EnumAppNoYes.Yes)</td>
+</tr>
+<tr>
+<td>Questionnaire\Code</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.kmCollectionId</td>
+</tr>
+<tr>
+<td>Questionnaire\Description</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.Description</td>
+</tr>
+<tr>
+<td>Questionnaire\QuestionnaireType</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.'&gt;Relations'.kmCollectionTypeId.Description</td>
+</tr>
+<tr>
+<td>Questionnaire\QuestionOrder</td>
+<td>String</td>
+<td>Edit</td>
+<td>CASE (@.questionMode,<br>EnumAppQuestionOrder.Conditional, &quot;Conditional&quot;,<br>EnumAppQuestionOrder.Random, &quot;Random (percentage in questionnaire)&quot;,<br>EnumAppQuestionOrder.RandomGroup, &quot;Random (percentage in result groups)&quot;,<br>EnumAppQuestionOrder.Sequence, &quot;Sequential&quot;,<br>&quot;&quot;)</td>
+</tr>
+<tr>
+<td>Questionnaire\ResultsGroup</td>
+<td>Record</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Questionnaire\ResultsGroup\Code</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.'$ResultGroup'.kmQuestionResultGroupId</td>
+</tr>
+<tr>
+<td>Questionnaire\ResultsGroup\Description</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.'$ResultGroup'.description</td>
+</tr>
+<tr>
+<td>Questionnaire\ResultsGroup\MaxNumberOfPoints</td>
+<td>Real</td>
+<td>Bind</td>
+<td>@.'$ResultGroup'.maxPoint</td>
+</tr>
+<tr>
+<td>Questionnaire\Question</td>
+<td>Record list</td>
+<td>Bind</td>
+<td>@.'&lt;Relations'.KMCollectionQuestion</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\CollectionSequenceNumber</td>
+<td>Integer</td>
+<td>Bind</td>
+<td>@.answerCollectionSequenceNumber</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Id</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.kmQuestionId</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\MustBeCompleted</td>
+<td>String</td>
+<td>Edit</td>
+<td>Helper.NoYesEnumToString(@.mandatory = EnumAppNoYes.Yes)</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\PrimaryQuestion</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.parentQuestionId</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\SequenceNumber</td>
+<td>Integer</td>
+<td>Bind</td>
+<td>@.SequenceNumber</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Text</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.'$Question'.text</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Answer</td>
+<td>Record list</td>
+<td>Bind</td>
+<td>@.'$Question'.'$Answer'</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Answer\CorrectAnswer</td>
+<td>String</td>
+<td>Edit</td>
+<td>Helper.NoYesEnumToString(@.correctAnswer = EnumAppNoYes.Yes)</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Answer\Points</td>
+<td>Real</td>
+<td>Bind</td>
+<td>@.point</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Answer\SequenceNumber</td>
+<td>Integer</td>
+<td>Bind</td>
+<td>@.sequenceNumber</td>
+</tr>
+<tr>
+<td>Questionnaire\Question\Answer\Text</td>
+<td>String</td>
+<td>Bind</td>
+<td>@.text</td>
+</tr>
+</tbody>
+</table>
+<p>The following illustration shows the final state of the configured model mapping on the <strong>Model mapping designer</strong> page.</p>
+<p><img src="media/er-quick-start1-mapping2.png" alt="Fully configured model mapping in the ER model mapping designer"></p>
+</li>
+<li><p>Save your changes.</p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+</li>
+</ol>
+<h4 id="CompleteModelMapping">Complete the design of the model mapping</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire mapping</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select the configuration version that has a status of <strong>Draft</strong>.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>.</li>
+</ol>
+<p>The status of version 1.1 of this configuration is changed from <strong>Draft</strong> to <strong>Completed</strong>. Version 1.1 can no longer be changed. This version contains the configured model mapping and can be used as the basis for other ER configurations. Version 1.2 of this configuration is created and has a status of <strong>Draft</strong>. You can edit this version to adjust the <strong>Questionnaire mapping</strong> configuration.</p>
+<p><img src="media/er-quick-start1-mapping-configuration.png" alt="Versions of the editable ER configuration on the Configurations page"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The configured model mapping is your Finance-specific implementation of the abstract data model that represents the <strong>Questionnaire</strong> business domain.</p>
+</div>
+<h2 id="DesignReportTemplate">Design a template for a custom report</h2>
+<p>The ER framework uses predefined templates to generate reports in Microsoft Office formats (Excel workbooks or Word documents). While the required report is being generated, a template is filled in with required data according to the configured dataflow. Therefore, you must first design a template for your custom report. This template must be designed as an Excel workbook, the structure of which represents the layout of a custom report. You must name every Excel item that you plan to fill in with required data.</p>
+<ol>
+<li>Download the <a href="https://go.microsoft.com/fwlink/?linkid=851448">Questionnaires report template.xslx</a> file, and save it to your local computer.</li>
+<li>Open the file in Excel, and review the structure of the workbook.</li>
+</ol>
+<p>As the following illustration shows, the downloaded template has been designed to print specified questionnaires that present a questionnaire's questions together with appropriate answers.</p>
+<p><img src="media/er-quick-start1-template-layout.png" alt="Excel template to print specified questionnaires"></p>
+<p>Excel names have been added to this template to fill in the questionnaire details. You can use Name Manager to review the Excel names.</p>
+<p><img src="media/er-quick-start1-template-names.png" alt="Using Name manager to review Excel names in the provided Excel template"></p>
+<p>Report labels have been added as fixed text in the English language. You can replace the report labels with new Excel names that fill in the labels with language-dependent text by using the ER format <a href="#AddMmLabels">labels</a>, as you did for language-dependent expressions in the configured model mapping. In this case, ER labels must be added in the editable ER format.</p>
+<p>As the following illustration shows, the custom report header has been specified to enable Excel to do paging.</p>
+<p><img src="media/er-quick-start1-template-header.png" alt="Custom report header in the provided Excel template"></p>
+<h2 id="DesignFormat">Design a format</h2>
+<p>As a user in the Electronic Reporting Functional Consultant role, you must create a new ER configuration that contains a <a href="general-electronic-reporting.html#FormatComponentOutbound">format</a> component. You must configure the format component to specify how a report template will be filled in with required data at runtime.</p>
+<p>By completing the steps in the <a href="#FormatImport">Import a designed format configuration</a> section, you can import the required format from the provided XML file. Alternatively, you can complete the steps in the <a href="#FormatCreate">Create a new format configuration</a> section to design this format from scratch.</p>
+<h3 id="FormatImport">Import a designed format configuration</h3>
+<ol>
+<li>Download the <a href="https://go.microsoft.com/fwlink/?linkid=851448">Questionnaires format.version.1.1.xml</a> file, and save it to your local computer.</li>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</li>
+<li>In the <strong>Electronic reporting</strong> workspace, select <strong>Reporting configurations</strong>.</li>
+<li>On the Action pane, Select <strong>Exchange</strong> &gt; <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, and then find and select the <strong>Questionnaires format.version.1.1.xml</strong> file.</li>
+<li>Select <strong>OK</strong> to import the configuration.</li>
+</ol>
+<p>To continue, skip the next procedure, <a href="#FormatCreate">Create a new format configuration</a>.</p>
+<h3 id="FormatCreate">Create a new format configuration</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire model</strong>.</p>
+</li>
+<li><p>Select <strong>Create configuration</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, follow these steps:</p>
+<ol>
+<li><p>In the <strong>New</strong> field, select <strong>Format based on data model Questionnaires</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Questionnaire report</strong>.</p>
+</li>
+<li><p>In the <strong>Data model version</strong> field, select <strong>1</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>If you select a specific version of the base data model, the structure of the corresponding version of the data model will be presented to you as the structure of the <strong>Model</strong> data source in the format that is created.</li>
+<li>You can leave this field blank. In that case, the structure of the <strong>Draft</strong> version of the data model will be presented to you as the structure of the <strong>Model</strong> data source in the format that is created. You can then adjust your model and immediately see those adjustments in your format. This approach might improve the efficiency of ER solution design when you configure your data model, model mapping, and format simultaneously.</li>
+<li>If you select a specific version of the base data model, you can switch to using the <strong>Draft</strong> version later, when you start to edit a format.</li>
+</ul>
+</div>
+</li>
+<li><p>In the <strong>Data model definition</strong> field, select the <strong>Root</strong> definition.</p>
+</li>
+</ol>
+</li>
+<li><p>Select <strong>Create configuration</strong> to create the configuration.</p>
+</li>
+</ol>
+<h4 id="ImportReportTemplate">Import a report template</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, select <strong>Questionnaire report</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to start to configure a custom format.</p>
+</li>
+<li><p>On the <strong>Format designer</strong> page, on the Action Pane, select <strong>Import</strong> &gt; <strong>Import from Excel</strong>.</p>
+</li>
+<li><p>In the dialog box, follow these steps:</p>
+<ol>
+<li>Select <strong>Add template</strong>.</li>
+<li>Find and select the locally saved <strong>Questionnaires report template.xslx</strong> file, and then select <strong>Open</strong>.</li>
+<li>Select <strong>OK</strong> to import the template.</li>
+</ol>
+<p><img src="media/er-quick-start1-template-import.png" alt="Importing a report template"></p>
+</li>
+</ol>
+<p>The <strong>Excel\File</strong> format element is automatically added to the editable format as a root element. Additionally, either the <strong>Excel\Range</strong> format element or the <strong>Excel\Cell</strong> format element is automatically added for every recognized Excel name of the imported template. The <strong>Excel\Header</strong> format that has the nested <strong>String</strong> element is automatically added to reflect the header settings of the imported template.</p>
+<p><img src="media/er-quick-start1-template-import2.png" alt="Format structure that includes automatically added elements in the ER Operation designer"></p>
+<h4 id="ConfigureFormat">Configure a format</h4>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, in the format tree, select the <strong>Excel</strong> root element.</p>
+</li>
+<li><p>On the <strong>Format</strong> tab on the right side of the page, in the <strong>Name</strong> field, enter <a name="AddFormatRootElement"></a><strong>Report</strong>.</p>
+</li>
+<li><p>In the <strong>Language preference</strong> field, select <strong>User preference</strong> to run the report in the user's preferred language.</p>
+</li>
+<li><p>In the <strong>Culture preference</strong> field, select <strong>User preference</strong> to run the report in the user's preferred culture.</p>
+<p>For information about how to specify the language and culture contexts for an ER process, see <a href="er-design-multilingual-reports.html">Design multilingual reports</a>.</p>
+<p><img src="media/er-quick-start1-template-format-structure1.png" alt="Configuring language and culture settings for the designed report in the ER Operation designer"></p>
+</li>
+<li><p>In the format tree, expand the root node, and then select <strong>ResultsGroup</strong>.</p>
+</li>
+<li><p>On the <strong>Format</strong> tab, in the <strong>Replication direction</strong> field, select <strong>No replication</strong>, because you don't expect to have multiple result groups for a single questionnaire.</p>
+<p><img src="media/er-quick-start1-template-format-structure2.png" alt="Defining the replication direction for Range format elements in the ER Operation designer"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="DefineFormatBindings">Define the data binding for a report title</h4>
+<p>You must specify a data binding for a format element that is used to fill in the title of a generated report.</p>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Mapping</strong> tab on the right, select the <strong>Report\ReportTitle</strong> element.</p>
+</li>
+<li><p>Select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>In the formula editor, select <strong>Translate</strong>.</p>
+</li>
+<li><p>In the <strong>Text translation</strong> dialog box, follow these steps:</p>
+<ol>
+<li>In the <strong>Label ID</strong> field, enter <strong>ReportTitle</strong>.</li>
+<li>In the <strong>Text in default language</strong> field, enter <strong>Questionnaires report</strong>.</li>
+<li>Select <strong>Translate</strong>, and then select <strong>Save</strong>.</li>
+<li>Select <strong>Translate</strong> to close the <strong>Text translation</strong> dialog box.</li>
+</ol>
+</li>
+<li><p>Close the formula editor.</p>
+<p><img src="media/er-quick-start1-add-report-title-label.png" alt="Configuring the binding to fill in the title of a generated report"></p>
+</li>
+</ol>
+<p>You can use this technique to make all other labels of the current template language-dependent. For information about how the added labels of a single ER configuration can be translated into all supported languages, see <a href="er-design-multilingual-reports.html">Design multilingual reports</a>.</p>
+<h4 id="ReviewModelDataSource">Review model data source</h4>
+<ol>
+<li>On the <strong>Format designer</strong> page, on the <strong>Mapping</strong> tab, select the <a name="ModelDSName"></a><strong>model</strong> data source that represents the base data model of this ER format.</li>
+<li>Select <strong>Edit</strong>.</li>
+<li>Review the information in the <strong>Data source properties</strong> dialog box. This data source represents version 1 of the <strong>Questionnaires</strong> data model component that resides in the <strong>Questionnaires model</strong> ER configuration.</li>
+</ol>
+<p><img src="media/er-quick-start1-model-data-source.png" alt="Properties of the model data source in the ER Operation designer"></p>
+<h4 id="BindFormatElements">Bind format elements to data source fields</h4>
+<p>To specify how a template is filled in at runtime, you must bind every format element that is associated with an appropriate Excel name to a single field of this format's data source.</p>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, in the format tree, select the <strong>Report\CompanyName</strong> format element.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, select the <strong>model.CompanyName</strong> data source field of the <strong>String</strong> type.</p>
+</li>
+<li><p>Select <strong>Bind</strong> to enter a company name in a template.</p>
+</li>
+<li><p>In the format tree, select the <strong>Report\Questionnaire</strong> element.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, select the <strong>model.Questionnaire</strong> data source field of the <strong>Record list</strong> type.</p>
+</li>
+<li><p>Select <strong>Bind</strong>.</p>
+</li>
+<li><p>Select <strong>Show details</strong> to see more details for format elements.</p>
+<p>The <strong>Questionnaire</strong> range format element is configured as vertically replicated. When it's bound to a data source of the <strong>Record list</strong> type, the appropriate <strong>Questionnaire</strong> range of the Excel template is repeated for every record of the bound data source.</p>
+<p><img src="media/er-quick-start1-bindings1.png" alt="Binding the Questionnaire range format element to the appropriate Record list data sources in the ER Operation designer"></p>
+<p>Because the <strong>Questionnaire</strong> range of the Excel template is defined between rows 5 through 14, these rows are repeated for every reported questionnaire.</p>
+<p><img src="media/er-quick-start1-template-questionnaire-range.png" alt="Rows in the Excel template that will be repeated in a generated report for every record of the Record list data sources"></p>
+</li>
+<li><p>Configure similar bindings for the remaining format elements, as described in the following table.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In this table, the information in the &quot;Data source path&quot; column assumes that the <a href="relative-path-data-bindings-er-models-format.html">relative path</a> ER feature is turned on.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Format element path</th>
+<th>Data source path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Excel\ReportTitle</td>
+<td><strong>@&quot;GER_LABEL:ReportTitle&quot;</strong></td>
+</tr>
+<tr>
+<td>Excel\CompanyName</td>
+<td><strong>model.CompanyName</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire</td>
+<td><strong>model.Questionnaire</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Active</td>
+<td><strong>@.Active</strong>, where <strong>@</strong> is <strong>model.Questionnaire</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Code</td>
+<td><strong>@.Code</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Description</td>
+<td><strong>@.Description</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\QuestionnaireType</td>
+<td><strong>@.QuestionnaireType</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\QuestionOrder</td>
+<td><strong>@.QuestionOrder</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\ResultsGroup\Code_</td>
+<td><strong>@.ResultsGroup.Code</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\ResultsGroup\Description_</td>
+<td><strong>@.ResultsGroup.Description</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\ResultsGroup\MaxNumberOfPoints</td>
+<td><strong>@.ResultsGroup.MaxNumberOfPoint</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question</td>
+<td><strong>@.Question</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\CollectionSequenceNumber</td>
+<td><strong>@.CollectionSequenceNumber</strong>, where <strong>@</strong> is <strong>model.Questionnaire.Question</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Id</td>
+<td><strong>@.Id</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\MustBeCompleted</td>
+<td><strong>@.MustBeCompleted</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\PrimaryQuestion</td>
+<td><strong>@.PrimaryQuestion</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\SequenceNumber</td>
+<td><strong>@.SequenceNumber</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Text</td>
+<td><strong>@.Text</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Answer</td>
+<td><strong>@.Answer</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Answer\CorrectAnswer</td>
+<td><strong>@.CorrectAnswer</strong>, where <strong>@</strong> is <strong>model.Questionnaire.Answer</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Answer\Points</td>
+<td><strong>@.Points</strong></td>
+</tr>
+<tr>
+<td>Excel\Questionnaire\Question\Answer\Text</td>
+<td><strong>@.Text</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>When you've finished, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<p>The following illustration shows the final state of the configured data bindings on the <strong>Format designer</strong> page.</p>
+<p><img src="media/er-quick-start1-bindings2.png" alt="Configured data bindings in the ER Operation designer"></p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The whole collection of specified data sources and bindings represents a format mapping component of the configured format. This format mapping is called when you run the configured format for report generation.</p>
+</div>
+<h3 id="RunFormatFromER">Run a designed format from ER</h3>
+<p>You can now run a designed format for testing purposes from the <strong>Configurations</strong> page.</p>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configuration</strong> page, in the configuration tree, expand <strong>Questionnaire model</strong>, and then select <strong>Questionnaire report</strong>.</li>
+<li>Select <strong>Designer</strong> for the format version that has a status of <strong>Draft</strong>.</li>
+<li>On the <strong>Format designer</strong> page, select <strong>Run</strong>.</li>
+<li>In the <strong>ER parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</li>
+<li>Select <strong>OK</strong> to confirm the filtering option.</li>
+<li>Select <strong>OK</strong> to run the report.</li>
+<li>Review the generated report.</li>
+</ol>
+<p>By <a href="electronic-reporting-destinations.html#default-behavior">default</a>, a generated report is delivered as an Excel file that you can download. The following illustrations show two pages of the generated report in Excel format.</p>
+<p><img src="media/er-quick-start1-report1a.png" alt="Example of a generated report in Excel format, page 1"></p>
+<p><img src="media/er-quick-start1-report1b.png" alt="Example of a generated report in Excel format, page 2"></p>
+<h2 id="TuneFormat">Tune a designed format</h2>
+<h3 id="ModifyToChangeName">Modify a format to change the name of a generated document</h3>
+<p>By default, a generated document is named by using the alias of the current user. By modifying the format, you can change this behavior so that a generated document is named based on your custom logic. For example, the name of a generated document can be based on the current session date and time, and on the report's title.</p>
+<ol>
+<li>On the <strong>Format designer</strong> page, select the <strong>Report</strong> root item.</li>
+<li>On the <strong>Mapping</strong> tab, select <strong>Edit file name</strong>.</li>
+<li>In the <strong>Formula</strong> field, enter <strong>CONCATENATE (@&quot;GER_LABEL:ReportTitle&quot;, &quot; - &quot;, DATETIMEFORMAT(SESSIONNOW(), &quot;yyyy-MM-dd hh-mm-ss&quot;))</strong>.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="ModifyToOrder">Modify a format to change the order of questions</h3>
+<p>The questions aren't correctly ordered in a generated report. You can change the order by modifying the format.</p>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, select the <strong>Report</strong> root item.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, in the format tree, expand <strong>Report\Questionnaire\Question</strong>.</p>
+<p><img src="media/er-quick-start1-bindings3.png" alt="Question format element of the Range type in the ER Operation designer"></p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, select <strong>model.Questionnaire</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong> &gt; <strong>Functions\Calculated field</strong>, and then, in the <strong>Name</strong> field, enter <strong>OrderedQuestions</strong>.</p>
+</li>
+<li><p>Select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>In the formula editor, in the <strong>Formula</strong> field, enter <strong>ORDERBY (model.Questionnaire.Question, model.Questionnaire.Question.SequenceNumber)</strong> to order the list of questions of the current questionnaire by the sequence order number.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and close the formula editor.</p>
+</li>
+<li><p>Select <strong>OK</strong> to complete the entry of a new calculated field.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, select <strong>model.Questionnaire.OrderedQuestions</strong>.</p>
+</li>
+<li><p>In the format tree, select <strong>Excel\Questionnaire\Question</strong>.</p>
+</li>
+<li><p>Select <strong>Bind</strong>, and then confirm that the current <strong>model.Questionnaire.Questions</strong> path is replaced by the new <strong>model.Questionnaire.OrderedQuestions</strong> path in all bindings of nested elements.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<p><img src="media/er-quick-start1-bindings4.png" alt="Binding the Question format element to the configured OrderedQuestions data source in the ER Operation designer"></p>
+<h3 id="RunFormatFromER2">Run a modified format from ER</h3>
+<p>You can now run a modified format for testing purposes from the ER framework.</p>
+<ol>
+<li>On the <strong>Format designer</strong> page, select <strong>Run</strong>.</li>
+<li>In the <strong>ER parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</li>
+<li>Select <strong>OK</strong> to confirm the filtering option.</li>
+<li>Select <strong>OK</strong> to run the report.</li>
+<li>Review the generated report.</li>
+</ol>
+<p>The following illustration shows a generated report in Excel format where the questions are correctly ordered.</p>
+<p><img src="media/er-quick-start1-report2.png" alt="Generated report in Excel format that has correctly ordered questions"></p>
+<h3 id="CompleteFormat">Complete the format design</h3>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Questionnaire model</strong>, and then select <strong>Questionnaire report</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select the configuration version that has a status of <strong>Draft</strong>.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>.</li>
+</ol>
+<p>The status of version 1.1 of this configuration is changed from <strong>Draft</strong> to <strong>Completed</strong>. Version 1.1 can no longer be changed. This version contains the configured format and can be used to print your custom report. Version 1.2 of this configuration is created and has a status of <strong>Draft</strong>. You can edit this version to adjust the format of your <strong>Questionnaire</strong> report.</p>
+<p><img src="media/er-quick-start1-format-configuration.png" alt="Versions of the editable ER configuration on the Configurations page"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The configured format is your design of the <strong>Questionnaire</strong> report and contains no relations to the Finance-specific artefacts.</p>
+</div>
+<h2 id="DevelopCustomCode">Develop application artefacts to call the designed report</h2>
+<p>As a user in the System Administrator role, you must develop new logic so that the configured ER format can be called from the application user interface (UI) to generate your custom report. Currently, ER doesn't offer any capability for configuring this type of logic. Therefore, some engineering work is required.</p>
+<p>To develop the new logic, you must deploy a topology that supports continuous build. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/perf-test/continuous-build-test-automation">Deploy topologies that support continuous build and test automation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>. You must also have access to the development environment for this topology. For more information about the available ER API, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/er-apis-app73">ER framework API (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<h3 id="ModifySourceCode">Modify source code</h3>
+<h4 id="DataContractClass">Add a data contract class</h4>
+<p>Add the new <strong>QuestionnairesErReportContract</strong> class to your Microsoft Visual Studio project, and write code that specifies the data contract that should be used to run the configured ER format.</p>
+<pre><code class="lang-xpp">/// &lt;summary&gt;
+///     This class is the data contract class for the &lt;c&gt;QuestionnairesErReportDP&lt;/c&gt; class.
+/// &lt;/summary&gt;
+/// &lt;remarks&gt;
+///    This is the data contract class for the Questionnaires ER report.
+/// &lt;/remarks&gt;
+[
+    DataContractAttribute,
+    SysOperationContractProcessingAttribute(classStr(QuestionnairesErReportUIBuilder))
+    ]
+    public class QuestionnairesErReportContract extends ERFormatMappingRunBaseContract implements SysOperationValidatable
+{
+    ERFormatMappingId formatMapping;
+
+    /// &lt;summary&gt;
+    ///    Validates the report parameters.
+    /// &lt;/summary&gt;
+    /// &lt;returns&gt;
+    ///    true if no errors; otherwise, false.
+    /// &lt;/returns&gt;
+    public boolean validate()
+    {
+        boolean ret = true;
+        if (!formatMapping)
+        {
+            ret = checkFailed(strFmt(&quot;@SYS26332&quot;, new SysDictType(extendedTypeNum(ERFormatMappingId)).label()));
+        }
+        return ret;
+    }
+    [
+        DataMemberAttribute('FormatMapping'),
+        SysOperationLabelAttribute(literalstr(&quot;@ElectronicReporting:FormatMapping&quot;)),
+        SysOperationHelpTextAttribute(literalstr(&quot;@ElectronicReporting:FormatMapping&quot;))
+    ]
+    public ERFormatMappingId parmFormatMapping(ERFormatMappingId _formatMapping = formatMapping)
+    {
+        formatMapping = _formatMapping;
+        return formatMapping;
+    }
+}
+</code></pre>
+<h4 id="UIBuilderClass">Add a UI builder class</h4>
+<p>Add the new <strong>QuestionnairesErReportUIBuilder</strong> class to your Visual Studio project, and write code to generate a runtime dialog box that will be used to look up the format mapping ID of the ER format that must be run. The provided code looks up only ER formats that contain a data source of the <strong>Data model</strong> type that refers to the <strong><a href="#DataModeName">Questionnaires</a></strong> data model by using the <strong><a href="#RootDefinitionName">Root</a></strong> definition.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Alternatively, you can use ER integration points to filter ER formats. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/er-apis-app10-0-11">API to show a format mapping lookup (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</div>
+<pre><code class="lang-xpp">/// &lt;summary&gt;
+/// The UIBuilder class for Questionnaires ER report
+/// &lt;/summary&gt;
+class QuestionnairesErReportUIBuilder extends SysOperationAutomaticUIBuilder
+{
+    public const str ERQuestionnairesModel = 'Questionnaires';
+    public const str ERQuestionnairesDataContainer = 'Root';
+
+    /// &lt;summary&gt;
+    /// Action after build of the dialog UI.
+    /// &lt;/summary&gt;
+    public void postBuild()
+    {
+        DialogField formatMapping;
+        super();
+        formatMapping = this.bindInfo().getDialogField(this.dataContractObject(),
+            methodStr(QuestionnairesErReportContract, parmFormatMapping));
+        formatMapping.registerOverrideMethod(
+            methodStr(FormReferenceControl, lookupReference),
+            methodStr(QuestionnairesErReportUIBuilder, formatMappingLookup),
+            this);
+    }
+
+    /// &lt;summary&gt;
+    /// Performs the lookup form for format mapping.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;_referenceGroupControl&quot;&gt;
+    /// The control to perform lookup form.
+    /// &lt;/param&gt;
+    public void formatMappingLookup(FormReferenceControl _referenceGroupControl)
+    {
+        ERObjectsFactory::createFormatMappingTableLookupForControlAndModel(
+            _referenceGroupControl,
+            ERQuestionnairesModel,
+            ERQuestionnairesDataContainer).performFormLookup();
+    }
+}
+</code></pre>
+<h4 id="DataProviderClass">Add a data provider class</h4>
+<p>Add the new <strong>QuestionnairesErReportDP</strong> class to your Visual Studio project, and write code that introduces the data provider that should used to run the configured ER format. The provided code includes only the data contract for this data provider.</p>
+<pre><code class="lang-xpp">/// &lt;summary&gt;
+/// Data provider class for Questionnaires ER report.
+/// &lt;/summary&gt;
+public class QuestionnairesErReportDP
+{
+    QuestionnairesErReportContract contract;
+    public static QuestionnairesErReportDP construct()
+    {
+        QuestionnairesErReportDP  dataProvider;
+        dataProvider = new QuestionnairesErReportDP();
+        return dataProvider;
+    }
+}
+</code></pre>
+<h4 id="LabelsFile">Add a labels file</h4>
+<p>Add the new <strong>QuestionnairesErReportLabels_en-US</strong> labels file to your Visual Studio project, and specify the following labels for new UI resources:</p>
+<ul>
+<li>The <strong>@QuestionnairesReport</strong> label for a new menu item that contains the following text in US English (en-US): <strong>Questionnaires report (powered by ER)</strong></li>
+<li>The <strong>@QuestionnairesReportBatchJobDescription</strong> label for a batch job title if a selected ER format is scheduled for execution as a batch job</li>
+</ul>
+<h4 id="ServiceClass">Add a report service class</h4>
+<p>Add the new <strong>QuestionnairesErReportService</strong> class to your Visual Studio project, and write code that calls an ER format, identifies it by a format mapping ID, and provides a data contract as a parameter.</p>
+<pre><code class="lang-xpp">using Microsoft.Dynamics365.LocalizationFramework;
+/// &lt;summary&gt;
+/// The electronic reporting service class for Questionnaires ER report
+/// &lt;/summary&gt;
+class QuestionnairesErReportService extends SysOperationServiceBase
+{
+    public const str ERModelDataSourceName = 'model';
+    public const str DefaultExportedFileName = 'Questionnaires report';
+    public const str ParametersDataSourceName = 'RunTimeParameters';
+
+    /// &lt;summary&gt;
+    /// Generates report by using Electronic reporting framework
+    /// &lt;/summary&gt;
+    /// &lt;param name = &quot;_contract&quot;&gt;The Questionnaires report contract&lt;/param&gt;
+    public void generateReportByGER(QuestionnairesErReportContract _contract)
+    {
+        ERFormatMappingId formatMappingId;
+        QuestionnairesErReportDP  dataProvider;
+        dataProvider = QuestionnairesErReportDP::construct();
+        formatMappingId = _contract.parmFormatMapping();
+        if (formatMappingId)
+        {
+            try
+            {
+                ERIModelDefinitionParamsAction parameters = new ERModelDefinitionParamsUIActionComposite()
+                    .add(new ERModelDefinitionObjectParameterAction(ERModelDataSourceName, ParametersDataSourceName, _contract, true));
+
+                // Call ER to generate the report.
+                ERIFormatMappingRun formatMappingRun = ERObjectsFactory::createFormatMappingRunByFormatMappingId(formatMappingId, DefaultExportedFileName);
+                if (formatMappingRun.parmShowPromptDialog(true))
+                {
+                    formatMappingRun.withParameter(parameters);
+                    formatMappingRun.withFileDestination(_contract.getFileDestination());
+                    formatMappingRun.run();
+                }
+            }
+            catch
+            {
+                // An error occurred while exporting data.
+                error(&quot;@SYP4861341&quot;);
+            }
+        }
+        else
+        {
+            // There is no data available.
+            info(&quot;@SYS300117&quot;);
+        }
+    }
+}
+</code></pre>
+<p>When you must use an ER format that runs application data, you must configure a data source of the <strong>Data model</strong> type in the format mapping. This data source refers to a specific part of the specified data model by using a single root definition. When the ER format is run, it calls this data source to access the appropriate ER model mapping that is configured for a given model and root definition.</p>
+<p>All the information that you might prepare in the source code and store as part of the data contract can be passed to the running ER format by using an ER model mapping of this type. In the ER model mapping, you must configure a data source of the <strong>Object</strong> type that refers to the <strong><a href="#DataContractClass">QuestionnairesErReportContract</a></strong> class. To identify a model mapping, you must specify a data source that calls this model mapping. In the provided code, this data source specified by the <strong>ERModelDataSourceName</strong> constant that has the <strong><a href="#ModelDSName">model</a></strong> value. To identify which data source is used to expose the data contract in the model mapping, you must specify a data source name. In the provided code, this name is specified by the <strong>ParametersDataSourceName</strong> constant that has <a name="DataContractDSName"></a><strong>RunTimeParameters</strong> value.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In a new environment, you might have to refresh the ER metadata so that this type of class is available in the ER model mapping designer. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Configure the ER framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</div>
+<h4 id="ControllerClass">Add a report controller class</h4>
+<p>Add the new <strong>QuestionnairesErReportController</strong> class to your Visual Studio project, and write code that runs an ER format in either synchronous mode or batch mode, as you prefer, in the dialog box that is built based on the logic of the provided <strong>QuestionnairesErReportUIBuilder</strong> class.</p>
+<pre><code class="lang-xpp">/// &lt;summary&gt;
+/// The controller for Questionnaires ER report
+/// &lt;/summary&gt;
+class QuestionnairesErReportController extends ERFormatMappingRunBaseController
+{
+    /// &lt;summary&gt;
+    /// The main entrance of the controller
+    /// &lt;/summary&gt;
+    /// &lt;param name = &quot;args&quot;&gt;The arguments&lt;/param&gt;
+    public static void main(Args args)
+    {
+        QuestionnairesErReportController operation;
+        operation = new QuestionnairesErReportController(
+            classStr(QuestionnairesErReportService),
+            methodStr(QuestionnairesErReportService, generateReportByGER),
+            SysOperationExecutionMode::Synchronous);
+        operation.startOperation();
+    }
+
+    /// &lt;summary&gt;
+    /// Gets caption of the dialog.
+    /// &lt;/summary&gt;
+    /// &lt;returns&gt;Caption of the dialog&lt;/returns&gt;
+    public ClassDescription defaultCaption()
+    {
+        ClassDescription batchDescription;
+        batchDescription = &quot;Questionnaires report (powered by ER)&quot;;
+        return batchDescription;
+    }
+}
+</code></pre>
+<h4 id="MenuItem">Add a menu item</h4>
+<p>Add the new <strong>QuestionnairesErReport</strong> menu item to your Visual Studio project. In the <strong>Object</strong> property, this menu item refers to the <strong>QuestionnairesErReportController</strong> class, and it's used to specify a user permission to select and run an ER format. In the <strong>Label</strong> property, this menu item refers to the <strong>@QuestionnairesReport</strong> label that you created earlier, so that correct text is presented in the application UI.</p>
+<h4 id="Menu">Add a menu item to a menu</h4>
+<p>Add the existing <strong>KM</strong> menu to your Visual Studio project. You must add a new <strong>QuestionnairesErReport</strong> item of the <strong>Output</strong> type to this menu. This item must refer to the <strong>QuestionnairesErReport</strong> menu item that is described in the previous section.</p>
+<h4 id="BuildVSProject">Build a Visual Studio project</h4>
+<p>Build your project to make a new menu item available to users.</p>
+<h3 id="RunFormatFromApp">Run a format from the application</h3>
+<ol>
+<li><p>Go to <strong>Questionnaire</strong> &gt; <strong>Design</strong> &gt; <strong>Questionnaires report (powered by ER)</strong>.</p>
+<p><img src="media/er-quick-start1-application-menu-modified.png" alt="Selecting the Questionnaires report (powered by ER) menu item in the Questionnaire module to run the configured ER format"></p>
+</li>
+<li><p>In the dialog box, in the <strong>Format mapping</strong> field, select <strong>Questionnaires report</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Electronic report parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the filtering option.</p>
+</li>
+<li><p>Select <strong>OK</strong> to run the report.</p>
+<p><img src="media/er-quick-start1-report-run-dialog-page.png" alt="Specifying the selection criteria in the Electronic report dialog box"></p>
+</li>
+<li><p>Review the generated report.</p>
+</li>
+</ol>
+<h2 id="TuneSolution">Tune a designed ER solution</h2>
+<p>You can modify the configured ER solution so that it uses the data provider class that you developed to access details of the running ER format, and so that it enters the name of this ER format in a generated report.</p>
+<h3 id="ModifyModelMapping">Modify a model mapping</h3>
+<h4 id="AddDataSource1">Add data sources to access a data contract object</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Questionnaire model</strong>, and then select <strong>Questionnaire mapping</strong>.</li>
+<li>Select <strong>Designer</strong> to open the <strong>Model to datasource mapping</strong> page.</li>
+<li>Select <strong>Designer</strong> to open the selected mapping in the model mapping designer.</li>
+<li>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Object</strong>.</li>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong><a href="#DataContractDSName">RunTimeParameters</a></strong>, as defined in the source code of the <strong>QuestionnairesErReportService</strong> class.</li>
+<li>In the <strong>Class</strong> field, enter <strong><a href="#DataContractClass">QuestionnairesErReportContract</a></strong>, which was coded earlier.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Expand <strong>RunTimeParameters</strong>.</li>
+</ol>
+<p>The added data source provides information about the record ID of the running ER format mapping.</p>
+<p><img src="media/er-quick-start1-mapping3.png" alt="Added data source in the ER model mapping designer"></p>
+<h4 id="AddDataSource2">Add a data source to access ER format mapping records</h4>
+<p>Continue to edit the selected model mapping by adding a data source to access ER format mapping records.</p>
+<ol>
+<li>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>Dynamics 365 for Operations\Table records</strong>.</li>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>ER1</strong>.</li>
+<li>In the <strong>Table</strong> field, enter <strong>ERFormatMappingTable</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h4 id="AddDataSource3">Add a data source to access a format mapping record of a running ER format</h4>
+<p>Continue to edit the selected model mapping by adding a data source to access the format mapping record of the running ER format.</p>
+<ol>
+<li>On the <strong>Model mapping designer</strong> page, in the <strong>Data source types</strong> pane, select <strong>Functions\Calculated field</strong>.</li>
+<li>In the <strong>Data sources</strong> pane, select <strong>Add root</strong>.</li>
+<li>In the dialog box, in the <strong>Name</strong> field, enter <strong>ER2</strong>.</li>
+<li>Select <strong>Edit formula</strong>.</li>
+<li>In the formula editor, in the <strong>Formula</strong> field, enter <strong>FIRSTORNULL (FILTER(ER1, ER1.RecId = RunTimeParameters.parmFormatMapping))</strong>.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h4 id="AddBinding">Enter the name of the running ER format in the data model</h4>
+<p>Continue to edit the selected model mapping so that the name of the running ER format is entered in the data model.</p>
+<ol>
+<li>On the <strong>Model mapping designer</strong> page, in the <strong>Data model</strong> pane, expand <strong>ExecutionContext</strong>, and then select <strong>ExecutionContext\FormatName</strong>.</li>
+<li>In the <strong>Data model</strong> pane, select <strong>Edit</strong> to configure a data binding for the selected data model's field.</li>
+<li>In the formula editor, in the <strong>Formula</strong> field, enter <strong>FIRSTORNULL (ER2.'&gt;Relations'.Format).Name</strong>.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+</ol>
+<p>Because you used the <strong>FormatName</strong> field, the configured model mapping now exposes the name of an ER format that calls this model mapping during execution.</p>
+<p><img src="media/er-quick-start1-mapping4.png" alt="Binding the data model field to the method of the added data source in the ER model mapping designer"></p>
+<h4 id="CompleteModelMapping2">Complete the design of the model mapping</h4>
+<ol>
+<li>On the <strong>Model mapping designer</strong> page, select <strong>Save</strong>.</li>
+<li>Close the page.</li>
+<li>Close the model mappings page.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, make sure that the <strong>Questionnaire mapping</strong> configuration is still selected. Then, on the <strong>Versions</strong> FastTab, select the configuration version that has a status of <strong>Draft</strong>.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>.</li>
+</ol>
+<p>The status of version 1.2 of this configuration is changed from <strong>Draft</strong> to <strong>Completed</strong>. Version 1.2 can no longer be changed. This version contains the configured model mapping and can be used as the basis for other ER configurations. Version 1.3 of this configuration is created and has a status of <strong>Draft</strong>. You can edit this version to adjust the <strong>Questionnaire</strong> model mapping.</p>
+<h3 id="ModifyFormat">Modify a format</h3>
+<p>You can modify the configured ER format so that its name is shown in the footer of a report that is generated when the ER format is run.</p>
+<h4 id="AddFormatElement">Add a new format element</h4>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Questionnaire model</strong>, and then select <strong>Questionnaire report</strong>.</li>
+<li>Select <strong>Designer</strong>.</li>
+<li>On the <strong>Format designer</strong> page, select the <strong>Report</strong> root item.</li>
+<li>Select <strong>Add</strong> to add a new nested format element for the selected <strong>Report</strong> root item.</li>
+<li>Select <strong>Excel\Footer</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Footer</strong>.</li>
+<li>Select <strong>Report\Footer</strong>, and then select <strong>Add</strong>.</li>
+<li>Select <strong>Text\String</strong>.</li>
+</ol>
+<h4 id="BindAddedFormatElement">Bind the added format element</h4>
+<ol>
+<li>On the <strong>Format designer</strong> page, on the <strong>Mapping</strong> tab, in the format tree, for the active <strong>Footer\String</strong> element, select <strong>Edit formula</strong>.</li>
+<li>In the formula editor, in the <strong>Formula</strong> field, enter <strong>CONCATENATE (&quot;&amp;C&amp;10&quot;, FORMAT(&quot;Generated by'%1' ER solution&quot;, model.ExecutionContext.FormatName))</strong>.</li>
+<li>Select <strong>Save</strong>, and close the formula editor.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p>The configured format has now been modified so that its name will be entered in the footer of a generated report by using the <strong>Footer\String</strong> element.</p>
+<p><img src="media/er-quick-start1-template-format-structure3.png" alt="Adding the Footer format element to the configured format in the ER Operation designer"></p>
+<h4 id="CompleteFormat2">Complete the format design</h4>
+<ol>
+<li>Close the <strong>Format designer</strong> page.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, make sure that the <strong>Questionnaire report</strong> configuration is still selected. Then, on the <strong>Versions</strong> FastTab, select the configuration version that has a status of <strong>Draft</strong>.</li>
+<li>Select <strong>Change status</strong> &gt; <strong>Complete</strong>.</li>
+</ol>
+<p>The status of version 1.2 of this configuration is changed from <strong>Draft</strong> to <strong>Completed</strong>. Version 1.2 can no longer be changed. This version contains the configured format and can be used as the basis for other ER configurations. Version 1.3 of this configuration is created and has a status of <strong>Draft</strong>. You can edit this version to adjust the <strong>Questionnaire</strong> report.</p>
+<h3 id="RunFormatFromApp2">Run a format from the application</h3>
+<ol>
+<li>Go to <strong>Questionnaire</strong> &gt; <strong>Design</strong> &gt; <strong>Questionnaires report (powered by ER)</strong>.</li>
+<li>In the dialog box, in the <strong>Format mapping</strong> field, select <strong>Questionnaires report</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>In the <strong>ER parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</li>
+<li>Select <strong>OK</strong> to confirm the filtering option.</li>
+<li>Select <strong>OK</strong> to run the report.</li>
+<li>Review the generated report in Excel format.</li>
+</ol>
+<p>Notice that the footer of the generated report contains the name of the ER format that was used to generate it.</p>
+<p><img src="media/er-quick-start1-report4.png" alt="Generated report in Excel format"></p>
+<h3 id="RunFormatFromER3">Run a format from ER</h3>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Configurations</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Questionnaire model</strong>, and then select <strong>Questionnaire report</strong>.</li>
+<li>On the Action Pane, select <strong>Run</strong>.</li>
+<li>In the <strong>Electronic report parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</li>
+<li>Select <strong>OK</strong> to confirm the filtering option.</li>
+<li>Select <strong>OK</strong> to run the report.</li>
+<li>Review the generated report in Excel format.</li>
+</ol>
+<p>Notice that the footer of the generated report doesn't contain the name of ER format that was used to generate it, because the data contract object wasn't passed to the running model mapping when it was called by the ER format that was run from ER.</p>
+<h3 id="ConfigureDestination">Configure a format destination for on-screen preview</h3>
+<ol>
+<li>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Electronic reporting destination</strong>.</li>
+<li>On the <strong>Electronic reporting destination</strong> page, add a destination record for the configured <strong>Questionnaire report</strong> ER format.</li>
+<li>On the <strong>File destination</strong> FastTab, set up the <strong>Screen</strong> <a href="er-destination-type-screen.html">destination</a> for the <strong>Report</strong> format component that has been <a href="#AddFormatRootElement">added</a> as the root element of the configured <strong>Questionnaire report</strong> ER format.</li>
+<li>On the <strong>PDF conversion settings</strong> FastTab, configure the destination to convert a report to <a href="electronic-reporting-destinations.html#OutputConversionToPDF">PDF format</a> that uses the <strong>Landscape</strong> page orientation.</li>
+</ol>
+<p><img src="media/er-quick-start1-destination.png" alt="Configuring the custom Screen destination for the ER format on the Electronic reporting destination page"></p>
+<h3 id="RunFormatFromApp3">Run a format from the application to preview it as a PDF document</h3>
+<ol>
+<li><p>Go to <strong>Questionnaire</strong> &gt; <strong>Design</strong> &gt; <strong>Questionnaires report (powered by ER)</strong>.</p>
+</li>
+<li><p>In the dialog box, in the <strong>Format mapping</strong> field, select <strong>Questionnaires report</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Electronic report parameters</strong> dialog box, on the <strong>Records to include</strong> FastTab, configure the filtering option so that only the <strong>SBCCrsExam</strong> questionnaire is included.</p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the filtering option.</p>
+<p>On the <strong>Destinations</strong> FastTab, notice that the <strong>Output</strong> field is set to <strong>Screen</strong>. If you want to change the configured destination, select <strong>Change</strong>.</p>
+<p><img src="media/er-quick-start1-run-settings.png" alt="ER report runtime dialog box where you can change the configured destination"></p>
+</li>
+<li><p>Select <strong>OK</strong> to run the report.</p>
+</li>
+<li><p>Review the generated report in PDF format.</p>
+<p><img src="media/er-quick-start1-preview-PDF.png" alt="On-screen preview of the generated report in PDF format"></p>
+</li>
+</ol>
+<h2 id="References">Additional resources</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Electronic Reporting overview</a></li>
+<li><a href="er-formula-language.html">Electronic reporting formula language</a></li>
+<li><a href="er-design-multilingual-reports.html">Design multilingual reports</a></li>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/er-apis-app73">ER framework API (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li><a href="er-functions-logical-case.html">CASE function</a></li>
+<li><a href="er-functions-text-concatenate.html">CONCATENATE function</a></li>
+<li><a href="er-functions-datetime-datetimeformat.html">DATETIMEFORMAT function</a></li>
+<li><a href="er-functions-list-filter.html">FILTER function</a></li>
+<li><a href="er-functions-list-firstornull.html">FIRSTORNULL function</a></li>
+<li><a href="er-functions-text-format.html">FORMAT function</a></li>
+<li><a href="er-functions-logical-if.html">IF function</a></li>
+<li><a href="er-functions-list-orderby.html">ORDERBY function</a></li>
+<li><a href="er-functions-datetime-sessionnow.html">SESSIONNOW function</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-quick-start1-new-solution.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

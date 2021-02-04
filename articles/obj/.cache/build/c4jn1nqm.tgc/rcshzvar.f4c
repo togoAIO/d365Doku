@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Backup storage of ER templates </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Backup storage of ER templates ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how to use the Electronic reporting (ER) backup storage for recovery of templates.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERWorkspace, ERSolutionTable">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="backup-storage-of-er-templates" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="32">Backup storage of ER templates</h1>
+
+
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="36">The <a href="general-electronic-reporting.html" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="36">Electronic reporting (ER) overview</a> lets business users configure formats for outbound documents according to the legal requirements of various countries and regions. Configured ER formats can use predefined templates to generate outbound documents in various formats, such as Microsoft Excel workbooks, Microsoft Word documents, or PDF documents. The templates are filled with data that the configured dataflow for generated documents requires.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="38">Each configured format can be published as part of an ER solution. Each ER solution can be exported from one instance of Finance and Operations and imported into another instance.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="40">The ER framework uses the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/fin-ops/organization-administration/configure-document-management" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="40">Configure document management (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> to keep the required templates for the current Finance and Operations instance. Depending on the settings of the ER framework, Microsoft Azure Blob storage or a Microsoft SharePoint folder can be selected as the physical primary storage location for templates. (For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="40">Configure the Electronic reporting (ER) framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.) The DocuValue table holds an individual record for each template. In each record, the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="40">AccessInformation</strong> field stores the path of a template file that is located in the configured storage location.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="42">When you manage your Finance and Operations instances, you might decide to migrate the current instance to another location. For example, you might migrate your production instance to a new sandbox environment. If you configured the ER framework to store templates in Blob storage, the DocuValue table in the new sandbox environment refers to the instance of Blob storage in the production environment. However, this instance can't be accessed from the sandbox environment, because the migration process doesn't support the migration of artifacts in Blob storage. Therefore, if you try to run an ER format that uses a template to generate business documents, an exception occurs, and you're notified about the missing template. You're also guided to use the ER cleanup tool to delete and then re-import the ER format configuration that contains the template. Because you might have several ER format configurations, this process can be time consuming.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="44">The Backup storage of ER templates feature can help you make your templates so that they are always available to generate business documents.</p>
+<div class="NOTE" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="46">
+<h5>Note</h5>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="47">This feature can be used only when Blob storage has been selected as the physical storage location for ER templates.</p>
+</div>
+<h2 id="automated-recovery-and-notification" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="49">Automated recovery and notification</h2>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="51">For this feature, every template of a new ER format configuration in the current environment is automatically saved to the backup storage location for templates (the ERDocuDatabaseStorage database table) when the following events occur:</p>
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="53">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="53">You import a new ER format configuration that contains a template.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="54">You complete the draft version of an ER format configuration that contains a template.</li>
+</ul>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="56">Backup copies of templates are migrated to a new instance of Finance and Operations as part of the application database.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="58">If a template of an ER format is required for generation of outbound documents, to process vendor payments including generation of payment advice and control reports, for example, but the required template isn't found in the primary storage location, the following events occur:</p>
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="60">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="60"><p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="60">If the template is available in the backup storage location, it is automatically taken from the backup storage location, restored to the primary storage location, and used for the current execution.</p>
+</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="61"><p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="61">Every user who is assigned to the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="61">Electronic reporting developer</strong> or <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="61">System administrator</strong> role is notified about the missing template issue through the Action center. The message that appears depends on the value of the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="61">Automatically run the procedure of restoring the broken templates in batch</strong> parameter:</p>
+<ul sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="63">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="63">If this parameter is set to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="63">Off</strong>, the message recommends that you start the batch process to automatically fix similar issues for other ER format configuration templates. The message includes a link that you can use to start the batch process.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="64">If this parameter is set to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="64">On</strong>, the message notifies you that a missing templates issue has been discovered, and that a new batch process, <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="64">Restore broken templates from internal database backup</strong>, has been automatically scheduled. This batch process will automatically fix similar issues for other templates.</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="66">To set up the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="66">Automatically run the procedure of restoring the broken templates in batch</strong> parameter, complete the following steps:</p>
+<ol sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="68">
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="68">In Finance and Operations, open the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="68">Organization administration &gt; Electronic reporting &gt; Configurations page</strong>.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="69">On the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="69">Configurations</strong> page, on the Action Pane, on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="69">Configurations</strong> tab, in the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="69">Advanced settings</strong> group, select <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="69">User parameters</strong>.</li>
+<li sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="70">In the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="70">User parameters</strong> dialog box, set the required value for the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="70">Automatically run the procedure of restoring the broken templates in batch</strong> parameter.</li>
+</ol>
+<div class="NOTE" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="72">
+<h5>Note</h5>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="73">This parameter is defined as application user and logged company specific.</p>
+</div>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="75"><img src="media/GER-BackupTemplates-1.png" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="75" alt="ER configurations page"></p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="77">The following illustration shows an example of the message that appears when the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="77">Automatically run the procedure of restoring the broken templates in batch</strong> parameter is set to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="77">On</strong>.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="79"><img src="media/GER-BackupTemplates-2.png" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="79" alt="Vendor payment journal page"></p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="81">The following illustration shows the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="81">Restore broken templates from internal database backup</strong> batch process on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="81">Batch job</strong> page.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="83"><img src="media/GER-BackupTemplates-3.png" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="83" alt="Batch job page"></p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="85">The execution log of the completed <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="85">Restore broken templates from internal database backup</strong> batch process includes information about the templates that have been restored from the backup storage location to the primary storage location.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="87"><img src="media/GER-BackupTemplates-4.png" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="87" alt="Batch job history page"></p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">By default, the process of automatically creating backup copies of templates that reside in ER format configurations is turned on. To stop making backup copies of templates, set the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">Stop making backup copies of template</strong> option to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">Yes</strong> on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">Attachments</strong> tab of the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">Electronic reporting parameters</strong> page. You can open this page from the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="89">Electronic reporting</strong> workspace.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="91">If you set the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="91">Stop making backup copies of templates</strong> option to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="91">Yes</strong> and don't want to keep the backup copies that were previously made of templates, select <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="91">Clean up backup storage</strong> on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="91">Electronic reporting parameters</strong> page.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="93">If you upgraded your environment to Finance and Operations version 10.0.5 (October 2019) and want to migrate to a new environment that includes ER format configurations that can be run, select <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="93">Fill in backup storage</strong> on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="93">Electronic reporting parameters</strong> page before the migration occurs. This button starts the process of making backup copies of all available templates, so that they can be stored in the ER backup storage location for templates.</p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="95"><img src="media/GER-BackupTemplates-5.png" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="95" alt="Electronic reporting parameters page"></p>
+<h2 id="manual-recovery" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="97">Manual recovery</h2>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="99">Go to <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="99">Organization administration</strong> &gt; <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="99">Electronic reporting</strong> &gt; <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="99">Restore broken templates</strong> to manually initiate the process of restoring ER templates from the backup storage location to the primary storage location. Before you start this process, on the <strong sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="99">Restore broken templates</strong> page you can specify whether it will be performed interactively, or the batch process will be scheduled for this.</p>
+<h2 id="supported-deployments" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="101">Supported deployments</h2>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="103">In Finance and Operations version 10.0.5, the Backup storage of ER templates feature is available only in cloud deployments.</p>
+<h2 id="additional-resources" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="105">Additional resources</h2>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="107"><a href="general-electronic-reporting.html" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="107">Electronic reporting (ER) overview</a></p>
+<p sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="109"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters" sourcefile="fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md" sourcestartlinenumber="109">Configure the Electronic reporting (ER) framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-backup-storage-templates.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

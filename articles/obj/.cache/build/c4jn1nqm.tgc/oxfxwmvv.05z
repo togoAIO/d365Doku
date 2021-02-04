@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Swiss QR-bills </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Swiss QR-bills ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about how to generate QR-bills (QR-slips) and process incoming QR-bills.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance">
+    <meta name="ms.search.region" content="Switzerland">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="swiss-qr-bills">Swiss QR-bills</h1>
+
+
+<p>As of July 2020, QR-bills (QR-slips) will have to be processed and issued in addition to invoices. This topic explains how to generate QR-bills and process incoming QR-bills in Microsoft Dynamics 365 Finance.</p>
+<p>To make the QR-bill functionality available, you must turn on the following features in the <strong>Feature management</strong> module:</p>
+<ul>
+<li>Configurable payment ID</li>
+<li>(Switzerland) QR-bills</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When you turn on the Swiss QR-bill functionality, it also becomes available to other countries. Depending on the address of the legal entity, those countries include Switzerland (CH), Germany (DE), Austria (AT), France (FR), and Italy (IT).</p>
+</div>
+<h2 id="electronic-reporting-configurations">Electronic reporting configurations</h2>
+<p>The most recent versions of the following Electronic reporting (ER) configurations should be imported from Microsoft Dynamics Lifecycle Services (LCS):</p>
+<ul>
+<li>Swiss QR-Bill text</li>
+<li>Swiss QR-Bill Structured information</li>
+<li>ISO20022 Credit transfer (CH)</li>
+<li>ISO20022 pain.002</li>
+<li>ISO20022 Camt.054</li>
+</ul>
+<p>All required model and model mapping configurations will be imported automatically.</p>
+<h2 id="setup-of-company-bank-accounts">Setup of company bank accounts</h2>
+<p>On the <strong>Bank account</strong> page (<strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong> &gt; <strong>Bank accounts</strong>), in the <strong>QR-IBAN</strong> field, specify the QR-IBAN. This number can be used simultaneously with the ordinary International Bank Account Number (IBAN) and has similar validations in the system.</p>
+<h3 id="cash-discount-and-tax-code-descriptions">Cash discount and tax code descriptions</h3>
+<p>The field for the QR-bill description should be filled in for all cash discounts and tax codes. This description is used when QR-bills are printed.</p>
+<h2 id="setup-of-the-legal-entity-registration-ids">Setup of the legal entity registration IDs</h2>
+<p>For the unique identifier (UID) to be correctly filled in on the QR-bill that is generated, the UID value should be entered in the <strong>Registration ID</strong> field in the legal entity setup. Additionally, the value in the <strong>Registration category</strong> field should correspond to the <strong>VAT ID</strong> value.</p>
+<h2 id="accounts-receivable-setup">Accounts receivable setup</h2>
+<h3 id="payment-id">Payment ID</h3>
+<p>On the <strong>Payment ID</strong> page, you can configure the payment ID structure that is applied when outgoing QR-bills are generated from the <strong>Accounts receivable</strong> module. The length of the payment ID should be set to 27 digits, and the check digit should be generated by using the <strong>Modulo11</strong> algorithm. Non-digit symbols are excluded from payment IDs when the algorithm is run. Therefore, the number sequences that are used for customer accounts and invoices should have only digits.</p>
+<p>By default, the payment ID type that is applied on the invoice can use the following level hierarchy:</p>
+<ul>
+<li><strong>Accounts receivable parameters</strong> page &gt; <strong>Ledger and sales tax</strong> tab</li>
+<li><strong>Customer groups</strong> page</li>
+<li><strong>Customer account</strong> page &gt; <strong>Payment defaults</strong> tab</li>
+<li><strong>Method of payment</strong> page &gt; <strong>Payment control</strong> tab</li>
+</ul>
+<h3 id="methods-of-payment--customers">Methods of payment – Customers</h3>
+<p>The method of payment should be set up on the customer accounts that use QR-bills, to define the details of the company bank account that a QR-bill is issued to. To process incoming payments in camt.054 format, you should set up the ER import configuration.</p>
+<h3 id="customer-account">Customer account</h3>
+<p>The default method of payment must be selected, and the payment ID type must be filled in if it isn't already specified in the default setup for customer groups on the <strong>Accounts receivable parameters</strong> page.</p>
+<p>In the <strong>Associated payment attachment</strong> field group, the new type, <strong>QR-bill</strong>, is added. When it's selected, the QR-bill will be printed when the document of the dedicated type is printed.</p>
+<h3 id="giro-report-processing-group">Giro report processing group</h3>
+<p>The settings information that is provided in the Giro report processing groups determines how the <strong>Billing information</strong> section on a QR-bill is filled in. As required, you can configure and use different parts of this section on the QR-bill in ER. Here are some examples:</p>
+<ul>
+<li><strong>Account code</strong> – The specific format that is dedicated to the specific customer account.</li>
+<li><strong>Customer relation</strong> – The value of the specific customer account or customer group.</li>
+<li><strong>QR-Bill information</strong> – The ER format configuration that is responsible for filling in the billing information.</li>
+<li><strong>Print scissors symbol</strong> – The inclusion of the scissors symbol on the printed report. Inclusion of this symbol could be important when you're choosing whether to send a printed version of the QR-bill or an electronic version.</li>
+</ul>
+<h2 id="accounts-payable-setup">Accounts payable setup</h2>
+<h3 id="methods-of-payment--vendors">Methods of payment – Vendors</h3>
+<p>For vendor methods of payment, you must specify the associated bank account, select the required ER configurations for the export and import for payment file processing, and set up payment specification. A new payment specification parameter value, <strong>Tp3.QR</strong>, is available for payments that correspond to the incoming QR-bills. Additionally, an option that is available on the vendor bank account can be used to redefine the <strong>Specification</strong> parameter.</p>
+<p>The payment ID should be activated on the <strong>Payment attributes</strong> tab, so that the payment ID can be inherited during the payment proposal for payments associated with QR-bills.</p>
+<h3 id="return-format-error-codes-and-return-format-status-mapping">Return format error codes and return format status mapping</h3>
+<p>If pain.002 will be used as a return file format, the return format error codes and return format status mapping must be set up. For more information, see <a href="emea-ISO20022-file-formats.html">Import ISO20022 files</a>.</p>
+<h3 id="vendor-account">Vendor account</h3>
+<p>Standard setup of the vendor account for ISO20022 payments is expected. For more information, see <a href="tasks/set-up-vendor-iso20022-credit-transfers.html">Set up vendors and vendor bank accounts for ISO20022 credit transfers</a>.</p>
+<h3 id="vendor-bank-account">Vendor bank account</h3>
+<p>A QR-IBAN must be assigned to vendor bank accounts. It's expected that other fields will be set according to the typical payment procedure for payment type 3 in Switzerland.</p>
+<p>Additionally, there is an option to select a payment specification parameter directly on the vendor bank account. If a payment specification has been made, the value is given a higher priority than the method of payment specification when a credit transfer file is generated.</p>
+<h2 id="accounts-receivable-process">Accounts receivable process</h2>
+<h3 id="generate-the-qr-bills">Generate the QR-bills</h3>
+<p>To generate the QR-bill for a document, such as a customer invoice, print the document. The QR-bill will automatically be generated as an additional report. You can then export the QR-bill as a PDF file, and then print it or send it electronically.</p>
+<p>Here are some of the documents that support this functionality:</p>
+<ul>
+<li>Sales order invoices</li>
+<li>Free text invoices</li>
+<li>Project invoices</li>
+<li>Interest notes</li>
+<li>Collection letters</li>
+<li>Account statements</li>
+</ul>
+<h3 id="import-payments-in-camt054-format">Import payments in camt.054 format</h3>
+<p>To import a bank statement in camt.054 format from the bank, open the customer payment journal line, and run the <strong>Import payment</strong> function. The 27-digit reference is expected in the <strong>Ref</strong> tag in the file's <strong>RmtInf</strong> section. After the import, the payment transactions will be created and settled with customer transactions based on the payment ID. For more information, see <a href="emea-ISO20022-file-formats.html">Import ISO20022 files</a>.</p>
+<h2 id="accounts-payable-process">Accounts payable process</h2>
+<p>The scope of supported functionality covers the process of manually importing the QR code values into the input dialog box. This import can be done by using scanning devices that transmit the text value of the QR code. The structure of the information in the QR code should follow the standards that are available on the SIX group website at the moment of the feature release. Any derivation from the structure of the information that is encrypted in the QR code, or any format changes that are required to follow the device-specific behavior, can be configured by using the <strong>Electronic reporting</strong> (ER) module. No code modifications are required.</p>
+<h3 id="import-qr-bills">Import QR-bills</h3>
+<p>You can import the QR-bills into the invoice journal or pending vendor invoice destinations.</p>
+<p>To import QR-bills into the invoice journal, run the <strong>Import QR-Bill</strong> function that is available on the <strong>Invoice journal lines</strong> page.</p>
+<p>In the <strong>Importing</strong> dialog box, the <strong>QR bill</strong> field shows the name of the ER format configuration that will be used. You can specify a different ER format. In the plain text of the <strong>QR-Bill</strong> field, enter the QR code value. Then select <strong>OK</strong>.</p>
+<p>On the next page, the <strong>QR-Bill</strong> tab shows the parsed values of the QR-bill. On the <strong>General</strong> tab, you can view the values of the recognized vendor, bank account, amount, and other details that will be imported into the system. After you select <strong>OK</strong>, the invoice journal lines are created. If this QR-bill was previously imported, you're notified through a warning message. The information of the imported QR-bill is stored and available for review on the <strong>Imported QR bills</strong> page.</p>
+<p>For invoices that are associated with purchase orders, you can create pending vendor invoice headers that are based on QR-bill information. To import the QR-bill, on the <strong>Pending vendor invoices</strong> page, on the <strong>Process</strong> tab, select <strong>Import QR-bill</strong>. The procedure for adding, reviewing, and importing the QR code resembles the procedure that is described in the previous paragraph.</p>
+<p>You can also import the QR-bill when the vendor invoice is opened from the <strong>Purchase order</strong> page. The import procedure is the same as the procedure for pending vendor invoices. If the invoice is associated with a purchase order, the import occurs automatically.</p>
+<p>To process the QR-bill when there is no predefined destination, or to use a custom destination, you can use a special option that is available under <strong>Periodic tasks</strong> in the <strong>Accounts payable</strong> module. In this case, you must manually select the destination.</p>
+<p>When the plain text of the QR-bill is left blank, you can run the import from the text file that is located in the SharePoint folder, based on the setup of the ER source.</p>
+<p>After the invoice is posted, the vendor transaction that has the imported payment ID is available for settlement in the payment journal.</p>
+<h2 id="payment-file-processing">Payment file processing</h2>
+<p>Create vendor payment journal lines by using the payment proposal functionality. For more information, see <a href="tasks/create-export-vendor-payments-iso20022-payment-format.html">Create and export vendor payments using ISO20022 payment format</a>.</p>
+<p>For payments that are related to QR-bills, the credit transfer file is generated based on the payment ID value. This value is retrieved from the QR code.</p>
+<p>You can import the pain.002 and camt.054 files from the <strong>Payment transfers</strong> page. For more information, see <a href="emea-ISO20022-file-formats.html">Import ISO20022 files</a>.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/localizations/emea-che-swiss-qr-bills.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

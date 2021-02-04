@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Flexible Reservierungsrichtlinie f&#252;r Dimensionen auf Lagerortebene </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Flexible Reservierungsrichtlinie f&#252;r Dimensionen auf Lagerortebene ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird die Bestandsreservierungsrichtlinie beschrieben, mit der Unternehmen, die Produkte mit Chargenverfolgung verkaufen und f&#252;r die Logistik WMS-f&#228;hige Vorg&#228;nge ausf&#252;hren, bestimmte Chargen f&#252;r Debitorenauftr&#228;ge reservieren k&#246;nnen, obwohl die mit den Produkten verkn&#252;pfte Reservierungshierarchie die Reservierung bestimmter Chargen nicht zul&#228;sst.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSReservationHierarchy, WHSWorkTrans, WHSWorkInventTrans, WHSInventTableReservationHierarchy, WHSReservationHierarchyCreate, WHSInventTableReservationHierarchy">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="flexible-warehouse-level-dimension-reservation-policy" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="26">Flexible Reservierungsrichtlinie für Dimensionen auf Lagerortebene</h1>
+
+<div class="IMPORTANT" sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="30">Wenn eine Bestandsreservierungshierarchie vom Typ „Charge unterhalb[Lagerort]“mit Produkten verknüpft ist, können Unternehmen, die Produkte mit Chargenverfolgung verkaufen und ihre Logistik als Operationen ausführen, die für das Microsoft Dynamics 365 Warehouse Management System (WMS) aktiviert sind, bestimmte Chargen dieser Produkte nicht für Debitorenaufträge reservieren.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="32">Ähnlich können bestimmte Ladungsträger nicht für Produkte in Aufträgen reserviert werden, wenn diese Produkte mit der Standardreservierungshierarchie verknüpft sind.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="34">In diesem Thema wird die Bestandsreservierungsrichtlinie beschrieben, mit der diese Unternehmen bestimmte Chargen oder Ladungsträger reservieren können, auch wenn die Produkte mit einer „Charge unterhalb[Lagerort]“-Reservierungshierarchie verknüpft sind.</p>
+<h2 id="inventory-reservation-hierarchy" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="36">Bestandreservierungshierarchie</h2>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="38">In diesem Abschnitt wird die vorhandene Bestandsreservierungshierarchie zusammengefasst.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="40">Die Bestandsreservierungshierarchie gibt vor, dass hinsichtlich von Lagerdimensionen, der Bedarfsauftrag die obligatorischen Dimensionen von Standort-, Lager- und Bestandsstatus trägt, während die Lagerlogik für die Zuweisung eines Lagerplatzes für die angeforderten Mengen und das Reservieren des Lagerplatzes zuständig ist. Mit anderen Worten, bei den Interaktionen zwischen dem Bedarfsauftrag und den Lagervorgängen wird erwartet, dass der Bedarfsauftrag angibt, von wo der Auftrag versendet werden muss (d. h., von welchem Standort und von welchem Lagerort). Das Lager verlässt sich dann auf seine Logik, um die erforderliche Menge in den Lagerstätten zu finden.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="42">Um jedoch das Betriebsmodell des Unternehmens widerzuspiegeln, unterliegen die Rückverfolgungsangaben (Chargen- und Seriennummern) einer größeren Flexibilität. Eine Bestandsreservierungshierarchie kann Szenarien berücksichtigen, bei denen die folgenden Bedingungen zutreffen:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="44">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="44">Das Unternehmen verlässt sich auf seine Lagerort-Arbeitsgänge für die Verwaltung der Kommissionierung von Mengen mit Chargen- oder Seriennummern, nachdem die Mengen in einem Lager gefunden wurden. Dieses Modell wird häufig als <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="44">Charge unterhalb[Lagerort]</em> bezeichnet. Es wird normalerweise verwendet, wenn die Chargen- oder Seriennummer eines Produkts für die Debitoren nicht wichtig ist, die eine Nachfrage beim verkaufenden Unternehmen stellen.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="45">Wenn Chargen- oder Seriennummern Teil der Auftragsspezifikation eines Debitors sind und im Bedarfsauftrag aufgeführt werden, werden die Lagerortarbeitsgänge, die für die Suche nach den Mengen im Lager eingesetzt werden, durch die angegebenen Nummern eingeschränkt und können diese nicht ändern. Dieses Modell wird häufig als <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="45">Charge oberhalb[Lagerort]</em> bezeichnet.</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="47">In diesen Szenarien besteht die Herausforderung darin, dass jedem freigegebenen Produkt nur eine Bestandsreservierungshierarchie zugeordnet werden kann. Damit das WMS nachverfolgte Artikel verarbeiten kann, können, nachdem die Hierarchiezuweisung bestimmt, wann die Chargen- oder Seriennummer reserviert werden sollte (entweder wenn der Bedarfsauftrag entgegengenommen wird oder während der Lagerentnahme), diese Zeiten nicht ad-hoc geändert werden.</p>
+<h2 id="flexible-reservation-for-batch-tracked-items" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="49">Flexible Reservierung für chargenverfolgte Artikel</h2>
+<h3 id="business-scenario" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="51">Geschäftsszenario</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="53">In diesem Szenario verwendet ein Unternehmen eine Bestandsstrategie, bei der Fertigwaren anhand von Chargennummern verfolgt werden. Diese Firma verwendet auch die WMS-Arbeitsauslastung. Da diese Auslastung eine gut gerüstete Logik für die Planung und Durchführung von Kommissionierungs- und Versandvorgängen für Artikel hat, für die Chargen aktiviert sind, werden die meisten Fertigprodukte mit der Bestandsreservierungshistorie „Charge unterhalb[Lagerort]“ verknüpft. Der Vorteil dieser Art des operativen Einrichtung besteht darin, dass Entscheidungen (die im Grunde genommen Reservierungsentscheidungen sind) darüber, welche Chargen kommissioniert werden sollen und wo sie im Lager abgelegt werden sollen, verschoben werden, bis mit der Kommissionierung begonnen wird. Sie werden nicht schon gemacht, wenn der Kunde bestellt.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="55">Obwohl die Reservierungshistorie „Charge unterhalb[Lagerort]“ den Geschäftszielen des Unternehmens dient, fordern viele der etablierten Unternehmenskunden bei der Nachbestellung die gleiche Charge an, wie beim vorherigen Kauf. Aus diesem Grund ist das Unternehmen bestrebt, die Regeln für die Chargenreservierung flexibel zu gestalten, sodass, je nachdem, ob der Kunde den gleichen Artikel wünscht, die folgenden Verhaltensweisen auftreten:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="57">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="57">Eine Chargennummer kann aufgezeichnet und reserviert werden, wenn der Auftrag vom Verkäufer entgegengenommen wird. Sie kann während des Lagerortbetriebs nicht geändert werden und/oder aufgrund anderer Bedarfe verwendet werden. Dieses Verhalten hilft zu gewährleisten, dass die bestellte Chargennummer an den Kunden gesendet wird.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="58">Wenn die Chargennummer für den Kunden nicht wichtig ist, kann der Lagerbetrieb während der Kommissionierungsarbeiten eine Chargennummer bestimmen, nachdem die Kundenauftragsregistrierung und -reservierung durchgeführt wurden.</li>
+</ul>
+<h3 id="allowing-reservation-of-a-specific-batch-on-the-sales-order" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="60">Reservierung einer bestimmten Charge im Auftrag zulassen</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="62">Um der gewünschten Flexibilität bei der Chargenreservierung für Artikel, die mit einer „Charge unterhalb[Lagerort]“-Bestandsreservierungshistorie verknüpft sind, gerecht zu werden, müssen Bestandsverwalter das Kontrollkästchen für <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="62">Reservierung für Bedarfsauftrag zulassen</strong> für die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="62">Chargennummer</strong>-Ebene auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="62">Bestandsreservierungshierarchien</strong> aktivieren.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="64"><img src="media/Flexible-inventory-reservation-hierarchy.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="64" alt="Bestandreservierungshierarchie flexibler machen"></p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="66">Wenn die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="66">Chargennummer</strong>-Ebene in der Hierarchie ausgewählt wird, werden alle Dimensionen über dieser Ebene und bis zur <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="66">Lagerort</strong>-Ebene wird automatisch ausgewählt. (Standardmäßig sind alle Dimensionen über der <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="66">Lagerort</strong>-Ebene ausgewählt.) Dieses Verhalten spiegelt eine Logik wider, bei der alle Dimensionen im Bereich zwischen Chargennummer und Lagerort automatisch reserviert werden, nachdem Sie eine bestimmte Chargennummer aus der Auftragsposition reserviert haben.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="68">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="69">Das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="69">Reservierung für Bedarfsauftrag zulassen</strong> gilt nur für die Reservierungshierarchieebenen, die unterhalb der Lagerortdimension liegen.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71">Chargennummer</strong> und <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71">Ladungsträger</strong> sind die einzigen Ebenen in der Hierarchie, die für die flexible Reservierungsrichtlinie offen sind. Mit anderen Worten, Sie können das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71">Reservierung für Bedarfsauftrag zulassen</strong> nicht für die Ebenen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71">Lagerplatz</strong> oder <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="71">Seriennummer</strong> aktivieren.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="73">Wenn Ihre Reservierungshierarchie die Seriennummerdimension enthält (die immer unterhalb der <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="73">Chargennummer</strong>-Ebene liegen muss), und wenn Sie die chargenspezifische Reservierung für die Chargennummer aktiviert haben, wird das System weiterhin die Seriennummernreservierung und die Kommissionierungsvorgänge basierend auf den Regeln durchführen, die für die Reservierungsrichtlinie „Serie unterhalb[Lagerort]“ gelten.</p>
+</div>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="75">Sie können jederzeit eine chargenspezifische Reservierung für eine vorhandene „Charge unterhalb[Lagerort]“-Reservierungsrichtlinie in Ihrer Bereitstellung zulassen. Diese Änderung wirkt sich nicht auf Reservierungen und offene Lagerarbeiten aus, die vor der Änderung erstellt wurden. Das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="75">Reservierung für Bedarfsauftrag zulassen</strong> kann aber nicht deaktiviert werden, wenn Lagerbuchungen vom Abgangstyp <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="75">Bestellt reserviert</strong>, <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="75">Physisch reserviert</strong> oder <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="75">Bestellt</strong> für mindestens einen Artikel vorhanden sind, der mit der Reservierungshistorie verknüpft ist.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="77">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="78">Wenn die vorhandene Reservierungshierarchie eines Artikels keine Chargenspezifikation für den Auftrag zulässt, können Sie ihn einer Reservierungshierarchie zuordnen, die eine Chargenspezifikation zulässt, vorausgesetzt, die Struktur der Hierarchieebene ist in beiden Hierarchien gleich. Verwenden Sie die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="78">Reservierungshierarchie für Artikel ändern</strong>-Funktion, um die Neuzuweisung durchzuführen. Diese Änderung ist möglicherweise relevant, wenn Sie die flexible Chargenreservierung für eine Teilmenge von Artikeln mit Chargenverfolgung verhindern möchten, aber für den Rest des Produktportfolios zulassen möchten.</p>
+</div>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="80">Unabhängig davon, ob Sie das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="80">Reservierung für Bedarfsauftrag zulassen</strong> aktiviert haben, wird dennoch die standardmäßige Lagerort-Operationslogik angewendet, die für eine „Charge unterhalb[Lagerort]“-Reservierungshierarchie gilt, wenn Sie keine bestimmte Chargennummer für den Artikel in einer Auftragsposition reservieren möchten.</p>
+<h3 id="reserve-a-specific-batch-number-for-a-customer-order" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="82">Reservieren einer bestimmten Chargennummer für eine Kundenbestellung</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="84">Nachdem die „Charge unterhalb[Lagerort]“-Bestandsreservierungshierarchie eines Artikels mit Chargenverfolgung so eingerichtet ist, dass bestimmte Chargennummern für Aufträge reserviert werden können, können Verarbeiter von Aufträgen, je nach Kundenwunsch, die Kundenaufträge für den gleichen Artikel auf eine der folgenden Arten aufnehmen:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="86">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="86"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="86">Auftragsdetails ohne Angabe einer Chargennummer eingeben</strong> – Dieser Ansatz sollte verwendet werden, wenn die Chargenspezifikation des Produkts für den Kunden nicht wichtig ist. Alle bestehenden Prozesse, die mit der Abwicklung eines Auftrags dieser Art verbunden sind, bleiben im System unverändert. Es sind keine zusätzlichen Überlegungen seitens der Benutzer erforderlich.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="87"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="87">Bestelldetails eingeben und eine bestimmte Chargennummer reservieren</strong> – Dieser Ansatz sollte verwendet werden, wenn der Kunde eine bestimmte Charge anfordert. In der Regel fordern Kunden eine bestimmte Charge an, wenn sie ein zuvor erworbenes Produkt erneut bestellen. Diese Art der chargenspezifischen Reservierung wird als <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="87">auftragsgebundene Reservierung</em> bezeichnet.</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="89">Die folgenden Regeln gelten, wenn Mengen verarbeitet werden und eine Chargennummer für eine bestimmte Bestellung vorgegeben ist:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="91">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="91">Um die Reservierung einer bestimmten Chargennummer für einen Artikel zuzulassen, für den die Reservierungsrichtlinie „Charge unterhalb[Lagerort]“ gilt, muss das System alle Dimensionen bis zum Lagerort reservieren. Dieser Bereich umfasst normalerweise die Ladungsträgerdimension.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="92">Lagerplatzrichtlinien werden nicht verwendet, wenn Kommissionierungsarbeiten für eine Verkaufsposition angelegt werden, die die auftragsgebundene Chargenreservierung verwendet.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="93">Während der Verarbeitung von Lagerarbeit für auftragsgebundene Chargen dürfen weder der Benutzer noch das System die Chargennummer ändern. (Diese Verarbeitung umfasst auch die Ausnahmebehandlung.)</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="95">Das folgende Beispiel zeigt den vollständigen Ablauf.</p>
+<h2 id="example-scenario-batch-number-allocation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="97">Beispielszenario: Chargennummernzuteilung</h2>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="99">Für dieses Beispielmüssen Demodaten eingerichtet werden, und Sie müssen das <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="99">USMF</strong>-Demodatunternehmen verwenden.</p>
+<h3 id="set-up-an-inventory-reservation-hierarchy-to-allow-batch-specific-reservation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="101"><a name="Example-batch-allocation"></a>Einrichten einer Bestandsreservierungshierarchie, um eine chargenspezifische Reservierung zu ermöglichen</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="103">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="103">Gehen Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="103">Lagerortverwaltung</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="103">Einrichten</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="103">Bestand &gt; Reservierungshierarchie</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="104">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="104">Neu</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="105">Geben Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="105">Name</strong> einen Namen ein (beispielsweise <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="105">BatchFlex</strong>).</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="106">Geben Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="106">Beschreibung</strong> eine Beschreibung ein (beispielsweise <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="106">Charge unterhalb flexibel</strong>).</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="107">Wählen Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="107">Ausgewählt</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="107">Seriennummer</strong> und <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="107">Besitzer</strong> aus und wählen Sie dann die linke Pfeiltaste, um sie zum Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="107">Verfügbar</strong> zu verschieben.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="108">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="108">OK</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="109">In der Zeile mit der <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="109">Chargennummer</strong>-Dimensionsebene aktivieren Sie das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="109">Reservierung für Bedarfsauftrag zulassen</strong>. Die Ebenen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="109">Ladungsträger</strong> und <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="109">Lagerort</strong> werden automatisch ausgewählt und Sie können die Kontrollkästchen für diese nicht deaktivieren.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="110">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="110">Speichern</strong>.</li>
+</ol>
+<h3 id="create-a-new-released-product" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="112">Neues freigegebenes Produkt erstellen</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="114">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="114"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="114">Stellen Sie die drei Stammdatenparameter des Produkts mit diesen Werten ein:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="116">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="116">Wählen Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="116">Lagerdimensionsgruppe</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="116">Ware</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="117">Wählen Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="117">Rückverfolgungsgruppe</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="117">Batch-Phy</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="118">Wählen Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="118">Reservierungshierarchie</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="118">BatchFlex</strong> aus.</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="120"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="120">Erstellen Sie zwei Chargennummern, beispielsweise <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="120">B11</strong> und <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="120">B22</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="121"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="121">Fügen Sie unter Verwendung der folgenden Werte Artikelmengen zum verfügbaren Bestand hinzu.</p>
+<table sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">
+<thead>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">Lagerort</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">Chargennummer</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">Elektronische Adresse</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">Ladungsträger</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="123">Leistung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">B11</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">BULK-001</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">Nichts</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="125">10</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">B11</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">FL-001</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">LP11</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="126">10</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">B22</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">FL-002</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">LP22</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="127">10</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="enter-sales-order-details" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="129"><a name="sales-order-details"></a>Auftragsdetails eingeben</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131">Wechseln Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131">Vertrieb und Marketing</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131">Aufträge</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="131">Alle Aufträge</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="132"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="132">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="132">Neu</strong> aus.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="133"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="133">Geben Sie im Auftragskopf im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="133">Debitorenkonto</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="133">US-003</strong> ein.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="134"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="134">Fügen Sie eine Position für den neuen Artikel hinzu und geben Sie als Menge <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="134">10</strong> ein. Stellen Sie sicher, dass das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="134">Lagerort</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="134">24</strong> gesetzt ist.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Wählen Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Auftragspositionen</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Bestand</strong> und dann in der Gruppe <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Verwalten</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Chargenreservierung</strong> aus. Die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Chargenreservierung</strong> zeigt eine Liste der Chargen, die für die Reservierung für die Bestellposition verfügbar sind. In diesem Beispiel wird eine Menge von <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">20</strong> für die Chargennummer <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">B11</strong> und eine Menge von <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">10</strong> für die Chargennummer <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">B22</strong> angezeigt. Beachten Sie, dass auf die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="135">Chargenreservierung</strong> nicht von einer Position aus zugegriffen werden kann, wenn der Artikel in dieser Position mit einer „Charge unterhalb[Lagerort]“-Reservierungshierarchie verknüpft ist, es sei denn, diese ist so eingerichtet, dass chargenspezifische Reservierungen möglich sind.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="137">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="138">Um eine bestimmte Charge für einen Auftrag zu reservieren, müssen Sie die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="138">Chargenreservierung</strong> verwenden.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="140">Wenn Sie die Chargennummer direkt in die Auftragsposition eingeben, verhält sich das System so, als hätten Sie einen bestimmten Chargenwert für einen Artikel eingegeben, für den die „Charge unterhalb[Lagerort]“-Reservierungsrichtlinie gilt. Wenn Sie die Position speichern, erhalten Sie eine Warnmeldung. Wenn Sie bestätigen, dass die Chargennummer direkt in der Bestellposition angegeben werden soll, wird die Position nicht von der normalen Lagerortverwaltungslogik verarbeitet.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="142">Wenn Sie die Menge über die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="142">Reservierung</strong> reservieren, wird keine bestimmte Charge reserviert und die Ausführung der Lagerortoperationen für die Position folgt den Regeln, die im Rahmen der Reservierungsrichtlinie „Charge unterhalb[Lagerort]“ gelten.</p>
+</div>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="144">Im Allgemeinen funktioniert und interagiert diese Seite genauso wie sie bei Artikeln funktioniert und interagiert, die mit einer Reservierungshierarchie vom Typ „Charge oberhalb[Lagerort]“ verknüpft sind. Es gelten jedoch folgende Ausnahmen:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">Das Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">Chargennummern für Quellposition zugesagt</strong> zeigt die Chargennummern an, die für die Bestellposition reserviert sind. Die Chargenwerte im Raster werden während des gesamten Erfüllungszyklus der Auftragsposition angezeigt, einschließlich der Phasen der Lagerortverarbeitung. Im Gegensatz dazu werden auf dem Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">Übersicht</strong> regelmäßige Auftragspositionsreservierungen (also Reservierungen für die Dimensionen oberhalb der <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">Lagerort</strong>-Ebene) im Raster bis zu dem Punkt angezeigt, wenn Lagerarbeiten generiert werden. Die Arbeitsentität übernimmt dann die Positionsreservierung und die Positionsreservierung erscheint nicht mehr auf der Seite. Das Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="146">Chargennummern für Quellposition zugesagt</strong> sorgt mit dafür, dass der Auftragsverarbeiter die Chargennummern, die für den Kundenauftrag zugesagt wurden, während des gesamten Lebenszyklus bis hin zur Rechnungsstellung anzeigen kann.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="147">Zusätzlich zur Reservierung einer bestimmten Charge kann ein Benutzer den spezifischen Lagerort und Ladungsträger manuell auswählen und auf die automatische Auswahl durch das System verzichten. Diese Funktion hängt mit dem Design des auftragsgebunden Chargenreservierungsmechanismus zusammen. Wie bereits erwähnt: Wenn eine Chargenummer für einen Artikel reserviert ist, für den die Reservierungsrichtlinie „Charge unterhalb[Lagerort]“ gilt, muss das System alle Dimensionen bis zum Lagerort reservieren. Aus diesem Grund gelten für die Lagerarbeit die gleichen Lagerdimensionen, die von den Benutzern reserviert wurden, die diese Aufträge bearbeitet haben. Sie zeigt möglicherweise nicht immer die Artikellagerplatzierung, die für Kommissionierungsarbeiten zweckmäßig oder möglich ist. Wenn Auftragsbearbeiter die Einschränkungen des Lagerorts kennen, möchten sie möglicherweise die spezifischen Lagerorte und Ladungsträger manuell auswählen, wenn sie eine Charge reservieren. In diesem Fall muss der Benutzer die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="147">Dimensionen anzeigen</strong>-Funktionalität auf dem Seitenkopf nutzen und den Lagerort und den Ladungsträger zum Raster im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="147">Übersicht</strong> hinzufügen.</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Chargenreservierung</strong> wählen Sie die Position für Charge <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">B11</strong> sowie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Position reservieren</strong> aus. Es gibt keine festgelegte Logik zum Zuweisen von Lagerorten und Ladungsträgern während der automatischen Reservierung. Sie können die Menge manuell in das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Reservierung</strong> eingeben. Beachten Sie, dass auf dem Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Chargennummern für Quellposition zugesagt</strong> die Charge <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">B11</strong> als <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="149">Zugesagt</strong> angezeigt wird.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="151"><img src="media/Batch-reservation-form-with-order-committed-reservation.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="151" alt="Festlegen einer bestimmten Chargennummer für eine Auftragsposition auf der Seite „Chargenreservierung“"></p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="153">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="154">Die Reservierung der Menge auf einer Auftragsposition kann über mehrere Chargen hinweg erfolgen. Ebenso kann die Reservierung der gleichen Charge für mehrere Lagerorte und Ladungsträger erfolgen (sofern Ladungsträger für die Lagerorte aktiviert sind).</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="156">Die Reservierung einer bestimmten Charge in der Menge auf einer Auftragsposition kann auch teilweise erfolgen. Beispielsweise kann eine Gesamtmenge von 100 Einheiten reserviert werden, sodass eine bestimmte Charge 20 Einheiten enthalten muss. Für die restlichen 80 Einheiten werden verfügbare Chargen auf Standort- und Lagerortebene reserviert. In diesem Fall übernimmt das WMS die Kommissionierung mittels zweier separater Arbeitspositionen.</p>
+</div>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Wechseln Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Produktinformationsverwaltung</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Produkte</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Freigegebene Produkte</strong>. Wählen Sie Ihren Artikel und dann <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Lagerbestand verwalten</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Ansicht</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="158">Transaktionen</strong> aus.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="160"><img src="media/Inventory-transactions-for-order-committed-reservation.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="160" alt="Auftragsgebundene Reservierung als Lagerbuchungstyp"></p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="162"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="162">Überprüfen Sie die Lagerbuchungen, die mit der Reservierung der Auftragsposition verknüpft sind.</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Eine Transaktion, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Referenz</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Auftrag</strong> gesetzt ist und das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Abgang</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Physisch reserviert</strong>, stellt die Auftragspositionsreservierung für Bestandsdimensionen oberhalb der Ebene <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="164">Lagerort</strong> dar. Entsprechend der Bestandsreservierungshierarchie des Artikels sind diese Dimensionen Standort, Lagerort und Bestandsstatus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Eine Transaktion, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Referenz</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Auftragsgebundene Reservierung</strong> und das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Abgang</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Physisch reserviert</strong> gesetzt ist, stellt die Auftragspositionsreservierung für die spezifische Charge und alle Bestandsdimensionen darüber dar. Entsprechend der Bestandsreservierungshierarchie des Artikels sind diese Dimensionen Chargenummer und Lagerort. In diesem Beispiel ist der Lagerort <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="165">Bulk-001</strong>.</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="167"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="167">Wählen Sie im Auftragskopf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="167">Lagerort</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="167">Aktionen</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="167">Für Lagerort freigeben</strong> aus. Die Bestellposition ist jetzt gewellt und eine Ladung sowie Arbeit werden erstellt.</p>
+</li>
+</ol>
+<h3 id="review-and-process-warehouse-work-that-has-order-committed-batch-numbers" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="169">Überprüfen und Verarbeiten von Lagerarbeit mit auftragsgebundenen Chargennummern</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171">Wählen Sie auf dem Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171">Auftragspositionen</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171">Lagerort</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="171">Arbeitsdetails</strong> aus.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="173">Die Arbeit, die den Kommissionierungsvorgang für Chargenmengen erledigt, die für die Kundenauftragsposition zugesagt sind, weist folgende Merkmale auf:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="175">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="175"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="175">Das System verwendet Arbeitsvorlagen, jedoch keine Lagerplatzrichtlinien, um Arbeit zu generieren. Alle Standardeinstellungen, die für Arbeitsvorlagen definiert sind, z. B. eine maximale Anzahl von Entnahmepositionen oder eine bestimmte Maßeinheit, werden angewendet, um festzulegen, wann neue Arbeit angelegt werden sollte. Die Regeln, die mit Lagerplatzrichtlinien zum Identifizieren von Entnahmepositionen verknüpft sind, werden nicht berücksichtigt, da die auftragsgebundene Reservierung bereits alle Bestandsdimensionen angibt. Diese Bestandsdimensionen enthalten Dimensionen auf Lagerortebene. Daher erbt die Arbeit diese Dimensionen, ohne dass Lagerplatzrichtlinien berücksichtigt werden müssen.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="176"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="176">Die Chargennummer wird nicht an der Entnahmeposition angezeigt (im Gegensatz zur Arbeitsposition, die für einen Artikel mit verknüpfter „Charge oberhalb[Lagerort]“-Reservierungshierarchie erstellt wird.) Stattdessen werden die von-Chargennummer und alle anderen Lagerdimensionen in der Lagerbuchung der Arbeitsposition angezeigt, auf die von den verknüpften Lagerbuchungen verwiesen wird.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="178"><img src="media/Work-inventory-transactions-for-order-committed-reservation.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="178" alt="Lagerort-Lagerbuchungen für Arbeit, die aus einer auftragsgebundenen Reservierung stammt"></p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180">Nachdem die Arbeit erstellt wurde, wird die Lagerbuchung, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180">Referenz</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180">Auftragsgebundene Reservierung</strong> gesetzt ist, entfernt. Die Lagerbuchung, bei das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180">Referenz</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="180">Arbeit</strong> gesetzt ist, enthält nun die physische Reservierung für alle Lagerdimensionen der Menge.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="182">Arbeitsgänge am Arbeitsort können auf die übliche Art und Weise abgewickelt werden. Die Anweisungen auf dem Mobilgerät weisen die Arbeitskraft jedoch an, eine bestimmte Chargennummer auszuwählen. In Lagerortumgebungen, bei denen Lagerorte durch Ladungsträger gesteuert werden, kann eine Arbeitskraft, nachdem sie den Lagerort erreicht hat, der die gleiche Charge auf mehreren Ladungsträgern lagert, von einem beliebigen Ladungsträger entnehmen, der nicht bereits reserviert ist (beispielsweise von einer anderen auftragsgebundenen Reservierung oder einer Arbeit, die von einer Reservierung diesen Typs stammt).</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="184">Wenn es sich als unpraktisch herausstellt, von dem Lagerort zu entnehmen, der in der Arbeitsposition angegeben ist, kann der Lagerortoperator eine der folgenden Aktionen verwenden, um die Kommissionierung der bestimmten Charge zu einem passenderen Lagerort umleiten.</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="186">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="186">Der Standardaktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="186">Lagerplatzüberschreibung</strong> auf einem mobilen Gerät (vorausgesetzt, die Lagerort-Arbeitskräfte-Einstellung <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="186">Außerkraftsetzen des Entnahmeorts zulassen</strong> ist aktiviert)</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="187">Die Aktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="187">Lagerplatz ändern</strong> auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="187">Arbeitslistendetails</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="189"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="189">Beenden Sie auf dem mobilen Gerät die Kommissionierung und Platzierung der Arbeit.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="191">Die Menge von <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="191">10</strong> für Chargennummer <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="191">B11</strong> wird nun für die Auftragsposition und im Lagerort <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="191">Baydoor</strong> platziert. Zu diesem Zeitpunkt kann es auf den LKW verladen und an die Adresse des Kunden versendet werden.</p>
+</li>
+</ol>
+<h2 id="flexible-license-plate-reservation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="193">Flexible Ladungsträgerreservierung</h2>
+<h3 id="business-scenario" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="195">Geschäftsszenario</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="197">In diesem Szenario verwendet ein Unternehmen die Lagerortverwaltung und die Arbeitsverarbeitung und erledigt die Ladungsplanung auf der Ebene einzelner Paletten/Container außerhalb des Supply Chain Management, bevor die Arbeit erstellt wird. Diese Behälter werden durch Ladungsträger in den Bestandsdimensionen dargestellt. Daher müssen für diesen Ansatz den Auftragspositionen bestimmte Ladungsträger vorab zugewiesen werden, bevor die Kommissionierarbeit abgeschlossen wird. Das Unternehmen sucht nach Flexibilität bei der Handhabung der Ladungsträgerreservierungsregeln, damit folgende Verhaltensweisen auftreten:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="199">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="199">Ein Ladungsträger kann aufgezeichnet und reserviert werden, wenn der Auftrag vom Verkäufer entgegengenommen wird. Er kann nicht aufgrund anderer Bedarfe verwendet werden. Mit diesem Verhalten wird gewährleistet, dass der vorgesehene Ladungsträger an den Kunden gesendet wird.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="200">Wenn der Ladungsträger noch keiner Auftragsposition zugeordnet ist, kann das Lagerpersonal während der Kommissionierarbeiten nach Abschluss der Registrierung und Reservierung des Auftrags einen Ladungsträger auswählen.</li>
+</ul>
+<h3 id="turn-on-flexible-license-plate-reservation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="202">Flexible Ladungsträgerreservierung aktivieren</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="204">Bevor Sie die flexible Ladungsträgerreservierung verwenden können, müssen zwei Funktionen in Ihrem System aktiviert sein. Administratoren können mit den Einstellungen in der <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="204">Funktionsverwaltung</a> den Status der Funktionen überprüfen und sie gegebenenfalls aktivieren. Sie müssen die Funktionen in der folgenden Reihenfolge aktivieren:</p>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="206">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="206"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="206">Funktionsname:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="206">Flexible Dimensionsreservierung auf Lagerebene</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="207"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="207">Funktionsname:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="207">Flexible auftragsgebundene Ladungsträgerreservierung</em></li>
+</ol>
+<h3 id="reserve-a-specific-license-plate-on-the-sales-order" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="209">Einen bestimmten Ladungsträger für den Auftrag reservieren</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="211">Um die Ladungsträgerresevierung für eine Bestellung zu aktivieren, müssen Sie das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="211">Reservierung für Bedarfsauftrag zulassen</strong> für die Ebene <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="211">Ladungsträger</strong> auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="211">Bestandsreservierungshierarchien</strong> für die Hierarchie auswählen, die dem entsprechenden Artikel zugeordnet ist.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="213"><img src="media/Flexible-LP-reservation-hierarchy.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="213" alt="Seite „Bestandsreservierungshierachien“ für eine flexible Ladungsträgerreservierungshierarchie"></p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="215">Sie können die Ladungsträgerreservierungshierarchie für den Auftrag zu jedem Zeitpunkt Ihrer Bereitstellung aktivieren. Diese Änderung wirkt sich nicht auf Reservierungen oder offene Lagerarbeiten aus, die vor der Änderung erstellt wurden. Sie können jedoch das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="215">Reservierung für Bedarfsauftrag zulassen</strong> nicht deaktivieren, wenn offene ausgehende Lagerbuchungen den Abgangsstatus <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="215">Bestellt</em>, <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="215">Bestellt reserviert</em> oder <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="215">Physisch reserviert</em> für mindestens einen Artikel haben, der mit der Reservierungshierarchie verknüpft ist.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="217">Selbst wenn das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="217">Reservierung für Bedarfsauftrag zulassen</strong> für die Ebene <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="217">Ladungsträger</strong> aktiviert ist, ist es <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="217">nicht</em> möglich, in dem Auftrag einen bestimmten Ladungsträger zu reservieren. In diesem Fall gilt die Standardlagerort-Operationslogik, die auf die Reservierungshierarchie zutrifft.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="219">Um einen bestimmten Ladungsträger zu reservieren, müssen Sie einen <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/odata" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="219">Open Data Protocol (OData) (This is an external link)</a> Prozess verwenden. In der Anwendung können Sie diese Reservierung direkt aus einem Auftrag über die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="219">Auftragsgebundene Reservierungen nach Ladungsträger</strong> im Befehl <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="219">In Excel öffnen</strong> vornehmen. In den Entitätsdaten, die im Excel-Add-In geöffnet werden, müssen Sie die folgenden reservierungsbezogenen Daten eingeben und dann <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="219">Veröffentlichen</strong> auswählen, um die Daten an das Supply Chain Management zurückzusenden:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="221">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="221">Referenz (nur der Wert <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="221">Auftrag</em> wird unterstützt)</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="222">Auftragsnummer (der Wert kann aus dem Los abgeleitet werden)</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="223">Loskennung</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="224">Kennzeichen</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="225">Leistung</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="227">Wenn Sie einen bestimmten Ladungsträger für einen Artikel mit Chargenverfolgung reservieren müssen, verwenden Sie die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="227">Chargenreservierung</strong> wie im Abschnitt <a href="#sales-order-details" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="227">Auftragsdetails</a> beschrieben.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="229">Wenn die Auftragsposition, die eine auftragsgebundene Ladungsträgerreservierung verwendet, durch Lageroperationen verarbeitet wird, werden keine Lagerplatzrichtlinien verwendet.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="231">Wenn eine Lagerarbeitsaufgabe aus Positionen besteht, die einer vollständigen Palette entsprechen und ladungsträgergebundene Mengen haben, können Sie den Kommissionierprozess mithilfe eines Menüelements für mobile Geräte optimieren, bei denen die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="231">Mit Ladungsträger handhaben</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="231">Ja</em> gesetzt ist. Ein Lagerarbeiter kann dann einen Ladungsträger scannen, um eine Kommissionierung abzuschließen, anstatt die Artikel aus der Arbeit einzeln scannen zu müssen.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="233"><img src="media/Handle-by-LP-menu-item.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="233" alt="Menüpunkt für mobiles Gerät, bei dem die Option „Mit Ladungsträger handhaben“ auf „Ja“ gesetzt ist"></p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="235">Da die Funktionalität <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="235">Mit Ladungsträger handhaben</strong> keine Arbeit unterstützt, die mehrere Paletten abdeckt, ist es besser, für verschiedene Ladungsträger separate Arbeitsaufgaben zu nutzen. Um diesen Ansatz zu verwenden, fügen Sie das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="235">Auftragsgebundene Ladungsträger-ID</strong> als Arbeitskopfzeilenumbruch auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="235">Arbeitsvorlage</strong> hinzu.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="237">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="238">Für den Prozess der auftragsgebundenen Arbeitserstellung wird den Kommissionierarbeitspositionen ein Wert für die Dimension „auftragsgebundener Bestand“ zugewiesen, und es wird nicht möglich sein, den Kennzeichenwert direkt einzusehen. Nur der <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="238">Benutzergeleitet</em>-Prozess wird beim Einrichten eines Menüelements für mobile Geräte unterstützt.</p>
+</div>
+<h2 id="example-scenario-set-up-and-process-an-order-committed-license-plate-reservation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="240">Beispielszenario: auftragsgebundenen Ladungsträgerreservierung einrichten und verarbeiten</h2>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="242">Dieses Szenario zeigt, wie man eine auftragsgebundene Ladungsträgerreservierung einrichtet und verarbeitet.</p>
+<h3 id="make-demo-data-available" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="244">Demodaten zur Verfügung stellen</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="246">Dieses Szenario verweist auf Werte und Datensätze, die in den für das Supply Chain Management bereitgestellten Standarddemodaten enthalten sind. Wenn Sie das Szenario mithilfe der in diesem Thema dargestellten Werte bearbeiten möchten, müssen Sie in einer Umgebung arbeiten, in der die Standarddemodaten installiert sind. Außerdem müssen Sie die juristische Person <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="246">USMF</strong> auswählen, bevor Sie beginnen.</p>
+<h3 id="create-an-inventory-reservation-hierarchy-that-allows-for-license-plate-reservation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="248">Erstellen Sie eine Bestandsreservierungshierarchie, die eine Ladungsträgerreservierung erlaubt</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="250">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="250">Gehen Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="250">Lagerortverwaltung &gt; Einrichten &gt; Bestand &gt; Reservierungshierachie</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="251">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="251">Neu</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="252">Geben Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="252">Name</strong> einen Wert ein (beispielsweise <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="252">Flexibler LP</em>).</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="253">Geben Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="253">Beschreibung</strong> einen Wert ein (beispielsweise <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="253">Flexible LP-Reservierung</em>).</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="254">Wählen Sie in der Liste <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="254">Ausgewählt</strong> die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="254">Chargennummer</strong>, <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="254">Seriennummer</strong> und den <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="254">Besitzer</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="255">Wählen Sie die Schaltfläche <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="255">Entfernen</strong> aus <img src="media/backward-button.png" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="255" alt="Rückwärtspfeil">, um die Auswahl in die Liste <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="255">Verfügbar</strong> zu verschieben.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="256">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="256">OK</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="257">In der Zeile mit der <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="257">Ladungsträger</strong>-Dimensionsebene aktivieren Sie das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="257">Reservierung für Bedarfsauftrag zulassen</strong>. Die Ebene <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="257">Lagerplatz</strong> wird automatisch ausgewählt und Sie können das Kontrollkästchen für diese nicht deaktivieren.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="258">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="258">Speichern</strong> aus.</li>
+</ol>
+<h3 id="create-two-released-products" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="260">Zwei freigegebene Produkte erstellen</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="262">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="262"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="262">Wechseln Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="262">Produktinformationsverwaltung &gt; Produkte &gt; Freigegebene Produkte</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="263"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="263">Wählen Sie im Aktivitätsbereich <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="263">Neu</strong> aus.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="264"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="264">Legen Sie im Dialogfeld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="264">Neues freigegebenes Produkt</strong> die folgenden Werte fest:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="266">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="266"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="266">Produktnummer:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="266">Artikel 1</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="267"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="267">Artikelnummer:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="267">Artikel 1</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="268"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="268">Lagersteuerungsgruppe:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="268">FIFO</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="269"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="269">Artikelgruppe:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="269">Audio</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="270"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="270">Lagerdimensionsgruppe:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="270">Lagerort</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="271"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="271">Rückverfolgungsangabengruppe:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="271">Keine</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="272"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="272">Reservierungshierarchie:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="272">Flexibler LP</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="274"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="274">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="274">OK</strong> aus, um das Produkt zu erstellen und das Dialogfeld zu schließen.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="275"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="275">Das neue Produkt wird geöffnet. Geben Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="275">Lagerort</strong> im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="275">Einheitennummernkreisgruppen-ID</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="275">ea</em> ein.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="276"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="276">Wiederholen Sie die vorherigen Schritte, um ein zweites Produkt mit denselben Einstellungen zu erstellen, geben Sie aber bei <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="276">Produktnummer</strong> und <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="276">Artikelnummer</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="276">Artikel 2</em> ein.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277">Wählen Sie im Aktivitätsbereich auf der Registerkarte <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277">Lagerbestand verwalten</strong> in der Gruppe <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277">Ansicht</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277">Verfügbarer Lagerbestand</strong> aus. Dann wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="277">Mengenanpassung</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="278"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="278">Passen Sie den verfügbaren Lagerbestand der neuen Artikel wie in der folgenden Tabelle angegeben an.</p>
+<table sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">
+<thead>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">Artikel</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">Lagerort</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">Ziel</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">Kennzeichen</th>
+<th sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="280">Leistung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">Artikel 1</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">FL-010</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">LP01</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="282">10</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">Artikel 1</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">FL-011</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">LP02</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="283">10</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">Artikel 2</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">FL-010</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">LP01</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="284">5</td>
+</tr>
+<tr sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">Artikel 2</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">24</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">FL-011</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">LP02</td>
+<td sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="285">5</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="287">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="288">Sie müssen die beiden Ladungsträger erstellen und Lagerplätze verwenden, die gemischte Artikel zulassen, z. B. <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="288">FL-010</em> und <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="288">FL-011</em>.</p>
+</div>
+</li>
+</ol>
+<h3 id="create-a-sales-order-and-reserve-a-specific-license-plate" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="290">Legen Sie einen Auftrag an und reservieren Sie einen bestimmten Ladungsträger</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="292">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="292"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="292">Wechseln Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="292">Vertrieb und Marketing &gt; Aufträge &gt; Alle Aufträge</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="293"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="293">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="293">Neu</strong> aus.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="294"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="294">Legen Sie im Dialogfeld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="294">Auftrag erstellen</strong> die folgenden Werte fest:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="296">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="296"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="296">Debitorenkonto:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="296">US-001</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="297"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="297">Lagerort:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="297">24</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="299"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="299">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="299">OK</strong> aus, um das Dialogfeld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="299">Auftrag erstellen</strong> zu schließen und den neuen Auftrag zu öffnen.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="300"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="300">Fügen Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="300">Auftragspositionen</strong> eine Position mit den folgenden Einstellungen hinzu:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="302">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="302"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="302">Artikelnummer:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="302">Artikel 1</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="303"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="303">Menge</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="303">10</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="305"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="305">Fügen Sie eine zweite Auftragsposition mit den folgenden Einstellungen hinzu:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="307">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="307"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="307">Artikelnummer:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="307">Artikel 2</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="308"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="308">Menge</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="308">5</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="310"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="310">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="310">Speichern</strong> aus.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="311"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="311">Im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="311">Positionsdetails</strong> in der Registerkarte <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="311">Einrichtungen</strong> notieren Sie die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="311">Los-ID</strong> für jede Position. Diese Werte werden bei der Reservierung bestimmter Ladungsträger benötigt.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="313">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="314">Um einen bestimmten Ladungsträger zu reservieren, müssen Sie die Datenentität <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="314">Auftragsgebundene Reservierungen nach Ladungsträger</strong> verwenden. Um einen Artikel mit Chargenverfolgung auf einem bestimmten Ladungsträger zu reservieren, verwenden Sie die Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="314">Chargenreservierung</strong> wie im Abschnitt <a href="#sales-order-details" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="314">Auftragsdetails</a> beschrieben.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="316">Wenn Sie den Ladungsträger direkt in die Auftragsposition eingeben und bestätigen, wird die Lagerverwaltungsverarbeitung für die Position nicht verwendet.</p>
+</div>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="318"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="318">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="318">In Microsoft Office</strong> öffnen, <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="318">Auftragsgebundene Reservierungen nach Ladungsträger</strong> und laden Sie die Datei herunter.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="319"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="319">Öffnen Sie die heruntergeladene Datei in Excel und wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="319">Bearbeiten aktiveren</strong>, damit das Excel Add-In ausgeführt werden kann.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="320"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="320">Wenn Sie das Excel-Add-In zum ersten Mal ausführen, klicken Sie auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="320">Diesem Add-In vertrauen</strong>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="321"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="321">Klicken Sie nach Aufforderung auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="321">Anmelden</strong>, und melden Sie sich mit den Anmeldeinformationen an, mit denen Sie sich beim Supply Chain Management angemeldet haben.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="322"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="322">Um einen Artikel auf einem bestimmten Ladungsträger zu reservieren, wählen Sie im Excel-Add-In die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="322">Neu</strong>, um eine Reservierungszeile hinzuzufügen, und legen Sie dann die folgenden Werte fest:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="324">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="324"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="324">Los-ID:</strong> Geben Sie die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="324">Los-ID</strong> ein, die Sie für die Auftragsposition für <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="324">Artikel 1</em> gefunden haben.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="325"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="325">Ladungsträger:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="325">LP02</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="326"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="326">Reservieren von Lagermenge:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="326">10</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="328"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="328">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="328">Neu</strong> aus, um eine weitere Reservierungszeile hinzuzufügen, und legen Sie die folgenden Werte fest:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="330">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="330"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="330">Los-ID:</strong> Geben Sie die <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="330">Los-ID</strong>, die Sie für die Auftragsposition für <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="330">Artikel 2</em> gefunden haben.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="331"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="331">Ladungsträger:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="331">LP02</em></li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="332"><strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="332">Reservieren von Lagermenge:</strong> <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="332">5</em></li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="334"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="334">Wählen Sie im Excel-Add-In die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="334">Veröffentlichen</strong> aus, um die Daten an das Supply Chain Management zurückzusenden.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="336">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="337">Die Reservierungszeile wird im System nur angezeigt, wenn die Veröffentlichung fehlerfrei abgeschlossen wurde.</p>
+</div>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="339"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="339">Gehen Sie zurück zum Supply Chain Management.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Um die Reservierung des Artikels zu überprüfen, klicken Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Auftragspositionen</strong> im Menü <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Bestand</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Verwalten &gt; Reservierung</strong>. Beachten Sie, dass für die Auftragsposition für <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Artikel 1</em> ein Bestand von <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">10</em> reserviert ist und für die Auftragsposition für <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">Artikel 2</em> ein Bestand von <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="340">5</em>.</p>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Um Lagerbuchungen zu überprüfen, die sich auf die Reservierung der Auftragsposition beziehen, klicken Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Auftragspositionen</strong> im Menü <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Bestand</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Ansicht &gt; Buchungen</strong>. Beachten Sie, dass es zwei Buchungen gibt, die sich auf die Reservierung beziehen: eine, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Auftrag</em> steht und eine, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="341">Auftragsgebundene Reservierung</em> steht.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="343">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Eine Buchung, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Auftrag</em> gesetzt ist, steht für die Auftragspositionsreservierung für Bestandsdimensionen, die über der Ebene <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Lagerplatz</strong> liegen (Standort, Lagerort und Bestandsstatus). Eine Buchung, bei der die das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="344">Auftragsgebundene Reservierung</em> steht, steht für die Auftragspositionsreservierung für den bestimmten Ladungsträger und den Lagerplatz.</p>
+</div>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="346"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="346">Um den Auftrag freizugeben, gehen Sie im Aktivitätsbereich auf der Registerkarte <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="346">Lagerort</strong> in der Gruppe <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="346">Aktivitäten</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="346">Für Lagerort freigeben</strong>.</p>
+</li>
+</ol>
+<h3 id="review-and-process-warehouse-work-with-order-committed-license-plates-assigned" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="348">Lagerarbeiten mit zugewiesenen auftragsgebundenen Ladungsträgern überprüfen und verarbeiten</h3>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350">Wählen Sie im Inforegister <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350">Auftragspositionen</strong> im Menü <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350">Lagerort</strong> die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="350">Arbeitsdetails</strong> aus.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="352">Wie bei der Reservierung für eine bestimmte Charge verwendet das System keine Lagerplatzrichtlinien, wenn es die Arbeit für den Auftrag erstellt, der die Ladungsträgerreservierung verwendet. Da die auftragsgebundene Reservierung alle Bestandsdimensionen einschließlich des Lagerplatzes spezifiziert, müssen Lagerplatzrichtlinien nicht verwendet werden, da diese Bestandsdimensionen nur in die Arbeit eingegeben werden. Sie werden im Abschnitt <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="352">Aus Bestandsdimensionen</strong> auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="352">Arbeitslagerbuchungen</strong> angezeigt.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="354">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="355">Nachdem die Arbeit erstellt wurde, wird die Lagerbuchung, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="355">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="355">Auftragsgebundene Reservierung</em> gesetzt ist, entfernt. Die Lagerbuchung, bei der das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="355">Referenz</strong> auf <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="355">Arbeit</em> gesetzt ist, enthält nun die physische Reservierung für alle Lagerdimensionen der Menge.</p>
+</div>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="357"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="357">Beenden Sie die Kommissionierung und Platzierung der Arbeit auf dem mobilen Gerät mithilfe eines Menüelements, in dem das Kontrollkästchen <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="357">Mit Ladungsträger handhaben</strong> aktiviert ist.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="359">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="360">Die Funktionalität <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="360">Mit Ladungsträger handhaben</strong> hilft Ihnen bei der Verarbeitung des kompletten Ladungsträgers. Wenn Sie einen Teil des Ladungsträgers verarbeiten müssen, können Sie diese Funktionalität nicht verwenden.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="362">Wir empfehlen, dass Sie für jeden Ladungsträger separate Arbeiten erstellen lassen. Verwenden Sie dafür die Funktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="362">Arbeitskopfzeilenumbrüche</strong> auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="362">Arbeitsvorlage</strong>.</p>
+</div>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="364">Der Bestandsträger <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="364">LP02</em> wird nun für die Auftragspositionen kommissioniert und an den Lagerplatz <em sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="364">Ladebereichstor</em> gebracht. Zu diesem Zeitpunkt kann er verladen und an den Kunden versendet werden.</p>
+</li>
+</ol>
+<h2 id="exception-handling-of-warehouse-work-that-has-order-committed-batch-numbers" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="366">Ausnahmenbehandlung von Lagerortarbeit mit auftragsgebundenen Chargennummern</h2>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="368">Die Lagerarbeit für die Kommissionierung von auftragsgebundenen Chargennummern unterliegt denselben standardmäßigen Lagerortausnahmebehandlungen und -Aktionen wie die reguläre Arbeit. Im Allgemeinen kann die offene Arbeit oder Arbeitsposition storniert werden. Sie kann unterbrochen werden, weil ein Lagerort voll ist, sie kann kurz entnommen werden und sie kann aufgrund einer Bewegung aktualisiert werden. Ebenso kann die kommissionierte Arbeit, die bereits erledigt wurde, reduziert oder rückgängig gemacht werden.</p>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="370">Für alle diese Ausnahmebehandlungsaktionen gilt die folgende Grundregel: Die für den Kunden reservierte Chargennummer kann niemals durch eine andere Chargennummer ersetzt werden, ihre Lagerdimensionen (Lagerort und Ladungsträger) können jedoch durch eine manuelle Aktualisierung seitens des Benutzers geändert werden oder durch eine automatische Aktualisierung seitens des Systems. Die automatische Aktualisierung basiert auf der gleichen zufälligen Zuweisung von Lagerdimensionen, die galten, als eine bestimmte Charge automatisch reserviert wurde, aber keine Lagerdimensionen angegeben waren.</p>
+<h3 id="example-scenario" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="372">Beispielszenario</h3>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="374">Ein Beispiel für dieses Szenario ist eine Situation, in der zuvor abgeschlossene Arbeiten teilweise rückgängig gemacht wird, indem die Funktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="374">Entnommene Menge reduzieren</strong> verwendet wird. In diesem Beispiel wird davon ausgegangen, dass Sie die im <a href="#Example-batch-allocation" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="374">Beispielszenario: Chargennummernzuteilung</a> beschriebenen Schritte bereits ausgeführt haben. Es knüpft an dieses Beispiel an.</p>
+<ol sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="376">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="376">Gehen Sie zu <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="376">Lagerortverwaltung</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="376">Ladungen</strong> &gt; <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="376">Aktive</strong>.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="377">Wählen Sie die Ladung aus, die im Zusammenhang mit dem Versand Ihres Auftrags erstellt wurde.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="378">Wählen Sie auf dem Inforegister für <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="378">Auftragspositionen laden</strong> die Option <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="378">Entnommene Menge reduzieren</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="379">Wählen Sie auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="379">Entnommene Menge reduzieren</strong> im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="379">An Lagerplatz verschieben</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="379">FL-001</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="380">Wählen Sie im Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="380">Auf Ladungsträger verschieben</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="380">LP33</strong> aus.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="381">Geben Sie im Raster des Felds <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="381">Bestandsmenge, deren Entnahme rückgängig gemacht werden soll</strong> <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="381">10</strong> ein.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="382">Wählen Sie <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="382">OK</strong>.</li>
+</ol>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="384">Hier sind die Ergebnisse der Entnahme-Aktion:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="386">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="386">Der Status der zuvor abgeschlossenen Arbeit wird auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="386">Storniert</strong> gesetzt.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">Neue Arbeit vom Typ <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">Lagerumlagerung</strong> wird für die nicht entnommene Menge von <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">10</strong> für die Chargennummer <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">B11</strong> erstellt. Diese Arbeit repräsentiert die Verschiebung vom Lagerort <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">Baydoor</strong> zum Ladungsträger <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">LP33</strong> im Lagerort <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">FL-001</strong>. Der Status wird auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="387">Abgeschlossen</strong> gesetzt.</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Das System reserviert die ursprünglich bestellte Chargennummer erneut und weist die IDs des Lagerorts und des Ladungsträgers zu. (Dieser Vorgang entspricht dem Ausführen der Funktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Position reservieren</strong> für die Bestellposition einer bestimmten Chargennummer). Als Ergebnis wird Charge <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">B11</strong> nun als „Zugesagt“ auf dem Inforegister für <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Chargennummern für Quellposition zugesagt</strong> der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Chargenreservierung</strong> angezeigt und das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Reservierung</strong> enthält eine Menge von <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">10</strong> für die Chargennummer <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">B11</strong>. Zusätzlich wird das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Lagerort</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">FL-001</strong> gesetzt und das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">Ladungsträger</strong> auf <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="388">LP11</strong>. (Sie können diese Felder zum Raster hinzufügen, wenn sie nicht sichtbar sind.)</li>
+</ul>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="390">Die folgenden Tabellen bieten eine Übersicht darüber, wie das System die auftragsgebundene Chargenreservierung für bestimmte Lagerortaktionen handhabt. Um den Inhalt in den Tabellen zu interpretieren, nehmen Sie an, dass jede Lagerortaktion im Kontext einer vorhandenen Lagerarbeit ausgeführt wird, die aus einer auftragsgebundenen Chargenreservierung stammt, oder dass sich die Ausführung jeder Lageraktion auf eine Arbeit dieses Typs auswirkt.</p>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="392">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="393">In diesen Tabellen gibt die Spalte „Chargenmenge verfügbar“ an, ob eine Chargenmenge zusätzlich zu der Menge verfügbar ist, die entweder bereits für die aktuellen auftragsgebundenen Reservierungen reserviert ist oder die bereits von der Lagerarbeit reserviert wurde, die aus Reservierungen dieser Art stammt.</p>
+</div>
+<h4 id="override-the-pick-location-on-the-open-work" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="395">Überschreiben des Entnahmeplatzes bei offener Arbeit</h4>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='2'>Die Option <strong>Außerkraftsetzen des Entnahmeorts zulassen</strong> ist für die Arbeitskraft aktiviert.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Lagerplatz überschreiben</strong> in der Warehouse-App aus, wenn Sie mit der Entnahmearbeit beginnen.</li>
+<li>Wählen Sie die Option für <strong>Vorschlagen</strong> aus.</li>
+<li>Bestätigen Sie den neuen Lagerort, der basierend auf der Verfügbarkeit der Chargenmenge vorgeschlagen wird.</li>
+</ol>
+</td>
+<td>Bei der aktuellen Arbeit werden folgende Aktionen ausgeführt:
+<ul>
+<li>Der Ort der Entnahmeposition wird auf den neuen Lagerort aktualisiert. (Wenn der Lagerort durch einen Ladungsträger gesteuert wird, wird ein zufällig ausgewählter Ladungsträger zur Lagerbuchung für Arbeit zugewiesen und die Arbeitskraft kann von jedem Ladungsträger mit verfügbarer Menge entnehmen.)</li>
+<li>Ist die Menge am neuen Lagerort auf mehreren Ladungsträgern verfügbar, wird die ursprüngliche Entnahmeposition in mehrere Positionen aufgeteilt, um den einzelnen Ladungsträgern zu entsprechen.</li>
+</ul>
+</td>
+<td>Nicht zutreffend</td>
+</tr>
+<tr>
+<td>Nr.</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Lagerplatz überschreiben</strong> in der Warehouse-App aus, wenn Sie mit der Entnahmearbeit beginnen.</li>
+<li>Geben Sie einen Lagerort manuell ein.</li>
+</ol>
+</td>
+<td>Die Aktion <strong>Standort überschreiben</strong> ist nicht möglich. Sie schlägt fehl und löst einen Fehler aus.</td>
+<td>Nicht zutreffend</td>
+</tr>
+</tbody>
+</table>
+<h4 id="full-button--split-a-work-line-because-of-overflow-on-the-user-location" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="440">Schaltfläche „Voll“ – Teilt eine Arbeitsposition aufgrund eines Überlaufs am Benutzerstandort</h4>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Die Option <strong>Aufteilung der Arbeit zulassen</strong> ist bei mobilen Geräten im Menüelement aktiviert.</td>
+<td>Nicht zutreffend</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Voll</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit verarbeiten.</li>
+<li>Geben Sie im Feld <strong>Entnahmemenge</strong> eine Teilmenge der erforderlichen Entnahme ein, um die volle Kapazität anzuzeigen.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Bei der aktuellen Arbeit wird die Menge auf die verbleibende Menge aktualisiert, die kommissioniert werden muss.</li>
+<li>Für die kommissionierte Menge wird eine neue Arbeit angelegt und abgeschlossen.</li>
+</ul></td>
+<td>Nicht zutreffend</td>
+</tr>
+</tbody>
+</table>
+<h4 id="reduce-the-picked-quantity-of-completed-work-from-a-load" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="472">Reduzieren der entnommenen Menge für abgeschlossene Arbeit (von einer Ladung)</h4>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='2'>Nicht zutreffend</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Öffnen Sie die Seite <strong>Entnommene Menge reduzieren</strong> über die Ladungsposition.</li>
+<li>Geben Sie die gesamte Menge an, deren Entnahme rückgängig gemach werden soll.</li>
+<li>Wählen Sie einen „Verschieben nach“-Ladungsträger aus.</li>
+</ol>
+</td>
+<td>
+<ul> 
+<li>Arbeit, die mit der Ladungsposition verbunden sind, wird abgebrochen.</li>
+<li>Für die Lagerumlagerung wird eine neue Arbeit angelegt und abgeschlossen.</li>
+</ul>
+</td>
+<td>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Die Menge wird für die gleiche Charge und für den gleichen Lagerort und den gleichen Ladungsträger erneut reserviert (wenn der Lagerort durch einen Ladungsträger gesteuert wird), die während des Zurücknehmens der Entnahme eingegeben wurden.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="move-an-item-within-a-warehouse" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="512">Verschieben eines Artikels innerhalb eines Lagerorts</h4>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="514">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="515">Diese Lagerortaktion gilt nur für die Verlagerung vom Typ <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="515">Arbeitserstellungsprozess</strong>, nicht für die Verlagerung nach Vorlage.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='2'>Die Option <strong>Bewegung von Bestand mit zugeordneter Arbeit zulassen</strong> ist für die Arbeitskraft aktiviert.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Starten Sie eine Verlagerung in der Warehouse-App.</li>
+<li>Geben Sie „Von“- und „Nach“-Lagerorte ein.</li>
+</ol></td>
+<td>
+<ul>
+<li>Bei allen vorhandenen Arbeiten, die von der Verlagerung betroffen ist, wird der Entnahmeort auf den neuen „Nach“-Lagerort aktualisiert.</li>
+<li>Für die Lagerumlagerung wird eine neue Arbeit angelegt und abgeschlossen.</li>
+</ul>
+</td>
+<td>Alle vorhandenen Reservierungen, die von der Mengenverlagerung vom angegebenen Lagerort betroffen sind, werden für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Alle vorhandenen Reservierungen, die von der Mengenverlagerung vom angegebenen Lagerort betroffen sind, werden für dieselbe Charge und den neuen Zielstandort und den Ladungsträger erneut reserviert (sofern der Lagerort durch einen Ladungsträger gesteuert wird).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="reverse-the-picked-quantity-of-completed-work-from-a-load-or-a-wave" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="553">Stornieren der entnommenen Menge für abgeschlossene Arbeit (von einer Ladung oder Welle)</h4>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='6'>Nicht zutreffend</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Öffnen Sie die Seite <strong>Arbeit stornieren</strong>.</li>
+<li>Wählen Sie auf der Anforderungsseite die Option <strong>Artikel am aktuellen Lagerplatz belassen</strong> aus.</li>
+</ol>
+</td>
+<td>Arbeit, die mit der Ladung verbunden ist, wird abgebrochen.</td>
+<td>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Die Menge wird für dieselbe Charge und für den Lagerort und den Ladungsträger erneut reserviert, an dem bzw. bei dem die Menge bei der Stornierung belassen wurde.</td>
+</tr>
+<tr>
+<td>Ja</td>
+<td>
+<ol>
+<li>Öffnen Sie die Seite <strong>Arbeit stornieren</strong>.</li>
+<li>Wählen Sie auf der Anforderungsseite die Option <strong>Artikel diesem Lagerplatz zuweisen</strong> aus.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Die aktuelle Arbeit wird storniert.</li>
+<li>Für die Lagerumlagerung wird eine neue Arbeit angelegt und abgeschlossen.</li>
+</ul>
+</td>
+<td>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Die Menge wird für dieselbe Charge und für den Lagerort und den Ladungsträger reserviert, zu dem die Menge bei der Stornierung zugewiesen war.</td>
+</tr>
+<tr>
+<td>Ja/Nein</td>
+<td>
+<ol>
+<li>Öffnen Sie die Seite <strong>Arbeit stornieren</strong>.</li>
+<li>Wählen Sie auf der Anforderungsseite die Option <strong>Artikel an diesen Lagerplatz umlagern</strong> aus.</li>
+</ol>
+</td>
+<td>Eine Stornierung wird nicht unterstützt.</td>
+<td>Nicht zutreffend</td>
+</tr>
+<tr>
+<td>Ja/Nein</td>
+<td>
+<ol>
+<li>Öffnen Sie die Seite <strong>Arbeit stornieren</strong>.</li>
+<li>Wählen Sie auf der Anforderungsseite die Option <strong>Artikel auf der Grundlage von Lagerplatzrichtlinien umlagern</strong> aus.</li>
+</ol>
+</td>
+<td>Eine Stornierung wird nicht unterstützt. </td>
+<td>Nicht zutreffend</td>
+</tr>
+</tbody>
+</table>
+<h4 id="short-pick-a-quantity--register-the-quantity-as-physically-not-found-at-the-locationlicense-plate-while-you-perform-picking-work" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="631">Kurzentnahme einer Menge – Registrieren Sie die Menge als Menge, die physisch nicht am Lagerort/auf dem Ladungsträger vorhanden war, als Sie die Entnahmearbeiten durchführten</h4>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='2'>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Keine</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja</strong> und <strong>Reservierungen entfernen</strong> = <strong>Nein</strong> ist.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld <strong>Entnahmemenge</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Geben Sie im Feld <strong>Grund</strong> <strong>Keine Neuzuteilung</strong> ein.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Die aktuelle Arbeit wird geschlossen und die Entnahmemenge ist 0 (Null).</li>
+<li>Eine Lagerbuchung vom Typ <strong>Inventur</strong> und der Abgangstyp <strong>Verkauft</strong> werden erstellt, um die Anpassung darzustellen.</li>
+</ul>
+</td>
+<td>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>
+<ul>
+<li>Die Kurzentnahme-Aktion schlägt fehl und es wird ein Fehler ausgegeben.</li>
+<li>Die aktuelle Arbeit bleibt offen.</li>
+</ul>
+</td>
+<td>Nicht zutreffend</td>
+</tr>
+<tr>
+<td rowspan='2'>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Keine</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja</strong> und <strong>Reservierungen entfernen</strong> = <strong>Ja</strong> ist.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld <strong>Entnahmemenge</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Geben Sie im Feld <strong>Grund</strong> <strong>Keine Neuzuteilung</strong> ein.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Die aktuelle Arbeit wird geschlossen und die Entnahmemenge ist 0 (Null).</li>
+<li>Eine Lagerbuchung vom Typ <strong>Inventur</strong> und der Abgangstyp <strong>Verkauft</strong> werden erstellt, um die Anpassung darzustellen.</li>
+</ul>
+</td>
+<td>Alle vorhandenen Reservierungen, die von der Mengenanpassung im Lagerort der Kurzentnahme betroffen sind, werden für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Alle vorhandenen Reservierungen, die von der Mengenanpassung im Lagerort der Kurzentnahme betroffen sind, werden entfernt.</td>
+</tr>
+<tr>
+<td>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Manuell</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja</strong> und <strong>Reservierungen entfernen</strong> = <strong>Nein/Ja</strong> ist. Zusätzlich wird die Option <strong>Manuelle Artikelneuzuordnung zulassen</strong> für die Arbeitskraft aktiviert.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld für <strong>Menge der Kurzentnahme</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Wählen Sie im Feld <strong>Grund</strong> <strong>Kurze Entnahme mit manueller Neuzuteilung</strong> aus.</li>
+<li>Wählen Sie den Lagerort/Ladungsträger in der Liste aus.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Bei der aktuellen Arbeit werden folgende Aktionen ausgeführt:
+<ul>
+<li>Die Entnahmeposition wird geschlossen und die Entnahmemenge ist 0 (Null).</li>
+<li>Die Einlagerungsposition wird storniert.</li>
+<li>Eine neue Entnahmeposition wird erstellt. Es wird der Lagerort/Ladungsträger verwendet, den der Benutzer ausgewählt hat.</li>
+<li>Eine neue Einlagerungsposition wird erstellt.</li>
+</ul>
+</li>
+<li>Eine Lagerbuchung vom Typ <strong>Inventur</strong> und der Abgangstyp <strong>Verkauft</strong> werden erstellt, um die Anpassung darzustellen.</li>
+</ul>
+</td>
+<td>Nicht zutreffend</td>
+</tr>
+<tr>
+<td>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Manuell</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja</strong> und <strong>Reservierungen entfernen</strong> = <strong>Nein</strong> ist. Zusätzlich wird die Option <strong>Manuelle Artikelneuzuordnung zulassen</strong> für die Arbeitskraft aktiviert.</td>
+<td>Nr.</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld für <strong>Menge der Kurzentnahme</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Wählen Sie im Feld <strong>Grund</strong> <strong>Kurze Entnahme mit manueller Neuzuteilung</strong> aus.</li>
+</ol>
+</td>
+<td>Die Kurzentnahme-Aktion schlägt fehl und es wird ein Fehler ausgegeben.</td>
+<td>Nicht zutreffend</td>
+</tr>
+<tr>
+<td>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Manuell</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja</strong> und <strong>Reservierungen entfernen</strong> = <strong>Ja</strong> ist. Zusätzlich wird die Option <strong>Manuelle Artikelneuzuordnung zulassen</strong> für die Arbeitskraft aktiviert.</td>
+<td>Nr.</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld für <strong>Menge der Kurzentnahme</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Wählen Sie im Feld <strong>Grund</strong> <strong>Kurze Entnahme mit manueller Neuzuteilung</strong> aus.</li>
+<li>Wählen Sie den Lagerort/Ladungsträger in der Liste aus.</li>
+</ol>
+</td>
+<td>
+<ul>
+<li>Bei der aktuellen Arbeit werden folgende Aktionen ausgeführt:
+<ul>
+<li>Die Entnahmeposition wird geschlossen und die Entnahmemenge ist 0 (Null).</li>
+<li>Die Einlagerungsposition wird storniert.</li>
+</ul>
+</li>
+<li>Eine Lagerbuchung vom Typ <strong>Inventur</strong> und der Abgangstyp <strong>Verkauft</strong> werden erstellt, um die Anpassung darzustellen.</li>
+</ul>
+</td>
+<td>Alle vorhandenen Reservierungen, die von der Mengenanpassung im Lagerort der Kurzentnahme/am Ladungsträger der Kurzentnahme betroffen sind, werden entfernt.</td>
+</tr>
+<tr>
+<td>Eine Arbeitsausnahme vom Typ <strong>Kurzentnahme</strong> wird eingerichtet, wenn <strong>Artikelneuzuteilung</strong> = <strong>Automatisch</strong>, <strong>Bestandsregulierung</strong> = <strong>Ja/Nein</strong> und <strong>Reservierungen entfernen</strong> = <strong>Ja/Nein</strong> ist.</td>
+<td>Nicht zutreffend</td>
+<td>
+<ol>
+<li>Wählen Sie das Menüelement <strong>Entnahme unzureichender Menge</strong> in der Warehouse-App aus, wenn Sie die Entnahmearbeit ausführen.</li>
+<li>Geben Sie im Feld für <strong>Menge der Kurzentnahme</strong> den Wert <strong>0</strong> (Null) ein.</li>
+<li>Wählen Sie im Feld <strong>Grund</strong> <strong>Kurze Entnahme mit automatischer Neuzuteilung</strong> aus.</li>
+</ol>
+</td>
+<td>Eine Kurzentnahme mit automatischer Neuzuteilung wird nicht unterstützt.</td>
+<td>Eine Kurzentnahme mit automatischer Neuzuteilung wird nicht unterstützt.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="change-the-inventory-status" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="776">Bestandsstatus ändern</h4>
+<div class="NOTE" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="778">
+<h5>Note</h5>
+<p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="779">Diese Lagerortaktion kann von mehreren Einstiegspunkten aus durchgeführt werden. Das hier gezeigte Beispiel verwendet die Aktion <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="779">Bestandsstatusänderung</strong> auf der Seite <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="779">Verfügbarer Lagerbestand nach Lagerplatz</strong>.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Wichtige Einrichtungsparameter</th>
+<th>Chargenmenge ist verfügbar</th>
+<th>Wichtige Schritte für den Benutzer</th>
+<th>Lagerarbeit</th>
+<th>Auftragsgebundene Chargenreservierung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan='2'>Auf der Registerkarte <strong>Lagerort</strong> im Datensatz <strong>Lagerort</strong> ist das Feld <strong>Reservierungen und Markierungen entfernen</strong> auf <strong>Reservierungen</strong> oder <strong>Markierungen und Reservierungen</strong> gesetzt.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie einen bestimmten Lagerort aus.</li>
+<li>Wählen Sie eine Position mit einem bestimmten Artikel, Lagerort und Ladungsträger (sofern der Lagerort durch einen Ladungsträger gesteuert wird).</li>
+<li>Wählen Sie <strong>Bestandsstatusänderung</strong> aus.</li>
+<li>Setzen Sie das Feld <strong>Bestandsstatus</strong> auf <strong>Sperrung</strong>.</li>
+</ol>
+</td>
+<td>Bestandsstatusänderungen sind für Mengen, die für Arbeit reserviert sind, nicht zulässig.</td>
+<td>
+<ul>
+<li>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</li>
+<li>Zwei Lagerbuchungen vom Typ <strong>Bestandsstatusänderung</strong> werden erstellt, um die Änderung in der Bestandsstatusdimension darzustellen.</li>
+<li>Eine Lagerbuchung vom Typ <strong>Sperrung von Lagerbestand</strong> sowie der Abgangstyp <strong>Physisch reserviert</strong> werden erstellt, um die Reservierung der gesperrten Menge darzustellen.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Bestandsstatusänderungen sind für Mengen, die für Arbeit reserviert sind, nicht zulässig.</td>
+<td>
+<ul>
+<li>Die Reservierung wird entfernt.</li>
+<li>Zwei Lagerbuchungen vom Typ <strong>Bestandsstatusänderung</strong> werden erstellt, um die Änderung in der Bestandsstatusdimension darzustellen.</li>
+<li>Eine Lagerbuchung vom Typ <strong>Sperrung von Lagerbestand</strong> sowie der Abgangstyp <strong>Physisch reserviert</strong> werden erstellt, um die Reservierung der gesperrten Menge darzustellen.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td rowspan='2'>Auf der Registerkarte <strong>Lagerort</strong> im Datensatz <strong>Lagerort</strong> ist das Feld <strong>Reservierungen und Markierungen entfernen</strong> auf <strong>Nein</strong> gesetzt.</td>
+<td>Ja</td>
+<td>
+<ol>
+<li>Wählen Sie einen bestimmten Lagerort aus.</li>
+<li>Wählen Sie eine Position mit einem bestimmten Artikel, Lagerort und Ladungsträger (sofern der Lagerort durch einen Ladungsträger gesteuert wird).</li>
+<li>Wählen Sie <strong>Bestandsstatusänderung</strong> aus.</li>
+<li>Setzen Sie das Feld <strong>Bestandsstatus</strong> auf <strong>Sperrung</strong>.</li>
+</ol>
+</td>
+<td>Bestandsstatusänderungen sind für Mengen, die für Arbeit reserviert sind, nicht zulässig.</td>
+<td>Die Menge wird für dieselbe Charge erneut reserviert. Das System weist nach dem Zufallsprinzip einen Lagerort und einen Ladungsträger zu (sofern der Lagerort durch einen Ladungsträger gesteuert wird), an bzw. bei dem die Menge verfügbar ist.</td>
+</tr>
+<tr>
+<td>Nein</td>
+<td>Siehe vorherige Zeile.</td>
+<td>Bestandsstatusänderungen sind für Mengen, die für Arbeit reserviert sind, nicht zulässig.</td>
+<td>Bestandsstatusänderungen sind nicht zulässig.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="limitations" sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="847">Einschränkungen</h2>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="849">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="849"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="849">Die flexible Reservierungsfunktion für Dimensionen auf Lagerortebene unterstützt die folgenden Funktionen nicht:</p>
+<ul sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="851">
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="851">Artikelgewichtsverwaltung</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="852">Physischer negativer Bestand</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="853">Reservierung kontra gegen bestellte Lieferung</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="854">Transportaufträge und Rohmaterialentnahme</li>
+</ul>
+</li>
+<li sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="856"><p sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="856">Die Containerkonsolidierungsregel für das Verpacken nach Richtlinieneinheit hat Einschränkungen. Für auftragsgebundene Reservierungen empfehlen wir, keine Container-Build-Vorlagen zu verwenden, bei denen das Feld <strong sourcefile="supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md" sourcestartlinenumber="856">Nach Richtlinieneinheit verpacken</strong> aktiviert ist. Beim aktuellen Design werden keine Lagerplatzrichtlinien verwendet, wenn Lagerarbeit erstellt wird. Daher wird nur die niedrigste Einheit in der Nummernkreisgruppe (der Lagereinheit) während des Containerisierungswellenschritts angewendet.</p>
+</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/warehousing/flexible-warehouse-level-dimension-reservation.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

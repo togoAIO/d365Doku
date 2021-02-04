@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrierte Masterdaten von Kreditoren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrierte Masterdaten von Kreditoren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird die Integration von Lieferantendaten zwischen Finance and Operations Apps und Dataverse beschrieben.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="integrated-vendor-master" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="28">Integrierte Masterdaten von Kreditoren</h1>
+
+[!include[banner](../../includes/banner.md)][!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="36">Der Begriff <em sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="36">Lieferant</em> bezieht sich auf eine Lieferantenorganisation oder einen Einzelunternehmer, der Waren oder Dienstleistungen an ein Unternehmen liefert. Der Begriff <em sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="36">Lieferant</em> ist zwar in Microsoft Dynamics 365 Supply Chain Management ein etabliertes Konzept, in in modellgesteuerten Apps in Dynamics 365 gibt es dieses Konzept aber nicht. Sie können jedoch die Entität <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="36">Konto/Kontakt</strong> zum Speichern von Lieferanteninformationen überladen. Die integrierten Masterdaten von Kreditoren führen ein explizites Kreditorenkonzept in modellgesteuerten Apps in Dynamics 365 ein. Sie können entweder das neue Lieferantendesign verwenden oder Lieferantendaten in der Entität <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="36">Konto/Kontakt</strong> speichern. Duales Schreiben unterstützt beide Ansätze.</p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="38">In beiden Ansätzen werden die Lieferantendaten zwischen Dynamics 365 Supply Chain Management, Dynamics 365 Sales, Dynamics 365 Field Service, und Power Apps-Portalen integriert . In Supply Chain Management stehen die Daten für Workflows wie Bestellanforderungen und Bestellungen zur Verfügung.</p>
+<h2 id="vendor-data-flow" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="40">Kreditorendatenfluss</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="42">Wenn Sie Daten nicht in der Entität <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="42">Konto/Kontakt</strong> in Dataverse speichern möchten, können Sie das neue Lieferantendesign verwenden.</p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="44"><img src="media/dual-write-vendor-data-flow.png" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="44" alt="Kreditorendatenfluss"></p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="46">Wenn Sie Daten weiterhin in der Entität <strong sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="46">Konto/Kontakt</strong> speichern möchten, können Sie das erweiterte Lieferantendesign verwenden. Um das erweiterte Lieferantendesign zu verwenden, müssen Sie die Herstellerworkflows im Lösungspaket für duales Schreiben konfigurieren. Weitere Informationen finden Sie unter <a href="vendor-switch.html" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="46">Wechsel zwischen Kreditorendesigns</a>.</p>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="48"><img src="media/dual-write-vendor-detail.jpg" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="48" alt="Erweiterter Kreditorendatenfluss"></p>
+<div class="TIP" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="50">
+<h5>Tip</h5>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="51">Wenn Sie Power Apps-Portale für Self-Service-Kreditoren verwenden, können die Kreditoreninformationen direkt an Finance and Operations-Apps weitergeleitet werden.</p>
+</div>
+<h2 id="templates" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="53">Vorlagen</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="55">Kreditorendaten enthalten alle Informationen über den Kreditor, z. B. die Kreditorengruppe, Adressen, Kontaktinformationen, das Zahlungsprofil und das Rechnungsprofil. Eine Sammlung von Tabellenzuordnungen arbeitet während der Interaktion der Kreditorendaten zusammen, wie in der folgenden Tabelle dargestellt.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="57">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="57">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="57">Finance and Operations Apps</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="57">Sonstige Dynamics 365-Apps</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="57">Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="59">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="59">Kreditor V2</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="59">Konto</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="59">Unternehmen, die die Kontoentität verwenden, um Kreditorendaten speichern, können diese weiterhin auf die gleiche Weise verwenden. Sie können auch die explizite Lieferantenfunktion nutzen, die dank der Integration von Finance and Operations Apps zur Verfügung stehen.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="60">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="60">Kreditor V2</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="60">Msdyn_vendors</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="60">Unternehmen, die eine benutzerdefinierte Lösung für Lieferanten verwenden, können das vordefinierte Lieferantenkonzept nutzen, das in Dataverse durch die Integration von Finance and Operations Apps eingeführt wird.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="61">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="61">Kreditorengruppen</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="61">msdyn_vendorgroups</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="61">Diese Vorlage synchronisiert Lieferantengruppeninformationen.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="62">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="62">Kreditorzahlungsmethode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="62">msdyn_vendorpaymentmethods</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="62">Diese Vorlage synchronisiert Informationen zu den Zahlungsmethoden für Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="63">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="63">CDS-Kontakte V2</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="63">Kontakte</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="63">Die Vorlage <a href="customer-mapping.html#cds-contacts-v2-to-contacts" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="63">Kontakte</a> synchronisiert alle primären, sekundären und tertiären Kontaktinformationen für Kunden und Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="64">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="64">Zahlungsplanpositionen</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="64">msdyn_paymentschedulelines</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="64">Diese Vorlage <a href="customer-mapping.html#payment-schedule-lines-to-msdyn_paymentschedulelines" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="64">Zahlungsplanpositionen</a> synchronisiert die Referenzdaten für Kunden und Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="65">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="65">Zahlungsplan</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="65">msdyn_paymentschedules</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="65">Die Vorlage <a href="customer-mapping.html#payment-schedule-to-msdyn_paymentschedules" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="65">Zahlungspläne</a> synchronisiert die Referenzdaten für Zahlungspläne sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="66">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="66">Zahlungstagpositionen CDS V2</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="66">msdyn_paymentdaylines</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="66">Die Vorlage <a href="customer-mapping.html#payment-day-lines-cds-v2-to-msdyn_paymentdaylines" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="66">Zahlungstagpositionen</a> synchronisiert die Referenzdaten für Zahlungstagpositionen für Kunden und Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="67">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="67">Zahlungstage CDS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="67">msdyn_paymentdays</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="67">Die Vorlage <a href="customer-mapping.html#payment-days-cds-to-msdyn_paymentdays" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="67">Zahlungstage</a> synchronisiert die Referenzdaten für Zahlungstage sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="68">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="68">Zahlungsbedingungen</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="68">msdyn_paymentterms</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="68">Die Vorlage <a href="customer-mapping.html#terms-of-payment-to-msdyn_paymentterms" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="68">Zahlungsbedingungen</a> synchronisiert die Referenzdaten für Zahlungsbedingungen sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="69">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="69">Namensaffixe</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="69">msdyn_nameaffixes</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="69">Die Vorlage <a href="customer-mapping.html#name-affixes-to-msdyn_nameaffixes" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md" sourcestartlinenumber="69">Namensaffixe</a> synchronisiert die Referenzdaten für Namensaffixe sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+</tbody>
+</table>
+[!include[symbols](../../includes/dual-write-symbols.md)]<h2 id="vendors-v2-to-msdyn_vendors" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1">Kreditoren V2 zu msdyn_vendors</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="7">VENDORACCOUNTNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="7">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="7">msdyn_vendoraccountnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="8">VENDORGROUPID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="8">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="8">msdyn_vendorgroupid.msdyn_vendorgroup</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="9">VENDORORGANIZATIONNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="9">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="9">msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="10">VENDORPARTYTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="10">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="10">msdyn_isperson</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="11">PERSONFIRSTNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="11">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="11">msdyn_firstname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="12">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="12">PERSONLASTNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="12">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="12">msdyn_lastname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="13">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="13">CREDITLIMIT</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="13">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="13">msdyn_vendorcreditlimit</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="14">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="14">ISFOREIGNENTITY</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="14">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="14">msdyn_isforeignentity</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="15">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="15">ISONETIMEVENDOR</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="15">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="15">msdyn_isonetimevendor</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="16">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="16">ADDRESSBUILDINGCOMPLIMENT</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="16">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="16">msdyn_addressbuildingcompliment</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="17">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="17">PERSONCHILDRENNAMES</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="17">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="17">msdyn_childrennames</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="18">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="18">ADDRESSCITY</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="18">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="18">msdyn_addresscity</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="19">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="19">ADDRESSCOUNTRYREGIONID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="19">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="19">msdyn_addresscountryregionid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="20">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="20">ADDRESSCOUNTRYREGIONISOCODE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="20">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="20">msdyn_addresscountryregionisocode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="21">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="21">ADDRESSCOUNTYID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="21">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="21">msdyn_addresscountyid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="22">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="22">CREDITRATING</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="22">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="22">msdyn_creditrating</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="23">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="23">ADDRESSDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="23">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="23">msdyn_addressdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="24">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="24">ADDRESSDISTRICTNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="24">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="24">msdyn_addressdistrictname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="25">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="25">DUNSNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="25">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="25">msdyn_dunsnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="26">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="26">ETHNICORIGINID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="26">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="26">msdyn_ethnicorigin</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="27">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="27">FORMATTEDPRIMARYADDRESS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="27">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="27">msdyn_formattedprimaryaddress</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="28">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="28">PERSONHOBBIES</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="28">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="28">msdyn_hobbies</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="29">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="29">PERSONINITIALS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="29">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="29">msdyn_initials</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="30">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="30">LANGUAGEID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="30">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="30">msdyn_language</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="31">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="31">PERSONLASTNAMEPREFIX</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="31">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="31">msdyn_lastnameprefix</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="32">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="32">PERSONMIDDLENAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="32">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="32">msdyn_middlename</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="33">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="33">ORGANIZATIONNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="33">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="33">msdyn_organizationnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="34">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="34">OURACCOUNTNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="34">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="34">msdyn_ourvendoraccountnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="35">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="35">PAYMENTID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="35">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="35">msdyn_paymentid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="36">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="36">PERSONPHONETICFIRSTNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="36">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="36">msdyn_phoneticfirstname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="37">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="37">PERSONPHONETICMIDDLENAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="37">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="37">msdyn_phoneticmiddlename</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="38">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="38">PERSONPHONETICLASTNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="38">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="38">msdyn_phoneticlastname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="39">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="39">ORGANIZATIONPHONETICNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="39">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="39">msdyn_organizationphoneticname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="40">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="40">ADDRESSPOSTBOX</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="40">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="40">msdyn_addresspostbox</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="41">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="41">PRIMARYURL</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="41">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="41">msdyn_primarycontacturl</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="42">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="42">PRIMARYEMAILADDRESS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="42">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="42">msdyn_primaryemailaddress</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="43">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="43">PRIMARYEMAILADDRESSDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="43">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="43">msdyn_primaryemailaddressdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="44">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="44">PRIMARYFACEBOOK</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="44">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="44">msdyn_primaryfacebook</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="45">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="45">PRIMARYFACEBOOKDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="45">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="45">msdyn_primaryfacebookdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="46">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="46">PRIMARYFAXNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="46">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="46">msdyn_primaryfaxnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="47">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="47">PRIMARYFAXNUMBERDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="47">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="47">msdyn_primaryfaxnumberdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="48">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="48">PRIMARYFAXNUMBEREXTENSION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="48">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="48">msdyn_primaryfaxnumberextension</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="49">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="49">PRIMARYLINKEDIN</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="49">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="49">msdyn_primarylinkedin</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="50">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="50">PRIMARYLINKEDINDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="50">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="50">msdyn_primarylinkedindescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="51">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="51">PRIMARYPHONENUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="51">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="51">msdyn_pimaryphonenumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="52">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="52">PRIMARYPHONENUMBERDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="52">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="52">msdyn_primaryphonenumberdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="53">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="53">PRIMARYPHONENUMBEREXTENSION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="53">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="53">msdyn_primaryphonenumberextension</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="54">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="54">PRIMARYTELEX</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="54">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="54">msdyn_primarytelex</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="55">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="55">PRIMARYTELEXDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="55">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="55">msdyn_primarytelexdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="56">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="56">PRIMARYTWITTER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="56">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="56">msdyn_primarytwitter</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="57">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="57">PRIMARYTWITTERDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="57">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="57">msdyn_primarytwitterdescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="58">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="58">PRIMARYURLDESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="58">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="58">msdyn_primaryurldescription</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="59">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="59">PERSONPROFESSIONALSUFFIX</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="59">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="59">msdyn_professionalsuffix</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="60">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="60">PERSONPROFESSIONALTITLE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="60">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="60">msdyn_professionatitle</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="61">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="61">ADDRESSSTATEID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="61">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="61">msdyn_addressstateid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="62">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="62">ADDRESSSTREET</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="62">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="62">msdyn_addressstreet</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="63">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="63">ADDRESSSTREETNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="63">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="63">msdyn_addressstreetnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="64">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="64">VENDORKNOWNASNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="64">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="64">msdyn_vendorknownasname</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="65">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="65">ADDRESSZIPCODE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="65">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="65">msdyn_addresszipcode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="66">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="66">DEFAULTPAYMENTDAYNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="66">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="66">msdyn_defaultpaymentdayname.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="67">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="67">DEFAULTPAYMENTSCHEDULENAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="67">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="67">msdyn_paymentschedule.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="68">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="68">DEFAULTPAYMENTTERMSNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="68">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="68">msdyn_paymentterms.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="69">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="69">HASONLYTAKENBIDS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="69">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="69">msdyn_hasonlytakenbids</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="70">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="70">ISMINORITYOWNED</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="70">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="70">msdyn_isminorityowned</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="71">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="71">ISVENDORLOCALLYOWNED</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="71">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="71">msdyn_isvendorlocallyowned</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="72">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="72">ISSERVICEVETERANOWNED</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="72">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="72">msdyn_isserviceveteranowned</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="73">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="73">ISOWNERDISABLED</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="73">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="73">msdyn_ownerisdisabled</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="74">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="74">ISWOMANOWNER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="74">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="74">msdyn_womanowner</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="75">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="75">PERSONANNIVERSARYDAY</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="75">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="75">msdyn_personanniversaryday</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="76">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="76">PERSONANNIVERSARYYEAR</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="76">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="76">msdyn_anniversaryyear</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="77">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="77">PERSONBIRTHDAY</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="77">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="77">msdyn_birthday</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="78">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="78">PERSONBIRTHYEAR</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="78">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="78">msdyn_birthyear</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="79">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="79">ORGANIZATIONEMPLOYEEAMOUNT</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="79">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="79">msdyn_numberofemployees</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="80">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="80">VENDORHOLDRELEASEDATE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="80">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="80">msdyn_vendoronholdreleasedate</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="81">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="81">VENDORPARTYNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="81">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="81">msdyn_vendorpartynumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="82">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="82">ADDRESSLOCATIONID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="82">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="82">msdyn_addresslocationid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="83">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="83">PERSONANNIVERSARYMONTH</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="83">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="83">msdyn_vendorpersonanniversarymonth</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="84">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="84">PERSONBIRTHMONTH</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="84">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="84">msdyn_vendorpersonbirthmonth</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="85">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="85">PERSONMARITALSTATUS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="85">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="85">msdyn_maritalstatus</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="86">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="86">ADDRESSLATITUDE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="86">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="86">msdyn_addresslatitude</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="87">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="87">ADDRESSLONGITUDE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="87">&gt;&gt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="87">msdyn_addresslongitude</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="88">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="88">ONHOLDSTATUS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="88">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="88">msdyn_onholdstatus</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="89">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="89">CURRENCYCODE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="89">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="89">msdyn_currencycode.isocurrencycode</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="90">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="90">ISVENDORLOCATEDINHUBZONE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="90">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="90">msdyn_isvendorlocatedinhubzone</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="91">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="91">DEFAULTVENDORPAYMENTMETHODNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="91">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="91">msdyn_vendorpaymentmethod.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="92">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="92">INVOICEVENDORACCOUNTNUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="92">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="92">msdyn_invoicevendoraccountnumber.msdyn_vendoraccountnumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="93">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="93">PERSONGENDER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="93">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="93">msdyn_gender</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="94">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="94">AREPRICESINCLUDINGSALESTAX</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="94">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="94">msdyn_priceincludessalestax</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="95">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="95">SALESTAXGROUPCODE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="95">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="95">msdyn_taxgroup.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="96">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="96">PRIMARYCONTACTPERSONID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="96">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="96">msdyn_vendorprimarycontactperson.msdyn_contactpersonid</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorsV2-msdyn-vendors.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vendor-groups-to-msdyn_vendorgroups" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="1">Kreditorengruppen zu msdyn_vendorgroups</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="7">DEFAULTPAYMENTTERMNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="7">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="7">msdyn_paymentterms.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="8">DESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="8">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="8">msdyn_description</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="9">VENDORGROUPID</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="9">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="9">msdyn_vendorgroup</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="10">CLEARINGPERIODPAYMENTTERMNAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="10">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="10">msdyn_clearingperiodpaymentpermname.msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendVendorGroup-msdyn-vendorgroups.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vendor-payment-method-to-msdyn_vendorpaymentmethods" sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1">Kreditorenzahlungsmethode zu msdyn_vendorpaymentmethods</h2>
+<p sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="3">Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">
+<thead>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">Finance and Operations-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">Zuordnungstyp</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">Anderes Dynamics 365-Feld</th>
+<th sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="5">Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="7">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="7">NAME</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="7">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="7">msdyn_name</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="8">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="8">DESCRIPTION</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="8">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="8">msdyn_description</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="9">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="9">SUMBYPERIOD</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="9">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="9">msdyn_sumbyperiod</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="10">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="10">DISCOUNTGRACEPERIODDAYS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="10">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="10">msdyn_discountgraceperioddays</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="11">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="11">PAYMENTSTATUS</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="11">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="11">msdyn_paymentstatus</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="12">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="12">ALLOWPAYMENTCOPIES</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="12">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="12">msdyn_allowpaymentcopies</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="13">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="13">PAYMENTTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="13">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="13">msdyn_paymenttype</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="14">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="14">LASTFILENUMBER</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="14">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="14">msdyn_lastfilenumber</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="15">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="15">LASTFILENUMBERTODAY</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="15">=</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="15">msdyn_lastfilenumbertoday</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="16">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="16">ACCOUNTTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="16">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="16">msdyn_accounttype</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="17">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="17">BRIDGINGPOSTINGENABLED</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="17">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="17">msdyn_bridgingposting</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="18">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="18">ENABLEPOSTDATEDCHECKCLEARINGPOSTING</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="18">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="18">msdyn_postdatedcheckclearingposting</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="19">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="19">PROMISSORYNOTEDRAFTTYPE</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="19">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="19">msdyn_promissorynotedrafttype</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+<tr sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="20">
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="20">DIRECTDEBIT</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="20">&gt;&lt;</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="20">msdyn_directdebit</td>
+<td sourcefile="fin-ops-core/dev-itpro/data-entities/dual-write/includes/VendorPaymentMethod-msdyn-vendorpaymentmethods.md" sourcestartlinenumber="1"></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/vendor-mapping.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

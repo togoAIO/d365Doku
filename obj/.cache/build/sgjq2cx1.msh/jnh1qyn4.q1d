@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Create transfer orders from the warehouse app | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Create transfer orders from the warehouse app | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="create-transfer-orders-from-the-warehouse-app">Create transfer orders from the warehouse app</h1>
+
+
+<p>This feature lets warehouse workers create and process transfer orders directly from the warehouse app. The warehouse workers start by selecting the destination warehouse and then they can scan one or more license plates using the app to add license plates to the transfer order. When the warehouse worker selects  <strong>Complete order</strong>, a batch job will create the required transfer order and order lines based on the on-hand inventory registered for those license plates.</p>
+<h2 id="enable-create-transfer-order-from-warehouse-app">Enable the create transfer orders from Warehouse app feature</h2>
+<p>Before you can use this feature, both it and its prerequisites must be enabled on your system. Administrators can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> page to check the feature status and enable it if needed.</p>
+<ol>
+<li>First enable the <a href="warehouse-app-events.html">Process warehouse app events</a> feature, which is listed in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> as:
+<ul>
+<li><strong>Module</strong> - Warehouse management</li>
+<li><strong>Feature name</strong> - Process warehouse app events</li>
+</ul>
+</li>
+<li>Then enable the <em>Create transfer orders from the warehouse app</em>  feature, which is listed as:
+<ul>
+<li><strong>Module</strong> - Warehouse management</li>
+<li><strong>Feature name</strong> - Create and process transfer orders from the warehouse app</li>
+</ul>
+</li>
+<li>To automate the processing of the outbound shipments, you must also enable the <a href="confirm-outbound-shipments-from-batch-jobs.html">Confirm outbound shipments from batch jobs</a> feature. This feature is listed as:
+<ul>
+<li><strong>Module</strong> - Warehouse management</li>
+<li><strong>Feature name</strong> - Confirm outbound shipments from batch jobs</li>
+</ul>
+</li>
+</ol>
+<h2 id="setup-warehouse-app-menu">Set up a mobile device menu item to create transfer orders</h2>
+<p>Here are general guidelines for setting up a mobile device menu item for creating a transfer order. Depending on your business requirements for the level of automation to be set when users create transfer orders from the floor, different configurations will be enabled. The scenario in this document will describe one such configuration.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to add a new menu item. Then make the following settings to get started:</p>
+<ul>
+<li><strong>Menu item name</strong> - Assign a name as it should appear in Supply Chain Management.</li>
+<li><strong>Title</strong> - Assign a menu name as it should be presented to workers in the warehouse app.</li>
+<li><strong>Mode</strong> - Set to <em>Indirect</em> (this warehouse app will not create work).</li>
+<li><strong>Activity code</strong> - Set to <em>Create transfer order from license plates</em> to enable the warehouse workers to create a transfer order based on one or more scanned license plates.</li>
+</ul>
+</li>
+<li><p>Use the <strong>Transfer order line creation policy</strong> setting to control how transfer order lines will be created by this menu item. The lines will be created/updated based on the on-hand inventory registered for the scanned license plates. Choose one of the following values:</p>
+<ul>
+<li><strong>No reservation</strong> - The transfer order lines will not be reserved.</li>
+<li><strong>License plate guided with line reservation</strong> – The transfer order lines will be reserved and use the License plate guided strategy option, which stores the relevant license plate IDs associated with the order lines. Located license plate ID values can therefore be used as part of the work creation process for the transfer order lines.</li>
+</ul>
+</li>
+<li><p>Use the <strong>Outbound shipment policy</strong> setting to add more automation to the outbound transfer order shipment process, as needed. When a worker selects the <strong>Complete order</strong> button, the app creates the <em>Complete order</em> warehouse app event, which will save the value you choose here in the <strong>Outbound shipment policy</strong> field for each line in the current transfer order. Later, when the event queue is processed by a batch job to create the transfer order, the value stored in this field can be read by the batch job, and may therefore control how that job processes each line. Choose one of the following:</p>
+<ul>
+<li><strong>None</strong> - No automated processing is done.</li>
+<li><strong>Release to warehouse</strong> - Automates the release to warehouse process.</li>
+<li><strong>Ship confirm</strong> - Automates the ship confirmation process.</li>
+<li><strong>Release and ship confirm</strong> - Automates both the release to warehouse and ship confirmation processes.</li>
+</ul>
+</li>
+</ol>
+<h2 id="add-the-mobile-device-menu-item-to-a-menu">Add the mobile device menu item to a menu</h2>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu</strong></li>
+<li>Select <strong>Edit</strong>.</li>
+<li>Select an existing menu following selection of the new menu item under <strong>Available menus and menu items</strong>. Add the menu item by selecting the right-arrow button.</li>
+</ol>
+<h2 id="create-a-transfer-order-based-on-license-plates">Create a transfer order based on license plates</h2>
+<p>The warehouse app has a simple process for creating transfer orders based on license plates. To do this, the worker does the following using the warehouse app:</p>
+<ol>
+<li>Create the transfer order and identify the destination warehouse.</li>
+<li>Identify each license plate to be shipped.</li>
+<li>Select <strong>Complete order</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>It is possible for multiple workers to assign license plates intended for the same transfer order by using the <strong>Select transfer order</strong> button to select an existing, unprocessed, transfer order number from the warehouse app event queue. For information about how to find the transfer order number values, see <a href="#inquire-the-warehouse-app-events">Inquire the warehouse app events</a>.</p>
+</div>
+<h2 id="example-scenario">Example scenario</h2>
+<p>This scenario provides an overview of the process for getting transfer orders created and automatically processed based on the on-hand inventory registered on the selected license plates.</p>
+<p>To work through this scenario using the values suggested, you must work on a system with demo data installed and select the <em>USMF</em> legal entity before you begin.</p>
+<p>This scenario assumes that you have already enabled both the <a href="#enable-create-transfer-order-from-warehouse-app">Create and process transfer orders from the warehouse app feature</a>, and the <a href="warehouse-app-events.html">warehouse app event processing</a> capability.</p>
+<p>In addition to setting up the create transfer order in the mobile device menu items, additional templates, location directives, and batch jobs must also be set up and enabled.</p>
+<h3 id="example-scenario-blueprint">Example Scenario blueprint</h3>
+<p>You are a retailer and have multiple license plates, each containing a mix of items placed at a specific location within one of your warehouses (<em>Warehouse 51</em>). You would like to enable the process that allows workers to create a transfer order to another warehouse (<em>Warehouse 61</em>) for a collection of scanned license plates. You will automatically ship-update the transfer order as soon as the last license plate for the order has been identified.</p>
+<p><img src="media/create-transfer-order-from-app-example.png" alt="Automated transfer order process example" title="Automated transfer order process example"></p>
+<h3 id="create-a-mobile-device-menu-item-for-creating-transfer-orders">Create a mobile device menu item for creating transfer orders</h3>
+<p>This section explains how to create a new mobile device menu item for creating transfer orders. Set the <strong>Mode</strong> to <em>Indirect</em> and the <strong>Activity code</strong> to <em>Create transfer order from license plates</em>.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</li>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Menu item name</strong> field, enter the name <em>Create TO</em>.</li>
+<li>In the <strong>Title</strong> field, enter the description <em>Create TO</em>.</li>
+<li>In the <strong>Mode</strong> field, select <em>Indirect</em>.</li>
+<li>In the <strong>Activity code</strong>, select <em>Create transfer order from license plates</em></li>
+<li>In the <strong>Order line creation policy</strong>, select <em>License plate guided with line reservation</em>.</li>
+<li>In the <strong>Outbound shipment policy</strong>, select <em>Release and ship confirm</em>.</li>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu</strong>.</li>
+<li>Select <strong>Edit</strong>.</li>
+<li>Select the existing <strong>Inventory</strong> menu and then select the new menu item under <strong>Available menus and menu items</strong>. Add the menu item into to <strong>Inventory</strong> menu by selecting the right-arrow button.</li>
+</ol>
+<h3 id="set-up-work-templates-to-auto-process-and-break-work-by-located-license-plate">Set up work templates to auto process and break work by located license plate</h3>
+<p>This section explains how to enable a work template to automatically process the work created by the template when a wave is released.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</li>
+<li>In the <strong>Work order type</strong> field, select <em>Transfer issue</em>.</li>
+<li>Select <strong>New</strong> to create a new work template.</li>
+<li>In the <strong>Work template</strong> field, enter <em>51 Auto process LP</em>.</li>
+<li>In the <strong>Work template description</strong> field, enter <em>51 Auto process LP</em>.</li>
+<li>Select the <strong>Automatically process</strong> check box. This must be selected in order for any automation steps to be processed.</li>
+<li>In the demo data, there already exists a work template <em>51 Transfer</em>, edit the <strong>Sequence number</strong> field so that the new work template has a lower sequence number than the existing work template <em>51 Transfer</em>.</li>
+<li>Select <strong>Save</strong> in the toolbar to enable the <strong>Work Template Details</strong> FastTab.</li>
+<li>In the <strong>Work Template Details</strong> FastTab, select <strong>New</strong> in the toolbar. You will add two lines.</li>
+<li>In the <strong>Work type</strong> field, select <em>Pick</em>.</li>
+<li>In the <strong>Work class ID</strong> field, select <em>TransfOut</em>.</li>
+<li>Select <strong>New</strong> in the <strong>Work Template Details</strong> toolbar.</li>
+<li>In the <strong>Work type</strong> field, select <em>Put</em>.</li>
+<li>In the <strong>Work class ID</strong> field, select <em>TransfOut</em>.</li>
+<li>Select <strong>Save</strong> to enable the <strong>Directive code</strong> field.</li>
+<li>On the <strong>Work type</strong> <em>Put</em> line, select <strong>Directive code</strong> <em>Baydoor</em>. Make sure this new work template gets the lowest <strong>Sequence number</strong>.</li>
+<li>In the toolbar, select <strong>Edit query</strong> to open the query editor.</li>
+<li>In the <strong>Range</strong> tab, select <strong>Add</strong>.</li>
+<li>On the line added, in <strong>Field</strong> select <em>Warehouse</em>.</li>
+<li>In the <strong>Criteria</strong> field, select <em>51</em>.</li>
+<li>Select the <strong>Sorting</strong> tab.</li>
+<li>Select <strong>Add</strong> and set <strong>Field</strong> to <em>Located license plate ID</em>. Selecting this field will enable the toolbar button <strong>Work header breaks</strong>.</li>
+<li>Select <strong>OK</strong> followed by <strong>Yes</strong> to reset the grouping and return to the <strong>Work templates</strong> page.</li>
+<li>Select <strong>Work header breaks</strong> and enable the <strong>Group by this field</strong> for the <strong>Located license plate ID</strong> and close.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Not all setup can be auto processed, for example, catch weight items and the use of mixed tracking dimensions.</p>
+</div>
+<h3 id="set-up-location-directives-for-the-license-plate-guided-strategy">Set up location directives for the license plate guided strategy</h3>
+<p>This section explains how to set up a location directive pick process to use the <strong>License plate guided</strong> strategy.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</li>
+<li>Select <strong>Edit</strong>.</li>
+<li>In the navigation list header, select the <strong>Work order type</strong> <em>Transfer issue</em>.</li>
+<li>In the navigation list, select the existing location directive <strong>51 TO Pick</strong>.</li>
+<li>In the <strong>Lines</strong> FastTab, select the <strong>Allow split</strong> checkbox.</li>
+<li>In the <strong>Location Directive Actions</strong> FastTab select <strong>New</strong> to add a new action line.</li>
+<li>In the <strong>Name</strong> field, enter <em>LP Guided</em>.</li>
+<li>In the <strong>Strategy</strong> field, select <em>License plate guided</em>. This action needs the lowest sequence number.</li>
+<li>Select <strong>Save</strong> in the toolbar.</li>
+<li>Select  the <strong>Refresh</strong> page icon from the toolbar.</li>
+<li>In the <strong>Location Directive Actions</strong> FastTab, select the line <em>TOPick</em>.</li>
+<li>In the <strong>Location Directive Actions</strong> toolbar, select <strong>Move down</strong> to change the sequence number to be greater than the sequence number for the <em>LP Guided</em> action just created.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The License plate guided strategy will try to reserve and create picking work against the locations holding the requested license plates that have been associated with the transfer order lines. But if this isn't possible and you still would like to create picking work, you should fall back to another location directive action strategy, and perhaps also search for inventory in another area of the warehouse, depending on your business process needs.</p>
+</div>
+<h3 id="set-up-a-batch-job-to-process-warehouse-app-events">Set up a batch job to process warehouse app events</h3>
+<p>This section explains how to set up a scheduled batch job to process warehouse app events.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Periodic tasks &gt; Process warehouse app events</strong>.</li>
+<li>In the dialog box, enable <strong>Batch processing</strong> under the <strong>Run in background</strong> section.</li>
+<li>Select <strong>Recurrence</strong> and set up the batch job to process based on the interval needed for your business.</li>
+<li>Select <strong>OK</strong> to return to the main dialog.</li>
+<li>Select <strong>OK</strong> in the main dialog to add the job to the batch queue.</li>
+</ol>
+<h3 id="set-up-a-batch-job-to-release-transfer-orders-automatically">Set up a batch job to release transfer orders automatically</h3>
+<p>This section explains how to set up a scheduled batch job to release the transfer orders that have been marked as &quot;ready to release&quot;.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Release to warehouse &gt; Automatic release of transfer orders</strong>.</li>
+<li>In the dialog box, expand the <strong>Records to include</strong> section.</li>
+<li>Select <strong>Filter</strong> under the <strong>Records to include</strong> section.</li>
+<li>In the <strong>WHSTransferAutoRTWQuery</strong> query page, <strong>Range</strong> tab, select <strong>Add</strong> to add a new line to the query.</li>
+<li>In the new line <strong>Table</strong> field, select the drop-down menu and select the table <strong>Transfer line release to warehouse</strong>.</li>
+<li>In the <strong>Field</strong> drop-down menu, select <strong>Outbound shipment policy</strong>.</li>
+<li>In the <strong>Criteria</strong> field, select <strong>Release and ship confirm</strong>.</li>
+<li>In the line where <strong>Field</strong> is set to <em>From warehouse</em>, in the <strong>Criteria</strong> field, select <em>51</em>.</li>
+<li>Select <strong>OK</strong> to return to the main dialog box.</li>
+<li>Expand the <strong>Run in the background</strong> section to set up batch processing.</li>
+<li>Enable <strong>Batch processing</strong> under the <strong>Run in background</strong> section.</li>
+<li>Select <strong>Recurrence</strong> and set up the batch job to process based on interval needed for your business.</li>
+<li>Select <strong>OK</strong> to return to the main dialog.</li>
+<li>Select <strong>OK</strong> in the main dialog to have the batch job added to the batch queue.</li>
+</ol>
+<h3 id="set-up-the-process-outbound-shipment-batch-job">Set up the &quot;Process outbound shipment&quot; batch job</h3>
+<p>This section explains how to set up a scheduled batch job to run the outbound shipment confirmation for loads ready to ship related to transfer order lines that are &quot;ready to ship&quot;.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Periodic tasks &gt; Process outbound shipments</strong>.</li>
+<li>Expand the <strong>Records to include</strong> section.</li>
+<li>Select <strong>Filter</strong>.</li>
+<li>In the <strong>WHSLoadShipConfirm</strong> query, select the <strong>Joins</strong> tab.</li>
+<li>Expand the table hierarchy so that <strong>Loads</strong> and <strong>Load details</strong> have been expanded.</li>
+<li>Select the <strong>Load details</strong> table.</li>
+<li>Select the <strong>Add table join</strong> button.</li>
+<li>In the list of table relations, filter or search on the <strong>Relation</strong> column for <em>Transfer order lines (Reference)</em>.</li>
+<li>Focus on the table relation in the list then press the <strong>Select</strong> button.</li>
+<li>Select the <strong>Transfer order lines</strong> table.</li>
+<li>Select the <strong>Add table join</strong> button.</li>
+<li>In the list of table relations, filter or search on the <strong>Relation</strong> column for <em>Invent Transfer Additional Fields (Record-ID)</em>.</li>
+<li>Focus on the table relation in the list then press the <strong>Select</strong> button.</li>
+<li>Select the <strong>Range</strong> tab.</li>
+<li>In the <strong>Range</strong> query tables, you will set up three query criteria ranges. Select the <strong>Add</strong> button to add a line.</li>
+<li>Add a range for the table <strong>Loads</strong>. Set <strong>Field</strong> to <em>Load status</em> and set <strong>Criteria</strong> to <em>Loaded</em>.</li>
+<li>Add another range for the table <strong>Invent Transfer Additional Fields</strong>. Set <strong>Field</strong> to <em>Outbound shipment policy</em> and set <strong>Criteria</strong> to <em>Release and ship confirm</em>.</li>
+<li>Add another range for the table <strong>Load details</strong>. Set <strong>Field</strong> to <em>Reference</em> and set <strong>Criteria</strong> to <em>Transfer order shipment</em>.</li>
+<li>Select <strong>OK</strong> to return to the main dialog box.</li>
+<li>Expand the <strong>Run in the background</strong> section.</li>
+<li>Enable <strong>Batch processing</strong>.</li>
+<li>Select <strong>Recurrence</strong> and set up the batch job to process based on interval needed for your business.</li>
+<li>Select <strong>OK</strong> to return to the main dialog.</li>
+<li>Select <strong>OK</strong> in the main dialog to have the batch job added to the batch queue.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For more information, see <a href="confirm-outbound-shipments-from-batch-jobs.html">Confirm outbound shipments from batch jobs</a>.</p>
+</div>
+<h2 id="processing-the-example-for-create-transfer-order-from-the-warehouse-app">Processing the example for &quot;Create transfer order from the warehouse app&quot;</h2>
+<h3 id="add-on-hand-on-a-license-plate">Add on-hand on a license plate</h3>
+<p>As a starting point for this scenario you will need to have a license plate containing physical available inventory on hand.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Warehouse</th>
+<th>Inventory status</th>
+<th>Location</th>
+<th>License plate</th>
+<th>Quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A0001</td>
+<td>51</td>
+<td>Available</td>
+<td>LP-010</td>
+<td>LP10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A0002</td>
+<td>51</td>
+<td>Available</td>
+<td>LP-010</td>
+<td>LP10</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Add physical inventory on hand quantities by using the following values:</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You will need to create the license plate and use locations that allow you to carry mixed items, like LP-010.</p>
+</div>
+<h3 id="create-and-process-transfer-orders-from-the-warehouse-app">Create and process transfer orders from the warehouse app</h3>
+<ol>
+<li>Open the app and sign in as user <em>51</em>. Current user warehouse will be 51.</li>
+<li>Select the menu item <strong>Create TO</strong> from the menu location you added it to during setup.</li>
+<li>Start the creation of a transfer order by entering the destination warehouse (To warehouse) in the <strong>Warehouse</strong> field, enter <em>61</em>. The new transfer order will be going from current warehouse 51 (From warehouse) to the destination warehouse <em>61</em>.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Scan a license plate ID in the <strong>License plate</strong> field. Enter the license plate of the inventory added in an earlier step, <em>LP10</em>.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Select the menu button and then select <strong>Complete order</strong> to finalize the warehouse app transfer order creation.</li>
+</ol>
+<p>For the mentioned example, two <strong>Warehouse app events</strong> (<em>Create transfer order</em> and <em>Complete transfer order</em>) are used.</p>
+<h3 id="inquire-the-warehouse-app-events"><a name="#inquire-the-warehouse-app-events"></a>Inquire the warehouse app events</h3>
+<p>You can view the event queue and events messages generated by the warehouse app by going to <strong>Warehouse management &gt; Inquiries and reports &gt; Mobile device logs &gt; Warehouse app events</strong>.</p>
+<p>The <em>Create transfer order</em> event messages will receive the status <em>Waiting</em>, which means that the <strong>Process warehouse app events</strong> batch job will not pick up and process the event messages. As soon as the event message updates to status <em>Queued</em>, the batch job will process the events. This will happen at the same time as the creation of the <em>Complete transfer order</em> event (when a worker selects the<strong>Complete order</strong> button on the warehouse app). When the <em>Create transfer order</em> event messages has been processed, the status is updated to <em>Completed</em> or <em>Failed</em>. When the <em>Complete transfer order</em> status is updated to <em>Completed</em>, all the related events are deleted from the queue.</p>
+<p>Because the <strong>Warehouse app events</strong> for the creation of transfer order data will not be processed by the batch job before the messages iss updated to status <em>Queued</em>, you will need to look up the requested transfer order numbers as part of the <strong>Identifier</strong> field. The <strong>Identifier</strong> field is in the header of the <strong>Warehouse app events</strong> page.</p>
+<p>As part of the warehouse event processing, the creation of the transfer order line might fail. In this case, the state of the event message is updated to <em>Failed</em> and you can use the <strong>Batch log</strong> information to learn why and take action to correct any problems.</p>
+<p>Typical issues could be related to missing setup for the process, like a missing transit warehouse for the <em>Create transfer order</em> event. In an example like this, you would add a transit warehouse to the shipping warehouse and use the <strong>Reset</strong> option to change the status for all the warehouse app event messages from <em>Failed</em> to <em>Queued</em>, which means that the batch job will process the event messages again after the correction of the setup data.</p>
+<p>Within production environments, the exceptions would be more process related, such as having a requested license plate, which at the batch job processing time is empty and thereby no transfer order lines are created. This failed event message can either be removed by using the <strong>Delete</strong> option or you can add the needed physical on-hand on the license plate and use the <strong>Reset</strong> option for all the related event messages.</p>
+<p>For more information, see <a href="warehouse-app-events.html">Warehouse app event processing</a>.</p>
+<h3 id="follow-up-on-the-example-scenario-processing">Follow up on the example scenario processing</h3>
+<p>During this scenario, the following occurred:</p>
+<ol>
+<li>Using the warehouse app, you selected a menu item that uses the activity code <strong>Create transfer order from license plates</strong>.</li>
+<li>The app prompted you to select the destination warehouse for the transfer order. The source warehouse is always the one you currently are signed into as a Worker.</li>
+<li>On the selection of the destination warehouse, the system reserved an ID number for the upcoming transfer order (based on the transfer-order number sequence defined on your system) but didn't create the transfer order yet.</li>
+<li>When you scanned the license plate <em>LP10</em> containing on-hand inventory that should be moved to the new warehouse, a <strong>Warehouse app event</strong> was added to the events queue to be processed later. The warehouse event contained message details about the scan, including the intended transfer-order number.</li>
+<li>On the warehouse app when the <strong>Complete order</strong> button is selected, a new warehouse app event, <strong>Complete transfer order</strong>, is created and the related existing event, <strong>Create transfer order</strong>, changed status to <strong>Queued</strong>.</li>
+<li>On the back end, the <strong>Process warehouse app events batch job</strong> picked up the <strong>Queued</strong> event and collected the on-hand related to the scanned license plate. Based on the on-hand the actual transfer order record and associated lines got created. The job also populated the <strong>Outbound shipment policy</strong> field for the transfer order with the value based to configured <em>Release and ship confirm</em> and linked the license plate against the lines for the <strong>License plate guided</strong> strategy.</li>
+<li>Based on the transfer order line <strong>Outbound shipment policy</strong> field value the <strong>Automatic release of transfer orders batch job</strong> query now resulted in releasing the transfer order to the shipping warehouse. And due to the setup for the used <strong>Wave template</strong>, <strong>Work template</strong>, and <strong>Location directives</strong> the work got auto processes resulting on the <strong>Load status</strong> got updated to <em>Loaded</em>.</li>
+<li>The <strong>Process outbound shipment batch job</strong> is executed for the load, resulting in the transfer order being shipped and the Advance Shipment Notice (ASN) is generated.</li>
+<li>The timing of all these events is dependent on the <strong>Recurrence</strong> settings for the batch jobs created.</li>
+</ol>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="mobile-device-menu-item-setup">Mobile device menu item setup</h3>
+<h4 id="why-cant-i-see-create-transfer-order-from-license-plate-in-the-menu-item-work-activity-drop-down-list">Why can’t I see &quot;Create transfer order from license plate&quot; in the menu item work activity drop-down list?</h4>
+<p>The feature <em>Create and process transfer orders from the warehouse app</em> must be enabled. For more information, see <a href="#enable-create-transfer-order-from-warehouse-app">Enable the create transfer orders from Warehouse app</a>.</p>
+<h3 id="warehouse-app-processes">Warehouse app processes</h3>
+<h4 id="why-cant-i-see-the-menu-button-complete-order">Why can’t I see the menu button &quot;Complete order&quot;?</h4>
+<p>You must have at least one license plate assigned to the transfer order.</p>
+<h4 id="can-several-warehouse-app-users-add-license-plates-to-the-same-transfer-order-at-the-same-time">Can several warehouse app users add license plates to the same transfer order at the same time?</h4>
+<p>Yes, several warehouse workers can scan license plates into the same transfer order.</p>
+<h4 id="can-the-same-license-plate-be-added-to-different-transfer-orders">Can the same license plate be added to different transfer orders?</h4>
+<p>No, a license plate can only be added to one transfer order at the time.</p>
+<h4 id="after-having-selected-the-complete-order-button-can-i-then-add-more-license-plates-for-that-transfer-order">After having selected the &quot;Complete order&quot; button, can I then add more license plates for that transfer order?</h4>
+<p>No, you can't add more license plates to a transfer order that has a <strong>Complete transfer order</strong> warehouse app event.</p>
+<h4 id="how-can-i-find-existing-transfer-orders-to-be-used-via-the-select-transfer-order-button-in-the-warehouse-app-if-the-order-has-not-yet-been-created-in-the-backend-system">How can I find existing transfer orders to be used via the &quot;Select transfer order&quot; button in the warehouse app, if the order has not yet been created in the backend system?</h4>
+<p>Currently, you can't look up transfer orders in the app, but you can find the transfer order numbers on the <strong>Warehouse app events</strong> page. For more information, see <a href="#inquire-the-warehouse-app-events">Inquire the warehouse app events</a>.</p>
+<h4 id="can-i-manually-select-the-transfer-order-number-to-be-used-from-the-warehouse-app">Can I manually select the transfer order number to be used from the warehouse app?</h4>
+<p>Only autogenerated transfer order numbers via number sequences are supported.</p>
+<h3 id="background-processing">Background processing</h3>
+<h4 id="how-should-i-clean-up-records-in-my-warehouse-app-events-queue-message-tables">How should I clean up records in my warehouse app events queue message tables?</h4>
+<p>You can view and maintain this on the <strong>Warehouse app events</strong> page. For more information, see <a href="#inquire-the-warehouse-app-events">Inquire the warehouse app events</a>.</p>
+<h4 id="why-is-the-transfer-order-receipt-date-not-updated-according-to-my-delivery-date-control-setup">Why is the transfer order &quot;Receipt date&quot; not updated according to my &quot;Delivery date control&quot; setup?</h4>
+<p>The transfer orders are created without using the <strong>Delivery date control</strong> capabilities.</p>
+<h4 id="can-i-use-a-license-plate-having-physical-negative-inventory-on-hand">Can I use a license plate having physical negative inventory on hand?</h4>
+<p>The feature only supports positive physical on-hand quantities. Make sure that you have positive physical on-hand quantities at the warehouse and inventory status level before assigning license plates to a transfer order.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

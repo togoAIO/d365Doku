@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Company concept in Dataverse </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Company concept in Dataverse ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes the integration of company data between Finance and Operations and Dataverse.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="company-concept-in-dataverse">Company concept in Dataverse</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>In Finance and Operations, the concept of a <em>company</em> is both a legal construct and a business construct. It's also a security and visibility boundary for data. Users always work in the context of a single company, and most of the data is striped by company.</p>
+<p>Dataverse doesn't have an equivalent concept. The closest concept is <em>business unit</em>, which is primarily a security and visibility boundary for user data. This concept doesn't have the same legal or business implications as the company concept.</p>
+<p>Because business unit and company aren't equivalent concepts, it isn't possible to force a one-to-one (1:1) mapping between them for the purpose of Dataverse integration. However, because users must, by default, be able to see the same rows in the application and Dataverse, Microsoft has introduced a new table in Dataverse that is named cdm_Company. This table is equivalent to the Company table in the application. To help guarantee that visibility of rows is equivalent between the application and Dataverse out of the box, we recommend the following setup for data in Dataverse:</p>
+<ul>
+<li>For each Finance and Operations Company row that is enabled for dual-write, an associated cdm_Company row is created.</li>
+<li>When a cdm_Company row is created and enabled for dual-write, a default business unit is created that has the same name. Although a default team is automatically created for that business unit, the business unit isn't used.</li>
+<li>A separate owner team is created that has the same name. It's also associated with the business unit.</li>
+<li>By default, the owner of any row that is created and dual-written to Dataverse is set to the &quot;DW Owner&quot; team that is linked to the associated business unit.</li>
+</ul>
+<p>The following illustration shows an example of this data setup in Dataverse.</p>
+<p><img src="media/dual-write-company-1.png" alt="Data setup in Dataverse"></p>
+<p>Because of this configuration, any row that is related to the USMF company will be owned by a team that is linked to the USMF business unit in Dataverse. Therefore, any user who has access to that business unit through a security role that is set to business unit–level visibility can now see those rows. The following example shows how teams can be used to provide the correct access to those rows.</p>
+<ul>
+<li>The &quot;Sales Manager&quot; role is assigned to members of the &quot;USMF Sales&quot; team.</li>
+<li>Users who have the &quot;Sales Manager&quot; role can access any account rows that are members of the same business unit that they are members of.</li>
+<li>The &quot;USMF Sales&quot; team is linked to the USMF business unit that was mentioned earlier.</li>
+<li>Therefore, members of the &quot;USMF Sales&quot; team can see any account that is owned by the &quot;USMF DW&quot; user, which would have come from the USMF Company table in Finance and Operations.</li>
+</ul>
+<p><img src="media/dual-write-company-2.png" alt="How teams can be used"></p>
+<p>As the preceding illustration shows, this 1:1 mapping between business unit, company, and team is just a starting point. In this example, a new &quot;Europe&quot; business unit is manually created in Dataverse as the parent for both DEMF and ESMF. This new root business unit is unrelated to dual-write. However, it can be used to give members of the &quot;EUR Sales&quot; team access to account data in both DEMF and ESMF by setting the data visibility to <strong>Parent/Child BU</strong> in the associated security role.</p>
+<p>A final topic to discuss is how dual-write determines which owner team it should assign rows to. This behavior is controlled by the <strong>Default owning team</strong> column on the cdm_Company row. When a cdm_Company row is enabled for dual-write, a plug-in automatically creates the associated business unit and owner team (if it doesn't already exist), and sets the <strong>Default owning team</strong> column. The admin can change this column to a different value. However, the admin can't clear the column as long as the table is enabled for dual-write.</p>
+<div class="mx-imgBorder">
+</div>
+<p><img src="media/dual-write-default-owning-team.jpg" alt="Default owning team column"></p>
+<h2 id="company-striping-and-bootstrapping">Company striping and bootstrapping</h2>
+<p>Dataverse integration brings company parity by using a company identifier to stripe data. As the following illustration shows, all company-specific tables are extended so that they have a many-to-one (N:1) relationship with the cdm_Company table.</p>
+<div class="mx-imgBorder">
+</div>
+<p><img src="media/dual-write-bootstrapping.png" alt="N:1 relationship between a company-specific table and the cdm_Company table"></p>
+<ul>
+<li>For rows, after a company is added and saved, the value becomes read-only. Therefore, users should make sure that they select the correct company.</li>
+<li>Only rows that have company data are eligible for dual-write between the application and Dataverse.</li>
+<li>For existing Dataverse data, an admin-led bootstrapping experience will soon be available.</li>
+</ul>
+<h2 id="autopopulate-company-name-in-customer-engagement-apps">Autopopulate company name in customer engagement apps</h2>
+<p>There are several ways to auto-populate the company name in customer engagement apps.</p>
+<ul>
+<li><p>If you are a system administrator, you can set the default company by navigating to <strong>Advanced Settings &gt; System &gt; Security &gt; Users</strong>. Open the <strong>User</strong> form, and in the <strong>Organization Information</strong> section, set the <strong>Company to default on Forms</strong> value.</p>
+<p><span class="mx-imgBorder">
+<img src="media/autopopulate-company-name-1.png" alt="Set default company on Organization Information section.">
+</span>
+</p>
+</li>
+<li><p>If you have <strong>Write</strong> access to the <strong>SystemUser</strong> table for the <strong>Business Unit</strong> level, then you can change the default company on any form by selecting a company from the <strong>Company</strong> drop-down menu.</p>
+<p><span class="mx-imgBorder">
+<img src="media/autopopulate-company-name-2.png" alt="Changing the company name on a new account.">
+</span>
+</p>
+</li>
+<li><p>If you have <strong>Write</strong> access to data in more than one company, then you can change the default company by choosing a row that belongs to different company.</p>
+<p><span class="mx-imgBorder">
+<img src="media/autopopulate-company-name-3.png" alt="Choosing a row changes the default company.">
+</span>
+</p>
+</li>
+<li><p>If you are a system configurator or administrator, and you want to auto-populate company data on a custom form, then you can use <a href="https://docs.microsoft.com/powerapps/developer/model-driven-apps/clientapi/events-forms-grids">form events</a>. Add a JavaScript reference to <strong>msdyn_/DefaultCompany.js</strong> and use the following events. You can use any out-of-the-box form, for example, the <strong>Account</strong> form.</p>
+<ul>
+<li><strong>OnLoad</strong> event for the form: Set the <strong>defaultCompany</strong> column.</li>
+<li><strong>OnChange</strong> event for the <strong>Company</strong> column: Set the <strong>updateDefaultCompany</strong> column.</li>
+</ul>
+</li>
+</ul>
+<h2 id="apply-filtering-based-on-the-company-context">Apply filtering based on the company context</h2>
+<p>To apply filtering based on the company context on your custom forms or on custom lookup columns added to the standard forms, open the form and use the <strong>Related Records Filtering</strong> section to apply the company filter. You must set this for each lookup column that requires filtering based on the underlying company on a given row. The setting is shown for <strong>Account</strong> in the following illustration.</p>
+<p><span class="mx-imgBorder">
+<img src="media/apply-company-context.png" alt="Apply company context">
+</span>
+</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/company-data.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

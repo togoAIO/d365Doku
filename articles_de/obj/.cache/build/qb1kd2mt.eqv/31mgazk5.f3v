@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Standort- und Parteibeziehungstypen hinzuf&#252;gen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Standort- und Parteibeziehungstypen hinzuf&#252;gen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie neue Standort- und Parteibeziehungstypen hinzuf&#252;gen.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="add-location-and-party-relationship-types">Standort- und Parteibeziehungstypen hinzufügen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+<h2 id="add-location-roles">Lagerplatzrollen hinzufügen</h2>
+<p>Es gibt zwei Möglichkeiten, neue Standortrollen für Adress- und Kontaktinformationen hinzuzufügen:</p>
+<ul>
+<li><p>Fügen Sie es über die Seite <strong>Adresse und Kontaktinformationen</strong> hinzu. Die neue Rolle wird in der Tabelle <strong>LogisticsLocationRole</strong> mit Typ = 0 gespeichert, was bedeutet, dass die Rolle keine Systemrolle ist, die in der <strong>LogisticsLocationRoleType</strong> Enumeration und ihren Erweiterungen definiert ist. Ein Benutzer kann diese Rolle bei der Erstellung von Adress- oder Kontaktinformationen verwenden.</p>
+<p><img src="media/Address-Contact.PNG" alt="Zweck der Adress- und Inhaltsinformationen"></p>
+</li>
+<li><p>Fügen Sie diese der Enumerationserweiterung <strong>LogisticsLocationRoleType</strong> hinzu und lassen Sie es über den Datenbanksynchronisierungsprozess auffüllen.</p>
+<ol>
+<li><p>Erstellen Sie eine Erweiterung zur <strong>LogisticsLocationRoleType</strong> Enumeration und fügen Sie dann die neue Rolle der Erweiterung hinzu.</p>
+<p><img src="media/Logistics.PNG" alt="Erweiterung zu LogisticsLocationRoleType Enum"></p>
+</li>
+<li><p>Erstellen Sie eine neue Ressourcendatei für die neue Rolle und weisen Sie anschließend einen Wert für deren Eigenschaften zu.</p>
+</li>
+</ol>
+<p><img src="media/Resource.PNG" alt="Neue Ressourcendatei"></p>
+<ol start="3">
+<li><p>Erstellen Sie eine Datenenauffüllungsklasse und stellen Sie eine Handlermethode zur Verfügung, um die neue Rolle zu füllen.</p>
+<p><img src="media/Dirdata.PNG" alt="Datenauffüllung"></p>
+</li>
+<li><p>Um das Auffüllen der neuen Standortrolle zu testen, können Sie eine lauffähige Klasse erstellen und DirDataPopulation::insertLogisticsLocationRoles() in Main() aufrufen. Nachdem dieser Vorgang abgeschlossen ist, sollten Sie die neue Rolle in der Tabelle <strong>LogisticsLocationRole</strong> mit dem Typ &gt; 0 sehen. Die neue Rolle wird auf der Seite <strong>Adresse und Kontaktinformationen</strong> angezeigt.</p>
+<p><img src="media/InsertNewLocation.PNG" alt="Neuen Standort einfügen"></p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="add-party-relationship-types">Neue Parteibeziehungstypen hinzufügen</h2>
+<p>Es gibt zwei Möglichkeiten, einen neuen Beziehungstyp hinzuzufügen:</p>
+<ul>
+<li><p>Fügen Sie sie über die Seite <strong>Beziehungstypen</strong> hinzu. Die neue Beziehung wird unter <strong>DirRelationshipTypeTable</strong> mit systemtype = 0 gespeichert.</p>
+<p><img src="media/Relationship.PNG" alt="Beziehungstypen"></p>
+</li>
+<li><p>Fügen Sie diese der Erweiterung der <strong>DirSystemRelationshipType</strong> Enumeration hinzu und lassen Sie es über den Datenbanksynchronisierungsprozess auffüllen.</p>
+<ol>
+<li><p>Erstellen Sie eine Erweiterung zur <strong>DirSystemRelationshipType</strong> Enumeration und fügen Sie den neuen Beziehungstyp hinzu.</p>
+</li>
+<li><p>Legen Sie einen Initialisierer für diesen neuen Typ an. Sie finden mehrere Beispiele im Kerncode, eines davon ist  <strong>DirRelationshipTypeChildInitialize</strong>. Dies ist eine Initialisierungsklasse für den Parteienbeziehungstyp &quot;Child&quot;. Sie können mit Ihrem Initializer beginnen, indem Sie diesen Code kopieren und einfügen und dann die markierten Bereiche aktualisieren.</p>
+</li>
+</ol>
+<p><img src="media/DirRelationship.PNG" alt="DirRelationshipChild Initialisierer"></p>
+<ol start="3">
+<li><p>Um das Auffüllen des neuen Beziehungstyps zu testen, können Sie eine lauffähige Klasse erstellen und DirDataPopulation::insertDirRelationshipTypes() in Main() aufrufen. Sie sollten den neuen Beziehungstyp in der <strong>DirRelationshipTypeTable</strong> sehen, und der neue Beziehungstyp wird auf der Seite <strong>Beziehungstypen</strong> verfügbar sein.</p>
+<p><img src="media/Runnable.PNG" alt="Ausführbare Klasse"></p>
+</li>
+</ol>
+</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/finance/accounts-receivable/location-relationship.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Production planning </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Production planning ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes planning for production and explains how to modify planned production orders by using Planning Optimization.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ReqCreatePlanWorkspace">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Manufacturing">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="production-planning">Production planning</h1>
+
+<p>Planning Optimizations supports several production scenarios. If you're migrating from the existing, built-in master planning engine, it's important that you be aware of some changed behavior.</p>
+<!-- The following video gives a short introduction to some of the current capabilities. 
+KFM: Link to video for production functionality, coming soon... -->
+<h2 id="planned-production-orders">Planned production orders</h2>
+<p>When master planning creates planned orders to fulfill requirements, the order type is determined by the value of the <strong>Planned order type</strong> field. If the <strong>Planned order type</strong> field is set to <em>Production</em>, planned production orders are created. These planned production orders include information about the active bill of materials (BOM) and the route ID from the related production setup.</p>
+<h2 id="requirements-from-boms">Requirements from BOMs</h2>
+<p>BOM information is honored during master planning. The plan output includes material supply to cover related material demand for production.</p>
+<p>During master planning, the current, active BOM is used to determine the materials that are required for production. This step is done through all levels of the BOM structure that is related to the required production order. Material requirement is fulfilled by using available on-hand inventory, existing on-order supply, and approved planned orders. If additional material is required anywhere, a planned order is created to cover the demand.</p>
+<h2 id="scheduling-during-firming">Scheduling during firming</h2>
+<p>Planned production orders include the route ID that is required for production scheduling. However, scheduling support during the planning run for planned orders is pending. The route ID is used to schedule planned production orders during firming. Therefore, the lead time on planned production orders can differ from the lead time on related scheduled, firmed production orders that are generated from them, as described here:</p>
+<ul>
+<li><strong>Planned production order</strong> – The lead time is based on the static lead time from the released product.</li>
+<li><strong>Firmed production order</strong> – The lead time is based on scheduling that uses route information and related resource constraints.</li>
+</ul>
+<p>For more information about expected feature availability, see <a href="planning-optimization-fit-analysis.html">Planning Optimization fit analysis</a>.</p>
+<p>If you depend on production functionality that isn't yet available for Planning Optimization, you can continue to use the built-in master planning engine. No exception is required.</p>
+<h2 id="delays">Delays</h2>
+<p>If the lead time for required material is longer than the period between today's date and the material requirement date, the planned order for the required material and the related production order will be delayed. For planned orders, the delay (in days) is calculated based on the lead time from the released product. The delay information is then propagated through all levels of the BOM structure. Therefore, you can follow the impact of delayed raw material all the way to the customer sales order.</p>
+<h2 id="modifying-planned-orders">Modifying planned orders</h2>
+<p>When you change information on a planned order, you receive the following message: &quot;Note that the impact of manual changes on planned orders won't be reflected in the rest of the plan until the next master planning run.&quot;</p>
+<p>If you want to change information on a planned order and see the impact on the related material requirements, follow these steps.</p>
+<ol>
+<li>Update the planned order.</li>
+<li>Approve the planned order.</li>
+<li>Run master planning.</li>
+</ol>
+<p>When you run master planning, you should not use filters if planned production orders are included. For more information, see the <a href="#filters">Filters</a> section later in this topic.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If the delivery date of the planned order is changed to a later date, the demand might be pegged against a new planned order. This behavior occurs when the new supply date causes a delay for the pegged demand but, according to the lead time settings, the delay can be avoided.</p>
+</div>
+<h2 id="explosion-page">Explosion page</h2>
+<p>You can use the <strong>Explosion</strong> page to analyze the demand that is required for a specific production order or planned production order, the related coverage, and pegging information. Information on the <strong>Explosion</strong> page is updated during master planning. You can't update the information directly from the <strong>Explosion</strong> page.</p>
+<h2 id="filters">Filters</h2>
+<p>For planning scenarios that include production, we recommend that you avoid filtered master planning runs. To ensure that Planning Optimization has the information that is required to calculate the correct result, you must include all products that have any relation to products in the whole BOM structure of the planned order.</p>
+<p>Although dependent child items are automatically detected and included in master planning runs when the built-in master planning engine is used, Planning Optimization doesn't perform this action.</p>
+<p>For example, if a single bolt from the BOM structure of product A is also used to produce product B, all products in the BOM structure of products A and B must be included in the filter. Because it can be very complex to ensure that all products are part of the filter, we recommend that you avoid filtered master planning runs when production orders are involved.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/master-planning/planning-optimization/production-planning.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

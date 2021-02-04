@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Omni-channel payments overview | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Omni-channel payments overview | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="omni-channel-payments-overview">Omni-channel payments overview</h1>
+
+
+<p>This topic provides an overview of omni-channel payments in Dynamics 365 Commerce. It includes a comprehensive list of supported scenarios, information about functionality, setup, and troubleshooting, and descriptions of some typical issues.</p>
+<h2 id="key-terms">Key terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token</td>
+<td>A string of data that a payment processor provides as a reference. Tokens can represent payment card numbers, payment authorizations, and previous payment captures. Tokens are important because they help keep sensitive data out of the point of sale (POS) system. They are sometimes also referred to as <em>references</em>.</td>
+</tr>
+<tr>
+<td>Card token</td>
+<td>A token that a payment processor provides for storage in the POS system. A card token can be used only by the merchant who receives it. Card tokens are sometimes also referred to as <em>card references</em>.</td>
+</tr>
+<tr>
+<td>Authorization (auth) token</td>
+<td>A unique ID that a payment process provides as part of the response that it sends to a POS system after the POS system makes an authorization request. An authorization token can be used later if the processor is called to perform actions such as reversing or voiding the authorization. However, it's most often used to capture funds when an order is fulfilled or a transaction is finalized. Authorization tokens are sometimes also referred to as <em>authorization references</em>.</td>
+</tr>
+<tr>
+<td>Capture token</td>
+<td>A reference that a payment processor provides to a POS system when a payment is finalized or captured. The capture token can then be used to reference the payment capture in subsequent operations, such as refund requests.</td>
+</tr>
+<tr>
+<td>Card not present</td>
+<td>A term that refers to payment transactions where a physical card isn't presented. For example, these transactions can occur in e-commerce or call center scenarios. For these transactions, the payment-related information is manually entered on an e-commerce website, in a call center flow, or on the POS or payment terminal.</td>
+</tr>
+<tr>
+<td>Card present</td>
+<td>A term that refers to payment transactions where a physical card is presented and used on a payment terminal that is connected to the Microsoft Dynamics 365 POS system.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="overview">Overview</h2>
+<p>In general, the term <em>omni-channel payments</em> describes the ability to create an order in one channel and fulfill it in another channel. The key to omni-channel payment support is preserving payment details together with the rest of the order details, and then using those payment details when the order is recalled or processed in another channel. A classic example is the &quot;Buy online, pick up in store&quot; scenario. In this scenario, the payment details are added when the order is created online. They are then recalled at the POS to charge the customer's payment card at the time of pickup.</p>
+<p>All the scenarios that are described in this topic can be implemented by using the standard Payments software development kit (SDK) that is provided with Commerce. The <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a> provides an out-of-box implementation of every scenario that is described here.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Every scenario that is described in this topic requires a payment connector that supports omni-channel payments. The out-of-box Adyen connector can also be used, because it supports the scenarios that are made available through the Payments SDK. For more information about how to implement payment connectors, and about the Retail SDK in general, visit the <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/dev-retail-home-page#payment-connectors">Retail for IT pros and developers home page</a>.</p>
+<h4 id="supported-versions">Supported versions</h4>
+<p>The omni-channel payment capabilities that are described in this topic were released as part of Microsoft Dynamics 365 for Retail version 8.1.3.</p>
+<h4 id="card-present-and-card-not-present-connectors">&quot;Card present&quot; and &quot;card not present&quot; connectors</h4>
+<p>The Payments SDK relies on two sets of application programming interfaces (APIs) for payments. The first set of APIs is named <strong>iPaymentProcessor</strong>. It's used to implement &quot;card not present&quot; payment connectors that can be used in call centers and with the Microsoft Dynamics e-Commerce platform. For more information about the <strong>iPaymentProcessor</strong> interface, see the <a href="https://download.microsoft.com/download/e/2/7/e2735c65-1e66-4b8d-8a3c-e6ef3a319137/The%20Guide%20to%20Implementing%20Payment%20Connector%20and%20Payment%20Device_update.pdf">Implement a payment connector and a payment device</a> white paper, which covers payments.</p>
+<p>The second set of APIs is named <strong>iNamedRequestHandler</strong>. It supports the implementation of &quot;card present&quot; payment integrations that use a payment terminal. For more information about the <strong>iNamedRequestHandler</strong> interface, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/end-to-end-payment-extension">Create a payment integration for a payment terminal</a>.</p>
+<h3 id="setup-and-configuration">Setup and configuration</h3>
+<p>The following components and setup steps are required:</p>
+<ul>
+<li><strong>eCommerce integration:</strong> An integration with Commerce is required to support scenarios where an order originates in an online storefront. For more information about the Retail e-Commerce SDK, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/ecommerce-platform-sdk">e-Commerce platform software development kit (SDK)</a>. In a demo environment, the reference storefront supports omni-channel payment scenarios.</li>
+<li><strong>Online payments configuration:</strong> The setup of the online channel must include a payment connector that has been updated to support omni-channel payments. Alternatively, the out-of-box payment connector can be used. For information about how to configure the Adyen payment connector for online stores, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/adyen-connector?tabs=8-1-3#e-commerce">Adyen payment connector</a>. In addition to the eCommerce setup steps that are described in that topic, the <strong>Allow saving payment information in e-commerce</strong> parameter must be set to <strong>True</strong> in the settings for the Adyen connector.</li>
+<li><strong>Omni-channel payments configuration:</strong> In the back office, go to <strong>Retail and Commerce &gt; Headquarters setup &gt; Parameters &gt; Commerce shared parameters</strong>. Then, on the <strong>Omni-channel payments</strong> tab, set the <strong>Use omni-channel payments</strong> option to <strong>Yes</strong>. In Commerce versions 10.0.12 and later, this setting is in the <strong>Feature Management</strong> workspace. Select the <strong>Omni-channel payments</strong> feature and click <strong>Enable now</strong>.</li>
+<li><strong>Payment services:</strong> The call center uses the default payment connector on the <strong>Payment services</strong> page to process payments. To support scenarios such as &quot;Buy in call center, pick up in store,&quot; this default payment connector must be the Adyen payment connector or a payment connector that meets the implementation requirements for omni-channel payments.</li>
+<li><strong>EFT service:</strong> Payments through a payment terminal must be set up on the <strong>EFT service</strong> FastTab of the hardware profile. The Adyen connector supports omni-channel payments scenarios out of the box. Other payment connectors that support the <strong>iNamedRequestHandler</strong> interface can also be used if they support omni-channel payments.</li>
+<li><strong>Payment connector availability:</strong> When an order is recalled, the payment tender lines that are recalled together with the order include the name of the payment connector that was used to create the authorizations that are associated with that order. When the order is fulfilled, the Payments SDK tries to use the same connector that was used to create the original authorization. Therefore, a payment connector that has the same merchant properties must be available for capture.</li>
+<li><strong>Card types:</strong> For omni-channel scenarios to work properly, each channel must have the same setup for tender types that can be used for omni-channel. This setup includes payment method IDs and card type IDs. For example, if the <strong>Cards</strong> tender type has an ID of <strong>2</strong> in the online store setup, it should have the same ID in the retail store setup. The same requirement applies to card type IDs. If card number <strong>12</strong> is set to <strong>VISA</strong> in the online store, the same ID should be set up for the retail store.</li>
+<li>The Retail Modern POS for Windows or Android with built-in hardware station
+-or-</li>
+<li>Modern POS for iOS or Cloud POS with connected shared hardware station.</li>
+</ul>
+<h3 id="basic-principle-supporting-omni-channel-payments">Basic principle supporting omni-channel payments</h3>
+<p>Payment connectors and payment processors use tokens, or references, to reference interactions that are related to card payments. For example, when a payment authorization is requested, a reference to that authorization is provided. Therefore, the authorization can be referenced later, when funds are captured at the time of fulfillment. This authorization is unique to the merchant, payment connector, and processor.</p>
+<p>If an order that was created online is being picked up in the store, the same payment details for that order must be recalled and used. When the original details are provided as part of the request to capture a payment against the original authorization, the payment processor will be able to handle the request and capture the payment.</p>
+<p>To correctly reference the online order, a &quot;card not present&quot; payment connector that supports the same processor must also be available. In this way, the POS system can have one processor for &quot;card present&quot; payments, but it can also have access to other payment connectors so that it can fulfill orders that are created in other channels by using different payment processors.</p>
+<h2 id="supported-scenarios">Supported scenarios</h2>
+<p>The following omni-channel payment scenarios are supported:</p>
+<ul>
+<li><p>Buy online, pick up in store</p>
+</li>
+<li><p>Buy in call center, pick up in store</p>
+</li>
+<li><p>Buy in store A, pick up in store B</p>
+</li>
+<li><p>Buy in store A, ship to customer</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Payments made in the call center that map to the &quot;Normal&quot; payment function must be marked as <strong>Prepay</strong> = <strong>Yes</strong> to be reflected in the amount due when recalling the order in the POS. Non-prepay payments of type &quot;Normal&quot; are not recognized when the order is recalled in POS.</p>
+</div>
+</li>
+</ul>
+<p>Variations of these scenarios are also supported. For example, an online order might include both lines that will be shipped to the customer and lines that will be picked up in a store. All order fulfillment options are supported via omni-channel payments.</p>
+<p>The following sections describe the steps for each scenario and show how to run the scenario by using demo data.</p>
+<h3 id="buy-online-pick-up-in-store">Buy online, pick up in store</h3>
+<p>Before you start, make sure that the following prerequisites are in place:</p>
+<ul>
+<li>You have a reference storefront where the Adyen connector is configured.</li>
+<li>The <strong>Omni-channel payments</strong> option on the <strong>Commerce shared parameters</strong> page is set to <strong>True</strong>. In later versions this settng is moved to the <strong>Feature Management</strong> workspace where you can select the <strong>Omni-channel payments</strong> feature and click <strong>Enable now</strong>.</li>
+<li>The Adyen payment connector is configured for the Houston POS register.</li>
+<li>The Retail Modern POS for Windows or Android with built-in hardware station
+-or-</li>
+<li>Modern POS for iOS or Cloud POS with connected shared hardware station.</li>
+</ul>
+<p>Follow these steps to run the scenario.</p>
+<ol>
+<li><p>In the reference storefront, create an order for in-store pickup. Be sure to select the <strong>Houston</strong> store.</p>
+</li>
+<li><p>Go through the checkout steps, and pay by using a test credit card number. You can find test credit card numbers on the <a href="https://docs.adyen.com/development-resources/test-cards/test-card-numbers/#description">Adyen test card numbers page</a>.</p>
+</li>
+<li><p>In Commerce, use the <strong>Synchronize orders</strong> batch job and the <strong>P-001</strong> distribution schedule to create the orders in the back office.</p>
+</li>
+<li><p>In the POS, on the welcome page, select the <strong>Orders to pickup</strong> operation to see the orders for in-store pickup.</p>
+</li>
+<li><p>Select one or more lines from the order that was created in the reference storefront, and then select <strong>Pick up</strong>.</p>
+<p>The order is retrieved from the back office.</p>
+</li>
+<li><p>When the order line details are retrieved from the back office, and a card payment that can be used for omni-channel is detected, you're informed that a payment method is available.</p>
+</li>
+<li><p>Select <strong>Use available payment method</strong> to complete the transaction by using the card details that were entered in the reference storefront.</p>
+<p>The order lines are loaded on the transaction page, and the balance due is 0 (zero).</p>
+</li>
+<li><p>Select the <strong>Payments</strong> tab to view the tender line that was pulled from the online order.</p>
+</li>
+<li><p>Select any payment method to complete the transaction.</p>
+</li>
+</ol>
+<h3 id="buy-in-call-center-pick-up-in-store">Buy in call center, pick up in store</h3>
+<ol>
+<li><p>In Commerce, on the <strong>Customer service</strong> page, enter <strong>Karen Berg</strong> in the search bar, and then select <strong>Search</strong>.</p>
+</li>
+<li><p>Select <strong>Karen Berg</strong> in the search results.</p>
+</li>
+<li><p>After Karen is loaded onto the <strong>Customer service</strong> page, select <strong>New sales order</strong>.</p>
+</li>
+<li><p>On the new sales order page, select <strong>Header</strong> to view the order header.</p>
+</li>
+<li><p>On the <strong>Order header</strong> page, set the site to <strong>Central</strong> and the warehouse to <strong>Houston</strong>.</p>
+</li>
+<li><p>On the <strong>Deliver</strong> tab, set the <strong>Mode of delivery</strong> field to <strong>60</strong> for customer pickup.</p>
+</li>
+<li><p>Select <strong>Lines</strong>, and then add one or more lines to the order.</p>
+</li>
+<li><p>Select <strong>Complete</strong> to enter the order completion flow.</p>
+</li>
+<li><p>Scroll down to the payments section, select <strong>Add</strong>, and then select a line where the payment method type is set to <strong>Cards</strong>.</p>
+</li>
+<li><p>Select the plus sign (<strong>+</strong>) to add a card payment.</p>
+</li>
+<li><p>Enter the details for a test credit card number that you found on the <a href="https://docs.adyen.com/development-resources/test-cards/test-card-numbers/#description">Adyen test card numbers page</a>, and then select <strong>OK</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If the card brand for the card number that you entered differs from the brand that was selected when the payment was initiated, the payment will still go through. However, it will be posted to the accounts that are mapped to the card brand that you selected in step 10.</p>
+</div>
+</li>
+<li><p>Select <strong>OK</strong> again to close the <strong>Order completion payments</strong> dialog box.</p>
+</li>
+<li><p>On the <strong>Sales order summary</strong> page, select <strong>Submit</strong>.</p>
+</li>
+<li><p>In the POS, on the welcome page, select the <strong>Orders to pickup</strong> operation to see the orders for in-store pickup.</p>
+</li>
+<li><p>Select one or more lines from the order that was created in the reference storefront, and then select <strong>Pick up</strong>.</p>
+<p>The order is retrieved from the back office.</p>
+</li>
+<li><p>When the order line details are retrieved from the back office, and a card payment that can be used for omni-channel is detected, you're informed that a payment method is available.</p>
+</li>
+<li><p>Select <strong>Use available payment method</strong> to complete the transaction by using the card details that were entered in the reference storefront.</p>
+<p>The order lines are loaded on the transaction page, and the balance due is 0 (zero).</p>
+</li>
+<li><p>Select the <strong>Payments</strong> tab to view the tender line that was pulled from the online order.</p>
+</li>
+<li><p>Select any payment method to complete the transaction.</p>
+</li>
+</ol>
+<h3 id="buy-in-store-a-pick-up-in-store-b">Buy in store A, pick up in store B</h3>
+<ol>
+<li><p>Start the POS for the Houston store.</p>
+</li>
+<li><p>On the <strong>Transaction</strong> page, add Karen Berg to the transaction by using the number pad to enter <strong>2001</strong>.</p>
+</li>
+<li><p>Add one or more lines to the transaction.</p>
+</li>
+<li><p>Select <strong>Orders</strong> to see the order options.</p>
+</li>
+<li><p>Select <strong>Pick up all</strong>, and then, when you're prompted, select <strong>Customer order</strong>.</p>
+</li>
+<li><p>In the search bar, enter <strong>Seattle</strong>, and then select the <strong>Seattle</strong> store for pickup.</p>
+</li>
+<li><p>Select <strong>OK</strong> to accept the current date as the date of pickup.</p>
+</li>
+<li><p>Select <strong>Pay card</strong> to initiate the payment.</p>
+</li>
+<li><p>Tender the card payment for the amount that is due for the deposit.</p>
+</li>
+<li><p>Complete the deposit payment on the payment terminal.</p>
+</li>
+<li><p>After the deposit is paid, select the option to use the same card for fulfillment, and wait for the order to be completed.</p>
+</li>
+<li><p>Start the POS for the Seattle store.</p>
+</li>
+<li><p>In the POS, on the welcome page, select the <strong>Orders to pickup</strong> operation to see the orders for in-store pickup.</p>
+</li>
+<li><p>Select one or more lines from the order that was created in the reference storefront, and then select <strong>Pick up</strong>.</p>
+<p>The order is retrieved from the back office.</p>
+</li>
+<li><p>When the order line details are retrieved from the back office, and a card payment that can be used for omni-channel is detected, you're informed that a payment method is available.</p>
+</li>
+<li><p>Select <strong>Use available payment method</strong> to complete the transaction by using the card details that were entered in the reference storefront.</p>
+<p>The order lines are loaded on the transaction page, and the balance due is 0 (zero).</p>
+</li>
+<li><p>Select the <strong>Payments</strong> tab to view the tender line that was pulled from the online order.</p>
+</li>
+<li><p>Select any payment method to complete the transaction.</p>
+</li>
+</ol>
+<h3 id="buy-in-store-a-ship-to-customer">Buy in store A, ship to customer</h3>
+<ol>
+<li>Start the POS for the Houston store.</li>
+<li>On the <strong>Transaction</strong> page, add Karen Berg to the transaction by using the number pad to enter <strong>2001</strong>.</li>
+<li>Add one or more lines to the transaction.</li>
+<li>Select <strong>Orders</strong> to see the order options.</li>
+<li>Select <strong>Ship all</strong>, and then, when you're prompted, select <strong>Customer order</strong>.</li>
+<li>In the shipping method page, select <strong>Standard overnight</strong>, and then select <strong>OK</strong> to accept today's date as the shipping date.</li>
+<li>Select <strong>OK</strong> to accept the current date as the date of pickup.</li>
+<li>Select <strong>Pay card</strong> to initiate the payment.</li>
+<li>Tender the card payment for the amount that is due for the deposit.</li>
+<li>Complete the deposit payment on the payment terminal.</li>
+<li>After the deposit is paid, select the option to use the same card for fulfillment, and wait for the order to be completed.</li>
+</ol>
+<p>When the order is picked, packed, and invoiced in the back office, the payment details that are provided at the POS will be used to capture the funds for the goods that are being shipped to the customer.</p>
+<h2 id="scenario-details">Scenario details</h2>
+<p>In addition to the basic scenarios that were just described, several enhancements have been made to the Payments SDK to support omni-channel payments.</p>
+<h3 id="pos">POS</h3>
+<h4 id="single-swipedip-for-customer-orders">Single swipe/dip for customer orders</h4>
+<p>Before the omni-channel payments feature was implemented, when customer orders that included deposits were created at the POS, customers were required to swipe (or dip) their card two times: one time to pay the deposit and one time to tokenize the card for subsequent order fulfillment. When the omni-channel tokenization feature is turned on, customers must swipe their card only one time to both pay the deposit and authorize the amount that is due for goods that will be fulfilled later. At the time of fulfillment, the authorized funds are captured. Before the omni-channel tokenization feature was implemented, only a recurring card token was created for subsequent order fulfillment. Therefore, the funds for the pending fulfillment weren't authorized, and because those funds weren't being held for that specific purchase, it was less likely that they could be captured later.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Single swipe isn't supported in Retail version 8.1.3. Customer orders in version 8.1.3 use the same flow that was used before the omni-channel tokenization feature was implemented.</p>
+</div>
+<h3 id="cards-that-cant-issue-recurring-card-tokens">Cards that can't issue recurring card tokens</h3>
+<p>Some cards can't be used for omni-channel payments, because they don't support issuing recurring card tokens. When an order is created at the POS, if the deposit is paid by using a card that doesn't support recurring card tokens, the previous card tokenization flow is used. Therefore, a customer who wants to provide a payment that will be used for subsequent order fulfillment must present a second card. If the second card doesn't support recurring card tokens, the tokenization action will be declined, and the cashier will be prompted to ask the customer to provide a different card.</p>
+<h3 id="using-a-different-card">Using a different card</h3>
+<p>A customer who comes to the store for order pickup has the option to use a different card. When the cashier receives the <strong>Use available payment method</strong> prompt at the time of order pickup, he or she can ask whether the customer wants to use the same card. If the customer has lost the card that was used to create the order and wants to pay for the order by using a different card, the cashier can select <strong>Use a different payment method</strong>. If the customer comes back later to pick up more items for the same order, if the original card authorization is still valid, the cashier can again ask whether the customer wants to use that card.</p>
+<h3 id="invalid-authorizations">Invalid authorizations</h3>
+<p>If the card that was used to create an order is no longer valid, when products are selected for pickup, the payment capture request will fail. The POS payment connector will then try to create a new authorization and capture by using the same card details. If the new authorization or capture fails, the cashier will be informed that the payment could not be processed. The cashier must then get a new payment from the customer.</p>
+<h3 id="multiple-available-payments">Multiple available payments</h3>
+<p>When an order that has multiple tenders and multiple lines is picked up, the cashier first receives the <strong>Use available payment method</strong> prompt. If there are multiple cards, when the cashier selects <strong>Use available payment method</strong>, existing card tender lines will be captured until the balance is met for the goods that are currently being picked up. The cashier won't have the option to select the card that should be used for the goods that are being picked up.</p>
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/payments-retail">Payments FAQ</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/dev-itpro/adyen-connector?tabs=8-1-3">Dynamics 365 Payment Connector for Adyen</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/commerce/cpe-bopis">Configure BOPIS in a Dynamics 365 Commerce evaluation environment</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

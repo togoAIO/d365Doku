@@ -15,6 +15,6 @@ Nehmen wir hier wieder den Prozess des Material umlagerns. Material wird in der 
 Zusätzlich ist die Dokumentation Modulbezogen aufgebaut. Das heißt die Einzelnen Fachabteilungen finden Beschreibungen über ihre Arbeitsinhalte.
 
 ## Quick Start:
-1. [WIKA D365 Prozessdokumentation](ProcessDoku/)
+1. [WIKA D365 Prozessdokumentation](ProcessDoku/intro.md)
 1. [Englische Anwendungsdokumentation von Microsoft](articles/supply-chain/index.md)
-1. [Deutsche Anwendungsdokumentation von Microsoft (Zum Teil schon in die WIKA Prozessdokumentation mit aufgenommen)](articles_de\supply-chain\toc.yml)
+1. [Deutsche Anwendungsdokumentation von Microsoft (Zum Teil schon in die WIKA Prozessdokumentation mit aufgenommen)](articles_de\supply-chain\index.md)

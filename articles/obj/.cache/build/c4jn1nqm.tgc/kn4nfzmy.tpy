@@ -1,0 +1,776 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrated sites and warehouses </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrated sites and warehouses ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes the integration of site and warehouse data between Finance and Operations and Dataverse.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="integrated-sites-and-warehouses">Integrated sites and warehouses</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic describes the integration of site and warehouse data between Finance and Operations and Dataverse. Operational sites and warehouses are common concepts in a Supply Chain Management application. They are used to model the supply chain of your company.</p>
+<h2 id="templates">Templates</h2>
+<p>With the integration with Dataverse, these concepts and all their related information are available in Dataverse using the sites and warehouses data tables in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Other Dynamics 365 apps</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sites</td>
+<td>msdyn_operationalsites</td>
+<td></td>
+</tr>
+<tr>
+<td>Warehouses</td>
+<td>msdyn_warehouses</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="mapping-tables">Mapping tables</h2>
+<h3 id="mapping-types">Mapping types</h3>
+<p>There are several different mapping types. The following table explains the symbols used in the template tables.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>One-way</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>=</td>
+<td>Bidirectional</td>
+</tr>
+<tr>
+<td>&gt;&lt;</td>
+<td>Bidirectional, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filters">Filters</h3>
+<p>The source filter and reverse source filter determine which rows are synchronized.</p>
+<h3 id="default-values">Default values</h3>
+<p>If a synchronized field does not exist in either the Finance and Operations table or the other Dynamics 365 table, then a default value is assigned in the synchronized table. In some cases, the default value is an integer that is a lookup to an attribute value in the Common Data Model. For example, in the Contacts table of the Common Data Model, the default value of <a href="customer-mapping.html#customers-v3-to-contacts"><strong>address1_addresstypecode</strong></a> is <strong>3</strong>. In the Common Data Model, for <a href="https://docs.microsoft.com/common-data-model/schema/core/applicationcommon/foundationcommon/contact#address1AddressTypeCode">address1AddressTypeCode</a> the value of <strong>3</strong> is <strong>Primary address</strong>.</p>
+<h2 id="sites-to-msdyn_operationalsites">Sites to msdyn_operationalsites</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEFAULTFINANCIALDIMENSIONVALUE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_defaultfinancialdimensionvalue</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTINVENTORYSTATUSID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_defaultinventorystatusid</td>
+<td></td>
+</tr>
+<tr>
+<td>ISRECEIVINGWAREHOUSEOVERRIDEALLOWED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isreceivingwarehouseoverrideallowed</td>
+<td></td>
+</tr>
+<tr>
+<td>SITEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>SITENAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_sitename</td>
+<td></td>
+</tr>
+<tr>
+<td>TAXBRANCHCODE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_taxbranchcode</td>
+<td></td>
+</tr>
+<tr>
+<td>FISCALESTABLISHMENTID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_fiscalestablishmentid</td>
+<td></td>
+</tr>
+<tr>
+<td>ISPRIMARYADDRESSASSIGNED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isprimaryaddressassigned</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscity</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTRYREGIONID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscountryregionid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTYID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSDISTRICTNAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLATITUDE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLOCATIONROLES</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslocationrole</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLOCATIONSALESTAXGROUPCODE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslocationsalestaxgroupcode</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLONGITUDE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTATEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstateid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREET</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreet</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSZIPCODE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresszipcode</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSBUILDINGCOMPLIMENT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressbuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCITYINKANA</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscityinkana</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREETINKANA</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreetinkana</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSDESCRIPTION</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDPRIMARYADDRESS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_formattedprimaryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLMASTERPLANNEDINTRASITEMOVEMENTSUSETRANSFERJOURNALS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_masterplannedusestransferjournal</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSPOSTBOX</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREETNUMBER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreetnumber</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="warehouses-to-msdyn_warehouses">Warehouses to msdyn_warehouses</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEFAULTCONTAINERTYPEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_defaultcontainertypeid</td>
+<td></td>
+</tr>
+<tr>
+<td>AREITEMSCOVERAGEPLANNEDMANUALLY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_areitemscoverageplannedmanually</td>
+<td></td>
+</tr>
+<tr>
+<td>ARELABORSTANDARDSALLOWED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arelaborstandardsallowed</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSBUILDINGCOMPLIMENT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressbuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSPOSTBOX</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREETNUMBER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreetnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>AREWAREHOUSELOCATIONCHECKDIGITSUNIQUE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arewarehouselocationcheckdigitsunique</td>
+<td></td>
+</tr>
+<tr>
+<td>INVENTORYCOUNTINGREASONCODEPOLICYNAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_inventorycountingreasoncodepolicyname</td>
+<td></td>
+</tr>
+<tr>
+<td>AUTOUPDATESHIPMENTRULE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_autoupdateshipmentrule</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSERELEASERESERVATIONREQUIREMENTRULE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehousereleasereservationrequirement</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALLYLOCATEDWAREHOUSEVENDORACCOUNTNUMBER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_externallylocatedwarehousevendoraccountnu</td>
+<td></td>
+</tr>
+<tr>
+<td>INVENTORYSTATUSCHANGERESERVATIONREMOVALLEVEL</td>
+<td>&gt;&lt;</td>
+<td>msdyn_inventorystatuschangereservationremoval</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSEWORKPROCESSINGPOLICYNAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouseworkprocessingpolicyname</td>
+<td></td>
+</tr>
+<tr>
+<td>ISFALLBACKWAREHOUSE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isfallbackwarehouse</td>
+<td></td>
+</tr>
+<tr>
+<td>ISFINANCIALNEGATIVERETAILSTOREINVENTORYALLOWED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_financialnegativestoreinventoryallowed</td>
+<td></td>
+</tr>
+<tr>
+<td>ISPALLETMOVEMENTDURINGCYCLECOUNTINGALLOWED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_palletmovementduringcyclecountingallowed</td>
+<td></td>
+</tr>
+<tr>
+<td>ISPHYSICALNEGATIVERETAILSTOREINVENTORYALLOWED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_physicalnegativestoreinventoryallowed</td>
+<td></td>
+</tr>
+<tr>
+<td>ISREFILLEDFROMMAINWAREHOUSE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isrefilledfrommainwarehouse</td>
+<td></td>
+</tr>
+<tr>
+<td>ISRETAILSTOREWAREHOUSE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isretailstorewarehouse</td>
+<td></td>
+</tr>
+<tr>
+<td>MAINREFILLINGWAREHOUSEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_mainrefillingwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>MASTERPLANNINGWORKCALENDARDID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_masterplanningworkcalendarid</td>
+<td></td>
+</tr>
+<tr>
+<td>MAXIMUMBATCHPICKINGLISTQUANTITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_maximumbatchpickinglistquantity</td>
+<td></td>
+</tr>
+<tr>
+<td>MAXIMUMPICKINGLISTLINEQUANTITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_maximumpickinglistlinequantity</td>
+<td></td>
+</tr>
+<tr>
+<td>OPERATIONALSITEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_operationalsite.msdyn_siteid</td>
+<td></td>
+</tr>
+<tr>
+<td>QUARANTINEWAREHOUSEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_quarantinewarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>RETAILSTOREQUANTITYALLOCATIONREPLENISMENTRULEWEIGHT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_storeqtyallocationreplenishmentweight</td>
+<td></td>
+</tr>
+<tr>
+<td>SHOULDWAREHOUSELOCATIONIDINCLUDEAISLEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_shouldwarehouselocationincludeaisleid</td>
+<td></td>
+</tr>
+<tr>
+<td>TRANSITWAREHOUSEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_transitwarehouse.msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouseidentifier</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSEID</td>
+<td>&gt;&gt;</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSELOCATIONIDBINIDFORMAT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationidbinidformat</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSELOCATIONIDRACKIDFORMAT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationidrackidformat</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSELOCATIONIDSHELFIDFORMAT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationidshelfidformat</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSENAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSESPECIFICDEFAULTINVENTORYSTATUSID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehousespecificdefaultinventorystatusid</td>
+<td></td>
+</tr>
+<tr>
+<td>WAREHOUSETYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehousetype</td>
+<td></td>
+</tr>
+<tr>
+<td>ISPRIMARYADDRESSASSIGNED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isprimaryaddressassigned</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscity</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTRYREGIONID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscountryregionid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTYID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSDISTRICTNAME</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLATITUDE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLONGITUDE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLOCATIONROLES</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslocationroles</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSLOCATIONSALESTAXGROUPCODE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresslocationsalestaxgroupcode</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTATEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstateid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREET</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreet</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSZIPCODE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresszipcode</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALLYLOCATEDWAREHOUSECUSTOMERACCOUNTNUMBER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_externallylocatedwarehousecustomeraccount</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCITYINKANA</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddresscityinkana</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREETINKANA</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressstreetinkana</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSDESCRIPTION</td>
+<td>&gt;&lt;</td>
+<td>msdyn_primaryaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>AREADVANCEDWAREHOUSEMANAGEMENTPROCESSESENABLED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_useadvancedwarehousemanagementprocesses</td>
+<td></td>
+</tr>
+<tr>
+<td>AREPICKINGLISTSDELIVERYMODESPECIFIC</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arepickinglistsdeliverymodespecific</td>
+<td></td>
+</tr>
+<tr>
+<td>AREPICKINGLISTSSHIPMENTSPECIFICONLY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_arepickinglistshipmentspecificonly</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDPRIMARYADDRESS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_formattedprimaryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>ISBILLOFLADINGPRINTINGBEFORESHIPMENTCONFIRMATIONENABLED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_printbillofladingbeforeshipconfirmation</td>
+<td></td>
+</tr>
+<tr>
+<td>RAWMATERIALPICKINGINVENTORYISSUESTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_rawmaterialpickinginventoryissuestatus</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLAUTOMATICLOADRELEASERESERVEINVENTORY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_willautomaticloadreleaseinventory</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLINVENTORYSTATUSCHANGEREMOVEBLOCKING</td>
+<td>&gt;&lt;</td>
+<td>msdyn_willinventorystatuschangeremoveblocking</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLMANUALLOADRELEASERESERVEINVENTORY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_willmanualloadreleasereserveinventory</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLORDERRELEASINGCONSOLIDATESHIPMENTS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_willorderreleasingconsolidateshipments</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLPRODUCTIONBOMSRESERVEWAREHOUSELEVELONLY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_productionbomsreservewarehouselevel</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLSHIPPINGCANCELLATIONDECREMENTLOADQUANITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_shippingcanceldecrementloadquantity</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLWAREHOUSELOCATIONIDINCLUDEBINIDBYDEFAULT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationidincludeblindid</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLWAREHOUSELOCATIONIDINCLUDERACKIDBYDEFAULT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationincluderackidbydefault</td>
+<td></td>
+</tr>
+<tr>
+<td>WILLWAREHOUSELOCATIONIDINCLUDESHELFIDBYDEFAULT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_warehouselocationidincludeshelfid</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/sites-warehouses-mapping.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

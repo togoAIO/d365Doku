@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Doppelte W&#228;hrungsunterst&#252;tzung f&#252;r Steuern | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Doppelte W&#228;hrungsunterst&#252;tzung f&#252;r Steuern | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="dual-currency-support-for-sales-tax">Unterstützung der Umsatzsteuer in zwei Währungen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird erklärt, wie die doppelte Währungsabrechnung für die Umsatzsteuer erweitert werden kann und welche Auswirkungen dies auf die Umsatzsteuerberechnung, -buchung und -abrechnung hat.</p>
+<p>Die Doppelwährungsfunktion für Dynamics 365 Finance wurde in Version 8.1 (Oktober 2018) eingeführt. Sie ändert die Art und Weise, wie Buchungen in der Berichtswährung berechnet werden.</p>
+<p>In früheren Versionen wurden die Transaktionen in der folgenden Reihenfolge in die Berichtswährung umgerechnet:</p>
+<ul>
+<li>Die Transaktionssumme wurde in der Transaktionswährung berechnet &gt; Der Transaktionsbetrag wurde in die Buchhaltungswährung umgerechnet &gt; Der Betrag in der Buchhaltungswährung wurde in die Berichtswährung umgerechnet</li>
+</ul>
+<p>Nachdem die Doppelwährungsfunktion aktiviert wurde, wurden die Transaktionen in der folgenden Reihenfolge in die Berichtswährung umgerechnet:</p>
+<ul>
+<li>Betrag der Transaktionswährung &gt; Betrag der Berichtswährung</li>
+</ul>
+<p>Weitere Informationen über Doppelwährung finden Sie unter <a href="dual-currency.html">Duale Währung</a>.</p>
+<p>Als Folge der Unterstützung von Doppelwährungen sind zwei neue Funktionen in der Funktionsverwaltung verfügbar:</p>
+<ul>
+<li>Umsatzsteuer-Umstellung (Release in Version 10.0.9)</li>
+<li>Steuerabrechnungs-Autosaldo in Berichtswährung (Release in Version 10.0.11)</li>
+</ul>
+<p>Die Doppelwährungsunterstützung für die Umsatzsteuer stellt sicher, dass die Steuern genau in der Steuerwährung berechnet werden und dass der Umsatzsteuerabrechnungssaldo sowohl in der Buchhaltungs- als auch in der Berichtswährung genau berechnet wird.</p>
+<h2 id="sales-tax-conversion">Mehrwertsteuerkonvertierung</h2>
+<p>Der Parameter <strong>Umsatzsteuerumrechnung</strong> bietet zwei Optionen zur Umrechnung des Steuerbetrags von der Transaktionswährung in die Steuerwährung.</p>
+<ul>
+<li>Buchführungswährung: Der Pfad lautet „Betrag in Transaktionswährung &gt; Betrag in Buchhaltungswährung &gt; Betrag in Steuerwährung“. Für die Währungsumrechnung wird der Wechselkurs-Typ der Buchhaltungswährung (konfiguriert in der Einrichtung des Ledgers) verwendet.</li>
+<li>Berichtswährung: Der Pfad lautet „Betrag in Transaktionswährung &gt; Betrag in Berichtswährung &gt; Betrag in Steuerwährung“. Der (im Ledger-Setup konfigurierte) Berichtswährungsumrechnungskurstyp wird für die Währungsumrechnung verwendet.</li>
+</ul>
+<h3 id="example">Beispiel</h3>
+<p>Ein einfaches Beispiel zur Veranschaulichung dieser Funktionalität ist:</p>
+<p>Währungseinrichtung für Sachkonto und Steuer</p>
+<table>
+<thead>
+<tr>
+<th>Buchungswährung</th>
+<th>Buchhaltungswährung</th>
+<th>Berichtswährung</th>
+<th>Steuerwährung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUR</td>
+<td>EUR</td>
+<td>GBP</td>
+<td>GBP</td>
+</tr>
+</tbody>
+</table>
+<p>Kurs</p>
+<table>
+<thead>
+<tr>
+<th>Ausgangswährung</th>
+<th>Zielwährung</th>
+<th>Faktor</th>
+<th>Kurs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUR</td>
+<td>EUR</td>
+<td>1</td>
+<td>1.11</td>
+</tr>
+<tr>
+<td>EUR</td>
+<td>GBP</td>
+<td>1</td>
+<td>0.83</td>
+</tr>
+<tr>
+<td>EUR</td>
+<td>GBP</td>
+<td>1</td>
+<td>0.75</td>
+</tr>
+</tbody>
+</table>
+<p>Berechnung des Steuerbetrags in verschiedenen Parameteroptionen</p>
+<p>Steuerbetrag = 100 EUR</p>
+<table>
+<thead>
+<tr>
+<th>Parameter für die Umsatzsteuerumwandlung</th>
+<th>Transaktionswährung (EUR)</th>
+<th>Rechnungswährung (USD)</th>
+<th>Berichtswährung (GBP)</th>
+<th>Steuerwährung (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buchhaltungswährung</td>
+<td>100</td>
+<td>111</td>
+<td>83</td>
+<td><strong>83.25</strong></td>
+</tr>
+<tr>
+<td>Berichtswährung</td>
+<td>100</td>
+<td>111</td>
+<td>83</td>
+<td><strong>83</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Dieser Parameter kann auf der Grundlage des Compliance-Bedarfs der Steuerbehörde konfiguriert werden.</p>
+<h3 id="upgrade-consideration">Upgrade-Überlegung.</h3>
+<p>Diese Funktion gilt nur für neue Transaktionen. Für Steuertransaktionen, die bereits in der Tabelle TAXTRANS gespeichert, aber noch nicht abgerechnet wurden, berechnet das System den Steuerbetrag in Steuerwährung nicht neu, da der Wechselkurs zum Zeitpunkt der Steuerbuchung bereits fehlt.</p>
+<p>Um das vorhergehende Szenario zu verhindern, empfehlen wir, diesen Parameterwert in einer neuen (sauberen) Steuerabrechnungsperiode zu ändern, die keine nicht abgerechneten Steuertransaktionen enthält. Um diesen Wert in der Mitte einer Steuerabrechnungsperiode zu ändern, führen Sie bitte das Programm „Umsatzsteuer abrechnen und buchen“ für die aktuelle Steuerabrechnungsperiode aus, bevor Sie diesen Parameterwert ändern.</p>
+<h2 id="track-reporting-currency-tax-amount">Steuerbetrag in Berichtswährung verfolgen</h2>
+<p>Drei neue Felder wurden zu den steuerbezogenen Tabellen hinzugefügt, um Beträge in der Berichtswährung zu verfolgen. Diese Felder befinden sich innerhalb der Tabellen TAXUNCOMMITTED und TAXTRANS:</p>
+<ul>
+<li>TaxAmountRep: Steuerbetrag in der Berichtswährung</li>
+<li>TaxBaseAmountRep: Basisbetrag in Berichtswährung</li>
+<li>TaxInCostPriceRep: nicht abzugsfähiger Betrag in Berichtswährung</li>
+</ul>
+<p>Für Steuern, die nur in der Tabelle TAXUNCOMMITTED gespeichert, aber noch nicht gebucht wurden, berechnet das System den Steuerbetrag in der Berichtswährung zum Zeitpunkt der Buchung neu und speichert ihn in der Tabelle TAXTRANS.</p>
+<p>Diese Version enthält keine Änderungen an Berichten und Formularen, die den Steuerbetrag in der Berichtswährung anzeigen. Änderungen an Berichten und Formularen werden in der zukünftigen Version geliefert.</p>
+<h2 id="tax-settlement-auto-balance-in-reporting-currency">Automatische Steuerabrechnung in der Berichtswährung</h2>
+<p>Wenn die Steuerabrechnung aus bestimmten Gründen nicht in der Berichtswährung ausgeglichen wird, z.B. wenn der Umsatzsteuerumrechnungspfad „Buchhaltungswährung“ ist oder die Wechselkursänderung in einer einzelnen Steuerabrechnungsperiode erfolgt, erzeugt das System automatisch Buchhaltungsbuchungen, um die Steuerbetragsabweichung zu korrigieren und mit dem Konto für realisierten Kursgewinn/-verlust, das im Ledger-Setup konfiguriert ist, zu verrechnen.</p>
+<p>Anhand des vorhergehenden Beispiels zur Veranschaulichung dieser Funktion wird angenommen, dass die Daten in der Tabelle TAXTRANS zum Zeitpunkt der Buchung wie folgt aussehen.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter für die Umsatzsteuerumwandlung</th>
+<th>Transaktionswährung (EUR)</th>
+<th>Rechnungswährung (USD)</th>
+<th>Berichtswährung (GBP)</th>
+<th>Steuerwährung (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buchhaltungswährung</td>
+<td>100</td>
+<td>111</td>
+<td>83</td>
+<td><strong>83.25</strong></td>
+</tr>
+<tr>
+<td>Berichtswährung</td>
+<td>100</td>
+<td>111</td>
+<td>83</td>
+<td><strong>83</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Wenn Sie das Umsatzsteuerabrechnungsprogramm am Monatsende ausführen, wird die Buchhaltung wie folgt gebucht:.</p>
+<h4 id="scenario-sales-tax-conversion--accounting-currency">Szenario: Umsatzsteuerumrechnung = „Buchhaltungswährung“.</h4>
+<table>
+<thead>
+<tr>
+<th>Hauptkonto</th>
+<th>Transaktionswährung (GBP)</th>
+<th>Rechnungswährung (USD)</th>
+<th>Berichtswährung (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zu zahlende/erhaltende Steuer</td>
+<td>-83,25</td>
+<td>-111</td>
+<td>-83,25</td>
+</tr>
+<tr>
+<td>Steuerabrechnung</td>
+<td>83.25</td>
+<td>111</td>
+<td>83.25</td>
+</tr>
+<tr>
+<td>Realisierter Gewinn/Verlust</td>
+<td>0</td>
+<td>0</td>
+<td>-0,25</td>
+</tr>
+<tr>
+<td>Zu zahlende/erhaltende Steuer</td>
+<td>0</td>
+<td>0</td>
+<td>0.25</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scenario-sales-tax-conversion--reporting-currency">Szenario: Umsatzsteuerumrechnung = „Berichtswährung“.</h4>
+<table>
+<thead>
+<tr>
+<th>Hauptkonto</th>
+<th>Transaktionswährung (GBP)</th>
+<th>Rechnungswährung (USD)</th>
+<th>Berichtswährung (GBP)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zu zahlende/erhaltende Steuer</td>
+<td>-83</td>
+<td>-110,67</td>
+<td>-83</td>
+</tr>
+<tr>
+<td>Steuerabrechnung</td>
+<td>83</td>
+<td>110.67</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Realisierter Gewinn/Verlust</td>
+<td>0</td>
+<td>0.33</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Zu zahlende/erhaltende Steuer</td>
+<td>0</td>
+<td>-0,33</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Weitere Informationen finden Sie in folgenden Themen:</p>
+<ul>
+<li><a href="dual-currency.html">Doppelte Währung</a></li>
+<li><a href="indirect-taxes-overview.html">Mehrwertsteuerübersicht</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Verz&#246;gerte Verarbeitung der Lagerarbeit </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Verz&#246;gerte Verarbeitung der Lagerarbeit ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema werden die Funktionen beschrieben, die die verz&#246;gerte Verarbeitung von Einlagerungsvorg&#228;ngen in Dynamics 365 Supply Chain Management verf&#252;gbar machen.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSWorkProcessingPolicy, WHSWorkDeferredPutProcessingTask">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="deferred-processing-of-warehouse-work">Verzögerte Verarbeitung der Lagerarbeit</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema werden die Funktionen beschrieben, die die verzögerte Verarbeitung von Lagerarbeiten in Dynamics 365 Supply Chain Management verfügbar machen.</p>
+<p>Mit der verzögerten Verarbeitungsfunktion können Lagerarbeiter weiterhin andere Aufgaben erledigen, während im Hintergrund der Einlagerungsvorgang verarbeitet wird. Die verzögerte Verarbeitung ist hilfreich, wenn zahlreiche Arbeitspositionen verarbeitet werden müssen und die Arbeitskraft diese Arbeit asynchron verarbeiten lassen kann. Sie ist außerdem nützlich, wenn es beim Server zu spontanen oder ungeplanten Zunahmen bei der Verarbeitungszeit kommen kann und sich diese erhöhte Verarbeitungszeit auf die Produktivität des Benutzers auswirken kann.</p>
+<p>Eine Hintergrundverarbeitung wird durch Verwendung des SysOperations-Frameworks erreicht. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/dynamicsax-2012/developer/sysoperation-framework-overview">Übersicht über das SysOperation-Framework</a>.</p>
+<h2 id="configuring-the-work-processing-policies">Konfigurieren der Arbeitsverarbeitungsrichtlinien</h2>
+<p>Um die verzögerte Verarbeitung zu verwenden, müssen Sie eine Arbeitsverarbeitungsrichtlinie konfigurieren.</p>
+<p>Richtlinien werden auf der Seite <strong>Arbeitsverarbeitungsrichtlinien</strong> konfiguriert. In der folgenden Tabelle werden die Felder auf dieser Seite beschrieben.</p>
+<table>
+<thead>
+<tr>
+<th>Feld</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name der Arbeitsverarbeitungsrichtlinien</td>
+<td>Der Name der Arbeitsverarbeitungsrichtlinien.</td>
+</tr>
+<tr>
+<td>Arbeitsauftragstyp</td>
+<td>Der Arbeitsauftragstyp, auf den die Richtlinie angewendet wird.</td>
+</tr>
+<tr>
+<td>Vorgang</td>
+<td>Der Arbeitsgang, der mithilfe der Richtlinie verarbeitet wird.</td>
+</tr>
+<tr>
+<td>Arbeitsverarbeitungsmethode</td>
+<td>Die zur Verarbeitung der Arbeitsposition verwendete Methode. Wenn die Methode auf <strong>Sofort</strong> festgelegt wird, ähnelt das Verhalten dem Verhalten, wenn keine Arbeitsverarbeitungsrichtlinien verwendet werden, um die Position zu verarbeiten. Wenn die Methode auf <strong>Verzögert</strong> festgelegt wird, wird die verzögerte Verarbeitung verwendet, die das Batch-Framework verwendet.</td>
+</tr>
+<tr>
+<td>Verzögerter Verarbeitungsschwellenwert</td>
+<td>Ein Wert von <strong>0</strong> (Null) bedeutet, dass kein Schwellenwert festgelegt ist. In diesem Fall wird die verzögerte Verarbeitung verwendet, wenn sie verwendet werden kann. Wenn die Berechnung des speziellen Schwellenwerts unterhalb des Schwellenwerts liegt, wird die Methode „Sofort“ verwendet. Andernfalls wird die verzögerte Methode verwendet, wenn sie verwendet werden kann. Bei verkaufs- und übertragungsbezogenen Arbeiten wird der Schwellenwert als die Zahl zugeordneter Quellladungspositionen berechnet, die für die Arbeit verarbeitet werden. Für wird der Wiederbeschaffungsarbeiten wird der Schwellenwert als die Anzahl von Arbeitspositionen berechnet, die wiederbeschafft werden. Wenn beispielsweise ein Schwellenwert von <strong>5</strong> für den Verkauf festgelegt wird, wird für kleinere Arbeiten mit weniger als fünf anfänglichen Quellladungspositionen keine verzögerte Verarbeitung verwendet, sondern nur für größere. Der Schwellenwert hat nur Auswirkungen, wenn die Arbeitsverarbeitungsmethode auf <strong>Verzögert</strong> festgelegt wird.</td>
+</tr>
+<tr>
+<td>Chargengruppe mit verzögerter Verarbeitung</td>
+<td>Die Stapelverarbeitungsgruppe, die für die Verarbeitung verwendet wird.</td>
+</tr>
+</tbody>
+</table>
+<p>Für verzögerte Einlagerungsaufgaben werden die folgenden Arbeitsauftragstypen unterstützt: Aufträge, Umlagerungsauftragsprobleme und Wiederbeschaffung.</p>
+<h2 id="assigning-the-work-creation-policy">Zuweisen der Arbeitserstellungsrichtlinie</h2>
+<p>Die Arbeitserstellungsrichtlinie kann in den Lagerortverwaltungsparametern zugewiesen werden. Sie kann auch auf der Ebene einzelner Lagerorte zugewiesen werden. Wenn die Richtlinie einem Lagerort zugewiesen wird, wird sie nur auf Arbeiten angewendet, die für diesen Lagerort erstellt werden. Wenn keine Richtlinie auf Lagerortebene zugewiesen wird, wird die Richtlinie aus den Lagerortverwaltungsparametern angewendet.</p>
+<h2 id="viewing-the-deferred-put-processing-tasks">Anzeigen der verzögerten Einlagerungsaufgaben</h2>
+<p>Sie können verzögerte Einlagerungsaufgaben auf der Seite <strong>Zurückgestellte Einlagerungsaufgaben</strong> anzeigen.</p>
+<p>Standardmäßig werden die <strong>Abgeschlossenen</strong> Aufgaben angezeigt.</p>
+<table>
+<thead>
+<tr>
+<th>Feld</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Status</td>
+<td>Der Status der Aufgabe.</td>
+</tr>
+<tr>
+<td>Status des Batchauftrags</td>
+<td>Der Status des verknüpften Stapelverarbeitungsauftrags. Wenn der Stapelverarbeitungsauftrag verarbeitet wurde, enthält die Chargenhistorie das Protokoll und die Informationen aus dem Stapelverarbeitungsauftrag.</td>
+</tr>
+</tbody>
+</table>
+<p>Hier ein Überblick über die möglichen Status:</p>
+<ul>
+<li><strong>Ausstehend</strong> – Der zugehörige Stapelverarbeitungsauftrag wartet auf die Bearbeitung auf dem Stapelverarbeitungsserver.</li>
+<li><strong>Fehler</strong> – Das Verarbeiten ist fehlgeschlagen. Die Aufgabe kann erneut verarbeitet werden, indem die Aktion <strong>Verzögerte Einlagerung verarbeiten</strong> verwendet wird, oder sie kann mithilfe der Aktion <strong>Verzögerte Einlagerung abbrechen</strong> storniert werden.</li>
+<li><strong>Abgeschlossen</strong> – Der Auftrag wurde abgeschlossen.</li>
+</ul>
+<h2 id="impact-on-closed-work-dates">Auswirkungen auf abgeschlossene Arbeitstermine</h2>
+<p>Wenn die verzögerte Einlagerungsverarbeitung verwendet wird, wird der abgeschlossene Arbeitstermin als Erstellungsdatum/-uhrzeit der verzögerten Einlagerungsverarbeitungaufgaben festgelegt. Der abgeschlossene Arbeitstermin wird verwendet, weil er die beste Schätzung für den Abschluss des Einlagerungsvorgangs ist.</p>
+<h2 id="reprocessing-a-failed-task">Erneutes Verarbeiten einer fehlgeschlagenen Aufgabe</h2>
+<p>Sie können eine fehlgeschlagene Aufgabe erneut verarbeiten, indem Sie sie auf der Seite <strong>Verzögerte Einlagerung verarbeiten</strong> auswählen. Das erneute Verarbeiten entspricht einer Situation, in der der Benutzer das Einlagern über das mobile Gerät abschließt, als wäre es für die sofortige Verarbeitung festgelegt.</p>
+<h2 id="canceling-failed-tasks">Abbrechen fehlgeschlagener Aufgaben</h2>
+<p>Nur fehlgeschlagene Aufgaben können storniert werden. Wird eine Aufgabe abgebrochen, kann sie einem neuen Benutzer zugeordnet werden. Alternativ kann die Aufgabe dem Benutzer zugewiesen bleiben, der die Arbeit verarbeitet hat. Das Abbrechen entspricht einer Situation, in der die Arbeit wieder zum mobilen Gerät zurückgebracht wird, als ob der letzte Entnahmeschritt gerade abgeschlossen wurde und die Arbeit eingelagert werden muss. Der Benutzer kann jedoch bestimmen, dass die Arbeit „anders“ ist, da es nur den Einlagerungsschritt gibt, und der Standort entsprich dem Ort, den der erste Benutzer, der die Arbeit verarbeitet hat, als finalen Einlagerungsort hatte.</p>
+<p>Wenn eine Aufgabe abgebrochen wird , wird die Arbeit nicht mehr durch den Sperrungsgrund der verzögerten Einlagerungsverarbeitung blockiert. Sie kann erneut mit dem mobilen Gerät verarbeitet werden.</p>
+<p>Der Aufgabendatensatz wird gelöscht, wenn die Aufgabe abgebrochen wurde.</p>
+<h2 id="configuring-the-mobile-device-menu-to-skip-the-deferred-processing-policy">Konfigurieren des Menüs des mobilen Geräts, um die verzögerte Verarbeitungsrichtlinie zu überspringen</h2>
+<p>Sie können die Menüoption des mobilen Geräts so konfigurieren, sodass die verzögerte Verarbeitungsrichtlinie nicht verwendet wird. Die Arbeit wird dann so verarbeitet, als würde keine verzögerte VerarbeitungsrRichtlinie verwendet werden. Mit dieser Funktion kann ein Vorgesetzter eine bestimmte Menüoption verwenden, wenn keine verzögerte Einlagerung verwendet wird. Legen Sie zum Konfigurieren das Feld <strong>Verzögerte Einlagerungsverarbeitungsrichtlinie</strong> auf <strong>Einstellungen überschreiben und Einlagerung synchron verarbeiten</strong> fest.</p>
+<h2 id="restrictions-when-the-deferred-put-processing-isnt-applied">Einschränkungen, wenn die verzögerte Einlagerungsverarbeitungsrichtlinie nicht angewendet wird</h2>
+<p>Es gibt mehrere Szenarios, bei denen die verzögerte Einlagerungsverarbeitungsrichtlinie nicht angewendet wird, obwohl die Richtlinie konfiguriert ist. Nachfolgend finden Sie einige Beispiele:</p>
+<ul>
+<li>Der manuelle Arbeitsabschluss wird verwendet.</li>
+<li>Die Arbeit wird mithilfe der automatische Vervollständigung abgeschlossen.</li>
+<li>Auditvorlagen werden verwendet.</li>
+</ul>
+<h2 id="monitoring-the-deferred-processing-tasks-from-the-outbound-work-monitoring-workspace">Überwachen der verzögerten Verarbeitungsaufgaben im Arbeitsbereich „Überwachung ausgehender Arbeit“</h2>
+<p>Der Arbeitsbereich <strong>Überwachung ausgehender Arbeit</strong> hat zwei Kacheln, die Ihnen dabei helfen, verzögerte Einlagerungsaufgaben zu überwachen:</p>
+<ul>
+<li><strong>Fehlgeschlagene verzögerte Einlagerungsverarbeitungsaufgaben</strong> – Auf dieser Kachel wird die Anzahl fehlgeschlagener Aufgaben angezeigt. Wenn es fehlgeschlagene Aufgaben gibt, muss der Lagerortleiter diese entweder erneut verarbeiten oder abbrechen, da sie nicht automatisch erneut verarbeitet werden.</li>
+<li><strong>Ausstehende verzögerte Einlagerungsverarbeitungsaufgaben</strong> – Auf dieser Kachel wird die Anzahl von Aufgaben angezeigt, die seit mehr als 10 Minuten den Status <strong>Ausstehend</strong> aufweisen. Wenn auf der Kachel eine Anzahl angezeigt wird, kann dies darauf hinweisen, dass beim Stapelverarbeitungsvorgang ein Problem aufgetreten ist. Sie können die <strong>ausstehenden</strong> Aufgaben manuell verarbeiten. Wenn der Stapelverarbeitungsvorgang für eine Aufgabe später verarbeitet wird, schlägt er einfach fehl, weil er bereits bearbeitet wurde. Es gibt keine Auswirkungen.</li>
+</ul>
+<h2 id="deleting-completed-tasks">Löschen abgeschlossener Aufgaben</h2>
+<p>Sie können verzögerte Einlagerungsverarbeitungsaufgaben löschen, die abgeschlossen wurden, indem Sie sie auswählen und sie auf der Seite löschen.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/warehousing/deferred-put.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

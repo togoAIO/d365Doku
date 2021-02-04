@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Export ledger transactions </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Export ledger transactions ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides information about how to export ledger account balances to a plain text (ASCII) file in CED format for Belgium.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="TaxReportExtraFieldsBE">
+    <meta name="ms.search.scope" content="Core, Operations, Finance">
+    <meta name="ms.search.region" content="Belgium">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="export-ledger-transactions">Export ledger transactions</h1>
+
+
+<p>The feature described in this topic is used to export the total balance of each ledger account for a specific period to a plain text (ASCII) file in CED format. You can then import the generated file into third-party software to create an accounting report according to country/region-specific requirements.</p>
+<p>This functionality is available for legal entities that have their primary address in Belgium.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="create-posting-journals">Create posting journals</h3>
+<ol>
+<li>Go to <strong>General ledger</strong> &gt; <strong>Journal setup</strong> &gt; <strong>Posting journals</strong>.</li>
+<li>On the <strong>Journal setup</strong> page, select <strong>Create</strong>. Posting journals and corresponding number sequences are automatically created.</li>
+</ol>
+<h2 id="export-ledger-transactions-to-a-plain-text-file-in-ced-format">Export ledger transactions to a plain text file in CED format</h2>
+<h3 id="setup">Setup</h3>
+<ol>
+<li><p>From the <a href="../../fin-ops-core/dev-itpro/analytics/er-download-configurations-global-repo.html">Microsoft global repository</a>, import the latest versions of the Electronic reporting (ER) configurations for the following report format.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Dynamics 365 Finance version</strong></th>
+<th><strong>Configuration name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before 10.0.16</td>
+<td><strong>Ledger transaction export format (BE)</strong> under <strong>Ledger accounting reports</strong> &gt; <strong>Ledger transaction export (BE)</strong> model.</td>
+</tr>
+<tr>
+<td>Starting from 10.0.16</td>
+<td><strong>General ledger data export (BE)</strong> under <strong>Standard Audit File (SAF-T)</strong> model.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img src="media/be-audit-er-configs.png" alt="ER configurations"></p>
+</blockquote>
+</li>
+<li><p>After import, you must have the following or later versions of ER configurations.</p>
+<table>
+<thead>
+<tr>
+<th><strong>ER configuration name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard Audit File (SAF-T)</td>
+<td>Model</td>
+<td>82</td>
+<td>The common ER model for Standard Audit Files.</td>
+</tr>
+<tr>
+<td>General ledger data model mapping</td>
+<td>Model mapping</td>
+<td>82.13</td>
+<td>The model mapping that defines data sources for General ledger data.</td>
+</tr>
+<tr>
+<td>General ledger data export (BE)</td>
+<td>Format (exporting)</td>
+<td>82.8</td>
+<td>The text format representing General ledger data that can be imported into third-party software.</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>After all the ER configurations from the preceding table are imported, set the <strong>Default for model mapping</strong> option to <strong>Yes</strong> for the <strong>General ledger data model mapping</strong> configuration on the <strong>Configurations</strong> page.</p>
+</div>
+<blockquote>
+<p><img src="media/be-audit-default-mm.png" alt="Default for model mapping option"></p>
+</blockquote>
+</li>
+<li><p>Starting in version 10.0.16, to use the <strong>General ledger data export (BE)</strong> format, define the ER configuration name in a new General ledger parameter. Go to <strong>General ledger</strong> &gt; <strong>Ledger setup</strong> &gt; <strong>General ledger parameters</strong>.</p>
+</li>
+<li><p>Expand the <strong>Electronic reporting</strong> FastTab and then select the <strong>Ledger</strong> tab.</p>
+</li>
+<li><p>In the <strong>Ledger transactions export</strong> group, in the <strong>Ledger transactions export</strong> field, select the format <strong>General ledger data export (BE)</strong>, and then save the new setting.</p>
+<p><img src="media/be-audit-gl-parameter.png" alt="GL parameter"></p>
+</li>
+</ol>
+<h3 id="generate-the-export-ledger-transactions-report">Generate the Export ledger transactions report</h3>
+<ol>
+<li><p>In Finance, go to <strong>General ledger</strong> &gt; <strong>Periodic tasks</strong> &gt; <strong>Export ledger transactions</strong>.</p>
+</li>
+<li><p>If your Finance version is lower than 10.0.16, in the <strong>Export ledger transactions to an ASCII file in CED format</strong> dialog box, in the <strong>Format mapping</strong> field, select the <strong>Ledger transaction export format (BE)</strong> format that you downloaded, and then select <strong>OK</strong>. Starting in version 10.0.16, specify the ER format in the General ledger parameters. When the ER format is defined in the General ledger parameters, the system uses it to generate reports.</p>
+</li>
+<li><p>Specify the reporting period in the <strong>From date</strong> and <strong>To date</strong> fields in the <strong>Electronic report parameters</strong> dialog box.</p>
+</li>
+<li><p>If the accounting currency of your legal entity isn't EURO, and you want to generate the report in EURO, select <strong>Recalculate to Euro</strong> in the dialog box.
+When the accounting currency isn't EURO but the reporting currency is, and you select <strong>Recalculate to Euro</strong>, a report is generated with the amounts stored in the general ledger in the reporting currency.
+When neither the accounting or reporting currencies are EURO, and you select <strong>Recalculate to Euro</strong>, the report automatically recalculates the amounts in the accounting currency to EURO by using the exchange rate stored in the system on the date of each transaction in general ledger. Generating the report may take longer than a report that is generated without any recalculation.</p>
+</li>
+<li><p>When you generate the <strong>Export ledger transactions</strong> report for a longer period, run it in batch. To run the report in batch, expand the <strong>Run in the background</strong> FastTab in the dialog box, mark the <strong>Batch processing</strong> parameter, and specify other parameters of the batch as needed. Follow up the report generation on the <strong>Electronic reporting jobs</strong> page.</p>
+</li>
+<li><p>Select <strong>OK</strong> to generate and download the .txt file.</p>
+<p>For example, you post the following ledger transactions in the DEMF company.</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Date</strong></th>
+<th><strong>Transaction type</strong></th>
+<th><strong>Main account</strong></th>
+<th><strong>Offset account</strong></th>
+<th><strong>Amount net</strong></th>
+<th><strong>VAT amount</strong></th>
+<th><strong>Sales tax code</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 1, 2020</td>
+<td>Customer invoice</td>
+<td>110110 – Bank account USD</td>
+<td></td>
+<td>1,000</td>
+<td>190</td>
+<td>VAT19</td>
+</tr>
+<tr>
+<td>January 1, 2020</td>
+<td>Vendor invoice</td>
+<td></td>
+<td>110120 – Bank account CNY</td>
+<td>1,095</td>
+<td>76.65</td>
+<td>EU7</td>
+</tr>
+<tr>
+<td>January 1, 2020</td>
+<td>Customer invoice</td>
+<td>110115 – Bank account CAD</td>
+<td></td>
+<td>800</td>
+<td>0</td>
+<td>EUS</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, the file that is generated contains the following data.</p>
+<p><img src="media/1_Export_ledger_transactions.png" alt="Ledger transactions data"></p>
+<p>Here is an explanation of the columns in this file:</p>
+<ul>
+<li>The first column shows the ledger account code.</li>
+<li>The second column shows the debit balance on the ledger account.</li>
+<li>The third column shows the credit balance on the ledger account.</li>
+<li>The fourth column shows the name of the ledger account.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>To post ledger transactions for customer invoices, go to <strong>Accounts receivable</strong> &gt; <strong>Invoices</strong> &gt; <strong>All free text invoices</strong>. For vendor invoices, go to <strong>Accounts payable</strong> &gt; <strong>Invoices</strong> &gt; <strong>Invoice journal</strong>.</p>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/localizations/emea-bel-export-ledger-transactions.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

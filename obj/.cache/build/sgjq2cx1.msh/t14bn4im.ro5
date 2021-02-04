@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Replenishment over location capacity | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Replenishment over location capacity | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="replenishment-over-location-capacity">Replenishment over location capacity</h1>
+
+
+<p>Some high-volume or space-constrained warehouses must ship more quantity of an item in a day than will fit in the picking location. The <em>Replenishment over location capacity</em> feature enables all replenishment work that will be required for the day to be created and manages availability of that replenishment work to ensure that the picking location neither runs out of inventory nor goes above capacity.</p>
+<p>The feature enables more replenishment work to be created than will fit in a location, and it blocks replenishment work from being completed when the location is full. As inventory in the picking location drops below a configurable threshold, more replenishment work is made available.</p>
+<h2 id="turn-on-the-replenishment-over-location-capacity-feature">Turn on the Replenishment over location capacity feature</h2>
+<p>To make this feature available, turn on the following features in <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> (in this order):</p>
+<ol>
+<li>Organization-wide work blocking</li>
+<li>Replenishment over location capacity</li>
+</ol>
+<h2 id="set-up-the-feature-for-the-example-scenario">Set up the feature for the example scenario</h2>
+<p>This section provides guidelines and an example that shows how to set up this feature and prepare sample data for the example scenario that is provided later in this topic.</p>
+<h3 id="enable-sample-data">Enable sample data</h3>
+<p>To work through the <a href="#example-scenario">example scenario</a> by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<h3 id="location-profile">Location profile</h3>
+<p>Enable the replenish over capacity functionality on the location profile.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations profiles</strong>.</p>
+</li>
+<li><p>In the left pane, select <strong>PICK-06</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>On the <strong>Replenishment</strong> FastTab, set the following values:</p>
+<ul>
+<li><p><strong>Exceed Location Capacity:</strong> <em>Yes</em></p>
+<p>When enabled, the maximum capacity of the location will be allowed to be exceeded by replenishment work. This also enables other fields on the <strong>Replenishment</strong> FastTab.</p>
+</li>
+<li><p><strong>Work availability threshold type:</strong> <em>Quantity</em></p>
+<p>This field defines the method that is used to determine when more work should be released. You can release by either quantity or a percentage:</p>
+<ul>
+<li><p><em>Percent</em> – Select this option to use percentage capacity that is based on stocking limits or volumetrics. Selecting this option enables the <strong>Overflow percentage</strong> field, and disables the two quantity related fields,  <strong>Overflow quantity</strong> and <strong>Overflow unit</strong>.</p>
+<p>You can use this option if the picking locations use volumetrics.</p>
+<p>If this option is selected, set the <strong>Overflow percentage</strong> field to the percentage at which more replenishment work will be made available.</p>
+</li>
+<li><p><em>Quantity</em> – Select this option to use a specific quantity value. Selecting this option disables the <strong>Overflow percentage</strong> field and enables <strong>Overflow quantity</strong> and <strong>Overflow unit</strong> fields.</p>
+<p>Use this option when you aren't using volumetrics for the locations that are being replenished, or when you have consistent quantities at which you want more inventory to be brought to the location.</p>
+<p>If this option is selected, set the <strong>Overflow quantity</strong> and <strong>Overflow unit</strong> fields to the quantity and unit at which more replenishment work will be made available.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Overflow quantity:</strong> <em>0.65</em></p>
+<p>This field defines the quantity at which the location overflows.</p>
+<p>Work will be available whenever the sum of the on-hand quantity in the location and the work quantity is below this value. Any replenishment work above this value will be blocked and must be manually unblocked.</p>
+<p>Location stocking limits are considered when the work quantity is calculated.</p>
+</li>
+<li><p><strong>Overflow unit:</strong> <em>PL</em></p>
+<p>This field defines the unit that is associated with the overflow quantity.</p>
+<p>In this case, more replenishment work will be made available when the location gets down to 0.65 pallet (PL).</p>
+</li>
+<li><p><strong>Overflow percentage</strong></p>
+<p>This field defines the percentage at which the location overflows.</p>
+<p>Work will be available whenever the sum of the on-hand quantity in the location and the work quantity is below this percentage. Any replenishment work quantity percentage above this value will be blocked and must be manually unblocked.</p>
+<p>Location stocking limits are considered when the work quantity percentage is calculated. If no location stocking limits are defined, the work quantity percentage is calculated by volume if volume constraints are defined for the location profile.</p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>If you're using the demo data for the <strong>USMF</strong> legal entity and previously turned on the <em>Location license plate positioning</em> feature, you must turn off the <strong>Enable license plate positioning</strong> setting for the <strong>BULK-06</strong> location profile to complete the mobile steps in the example scenario.</p>
+</div>
+<h3 id="wave-step-code">Wave step code</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>To set up a wave step code as described here, you might first have to use <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> to turn on the feature that is named <em>Organization wide wave step code</em>.</p>
+</div>
+<ol>
+<li><p>Go to <strong>Warehouse Management &gt; Setup &gt; Waves &gt; Wave step codes</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>, and set the following values:</p>
+<ul>
+<li><strong>Wave step code:</strong> <em>Replen</em></li>
+<li><strong>Wave step description:</strong> <em>Replenishment</em></li>
+<li><strong>Wave step type:</strong> <em>Replenishment</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="replenishment-template">Replenishment template</h3>
+<p>Replenishment templates are a set of rules that control when and how a location is replenished.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Replenishment templates</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Overview</strong> section, select the line where the <strong>Replenish template</strong> field is set to <em>Demand replenish</em>.</p>
+</li>
+<li><p>Set the following values:</p>
+<ul>
+<li><strong>Wave step code:</strong> <em>Replen</em></li>
+<li><strong>Allow wave demand to use unreserved quantities:</strong> <em>Yes</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="wave-template">Wave template</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave templates</strong>.</p>
+</li>
+<li><p>In the left pane, set the <strong>Wave template type</strong> field to <em>Shipping</em>.</p>
+</li>
+<li><p>Select template <strong>61 Shipping</strong> in the list.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit</strong>.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the <strong>Automate replenishment work release</strong> option to <em>Yes</em>.</p>
+<p>Set this option to <em>Yes</em> to create demand-based replenishment work and release it automatically. You must add the replenishment wave method to the wave template and create a replenishment template of the <strong>Wave demand</strong> type. Set up a replenishment template on the <strong>Replenishment templates</strong> page. To set up a replenishment template, you must add the replenish method to the wave template.</p>
+</li>
+<li><p>On the <strong>Methods</strong> FastTab, in the <strong>Selected methods</strong> column, find the following line:</p>
+<ul>
+<li><strong>Method name:</strong> <em>replenish</em></li>
+<li><strong>Name:</strong> <em>Replenishment</em></li>
+</ul>
+</li>
+<li><p>Set the <strong>Wave step code</strong> field for this line to <em>Replen</em>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h2 id="example-scenario">Example scenario</h2>
+<p>After you've made all the previously described sample data available and set it up, you can work through this scenario to try out the <em>Replenishment over location capacity</em> feature. The values that are shown in this scenario assume that you're working with the standard demo data, that you selected the <strong>USMF</strong> legal entity, and that you prepared the sample records that are described earlier in this topic. This scenario also serves as an example that shows how the feature can be used in a production setting.</p>
+<h3 id="create-replenishment-work">Create replenishment work</h3>
+<h4 id="create-sales-order-1">Create sales order 1</h4>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to open a dialog box for creating a new sales order.</p>
+</li>
+<li><p>In the dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-007</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to create the sales order and close the dialog box.</p>
+</li>
+<li><p>The new sales order is opened. It includes a new, empty line on the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>40</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select <strong>Inventory &gt; Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>You receive informational messages that show the wave and shipment IDs that were created. A replenishment wave is also created.</p>
+<p>You also receive a warning message that states, &quot;Work ID XXXX cannot be unblocked because it has unfinished replenishment work.&quot;</p>
+</li>
+</ol>
+<h4 id="create-sales-order-2">Create sales order 2</h4>
+<ol>
+<li><p>On the <strong>All sales orders</strong>, page, on the Action Pane, select <strong>New</strong> to open a dialog box for creating a new sales order.</p>
+</li>
+<li><p>In the dialog box, set the following value:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-001</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to create the sales order and close the dialog box.</p>
+</li>
+<li><p>The new sales order is opened. It includes a new, empty line on the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>60</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select <strong>Inventory &gt; Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>You receive informational messages that show the wave and shipment IDs that were created. A replenishment wave is also created.</p>
+<p>You also receive a warning message that states, &quot;Work ID XXXX cannot be unblocked because it has unfinished replenishment work.&quot;</p>
+</li>
+</ol>
+<h4 id="create-sales-order-3">Create sales order 3</h4>
+<ol>
+<li><p>On the <strong>All sales orders</strong> page, on the Action Pane, select <strong>New</strong> to open a dialog box for creating a new sales order.</p>
+</li>
+<li><p>In the dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-004</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to create the sales order and close the dialog box.</p>
+</li>
+<li><p>The new sales order is opened. It includes a new, empty line on the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>30</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select <strong>Inventory &gt; Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>You receive informational messages that show the wave and shipment IDs that were created. A replenishment wave is also created.</p>
+<p>You also receive a warning message that states, &quot;Work ID XXXX cannot be unblocked because it has unfinished replenishment work.&quot;</p>
+</li>
+</ol>
+<h4 id="view-work-details">View work details</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Work &gt; Work details</strong>.</p>
+</li>
+<li><p>In the <strong>Overview</strong> section, filter the <strong>Warehouse</strong> column for warehouse <em>61</em>.</p>
+</li>
+<li><p>You should see that seven work IDs were created for the three demand sales orders.</p>
+<ul>
+<li><p>Three of the seven work IDs have a <strong>Work order type</strong> value of <em>Replenishment</em>, and four have a <strong>Work order type</strong> value of <em>Sales orders</em>.</p>
+</li>
+<li><p>All three work IDs that have a <strong>Work order type</strong> value of <em>Replenishment</em> have the same <em>Pick</em> and <em>Put</em> locations in the <strong>Lines</strong> section:</p>
+<ul>
+<li><strong>Pick:</strong> <em>02A01R5S1B</em></li>
+<li><strong>Put:</strong> <em>06A01R2S1B</em></li>
+</ul>
+</li>
+<li><p>Two work IDs were created for sales order 1.</p>
+</li>
+</ul>
+</li>
+<li><p>Make a note of the work IDs for the sales orders.</p>
+</li>
+</ol>
+<p>Depending on your on-hand quantities, the work quantities that are created might vary slightly. However, overall, the work headers that are created should match this scenario example.</p>
+<h4 id="on-hand-inventory-license-plate-id">On-hand inventory license plate ID</h4>
+<p>Later in this scenario, you will use the warehouse app (or an emulator), where you must identify the license plate to complete the picking and replenishment scenarios.</p>
+<p>To find the license plate IDs that you will need later, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Inventory management &gt; Inquiries and reports &gt; On-hand list</strong>.</p>
+</li>
+<li><p>Select the <strong>Show filters</strong> button to open the filter pane.</p>
+</li>
+<li><p>Enter the following filtering criteria to get the license plates for the scenario. Use the <em>begins with</em> filter.</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Apply</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Dimensions</strong>.</p>
+</li>
+<li><p>In the <strong>Dimensions display</strong> dialog box, in the <strong>Storage Dimensions</strong> section, select all the values.</p>
+</li>
+<li><p>In the <strong>Transactions</strong> section, select <strong>Item number</strong> and <strong>Quantity &lt;&gt; 0</strong>.</p>
+</li>
+<li><p>When you've finished, select <strong>OK</strong> to close the dialog box.</p>
+</li>
+<li><p>The <strong>On-hand</strong> grid shows the license plate numbers for item <em>T0100</em> in each location. Make a note of the license plate that is in each location, because you will need this information later.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h3 id="process-steps">Process steps</h3>
+<p>You will perform the warehouse location replenishment for the first two work IDs. Work on the third replenishment work will be blocked until the inventory level in the picking location falls below the threshold.</p>
+<h4 id="replenishment">Replenishment</h4>
+<ol>
+<li><p>Sign in to the warehouse app as a user in warehouse <em>61</em>. (Enter <em>61</em> as the user ID and <em>1</em> as the password.)</p>
+</li>
+<li><p>Go to <strong>Inventory &gt; Replenishment</strong>.</p>
+<p>You're prompted to complete the first replenishment work. The item number, quantity, and location to pick from are shown.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+<p>The system generates a target license plate number for the new license plate for the picked item.</p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the value.</p>
+<p>Put work is shown that instructs the user to put the target license plate into the replenishment location. The <em>Put</em> location should be <strong>06A01R2S1B</strong>.</p>
+</li>
+<li><p>Confirm the put details, and select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message, and the details of the next replenishment pick task are shown: the item number, quantity, and location to pick from. The picking location will be the same as the first replenishment location. Therefore, the license plate will have the same license plate ID that was used for the first replenishment work task.</p>
+</li>
+<li><p>Repeat the preceding steps to complete the replenishment work for the second work task. The quantity and target license plate will differ from the quantity and target license plate for the first work task.</p>
+</li>
+</ol>
+<p>After the second replenishment work is completed, you receive a &quot;Work Completed&quot; message. The mobile device also informs you that there is no work available, even though some replenishment work remains. This behavior occurs because the replenishment work has an availability status of <em>Held</em> and is therefore marked as <strong>Blocked</strong>.</p>
+<p>The <em>Held</em> status was triggered because the location profile for the picking location that the work is being assigned to has an <strong>Overflow quantity</strong> value of <em>0.65 PL</em>. The two previous replenishment work tasks filled the location almost to its overflow limit for item <em>T0100</em>. (The unit conversion for the item is <em>1 PL = 100 ea</em>.) Therefore, the remaining replenishment work would cause the location to exceed its overflow limit.</p>
+<p>Until enough inventory is picked from the location to bring it below the work release threshold on the mobile device menu item, this replenishment work will remain blocked.</p>
+<h4 id="sales-order-pick">Sales order pick</h4>
+<p>Before the remaining replenishment work task can be completed, the picking location must be depleted of inventory to a level where the remaining replenishment work can be unblocked. In other words, the sum of the quantity of on-hand inventory in the location and the replenishment quantity can't exceed the <strong>Overflow quantity</strong> value. When this sum is less than the overflow quantity, the remaining replenishment work will be unblocked.</p>
+<ol>
+<li><p>Sign in to the warehouse app as a user in warehouse <em>61</em>. (Enter <em>61</em> as the user ID and <em>1</em> as the password.)</p>
+</li>
+<li><p>Go to <strong>Outbound &gt; Sales Picking</strong>.</p>
+</li>
+<li><p>Enter the first work ID for sales order 1.</p>
+<p>Refer to the work IDs for sales orders that you made a note of earlier, on the <strong>Work details</strong> page. The work ID that you enter here will generate pick work for a quantity of 10 ea from two separate locations.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>The <strong>Sales orders: Pick</strong> task page shows the item number, quantity, and location to pick from for the first location.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+<p>The <strong>Sales orders: Pick</strong> task page shows the item number, quantity, and location to pick from for the next location.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+<p>The <strong>Sales orders: Put</strong> page instructs you to put away both the completed picking works to the outbound staging location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+<li><p>Enter the second work ID for sales order 1.</p>
+<p>There is only one pick task for this work ID.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>The <strong>Sales orders: Pick</strong> task page shows the item number, quantity, and location to pick from.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+<p>The license plate that you specify will be one of the system-generated license plates from the replenishment work tasks. To make sure that you capture the correct license plate ID, check the inventory on the <strong>On-hand list</strong> page for the item, location, and quantity.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+</li>
+<li><p>Confirm the instructions for the put task to the outbound staging location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+</ol>
+<p>Sales order 2 is blocked from picking because the replenishment task that it's linked to isn't completed. Currently, there is still a quantity of 30 ea in the picking location, and the replenishment quantity for sales order 2 is 60 ea. The sum of the on-hand inventory and the replenishment inventory (90 ea) exceeds the overflow quantity of 0.65 PL (or 65 ea). Before the replenishment work can be completed, sales order 3 must be picked.</p>
+<ol>
+<li><p>Enter the work ID for sales order 3.</p>
+<p>There is only one pick task for this work ID.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>The <strong>Sales orders: Pick</strong> task page shows the item number, quantity, and location to pick from.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+<p>The license plate that you specify will be one of the system-generated license plates from the replenishment work tasks. To make sure that you capture the correct license plate ID, check the inventory on the <strong>On-hand list</strong> page for the item, location, and quantity.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+</li>
+<li><p>Confirm the instructions for the put task to the outbound staging location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+</ol>
+<p>As soon as the sum of the on-hand quantity in the picking location and the replenishment quantity is below the threshold, you will be able to process the remaining replenishment work.</p>
+<p>Return to the <strong>Work details</strong> page, and notice that the replenishment work availability for the final piece of replenishment (for sales order 2) is <em>Open</em>, because there is now enough space in the location to accept the replenishment.</p>
+<p>You can now process this replenishment work via the mobile device.</p>
+<ol>
+<li><p>Go to <strong>Inventory &gt; Replenishment</strong>.</p>
+<p>You're prompted to complete the remaining replenishment work. The item number, quantity, and location to pick from are shown.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+<p>The system generates a target license plate number for the new license plate for the picked item.</p>
+</li>
+<li><p>Select <strong>OK</strong> to confirm the value.</p>
+<p>Put work is shown that instructs the user to put the target license plate into the replenishment location. The <em>Put</em> location should be <strong>06A01R2S1B</strong>.</p>
+</li>
+<li><p>Confirm the put details, and select <strong>OK</strong>.</p>
+<p>You receive &quot;Work Completed&quot; and &quot;No Work Available&quot; messages.</p>
+</li>
+</ol>
+<p>You can now pick sales order 2. It became unblocked when the replenishment work that is linked to the sales order was completed.</p>
+<ol>
+<li><p>Enter the work ID for sales order 2.</p>
+<p>There is only one pick task for this work ID.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>The <strong>Sales orders: Pick</strong> task page shows the item number, quantity, and location to pick from.</p>
+</li>
+<li><p>In the <strong>LP</strong> field, enter the license plate number for the item in the location that is shown.</p>
+<p>The license plate that you specify will be the system-generated license plate from the replenishment work task. To make sure that you capture the correct license plate ID, check the inventory on the <strong>On-hand list</strong> page for the item, location, and quantity.</p>
+</li>
+<li><p>Select the <strong>OK</strong> button (check mark symbol).</p>
+</li>
+<li><p>Confirm the instructions for the put task to the outbound staging location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+</ol>
+<h2 id="notes-and-tips">Notes and tips</h2>
+<ul>
+<li>This functionality works with all types of replenishment: wave demand, min/max, load demand, and slotting.</li>
+<li>You can manually override the replenishment work availability for each work header from the <strong>Work details</strong> page if you want.</li>
+<li>When the system sets the replenishment work availability, it considers any inventory that is already in the location before any work is completed</li>
+<li>Each piece of sales order work is linked to a specific replenishment work. There is no corresponding sales work availability functionality.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

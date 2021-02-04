@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure ER formats to use parameters that are specified per legal entity | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure ER formats to use parameters that are specified per legal entity | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-er-formats-to-use-parameters-that-are-specified-per-legal-entity">Configure ER formats to use parameters that are specified per legal entity</h1>
+
+<h2 id="overview">Overview</h2>
+<p>In many of the Electronic reporting (ER) formats that you will design, you must filter data by using a set of values that are specific to each legal entity of your instance (for example, a set of tax codes to filter tax transactions). Currently, when filtering of this type is configured in an ER format, values that are dependent on the legal entity (for example, tax codes) are used in expressions of the ER format to specify data filtering rules. Therefore, the ER format is made legal entity–specific, and to generate the required reports, you must create derived copies of the original ER format for each legal entity where you have to run the ER format. Each derived ER format must be edited to bring legal entity–specific values into it, rebased whenever the original (base) version has been updated, exported from a test environment and imported into a production environment when it must be deployed for production use, and so on. Therefore, maintenance of this type of configured ER solution is quite complex and time-consuming for several reasons:</p>
+<ul>
+<li>The more legal entities there are, the more ER format configurations must be maintained.</li>
+<li>Maintenance of ER configurations requires that business users have ER knowledge.</li>
+</ul>
+<p>The ER application-specific parameters feature lets power users configure data filtering in an ER format so that it's based on a set of abstract rules. This set of rules can be configured to use the data sources that are available in an ER format. Business users can then specify real rules beyond the ER framework by using the user interface (UI) that is automatically generated based on the settings of the corresponding ER format and the current legal entity data that will be accessed by the ER format's data sources. The set of rules that is specified for an ER format can be exported from the current legal entity of the Dynamics 365 Finance (Finance) instance. It can then be imported into another legal entity of either the same Finance instance or a different instance as a set of rules for the same ER format.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To complete the examples in this topic, you must have access to the instance of Regulatory Configuration Services (RCS) that has been provisioned for the same tenant as Finance for one of the following roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+<p>We recommend that you complete the steps in the <a href="er-calculated-field-type.html">Support parameterized calls of ER data sources of CALCULATED FIELD type</a> topic. If you've already completed those steps, you can skip the steps in the <strong>Import ER configurations into RCS</strong> section that follows.</p>
+<h2 id="import-er-configurations-into-rcs">Import ER configurations into RCS</h2>
+<p>From <a href="https://go.microsoft.com/fwlink/?linkid=851448">Microsoft Download Center</a>, download the <strong>Support parameterized calls of ER data sources of CALCULATED FIELD type</strong> zip file. This zip file contains the following ER configurations that must be extracted and stored locally.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Content description</strong></th>
+<th><strong>File name</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample <strong>ER data model</strong> configuration file</td>
+<td>Model to learn parameterized calls.version.1.xml</td>
+</tr>
+<tr>
+<td>Sample <strong>ER metadata</strong> configuration file</td>
+<td>Metadata to learn parameterized calls.version.1.xml</td>
+</tr>
+<tr>
+<td>Sample <strong>ER model mapping</strong> configuration file</td>
+<td>Mapping to learn parameterized calls.version.1.1.xml</td>
+</tr>
+<tr>
+<td>Sample <strong>ER format</strong> configuration</td>
+<td>Format to learn parameterized calls.version.1.1.xml</td>
+</tr>
+</tbody>
+</table>
+<p>Next, sign in to your RCS instance.</p>
+<p>In this example, you will create a configuration for the Litware, Inc sample company. Before you can complete this procedure, you must complete the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create a configuration provider and mark it as active</a> topic in RCS.</p>
+<ol>
+<li><p>On the default dashboard, select <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>Import the ER configurations that you downloaded earlier into RCS, in the following order: data model, metadata, model mapping, and format. For each ER configuration, follow these steps:</p>
+<ol>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong> to select the file for the required ER configuration in XML format.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<h2 id="review-the-er-solution-that-is-provided">Review the ER solution that is provided</h2>
+<ol>
+<li><p>In the configuration tree, expand the contents of the <strong>Model to learn parameterized calls</strong> item.</p>
+</li>
+<li><p>Select the <strong>Format to learn parameterized calls</strong> item.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Expand/Collapse</strong>.</p>
+<p>The <strong>Format to learn parameterized calls</strong> ER format is designed to generate a tax statement in XML format that presents several levels of taxation (regular, reduced, and none). Each level has a different number of details.</p>
+<p><img src="./media/RCS-AppSpecParms-ReviewFormat.PNG" alt="ER Operation designer page"></p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, expand the <strong>Model</strong>, <strong>Data</strong>, and <strong>Summary</strong> items.</p>
+<p>The <strong>Model.Data.Summary</strong> data source returns the list of tax transactions. These transactions are summarized by tax code. For this data source, the <strong>Model.Data.Summary.Level</strong> calculated field has been configured to return the code for the taxation level of each summarized record. For any tax code that can be retrieved from the <strong>Model.Data.Summary</strong> data source at runtime, the calculated field returns the taxation level code (<strong>Regular</strong>, <strong>Reduced</strong>, <strong>None</strong>, or <strong>Other</strong>) as a text value. The <strong>Model.Data.Summary.Level</strong> calculated field is used to filter records of the <strong>Model.Data.Summary</strong> data source and enter the filtered data in each XML element that represents a taxation level by using the <strong>Model.Data2.Level1</strong>, <strong>Model.Data2.Level2</strong>, and <strong>Model.Data2.Level3</strong> fields.</p>
+<p><img src="./media/RCS-AppSpecParms-ReviewFormat-Data2Fld.PNG" alt="ER Operation designer page"></p>
+<p>The <strong>Model.Data.Summary.Level</strong> calculated field has been configured so that it contains an ER expression. Note that tax codes (<strong>VAT19</strong>, <strong>InVAT19</strong>, <strong>VAT7</strong>, <strong>InVAT7</strong>, <strong>THIRD</strong>, and <strong>InVAT0</strong>) are hardcoded into this configuration. Therefore, this ER format is dependent on the legal entity where these tax codes were configured.</p>
+<p><img src="./media/RCS-AppSpecParms-ReviewFormat-LevelFld.PNG" alt="ER Operation designer page"></p>
+<p>To support a different set of tax codes for each legal entity, you must follow these steps:</p>
+<ul>
+<li>Create a derived version of the ER format for each legal entity.</li>
+<li>Update the tax codes in the <strong>Model.Data.Summary.Level</strong> calculated field, based on the legal entity setting.</li>
+</ul>
+</li>
+<li><p>Close the <strong>Format designer</strong> page.</p>
+</li>
+</ol>
+<h2 id="create-a-derived-format">Create a derived format</h2>
+<p>Next, you will use the ER application-specific parameters feature to support a different set of tax codes for each legal entity in a single ER format.</p>
+<ol>
+<li>In the configuration tree, expand the contents of the <strong>Model to learn parameterized calls</strong> item.</li>
+<li>Select the <strong>Format to learn parameterized calls</strong> item.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>Select the <strong>Derive from Name: Format to learn parameterized calls, Microsoft</strong> option.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Format to learn how to lookup LE data</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+</ol>
+<h2 id="configure-a-derived-format">Configure a derived format</h2>
+<h3 id="add-a-format-enumeration">Add a format enumeration</h3>
+<p>Next, you will add a new ER format enumeration. The values of this format enumeration will be presented to business users, who will specify legal entity–dependent sets of tax codes for the various taxation levels that are used in the ER format.</p>
+<ol>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>Format enumerations</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>List of taxation levels</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Format enumeration values</strong> tab, select <strong>Add</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Regular taxation</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong> again.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Reduced taxation</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong> again.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>No taxation</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong> again.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Other</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-Enum.PNG" alt="ER Operation designer page"></p>
+<p>Because the business users might use different languages to specify legal entity–dependent sets of tax codes, we recommend that you translate the values of this enumeration into the languages that are configured as the preferred languages for those users in Finance.</p>
+</li>
+<li><p>Select the <strong>No taxation</strong> record.</p>
+</li>
+<li><p>Click in the <strong>Label</strong> field.</p>
+</li>
+<li><p>Select <strong>Translate</strong>.</p>
+</li>
+<li><p>In the <strong>Text translation</strong> pane, in the <strong>Label Id</strong> field, enter <strong>LBL_LEVELENUM_NO</strong>.</p>
+</li>
+<li><p>In the <strong>Text in default language</strong> field, enter <strong>No taxation</strong>.</p>
+</li>
+<li><p>In the <strong>Language</strong> field, select <strong>DE</strong>.</p>
+</li>
+<li><p>In the <strong>Translated text</strong> field, enter <strong>keine Besteuerung</strong>.</p>
+</li>
+<li><p>Select <strong>Translate</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-EnumTranslate.PNG" alt="ER Operation designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Format enumerations</strong> page.</p>
+</li>
+</ol>
+<h3 id="add-a-new-lookup-data-source">Add a new lookup data source</h3>
+<p>Next, you will add a new data source to specify how business users will specify legal entity–dependent rules to recognize the correct taxation level for each summarized transaction record.</p>
+<ol>
+<li><p>On the <strong>Mapping</strong> tab, select <strong>Add</strong>.</p>
+</li>
+<li><p>Select <strong>Format enumeration\Lookup</strong>.</p>
+<p>You just identified that each rule that business users specify for taxation level recognition will return a value of an ER format enumeration. Notice that the <strong>Lookup</strong> data source type can be accessed under the <strong>Data model</strong> and <strong>Dynamics 365 for Operations</strong> blocks in addition to the <strong>Format enumeration</strong> block. Therefore, ER data model enumerations and application enumerations can be used to specify the type of values that is are returned for data sources of that type.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Selector</strong>.</p>
+</li>
+<li><p>In the <strong>Format enumeration</strong> field, select <strong>List of taxation levels</strong>.</p>
+<p>You just specified that, for each rule that is specified in this data source, a business user must select one of the values of the <strong>List of taxation levels</strong> format enumeration as a returned value.</p>
+</li>
+<li><p>Select <strong>Edit lookup</strong>.</p>
+</li>
+<li><p>Select <strong>Columns</strong>.</p>
+</li>
+<li><p>Expand the <strong>Model</strong> item.</p>
+</li>
+<li><p>Expand the <strong>Data</strong> item.</p>
+</li>
+<li><p>Expand the <strong>Tax</strong> item.</p>
+</li>
+<li><p>Select the <strong>Model.Data.Tax.Code</strong> item.</p>
+</li>
+<li><p>Select the <strong>Add</strong> button (the right arrow).</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-Lookup1.PNG" alt="ER Operation designer page"></p>
+<p>You just specified that, for each rule that is specified in this data source for taxation level recognition, a business user must select one of the tax codes as a condition. The list of tax codes that the business user can select will be returned by the <strong>Model.Data.Tax</strong> data source. Because this data source contains the <strong>Name</strong> field, the name of the tax code will be shown for each tax code value in the lookup that is presented to the business user.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-Lookup2.PNG" alt="ER Operation designer page"></p>
+<p>Business users can add multiple rules as records of this data source. Each record will be numbered by a line code. Rules will be evaluated in order of increasing line number.</p>
+<p>Because you selected the <strong>Tax code</strong> field as a condition for rules in this lookup data source, and because <strong>Tax code</strong> is set up as a field of the <strong>String</strong> data type, each rule will be evaluated at runtime by comparing the tax code that is passed to the data source with the tax code that is defined in this record of the data source.</p>
+<p>When a rule that satisfies the configured condition is found, this data source returns the lookup value of the rule that is defined in the <strong>Lookup result</strong> field. If no rule is found, an exception is thrown to notify the user that the current data source can't return a correct value.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Lookup designer</strong> page.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Notice that you added a new data source that will return the taxation level as the value of the <strong>List of taxation levels</strong> format enumeration for any tax code that is passed to the data source as the argument of the <strong>Code</strong> parameter of the <strong>String</strong> data type.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-SelectorFld.PNG" alt="ER Operation designer page"></p>
+<p>Note that the evaluation of configured rules depends on the data type of the fields that have been selected to define conditions of those rules. When you select a field that is configured as a field of either the <strong>Numeric</strong> or <strong>Date</strong> data type, the criteria will differ from the criteria that were described earlier for the <strong>String</strong> data type. For <strong>Numeric</strong> and <strong>Date</strong> fields, the rule must be specified as a range of values. The condition of the rule will then be considered satisfied when a value that is passed to the data source is in the configured range.</p>
+<p>The following illustration shows an example of this type of setup. In addition to the <strong>Model.Data.Tax.Code</strong> field of the <strong>String</strong> data type, the <strong>Model.Tax.Summary.Base</strong> field of the <strong>Real</strong> data type is used to specify conditions for a lookup data source.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-SelectorFld2.PNG" alt="ER Operation designer page"></p>
+<p>Because the <strong>Model.Data.Tax.Code</strong> and <strong>Model.Tax.Summary.Base</strong> fields are selected for this lookup data source, each rule of this data source will be configured in the following way:</p>
+<ul>
+<li>In the list that is presented, the value of the <strong>List of taxation levels</strong> format enumeration must be selected as a returned value.</li>
+<li>The tax code must be entered as a condition of this rule. Only tax codes that are provided by the <strong>Model.Data.Tax</strong> data source are applicable.</li>
+<li>Minimum and maximum values of the tax base amount must be entered as conditions of this rule.</li>
+</ul>
+<p>Here is how each rule of this data source will be evaluated at runtime:</p>
+<ul>
+<li>Does the code of the <strong>String</strong> data type that was passed to this data source equal the tax code of a rule?</li>
+<li>Does the value of the <strong>Real</strong> data type that was passed to this data source fall between specific minimum and maximum values?</li>
+</ul>
+<p>A rule will be considered applicable when both conditions are satisfied.</p>
+</li>
+</ol>
+<h3 id="translate-the-label-of-the-lookup-data-source-that-was-added">Translate the label of the lookup data source that was added</h3>
+<p>Because business users might use different languages to specify legal entity–dependent sets of tax codes, we recommend that you translate the label of any lookup data source that you add, so that it's presented in each user's preferred language on the corresponding page.</p>
+<ol>
+<li><p>Select the <strong>Model.Data.Selector</strong> data source.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>Click in the <strong>Label</strong> field.</p>
+</li>
+<li><p>Select <strong>Translate</strong>.</p>
+</li>
+<li><p>In the <strong>Text translation</strong> pane, in the <strong>Label Id</strong> field, enter <strong>LBL_SELECTOR_DS</strong>.</p>
+</li>
+<li><p>In the <strong>Text in default language</strong> field, enter <strong>Select tax level by tax code</strong>.</p>
+</li>
+<li><p>In the <strong>Language</strong> field, select <strong>DE</strong>.</p>
+</li>
+<li><p>In the <strong>Translated text</strong> field, enter <strong>Steuerebene für Steuerkennzeichen auswählen</strong>.</p>
+</li>
+<li><p>Select <strong>Translate</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-SelectorFldTranslate.PNG" alt="ER Operation designer page"></p>
+</li>
+</ol>
+<h3 id="add-a-new-field-to-consume-the-configured-lookup">Add a new field to consume the configured lookup</h3>
+<ol>
+<li><p>Expand the <strong>Model.Data</strong> item.</p>
+</li>
+<li><p>Select the <strong>Model.Data.Summary</strong> item.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>Select <strong>Functions/Calculated field</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>LevelByLookup</strong>.</p>
+</li>
+<li><p>Select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>In the <strong>Formula field</strong>, enter <strong>Model.Selector(Model.Data.Summary.Code)</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-AddLevelByLookupFld.PNG" alt="ER Operation designer page"></p>
+</li>
+<li><p>Close the <strong>Formula editor</strong> page.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-AddLevelByLookupFld2.PNG" alt="ER Operation designer page"></p>
+<p>Notice that the <strong>LevelByLookup</strong> calculated field that you added will return the taxation level as the value of the <strong>List of taxation levels</strong> format enumeration for each summarized tax transactions record. The tax code of the record will be passed to the <strong>Model.Selector</strong> lookup data source, and the set of rules for this data source will be used to select the correct taxation level.</p>
+</li>
+</ol>
+<h3 id="add-a-new-format-enumeration-based-data-source">Add a new format enumeration-based data source</h3>
+<p>Next, you will add a new data source that refers to the format enumeration that you added earlier. Values of this data source will be used in an ER format expression later.</p>
+<ol>
+<li>Select <strong>Add root</strong>.</li>
+<li>Select <strong>Format enumerations\Enumeration</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>TaxationLevel</strong>.</li>
+<li>In the <strong>Format enumeration</strong> field, select <strong>List of taxation levels</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="modify-an-existing-field-to-start-to-use-the-lookup">Modify an existing field to start to use the lookup</h3>
+<p>Next, you will modify the existing calculated field so that it uses the configured lookup data source to return the correct taxation level value, depending on the tax code.</p>
+<ol>
+<li><p>Select the <strong>Model.Data.Summary.Level</strong> item.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>Select <strong>Edit formula</strong>.</p>
+<p>Notice that the current expression of the <strong>Model.Data.Summary.Level</strong> field includes the following hard-coded tax codes:</p>
+<p>CASE (@.Code, &quot;VAT19&quot;, &quot;Regular&quot;, &quot;InVAT19&quot;, &quot;Regular&quot;, &quot;VAT7&quot;, &quot;Reduced&quot;, &quot;InVAT7&quot;, &quot;Reduced&quot;, &quot;THIRD&quot;, &quot;None&quot;, &quot;InVAT0&quot;, &quot;None&quot;, &quot;Other&quot;)</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>CASE(@.LevelByLookup, TaxationLevel.'Regular taxation', &quot;Regular&quot;, TaxationLevel.'Reduced taxation', &quot;Reduced&quot;, TaxationLevel.'No taxation', &quot;None&quot;, &quot;Other&quot;)</strong>.</p>
+<p><img src="./media/RCS-AppSpecParms-ConfigureFormat-ChangeLookupFld.PNG" alt="ER Operation designer page"></p>
+<p>Notice that the expression of the <strong>Model.Data.Summary.Level</strong> field will now return the taxation level, based on the tax code of the current record and the set of rules that that a business user configures in the <strong>Model.Data.Selector</strong> lookup data source.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close <strong>Formula designer</strong> page.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close <strong>Format designer</strong> page.</p>
+</li>
+</ol>
+<h2 id="complete-the-draft-version-of-a-derived-format">Complete the draft version of a derived format</h2>
+<ol>
+<li>On the <strong>Versions</strong> fast tab, select <strong>Change status</strong>.</li>
+<li>Select <strong>Complete</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h2 id="export-completed-version-of-modified-format">Export completed version of modified format</h2>
+<ol>
+<li>In the configuration tree, select the <strong>Format to learn how to lookup LE data</strong> item.</li>
+<li>On the <strong>Versions</strong> fast tab, select the record that has a status of <strong>Completed</strong>.</li>
+<li>Select <strong>Exchange</strong>.</li>
+<li>Select <strong>Export as XML file</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>The web browser downloads a <strong>Format to learn how to lookup LE data.xml</strong> file. Store this file locally.</li>
+</ol>
+<p>Repeat steps in this section for parent items of the <strong>Format to learn how to lookup LE data</strong> format, and store the following files locally:</p>
+<ul>
+<li>Format to learn parameterized calls.xml</li>
+<li>Mapping to learn parameterized calls.xml</li>
+<li>Model to learn parameterized calls.xml</li>
+</ul>
+<p>To learn how to use the configured <strong>Format to learn how to lookup LE data</strong> ER format to set up legal entity–dependent sets of tax codes to filter tax transactions by different taxation levels, complete the steps in the <a href="er-app-specific-parameters-set-up.html">Set up the parameters of an ER format per legal entity</a> topic.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="general-electronic-reporting-formula-designer.html">Formula designer in Electronic reporting</a></p>
+<p><a href="er-app-specific-parameters-set-up.html">Set up the parameters of an ER format per legal entity</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Anleitung zum Einrichten des dualen Schreibens </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Anleitung zum Einrichten des dualen Schreibens ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema werden die Szenarien beschrieben, die f&#252;r die Dual-Write-Einrichtung unterst&#252;tzt werden.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="guidance-for-dual-write-setup">Anleitung zum Einrichten des dualen Schreibens</h1>
+
+[!include[banner](../../includes/banner.md)][!include[preview-banner](../../includes/preview-banner.md)][!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>Sie können eine Dual-Write-Verbindung zwischen einer Finance and Operations-Umgebung und einer Dataverse-Umgebung einrichten.</p>
+<ul>
+<li>Eine <strong>Finance and Operations-Umgebung</strong> bietet die zugrunde liegende Plattform für <strong>Finance and Operations-Anwendungen</strong> (z.B. Microsoft Dynamics 365 Finance, Dynamics 365 Supply Chain Management, Dynamics 365 Commerce und Dynamics 365 Human Resources).</li>
+<li>Eine <strong>Dataverse-Umgebung</strong> bietet die zugrunde liegende Plattform für <strong>Kundenbindungs-Apps</strong> (Dynamics 365 Sales, Dynamics 365 Customer Service, Dynamics 365 Field Service, Dynamics 365 Marketing und Dynamics 365 Project Service Automation).</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Das Modul „Personalressourcen“ in Dynamics 365 Finance unterstützt Verbindungen für duales Schreiben, die Dynamics 365 Human Resources-App jedoch nicht.</p>
+</div>
+<p>Der Einrichtungsmechanismus variiert je nach Ihrem Abonnement und der Umgebung:</p>
+<ul>
+<li>Bei neuen Instanzen von Finance and Operations Anwendungen beginnt die Einrichtung einer Dual-Write-Verbindung in Microsoft Dynamics Lifecycle Services (LCS). Wenn Sie eine Lizenz für Microsoft Power Platform haben, erhalten Sie eine neue Dataverse-Umgebung, wenn Ihr Mandant keine hat.</li>
+<li>Für bestehende Instanzen von Finance and Operations-Anwendungen beginnt die Einrichtung einer Dual-Write-Verbindung in der Finance and Operations-Umgebung.</li>
+</ul>
+<p>Bevor Sie mit dem dualen Schreiben für eine Entität beginnen, können Sie eine erste Synchronisierung ausführen, um vorhandene Daten auf beiden Seiten, also auf der Seite der Finance and Operations-Apps und der Seite der Customer Engagement-Apps, zu verarbeiten. Sie können diese erste Synchronisierung überspringen, wenn Sie keine Daten zwischen den beiden Umgebungen synchronisieren müssen.</p>
+<p>Bei einer ersten Synchronisierung können Sie vorhandene Daten bidirektional von einer App in eine andere kopieren. Es gibt verschiedene Einrichtungsszenarien, je nachdem, welche Umgebungen Sie bereits verwenden und welche Art von Daten sich in den Umgebungen befinden.</p>
+<p>Die folgenden Einrichtungsszenarien werden unterstützt:</p>
+<ul>
+<li><a href="#new-new">Eine neue Finance and Operations Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</a></li>
+<li><a href="#new-existing">Eine neue Finance and Operations Anwendungsinstanz und eine bestehende Customer Engagement Anwendungsinstanz</a></li>
+<li><a href="#new-data-new">Eine neue Finance and Operations-Anwendungsinstanz, die über Demodaten und eine neue Customer Engagement Anwendungsinstanz verfügt</a></li>
+<li><a href="#new-data-existing">Eine neue Finance and Operations App-Instanz, die über Demodaten verfügt, und eine bestehende Customer Engagement App-Instanz</a></li>
+<li><a href="#existing-new">Eine bestehende Finance and Operations Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</a></li>
+<li><a href="#existing-existing">Eine bestehende Finance and Operations Anwendungsinstanz und eine bestehende Customer Engagement Anwendungsinstanz</a></li>
+</ul>
+<h2 id="a-new-finance-and-operations-app-instance-and-a-new-customer-engagement-app-instance"><a id="new-new"></a>Eine neue Finance and Operations Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</h2>
+<p>Um eine Verbindung duales Schreiben zwischen einer neuen Instanz einer Finance and Operations-Anwendung, die keine Daten hat, und einer neuen Instanz einer Customer Engagement Anwendung einzurichten, folgen Sie den Schritten in <a href="lcs-setup.html">Duales Schreiben einrichten von Lifecycle Services</a>. Wenn der Verbindungsaufbau abgeschlossen ist, werden die folgenden Aktionen automatisch ausgeführt:</p>
+<ul>
+<li>Eine neue, leere Finance and Operations-Umgebung wird bereitgestellt.</li>
+<li>Es wird eine neue, leere Instanz einer Customer Engagement Anwendung bereitgestellt, in der die CRM-Prime-Lösung installiert wird.</li>
+<li>Eine Dual-Write-Verbindung wird für DAT-Firmendaten hergestellt.</li>
+<li>Tabellenzuordnungen werden für die Live-Synchronisierung aktiviert.</li>
+</ul>
+<p>Beide Umgebungen sind dann für die Live-Datensynchronisierung bereit.</p>
+<h2 id="a-new-finance-and-operations-app-instance-and-an-existing-customer-engagement-app-instance"><a id="new-existing"></a>Eine neue Finance and Operations Anwendungsinstanz und eine bestehende Customer Engagement Anwendungsinstanz</h2>
+<p>Um eine Verbindung duales Schreiben zwischen einer neuen Instanz einer Finance and Operations-Anwendung, die keine Daten hat, und einer bestehenden Instanz einer Customer Engagement Anwendung einzurichten, folgen Sie den Schritten in <a href="lcs-setup.html">Duales Schreiben einrichten von Lifecycle Services</a>. Wenn der Verbindungsaufbau abgeschlossen ist, werden die folgenden Aktionen automatisch ausgeführt:</p>
+<ul>
+<li>Eine neue, leere Finance and Operations-Umgebung wird bereitgestellt.</li>
+<li>Eine Dual-Write-Verbindung wird für DAT-Firmendaten hergestellt.</li>
+<li>Tabellenzuordnungen werden für die Live-Synchronisierung aktiviert.</li>
+</ul>
+<p>Beide Umgebungen sind dann für die Live-Datensynchronisierung bereit.</p>
+<p>Um die vorhandenen Dataverse-Daten mit der Finance and Operations-Anwendung zu synchronisieren, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Erstellen Sie ein neues Unternehmen in der Finance and Operations-Anwendung.</li>
+<li>Fügen Sie das Unternehmen zum Dual-Write-Verbindungsaufbau hinzu.</li>
+<li><a href="bootstrap-company-data.html">Bootstrap</a> die Dataverse-Daten unter Verwendung eines aus drei Buchstaben bestehenden Buchungscodees der International Organization for Standardization (ISO).</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Links zu einem Beispiel und einem alternativen Ansatz finden Sie im Abschnitt <a href="#example">Beispiel</a> später in diesem Thema.</p>
+<h2 id="a-new-finance-and-operations-app-instance-that-has-data-and-a-new-customer-engagement-app-instance"><a id="new-data-new"></a>Eine neue Finance and Operations Anwendungsinstanz, die über Demodaten und eine neue Customer Engagement Anwendungsinstanz verfügt</h2>
+<p>Um eine Verbindung duales Schreiben zwischen einer neuen Instanz einer Finance and Operations-Anwendung, die über Demodaten verfügt, und einer neuen Instanz einer Customer Engagement Anwendung einzurichten, folgen Sie den Schritten im Abschnitt <a href="#new-new">Eine neue Finance and Operations-Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</a> weiter oben in diesem Thema. Wenn der Verbindungsaufbau abgeschlossen ist und Sie die Demodaten mit der Customer Engagement Anwendung synchronisieren möchten, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Öffnen Sie die Anwendung Finance and Operations von der LCS-Seite, melden Sie sich an und gehen Sie dann zu <strong>Datenverwaltung &gt; Dual-write</strong>.</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Links zu einem Beispiel und einem alternativen Ansatz finden Sie im Abschnitt <a href="#example">Beispiel</a>.</p>
+<h2 id="a-new-finance-and-operations-app-instance-that-has-data-and-an-existing-customer-engagement-app-instance"><a id="new-data-existing"></a>Eine neue Finance and Operations App-Instanz, die über Demodaten verfügt, und eine bestehende Customer Engagement App-Instanz</h2>
+<p>Um eine Verbindung duales Schreiben zwischen einer neuen Instanz einer Finance and Operations-Anwendung, die über Demodaten verfügt, und einer bestehenden Instanz einer Customer Engagement Anwendung einzurichten, folgen Sie den Schritten im Abschnitt <a href="#new-existing">Eine neue Finance and Operations-Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</a> weiter oben in diesem Thema. Wenn der Verbindungsaufbau abgeschlossen ist und Sie die Demodaten mit der Customer Engagement Anwendung synchronisieren möchten, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Öffnen Sie die Anwendung Finance and Operations von der LCS-Seite, melden Sie sich an und gehen Sie dann zu <strong>Datenverwaltung &gt; Dual-write</strong>.</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Um die vorhandenen Dataverse-Daten mit der Finance and Operations-Anwendung zu synchronisieren, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Erstellen Sie ein neues Unternehmen in der Finance and Operations-Anwendung.</li>
+<li>Fügen Sie das Unternehmen zum Dual-Write-Verbindungsaufbau hinzu.</li>
+<li><a href="bootstrap-company-data.html">Bootstrap</a> der Dataverse-Daten unter Verwendung eines dreibuchstabigen ISO-Buchungscodees.</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Links zu einem Beispiel und einem alternativen Ansatz finden Sie im Abschnitt <a href="#example">Beispiel</a>.</p>
+<h2 id="an-existing-finance-and-operations-app-instance-and-a-new-customer-engagement-app-instance"><a id="existing-new"></a>Eine bestehende Finance and Operations Anwendungsinstanz und eine neue Customer Engagement Anwendungsinstanz</h2>
+<p>Die Einrichtung einer Verbindung duales Schreiben zwischen einer bestehenden Instanz einer Finance and Operations-Anwendung und einer neuen Instanz einer Customer Engagement Anwendung erfolgt in der Finance and Operation-Umgebung.</p>
+<ol>
+<li><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-dual-write">Richten Sie die Verbindung von der Finance and Operations-Anwendung aus ein (This is an external link)</a>.</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Links zu einem Beispiel und einem alternativen Ansatz finden Sie im Abschnitt <a href="#example">Beispiel</a>.</p>
+<h2 id="an-existing-finance-and-operations-app-instance-and-an-existing-customer-engagement-app-instance"><a id="existing-existing"></a>Eine bestehende Finance and Operations Anwendungsinstanz und eine bestehende Customer Engagement Anwendungsinstanz</h2>
+<p>Die Einrichtung einer Verbindung für duales Schreiben zwischen einer bestehenden Instanz einer Finance and Operations-App und einer bestehenden Instanz einer Customer Engagement-App erfolgt in der Finance and Operation-Umgebung.</p>
+<ol>
+<li><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-dual-write">Richten Sie die Verbindung von der Finance and Operations-Anwendung aus ein (This is an external link)</a>.</li>
+<li>Um die vorhandenen Dataverse-Daten mit der Finance and Operations-Anwendung zu synchronisieren, <a href="bootstrap-company-data.html">Bootstrap</a> die Dataverse-Daten unter Verwendung eines dreibuchstabigen ISO-Buchungskreises.</li>
+<li>Führen Sie die Funktion <strong>Erstsynchronisierung</strong> für die Tabellen aus, für die Sie Daten synchronisieren möchten.</li>
+</ol>
+<p>Links zu einem Beispiel und einem alternativen Ansatz finden Sie im Abschnitt <a href="#example">Beispiel</a>.</p>
+<h2 id="example">Beispiel</h2>
+<p>Ein Beispiel finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-entity-map">Aktivieren der Tabellenzuordnung für Kunden V3 – Kontakte (This is an external link)</a>.</p>
+<p>Einen alternativen Ansatz basierend auf den Datenmengen in jeder Entität, für die eine Erstsynchronisierung ausgeführt werden muss, finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/initial-sync-guidance">Überlegungen zur Erstsynchronisierung (This is an external link)</a>.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/connection-setup.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

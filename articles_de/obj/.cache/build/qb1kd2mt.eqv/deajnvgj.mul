@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Umlagerungsauftr&#228;ge aus der Lagerort-App erstellen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Umlagerungsauftr&#228;ge aus der Lagerort-App erstellen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird beschrieben, wie Sie Umlagerungsauftr&#228;ge &#252;ber die Lagerort-App erstellen und verarbeiten">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSMobileDeviceQueueEvent">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="create-transfer-orders-from-the-warehouse-app">Umlagerungsaufträge aus der Lagerort-App erstellen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Diese Funktion ermöglicht Lagerarbeitern das Erstellen und Verarbeiten von Umlagerungsaufträgen direkt über die Lagerort-App. Die Lagerarbeiter wählen zunächst den Ziellagerort aus und können dann mit der App ein oder mehrere Kennzeichen scannen, um Kennzeichen zum Umlagerungsauftrag hinzuzufügen. Wenn der Lagerarbeiter <strong>Bestellung abschließen</strong> auswählt, erstellt ein Batchauftrag den erforderlichen Umlagerungsauftrag und die Bestellpositionen basierend auf dem verfügbaren, für diese Kennzeichen registrierten Lagerbestand.</p>
+<h2 id="enable-the-create-transfer-orders-from-warehouse-app-feature"><a name="enable-create-transfer-order-from-warehouse-app"></a>Erstellung von Umlagerungsaufträgen aus der Lagerort-App aktivieren</h2>
+<p>Bevor Sie diese Funktion nutzen können, müssen Sie die Funktion und ihre Voraussetzugnen auf Ihrem System aktivieren. Administratoren können die Seite <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> verwenden, um den Status der Funktion zu überprüfen und sie bei Bedarf zu aktivieren.</p>
+<ol>
+<li>Aktivieren Sie zuerst die Funktion <a href="warehouse-app-events.html">Lagerort-App-Ereignisse verarbeiten</a>, die in der <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> aufgeführt ist als:
+<ul>
+<li><strong>Module</strong> ‑ Lagerortverwaltung</li>
+<li><strong>Funktionsname</strong> - Lager-App-Ereignisse verarbeiten</li>
+</ul>
+</li>
+<li>Aktivieren Sie dann die Funktion <em>Umlagerungsaufträge aus der Lagerort-App erstellen</em>, die wie folgt aufgeführt ist:
+<ul>
+<li><strong>Module</strong> ‑ Lagerortverwaltung</li>
+<li><strong>Funktionsname</strong>: Erstellen und Verarbeiten von Umlagerungsaufträgen über die Lagerort-App</li>
+</ul>
+</li>
+<li>Um die Verarbeitung der ausgehenden Lieferungen zu automatisieren, müssen Sie auch die Funktion <a href="confirm-outbound-shipments-from-batch-jobs.html">Ausgehende Lieferungen aus Batchverarbeitungsaufträgen bestätigen</a> aktivieren. Diese Funktion ist aufgeführt als:
+<ul>
+<li><strong>Module</strong> ‑ Lagerortverwaltung</li>
+<li><strong>Funktionsname</strong>: Ausgehende Lieferungen aus Batchverarbeitungsaufträgen bestätigen</li>
+</ul>
+</li>
+</ol>
+<h2 id="set-up-a-mobile-device-menu-item-to-create-transfer-orders"><a name="setup-warehouse-app-menu"></a>Auf einem mobilen Gerät eine Menüoption zur Erstellung von Umlagerungsaufträgen einrichten</h2>
+<p>Hier finden Sie allgemeine Richtlinien zum Einrichten eines Menüelements auf mobilen Geräten zum Erstellen eines Umlagerungsauftrags. Abhängig von Ihren geschäftlichen Anforderungen für den Automatisierungsgrad, der festgelegt werden soll, wenn Benutzer Umlagerungsaufträge aus der Fertigung erstellen, werden verschiedene Konfigurationen aktiviert. Das Szenario in diesem Dokument beschreibt eine solche Konfiguration.</p>
+<ol>
+<li><p>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Mobiles Gerät &gt; Menüoptionen für mobiles Gerät</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus, um ein neues Menüelement zu erstellen. Nehmen Sie dann die folgenden Einstellungen vor, um loszulegen:</p>
+<ul>
+<li><strong>Name des Menüelements</strong>: Weisen Sie einen Namen zu, wie er in Supply Chain Management angezeigt werden soll.</li>
+<li><strong>Titel</strong>: Weisen Sie einen Menünamen zu, der den Mitarbeitern in der Lagerort-App angezeigt werden soll.</li>
+<li><strong>Modus</strong>: Auf <em>Indirekt</em> festlegen (diese Lagerort-App erstellt keine Arbeit).</li>
+<li><strong>Aktivitätscode</strong>: Auf <em>Umlagerungsauftrag aus Kennzeichen erstellen</em> festlegen, damit die Lagerarbeiter einen Umlagerungsauftrag basierend auf einem oder mehreren gescannten Kennzeichen erstellen können.</li>
+</ul>
+</li>
+<li><p>Verwenden Sie die Einstellung <strong>Richtlinie zum Erstellen von Umlagerungsauftragspositionen</strong>, um zu festzulegen, wie Umlagerungsauftragspositionen von diesem Menüpunkt erstellt werden. Die Positionen werden basierend auf dem vorhandenen Lagerbestand erstellt/aktualisiert, der für die gescannten Kennzeichen registriert ist. Wählen Sie einen der folgenden Werte aus:</p>
+<ul>
+<li><strong>Keine Reservierung</strong>: Die Umlagerungsauftragspositionen werden nicht reserviert.</li>
+<li><strong>Ladungsträgerbasiert mit Positionsreservierung</strong>: Die Umlagerungsauftragspositionen werden reserviert und verwenden die Strategieoption „Ladungsträgerbasiert“, bei der die entsprechenden Kennzeichen-IDs gespeichert werden, die den Auftragspositionen zugeordnet sind. Die Werte für „Lokalisierte Ladungsträger-ID“ können daher als Teil des Arbeitserstellungsprozesses für die Transportauftragspositionen verwendet werden.</li>
+</ul>
+</li>
+<li><p>Verwenden Sie die Einstellung <strong>Auslieferungsrichtlinie</strong>, um den Versandprozess für ausgehende Umlagerungsaufträge nach Bedarf weiter zu automatisieren. Wenn ein Mitarbeiter die Schaltfläche <strong>Bestellung abschließen</strong> auswählt, erstellt die App das Lager-App-Ereignis <em>Bestellung abschließen</em>, bei dem der hier im Feld <strong>Auslieferungsrichtlinie</strong> für jede Position ausgewählte Wert im aktuellen Umlagerungsauftrag angewendet wird. Wenn später die Ereigniswarteschlange von einem Batchauftrag verarbeitet wird, um den Umlagerungsauftrag zu erstellen, kann der in diesem Feld gespeicherte Wert vom Batchauftrag gelesen werden und somit steuern, wie dieser Auftrag jede Position verarbeitet. Wählen Sie eine der folgenden Optionen:</p>
+<ul>
+<li><strong>Keine</strong>: Es erfolgt keine automatisierte Verarbeitung.</li>
+<li><strong>Freigabe an Lager</strong>: Automatisiert die Freigabe für den Lagerprozess.</li>
+<li><strong>Lieferungsbestätigung</strong>: Automatisiert die Lieferungsbestätigung.</li>
+<li><strong>Freigabe und Lieferungsbestätigung</strong>: Automatisiert sowohl die Freigabe an das Lager als auch die Lieferungsbestätigung.</li>
+</ul>
+</li>
+</ol>
+<h2 id="add-the-mobile-device-menu-item-to-a-menu">Hinzufügen der Menüoption des mobilen Geräts zu einem Menü</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Mobiles Gerät &gt; Menü für mobiles Gerät</strong></li>
+<li>Wählen Sie <strong>Bearbeiten</strong> aus.</li>
+<li>Wählen Sie ein vorhandenes Menü aus, nachdem Sie die neue Menüoption unter <strong>Verfügbare Menüs und Menüoptionen</strong> ausgewählt haben. Fügen Sie die Menüoption hinzu, indem Sie die Schaltfläche mit dem Pfeil nach rechts auswählen.</li>
+</ol>
+<h2 id="create-a-transfer-order-based-on-license-plates">Erstellen eines Umlagerungsauftrags basierend auf Kennzeichen</h2>
+<p>Die Lagerort-App verfügt über einen einfachen Prozess zum Erstellen von Umlagerungsaufträgen basierend auf Kennzeichen. Hierzu geht die Arbeitskraft mithilfe der Lagerort-App folgendermaßen vor:</p>
+<ol>
+<li>Erstellen Sie den Umlagerungsauftrag und identifizieren Sie den Ziellagerort.</li>
+<li>Identifizieren Sie jedes zu versendende Kennzeichen.</li>
+<li>Wählen Sie <strong>Bestellung abschließen</strong> aus.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Kennzeichen, die für denselben Umlagerungsauftrag bestimmt sind, können von mehreren Arbeitskräften zugewiesen werden, indem sie die Schaltfläche <strong>Umlagerungsauftrag auswählen</strong> verwenden, um eine vorhandene unverarbeitete Umlagerungsauftragsnummer aus der Ereigniswarteschlange der Lagerort-App auszuwählen. Informationen zum Ermitteln der Werte für die Umlagerungsauftragsnummern finden Sie unter <a href="#inquire-the-warehouse-app-events">Abfrage von Lagerort-App-Ereignissen</a>.</p>
+</div>
+<h2 id="example-scenario">Beispielszenario</h2>
+<p>Dieses Szenario gibt einen Überblick über den Prozess zum Erstellen und automatischen Verarbeiten von Umlagerungsaufträgen basierend auf dem verfügbaren, für diese Kennzeichen registrierten Lagerbestand.</p>
+<p>Um dieses Szenario mit den vorgeschlagenen Werten zu bearbeiten, müssen Sie auf einem System mit installierten Demodaten arbeiten und die juristische Person <em>USMF</em> auswählen, bevor Sie beginnen.</p>
+<p>In diesem Szenario wird davon ausgegangen, dass Sie sowohl die Funktion <a href="#enable-create-transfer-order-from-warehouse-app">Erstellen und Verarbeiten von Umlagerungsaufträgen über die Lagerort-App</a> als auch die <a href="warehouse-app-events.html">Verarbeitung von Ergebnissen der Lagerort-App</a> bereits aktiviert haben.</p>
+<p>Neben dem Einrichten der Erstellung von Umlagerungsaufträgen in den Menüoptionen des mobilen Geräts müssen zusätzliche Vorlagen, Lagerplatzrichtlinien und Batchaufträge eingerichtet und aktiviert werden.</p>
+<h3 id="example-scenario-blueprint">Beispiel für die Blaupause eines Szenarios</h3>
+<p>Sie sind Einzelhändler und haben mehrere Kennzeichen, die jeweils einen Mix von Artikeln enthalten, die an einem bestimmten Lagerplatz in einem Ihrer Lager platziert sind (<em>Lager 51</em>). Sie möchten den Prozess aktivieren, mit dem Arbeitskräfte für eine Auflistung gescannter Kennzeichen einen Umlagerungsauftrag in ein anderes Lager (<em>Lager 61</em>) erstellen können. Sie aktualisieren den Umlagerungsauftrag automatisch für die Auslieferung sobald das letzte Kennzeichen für den Auftrag identifiziert wurde.</p>
+<p><img src="media/create-transfer-order-from-app-example.png" alt="Beispiel für einen automatisierten Umlagerungsauftragsprozess" title="Beispiel für einen automatisierten Umlagerungsauftragsprozess"></p>
+<h3 id="create-a-mobile-device-menu-item-for-creating-transfer-orders">Auf einem mobilen Gerät eine Menüoption zur Erstellung von Umlagerungsaufträgen einrichten</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie eine neue Menüoption für mobile Geräte zum Erstellen von Umlagerungsaufträgen erstellen. Legen Sie <strong>Modus</strong> auf <em>Indirekt</em> und <strong>Aktivitätscode</strong> auf <em>Umlagerungsauftrag aus Kennzeichen erstellen</em> fest.</p>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Mobiles Gerät &gt; Menüoptionen für mobiles Gerät</strong>.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie in das Feld <strong>Name der Menüoption</strong> den Namen <em>UA erstellen</em> ein.</li>
+<li>Geben Sie in das Feld <strong>Titel</strong> die Beschreibung <em>UA erstellen</em> ein.</li>
+<li>Wählen Sie im Feld <strong>Modus</strong> die Option <em>Indirekt</em> aus.</li>
+<li>Wählen Sie für <strong>Aktivitätscode</strong> die Option <em>Umlagerungsauftrag aus Kennzeichen erstellen</em> aus</li>
+<li>Wählen Sie für <strong>Richtlinie zum Erstellen von Auftragspositionen</strong> die Option <em>Ladungsträgerbasiert mit Positionsreservierung</em> aus.</li>
+<li>Wählen Sie für <strong>Auslieferungsrichtlinie</strong> die Option <em>Freigabe und Lieferungsbestätigung</em> aus.</li>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Mobiles Gerät &gt; Menü für mobiles Gerät</strong>.</li>
+<li>Wählen Sie <strong>Bearbeiten</strong> aus.</li>
+<li>Wählen Sie das vorhandene Menü <strong>Lagerbestand</strong> aus und wählen Sie dann die neue Menüoption unter <strong>Verfügbare Menüs und Menüoptionen</strong> aus. Fügen Sie die Menüoption dem Menü <strong>Lagerbestand</strong> hinzu, indem Sie die Schaltfläche mit dem Pfeil nach rechts auswählen.</li>
+</ol>
+<h3 id="set-up-work-templates-to-auto-process-and-break-work-by-located-license-plate">Arbeitsvorlagen einrichten, um die Arbeit automatisch anhand des Kennzeichens zu verarbeiten und zu unterbrechen</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie einer Arbeitsvorlage ermöglichen, die von der Vorlage erstellte Arbeit automatisch zu verarbeiten, wenn ein Zyklus freigegeben wird.</p>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Arbeit &gt; Arbeitsvorlagen</strong>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> die Option <em>Umlagerungsabgang</em> aus.</li>
+<li>Wählen Sie <strong>Neu</strong> aus, um eine neue Arbeitsvorlage zu erstellen.</li>
+<li>Geben Sie in das Feld <strong>Arbeitsvorlage</strong> den Text <em>51 K automatisch verarbeiten</em> ein.</li>
+<li>Geben Sie in das Feld <strong>Arbeitsvorlagenbeschreibung</strong> den Text <em>51 K automatisch verarbeiten</em> ein.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Automatisch verarbeiten</strong>. Dieses Kontrollkästchen muss aktiviert werden, damit Automatisierungsschritte verarbeitet werden können.</li>
+<li>Bearbeiten Sie in den Demodaten – eine Arbeitsvorlage <em>51 umlagern</em> ist bereits vorhanden – das Feld <strong>Sequenznummer</strong>, damit die neue Arbeitsvorlage eine niedrigere Sequenznummer als die vorhandene Arbeitsvorlage <em>51 umlagern</em> hat.</li>
+<li>Wählen Sie in der Symbolleiste <strong>Speichern</strong> aus, um das Inforegister <strong>Arbeitsvorlagendetails</strong> zu aktivieren.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Arbeitsvorlagendetails</strong> in der Symbolleiste die option <strong>Neu</strong> aus. Sie werden zwei Position hinzufügen.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsart</strong> <em>Auswahl</em>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsklassen-ID</strong> die Option <em>TransfOut</em> aus.</li>
+<li>Wählen Sie die Option <strong>Neu</strong> in der Symbolleiste <strong>Arbeitsvorlagendetails</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsart</strong> <em>Eingabe</em>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsklassen-ID</strong> die Option <em>TransfOut</em> aus.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus, um das Feld <strong>Richtliniencode</strong> zu aktivieren.</li>
+<li>Wählen Sie für die Position <strong>Arbeitstyp</strong> <em>Einlagern</em> <strong>Richtliniencode</strong> <em>Ladebereichstor</em> aus. Stellen Sie sicher, dass diese neue Arbeitsvorlage die niedrigste <strong>Sequenznummer</strong> erhält.</li>
+<li>Wählen Sie in der Symbolleiste <strong>Abfrage bearbeiten</strong> aus, um den Abfrageeditor zu öffnen.</li>
+<li>Wählen Sie auf der Registerkarte <strong>Bereich</strong> die Option <strong>Hinzufügen</strong> aus.</li>
+<li>Wählen Sie für die hinzugefügte Position unter <strong>Feld</strong> die Option <em>Lagerort</em> aus.</li>
+<li>Wählen Sie im Feld <strong>Kriterien</strong> den Wert <em>51</em> aus.</li>
+<li>Wählen Sie die Registerkarte <strong>Sortierung</strong> aus.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus und legen Sie für <strong>Feld</strong> die Option <em>Lokalisierte Ladungsträger-ID</em> fest. Durch Auswahl dieses Felds wird die Symbolleistenschaltfläche aktiviert <strong>Arbeitskopfzeilenumbrüche</strong> aktiviert.</li>
+<li>Wählen Sie zunächst <strong>OK</strong> und anschließend <strong>Ja</strong> aus, um die Gruppierung zurückzusetzen und zur Seite <strong>Arbeitsvorlagen</strong> zurückzukehren.</li>
+<li>Wählen Sie <strong>Arbeitskopfzeilenumbrüche</strong> aus und aktivieren Sie <strong>Nach diesem Feld gruppieren</strong> für <strong>Lokalisierte Ladungsträger-ID</strong> und schließen Sie die Seite.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Nicht alle Einstellungen können automatisch verarbeitet werden, z. B. Artikelgewichtsartikel und die Verwendung gemischter Rückverfolgungsangaben.</p>
+</div>
+<h3 id="set-up-location-directives-for-the-license-plate-guided-strategy">Lagerplatzrichtlinien für die ladungsträgerbasierte Strategie einrichten</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie eine Entnahme über eine Lagerplatzrichtlinie einrichten, um die Strategie <strong>Ladungsträgerbasiert</strong> zu verwenden.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Lagerplatzrichtlinien</strong>.</li>
+<li>Wählen Sie <strong>Bearbeiten</strong> aus.</li>
+<li>Wählen Sie in der Kopfzeile der Navigationsliste <strong>Arbeitsauftragstyp</strong> <em>Umlagerungsabgang</em> aus.</li>
+<li>Wählen Sie in der Navigationsliste die vorhandene Lagerplatzrichtlinie <strong>51 UA entnehmen</strong> aus.</li>
+<li>Aktivieren Sie auf dem Inforegister <strong>Positionen</strong> das Kontrollkästchen <strong>Teilen zulassen</strong>.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Lagerplatzrichtlinienaktivitäten</strong> die Option <strong>Neu</strong> aus, um eine neue Aktivitätsposition hinzuzufügen.</li>
+<li>Geben Sie in das Feld <strong>Name</strong> den Text <em>K-basiert</em> ein.</li>
+<li>Wählen Sie im Feld <strong>Strategie</strong> die Option <em>Ladungsträgerbasiert</em> aus. Diese Aktion benötigt die niedrigste Sequenznummer.</li>
+<li>Wählen Sie in der Symbolleiste <strong>Speichern</strong> aus.</li>
+<li>Wählen Sie in der Symbolleiste das Symbol <strong>Seite aktualisieren</strong> aus.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Lagerplatzrichtlinienaktivitäten</strong> die Position <em>UA-Entnahme</em> aus.</li>
+<li>Wählen Sie in der Symbolleiste <strong>Lagerplatzrichtlinienaktivitäten</strong> die Option <strong>Nach unten</strong> aus, um die Sequenznummer im Vergleich zur soeben erstellten Sequenznummer für die Aktion <em>K-basiert</em> zu erhöhen.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die ladungsträgerbasierte Strategie wird versuchen, Kommissionierarbeiten für die Lagerplätze mit den angeforderten Kennzeichen zu reservieren und zu erstellen, die den Umlagerungsauftragspositionen zugeordnet wurden. Wenn dies jedoch nicht möglich ist und Sie dennoch Kommissionierarbeiten erstellen möchten, sollten Sie auf eine andere Strategie für Lagerplatzrichtlinienaktionen zurückgreifen und je nach Ihren Geschäftsprozessanforderungen möglicherweise auch in einem anderen Bereich des Lagerorts nach Bestand suchen.</p>
+</div>
+<h3 id="set-up-a-batch-job-to-process-warehouse-app-events">Richten Sie einen Stapelauftrag ein, um Lager-App-Ereignisse zu verarbeiten</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie einen geplanten Batchauftrag zum Verarbeiten von Lagerort-App-Ereignissen einrichten.</p>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Periodische Aufgaben &gt; Lager-App-Ereignisse verarbeiten</strong>.</li>
+<li>Aktivieren Sie im Dialogfeld die Option <strong>Batchverarbeitung</strong> im Bereich <strong>Im Hintergrund ausführen</strong>.</li>
+<li>Wählen Sie <strong>Wiederholung</strong> aus und richten Sie den zu verarbeitenden Batchauftrag basierend auf dem für Ihr Unternehmen erforderlichen Intervall ein.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um zum Hauptdialogfeld zurückzukehren.</li>
+<li>Wählen Sie im Hauptdialogfeld <strong>OK</strong> aus, um den Auftrag zur Stapelwarteschlange hinzuzufügen.</li>
+</ol>
+<h3 id="set-up-a-batch-job-to-release-transfer-orders-automatically">Einrichten eines Batchauftrags, um Umlagerungsaufträge automatisch freizugeben</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie einen geplanten Batchauftrag einrichten, um die Umlagerungsaufträge freizugeben, die als „Bereit zur Freigabe“ markiert wurden.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; An Lager freigeben &gt; Automatische Freigabe von Umlagerungsaufträgen</strong>.</li>
+<li>Erweitern Sie im Dialogfeld den Bereich <strong>Einzuschließende Datensätze</strong>.</li>
+<li>Wählen Sie die Option <strong>Filter</strong> im Bereich <strong>Einzuschließende Datensätze</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>WHSTransferAutoRTWQuery</strong> auf der Registerkarte <strong>Bereich</strong> die Option <strong>Hinzufügen</strong> aus, um der Abfrage eine neue Position hinzuzufügen.</li>
+<li>Wählen Sie im Feld <strong>Tabelle</strong> der neuen Position das Dropdown-Menü und darin die Tabelle <strong>Umlagerungsposition Freigabe für Lagerort</strong> aus.</li>
+<li>Wählen Sie im Dropdown-Menü <strong>Feld</strong> die Option <strong>Auslieferungsrichtlinie</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Kriterien</strong> die Option <strong>Freigabe und Lieferungsbestätigung</strong> aus.</li>
+<li>Wählen Sie für die Position, für die <strong>Feld</strong> auf <em>Von Lagerort</em> festgelegt ist, im Feld <strong>Kriterien</strong> die Option <em>51</em> aus.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um zum Hauptdialogfeld zurückzukehren.</li>
+<li>Erweitern Sie den Bereich <strong>Im Hintergrund ausführen</strong>, um die Batchverarbeitung einzurichten.</li>
+<li>Aktivieren Sie die Option <strong>Batchverarbeitung</strong> im Bereich <strong>Im Hintergrund ausführen</strong>.</li>
+<li>Wählen Sie <strong>Wiederholung</strong> aus und richten Sie den zu verarbeitenden Batchauftrag basierend auf dem für Ihr Unternehmen erforderlichen Intervall ein.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um zum Hauptdialogfeld zurückzukehren.</li>
+<li>Wählen Sie im Hauptdialogfeld <strong>OK</strong> aus, damit der Batchauftrag zur Stapelwarteschlange hinzugefügt wird.</li>
+</ol>
+<h3 id="set-up-the-process-outbound-shipment-batch-job">Einrichten des Batchauftrags „Ausgehende Lieferungen verarbeiten“</h3>
+<p>In diesem Abschnitt wird erläutert, wie Sie einen geplanten Batchauftrag einrichten, um die Bestätigung für versandfertige ausgehende Lieferungen im Zusammenhang mit „versandfertigen“ Umlagerungsauftragspositionen auszuführen.</p>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Periodische Aufgaben &gt; Ausgehende Sendungen verarbeiten</strong>.</li>
+<li>Erweitern Sie den Abschnitt <strong>Einzuschließende Datensätze</strong>.</li>
+<li>Wählen Sie <strong>Filter</strong> aus.</li>
+<li>Wählen Sie unter der Abfrage <strong>WHSLoadShipConfirm</strong> die Registerkarte <strong>Verknüpfungen</strong> aus.</li>
+<li>Erweitern Sie die Tabellenhierarchie, sodass <strong>Lieferungen</strong> und <strong>Details laden</strong> erweitert sind.</li>
+<li>Wählen Sie die Tabelle <strong>Details laden</strong> aus.</li>
+<li>Wählen Sie die Schaltfläche <strong>Tabellenverknüpfung hinzufügen</strong> aus.</li>
+<li>Filtern oder durchsuchen Sie in der Liste der Tabellenbeziehungen die Spalte <strong>Beziehung</strong> nach <em>Umlagerungsauftragspositionen (Referenz)</em>.</li>
+<li>Konzentrieren Sie sich auf die Tabellenbeziehung in der Liste und wählen Sie dann die Schaltfläche <strong>Auswählen</strong> aus.</li>
+<li>Wählen Sie die Tabelle <strong>Umlagerungsauftragspositionen</strong> aus.</li>
+<li>Wählen Sie die Schaltfläche <strong>Tabellenverknüpfung hinzufügen</strong> aus.</li>
+<li>Filtern oder durchsuchen Sie in der Liste der Tabellenbeziehungen die Spalte <strong>Beziehung</strong> nach <em>Bestandsumlagerung zusätzliche Felder (Datensatz-ID)</em>.</li>
+<li>Konzentrieren Sie sich auf die Tabellenbeziehung in der Liste und wählen Sie dann die Schaltfläche <strong>Auswählen</strong> aus.</li>
+<li>Wählen Sie die Registerkarte <strong>Bereich</strong>.</li>
+<li>In den Abfragetabellen <strong>Bereich</strong> werden Sie drei Abfragekriterienbereiche einrichten. Wählen Sie die Schaltfläche <strong>Hinzufügen</strong> aus, um eine Position hinzuzufügen.</li>
+<li>Fügen Sie einen Bereich für die Tabelle <strong>Lieferungen</strong> hinzu. Legen Sie <strong>Feld</strong> auf <em>Ladungsstatus</em> und <strong>Kriterien</strong> auf <em>Geladen</em> fest.</li>
+<li>Fügen Sie für die Tabelle <strong>Bestandsumlagerung zusätzliche Felder</strong> einen weiteren Bereich hinzu. Legen Sie <strong>Feld</strong> auf <em>Auslieferungsrichtlinie</em> und <strong>Kriterien</strong> auf <em>Freigabe und Lieferungsbestätigung</em> fest.</li>
+<li>Fügen Sie einen weiteren Bereich für die Tabelle <strong>Ladungsdetails</strong> hinzu. Legen Sie <strong>Feld</strong> auf <em>Referenz</em> und <strong>Kriterien</strong> auf <em>Umlagerungsauftragslieferung</em> fest.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um zum Hauptdialogfeld zurückzukehren.</li>
+<li>Erweitern Sie den Abschnitt <strong>Im Hintergrund ausführen</strong>.</li>
+<li>Aktivieren Sie <strong>Batchverarbeitung</strong>.</li>
+<li>Wählen Sie <strong>Wiederholung</strong> aus und richten Sie den zu verarbeitenden Batchauftrag basierend auf dem für Ihr Unternehmen erforderlichen Intervall ein.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um zum Hauptdialogfeld zurückzukehren.</li>
+<li>Wählen Sie im Hauptdialogfeld <strong>OK</strong> aus, damit der Batchauftrag zur Stapelwarteschlange hinzugefügt wird.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Weitere Informationen finden Sie unter <a href="confirm-outbound-shipments-from-batch-jobs.html">Ausgehende Lieferungen aus Batchverarbeitungsaufträgen bestätigen</a>.</p>
+</div>
+<h2 id="processing-the-example-for-create-transfer-order-from-the-warehouse-app">Bearbeitung des Beispiels „Erstellen eines Umlagerungsauftrags aus der Lagerort-App“</h2>
+<h3 id="add-on-hand-on-a-license-plate">Verfügbar zu einer Kennung hinzufügen</h3>
+<p>Als Ausgangspunkt für dieses Szenario benötigen Sie eine Kennung mit physisch verfügbarem Bestand.</p>
+<table>
+<thead>
+<tr>
+<th>Artikel</th>
+<th>Lagerort</th>
+<th>Bestandsstatus</th>
+<th>Ziel</th>
+<th>Ladungsträger</th>
+<th>Leistung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A0001</td>
+<td>51</td>
+<td>Verfügbar</td>
+<td>LP-010</td>
+<td>LP10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A0002</td>
+<td>51</td>
+<td>Verfügbar</td>
+<td>LP-010</td>
+<td>LP10</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Fügen Sie dem physisch verfügbaren Bestand Mengenangaben hinzu, indem Sie folgende Werte verwenden:</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie müssen die Kennung erstellen und Lagerplätze verwenden, an denen Sie gemischte Artikel transportieren können, wie beispielsweise LP-010.</p>
+</div>
+<h3 id="create-and-process-transfer-orders-from-the-warehouse-app">Umlagerungsaufträge aus der Lagerort-App erstellen und verarbeiten</h3>
+<ol>
+<li>Öffnen Sie die App und melden Sie sich als Benutzer <em>51</em> an. Der Lagerort für den aktuellen Benutzer ist 51.</li>
+<li>Wählen Sie die Menüoption <strong>UA erstellen</strong> aus dem Menü aus, zu dem Sie sie während der Einrichtung hinzugefügt haben.</li>
+<li>Beginnen Sie mit der Erstellung eines Umlagerungsauftrags, indem Sie den Ziellagerort (An Lagerort) in das Feld <strong>Lagerort</strong> eingeben. Geben Sie <em>61</em> ein. Der neue Umlagerungsauftrag geht vom aktuellen Lagerort 51 (Von Lagerort) zum Ziellagerort <em>61</em>.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+<li>Scannen Sie eine Kennzeichen-ID im Feld <strong>Kennzeichen</strong>. Geben Sie die Kennung des Bestands ein, der in einem früheren Schritt hinzugefügt wurde (<em>LP10</em>).</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+<li>Wählen Sie die Menütaste und dann <strong>Bestellung abschließen</strong> aus, um die Erstellung des Umlagerungsauftrags in der Lagerort-App abzuschließen.</li>
+</ol>
+<p>Für das erwähnte Beispiel werden zwei <strong>Lagerort-App-Ereignisse</strong> (<em>Umlagerungsauftrag erstellen</em> und <em>Umlagerungsauftrag abschließen</em>) verwendet.</p>
+<h3 id="inquire-the-warehouse-app-events"><a name="#inquire-the-warehouse-app-events"></a>Abfrage von Lagerort-App-Ereignissen</h3>
+<p>Sie können die Ereigniswarteschlange und die von der Lager-App generierten Ereignismeldungen anzeigen, indem Sie zu <strong>Lagerortverwaltung &gt; Abfragen und Berichte &gt; Protokolle für mobile Geräte&gt; Lager-App-Ereignisse</strong> gehen.</p>
+<p>Die Ereignismeldungen für <em>Umlagerungsauftrag erstellen</em> erhalten den Status <em>Im Wartezustand</em>, was bedeutet, dass der Batchauftrag <strong>Lagerort-App-Ereignisse verarbeiten</strong> die Ereignismeldungen nicht erhält und verarbeitet. Sobald die Ereignismeldung auf den Status <em>In Warteschlange</em> aktualisiert wird, verarbeitet der Batchauftrag die Ereignisse. Dies geschieht zeitgleich mit der Erstellung des Ereignisses <em>Umlagerungsauftrag abschließen</em> (wenn eine Arbeitskraft die Schaltfläche <strong>Bestellung abschließen</strong> in der Lagerort-App auswählt). Wenn die Ereignismeldungen für <em>Umlagerungsauftrag erstellen</em> verarbeitet wurden, wird der Status auf <em>Abgeschlossen</em> oder <em>Fehlgeschlagen</em> aktualisiert. Wenn der Status von <em>Umlagerungsauftrag abschließen</em> auf <em>Abgeschlossen</em> aktualisiert wird, werden alle zugehörigen Ereignisse aus der Warteschlange gelöscht.</p>
+<p>Da die <strong>Lagerort-App-Ereignisse</strong> für die Erstellung von Umlagerungsauftragsdaten vom Batchauftrag nicht verarbeitet werden, bevor die Nachrichten auf den Status <em>In Warteschlange</em> aktualisiert wurden, müssen Sie die angeforderten Umlagerungsauftragsnummern als Teil des Felds <strong>Kennung</strong> nachschlagen. Das Feld <strong>Kennung</strong> befindet sich im Header auf der Seite <strong>Lagerort-App-Ereignisse</strong>.</p>
+<p>Im Rahmen der Lagerort-Ereignisverarbeitung schlägt die Erstellung der Umlagerungsauftragsposition möglicherweise fehl. In diesem Fall wird der Status der Ereignismeldung auf <em>Fehlgeschlagen</em> aktualisiert und Sie können die <strong>Stapelverarbeitungsprotokoll</strong>-Informationen verwenden, um den Grund hierfür zu erfahren und Maßnahmen zu ergreifen, um jegliche Probleme zu beheben.</p>
+<p>Typische Probleme können mit fehlenden Einstellungen für den Prozess zusammenhängen, z. B. einem fehlenden Transitlager für das Ereignis <em>Umlagerungsauftrag erstellen</em>. In einem Beispiel wie diesem würden Sie dem Lagerort ein Transitlager hinzufügen und die Option <strong>Zurücksetzen</strong> verwenden, um den Status für alle Lagerot-App-Ereignismeldungen von <em>Fehlgeschlagen</em> zu <em>In Warteschlange</em> zu ändern. Das bedeutet, dass der Batchauftrag die Ereignismeldungen nach der Korrektur der Einrichtungsdaten erneut verarbeiten wird.</p>
+<p>In Produktionsumgebungen wären die Ausnahmen eher prozessbezogen, z. B. ein angefordertes Kennzeichen, das zum Zeitpunkt des Batchauftrags leer ist, weswegen keine Umlagerungsauftragspositionen erstellt werden. Diese fehlgeschlagene Ereignismeldung kann entweder mithilfe der Option <strong>Löschen</strong> entfernt werden oder Sie können den benötigten physischen Bestand auf der Kennung hinzufügen und die Option <strong>Zurücksetzen</strong> Option für alle zugehörigen Ereignismeldungen verwenden.</p>
+<p>Weitere Informationen finden Sie unter <a href="warehouse-app-events.html">Verarbeitung von Lagerort-App-Ereignissen</a>.</p>
+<h3 id="follow-up-on-the-example-scenario-processing">Nachbereitung der Verarbeitung des Beispielsszenarios</h3>
+<p>In diesem Szenario ist Folgendes geschehen:</p>
+<ol>
+<li>Mit der Lagerot-App haben Sie eine Menüoption ausgewählt, die den Aktivitätscode <strong>Umlagerungsauftrag aus Kennzeichen erstellen</strong> verwendet.</li>
+<li>Die App forderte Sie auf, den Ziellagerort für den Umlagerungsauftrag auszuwählen. Der Quelllagerort ist immer derjenige, an dem Sie derzeit als Arbeitskraft angemeldet sind.</li>
+<li>Bei der Auswahl des Ziellagerorts hat das System eine ID-Nummer für den bevorstehenden Umlagerungsauftrag reserviert (basierend auf dem in Ihrem System definierten Nummernkreis für den Umlagerungsauftrag), den Umlagerungsauftrag jedoch noch nicht erstellt.</li>
+<li>Beim Scannen der Kennung <em>LP10</em> mit verfügbarem Bestand, der an den neuen Lagerort verschoben werden soll, wurde ein <strong>Lagerot-App-Ereignis</strong> zur Ereigniswarteschlange hinzugefügt, um später verarbeitet zu werden. Das Lagerortereignis enthielt Meldungsdetails zum Scan, einschließlich der beabsichtigten Umlagerungsauftragsnummer.</li>
+<li>Wenn in der Lagerort-App die Schaltfläche <strong>Bestellung abschließen</strong> ausgewählt wird, wird ein neues Lagerort-App-Ereignis <strong>Umlagerungsauftrag abschließen</strong> erstellt und der Status des zugehörigen vorhandenen Ereignisses <strong>Umlagerungsauftrag erstellen</strong> wird zu <strong>In Warteschlange</strong> geändert.</li>
+<li>Am Back-End hat der Batchauftrag <strong>Lager-App-Ereignisse verarbeiten</strong> das Ereignis mit dem Status <strong>In Warteschlange</strong> aufgenommen und den verfügbaren Bestand im Zusammenhang mit der gescannten Kennung erfasst. Basierend auf dem verfügbaren Bestand wurden der Datensatz und die zugehörigen Positionen für den tatsächlichen Umlagerungsauftrag erstellt. Der Auftrag füllte außerdem das Feld <strong>Auslieferungsrichtlinie</strong> für den Umlagerungsauftrag mit dem auf der Konfiguration von <em>Freigabe und Lieferungsbestätigung</em> basierenden Wert aus und veknüpfte die Kennung mit den Positionen für die Strategie <strong>Ladungsträgerbasiert</strong>.</li>
+<li>Basierend auf dem Feldwert <strong>Auslieferungsrichtlinie</strong> der Umlagerungsauftragsposition wurde durch die Abfrage des Batchauftrags <strong>Automatische Freigabe von Umlagerungsaufträgen</strong> der Umlagerungsauftrag an den Versandlagerort jetzt freigegeben. Und aufgrund des Setups der verwendeten Werte für <strong>Zyklusvorlage</strong>, <strong>Arbeitsvorlage</strong> und <strong>Lagerplatzrichtlinien</strong> wurde die Arbeit automatisch verarbeitet, wodurch <strong>Ladungsstatus</strong> auf <em>Geladen</em> aktualisiert wurde.</li>
+<li>Der Batchauftrag <strong>Ausgehende Lieferungen verarbeiten</strong> wird für die Ladung ausgeführt, was dazu führt, dass der Umlagerungsauftrag versendet wird und der Versand-Avis (Advance Shipment Notice, ASN) generiert wird.</li>
+<li>Das Timing all dieser Ereignisse hängt von den Einstellungen für <strong>Wiederholung</strong> für die erstellten Batchaufträge ab.</li>
+</ol>
+<h2 id="frequently-asked-questions">Häufig gestellte Fragen</h2>
+<h3 id="mobile-device-menu-item-setup">Menüoption für mobiles Gerät einrichten</h3>
+<h4 id="why-cant-i-see-create-transfer-order-from-license-plate-in-the-menu-item-work-activity-drop-down-list">Warum wird die Option „Umlagerungsauftrag aus Kennzeichen erstellen“ in der Dropdown-Liste für die Arbeitsaktivität der Menüoption nicht angezeigt?</h4>
+<p>Die Funktion <em>Erstellen und Verarbeiten von Umlagerungsaufträgen über die Lagerort-App</em> muss aktiviert sein. Weitere Informationen finden Sie unter <a href="#enable-create-transfer-order-from-warehouse-app">Erstellung von Umlagerungsaufträgen aus der Lagerort-App aktivieren</a>.</p>
+<h3 id="warehouse-app-processes">Prozesse der Lagerort-App</h3>
+<h4 id="why-cant-i-see-the-menu-button-complete-order">Warum wird die Menütaste „Bestellung abschließen“ nicht angezeigt?</h4>
+<p>Dem Umlagerungsauftrag muss mindestens ein Kennzeichen zugeordnet sein.</p>
+<h4 id="can-several-warehouse-app-users-add-license-plates-to-the-same-transfer-order-at-the-same-time">Können mehrere Benutzer der Lagerot-App gleichzeitig Kennzeichen zum selben Umlagerungsauftrag hinzufügen?</h4>
+<p>Ja, mehrere Lagerarbeiter können gleichzeitig Kennzeichen für denselben Umlagerungsauftrag scannen.</p>
+<h4 id="can-the-same-license-plate-be-added-to-different-transfer-orders">Kann dasselbe Kennzeichen verschiedenen Umlagerungsaufträgen hinzugefügt werden?</h4>
+<p>Nein, ein Kennzeichen kann jeweils nur einem Umlagerungsauftrag hinzugefügt werden.</p>
+<h4 id="after-having-selected-the-complete-order-button-can-i-then-add-more-license-plates-for-that-transfer-order">Kann ich nach Auswahl der Schaltfläche „Bestellung abschließen“ weitere Kennzeichen für diesen Umlagerungsauftrag hinzufügen?</h4>
+<p>Nein, Sie können einem Umlagerungsauftrag mit einem Lagerort-App-Ereignis <strong>Umlagerungsauftrag abschließen</strong> keine weiteren Kennzeichen hinzufügen.</p>
+<h4 id="how-can-i-find-existing-transfer-orders-to-be-used-via-the-select-transfer-order-button-in-the-warehouse-app-if-the-order-has-not-yet-been-created-in-the-backend-system">Wie finde ich vorhandene Umlagerungsaufträge, die über die Schaltfläche „Umlagerungsauftrag auswählen“ in der Lagerort-App verwendet werden können, wenn der Auftrag im Back-End-System noch nicht erstellt wurde?</h4>
+<p>Derzeit können Sie in der App nicht nach Umlagerungsaufträgen suchen. Sie können die Umlagerungsauftragsnummern jedoch auf der Seite <strong>Lagerot-App-Ereignisse</strong> finden. Weitere Informationen finden Sie unter <a href="#inquire-the-warehouse-app-events">Abfrage von Lagerort-App-Ereignissen</a>.</p>
+<h4 id="can-i-manually-select-the-transfer-order-number-to-be-used-from-the-warehouse-app">Kann ich die zu verwendende Umlagerungsauftragsnummer über die Lagerort-App manuell auswählen?</h4>
+<p>Es werden nur automatisch generierte Umlagerungsauftragsnummern über Nummernkreise unterstützt.</p>
+<h3 id="background-processing">Hintergrundverarbeitung</h3>
+<h4 id="how-should-i-clean-up-records-in-my-warehouse-app-events-queue-message-tables">Wie soll ich Datensätze in den Meldungstabellen meiner Lagerort-App-Ereigniswarteschlange bereinigen?</h4>
+<p>Sie können diese Datensätze auf der Seite <strong>Lagerort-App-Ereignisse</strong> anzeigen und pflegen. Weitere Informationen finden Sie unter <a href="#inquire-the-warehouse-app-events">Abfrage von Lagerort-App-Ereignissen</a>.</p>
+<h4 id="why-is-the-transfer-order-receipt-date-not-updated-according-to-my-delivery-date-control-setup">Warum wird der Umlagerungsauftrag „Wareneingangsdatum“ nicht gemäß den Einstellungen unter „Lieferdatumskontrolle“ aktualisiert?</h4>
+<p>Die Umlagerungsaufträge werden ohne Verwendung der Funktion <strong>Lieferdatumskontrolle</strong> erstellt.</p>
+<h4 id="can-i-use-a-license-plate-having-physical-negative-inventory-on-hand">Kann ich ein Kennzeichen mit einem negativen physischen Bestand verwenden?</h4>
+<p>Die Funktion unterstützt nur positive physische verfügbare Mengen. Stellen Sie sicher, dass auf Lagerort- und Bestandsstatusebene positive physische Bestände vorhanden sind, bevor Sie einem Umlagerungsauftrag Kennzeichen zuweisen.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/warehousing/create-transfer-order-from-warehouse-app.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

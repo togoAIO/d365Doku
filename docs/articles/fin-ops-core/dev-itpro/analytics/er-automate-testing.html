@@ -1,0 +1,518 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Automate testing with Electronic reporting | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Automate testing with Electronic reporting | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="automate-testing-with-electronic-reporting">Automate testing with Electronic reporting</h1>
+
+
+<p>This topic explains how you can use the Electronic reporting (ER) framework to automate testing of some functionality. The example in this topic shows how to automate the testing of vendor payment processing.</p>
+<p>The application uses the ER framework to generate payment files and corresponding documents during vendor payment processing. The ER framework consists of a data model, model mappings, and format components that support payment processing for different payment types and the generation of documents in different formats. These components can be downloaded from Microsoft Dynamics Lifecycle Services (LCS) and imported into the instance.</p>
+<p>You also can customize each Microsoft component and use it as the basis of your own custom component. By creating a custom version, you can make changes that support specific requirements. For example, you can adjust the ER data model and ER model mapping to access customer-specific application data, or you can change an ER format to modify the layout of a generated document.</p>
+<p>You can use customized ER formats to process payment files that generate vendor payments and also to process control reports. Versioning is supported in ER components. Therefore, Microsoft can provide updated versions of ER solutions for vendor payment processing, and you can automatically merge the updated version with your customized component by rebasing it. However, you must test the rebased version to make sure that it works as you expect.</p>
+<p>ER data models and ER model mappings are common for many ER formats that are used to process payments of different types and to generate country/region-specific payment documents. Therefore, it's highly desirable to automate user acceptance and integration testing so that it's automatically done in multiple companies but considers the country/region context of each target company, uses different datasets, and so on.</p>
+<p>For more information about how to create a custom version of a format that is based on the format that you received from a configuration provider, see <a href="tasks/er-upgrade-format.html">ER Upgrade your format by adopting a new, base version of that format</a>.</p>
+<h2 id="key-concepts">Key concepts</h2>
+<p>Functional power users can author user acceptance and integration testing without having to write source code.</p>
+<ul>
+<li><p>Use the ER baseline feature to compare generated documents to master copies. For more information, see <a href="er-trace-reports-compare-baseline.html">Trace generated report results and compare them with baseline values</a>.</p>
+</li>
+<li><p>Use Task recorder to record test cases, and include baseline assessment. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/user-interface/task-recorder">Task recorder resources (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li><p>Group test cases for required test scenarios. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/lifecycle-services/using-task-guides-and-bpm-to-create-user-acceptance-tests">Create and automate user acceptance tests (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<ul>
+<li>Use Business process modeler (BPM) in LCS to make libraries for user acceptance tests.</li>
+<li>Use BPM test libraries to create a test plan and test suites in Microsoft Azure DevOps Services (Azure DevOps).</li>
+</ul>
+</li>
+</ul>
+<p>Functional power users can run user acceptance and integration tests.</p>
+<ul>
+<li>Use Regression suite automation tool (RSAT) to run test cases of the desired test suite.</li>
+<li>Report the results of the testing to Azure DevOps, and use this service to investigate those results.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you can complete the tasks in this topic, you must complete the following prerequisites:</p>
+<ul>
+<li><p>Deploy a topology that supports test automation. You must have access to the instance of this topology for the <strong>System administrator</strong> role. This topology must contain the demo data that will be used in this example. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/perf-test/continuous-build-test-automation">Deploy and use an environment that supports continuous build and test automation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li><p>To run user acceptance and integration tests automatically, you must install RSAT in the topology that you're using and configure it in the appropriate manner. For information about how to install and configure RSAT and configure it to work with Finance and Operations apps and Azure DevOps, see <a href="https://www.microsoft.com/download/details.aspx?id=57357">Regression Suite Automation Tool</a>. Pay attention to the prerequisites for using the tool. The following illustration shows an example of the RSAT settings. The blue rectangle encloses the parameters that specify access to Azure DevOps. The green rectangle encloses the parameters that specify access to the instance.</p>
+<p><img src="media/GER-Configure.png" alt="RSAT settings" title="Screenshot of the RSAT Settings dialog box"></p>
+</li>
+<li><p>To organize test cases in suites to help guarantee the correct execution sequence, so that you can collect logs of test executions for further reporting and investigation, you must have access to Azure DevOps from the deployed topology.</p>
+</li>
+<li><p>To complete the example in this topic, we recommend that you download <a href="https://go.microsoft.com/fwlink/?linkid=874684">ER usage for RSAT tests</a>. This zip file contains the following task guides:</p>
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>File name and location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample task recording to prepare data for testing</td>
+<td>Prepare\Recording.xml</td>
+</tr>
+<tr>
+<td>Sample task recording to process vendor payment</td>
+<td>Process\Recording.xml</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h2 id="prepare-the-accounts-payable-module-to-process-vendor-payments">Prepare the Accounts payable module to process vendor payments</h2>
+<ol>
+<li><p>Sign in to your instance.</p>
+</li>
+<li><p>Download the following ER configurations from LCS. For instructions, see <a href="tasks/er-import-configuration-lifecycle-services.html">ER Import a configuration from Lifecycle Services</a>.</p>
+<ul>
+<li><strong>Payment model</strong> ER model configuration</li>
+<li><strong>Payment model mapping 1611</strong> ER model mapping configuration</li>
+<li><strong>BACS (UK)</strong> ER format configuration</li>
+</ul>
+<p><img src="media/GER-Configurations.png" alt="Electronic reporting configurations" title="Screenshot of the Configurations page in Electronic reporting"></p>
+</li>
+<li><p>Select the <strong>GBSI</strong> demo data company, which has a country/region context in Great Britain.</p>
+</li>
+<li><p>Configure Accounts payable parameters:</p>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Payment setup &gt; Methods of payment</strong>.</p>
+</li>
+<li><p>Select the <strong>Electronic</strong> method of payment.</p>
+</li>
+<li><p>Configure the selected method of payment so that it uses the <strong>BACS (UK)</strong> ER format that you downloaded earlier for vendor payment processing:</p>
+<ol>
+<li>On the <strong>File formats</strong> FastTab, set the <strong>Generic electronic Export format</strong> option to <strong>Yes</strong>.</li>
+<li>In the <strong>Export format configuration</strong> field, select <strong>BACS (UK)</strong>.</li>
+</ol>
+</li>
+</ol>
+<p><img src="media/GER-APParameters.png" alt="Methods of payment page" title="Screenshot of the Methods of payment page"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you have the derived version of this ER format that was created to support customizations, you can select this configuration in the <strong>Electronic</strong> method of payment.</p>
+</div>
+</li>
+<li><p>Create an example vendor payment:</p>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Payments &gt; Payment journal</strong>.</p>
+</li>
+<li><p>Make sure that you haven't posted the payment journal.</p>
+<p><img src="media/GER-APJournal.png" alt="Payment journal page" title="Screenshot of the Payment journal page"></p>
+</li>
+<li><p>Select <strong>Lines</strong>, and enter a line that has the following information.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor name</td>
+<td>GB_SI_000001</td>
+</tr>
+<tr>
+<td>Debit</td>
+<td>1,000.00</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>GBP</td>
+</tr>
+<tr>
+<td>Offset account type</td>
+<td>Bank</td>
+</tr>
+<tr>
+<td>Offset account</td>
+<td>GBSI OPER</td>
+</tr>
+<tr>
+<td>Method of payment</td>
+<td>Electronic</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p><img src="media/GER-APJournalLines.png" alt="Vendor payments page" title="Screenshot of the Vendor payments page"></p>
+</li>
+</ol>
+<h2 id="prepare-the-er-framework-to-test-vendor-payment-processing">Prepare the ER framework to test vendor payment processing</h2>
+<h3 id="configure-er-parameters">Configure ER parameters</h3>
+<ol>
+<li><p>Go to <strong>Organization administration &gt; Electronic reporting &gt; Electronic reporting parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Attachments</strong> tab, in the <strong>Baseline</strong> field, select <strong>File</strong> as the document type that the Document management (DM) framework uses to keep documents that are related to the baseline feature as DM attachments.</p>
+<p><img src="media/GER-ERParameters.png" alt="Electronic reporting parameters page" title="Screenshot of the Electronic reporting parameters page"></p>
+</li>
+</ol>
+<h3 id="generate-baseline-copies-of-vendor-paymentrelated-documents">Generate baseline copies of vendor payment–related documents</h3>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Payments &gt; Payment journal</strong>.</p>
+</li>
+<li><p>Select <strong>Lines</strong>.</p>
+</li>
+<li><p>Select <strong>Generate payments</strong>.</p>
+</li>
+<li><p>Select the <strong>Electronic</strong> method of payment.</p>
+</li>
+<li><p>Select the <strong>GBSI OPER</strong> bank account.</p>
+</li>
+<li><p>Set the <strong>Print control report</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>Download the generated output as a zip file.</p>
+</li>
+<li><p>Open the downloaded file.</p>
+</li>
+<li><p>Extract following files from the downloaded file:</p>
+<ul>
+<li><strong>File</strong> payment file in text format</li>
+<li><strong>ERVendOutPaymControlReport</strong> control report file in XLSX format</li>
+</ul>
+<p><img src="media/GER-APJournalProcessed.png" alt="Extracted files" title="Screenshot of extracted file names in Windows explorer"></p>
+</li>
+</ol>
+<h3 id="turn-on-the-er-baseline-feature">Turn on the ER baseline feature</h3>
+<ol>
+<li>Go to <strong>Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</li>
+<li>On the Action Pane, on the <strong>Configurations</strong> tab, select <strong>User parameters</strong>.</li>
+<li>Set the <strong>Run in debug mode</strong> option to <strong>Yes</strong>.</li>
+</ol>
+<p>By turning on the <strong>Run in debug mode</strong> parameter, you force the ER framework to perform the following actions after the execution of any ER format that generates outgoing documents:</p>
+<ol>
+<li><p>Determine whether a baseline was configured for any of components of the executed ER format.</p>
+</li>
+<li><p>Determine whether each configured baseline is applicable in the current conditions (company code of the signed-in company, file name and file name extension of the generated output, and so on).</p>
+</li>
+<li><p>For each applicable baseline, perform the following actions:</p>
+<ol>
+<li>Compare the output that is generated during execution of the ER format with the corresponding baseline.</li>
+<li>Store the results of the comparison in the ER configurations debug log.</li>
+</ol>
+</li>
+</ol>
+<h3 id="configure-er-baselines-for-vendor-payment-processing">Configure ER baselines for vendor payment processing</h3>
+<ol>
+<li><p>Go to <strong>Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</p>
+</li>
+<li><p>Select <strong>Baselines</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Reference</strong> field, select the <strong>BACS (UK)</strong> format.</p>
+</li>
+<li><p>Select <strong>Attachments</strong>.</p>
+</li>
+<li><p>Add a new baseline for the vendor payment file:</p>
+<ol>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Type</strong> field, select the <strong>File</strong> DM document type that you configured in the ER parameters to store baseline artifacts.</li>
+<li>Browse to select the locally saved <strong>File</strong> payment file in text format.</li>
+<li>In the <strong>Description</strong> field, enter <strong>Payment TXT file</strong>.</li>
+</ol>
+</li>
+<li><p>Add a new baseline for the control report for the vendor payment:</p>
+<ol>
+<li>Select <strong>New</strong>.</li>
+<li>In the <strong>Type</strong> field, select the <strong>File</strong> DM document type that you configured in the ER parameters to store baseline artifacts.</li>
+<li>Browse to select the locally saved <strong>ERVendOutPaymControlReport</strong> control report file in XLSX format.</li>
+<li>In the <strong>Description</strong> field, enter <strong>Payment XLSX control report</strong>.</li>
+</ol>
+<p><img src="media/GER-BaselineAttachments.png" alt="Baselines for the vendor payment file and control report" title="Screenshot of the Configurations page with the Payment XLSX control report selected"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>On the <strong>Baselines</strong> FastTab, select <strong>New</strong> to configure a baseline for the payment file:</p>
+<ol>
+<li>Name the line <strong>Baseline setting for payment file</strong>.</li>
+<li>In the <strong>File component name</strong> field, select <strong>file</strong> to apply this baseline to the ER format output that generates the payment file in BACS (UK) text format.</li>
+<li>In the <strong>Companies</strong> field, select <strong>GBSI</strong> to apply this baseline when the <strong>BACS (UK)</strong> ER format is run in the GBSI company.</li>
+<li>In <strong>File name mask</strong> field, enter <strong>*.TXT</strong> to apply this baseline only to outputs of the <strong>file</strong> format component that have the <strong>.txt</strong> file name extension.</li>
+<li>In the <strong>Baseline</strong> field, select <strong>Payment TXT file</strong> so that this baseline is used for comparison with the generated output.</li>
+</ol>
+</li>
+<li><p>Select <strong>New</strong> to configure a baseline for the control report:</p>
+<ol>
+<li>Name the line <strong>Baseline setting for control report</strong>.</li>
+<li>In the <strong>File component name</strong> field, select <strong>ERVendOutPaymControlReport</strong> to apply this baseline to the ER format output that generates the control report.</li>
+<li>In the <strong>Companies</strong> field, select <strong>GBSI</strong> to apply this baseline when the <strong>BACS (UK)</strong> ER format is run in the GBSI company.</li>
+<li>In <strong>File name mask</strong> field, enter <strong>*.XLSX</strong> to apply this baseline only to outputs of the <strong>ERVendOutPaymControlReport</strong> format component that have the <strong>.xslx</strong> file name extension.</li>
+<li>In the <strong>Baseline</strong> field, select <strong>Payment XLSX control report</strong> so that this baseline is used for comparison with the generated output.</li>
+</ol>
+<p><img src="media/GER-BaselineRules.png" alt="Baselines FastTab on the Configurations page" title="Screenshot of the Baselines FastTab on the Configurations page"></p>
+</li>
+</ol>
+<h2 id="record-tests-to-validate-vendor-payment-processing">Record tests to validate vendor payment processing</h2>
+<p>As a functional power user, you can record your own steps to test vendor payment processing. We recommend that you play (and edit, as required) the <strong>Prepare\Recording.xml</strong> task recording that you downloaded earlier. This recording is used to set all testing data to the correct state. That step is required because the testing can be done many times, and every test must use data that is in the same state.</p>
+<h3 id="reset-user-settings">Reset user settings</h3>
+<ol>
+<li>Open the default dashboard.</li>
+<li>Select the <strong>Settings</strong> button (the gear symbol).</li>
+<li>Select <strong>User options</strong>.</li>
+<li>Select <strong>Usage data</strong>.</li>
+<li>Select <strong>Reset</strong>.</li>
+<li>Select <strong>Yes</strong> to confirm that you want to reset usage data.</li>
+<li>Close the page.</li>
+</ol>
+<h3 id="record-the-steps-to-prepare-data-for-testing">Record the steps to prepare data for testing</h3>
+<ol>
+<li>Select the <strong>Settings</strong> button (the gear symbol).</li>
+<li>Select <strong>Task recorder</strong>.</li>
+<li>Select <strong>Playback recording</strong>.</li>
+<li>Select <strong>Open from this PC</strong>.</li>
+<li>Select <strong>Browse</strong>, and select the locally save <strong>Prepare\Recording.xml</strong> file.</li>
+<li>Select <strong>Start</strong>.</li>
+<li>Keep selecting <strong>Play next pending step</strong> until all the steps in the recording have been played.</li>
+</ol>
+<p>This task recording performs the following actions:</p>
+<ol>
+<li><p>Set the status of the processed payment line to <strong>None</strong>.</p>
+<p><img src="media/GER-Recording1Review1.png" alt="Task recording steps 3 through 4" title="Screenshot of task recording steps 3 through 4"></p>
+</li>
+<li><p>Turn on the <strong>Run in debug mode</strong> ER user parameter.</p>
+<p><img src="media/GER-Recording1Review2.png" alt="Task recording steps 9 through 10" title="Screenshot of task recording steps 9 through 10"></p>
+</li>
+<li><p>Clean up the ER debug log that contains the results of the comparison of generated files to baselines.</p>
+<p><img src="media/GER-Recording1Review3.png" alt="Task recording steps 13 through 15" title="Screenshot of task recording steps 13 through 15"></p>
+</li>
+</ol>
+<h3 id="record-the-steps-to-test-vendor-payment-processing">Record the steps to test vendor payment processing</h3>
+<p>We recommend that you play (and edit, as required) the <strong>Process\Recording.xml</strong> task recording that you downloaded earlier. This recording is used to process vendor payments and validate the results of the comparison of generated documents to corresponding baselines.</p>
+<ol>
+<li>Select the <strong>Settings</strong> button (the gear symbol).</li>
+<li>Select <strong>Task recorder</strong>.</li>
+<li>Select <strong>Playback recording</strong>.</li>
+<li>Select <strong>Open from this PC</strong>.</li>
+<li>Select <strong>Browse</strong>, and select the locally saved <strong>Process\Recording.xml</strong> file.</li>
+<li>Select <strong>Start</strong>.</li>
+<li>Keep selecting <strong>Play next pending step</strong> until all the steps in the recording have been played.</li>
+</ol>
+<p>This task recording performs the following actions:</p>
+<ol>
+<li><p>Start vendor payment processing.</p>
+</li>
+<li><p>Select the correct runtime parameters, and turn on generation of a control report.</p>
+<p><img src="media/GER-Recording2Review1.png" alt="Task recording steps 3 through 8" title="Screenshot of task recording steps 3 through 8"></p>
+</li>
+<li><p>Access the ER debug log to record the results of the comparison of generated outputs to corresponding baselines.</p>
+<p>In the ER debug log, the results of the comparison appear in the <strong>Generated text</strong> field. The <strong>Format component</strong> and <strong>Format path that caused a log entry</strong> fields refer to the file component for which the generated output has been compared to the baseline.</p>
+<p><img src="media/GER-ERDebugLog.png" alt="Entries on the Electronic reporting run logs page" title="Screenshot of entries on the Electronic reporting run logs page"></p>
+</li>
+<li><p>The comparison of the current output to the baseline is recorded by using the <strong>Validate</strong> Task recorder option and selecting  <strong>Current Value</strong>.</p>
+<p><img src="media/GER-TRRecordValidation.png" alt="Using the Validate option for comparison with the current value" title="Screenshot of using the Validate option for comparison with the current value"></p>
+<p>The following illustration shows what the recorded validation steps look like in the task recording.</p>
+<p><img src="media/GER-Recording2Review2.png" alt="Task recording steps 13 and 15" title="Screenshot of task recording steps 13 and 15"></p>
+</li>
+</ol>
+<h2 id="add-the-recorded-tests-to-azure-devops">Add the recorded tests to Azure DevOps</h2>
+<ol>
+<li><p>Open the Azure DevOps environment.</p>
+</li>
+<li><p>Select the project that you defined in the RSAT parameters when you <a href="#prerequisites">configured the tool</a>.</p>
+</li>
+<li><p>Select the test plan that you defined in the RSAT parameters when you <a href="#prerequisites">configured the tool</a>.</p>
+</li>
+<li><p>Create a new test case for the selected test plan:</p>
+<ol>
+<li>Name the test case <strong>Prepare data to test processing of vendor's electronic payment</strong>.</li>
+<li>Attach the <strong>Recording.xml</strong> file from the <strong>Prepare</strong> folder that you downloaded earlier.</li>
+</ol>
+</li>
+<li><p>Create a new test case for the selected test plan:</p>
+<ol>
+<li>Name the test case <strong>Test processing of vendor payments by using ER format BACS (UK)</strong>.</li>
+<li>Attach the <strong>Recording.xml</strong> file from the <strong>Process</strong> folder that you downloaded earlier.</li>
+</ol>
+<p><img src="media/GER-RSAT-DevOps-Tests-Passed.png" alt="New test cases for the selected test plan" title="Screenshot of the new test cases for the selected test plan"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Pay attention to the correct execution order of the tests that are added.</p>
+</div>
+<h2 id="prepare-rsat-to-run-the-recorded-tests">Prepare RSAT to run the recorded tests</h2>
+<h3 id="load-the-tests-from-azure-devops-to-rsat">Load the tests from Azure DevOps to RSAT</h3>
+<ol>
+<li><p>Open the local RSAT application in the current topology.</p>
+</li>
+<li><p>Select <strong>Load</strong> to load the tests that currently reside in Azure DevOps into RSAT.</p>
+<p><img src="media/GER-RSAT-RSAT-Tests-Loaded.png" alt="Tests loaded into RSAT" title="Screenshot of the tests loaded into RSAT"></p>
+</li>
+</ol>
+<h3 id="create-automation-and-parameters-files">Create automation and parameters files</h3>
+<ol>
+<li><p>In RSAT, select the tests that you loaded from Azure DevOps.</p>
+</li>
+<li><p>Select <strong>New</strong> to create RSAT automation and parameters files.</p>
+<p><img src="media/GER-RSAT-RSAT-Tests-Initiated.png" alt="RSAT automation and parameters files created in RSAT" title="Screenshot of the RSAT automation and parameters files created in RSAT"></p>
+</li>
+</ol>
+<h3 id="modify-the-parameters-files">Modify the parameters files</h3>
+<ol>
+<li><p>In RSAT, select the <strong>Prepare data to test processing of vendor's electronic payment</strong> test case.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the Microsoft Excel workbook that is opened, on the <strong>General</strong> worksheet, change the company code to <strong>GBSI</strong>, because this company will be used for test execution.</p>
+</li>
+<li><p>In RSAT, select the <strong>Test processing of vendor payments by using ER format BACS (UK)</strong> test case.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the Excel workbook that is opened, on the <strong>General</strong> worksheet, change the company code to <strong>GBSI</strong>.</p>
+</li>
+<li><p>On the <strong>ERFormatMappingRunLogTable</strong> worksheet, notice that cells A:3 and C:3 contain the text of the fields in the ER debug log table that are used to validate the results of the comparison of the output to the baseline. These texts will be used to evaluate ER debug log records that are created during test execution.</p>
+<p><img src="media/GER-RSAT-RSAT-ExcelParameters.png" alt="ERFormatMappingRunLogTable worksheet" title="Screenshot of the ERFormatMappingRunLogTable worksheet"></p>
+</li>
+</ol>
+<h2 id="run-the-tests-and-analyze-the-results">Run the tests and analyze the results</h2>
+<h3 id="run-the-tests-in-rsat">Run the tests in RSAT</h3>
+<ol>
+<li>In RSAT, select the loaded tests.</li>
+<li>Select <strong>Run</strong>.</li>
+</ol>
+<p>Notice that test cases are automatically run in the application by using a web browser.</p>
+<h3 id="analyze-the-results-of-test-execution">Analyze the results of test execution</h3>
+<p>The results of the test execution are stored in RSAT. Notice that both tests were passed.</p>
+<p><img src="media/GER-RSAT-RSAT-Tests-Passed.png" alt="Tests that passed in RSAT" title="Screenshot of tests that passed in RSAT"></p>
+<p>Notice that the results of the test execution are also sent to Azure DevOps so that you can do further analysis.</p>
+<p><img src="media/GER-RSAT-DevOps-Tests-Added.png" alt="Results of test execution in Azure DevOps" title="Screenshot of the results of test execution in Azure DevOps"></p>
+<h3 id="simulate-a-situation-where-tests-fail">Simulate a situation where tests fail</h3>
+<p>This test suite must fail when at least one of the generated outputs doesn't match the corresponding baseline. To achieve this situation, you can use your derived version of the <strong>BACS (UK)</strong> format that will generate a payment file that has different content than the corresponding baseline. To simulate this situation, you can use the same <strong>BACS (UK)</strong> format but change the payment amount on the processed payment line.</p>
+<ol>
+<li>Open the application and go to <strong>Accounts payable &gt; Payments &gt; Payment journal</strong>.</li>
+<li>Select <strong>Lines</strong>.</li>
+<li>Select the payment line, and then select <strong>Payment status &gt; None</strong>.</li>
+<li>In the <strong>Debit</strong> field, change the value from <strong>1,000.00</strong> to <strong>2,000.00</strong>.</li>
+<li>Select <strong>Save</strong> to save your changes.</li>
+</ol>
+<h3 id="run-the-tests-in-rsat-1">Run the tests in RSAT</h3>
+<ol>
+<li>In RSAT, select the loaded tests.</li>
+<li>Select <strong>Run</strong>.</li>
+</ol>
+<p>Notice that test cases are automatically run in the application by using a web browser.</p>
+<h3 id="analyze-the-results-of-test-execution-1">Analyze the results of test execution</h3>
+<p>The results of the test execution are stored in RSAT. Notice that the second test failed during the second execution.</p>
+<p><img src="media/GER-RSAT-RSAT-Tests-Failed.png" alt="Failed test results in RSAT" title="Screenshot of the failed test results in RSAT"></p>
+<p>Notice that the results of the test execution are also sent to Azure DevOps so that you can do further analysis.</p>
+<p><img src="media/GER-RSAT-DevOps-Tests-Failed.png" alt="Failed test results in Azure DevOps" title="Screenshot of the failed test results in Azure DevOps"></p>
+<p>You can access the status of each test. You can also access the execution log so that you analyze the reasons for any failure. In the following illustration, the execution log shows that the failure occurred because of the difference in content between the generated payment file and its baseline.</p>
+<p><img src="media/GER-RSAT-DevOps-Tests-Failed-Log.png" alt="Execution log for analyzing failure in Azure DevOps" title="Screenshot of the execution log for analyzing failure in Azure DevOps"></p>
+<p>Therefore, as you've seen, the functioning of any ER format can be evaluated automatically by using RSAT as the testing platform and by using Task recorder-based test cases that use the ER baseline feature.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/user-interface/task-recorder">Task recorder resources (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li><a href="https://www.microsoft.com/download/details.aspx?id=57357">Regression suite automation tool</a></li>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/lifecycle-services/using-task-guides-and-bpm-to-create-user-acceptance-tests">Create and automate user acceptance tests (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/perf-test/continuous-build-test-automation">Deploy and use an environment that supports continuous build and test automation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li><a href="er-trace-reports-compare-baseline.html">Trace generated report results and compare them with baseline values</a></li>
+<li><a href="tasks/er-upgrade-format.html">ER Upgrade your format by adopting a new, base version of that format</a></li>
+<li><a href="tasks/er-import-configuration-lifecycle-services.html">ER Import a configuration from Lifecycle Services</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

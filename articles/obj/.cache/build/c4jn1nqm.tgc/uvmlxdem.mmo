@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Planned cross docking </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Planned cross docking ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes advanced planned cross-docking, where the inventory quantity that is required for an order is directed straight from receipt or creation to the correct outbound dock or staging area. All remaining inventory from the inbound source is directed to the correct storage location through the regular put-away process.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="WHSCrossDockingTemplate, WHSLoadPostMethod, WHSWorkClass, WHSWorkTemplateTable, WHSLocDirTable, WHSPlannedCrossDocking">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="planned-cross-docking">Planned cross-docking</h1>
+
+
+<p>This topic describes advanced planned cross-docking. Cross-docking is a warehouse process where the inventory quantity that is required for an order is directed straight from receipt or creation to the correct outbound dock or staging area. All remaining inventory from the inbound source is directed to the correct storage location through the regular put-away process.</p>
+<p>Cross-docking lets workers skip inbound put-away and outbound picking of inventory that is already marked for an outbound order. Therefore, the number of times that inventory is touched is minimized, where possible. Additionally, because there is less interaction with the system, time and space savings on the warehouse shop floor are increased.</p>
+<p>Before cross-docking can be run, the user must configure a new cross-docking template, where the supply source and other sets of requirements for cross-docking are specified. As the outbound order is created, the line must be marked against an inbound order that contains the same item.</p>
+<p>At the time of inbound order receiving, the cross-docking setup automatically identifies the need for cross-docking and creates the movement work for the required quantity, based on the setup of the location directive.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Inventory transactions are <strong>not</strong> unregistered when crossing-dock work is canceled, even if the setting for this capability is turned on in Warehouse management parameters.</p>
+</div>
+<h2 id="turn-on-the-planned-cross-docking-feature">Turn on the Planned cross docking feature</h2>
+<p>Before you can use advanced planned cross-docking, the feature must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Feature management</a> workspace to check the status of the feature and turn it on if it's required. There, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Planned cross docking</em></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<h3 id="regenerate-load-posting-methods">Regenerate load posting methods</h3>
+<p>Planned cross-docking is implemented as a load posting method. After you turn on the feature, you must regenerate the methods.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Load posting methods</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Regenerate methods</strong>.</p>
+<p>When regeneration is completed, you should see a method that has a <strong>Method name</strong> value of <em>planCrossDocking</em>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h3 id="create-a-cross-docking-template">Create a cross-docking template</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Cross docking templates</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a template.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><p><strong>Sequence:</strong> <em>1</em></p>
+<p>This field defines the order that templates are evaluated in.</p>
+</li>
+<li><p><strong>Cross docking template ID:</strong> <em>51</em></p>
+</li>
+<li><p><strong>Description:</strong> <em>Warehouse 51</em></p>
+</li>
+<li><p><strong>Demand release policy:</strong> <em>Before supply receipt</em></p>
+</li>
+<li><p><strong>Warehouse:</strong> <em>51</em></p>
+</li>
+</ul>
+</li>
+<li><p>The setup on the <strong>Planning</strong> FastTab controls how the template works. Set the following values:</p>
+<ul>
+<li><p><strong>Demand requirements:</strong> <em>None</em></p>
+<p>This field defines the requirements of the demand inventory. If the demand must be linked to the supply before release, select <em>Marking</em>. If the demand must be order-reserved against the supply before release, select <em>Order reservation</em>.</p>
+</li>
+<li><p><strong>Locating type:</strong> <em>Shipment locations</em></p>
+<p>This field defines whether the cross-docking work should use the staging/load locations from the shipment, or whether it should use location directives to find its own staging/load locations.</p>
+</li>
+<li><p><strong>Work template:</strong> Leave this field blank.</p>
+<p>This field defines the work template that should be used when cross-docking work is created.</p>
+</li>
+<li><p><strong>Revalidate on supply receipt:</strong> <em>No</em></p>
+<p>This option defines whether the supply should be revalidated during receipt. If this option is set to <em>Yes</em>, both the maximum time window and the expiration days range are checked.</p>
+</li>
+<li><p><strong>Validate time window:</strong> <em>Yes</em></p>
+<p>This option defines whether the maximum time window should be evaluated when a supply source is selected. If this option is set to <em>Yes</em>, the fields that are related to the maximum and minimum time windows become available.</p>
+</li>
+<li><p><strong>Maximum time window:</strong> <em>5</em></p>
+<p>This field defines the maximum period that is allowed between supply arrival and demand departure.</p>
+</li>
+<li><p><strong>Maximum time window unit:</strong> <em>Days</em></p>
+</li>
+<li><p><strong>Minimum time window:</strong> <em>0</em></p>
+<p>This field defines the minimum period that is allowed between supply arrival and demand departure.</p>
+</li>
+<li><p><strong>Minimum time window unit:</strong> <em>Days</em></p>
+</li>
+<li><p><strong>Expiration days range:</strong> <em>0</em></p>
+<p><em>First expiry first out (FEFO) criteria:</em> This field defines the maximum number of days between the expiration date of the first-expiring batch that is currently in the warehouse and the batch that is being received.</p>
+</li>
+</ul>
+</li>
+<li><p>On the <strong>Supply sources</strong> FastTab, you specify the types of supply that are valid for this template. Select <strong>New</strong>, and then set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> <em>1</em></li>
+<li><strong>Supply source:</strong> <em>Purchase order</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-work-class">Create a work class</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work classes</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a work class.</p>
+</li>
+<li><p>Set the following values:</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>CrossDock</em></li>
+<li><strong>Description:</strong> <em>Cross Dock</em></li>
+<li><strong>Work order type:</strong> <em>Cross docking</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-work-template">Create a work template</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>Set the <strong>Work order type</strong> field to <em>Cross docking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to add a line to the <strong>Overview</strong> tab.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> <em>1</em></li>
+<li><strong>Work template:</strong> <em>51 Cross Dock</em></li>
+<li><strong>Work template description:</strong> <em>51 Cross Dock</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Work Template Details</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Work Template Details</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Pick</em></li>
+<li><strong>Work class ID:</strong> <em>CrossDock</em></li>
+</ul>
+</li>
+<li><p>Select <strong>New</strong> to add another line, and set the following values on it:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Work class ID:</strong> <em>CrossDock</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>, and confirm that the <strong>Valid</strong> check box is selected for the <em>51 Cross Dock</em> template.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The work class IDs for the <em>Pick</em> and <em>Put</em> work types must be the same.</p>
+</div>
+<h3 id="create-location-directives">Create location directives</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the left pane, set the <strong>Work order type</strong> field to <em>Cross docking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>, and set the following values:</p>
+<ul>
+<li><strong>Sequence number:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>51 Cross Dock Put</em></li>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Site:</strong> <em>5</em></li>
+<li><strong>Warehouse:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Lines</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>From quantity:</strong> <em>1</em></li>
+<li><strong>To quantity:</strong> <em>1,000,000</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Name:</strong> <em>Baydoor</em></li>
+<li><strong>Fixed location usage:</strong> <em>Fixed and non-fixed locations</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Edit query</strong> button on the <strong>Location Directive Actions</strong> toolbar available.</p>
+</li>
+<li><p>Select <strong>Edit query</strong> to open the query editor.</p>
+</li>
+<li><p>On the <strong>Range</strong> tab, make sure that the following two lines are configured:</p>
+<ul>
+<li><p>Line 1:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived Table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Warehouse</em></li>
+<li><strong>Criteria:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Line 2:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived Table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Location</em></li>
+<li><strong>Criteria:</strong> <em>Baydoor</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to close the query editor.</p>
+</li>
+</ol>
+<h3 id="create-a-mobile-device-menu-item">Create a mobile device menu item</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>In the list of menu items in the left pane, select <strong>Purchase Put-away</strong>.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>On the <strong>Work classes</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>CrossDock</em></li>
+<li><strong>Work order type:</strong> <em>Cross docking</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h2 id="scenario">Scenario</h2>
+<h3 id="create-a-purchase-order">Create a purchase order</h3>
+<p>Follow these steps to create a purchase order as a source of supply.</p>
+<ol>
+<li><p>Go to <strong>Procurement and sourcing &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create purchase order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Vendor account:</strong> <em>104</em></li>
+<li><strong>Warehouse:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>, and make a note of the order number.</p>
+</li>
+<li><p>A new line is added to the <strong>Purchase order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>5</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-sales-order">Create a sales order</h3>
+<p>Follow these steps to create a sales order as a source of demand.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-002</em></li>
+<li><strong>Warehouse:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>A new line is added to the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>3</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-planned-cross-docking">Create planned cross-docking</h3>
+<p>Follow these steps to create the planned cross-docking from the sales order.</p>
+<ol>
+<li><p>In the <strong>Sales order details</strong> page for the sales order that you just created, on the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Actions</strong> group, select <strong>Release to warehouse</strong>.</p>
+<p>The release to warehouse action creates a shipment and load line for the sales order line, and tries to allocate inventory.</p>
+<p>You receive an informational message. You also receive the following warning message: &quot;No work was created for wave XXXX. See the work creation history log for details.&quot; This behavior is expected, because there is no inventory in the warehouse.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, on the <strong>Warehouse</strong> menu, select <strong>Shipment details</strong>.</p>
+<p>The <strong>Shipment details</strong> page appears and shows the shipment that was created for the sales order.</p>
+</li>
+<li><p>On the <strong>Load lines</strong> FastTab, notice that the <strong>Planned cross docking quantity</strong> field is set to <em>3</em>. Because no inventory was available in the warehouse, but a valid supply source will arrive within the time window that is defined in the cross-docking template, the cross-docking quantity was created.</p>
+</li>
+<li><p>On the <strong>Load lines</strong> FastTab, select <strong>Planned cross docking</strong> to view the details of the cross-docking that was created.</p>
+</li>
+</ol>
+<h2 id="process-the-cross-docking">Process the cross-docking</h2>
+<h3 id="purchase-order-receiving-on-the-warehousing-mobile-app">Purchase order receiving on the warehousing mobile app</h3>
+<p>The system will receive the quantity of 5 from the purchase order into the receiving location and create two pieces of work.</p>
+<p>The first work ID that is created has a <strong>Work order type</strong> value of <em>Cross docking</em> and is linked to the sales order. It has a quantity of 3 and is directed to the final shipping location so that it can be shipped out immediately.</p>
+<p>The second work ID that is created has a <strong>Work order type</strong> value of <em>Purchase orders</em> and is linked to the purchase order. It has the remaining quantity of 2 that wasn't cross-docked and is directed to put-away to storage.</p>
+<ol>
+<li><p>Sign in to the mobile device as a user in warehouse <em>51</em>.</p>
+</li>
+<li><p>Go to <strong>Inbound &gt; Purchase Receive</strong>.</p>
+</li>
+<li><p>In the <strong>PONum</strong> field, enter your purchase order number.</p>
+</li>
+<li><p>In the <strong>Qty</strong> field, enter <em>5</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the next page, set the <strong>Item</strong> field to <em>A0001</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the next page, confirm the <strong>PONum</strong>, <strong>Item</strong>, and <strong>Qty</strong> values by selecting <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+<li><p>Select <strong>Cancel</strong> to exit.</p>
+</li>
+</ol>
+<h3 id="put-away-to-cross-docking-and-bulk">Put-away to cross-docking and bulk</h3>
+<p>Currently, both work IDs have the same target license plate. To complete the next steps, you must get the work ID and the target license plate ID. You can get this information from the work details for the purchase order line and the sales order line. Alternately, you can go to <strong>Warehouse management &gt; Work &gt; Work details</strong> and filter for work where the <strong>Warehouse</strong> value is <em>51</em>.</p>
+<ol>
+<li><p>On the mobile device, go to <strong>Inbound &gt; Purchase put-away</strong>, and enter the target license plate from the work.</p>
+</li>
+<li><p>In the <strong>ID</strong> field, enter the target license plate ID from the work details.</p>
+<p>The cross-docking pick page shows the picking location (<em>RECV</em>), target license plate (<em>license plate</em>), item (<em>A0001</em>), and quantity (<em>3</em>).</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Target LP</strong> field, enter a target license plate for the license plate ID that should be put (cross-docked) to the shipping location. You can select any license plate ID of your choice.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the next page, in the <strong>ID</strong> field, enter the target license plate ID.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Confirm the work for picking the remaining quantity of 2, and then select <strong>OK</strong>.</p>
+</li>
+<li><p>On the next page, select <strong>Done</strong> to end the picking process and begin the put-away process.</p>
+<p>The mobile app presents you with the location and license plate to put the item to.</p>
+</li>
+<li><p>Confirm the bulk storage <strong>Put</strong> by selecting <strong>OK</strong>.</p>
+</li>
+<li><p>On the next page, confirm the cross-docking <strong>Put</strong> by selecting <strong>OK</strong>.</p>
+<p>You receive a &quot;Work Completed&quot; message.</p>
+</li>
+<li><p>Select <strong>Cancel</strong> to exit.</p>
+</li>
+</ol>
+<p>The following illustration shows how the completed cross-docking work might appear in Microsoft Dynamics 365 Supply Chain Management.</p>
+<p><img src="media/PlannedCrossDockingWork.png" alt="Cross-docking work completed" title="Cross-docking work completed"></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/warehousing/planned-cross-docking.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

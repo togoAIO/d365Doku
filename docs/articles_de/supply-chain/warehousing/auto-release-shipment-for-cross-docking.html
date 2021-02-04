@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Auto-Freigabelieferung f&#252;r Crossdocking | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Auto-Freigabelieferung f&#252;r Crossdocking | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="auto-release-shipment-for-cross-docking">Auto-Freigabelieferung für Crossdocking</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird eine Crossdockingstrategie beschrieben, mit der Sie automatisch einen Bedarfsauftrag für den Lagerort freigeben können, wenn der Produktionsauftrag, der die Bedarfsmenge liefert, als fertig gemeldet wird. Auf diese Weise wird die Menge, die für die Erfüllung des Bedarfsauftrags erforderlich ist, direkt vom Produktions-Warenabgang zum ausgehenden Lagerplatz bewegt.</p>
+<p>Crossdocking ist ein Lagerortverarbeitungsfluss, wobei die Menge, die erforderlich ist, um einen ausgehenden Auftrag zu erfüllen, an die Ausgangsrampe oder den Stagingbereich des Auftrags vom Lagerplatz weitergeleitet wird, wo der eingehende Auftrag empfangen wurde. (Der eingehende Auftrag kann eine Bestellung, ein Umlagerungsauftrag oder ein Produktionsauftrag sein.) Während die erweiterte Crossdockingfunktion alle Angebot- und Nachfrageaufträge unterstützt und erfordert, dass der ausgehende Bedarf freigegeben wird, bevor die Crossdockingchance identifiziert wird, weist die Auto-Freigabelieferungsfunktion diese Eigenschaften auf:</p>
+<ul>
+<li>Sie unterstützt nur Produktionsaufträge als Angebot und nur Bestellungen und Umlagerungsaufträge als Bedarf.</li>
+<li>Der Crossdockingvorgang kann auch dann gestartet werden, wenn der Bedarfsauftrag nicht für den Lagerort freigegeben wurde, bevor der Angebotszugang erfasst wurde (das heißt bevor die Produktion als fertig gemeldet wurde).</li>
+</ul>
+<p>Diese Crossdockingfunktion hat zwei Vorteile:</p>
+<ul>
+<li>Die Lagerortarbeitsgänge können den Schritt des Einlagerns von Mengen von Fertigerzeugnissen im regulären Wareneingangsbereich überspringen, wenn diese Mengen einfach erneut entnommen werden, um den ausgehenden Auftrag zu erfüllen. Stattdessen können die Mengen einmalig umgelagert werden, vom ausgehenden Lagerplatz zu einem Verpackungs-/Lieferlagerplatz. Auf diese Weise kann mit der Funktion die Häufigkeit verringert werden, zu der der Bestand verarbeitet wird, und letztendlich maximal Zeit und Platz im Lagerortfertigungsbereich eingespart werden.</li>
+<li>Die Lagerortarbeitsgänge können die Freigabe von Aufträgen sowie Umlagerungsaufträgen für den Lagerort verschieben, bis die Ausgabe von Fertigerzeugnissen für den zugehörigen Produktionsauftrag als fertig gemeldet ist. Dieser Vorteil ist vor allem für Auftragsfertigungs-Produktionsumgebungen relevant, wo die Fertigungsdurchlaufzeit in der Regel länger ist als die Lieferzeiten in Bestandsumgebungen.</li>
+</ul>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<table>
+<thead>
+<tr>
+<th>Voraussetzung</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Element</td>
+<td>Der Artikel muss für Lagerortverwaltungsprozesse aktiviert werden.<p><strong>Hinweis:</strong> Artikel mit Artikelgewicht können nicht in den Crossdockingprozessen einbezogen werden.</p></td>
+</tr>
+<tr>
+<td>Lagerort</td>
+<td>Der Lagerort muss für Lagerortverwaltungsprozesse aktiviert werden.</td>
+</tr>
+<tr>
+<td>Crossdockingvorlagen</td>
+<td>Es muss mindestens eine Crossdockingvorlage, die die <strong>Bei Angebotszugang</strong>-Bedarfsfreigaberichtlinie verwendet, für einen bestimmten Lagerort eingerichtet werden.</td>
+</tr>
+<tr>
+<td>Arbeitsklasse</td>
+<td>Eine Crossdockingarbeitsklassen-ID muss für den Arbeitsauftragstyp <strong>Crossdocking</strong> erstellt werden.</td>
+</tr>
+<tr>
+<td>Arbeitsvorlagen</td>
+<td>Arbeitsvorlagen des <strong>Crossdocking</strong>-Arbeitsauftragstyps sind erforderlich, um Crossdocking-Entnahme- und Einlagerungsarbeit zu erstellen.</td>
+</tr>
+<tr>
+<td>Lagerplatzrichtlinien</td>
+<td>Lagerplatzrichtlinien des <strong>Crossdocking</strong>-Arbeitsauftragstyps sind erforderlich, um Einlagerungsarbeit an den Lagerplätzen, an denen Auftragsmengen verpackt und versendet werden, zu unterstützen.</td>
+</tr>
+<tr>
+<td>Markierung zwischen einem Bedarfsauftrag und einem Produktionsauftrag</td>
+<td>Das Lagerortverwaltungssystem kann nur dann die automatische Freigabe der ausgehenden Auftragslieferung auslösen und Crossdockingarbeit vom Ausgangslagerplatz bei der Fertigmeldung-Aktivität starten, wenn Aufträge und Umlagerungsaufträge für einen Produktionsauftrag reserviert und markiert werden.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-cross-docking-flow">Beispiel Crossdockingfluss</h2>
+<p>Ein typischer Crossdockingfluss besteht aus den folgenden Hauptschritten.</p>
+<ol>
+<li><p>Ein Auftragnehmer erstellt einen Auftrag für ein Auftragsfertigungsprodukt. In der Regel ist die angeforderte Menge nicht verfügbar und muss zuerst produziert werden.</p>
+</li>
+<li><p>Der Auftragnehmer erstellt einen Produktionsauftrag direkt aus der Auftragsposition. Auf diese Weise reserviert und markiert der Auftragnehmer die Auftragsmenge für Produktionsauftragsmenge.</p>
+<p>Alternativ gibt ein Produktionsplaner an, dass die Markierung aktualisiert werden muss, wenn Bestellvorschläge umgewandelt werden.</p>
+</li>
+<li><p>Der Produktionsauftrag durchläuft die folgenden Schritte:</p>
+<ol>
+<li>Ein Produktionsplaner schätzt den Produktionsauftrag und gibt ihn frei. (Die Vorkalkulation enthält die Rohmaterialreservierung, und die Freigabe enthält die Freigabe für einen Lagerort.)</li>
+<li>Ein Lagerarbeiter startet und finalisiert die Rohmaterialentnahme vom Lagerplatz für einen Produktionseingangslagerplatz, gemäß der Produktionsentnahmearbeit.</li>
+<li>Ein Bediener im Fertigungsbereich startet den Produktionsauftrag.</li>
+<li>Im letzten Arbeitsgang verwendet ein Maschinenbediener das mobile Gerät, um den Produktionsauftrag als fertig zu melden.</li>
+</ol>
+</li>
+<li><p>Das System verwendet die Einstellung, um das Crossdockingereignis für die beiden verknüpften Aufträge zu identifizieren und schließt dann diese Aufgaben ab:</p>
+<ol>
+<li>Automatische Freigabe des zugeordneten Auftrags für einen Lagerort, um eine Lieferung zu erstellen.</li>
+<li>Automatisches Erstellen einer Crossdockingarbeit mit den Anweisungen, die Fertigerzeugnisse vom Ausgangslagerplatz zu entnehmen und sie zum Ausgangslagerplatz zu bewegen, den die Crossdockinglagerplatzrichtlinien zum Auftrag zugewiesen haben.</li>
+<li>Auffordern eines Maschinenbedieners, die Crossdockingarbeit umgehend auszuführen, nachdem der Produktionsauftrag als fertig gemeldet wurde.</li>
+</ol>
+</li>
+<li><p>Nachdem die Crossdockingarbeit abgeschlossen ist und die Mengen auf das Fahrzeug geladen wurden, bestätigt ein Ausgangslagerortplaner die Auftragslieferung.</p>
+</li>
+</ol>
+<h2 id="example-scenario">Beispielszenario</h2>
+<p>Für dieses Szenario müssen Demodaten eingerichtet werden, und Sie müssen das <strong>USMF</strong>-Demodatunternehmen verwenden.</p>
+<h3 id="set-up-cross-docking-that-uses-the-auto-release-shipment-feature">Einrichten von Crossdocking mit Auto-Freigabelieferungsfunktion</h3>
+<h4 id="cross-docking-template">Crossdockingvorlage</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Arbeit</strong> &gt; <strong>Crossdocking-Vorlagen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Laufende Nummer</strong> den Wert <strong>1</strong> ein.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Crossdockingvorlagen-ID</strong> einen Namen ein, wie <strong>XDock_RAF</strong>.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Bedarfsfreigaberichtlinie</strong> <strong>Bei Angebotszugang</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Lagerort</strong> die Nummer des Lagerorts ein, für den Sie den Crossdockingprozess einrichten möchten. Wählen Sie für dieses Beispiel <strong>51</strong> aus.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie <strong>Bei Angebotszugang</strong> als Bedarfsfreigabenrichtlinie für die Vorlage ausgewählt haben, sind alle anderen Felder auf der Seite nicht mehr verfügbar. Ebenso können Sie keine Lieferungsquellen definieren. Dieses Verhalten tritt auf, da Crossdocking, das die Auto-Freigabelieferungsfunktion verwendet, nur Produktionsaufträge als Lieferungsquellen unterstützt und es erfordert, dass eine Markierung zwischen Aufträgen und Produktionsaufträgen vorhanden ist. Wenn Sie <strong>Vor Angebotszugang</strong> als Bedarfsfreigabenrichtlinie auswählen, sind die Felder auf den Registerkarten <strong>Planung</strong> und <strong>Lieferungsquellen</strong> verfügbar und können bearbeitet werden.</p>
+</div>
+</li>
+</ol>
+<h4 id="work-classes">Arbeitsklassen</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Arbeit</strong> &gt; <strong>Arbeitsklassen</strong>.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Arbeitsklassen-ID</strong> einen Namen ein, wie <strong>CrossDock</strong>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> <strong>Crossdocking</strong> aus.</li>
+</ol>
+<p>Um die Typen der Lagerplätze, an denen Crossdock-Fertigerzeugnisse eingelagert werden können, einzuschränken, können Sie mindestens einen gültigen Lagerplatztypen angeben.</p>
+<h4 id="work-templates">Arbeitsvorlagen</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Arbeit</strong> &gt; <strong>Arbeitsvorlagen</strong>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> <strong>Crossdocking</strong> aus.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Laufende Nummer</strong> den Wert <strong>1</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Arbeitsvorlage</strong> einen Namen ein, wie <strong>CrossDock_51</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+<li>Im Abschnitt <strong>Arbeitsvorlagendetails</strong> wählen Sie <strong>Neu</strong> aus.</li>
+<li>Wählen Sie für die neue Position im Feld <strong>Arbeitstyp</strong> <strong>Entnahme</strong> aus. Wählen Sie im Feld <strong>Arbeitsklassen-ID</strong> <strong>CrossDock</strong> aus.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Wählen Sie für die neue Position im Feld <strong>Arbeitstyp</strong> <strong>Einlagerung</strong> aus. Wählen Sie im Feld <strong>Arbeitsklassen-ID</strong> <strong>CrossDock</strong> aus.</li>
+</ol>
+<h4 id="location-directives">Lagerplatzrichtlinien</h4>
+<p>Ein Standard-Einlagerungsprozess für Fertigerzeugnisse erfordert eine <strong>Einlagerung</strong>-Lagerplatzrichtlinie, um die Bewegung von entnommenen Produktionsmengen zu einem regulären Lagerbereich zu unterstützen. Ebenso müssen Sie eine <strong>Einlagerung</strong>-Lagerplatzrichtlinie einrichten, um die Arbeit anzuweisen, die fertige Menge in einen ausgewählten ausgehenden Lagerplatz einzulagern, der die Lieferung des zugehörigen Auftrags bereitstellt.</p>
+<p>Für Crossdocking, in Bezug auf die reguläre Einlagerung von Fertigerzeugnissen, müssen Sie keine Lagerplatzrichtlinie für die Entnahmearbeitsaktivität erstellen, da der ausgehende Lagerplatz angegeben ist. Darüber hinaus wird bei diesem ausgehenden Lagerplatz erwartet, dass er entweder als der Standardausgabelagerplatz in einem der ressourcenbezogenen Datensätze (das heißt die Ressource, Ressourcengruppenrelation oder Ressourcengruppe) oder als Standardproduktions-Fertigerzeugnislagerplatz für einen Lagerort eingerichtet ist.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung</strong> &gt; <strong>Einstellungen</strong> &gt; <strong>Lagerplatzrichtlinien</strong>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> <strong>Crossdocking</strong> aus.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Laufende Nummer</strong> den Wert <strong>1</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen Namen ein, wie <strong>Baydoor</strong>.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsart</strong> <strong>Eingabe</strong>.</li>
+<li>Im Feld <strong>Standort</strong> wählen Sei <strong>5</strong> aus.</li>
+<li>Im Feld <strong>Lagerort</strong> wählen Sie <strong>51</strong> aus.</li>
+<li>Auf dem Inforegister <strong>Positionen</strong> wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Bis Menge</strong> die maximale Menge des Bereichs ein, wie <strong>1000000</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+<li>Auf dem Inforegister <strong>Lagerplatzrichtlinien-Aktivitäten</strong> wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen Namen ein, wie <strong>Baydoor</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+<li>Sie können die Standardabfrageneinrichtung verwenden, um Lagerplätze auf einen oder mehrere bestimmte Lagerplätze zu beschränken. Wählen Sie <strong>Abfrage bearbeiten</strong> und <strong>51</strong> als Kriterium für das Feld <strong>Lagerort</strong> in der Tabelle <strong>Lagerplätze</strong> aus.</li>
+</ol>
+<h3 id="cross-dock-finished-goods-to-the-outbound-location">Crossdock-Fertigerzeugnisse für den ausgehenden Lagerplatz</h3>
+<p>Für ein Crossdocking der Menge von Fertigerzeugnissen für den ausgehenden Lagerplatz des zugehörigen Auftrags gehen Sie folgendermaßen vor.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Vertrieb und Marketing</strong> &gt; <strong>Aufträge</strong> &gt; <strong>Alle Aufträge</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Für den Auftragskopf wählen Sie das Debitorenkonto <strong>US-001</strong> und einen Lagerort aus, der für das Crossdocking eingerichtet ist, das die Auto-Freigabenlieferungsfunktion verwendet.</p>
+</li>
+<li><p>Fügen Sie eine Position für ein Fertigerzeugnis hinzu, und geben Sie <strong>10</strong> als Menge ein.</p>
+</li>
+<li><p>Wählen Sie im Abschnitt <strong>Auftragspositionen</strong> <strong>Produkt und Beschaffung</strong> &gt; <strong>Produktionsauftrag</strong> aus.</p>
+</li>
+<li><p>Im Dialogfeld <strong>Produktionsauftrag erstellen</strong> überprüfen Sie die Standardwerte und wählen Sie dann <strong>Erstellen</strong> aus. Ein neuer Produktionsauftrag wird erstellt und mit dem Auftrag verknüpft (das heißt reserviert und markiert).</p>
+</li>
+<li><p>Optional: Ändern Sie den Wert im Feld <strong>Menge</strong>, sodass er mehr ist als der Wert, der erforderlich ist, um den Auftrag zu erfüllen. Wenn die Produktionsmenge als fertig gemeldet wurde, erstellt das System Crossdockingarbeit für die markierte Menge und Einlagerungsarbeit für die Restmenge, entsprechend der regulären Vorgehensweise für die Verarbeitung der Einlagerung von Fertigerzeugnissen.</p>
+<p>Wie oben genannt muss eine Markierung zwischen dem Auftrag und dem Produktionsauftrag vorhanden sein. Andernfalls funktioniert das Crossdocking nicht. Eine Markierung kann auf denen mehrere Arten erstellt werden:</p>
+<ul>
+<li><p>Das System kann die Markierung in den folgenden Situationen automatisch erstellen:</p>
+<ul>
+<li>Der Produktionsauftrag wird direkt aus der Auftragsposition manuell erstellt (siehe Schritt 6).</li>
+<li>Geplante Produktionsaufträge werden umgewandelt und das Feld <strong>Markierung aktualisieren</strong> wird auf <strong>Standard</strong> festgelegt.</li>
+</ul>
+</li>
+<li><p>Der Benutzer kann die Markierung manuell erstellen, indem er die Seite <strong>Markierung</strong> von der Bedarfsauftragsposition öffnet.</p>
+</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Eine Markierung kann für Artikel, die so eingerichtet wurden, dass Standardwerte und gewichteter Durchschnitt als Bestandsmodelle verwendet werden, nicht manuell erstellt werden.</p>
+</div>
+</li>
+<li><p>Auf der Seite <strong>Produktionsauftrag</strong> im Aktivitätsbereich auf der <strong>Produktionsauftrag</strong>-Registerkarte in der Gruppe <strong>Prozess</strong> wählen Sie <strong>Vorkalkulation</strong> und dann <strong>OK</strong> aus. Der Auftrag wird vorkalkuliert und die Rohmaterialmenge wird für die Produktion reserviert.</p>
+</li>
+<li><p>Im Aktivitätsbereich auf der <strong>Produktionsauftrag</strong>-Registerkarte in der Gruppe <strong>Prozess</strong> wählen Sie <strong>Freigabe</strong> und dann <strong>OK</strong> aus. Die Lagerortentnahmearbeit wird für die Rohmaterialien erstellt.</p>
+</li>
+<li><p>Öffnen und überprüfen Sie die Arbeit. Wählen Sie im Aktivitätsbereich, auf der Registerkarte <strong>Lagerort</strong> in der Gruppe <strong>Allgemein</strong> die Option <strong>Arbeitsdetails</strong> aus. Notieren Sie die Arbeits-ID.</p>
+</li>
+<li><p>Melden Sie sich bei der Warehouse-App an, um die Arbeit an Lagerort 51 auszuführen.</p>
+</li>
+<li><p>Gehen Sie zu <strong>Produktion</strong> &gt; <strong>Produktionsentnahme</strong>.</p>
+</li>
+<li><p>Geben Sie die Arbeits-ID ein, um schließen Sie die Rohmaterialentnahme ab.</p>
+<p>Nachdem die Arbeit als fertig gemeldet ist, ist die Menge von Rohmaterial in einen Produktionseingangslagerplatz (<strong>005</strong> in USMF-Demodaten) verfügbar, und die Ausführung des Produktionsauftrags kann gestartet werden.</p>
+</li>
+<li><p>Auf der Seite <strong>Produktionsauftrag</strong> im Aktivitätsbereich auf der <strong>Produktionsauftrag</strong>-Registerkarte in der Gruppe <strong>Prozess</strong> wählen Sie <strong>Start</strong> und dann <strong>OK</strong> aus.</p>
+</li>
+<li><p>Gehen Sie in der App zu <strong>Produktion</strong> &gt; <strong>Fertigmeldung und Einlagerung</strong></p>
+</li>
+<li><p>Geben Sie im Feld <strong>Produktkennung</strong> die Nummer des Produktionsauftrags und weitere Pflichtdetails ein, und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+</ol>
+<p>Beachten Sie, dass die folgenden Ereignisse auftreten:</p>
+<ul>
+<li>Die Freigabe für einen Lagerort wird für den verknüpften Auftrag ausgelöst.</li>
+<li>Auf Grundlage der Freigabe wird die Lieferungs- und Crossdockingarbeit erstellt. Diese Arbeit weist den Lagerortoperator an, die Mengen zu entnehmen, die erforderlich sind, um die Auftragsposition zu erfüllen, und im ausgehenden Lagerplatz einzulagern, der in den Crossdockinglagerplatzrichtlinien angegeben ist.</li>
+<li>Wenn die Produktionsauftragsmenge mehr ist als die Menge, die für den Auftrag erforderlich ist, wird reguläre Einlagerungsarbeit erstellt. Diese Arbeit weist den Lagerortoperator an, die Menge von Fertigerzeugnissen zu entnehmen, die nach dem Crossdocking verbleibt, und zum regulären Lagerplatz zu bewegen, gemäß den Lagerplatzrichtlinie.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

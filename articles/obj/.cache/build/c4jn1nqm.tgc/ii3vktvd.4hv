@@ -1,0 +1,890 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Centralized payments for Accounts payable </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Centralized payments for Accounts payable ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Organizations that include multiple legal entities can create and manage payments by using a single legal entity that handles all payments. Therefore, the same payments don't have to be entered in multiple legal entities. This article provides examples that show how posting for centralized payments is handled in various scenarios.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="LedgerJournalTransVendPaym, VendOpenTrans">
+    <meta name="ms.search.scope" content="Core, Operations, Finance, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="centralized-payments-for-accounts-payable">Centralized payments for Accounts payable</h1>
+
+
+<p>Organizations that include multiple legal entities can create and manage payments by using a single legal entity that handles all payments. Therefore, the same payments don't have to be entered in multiple legal entities. This article provides examples that show how posting for centralized payments is handled in various scenarios.</p>
+<p>Organizations that include multiple legal entities can create and manage payments by using a legal entity that handles all payments. Therefore, the same payments don't have to be entered in multiple legal entities. Additionally, the organization saves time, because the payment process is streamlined.</p>
+<p>In a centralized payments organization, there are many legal entities for operations, and each operating legal entity manages its own vendor invoices. Payments for all the operating legal entities are generated from a single legal entity, which is known as the legal entity of the payment. During the settlement process, the applicable due-to and due-from transactions are generated. You can specify which legal entity in the organization receives the realized gain or realized loss transactions, and how cash discount transactions that are related to a cross-company payment are handled. On the centralized payment journal line, the <strong>Account type</strong> should be set to Vendor. The <strong>Offset account typ</strong>e should be set to Bank or Ledger. The bank account should be in the current company.</p>
+<p>The following examples illustrate how posting is handled in various scenarios. The following configuration is assumed for all these examples:</p>
+<ul>
+<li>The legal entities are Fabrikam, Fabrikam East, and Fabrikam West. Payments are made from Fabrikam.</li>
+<li>The <strong>Post cash discount</strong> field on the <strong>Intercompany accounting</strong> page is set to <strong>Legal entity of the invoice</strong>.</li>
+<li>The <strong>Post currency exchange gain or loss</strong> field on the <strong>Intercompany accounting</strong> page is set to <strong>Legal entity of the payment</strong>.</li>
+<li>The vendor Fourth Coffee is set up as a vendor in each legal entity. The vendors from the various legal entities are identified as the same vendor because they share the same global address book ID.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Directory ID</th>
+<th>Vendor account</th>
+<th>Name</th>
+<th>Legal entity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1050</td>
+<td>3004</td>
+<td>Fourth Coffee</td>
+<td>Fabrikam</td>
+</tr>
+<tr>
+<td>1050</td>
+<td>100</td>
+<td>Fourth Coffee</td>
+<td>Fabrikam East</td>
+</tr>
+<tr>
+<td>1050</td>
+<td>3004</td>
+<td>Fourth Coffee</td>
+<td>Fabrikam West</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-1-vendor-payment-of-invoice-from-another-legal-entity">Example 1: Vendor payment of invoice from another legal entity</h2>
+<p>Fabrikam East has an open invoice for vendor account 100, Fourth Coffee. Fabrikam enters and posts a payment to Fabrikam vendor account 3004, Fourth Coffee. The payment is settled with the open invoice.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-vendor-100">Invoice is posted in Fabrikam East for vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam East)</td>
+<td>600.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>600.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-vendor-3004">Payment is generated and posted in Fabrikam for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>600.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam)</td>
+<td></td>
+<td>600.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice">Fabrikam payment is settled with Fabrikam East invoice</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td>600.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>600.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>600.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East)</td>
+<td></td>
+<td>600.00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-2-vendor-payment-of-invoice-from-another-legal-entity-with-cash-discount">Example 2: Vendor payment of invoice from another legal entity with cash discount</h2>
+<p>Fabrikam East has an open invoice for vendor 100, Fourth Coffee. The invoice has a 20.00 cash discount available. Fabrikam enters and posts a payment of 580.00 for Fabrikam vendor 3004, Fourth Coffee. The payment is settled with the open Fabrikam East invoices. The cash discount is posted to the legal entity of the invoice, Fabrikam East.</p>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-vendor-100">Invoice is posted in Fabrikam East for Fabrikam East vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam East)</td>
+<td>600.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>600.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-fabrikam-vendor-3004">Payment is generated and posted in Fabrikam for Fabrikam vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>580.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam)</td>
+<td></td>
+<td>580.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice-1">Fabrikam payment is settled with Fabrikam East invoice</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td>580.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>580.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>580.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East)</td>
+<td></td>
+<td>580.00</td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>20.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash discount (Fabrikam East)</td>
+<td></td>
+<td>20.00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-3-vendor-payment-of-invoice-from-another-legal-entity-with-realized-exchange-rate-loss">Example 3: Vendor payment of invoice from another legal entity with realized exchange rate loss</h2>
+<p>Fabrikam East has an open invoice for vendor 100, Fourth Coffee. Fabrikam enters and posts a payment for Fabrikam vendor 3004, Fourth Coffee. The payment is settled with the open Fabrikam East invoice. A currency exchange loss transaction is generated during the settlement process.</p>
+<ul>
+<li>Exchange rate for euros (EUR) to U.S. dollars (USD) as of the invoice date: 1.2062</li>
+<li>Exchange rate for EUR to USD as of the payment date: 1.2277</li>
+</ul>
+<h3 id="invoice-is-posted-in-fabrikam-east-for-fabrikam-east-vendor-100-1">Invoice is posted in Fabrikam East for Fabrikam East vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam East)</td>
+<td>600.00 EUR / 723.72 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>600.00 EUR / 723.72 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-fabrikam-vendor-3004-1">Payment is generated and posted in Fabrikam for Fabrikam vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>600.00 EUR / 736.62 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam)</td>
+<td></td>
+<td>600.00 EUR / 736.62 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice-2">Fabrikam payment is settled with Fabrikam East invoice</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td>600.00 EUR / 736.62 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>600.00 EUR / 736.62 USD</td>
+</tr>
+<tr>
+<td>Realized loss (Fabrikam)</td>
+<td>0.00 EUR / 12.90 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td></td>
+<td>0.00 EUR / 12.90 USD</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>600.00 EUR / 736.62 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East)</td>
+<td></td>
+<td>600.00 EUR / 736.62 USD</td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East)</td>
+<td>0.00 EUR / 12.90 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>0.00 EUR / 12.90 USD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-4-vendor-payment-of-invoice-from-another-legal-entity-with-cash-discount-and-realized-exchange-rate-loss">Example 4: Vendor payment of invoice from another legal entity with cash discount and realized exchange rate loss</h2>
+<p>Fabrikam East has an open invoice for vendor 100, Fourth Coffee. The invoice has a cash discount available, and a sales tax transaction is generated. Fabrikam posts a payment for Fabrikam vendor 3004, Fourth Coffee. The payment is settled with the open Fabrikam East invoice. A currency exchange loss transaction is generated during the settlement process. The cash discount is posted to the legal entity of the invoice (Fabrikam East), and the currency exchange loss is posted to the legal entity of the payment (Fabrikam).</p>
+<ul>
+<li>Exchange rate for EUR to USD as of the invoice date: 1.2062</li>
+<li>Exchange rate for EUR to USD as of the payment date: 1.2277</li>
+</ul>
+<h3 id="invoice-is-posted-and-a-tax-transaction-is-generated-in-fabrikam-east-for-vendor-100">Invoice is posted and a tax transaction is generated in Fabrikam East for vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam East)</td>
+<td>564.07 EUR / 680.38 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales tax (Fabrikam East)</td>
+<td>35.93 EUR / 43.34 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>600.00 EUR / 723.72 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-generated-and-posted-in-fabrikam-for-vendor-3004-1">Payment is generated and posted in Fabrikam for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>588.72 EUR / 722.77 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam East)</td>
+<td></td>
+<td>588.72 EUR / 722.77 USD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-east-invoice-3">Fabrikam payment is settled with Fabrikam East invoice</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td>588.72 EUR / 722.77 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>588.72 EUR / 722.77 USD</td>
+</tr>
+<tr>
+<td>Realized loss (Fabrikam)</td>
+<td>0.00 EUR / 12.66 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Due from Fabrikam East (Fabrikam)</td>
+<td></td>
+<td>0.00 EUR / 12.66 USD</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>588.72 EUR / 722.77 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East)</td>
+<td></td>
+<td>588.72 EUR / 722.77 USD</td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam East</td>
+<td>0.00 EUR / 12.66 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>0.00 EUR / 12.66 USD</td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>11.28 EUR / 13.61 USD</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash discount (Fabrikam East)</td>
+<td></td>
+<td>11.28 EUR / 13.61 USD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-5-vendor-credit-note-with-primary-payment">Example 5: Vendor credit note with primary payment</h2>
+<p>Fabrikam generates a payment of 75.00 for vendor 3004, Fourth Coffee. The payment is settled with an open invoice for Fabrikam West vendor 3004 and an open credit note for Fabrikam East vendor 100. The payment is selected as the primary payment on the <strong>Settle transactions</strong> page.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-vendor-3004">Invoice is posted to Fabrikam West for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam West)</td>
+<td>100.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam West)</td>
+<td></td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-vendor-100">Credit note is posted to Fabrikam East for vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Purchase returns (Fabrikam East)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-vendor-3004">Payment is posted to Fabrikam for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>75.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam)</td>
+<td></td>
+<td>75.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note">Fabrikam payment is settled with Fabrikam West invoice and Fabrikam East credit note</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam East (Fabrikam)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+<tr>
+<td>Due from Fabrikam West (Fabrikam)</td>
+<td>100.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam (Fabrikam East)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam West posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam West)</td>
+<td>100.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam West)</td>
+<td></td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-6-vendor-credit-note-without-primary-payment">Example 6: Vendor credit note without primary payment</h2>
+<p>Fabrikam generates a payment of 75.00 for vendor 3004, Fourth Coffee. The payment is settled with an open invoice for Fabrikam West vendor 3004 and an open credit note for Fabrikam East vendor 100. The payment isn't selected as the primary payment on the <strong>Settle transactions</strong> page.</p>
+<h3 id="invoice-is-posted-to-fabrikam-west-for-vendor-3004-1">Invoice is posted to Fabrikam West for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expense (Fabrikam West)</td>
+<td>100.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam West)</td>
+<td></td>
+<td>100.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-note-is-posted-to-fabrikam-east-for-vendor-100-1">Credit note is posted to Fabrikam East for vendor 100</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Purchase returns (Fabrikam East)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-is-posted-to-fabrikam-for-vendor-3004-1">Payment is posted to Fabrikam for vendor 3004</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td>75.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Cash (Fabrikam)</td>
+<td></td>
+<td>75.00</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fabrikam-payment-is-settled-with-fabrikam-west-invoice-and-fabrikam-east-credit-note-1">Fabrikam payment is settled with Fabrikam West invoice and Fabrikam East credit note</h3>
+<p><strong>Fabrikam posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam West (Fabrikam)</td>
+<td>75.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam)</td>
+<td></td>
+<td>75.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam East posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Due from Fabrikam West (Fabrikam East)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam East)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fabrikam West posting</strong></p>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Debit amount</th>
+<th>Credit amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accounts payable (Fabrikam West)</td>
+<td>75.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam (Fabrikam West)</td>
+<td></td>
+<td>75.00</td>
+</tr>
+<tr>
+<td>Accounts payable (Fabrikam West)</td>
+<td>25.00</td>
+<td></td>
+</tr>
+<tr>
+<td>Due to Fabrikam East (Fabrikam West)</td>
+<td></td>
+<td>25.00</td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/accounts-payable/centralized-payments-accounts-payable.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

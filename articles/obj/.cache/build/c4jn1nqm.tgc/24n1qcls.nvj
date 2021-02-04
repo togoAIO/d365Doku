@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrated tax </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrated tax ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes the integration of tax data between Finance and Operations and Dataverse.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="integrated-tax">Integrated tax</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>Tax setup data defines the setup for both indirect taxes (VAT, GST, Sales tax) and withholding tax. It describes the tax calculation rule, tax rate, tax accounting, settlement, and other concepts.</p>
+<h2 id="templates">Templates</h2>
+<p>Tax data includes a collection of table maps that work together during data interaction, as shown in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations apps</th>
+<th>Model-driven apps in Dynamics 365</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Item sales tax group</td>
+<td>msdyn_taxitemgroups</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales tax authorities</td>
+<td>msdyn_taxauthorities</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales tax exempt code entity CDS</td>
+<td>msdyn_taxexemptcodes</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales tax groups</td>
+<td>msdyn_taxgroups</td>
+<td></td>
+</tr>
+<tr>
+<td>Sales tax ledger posting groups V2</td>
+<td>msdyn_taxpostinggroups</td>
+<td></td>
+</tr>
+<tr>
+<td>Withholding tax codes</td>
+<td>msdyn_withholdingtaxcodes</td>
+<td></td>
+</tr>
+<tr>
+<td>Withholding tax groups</td>
+<td>msdyn_withholdingtaxgroups</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="mapping-tables">Mapping tables</h2>
+<h3 id="mapping-types">Mapping types</h3>
+<p>There are several different mapping types. The following table explains the symbols used in the template tables.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>One-way</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>=</td>
+<td>Bidirectional</td>
+</tr>
+<tr>
+<td>&gt;&lt;</td>
+<td>Bidirectional, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filters">Filters</h3>
+<p>The source filter and reverse source filter determine which rows are synchronized.</p>
+<h3 id="default-values">Default values</h3>
+<p>If a synchronized field does not exist in either the Finance and Operations table or the other Dynamics 365 table, then a default value is assigned in the synchronized table. In some cases, the default value is an integer that is a lookup to an attribute value in the Common Data Model. For example, in the Contacts table of the Common Data Model, the default value of <a href="customer-mapping.html#customers-v3-to-contacts"><strong>address1_addresstypecode</strong></a> is <strong>3</strong>. In the Common Data Model, for <a href="https://docs.microsoft.com/common-data-model/schema/core/applicationcommon/foundationcommon/contact#address1AddressTypeCode">address1AddressTypeCode</a> the value of <strong>3</strong> is <strong>Primary address</strong>.</p>
+<h2 id="item-sales-tax-group-to-msdyn_taxitemgroups">Item sales tax group to msdyn_taxitemgroups</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAXITEMGROUP</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-tax-authorities-to-msdyn_taxauthorities">Sales tax authorities to msdyn_taxauthorities</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAXAUTHORITYCODE</td>
+<td>=</td>
+<td>msdyn_taxauthoritycode</td>
+<td></td>
+</tr>
+<tr>
+<td>TAXAUTHORITYIDENTIFICATION</td>
+<td>=</td>
+<td>msdyn_taxauthorityidentificator</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>REPORTLAYOUT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_taxreportlayout</td>
+<td></td>
+</tr>
+<tr>
+<td>ROUNDOFFTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_roundofftype</td>
+<td></td>
+</tr>
+<tr>
+<td>ROUNDOFF</td>
+<td>=</td>
+<td>msdyn_roundoff</td>
+<td></td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td>=</td>
+<td>msdyn_email</td>
+<td></td>
+</tr>
+<tr>
+<td>PHONE</td>
+<td>=</td>
+<td>msdyn_phone</td>
+<td></td>
+</tr>
+<tr>
+<td>URL</td>
+<td>=</td>
+<td>msdyn_url</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-tax-exempt-code-entity-cds-to-msdyn_taxexemptcodes">Sales tax exempt code entity CDS to msdyn_taxexemptcodes</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-tax-groups-to-msdyn_taxgroups">Sales tax groups to msdyn_taxgroups</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAXGROUPCODE</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sales-tax-ledger-posting-groups-v2-to-msdyn_taxpostinggroups">Sales tax ledger posting groups V2 to msdyn_taxpostinggroups</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAXPOSTINGGROUPCODE</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="withholding-tax-codes-to-msdyn_withholdingtaxcodes">Withholding tax codes to msdyn_withholdingtaxcodes</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WITHHOLDINGCODE</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>WITHHOLDINGTAXNAME</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>WITHHOLDINGTAXROUNDOFF</td>
+<td>=</td>
+<td>msdyn_roundoff</td>
+<td></td>
+</tr>
+<tr>
+<td>WITHHOLDINGTAXROUNDOFFTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_roundofftype</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODEID</td>
+<td>=</td>
+<td>msdyn_currency.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>WITHHOLDINGTAXBASE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_taxableamountorigin</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="withholding-tax-groups-to-msdyn_withholdingtaxgroups">Withholding tax groups to msdyn_withholdingtaxgroups</h2>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WITHHOLDINGTAXGROUPCODE</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/tax-mapping.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Debitorenr&#252;ckverg&#252;tungen generieren und verarbeiten | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Debitorenr&#252;ckverg&#252;tungen generieren und verarbeiten | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="generate-and-process-customer-rebates">Debitorenrückvergütungen generieren und verarbeiten</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Diese Verfahren zeigt, wie von Debitorenrückvergütungen aus der Anspruchsgenerierung so weit des Übergebens sie als Abgrenzungen zu Debitoren verarbeitet. Sie läuft Sie durch ein besonderes Beispiel seitens, um zu erläutern, wie die verschiedenen Bedingungen auf den Rückvergütungspositionen die Endbetrag auswirken, die den Debitor gutgeschrieben werden. Sie müssen das USMF-Demodatunternehmen verwenden und führen die folgenden Aufgaben von, bevor Sie Handbuch starten: (1) Für die der Debitorenparameterseite und erweitern die Registerkarte Preise und dann die Preisdetailregisterkarte und prüfen, ob die aktivierens-Preisdetailoption auf &quot;Ja&quot; festgelegt ist. (2) Die Seite &quot;Rückvergütungsvereinbarungen&quot; aufrufen und die Debitorenrückvergütungsvereinbarung auswählen: USMF-000001. Wenn das Workflowgenehmigungsstatusfeld nicht zu genehmigtem festgelegt wird, benötigen Sie auf Prüfung im Aktivitätsbereich, um ihn zu genehmigen.</p>
+<h2 id="review-a-customer-rebate-agreement">Erstellen einer Debitorennachlassvereinbarung</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Navigationsbereich &gt; Module &gt; Vertrieb und Marketing &gt; Debitorenrückvergütungen &gt; Rückvergütungsvereinbarungen</strong>.
+<ul>
+<li>Die nächsten Schritte berücksichtigen die Bedingungen der Vereinbarung USMF-000001. Dies vereinfacht die, zu veranschaulichen, wie die Debitorenkreditwerte später in der Prozedur berechnet werden.</li>
+<li>Die Vereinbarung gilt für einen einzelnen Debitor, in diesem Beispielsdebitor US-009.</li>
+<li>Der Debitor Nachlässe von gegeben, wenn Sie ein bestimmtes Produkt erwerben. In diesem Fall hat das Produkt Artikelnummer T0020.</li>
+<li>Das Verkaufsleistung des Debitors, für das die Rückvergütung ist, werden vorkalkuliert, wöchentlich kumuliert werden sollen.</li>
+<li>Die Einstellungen für den Ursprung des Preises ist „Brutto“, was bedeutet, dass der Umsatzbetrag der Position, auf dessen Grundlage der Anspruch vorkalkuliert wird, nicht durch den Positionsrabatt verringert wird.</li>
+<li>Das Rückvergütungszeilenumbruch-Typfeld zeigt die Methode zum Berechnen von Nachlässen. In diesem Fall für die die Umsatzvorgabe für Nachlässe bewertet werden sollen, wird der Menge festgelegt.</li>
+<li>Die Positionen der Vereinbarung geben den Nachlassbetrag Typ, den tatsächlichen Nachlasswert und die Schwellenwerte. In diesem Beispiel gemäß Abschnitt der Debitor für eine Rückvergütung von EUR 20 pro die verkaufte Einheit, wenn deren wöchentlichen Einkäufe des Produkts innerhalb von 1 bis 50 Einheiten fallen; und einen Rabatt von 40 EUR pro verkaufte Einheit, wenn sie über 50 Einheiten kaufen.</li>
+</ul>
+</li>
+<li>Schließen Sie die Seite.</li>
+</ol>
+<h2 id="generate-rebate-claims">Kreditorenrückvergütungsansprüche erstellen</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Navigationsbereich &gt; Module &gt; Vertrieb und Marketing &gt; Aufträge &gt; Alle Aufträge</strong>.</li>
+<li>Klicken Sie auf <strong>Neu</strong>. Um die Methode zu imitieren in der Nachlass nicht eingefordert würde, die nächste Aufgabe ist einen Auftrag zu erstellen generiert, in dem das Produkt und die Menge den Debitor qualifiziert werden, der für eine Rückvergütung betreffende ist.</li>
+<li>Geben Sie im Feld <strong>Debitorenkonto</strong> einen Wert ein oder wählen Sie einen Wert aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Geben Sie im Feld <strong>Artikelnummer</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Legen Sie <strong>Menge</strong> auf „40“ fest.</li>
+<li>Unter dem Abschnitt <strong>Auftragspositionen</strong> klicken Sie auf die <strong>Auftragspositionszeile</strong>.</li>
+<li>Klicken Sie auf <strong>Preisdetails</strong>. Wenn Sie diese Option nicht angezeigt wird, kann sie, da die Option <strong>Preisdetails aktivieren</strong> nicht auf „Ja“ festlegen, bevor Sie Handbuch diese Nummer.</li>
+<li>Erweitern Sie den Abschnitt <strong>Rückvergütungen</strong>. Die Registerkarte <strong>Rückvergütungen</strong> listet alle Rückvergütungsvereinbarungen auf, die für die aktuelle Auftragsposition gültig sind und zeigt den vorkalkulierten Rückvergütungbetrag. Beachten Sie, dass die angezeigten Beträge nur Angabe sind dazu, was zukünftige Rückvergütungsansprüche möglicherweise sind. Die tatsächlichen Rückvergütungsbeträge können abhängig von abweichen: das Gesamtumsatzvolumen erzielt vom Debitor unter einer regelmäßigen Nachlassvereinbarung; ob der Debitor alle oder Teilmengen zurückgegeben wurde ein; und ob der entsprechende Auftrag fakturiert wurde.</li>
+<li>Schließen Sie die Seite.</li>
+<li>Klicken Sie auf <strong>Position hinzufügen</strong>.</li>
+<li>Geben Sie im Feld <strong>Artikelnummer</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Legen Sie <strong>Menge</strong> auf „60“ fest.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Klicken Sie im <strong>Aktivitätsbereich</strong> auf <strong>Rechnung</strong>.</li>
+<li>Klicken Sie auf <strong>Rechnung</strong>.</li>
+<li>Erweitern Sie den Abschnitt <strong>Parameter</strong>.</li>
+<li>Wählen Sie im Feld <strong>Menge</strong> die Option „Alle“ aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+<h2 id="process-rebate-claims">Nachlassansprüche verarbeiten</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Navigationsbereich &gt; Module &gt; Vertrieb und Marketing &gt; Debitorenrückvergütungen &gt; Rückvergütungen</strong>.
+<ul>
+<li>Die Rückvergütungsseite agiert ein Werktisch, in dem Sie prüfen, genehmigen und können Prozeßrückvergütungsansprüche. Verarbeiten Sie nun die Ansprüche, die bei der Fakturierung eines Auftrags für Debitor US-009 erstellt wurden, der der Betreff der Rückvergütungsvereinbarung USMF-000001 ist.</li>
+<li>Die erste Zeile stellt einen Rückvergütungsanspruch für 800 EUR, der auf dem Verkauf von 40 Einheiten des Produkts T0020 ist, berechnet bei 20 EUR pro Einheit dar. Dieses entspricht die Bedingungen der ersten Mengenpause in der Nachlassvereinbarung ab.</li>
+<li>Der zweite Anspruch liegt bei 2.400 EUR, der auf dem Verkauf von 60 Einheiten des Produkts T0020 ist, berechnet bei 40 EUR pro Einheit, aufgrund der zweiten Mengenpause in der Vereinbarung.</li>
+<li>Beide Ansprüche sind im Status „Zu berechnen“. Das bedeutet, dass sie mit einer Vereinbarung zugeordnet sind, die das Verkaufsleistung des Debitors auf Basis regelmäßiger verfolgt und dass sie neu berechnet werden müssen, um das Gesamtumsatzvolumen innerhalb der betreffenden Periode abzulegen.</li>
+</ul>
+</li>
+<li>Klicken Sie auf <strong>Kumulieren</strong>.</li>
+<li>Geben Sie im Feld <strong>Debitor</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Das <strong>Startdatum</strong> darf nicht vor dem heutigen Datum liegen.</li>
+<li>Klicken Sie auf <strong>OK</strong>. Infolge der Ausführung im Funktion <strong>Kumulieren</strong>, ist der vorkalkulierte Anspruchsbetrag nun reguliert wurden, um die Verwendung zu erläutern, dass das Gesamtumsatzvolumen des Debitors in die zutreffende Periode höher als ist, als erste Nachlass generiert wurde. Im bestimmten Fertigartikel da die Summe eingekaufte Menge 100 Einheiten erreicht hat, gemäß Abschnitt der Debitor nun für 40 EUR pro Einheit (gemäß der zweiten Mengenpause der Vereinbarung) oder 400 EUR des gesamten Rückvergütungsbetrags. Die Differenz wird als neuer Anspruch &quot;Regulierung&quot; für die zusätzlichen 800 EUR erfasst. Der Status der Rückvergütungsansprüche, die in im Aktualisierung einbezogen waren, werden jetzt zu berechnetem festgelegt.</li>
+<li>Schalten Sie in der Liste 'Alle Zeilen markieren' ein/aus.</li>
+<li>Klicken Sie auf <strong>Genehmigen</strong>.</li>
+<li>Klicken Sie auf <strong>Verarbeiten</strong>.</li>
+<li>Geben Sie im Feld <strong>Debitor</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>. Eine Meldung zeigt an, dass die Rückvergütung erfolgreich verarbeitet wurde, und der Status der Ansprüche wurde geändert, um zu markieren. Das bedeutet, dass als Ergebnis einer Rückvergütung eine Abgrenzungserfassung gebucht wird:
+<ul>
+<li>Die Ansprüche wurden jetzt als Abzug zum temporären Debitorensaldo übertragen.</li>
+<li>Die Rückvergütungs-Abgrenzungserfassung wurde gutgeschrieben, um die zukünftigen Verbindlichkeiten für den Debitor darzustellen.</li>
+<li>Das ist Rückvergütungsausgabenkonto wurde belastet, um die Kosten darzustellen, die in Verbindung mit dem Verkauf angefallen sind.</li>
+</ul>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

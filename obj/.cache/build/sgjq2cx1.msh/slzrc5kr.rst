@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot master planning | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot master planning | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshoot-master-planning" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="31">Troubleshoot master planning</h1>
+
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="33">This topic describes how to fix issues that you might encounter while you work with master planning.</p>
+<h2 id="bill-of-materials-explosion-behaves-differently-for-firmed-production-orders-and-for-estimated-production-orders-for-manually-created-work" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="35">Bill of materials explosion behaves differently for firmed production orders and for estimated production orders for manually created work.</h2>
+<h3 id="issue-description" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="37">Issue description</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="39">When a production order is firmed, the items aren't exploded when you explode the bill of materials (BOM). However, when you manually create a work order and then estimate the production order, the items are exploded.</p>
+<h3 id="issue-resolution" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="41">Issue resolution</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="43">The system is working as expected. The explosion that occurs when the production order is firmed will point to the planned order, but it doesn't appear that the planned order is currently firmed in this case. However, if the production order has been estimated, the explosion is triggered from the released production order where no planned order exists.</p>
+<h2 id="the-delay-value-isnt-updated-when-i-reschedule-a-planned-order" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="45">The Delay value isn't updated when I reschedule a planned order.</h2>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="47">To update the delay for planned orders, open the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="47">Rescheduling</strong> dialog box for the planned order. On the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="47">Explosion</strong> FastTab, make sure that the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="47">Perform explosion after rescheduling</strong> option is set to <em sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="47">Yes</em>.</p>
+<h2 id="production-scheduling-doesnt-consider-the-safety-margins-that-are-set-on-the-item-coverage-for-pegged-supply" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="49">Production scheduling doesn't consider the safety margins that are set on the item coverage for pegged supply.</h2>
+<h3 id="issue-description-1" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="51">Issue description</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="53">Master planning considers the safety margins. However, the safety margins are ignored when planned production orders are scheduled.</p>
+<h3 id="issue-resolution-1" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="55">Issue resolution</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="57">Margins are considered only during master planning, not during manual scheduling. Margins are designed to act as a buffer during the planning phase, to give some &quot;margin&quot; for the actual process.</p>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="59">To get the desired result, you can remove the margin. The route must then be updated so that it includes the desired time (for example, as queue time). Both master planning and manual scheduling should then produce the same result.</p>
+<h2 id="planned-orders-are-generated-even-though-we-have-items-in-stock-and-production-orders-already-exist-for-them" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="61">Planned orders are generated even though we have items in stock and production orders already exist for them.</h2>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="63">You might be able to fix this issue by increasing the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="63">Positive days</strong> value for the relevant groups on the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="63">Coverage group</strong> page. This change will cause the system to determine whether on-hand inventory can be used for the demand. Then a new planned order won't be generated for the items that are in stock.</p>
+<h2 id="master-planning-doesnt-seem-to-respect-capacity-limitations-and-is-scheduling-more-than-the-available-capacity" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="65">Master planning doesn't seem to respect capacity limitations and is scheduling more than the available capacity.</h2>
+<h3 id="issue-description-2" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="67">Issue description</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="69">When you use operation scheduling where there is finite capacity, and where the route specifies a mix of requirements for both a resource group and individual resources, there is a small chance of overbooking because of the way that the algorithm validates for capacity conflicts. This overbooking can occur when you use helpers to run master planning. It's most likely to occur if there are many jobs that have a relatively short runtime.</p>
+<h3 id="issue-resolution-2" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="71">Issue resolution</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="73">If it's essential that no overbooking occur for operation scheduling, you can make the scheduling part of master planning single-threaded by turning on the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="73">Accurate finite capacity for Operation Scheduling</strong> option on the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="73">Master planning parameters</strong> page. This option isn't available by default. You must manually add it to the page by using personalization features. When you use this option, scheduling will run more slowly because of the lack of parallel processing.</p>
+<h2 id="planned-orders-take-a-long-time-to-update" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="75">Planned orders take a long time to update.</h2>
+<h3 id="issue-description-3" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="77">Issue description</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="79">When updating the requirement quantity and/or delivery date on a planned order, it typically takes at least 30 seconds per order to save the update.</p>
+<h3 id="issue-resolution-3" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="81">Issue resolution</h3>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="83">This is a known issue with the built-in master planning engine. It is caused by the underlying auto explosion through the BOM structure during edits. This issue is addressed in Planning Optimization, where a planner can update and approve the relevant orders and, when desired, trigger a planning run to update planned orders for the underlying BOM structure.</p>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="85">One way to improve performance with the built-in master planning engine is to do the following:</p>
+<ol sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="87">
+<li sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="87">Go to <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="87">Master planning &gt; Setup &gt; Plans &gt; Master plans</strong>.</li>
+<li sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="88">Select a plan.</li>
+<li sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="89">Expand the <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="89">Time fence in days</strong> FastTab.</li>
+<li sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="90">Set <strong sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="90">Explosion</strong> to <em sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="90">Yes</em>, and set the field below this setting to 0 (zero).</li>
+</ol>
+<div class="NOTE" sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="92">
+<h5>Note</h5>
+<p sourcefile="articles/supply-chain/master-planning/troubleshoot-masterplanning.md" sourcestartlinenumber="93">This will limit the period for explosions performed for this master plan to a single day.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

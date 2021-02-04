@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Konsistenzpr&#252;fung f&#252;r Einzelhandelstransaktionen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Konsistenzpr&#252;fung f&#252;r Einzelhandelstransaktionen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema werden die Funktionen der Konsistenzpr&#252;fung f&#252;r Transaktionen in Dynamics 365 Commerce beschrieben.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="retail-transaction-consistency-checker">Konsistenzprüfung für Einzelhandelstransaktionen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema werden die Funktionen der Konsistenzprüfung für Transaktionen in Microsoft Dynamics 365 Commerce beschrieben. Die Konsistenzprüfung ermittelt und isoliert inkonsistente Transaktionen, bevor sie im Aufstellungsbuchungsprozess verarbeitet werden.</p>
+<p>Wird eine Aufstellung gebucht, kann die Buchung aufgrund der inkonsistenten Daten in den Handelstransaktionstabellen fehlschlagen. Die Datenfehler können durch unvorhergesehene Probleme in der Verkaufsstellenanwendung oder durch Fehler beim Importieren von Buchungen aus POS-Systemen von Drittanbietern auftreten. Im Folgenden sind Beispiele für diese Inkonsistenzen aufgeführt:</p>
+<ul>
+<li>Der Transaktionsgesamtbetrag in der Kopftabelle entspricht nicht dem Transaktionsgesamtbetrag der Positionen.</li>
+<li>Die Positionsanzahl in der Kopftabelle entspricht nicht der Anzahl von Positionen in der Transaktionstabelle.</li>
+<li>Die Steuern in der Kopftabelle stimmen nicht mit dem Steuerbetrag in den Positionen überein.</li>
+</ul>
+<p>Wenn inkonsistente Transaktionen durch den Aufstellungsbuchungsprozess verarbeitet werden, werden inkonsistente Verkaufsrechnungen und Zahlungserfassungen erstellt, und der gesamte Aufstellungsbuchungsprozess schlägt anschließend fehl. Das Wiederherstellen der Aufstellungen aus einem solchen Zustand umfasst komplexe Datenkorrekturen in mehreren Transaktionstabellen. Die Konsistenzprüfung für Transaktionen verhindert solche Probleme.</p>
+<p>Das folgende Diagramm veranschaulicht den Buchungsprozess mit Transaktionskonsistenzprüfung.</p>
+<p><img src="media/validchecker.png" alt="Aufstellungsbuchungsprozess mit der Transaktionskonsistenzprüfung" title="Aufstellungsbuchungsprozess mit der Konsistenzprüfung für Einzelhandelstransaktionen"></p>
+<p>Der Stapelverarbeitungsvorgang <strong>Geschäftsbuchungen überprüfen</strong> prüft die Konsistenz der Handelstransaktionstabellen in folgenden Szenarien.</p>
+<ul>
+<li><strong>Debitorenkonto</strong> – Überprüft, dass das Debitorenkonto in den Transaktionstabellen in den HQ-Debitorenmasterdaten vorhanden ist.</li>
+<li><strong>Positionsanzahl</strong> – Prüft, ob die Positionsanzahl, wie in der Tabelle in der Transaktionskopfzeile angegeben, mit der Anzahl der Positionen in den Verkaufstransaktionstabellen übereinstimmt.</li>
+<li><strong>Preis enthält Steuer</strong> prüft, ob der Parameter <strong>Preis enthält Steuer</strong> in den Buchungspositionen konsistent ist und ob der Preis aus der Auftragsposition der Konfiguration für Steuern und Steuerbefreiungen entspricht.</li>
+<li><strong>Zahlungsbetrag</strong> prüft, ob die Zahlungsdatensätze dem Zahlungsbetrag in der Kopfzeile entsprechen. Auch die Konfiguration zur Centrundung im Hauptbuch wird hierbei berücksichtigt.</li>
+<li><strong>Bruttobetrag</strong> prüft, ob der Bruttobetrag in der Kopfzeile der Summe der Nettobeträge aus den Positionen zuzüglich der Steuern entspricht. Auch die Konfiguration zur Centrundung im Hauptbuch wird hierbei berücksichtigt.</li>
+<li><strong>Nettobetrag</strong> prüft, ob der Nettobetrag in der Kopfzeile der Summe der Nettobeträge aus den Positionen entspricht. Auch die Konfiguration zur Centrundung im Hauptbuch wird hierbei berücksichtigt.</li>
+<li><strong>Unter-/Überzahlung</strong> prüft, ob die Differenz zwischen dem Bruttobetrag in der Kopfzeile und dem Zahlungsbetrag nicht die maximale Unter- bzw. Überzahlungskonfiguration übersteigt. Auch die Konfiguration zur Centrundung im Hauptbuch wird hierbei berücksichtigt.</li>
+<li><strong>Rabattbetrag</strong> prüft, ob der Rabattbetrag in den Rabatttabellen und der Rabattbetrag in den Tabellen mit den Buchungspositionen konsistent ist, und ob der Rabattbetrag in der Kopfzeile der Summe der Rabattbeträge aus den Positionen entspricht. Auch die Konfiguration zur Centrundung im Hauptbuch wird hierbei berücksichtigt.</li>
+<li><strong>Positionsrabatt</strong> prüft, ob der Positionsrabatt der Buchungsposition der Summe aller Positionen in der Rabatttabelle entspricht, die sich auf die Buchungsposition bezieht.</li>
+<li><strong>Geschenkkartenartikel</strong> – Commerce unterstützt keine Rückgabe von Geschenkkartenartikeln. Allerdings kann der Wert einer Geschenkkarte bar ausgezahlt werden. Bei allen Geschenkkartenartikeln, die anstelle einer Barauszahlungsposition als Rückgabeposition verarbeitet werden, schlägt der Aufstellungsbuchungsprozess fehl. Bei der Validierung von Geschenkkartenartikeln wird sichergestellt, dass die einzigen Rückgabepositionsartikel der Geschenkkarte in den Transaktionstabellen Barauszahlungspositionen sind.</li>
+<li><strong>Negativer Preis</strong> – Überprüft, dass es keine Transaktionspositionen mit negativen Preisen gibt.</li>
+<li><strong>Artikel und Variante</strong>: Prüft, ob Artikel und Varianten aus den Transaktionspositionen in der Masterdatei mit Artikeln und Varianten vorhanden sind.</li>
+<li><strong>Steuerbetrag</strong>: Prüft, ob die Steuerdatensätze den Steuerbeträgen in den Positionen entsprechen.</li>
+<li><strong>Seriennummer</strong> - Überprüft, ob die Seriennummer in den Transaktionspositionen für Artikel vorhanden ist, die über die Seriennummer gesteuert werden.</li>
+<li><strong>Vorzeichen</strong> - Überprüft, ob die Vorzeichen für die Menge und den Nettobetrag in allen Transaktionspositionen gleich sind.</li>
+<li><strong>Geschäftsdatum</strong> prüft, ob die Finanzperioden bei allen Geschäftsdaten der Buchungen offen sind.</li>
+<li><strong>Belastungen</strong> prüft, ob der Betrag in Kopfzeile und Position dem Preis entspricht. Hierbei wird auch die Konfiguration für Steuern und Steuerbefreiungen berücksichtigt.</li>
+</ul>
+<h2 id="set-up-the-consistency-checker">Konsistenzprüfung einrichten</h2>
+<p>Konfigurieren Sie unter <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung</strong> den Stapelverarbeitungsvorgang „Geschäftsbuchungen überprüfen“ so, dass er regelmäßig ausgeführt wird. Der Batchauftrag kann basierend auf der Shoporganisationshierarchie in ähnlicher Weise wie die Funktionen zum Berechnen und Buchen im Stapel geplant werden. Es wird empfohlen, diesen Batchauftrag so zu konfigurieren, dass mehrmals am Tag ausgeführt wird, und ihn so zu planen, dass er am Ende jeder P-Auftragsausführung ausgeführt wird.</p>
+<h2 id="results-of-validation-process">Ergebnisse des Überprüfungsprozesses</h2>
+<p>Die Ergebnisse der Überprüfung durch den Stapelverarbeitungsvorgang werden in der entsprechenden Handelstransaktion markiert. Das Feld <strong>Überprüfungsstatus</strong> im Transaktionsdatensatz wird entweder auf <strong>Erfolgreich</strong> oder <strong>Fehler</strong> festgelegt und das Datum der letzten Prüfungsausführung wird im Feld <strong>Uhrzeit der letzten Überprüfung</strong> angezeigt.</p>
+<p>Um eine ausführlichere Fehlerbeschreibung in Bezug auf einen Validierungsfehler zu erhalten, wählen Sie den entsprechenden Shoptransaktionsdatensatz aus und klicken auf die Schaltfläche <strong>Überprüfungsfehler</strong>.</p>
+<p>Transaktionen mit Überprüfungsfehlern und noch nicht validierte Transaktionen werden nicht in Aufstellungen einbezogen. Während des Prozesses „Auszug berechnen“ werden Benutzer darüber informiert, wenn Transaktionen vorliegen, die in die Aufstellung aufgenommen hätten werden können, wo dies jedoch nicht der Fall war.</p>
+<p>Wenn ein Überprüfungsfehler gefunden wird, können Sie ihn nur beheben, indem Sie sich an den Microsoft Support wenden. In einer zukünftigen Version werden Funktionen hinzugefügt, mit denen Benutzer die Fehler, die in der Benutzeroberfläche erfolgten, in den Datensätzen selbst beheben können. Es werden außerdem Protokollierungs- und Überwachungsfunktionen zur Nachverfolgung des Änderungsverlaufs bereitgestellt.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In zukünftigen Versionen werden zudem zusätzliche Validierungsregeln zur Unterstützung weiterer Szenarien hinzugefügt.</p>
+</div>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/valid-checker.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

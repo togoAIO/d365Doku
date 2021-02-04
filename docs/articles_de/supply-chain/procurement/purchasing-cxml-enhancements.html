@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einkaufen von cXML-Erweiterungen | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einkaufen von cXML-Erweiterungen | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="purchasing-cxml-enhancements">Einkaufen von cXML-Erweiterungen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Die Funktion <em>Einkaufen von cXML-Erweiterungen</em> baut auf der <a href="set-up-external-catalog-for-punchout.html">vorhandenen externen Katalogfunktion PunchOut auf</a>, die für Bestellanforderungen verwendet wird. Diese vorhandene Funktionalität ist bekannt als <em>PunchOut</em>. Obwohl eine Bestellung nicht aus einer Bestellanforderung stammen muss, muss eine Verbindung zwischen dem Lieferanten auf einer Bestellung und den Parametern bestehen, die zum Senden des Bestelldokuments verwendet werden.</p>
+<h2 id="turn-on-the-purchasing-cxml-enhancements-feature">Aktivieren Sie die Funktion „Einkaufen von cXML-Erweiterungen“</h2>
+<p>Öffnen Sie zum Aktivieren der Funktion die <strong><a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a></strong>-Seite und suchen Sie nach der Funktion namens <em>Einkaufen von cXML-Erweiterungen</em>. Wählen Sie die Funktion aus, und wählen Sie dann <strong>Jetzt Aktivieren</strong> aus, um sie zu aktivieren.</p>
+<p>Nachdem Sie die Funktion aktiviert haben, sollten Sie die Einstellungen in den folgenden drei Bereichen konfigurieren:</p>
+<ul>
+<li><strong><a href="#cxml-parameters">cXML-Parameter</a></strong> – Verwenden Sie diese Einstellungen, um einige globale Parameter für die Funktionalität zum Senden von Bestellungen einzurichten.</li>
+<li><strong><a href="#vendor-setup">Lieferanteneinstellungen</a></strong> – Wenn standardmäßig „Commerce eXtensible Markup Language (cXML)“ für alle neuen Bestellungen verwendet werden soll, die für einen beliebigen Lieferanten erstellt wurden, legen Sie die Option <strong>Bestellung per cXML senden</strong> für diesen Lieferanten auf <em>Ja</em> fest.</li>
+<li><strong><a href="#external-catalog-setup">Externe Kataloge</a></strong> – Verwenden Sie die neue <strong>Bestelleigenschaften</strong>-Einstellungen, um das Format des Bestelldokuments und dessen Versand zu definieren.</li>
+</ul>
+<p>Die folgende Abbildung fasst diese Konfiguration zusammen.</p>
+<p><img src="media/cxml-settings-areas.png" alt="Bereiche zum Einrichten von cXML-Funktionen" title="Bereiche zum Einrichten von cXML-Funktionen"></p>
+<p>Außerdem müssen Sie <a href="#po-batch">Batch-Auftrag für Bestellanforderungen</a> einrichten. Dieser Batch-Auftrag wird verwendet, um die bestätigten Bestellungen zu senden.</p>
+<h2 id="set-up-global-cxml-parameters"><a name="cxml-parameters"></a>Einrichten globaler cXML-Parameter</h2>
+<p>Verwenden Sie die Seite <strong>cXML-Parameter</strong>, um einige globale Einstellungen vorzunehmen, die für die Funktionalität zum Senden von Bestellungen gelten.</p>
+<p><img src="media/cxml-parameters.png" alt="cXML-Parameterseite" title="cXML-Parameterseite"></p>
+<p>Gehen Sie zu <strong>Beschaffung &gt; Konfiguration &gt; cXML-Verwaltung &gt; cXML-Parameter</strong> und stellen Sie die folgenden Parameter ein:</p>
+<ul>
+<li><p><strong>cXML-Testmodus</strong> – Dieser globale Parameter wirkt sich auf die Art und Weise aus, wie Bestellungen physisch vom Batch-Auftrag gesendet werden. Wählen Sie einen der folgenden Werte aus:</p>
+<ul>
+<li><strong>Test</strong> – In diesem Modus kann der Batch-Auftrag ausgeführt werden und das XML-Dokument für die Nachricht wird generiert, aber nicht gesendet. Stattdessen wird es zu Überprüfungszwecken in der Bestellanforderung gespeichert. Dieser Modus ist hilfreich, wenn Sie sich in einer ersten Implementierung befinden und sehen möchten, wie Daten in die cXML-Nachricht eingegeben werden. Möglicherweise möchten Sie auch Beispielnachrichten generieren, die Sie zur Erstvalidierung an Lieferanten senden können.</li>
+<li><strong>Live</strong> – In diesem Modus verwendet die Funktion die <a href="#external-catalog-setup">externen Katalogeinstellungen</a>, um jedes Dokument physisch an den Lieferanten zu übertragen.</li>
+</ul>
+</li>
+<li><p><strong>Aktualisierungen der Kaufanforderung senden</strong> – Legen Sie diese Option auf <em>Ja</em> fest, um eine Aktualisierungsnachricht für Bestellungen zu senden. Legen Sie sie auf <em>Nein</em> fest, um zu verhindern, dass die Nachricht gesendet wird. Die meisten Lieferanten ziehen es vor, keine Aktualisierungsnachrichten zu erhalten. Stattdessen müssen Kunden sie per Telefon oder E-Mail kontaktieren, wenn eine Bestellung geändert werden soll. Dieser Parameter ist ein globaler Parameter, und im externen Katalog kann keine Überschreibung für jeden Lieferanten angegeben werden. Eine Bestellung wird als aktualisiert markiert, wenn Sie eine zweite Bestätigung auf einer Bestellung buchen, die erste Bestätigung jedoch bereits vom Lieferanten gesendet und bestätigt wurde. Wenn eine zweite Bestätigung vorliegt, die erste jedoch nicht gesendet wurde, wird die zweite Bestätigung als neues Dokument behandelt. Sie können eine Bestellung so oft bestätigen, wie Sie möchten, bis eine Bestätigung gesendet wird. Die nächste Bestätigung wird dann als Aktualisierungsnachricht behandelt.</p>
+</li>
+<li><p><strong>Löschung der Kaufanforderung senden</strong> – Legen Sie diese Option auf <em>Ja</em> fest, um eine Löschungsnachricht für Bestellungen zu senden. Legen Sie sie auf <em>Nein</em> fest, um zu verhindern, dass die Nachricht gesendet wird. Die meisten Lieferanten ziehen es vor, keine Löschungsnachrichten zu erhalten. Stattdessen müssen Kunden sie per Telefon oder E-Mail kontaktieren, wenn eine Bestellung versehentlich gesendet wurde. Dieser Parameter ist ein globaler Parameter, und im externen Katalog kann keine Überschreibung für jeden Lieferanten angegeben werden. Eine Bestellung wird als gelöscht markiert, wenn Sie die Bestellung im Supply Chain Management stornieren.</p>
+</li>
+<li><p><strong>Archivdatei</strong> – Geben Sie den Dateipfad an, in den Sie archivierte cXML-Dokumente exportieren und speichern möchten. Der Pfad wird verwendet, wenn Sie die Bereinigungsfunktion der <strong>Bestellanforderung</strong>-Seite ausführen.</p>
+</li>
+<li><p><strong>Maximale Zeichen für die Straßenzeile</strong> – Geben Sie die maximale Anzahl von Zeichen ein, die im Straßenfeld für Adressen im cXML-Dokument verwendet werden können. Dieser globale Parameter wirkt sich auf alle Lieferanten aus, sofern in den Eigenschaften des externen Katalogs keine Überschreibung angegeben ist.</p>
+</li>
+</ul>
+<h2 id="set-up-vendor-purchase-orders-to-use-cxml"><a name="vendor-setup"></a>Richten Sie Lieferantenbestellungen für die Verwendung von cXML ein</h2>
+<p>Jedes Mal, wenn Sie eine Bestellung bestätigen, bei der die <strong>Bestellung per cXML senden</strong>-Option ist auf <em>Ja</em> festgelegt ist, generiert das System die cXML-Nachricht automatisch und stellt sie dem Lieferanten zu, der dieser Bestellung zugeordnet ist. Es gibt zwei Möglichkeiten, diese Option für Ihre Bestellungen zu steuern:</p>
+<ul>
+<li>Um einen Lieferanten so einzurichten, dass er automatisch cXML für alle neuen Bestellungen verwendet, die aus einer Bestellanforderung erstellt werden, gehen Sie zu <strong>Beschaffung &gt; Lieferanten &gt; Alle Lieferanten</strong> und wählen sie einen aus oder erstellen Sie einen Lieferanten, um dessen Detailseite zu öffnen. Legen Sie dann auf dem Inforegister <strong>Standardwerte für Bestellungen</strong> die <strong>Bestellung per cXML senden</strong>-Option auf <em>Ja</em> fest. Wenn cXML auch automatisch für neue Bestellungen verwendet werden soll, die <strong>nicht</strong> aus einer Bestellanforderung erstellt wurden, müssen Sie auch die <strong>ENABLEMANUALPO</strong>-Bestelleigenschaft für den zugehörigen externen Katalog auf <em>Wahr</em> festlegen, wie im <a href="#set-order-properties">Auftragseigenschaften festlegen</a>-Abschnitt weiter unten in diesem Thema beschrieben.</li>
+<li>Für einzelne Bestellungen gehen Sie zu <strong>Beschaffung &gt; Bestellungen &gt;Alle Bestellungen</strong> und wählen Sie eine Bestellung aus oder erstellen Sie eine, um die Detailseite zu öffnen. Wechseln Sie zur <strong>Kopfzeile</strong>-Ansicht und legen Sie dann auf dem Inforegister <strong>Einrichtung</strong> die <strong>Bestellung per cXML senden</strong>-Option nach Bedarf fest.</li>
+</ul>
+<p><img src="media/cxml-order-defaults.png" alt="Standardeinstellungen für Lieferantenbestellungen" title="Standardeinstellungen für Lieferantenbestellungen"></p>
+<h2 id="set-up-an-external-catalog-to-use-cxml"><a name="external-catalog-setup"></a>Einrichten eines externen Katalogs zur Verwendung von cXML</h2>
+<p>Auf der <strong>Externe Kataloge</strong> Seite können Sie für jeden Ihrer Kataloge die PunchOut-Funktionalität und die Funktionalität zum Senden von Bestellungen einrichten. Um die relevanten Einstellungen zu finden, gehen Sie zu <strong>Beschaffung &gt; Kataloge &gt; Externe Kataloge</strong>. Beginnen Sie mit dem <a href="set-up-external-catalog-for-punchout.html">Einrichten jedes Katalogs wie gewohnt</a>. Dieser Prozess umfasst das Zuweisen eines Lieferanten, das Auswählen der Kategorien, die der Lieferant liefern darf, und das Aktivieren des Katalogs. Konfigurieren Sie dann die zusätzlichen Einstellungen, die in diesem Abschnitt beschrieben werden.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie eine Bestellung bestätigen, die über cXML gesendet werden kann, sucht das System den Lieferanten, der der Bestellung zugeordnet ist, und findet dann den ersten aktiven externen Katalog, der diesem Lieferanten zugeordnet ist. Das System verwendet dann die Einstellungen aus diesem externen Katalog, um die Bestellung zu senden. Wenn mehrere externe Kataloge eingerichtet sind, verwendet das System nur den ersten externen Katalog, den es findet, basierend auf dem Lieferanten in der Bestellung. Daher empfehlen wir, dass Sie für jeden Lieferanten nur einen externen Katalog erstellen.</p>
+</div>
+<p><img src="media/cxml-supplier-catalog.png" alt="Einstellungen für externe Kataloge" title="Einstellungen für externe Kataloge"></p>
+<h3 id="set-the-punchout-protocol-type">Legen Sie den PunchOut-Protokolltyp fest</h3>
+<p>Legen Sie auf dem Inforegister <strong>Allgemeines</strong> der <strong>Externe Kataloge</strong>-Seite das <strong>Punchout-Protokolltyp</strong>-Feld auf <em>cXML</em> fest. Diese Option ist die einzige verfügbare Option, es sei denn, ein Partner hat die Funktionalität erweitert und bietet eine zusätzliche Option in der Erweiterung.</p>
+<p>Wenn Sie auch den Katalog für PunchOut verwenden, müssen Sie auch <a href="set-up-external-catalog-for-punchout.html">das Nachrichtenformat einrichten</a>. Das Nachrichtenformat wird verwendet, um die Verbindung zum Lieferanten in der PunchOut-Transaktion aus der Anforderung herzustellen. Wenn eine Bestellung gesendet wird, werden die Bestellungseigenschaften verwendet, um die Verbindung mit einem Lieferanten herzustellen.</p>
+<h3 id="set-the-order-properties"><a name="set-order-properties"></a>Legen Sie die Eigenschaften fest</h3>
+<p>Die <em>Einkaufen von cXML-Erweiterungen</em>-Funktion fügt ein neues Inforegister <strong>Bestelleigenschaften</strong> für externe Kataloge hinzu. Dieses Inforegister bietet ein Raster, in dem Sie die Auftragseigenschaften definieren können. Es bietet auch eine Symbolleiste. Diese Symbolleiste enthält die folgenden drei Schaltflächen, mit denen Sie die Auftragseigenschaften verwalten können:</p>
+<ul>
+<li><strong>Standardeigenschaften</strong> – Wenn Sie einen neuen Katalog einrichten, wählen Sie diese Schaltfläche, um dem Raster eine vordefinierte Sammlung häufig verwendeter Eigenschaften hinzuzufügen.</li>
+<li><strong>Neu</strong> – Fügen Sie dem Raster eine neue Eigenschaft hinzu.</li>
+<li><strong>Löschen</strong> – Löschen Sie die aktuell ausgewählte Eigenschaft aus dem Raster. Wenn Sie versehentlich eine Standardeigenschaft löschen, wählen Sie <strong>Standardeigenschaften</strong>, um alle fehlenden Eigenschaften wiederherzustellen.</li>
+</ul>
+<p>Verwenden Sie jedes Mal, wenn Sie dem Raster eine oder mehrere Eigenschaften hinzufügen, die rechte Spalte, um jeweils einen Wert anzugeben.</p>
+<p>Verwenden Sie die Standardeigenschaften wie folgt:</p>
+<ul>
+<li><p><strong>BUYER_COOKIE</strong> – In diesem Verfolgungsfeld können Sie spezifische Informationen für Ihr Unternehmen angeben. Sofern Sie mit dem Verkäufer keine Vereinbarung über die Verwendung dieser Eigenschaft getroffen haben, hat dies beim Senden einer Bestellung keine große Bedeutung. Daher sollten Sie einen einfachen Wert festlegen.</p>
+</li>
+<li><p><strong>DELIVERTO</strong> – Wenn die Lieferadresse aus der Bestellung in das Dokument eingegeben wird, wird das <strong>Empfängerinformationen</strong>-Feld verwendet, um das <strong>DeliverTo</strong>-Feld in der XML-Nachricht festzulegen. Wenn Sie möchten, dass dieser Wert der Name einer anfordernden Person ist und Sie das Feld „Anfordernde Person“ im Bestellkopf festlegen, geben Sie den Wert <em>REQUESTER</em> für diese Eigenschaft ein, sodass der Name der anfordernden Person in das Feld <strong>DeliverTo</strong> in der XML eingegeben wird. In diesem Fall stammen die primäre E-Mail-Adresse und die Telefonnummer, die verwendet werden, von der anfordernden Person statt vom Besteller.</p>
+</li>
+<li><p><strong>DEPLOYMENTMODE</strong> – Legen Sie diese Eigenschaft gemäß den Anforderungen des Lieferanten fest. Die Werte sind normalerweise <em>PRODUCTION</em> oder <em>TEST</em>. Legen Sie den Wert basierend auf Ihrer Kommunikation mit dem Lieferanten fest. Normalerweise muss er mit dem beabsichtigten System hinter dem <strong>ORDERCHECKURL</strong>-Wert übereinstimmen, den der Lieferant als Test- oder Produktionssystem angibt.</p>
+</li>
+<li><p><strong>FIXEDBILLADDRESSID</strong> – Wenn das Feld <strong>addressID</strong> in der XML-Nachricht festgelegt ist, wird der in der Adresse angegebene Ort abgerufen. Wenn der ID-Wert, den Sie dem Lieferanten mitgeteilt haben, aus irgendeinem Grund vom Wert an der Adresse abweicht, können Sie eine Überschreibung erzwingen, indem Sie hier den Wert angeben. Es wird davon ausgegangen, dass Sie beim Lieferanten nur eine Adresse verwenden und dass die Adresse im System des Lieferanten eingerichtet ist. Die Rechnungsadresse ist die primäre Rechnungsadresse, die für die juristische Person im Supply Chain Management angegeben ist.</p>
+</li>
+<li><p><strong>FIXEDSHIPADDRESSID</strong> – Wenn das Feld <strong>addressID</strong> in der XML-Nachricht festgelegt ist, wird der in der Adresse angegebene Ort abgerufen. Wenn der ID-Wert, den Sie dem Lieferanten mitgeteilt haben, aus irgendeinem Grund vom Wert an der Adresse abweicht, können Sie eine Überschreibung erzwingen, indem Sie hier den Wert angeben. Es wird davon ausgegangen, dass Sie beim Lieferanten nur eine Adresse verwenden und dass die Adresse im System des Lieferanten eingerichtet ist. Die Lieferadresse ist die Adresse, die in der Kopfzeile der Bestellung angegeben ist. Die meisten Lieferanten akzeptieren nur Kopfzeilenadressen, keine Zeilenadressen. Obwohl es im XML Felder für Zeilenadressen gibt, werden diese auf die Kopfadresse festgelegt.</p>
+</li>
+<li><p><strong>FROM_DOMAIN</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>FROM_IDENTITY</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>ORDERCHECKURL</strong> – Geben Sie die URL ein, an die die Bestelldokumente gesendet werden sollen. Diese URL beginnt mit <code>https://</code> und wird von Ihrem Lieferanten geliefert.</p>
+</li>
+<li><p><strong>PAYLOAD_ID</strong> – Geben Sie einen Präfixwert für die Nutzlast-ID ein, der für die Geschäftsprozesse erforderlich ist, die für den aktuellen Lieferanten vorhanden sind.</p>
+</li>
+<li><p><strong>SENDER_DOMAIN</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>SENDER_IDENTITY</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>SHARED_SECRET</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>STREETLENGTH</strong> – Geben Sie eine Zahl ein, die die maximale Anzahl von Zeichen darstellt, die der Lieferant als Straßenname akzeptiert. Wenn hier ein Wert eingegeben wird, überschreibt er den auf der Seite <strong>cXML-Parameter</strong> angegebenen Wert. Das System entfernt Zeilenumbrüche und Leerzeichen, um zu versuchen, die Standardadresse in Supply Chain Management an die hier angegebene Anzahl von Zeichen anzupassen. Alle zusätzlichen Zeichen werden abgeschnitten.</p>
+</li>
+<li><p><strong>TO_DOMAIN</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>TO_IDENTITY</strong> – Geben Sie den Wert ein, der zum Senden von Bestelldokumenten verwendet wird. Dieser Wert wird von Ihrem Lieferanten bereitgestellt.</p>
+</li>
+<li><p><strong>USERAGENT</strong> – Geben Sie einen Wert ein, um das von Ihnen verwendete System zu identifizieren. Geben Sie beispielsweise <em>Dynamics 365 Supply Chain Management</em> ein.</p>
+</li>
+<li><p><strong>VERSION</strong> – Geben Sie eine cXML-Versionsnummer ein, wenn der Lieferant diese Informationen anfordert. Der Standardversion ist <em>1.2.008</em>. Diese Version ist stabil und wird von den meisten Lieferanten akzeptiert.</p>
+</li>
+<li><p><strong>RESPONSETEXT</strong> – Geben Sie einen beliebigen angepassten Text ein, den der Lieferant in der cXML-Antwortnachricht zurückgeben soll, nachdem die Bestellung gesendet wurde. Auf diese Weise kann das System die Nachricht als <em>Anerkannt</em> markieren. Wenn die Antwort nicht mit dem Standardtext oder dem Kundentext übereinstimmt, den Sie hier eingeben, wird die Anfrage als <em>Fehler</em> markiert.</p>
+</li>
+<li><p><strong>RESPONSETEXTSUB</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, wenn Sie den Antworttext des Lieferanten nach den Werten durchsuchen möchten, die im Feld <strong>RESPONSETEXT</strong> angegeben sind. Beispielsweise gibt der Lieferant möglicherweise eine lange Zeichenfolge zurück, die in der Antwort „OK“ enthält. In diesem Fall können Sie <em>OK</em> im <strong>RESPONSETEXT</strong>-Feld eingeben und <strong>RESPONSETESTSUB</strong> auf <em>TRUE</em> festlegen, um irgendwo in der Antwort nach „OK“ zu suchen. Die Bestellung kann dann auf <em>Anerkannt</em> festgelegt werden.</p>
+</li>
+<li><p><strong>CONTENTTYPE</strong> – In einer typischen Katalogeinrichtung müssen Sie diese Eigenschaft nicht festlegen. Wenn Sie beim Senden einer Bestellung einen Server-500-Fehler vom System eines Lieferanten erhalten, können Sie Tests durchführen, indem Sie diese Eigenschaft auf <em>FALSE</em> festlegen. Dieser Wert ändert eine Einstellung in der Webanforderung und ermöglicht bei einigen Plattformen möglicherweise das Senden der Nachricht.</p>
+</li>
+<li><p><strong>ENABLEHEADERS</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, um Kopfzeilen zusammen mit der Bestellung zu senden. Sie müssen diese Eigenschaft nur festlegen, wenn der Lieferant dies benötigt. Wenn Sie diese Eigenschaft auf <em>TRUE</em> festlegen, fügen Sie zusätzliche benutzerdefinierte Eigenschaften hinzu, die auf den vom Lieferanten angegebenen Namen basieren, und stellen ihnen das Präfix <em>H_</em> voran. Typische Beispiele sind <strong>H._USERID</strong>, <strong>H._PASSWORD</strong>, <strong>H._RECEIVERID</strong>, und <strong>H._ACTIONREQUEST</strong>. Die folgenden benutzerdefinierten Eigenschaften sind in den Standardeigenschaften enthalten:</p>
+<ul>
+<li><strong>H._USERID</strong> – Wenn der Handelspartner verlangt, dass Sie eine Benutzer-ID als Teil der URL senden, um eine Bestellung einzureichen, geben Sie hier den Wert ein.</li>
+<li><strong>H._PASSWORD</strong> – Wenn der Handelspartner verlangt, dass Sie ein Kennwort als Teil der URL senden, um eine Bestellung einzureichen, geben Sie hier den Wert ein.</li>
+</ul>
+</li>
+<li><p><strong>ENABLEMANUALPO</strong> – Wenn diese Eigenschaft auf <em>TRUE</em> festgelegt ist, wenn Benutzer Bestellungen manuell erstellen (d.h. wenn sie nicht von einer Bestellanforderung ausgehen), erben diese Bestellungen die Einstellung von der <strong>Bestellung per cXML senden</strong>-Option des Lieferanten. Wenn diese Eigenschaft nicht festgelegt ist oder wenn sie auf <em>FALSE</em> festgelegt ist, wird die <strong>Bestellung per cXML senden</strong>-Option im Bestellkopf nicht für manuell erstellte Bestellungen festgelegt. Für Bestellungen, die aus einer Bestellanforderung erstellt werden, wird die Einstellung der <strong>Bestellung per cXML senden</strong>-Option unabhängig von der Einstellung dieser Eigenschaft immer vom Lieferanten geerbt. Weitere Informationen finden Sie im Abschnitt <a href="#vendor-setup">Richten Sie Lieferantenbestellungen für die Verwendung von cXML ein</a> weiter oben in diesem Thema.</p>
+</li>
+<li><p><strong>PUNCHOUTPOONLY</strong> – Wenn diese Eigenschaft auf <em>TURE</em> festgelegt ist, werden nur Bestellanforderungspositionen festgelegt, die aus dem PunchOut-Prozess erstellt wurden, die <strong>Bestellung per cXML senden</strong>-Option im Bestellkopf festlegen. Außerdem muss der Bestellanforderungspositionstyp aller Positionen in der Bestellung <em>Externer Katalogartikel</em> sein. Andernfalls kann die cXML-Bestellung nicht erstellt werden.</p>
+</li>
+<li><p><strong>PUNCHOUTSHIPTO</strong> – Wenn diese Eigenschaft auf <em>TRUE</em> festgelegt ist, wird die Standardadresse der juristischen Person der PunchOut-Einrichtungsanforderungsnachricht hinzugefügt, wenn der Benutzer einen externen Katalog öffnet. Diese Adresse wird als <strong>ShipTo</strong>-Adresse hinzugefügt. Lieferanten verwenden die <strong>ShipTo</strong>-Adresse, um die Preise basierend auf dem Unternehmensstandort anzuzeigen.</p>
+</li>
+<li><p><strong>TRACEPUNCHOUT</strong> – Legen Sie diese Eigenschaft auf <em>TURE</em> fest, wenn Sie eine Fehlermeldung erhalten, wenn Sie versuchen, aus der Bestellanforderung zu einem externen Katalog zu navigieren. Trace-Informationen werden dann für die Meldungen <strong>PunchOutSetupRequest</strong> und <strong>PunchOutResponse</strong> ausgefüllt, die zwischen Supply Chain Management und dem Lieferantenstandort gesendet werden. Sie können diese Informationen auf der <strong>cXML-Warenkorb-Nachrichtenprotokoll</strong>-Seite, die Sie von der <strong>Externe Katalogeinrichtung</strong>-Seite öffnen können für den Lieferantenkatalog anzeigen, mit dem Sie Probleme haben. Sie sollten diese Eigenschaft nur bei der Fehlerbehebung auf <em>TURE</em> festlegen, da dadurch für jedes PunchOut ein hoher Leistungsaufwand für die Datenbank entsteht. Weitere Informationen finden Sie im <a href="#message-log">Anzeigen des cXML-Warenkorb-Nachrichtenprotokolls für den PunchOut des externen Katalogs</a>-Abschnitt weiter unten in diesem Thema.</p>
+</li>
+<li><p><strong>REPLACENEWLINE</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, wenn Sie ein Problem haben, weil das System eines Lieferanten eine <strong>PunchOutResponse</strong>-Nachricht sendet, die Zeilenumbruchzeichen enthält (\n). Dieses Problem kann auftreten, wenn die Nachrichten des Lieferanten über Middleware oder einen Beschaffungshub analysiert werden. Wenn Sie ein Problem mit einer neuen Lieferanteneinrichtung haben, legen Sie die <strong>TRACEPUNCHOUT</strong>-Eigenschaft auf <em>TURE</em> fest, um die <strong>PunchOutResponse</strong>-Nachricht anzuzeigen und bestimmen Sie, ob die XML-Tags durch Zeilenumbrüche unterbrochen sind.</p>
+</li>
+<li><p><strong>POCOMMENTS</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, wenn Sie möchten, dass das cXML-Dokument Notizen enthält, die der Bestellung in Supply Chain Management beigefügt sind. Der Anhangstext ist in den Kopfzeilenkommentaren in der Bestellnachricht enthalten. Weitere Informationen dazu, wie das System diese Anhänge auswählt und verarbeitet, finden Sie im <a href="#attach-po-notes">Hinzufügen von Notizen zu einer Bestellung</a>-Abschnitt weiter unten in diesem Thema.</p>
+</li>
+<li><p><strong>VENDCOMMENTS</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, wenn Sie möchten, dass das cXML-Dokument Notizen enthält, die der Bestellung in Supply Chain Management beigefügt sind. Der Anhangstext ist in den Kopfzeilenkommentaren in der Bestellnachricht enthalten. Weitere Informationen dazu, wie das System diese Anhänge auswählt und verarbeitet, finden Sie im <a href="#attach-po-notes">Hinzufügen von Notizen zu einer Bestellung</a>-Abschnitt.</p>
+</li>
+<li><p><strong>CLEANAMP</strong> – Legen Sie diese Eigenschaft auf <em>TURE</em> fest, wenn Sie eine Fehlermeldung erhalten, wenn Sie versuchen, einen PunchOut für einen Lieferanten durchzuführen, und die Rückgabe-URL des Lieferanten falsch codierte kaufmännische Und-Zeichen enthält (&amp;).</p>
+</li>
+<li><p><strong>PUNCHOUTTZ</strong> – Legen Sie diese Eigenschaft auf <em>TURE</em> fest, wenn der Lieferant, mit dem Sie zusammenarbeiten, den ISO 8601-Standard (International Organization for Standardization) verwendet, um eine spezifische Validierung des Datums/der Uhrzeit der PunchOut-Anforderungsnachricht durchzuführen. Supply Chain Management verwendet das Datum der koordinierten Weltzeit (UTC) in der <strong>PunchOutSetupRequest</strong>-Meldung. Daher wird dem Datums-/Uhrzeitformat <em>+00: 00</em> hinzugefügt, wenn Sie diese Eigenschaft auf <em>TURE</em> festlegen.</p>
+</li>
+<li><p><strong>WMSADDRESSID</strong> – Legen Sie diese Eigenschaft auf <em>TRUE</em> fest, um die Lagernummer im Bestellkopf als <strong>addressID</strong>-Wert in der <strong>ShipTo</strong>-Adresse für die Bestellanforderung zu verwenden, die an den Lieferanten gesendet wird. Wenn Sie einen Wert für die <strong>FIXEDSHIPADDRESSID</strong>-Eigenschaft festlegen, hat dieser Wert Vorrang vor diesem Wert. Daher sollten Sie die eine oder andere Eigenschaft verwenden, um den <strong>addressID</strong>-Wert in der <strong>ShipTo</strong>-Adresse für das Dokument festzulegen.</p>
+</li>
+<li><p><strong>PUNCHOUTSHIPTOUSER</strong> – Diese Eigenschaft funktioniert mit der <strong>PUNCHOUTSHIPTO</strong>-Eigenschaft. Wenn <strong>PUNCHOUTSHIPTO</strong> auf <em>TRUE</em> festgelegt ist, wird die Adresse der juristischen Person abgerufen. Wenn <strong>PUNCHOUTSHIPTOUSER</strong> auf <em>TRUE</em> festgelegt ist, wird die primäre Adresse des PunchOut-Benutzers anstelle der Adresse der juristischen Person verwendet.</p>
+</li>
+</ul>
+<h3 id="activate-the-external-catalog">Aktivieren des externen Katalogs</h3>
+<p>Wenn Sie alle Eigenschaften eingerichtet und andere Einstellungen für Ihren externen Katalog konfiguriert haben, kehren Sie zum Inforegister <strong>Allgemein</strong> der <strong>Externe Kataloge</strong>-Seite zurück und stellen Sie die <strong>Aktiv</strong>-Option auf <em>Ja</em>.</p>
+<h3 id="attach-notes-to-a-purchase-order"><a name="attach-po-notes"></a>Hinzufügen von Notizen zu einer Bestellung</h3>
+<p>Wie im <a href="#set-order-properties">Auftragseigenschaften festlegen</a>-Abschnitt erwähnt wurde, wenn Sie möchten, dass Ihre gelieferte cXML Text aus Notizen enthalten soll, die an die entsprechenden Bestell- und/oder Lieferantendatensätze angehängt sind, können Sie die <strong>POCOMMENTS</strong>- und/oder <strong>VENDCOMMENTS</strong>-Eigenschaft in der externen Katalog-Einrichtung auf <em>TRUE</em> festlegen. In diesem Abschnitt erfahren Sie mehr darüber, wie das System diese Anhänge auswählt und verarbeitet, wenn Sie sie verwenden.</p>
+<p>Um die Arten von Notizen festzulegen, nach denen das System suchen wird, gehen Sie zu <strong>Beschaffung &gt; Konfiguration &gt; Formulare &gt; Formulareinrichtung</strong>. Dann legen Sie auf der <strong>Bestellung</strong>-Registerkarte das <strong>Einbeziehen der Dokumente vom Typ</strong>-Feld auf die Art der Notiz fest, die Sie einschließen möchten. Es werden nur Textnotizen aufgenommen, keine Dokumentanhänge.</p>
+<p><img src="media/cxml-form-setup.png" alt="Formulareinrichtungsseite" title="Formulareinrichtungsseite"></p>
+<p>Anhänge werden nur dann in eine Bestellung aufgenommen, wenn ihr <strong>Typ</strong>-Feld auf den Wert festgesetzt wird, den Sie im Feld <strong>Einbeziehen der Dokumente vom Typ</strong> auswählen, und wenn ihr <strong>Beschränkung</strong>-Feld auf <em>Extern</em> festgelegt ist. Um die Anhänge für eine Bestellung zu erstellen, anzuzeigen oder zu bearbeiten, gehen Sie zu <strong>Beschaffung &gt; Alle Bestellungen</strong>, wählen eine Bestellung aus oder erstellen eine und wählen dann die <strong>Anhänge</strong>-Schaltfläche (Büroklammersymbol) in der oberen rechten Ecke aus.</p>
+<p><img src="media/cxml-note-to-vendor.png" alt="Angehängte Notiz, die so eingerichtet ist, dass sie an einen Lieferanten gesendet werden kann" title="Angehängte Notiz, die so eingerichtet ist, dass sie an einen Lieferanten gesendet werden kann"></p>
+<h2 id="view-the-cxml-cart-message-log-for-external-catalog-punchout"><a name="message-log"></a>Anzeigen des cXML-Einkaufskorb-Nachrichtenprotokolls für den externen Katalog PunchOut</h2>
+<p>Wenn Sie das <strong>Punchout-Protokolltyp</strong>-Feld für einen externen Katalog auf <em>cXML</em> festlegen, erfasst das System ein Nachrichtenprotokoll der Einkaufskörbe, die von Lieferanten zurückkehren. Dieses Protokoll kann zur Fehlerbehebung und für andere Datenzwecke verwendet werden.</p>
+<p>Um das Protokoll für einen externen Katalog zu öffnen, wählen Sie den entsprechenden Katalog aus und wählen Sie dann im Aktionsbereich <strong>cXML-Einkaufskorb-Nachrichtenprotokoll</strong> aus. Auf der <strong>cXML-Einkaufskob-Nachrichtenprotokoll</strong>-Seite werden eine Liste der zurückgegebenen Einkaufskörbe angezeigt, das XML, das sich auf diese Einkaufswagen bezieht, und die Positionen, die für die zugehörige Bestellanforderung erstellt wurden.</p>
+<p><img src="media/cxml-cart-message-log.png" alt="cXML-Einkaufskorb-Nachrichtenprotokollseite" title="cXML-Einkaufskorb-Nachrichtenprotokollseite"></p>
+<h2 id="set-the-extrinsic-elements-for-external-catalog-punchout">Festlegen der extrinsischen Elemente für den externen Katalog PunchOut</h2>
+<p>Wenn Sie die das <strong>Punchout-Protokolltyp</strong>-Feld für einen externen Katalog auf <em>cXML</em> festlegen, können Sie benutzerdefinierte externe Elemente hinzufügen, die an der richtigen Stelle in die XML-Anforderungsnachricht eingefügt werden.</p>
+<p>Führen Sie die folgenden Schritte aus, um einem externen Katalog externe Elemente hinzuzufügen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Beschaffung &gt; Kataloge &gt; Externe Kataloge</strong>.</p>
+</li>
+<li><p>Wählen Sie den zutreffende Katalog aus.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Nachrichtenformat</strong> in <strong>Extrinsics</strong>-Abschnitt <strong>Hinzufügen</strong> aus, um einem Raster für jedes extrinsische Element, das Sie einschließen möchten, eine Zeile hinzuzufügen. Legen Sie auf jeder Zeile die folgenden Felder fest:</p>
+<ul>
+<li><p><strong>Name</strong> – Geben Sie einen Namen für das Element ein. Dieser Wert wird zum Wert des <strong>Name</strong>-Attributs für das XML-Element <strong>Extrinsisch</strong>, das von jeder Zeile erstellt wird. Normalerweise arbeiten Sie mit Ihrem Lieferanten zusammen, um den Namen für jedes extrinsische Element zu vereinbaren.</p>
+</li>
+<li><p><strong>Wert</strong> – Wählen Sie einen Wert für das Element. Dieser Wert wird zum Wert des XML-Elements, das von jeder Zeile erstellt wird. Folgende Werte sind verfügbar:</p>
+<ul>
+<li><strong>Benutzername</strong> – Verwenden Sie den Namen des Benutzers verwendet, der das PunchOut durchführt. Dieser Name ist der Anmeldename für Supply Chain Management.</li>
+<li><strong>Benutzer-E-Mail</strong> – Verwenden Sie die E-Mail-Adresse des Benutzers verwendet, der das PunchOut durchführt. Diese Adresse ist die Adresse, die der Benutzer auf der <strong>Konto</strong>-Registerkarte der <strong>Benutzeroptionen</strong>-Seite eingerichtet hat.</li>
+<li><strong>Zufälliger Wert</strong> – Verwenden Sie einen eindeutigen Zufallswert.</li>
+<li><strong>Vollständiger Name des Benutzers</strong> – Verwenden Sie den vollständigen Namen der Kontaktperson, die dem Benutzer zugeordnet ist, der auf den externen Katalog zugreift.</li>
+<li><strong>Vorname</strong> – Verwenden Sie den Vornamen der Kontaktperson, die dem Benutzer zugeordnet ist, der auf den externen Katalog zugreift.</li>
+<li><strong>Nachname</strong> – Verwenden Sie den Nachnamen der Kontaktperson, die dem Benutzer zugeordnet ist, der auf den externen Katalog zugreift.</li>
+<li><strong>Telefonnummer</strong> – Verwenden Sie die primäre Telefonnummer der Kontaktperson, die dem Benutzer zugeordnet ist, der auf den externen Katalog zugreift.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="media/cxml-extrinsics.png" alt="Einstellungen für extrinsische Elemente" title="Einstellungen für extrinsische Elemente"></p>
+<p>Der Benutzer oder Administrator sieht die extrinsischen Elemente nicht, da sie erst hinzugefügt werden, wenn der Benutzer einen PunchOut ausführt. Sie werden automatisch zwischen die Elemente <strong>BuyerCookie</strong> und <strong>BrowserFromPost</strong> in der cXML-Einrichtung-Anforderungsnachricht eingefügt. Daher müssen Sie sie beim Einrichten des externen Katalogs nicht manuell im XML festlegen.</p>
+<p><img src="media/cxml-extrinsics-xml.png" alt="Dem XML hinzugefügte extrinsische Elemente" title="Dem XML hinzugefügte extrinsische Elemente"></p>
+<h2 id="create-and-process-a-purchase-order"><a name="create-po"></a>Erstellen und Verarbeiten einer Bestellung</h2>
+<p>Wenn Sie eine Bestellung für einen Lieferanten erstellen, wird die Einstellung des <strong>Bestellung per cXML senden</strong>-Option von diesem Lieferanten übernommen. Die Einstellung bleibt jedoch auf dem Inforegister <strong>Einrichtung</strong> in der <strong>Header</strong>-Ansicht der Bestellung, damit Sie diese später nach Bedarf ändern können.</p>
+<p><img src="media/cxml-purchase-order.png" alt="Bestellsatz zur Verwendung von cXML" title="Bestellsatz zur Verwendung von cXML"></p>
+<p>Wenn Sie eine Bestellung aus einer Bestellanforderung erstellen, die aus einem PunchOut-Flow stammt, werden alle erforderlichen Positionsdetails ausgefüllt. Sie können dann manuell Bestellpositionen hinzufügen oder diese aus anderen Bestellungen kopieren. Stellen Sie sicher, dass Sie alle erforderlichen Felder festlegen. Diese erforderlichen Felder enthalten die externe Referenznummer, die die Lieferantennummer ist, die in der cXML-Nachricht verwendet wird.</p>
+<p><img src="media/cxml-line-details.png" alt="Beispiel einer externen Referenznummer" title="Beispiel einer externen Referenznummer"></p>
+<p>Wenn Sie alle Details für die Bestellung eingegeben haben, müssen Sie diese bestätigen. Es wird keine Nachricht gesendet, es sei denn, die Bestellung wurde bestätigt. Klicken Sie zum Bestätigen einer Bestellung im Aktivitätsbereich auf der Registerkarte <strong>Kauf</strong> in der Gruppe <strong>Aktivitäten</strong> auf <strong>Bestätigen</strong>.</p>
+<p>Nachdem die Bestellung bestätigt wurde, können Sie den Status der Bestätigung über <strong>Bestellbestätigungen</strong>-Erfassungen anzeigen. Klicken Sie im Aktivitätsbereich auf der Registerkarte <strong>Einkauf</strong> in der Gruppe <strong>Erfassungen</strong> auf <strong>Bestellbestätigungen</strong>.</p>
+<p>Jede Bestellung kann viele Bestätigungen enthalten. Jede Bestätigung ist mit einer inkrementellen Nummer gekennzeichnet. In der folgenden Abbildung ist die Bestellung <em>00000275</em> und die Bestätigung ist <em>00000275-1</em>. Diese Nummerierung spiegelt die Standardfunktion des Supply Chain Management wider, bei der Änderungen in einer Bestellung und damit der Typ der cXML-Nachricht, die an den Lieferanten gesendet werden soll, anhand der Bestätigung identifiziert werden. Wie die Abbildung zeigt, enthält die <strong>Bestellbestätigungen</strong>-Seite auch die Felder <strong>Sendestatus der Bestellung</strong> und <strong>Lieferantenstatus der Bestellanforderung</strong>. Weitere Informationen zu den verschiedenen Statuswerten, die möglicherweise auf dieser Seite angezeigt werden, finden Sie im <a href="#monitor-po-requests">Überwachen von Bestellanforderungen</a>-Abschnitt später in diesem Thema.</p>
+<p><img src="media/cxml-po-confirmations.png" alt="Seite „Bestellungsbestellbestätigungen“" title="Seite „Bestellungsbestellbestätigungen“"></p>
+<p>Um weitere Informationen zum Dokument anzuzeigen, wählen Sie <strong>Bestellanforderung</strong> über dem Gitter.</p>
+<p>Die <strong>Bestellanforderung</strong>-Seite enthält zwei Raster. Das Raster im oberen Teil der Seite enthält einen Datensatz für jede Bestellung, die zum Senden markiert ist. Das Raster auf der <strong>Bestellanforderungsverlauf</strong>-Registerkarte im unteren Teil der Seite enthält möglicherweise mehrere Datensätze für die ausgewählte Bestellung, um den Status jeder Bestätigung anzuzeigen. Die folgende Abbildung zeigt die Bestellung 00000275 im oberen Raster und das Dokument 00000275-1 im Raster in der <strong>Bestellanforderungsverlauf</strong>-Registerkarte.</p>
+<p><img src="media/cxml-po-request.png" alt="Seite „Bestellanforderung“" title="Seite „Bestellanforderung“"></p>
+<p>Wenn der Batch-Auftrag eingerichtet ist und ausgeführt wird, wird das Dokument gesendet. Sie können die Statusänderung anzeigen, nachdem das Dokument gesendet wurde. In der folgenden Abbildung ist das <strong>Sendestatus der Bestellung</strong>-Feld auf <em>Gesendet</em> festgelegt. Das <strong>Lieferantenstatus der Bestellanforderung</strong>-Feld ist auf <em>Anerkannt</em> festgelegt, um anzuzeigen, dass der Lieferant das Dokument erhalten hat und es lesen und in seinem System speichern konnte. Das Raster auf der <strong>Bestellanforderungsverlauf</strong>-Registerkarte zeigt die Zeit an, zu der das Dokument gesendet wurde. Weitere Informationen zu den verschiedenen Statuswerten, die möglicherweise auf dieser Seite angezeigt werden, finden Sie im <a href="#monitor-po-requests">Überwachen von Bestellanforderungen</a>-Abschnitt.</p>
+<p><img src="media/cxml-po-request-2.png" alt="Statusmeldungen auf der Seite „Bestellanforderung“" title="Statusmeldungen auf der Seite „Bestellanforderung“"></p>
+<h2 id="schedule-the-purchase-order-request-batch-job"><a name="po-batch"></a>Planen des Batch-Auftrags für Bestellanforderungen</h2>
+<p>Um den Batch-Auftrag zum Senden von Bestellanforderungen zu aktivieren, gehen Sie zu <strong>Beschaffung &gt; Einrichtung &gt; cXML-Verwaltung &gt; Bestellanfrage</strong> und wählen dann im Aktionsbereich auf der <strong>Bestellanforderung</strong>-Registerkarte in der <strong>Batch</strong>-Gruppe <strong>Auftrag senden</strong>, um das Dialogfeld <strong>Kaufanforderung vorbereiten und senden</strong> zu öffnen. In diesem Dialogfeld können Sie die Serie einrichten, wie Sie es normalerweise für Batch-Aufträge in Supply Chain Management tun. Wählen Sie ein Intervall basierend auf Ihrem Bestellvolumen. Obwohl Sie den Batch-Auftrag jede Minute ausführen können, ist es wahrscheinlich am besten, Batches während des gesamten Geschäftstages zu senden, basierend auf Auftragsbelegfenstern, die den Zeitplänen Ihrer Lieferanten entsprechen.</p>
+<p>Beispielsweise hat Ihr Lieferant eine Richtlinie, die besagt, dass alle Bestellungen, die bis 13.00 Uhr eingehen, am selben Tag versendet werden. In diesem Fall müssen Sie den Batch möglicherweise nur einige Male am Morgen ausführen, um Ihre Bestellungen mitzuteilen. Die restlichen Bestellungen werden dann am nächsten Tag versandt. Diese Entscheidung ist eine reine Geschäftsentscheidung. Sie können es überprüfen und die Parameter dafür entsprechend einstellen.</p>
+<p>Der Prozess sucht nach Bestellanforderungsdokumenten mit dem Status <em>Warten</em>. Wenn Sie eine Bestellung haben, die Sie sofort an einen Lieferanten senden müssen, können Sie <strong>Auftrag senden</strong> auswählen und die <strong>Batch-Verarbeitung</strong>-Option auf <em>Nein</em> festlegen.</p>
+<h2 id="monitor-purchase-order-requests"><a name="monitor-po-requests"></a>Überwachen der Bestellanforderungen</h2>
+<h3 id="view-the-status-of-a-purchase-order">Den Status einer Bestellung anzeigen</h3>
+<p>Wenn Bestellungen, die über cXML gesendet werden können, bestätigt werden, wechseln sie in den <em>Warten</em>-Status. Wie im <a href="#create-po">Erstellen und Bearbeiten einer Bestellung</a>-Abschnitt beschrieben, können Sie den Bestellstatus auf der Seite <strong>Bestellanforderung</strong> anzeigen. Jede Bestellanforderung kann abhängig von ihren Parametern und Daten einen von mehreren Status haben. In diesem Abschnitt werden die verschiedenen Statustypen und die Werte beschrieben, die sie haben können. Diese Informationen können Ihnen helfen, Probleme zu verwalten und den Status Ihrer Bestellungen zu verstehen.</p>
+<p><img src="media/cxml-monitor-po-request.png" alt="Bestellstatus auf der Seite „Bestellanforderung“" title="Bestellstatus auf der Seite „Bestellanforderung“"></p>
+<p>Das Raster im oberen Teil der <strong>Bestellanforderung</strong>-Seite zeigt möglicherweise die folgenden Statuswerte an:</p>
+<ul>
+<li><p><strong>Sendungsstatus der Bestellung</strong> – Dieses Feld kann einen der folgenden Werte haben:</p>
+<ul>
+<li><strong>Warte</strong> – Das Dokument wartet auf den Versand.</li>
+<li><strong>Gesendet</strong> – Das Dokument wurde gesendet.</li>
+<li><strong>Gestoppt</strong> – Das Dokument wurde als <em>Gestoppt</em> markiert, bevor es gesendet wurde. (Um ein Dokument als <em>Gestoppt</em> zu markieren, wählen Sie <strong>Stopp</strong> im Aktionsbereich der <strong>Kaufanforderung</strong>-Seite aus.)</li>
+<li><strong>Archiv</strong> – Das Dokument wurde gelöscht. (Um ein Dokument zu löschen, wählen Sie <strong>Löschen</strong> im Aktionsbereich der <strong>Kaufanforderung</strong>-Seite aus.)</li>
+</ul>
+</li>
+<li><p><strong>Lieferantenstatus der Bestellanforderung</strong> – Dieses Feld kann einen der folgenden Werte haben:</p>
+<ul>
+<li><strong>Warte</strong> – Das Dokument wartet auf den Versand.</li>
+<li><strong>Anerkannt</strong> – Das Dokument wurde als beim Lieferanten eingegangen bestätigt. Sie können die detaillierte XML-Nachricht überprüfen, die vom Lieferanten zurückgegeben wird, indem Sie die Option <strong>Antwort XML</strong>-Registerkarte im unteren Teil der Seite auswählen.</li>
+<li><strong>Fehler</strong> – Das Dokument wurde an den Lieferanten gesendet, es ist jedoch ein Fehler aufgetreten. Sie können die Fehlermeldung überprüfen, indem Sie die <strong>Antwort-XML</strong>-Registerkarte im unteren Teil der Seite auswählen.</li>
+</ul>
+</li>
+</ul>
+<p>Das Raster auf der <strong>Bestellanforderungsverlauf</strong>-Registerkarte im unteren Teil der <strong>Bestellanforderung</strong>-Seite zeigt möglicherweise die folgenden Werte an:</p>
+<ul>
+<li><p><strong>Typ der Bestellanforderung</strong> – Dieses Feld kann einen der folgenden Werte haben:</p>
+<ul>
+<li><strong>Neu</strong> – Die Position wird unmittelbar nach Bestätigung der Bestellung als neu markiert.</li>
+<li><strong>Aktualisieren</strong> – Wenn der Lieferant bereits eine Bestätigung gesendet und bestätigt hat, wird die nächste Bestätigung als <em>Aktualisieren</em> markiert. Updates werden nur gesendet, wenn die <strong>Aktualisierungen der Kaufanforderung senden</strong>-Option im <a href="#cxml-parameters">globalen cXML-Parameter</a>auf <em>Ja</em> festgelegt ist.</li>
+<li><strong>Löschen</strong> – Wenn der Lieferant bereits eine Bestätigung gesendet und bestätigt hat, die Bestellung jedoch storniert wurde, wird die wartende Bestätigung als <em>Löschen</em> markiert. Löschungen werden nur gesendet, wenn die <strong>Löschung der Kaufanforderung senden</strong>-Option im <a href="#cxml-parameters">globalen cXML-Parameter</a>auf <em>Ja</em> festgelegt ist.</li>
+</ul>
+</li>
+<li><p><strong>Anforderungszeit</strong> – Der Zeitpunkt, zu dem die Auftragsbestätigung erstellt wurde. Sie können die Anforderungszeit mit der Bestellstatuszeit vergleichen, um die Zeit zwischen Bestätigung und Lieferantenbestätigung zu bestimmen.</p>
+</li>
+<li><p><strong>Sendungsstatus der Bestellung</strong> – Dieses Feld ist dasselbe wie das <strong>Sendungsstatus der Bestellung</strong>-Feld im oberen Teil der Seite. Es wird hier wiederholt, um das Anzeigen des Status auf Bestätigungsebene zu vereinfachen. Wenn das <strong>Bestellanforderungstyp</strong>-Feld auf <em>Neu</em> festgelegt ist und die Bestellung erneut bestätigt wird, bevor eine Bestätigung gesendet wird, wird das <strong>Sendungsstatus der Bestellung</strong>-Feld auf <em>Archiv</em> festgelegt.</p>
+</li>
+<li><p><strong>Bestellstatuszeit</strong> – Der Zeitpunkt, zu dem der Datensatz des Bestellanforderungsverlaufs zuletzt aktualisiert wurde. (Die Updates enthalten Statusänderungen.)</p>
+</li>
+<li><p><strong>Lieferantenstatus der Bestellanforderung</strong> – Dieses Feld ist dasselbe wie das <strong>Lieferantenstatus der Bestellanforderung</strong>-Feld im oberen Teil der Seite. Es wird hier wiederholt, um das Anzeigen des Status auf Bestätigungsebene zu vereinfachen.</p>
+</li>
+<li><p><strong>Zeit der erneuten Übermittlung</strong> – Der Zeitpunkt, zu dem der Datensatz erneut übermittelt wurde.</p>
+</li>
+<li><p><strong>Anzahl der erneuten Übermittlung</strong> – Die Häufigkeit, mit der der Datensatz erneut übermittelt wurde. Eine hohe Zahl weist auf mehrere Fehler hin und kann daher auf ein Problem mit Ihrer Dateneinrichtung oder der Dateneinrichtung Ihres Lieferanten hinweisen.</p>
+</li>
+</ul>
+<h3 id="view-the-xml-for-a-purchase-order-request-message">Anzeigen des XML für eine Bestellanforderungsnachricht</h3>
+<p>Um das XML für die Bestellanforderungsnachricht anzuzeigen, wählen Sie die <strong>XML-Text anfordern</strong>-Registerkarte am unteren Rand der <strong>Bestellanforderung</strong>-Seite. Die Informationen auf dieser Registerkarte können beim Testen oder bei der Fehlerüberprüfung hilfreich sein. Um das Lesen der Informationen zu erleichtern, können Sie sie als formatierte Nachricht anzeigen. Kopieren Sie den Inhalt der Registerkarte in eine Textdatei und zeigen Sie sie in einem XML-Editor an.</p>
+<p><img src="media/cxml-request-xml-text.png" alt="Registerkarte „XML-Text anfordern“" title="Registerkarte „XML-Text anfordern“"></p>
+<h3 id="view-the-details-of-the-vendor-response">Anzeigen der Informationen der Lieferantenantwort</h3>
+<p>Zum Anzeigen des Inhaltes einer Lieferantenbestätigung oder einer Fehlerantwort wählen Sie <strong>Antwort-XML</strong>-Registerkarte am unteren Rand der <strong>Bestellanforderung</strong>-Seite aus.</p>
+<p><img src="media/cxml-response-xml.png" alt="Registerkarte „XML-Antwort“" title="Registerkarte „XML-Antwort“"></p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="set-up-external-catalog-for-punchout.html">Externen Katalog für PunchOut-E-Procurement einrichten</a></li>
+<li><a href="use-external-catalogs-for-punchout.html">Externe Kataloge für PunchOut-E-Procurement verwenden</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

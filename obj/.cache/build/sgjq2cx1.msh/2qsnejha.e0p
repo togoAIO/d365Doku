@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Backup storage of ER templates | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Backup storage of ER templates | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="backup-storage-of-er-templates">Backup storage of ER templates</h1>
+
+
+<p>The <a href="general-electronic-reporting.html">Electronic reporting (ER) overview</a> lets business users configure formats for outbound documents according to the legal requirements of various countries and regions. Configured ER formats can use predefined templates to generate outbound documents in various formats, such as Microsoft Excel workbooks, Microsoft Word documents, or PDF documents. The templates are filled with data that the configured dataflow for generated documents requires.</p>
+<p>Each configured format can be published as part of an ER solution. Each ER solution can be exported from one instance of Finance and Operations and imported into another instance.</p>
+<p>The ER framework uses the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/fin-ops/organization-administration/configure-document-management">Configure document management (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> to keep the required templates for the current Finance and Operations instance. Depending on the settings of the ER framework, Microsoft Azure Blob storage or a Microsoft SharePoint folder can be selected as the physical primary storage location for templates. (For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Configure the Electronic reporting (ER) framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.) The DocuValue table holds an individual record for each template. In each record, the <strong>AccessInformation</strong> field stores the path of a template file that is located in the configured storage location.</p>
+<p>When you manage your Finance and Operations instances, you might decide to migrate the current instance to another location. For example, you might migrate your production instance to a new sandbox environment. If you configured the ER framework to store templates in Blob storage, the DocuValue table in the new sandbox environment refers to the instance of Blob storage in the production environment. However, this instance can't be accessed from the sandbox environment, because the migration process doesn't support the migration of artifacts in Blob storage. Therefore, if you try to run an ER format that uses a template to generate business documents, an exception occurs, and you're notified about the missing template. You're also guided to use the ER cleanup tool to delete and then re-import the ER format configuration that contains the template. Because you might have several ER format configurations, this process can be time consuming.</p>
+<p>The Backup storage of ER templates feature can help you make your templates so that they are always available to generate business documents.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This feature can be used only when Blob storage has been selected as the physical storage location for ER templates.</p>
+</div>
+<h2 id="automated-recovery-and-notification">Automated recovery and notification</h2>
+<p>For this feature, every template of a new ER format configuration in the current environment is automatically saved to the backup storage location for templates (the ERDocuDatabaseStorage database table) when the following events occur:</p>
+<ul>
+<li>You import a new ER format configuration that contains a template.</li>
+<li>You complete the draft version of an ER format configuration that contains a template.</li>
+</ul>
+<p>Backup copies of templates are migrated to a new instance of Finance and Operations as part of the application database.</p>
+<p>If a template of an ER format is required for generation of outbound documents, to process vendor payments including generation of payment advice and control reports, for example, but the required template isn't found in the primary storage location, the following events occur:</p>
+<ul>
+<li><p>If the template is available in the backup storage location, it is automatically taken from the backup storage location, restored to the primary storage location, and used for the current execution.</p>
+</li>
+<li><p>Every user who is assigned to the <strong>Electronic reporting developer</strong> or <strong>System administrator</strong> role is notified about the missing template issue through the Action center. The message that appears depends on the value of the <strong>Automatically run the procedure of restoring the broken templates in batch</strong> parameter:</p>
+<ul>
+<li>If this parameter is set to <strong>Off</strong>, the message recommends that you start the batch process to automatically fix similar issues for other ER format configuration templates. The message includes a link that you can use to start the batch process.</li>
+<li>If this parameter is set to <strong>On</strong>, the message notifies you that a missing templates issue has been discovered, and that a new batch process, <strong>Restore broken templates from internal database backup</strong>, has been automatically scheduled. This batch process will automatically fix similar issues for other templates.</li>
+</ul>
+</li>
+</ul>
+<p>To set up the <strong>Automatically run the procedure of restoring the broken templates in batch</strong> parameter, complete the following steps:</p>
+<ol>
+<li>In Finance and Operations, open the <strong>Organization administration &gt; Electronic reporting &gt; Configurations page</strong>.</li>
+<li>On the <strong>Configurations</strong> page, on the Action Pane, on the <strong>Configurations</strong> tab, in the <strong>Advanced settings</strong> group, select <strong>User parameters</strong>.</li>
+<li>In the <strong>User parameters</strong> dialog box, set the required value for the <strong>Automatically run the procedure of restoring the broken templates in batch</strong> parameter.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This parameter is defined as application user and logged company specific.</p>
+</div>
+<p><img src="./media/GER-BackupTemplates-1.png" alt="ER configurations page"></p>
+<p>The following illustration shows an example of the message that appears when the <strong>Automatically run the procedure of restoring the broken templates in batch</strong> parameter is set to <strong>On</strong>.</p>
+<p><img src="./media/GER-BackupTemplates-2.png" alt="Vendor payment journal page"></p>
+<p>The following illustration shows the <strong>Restore broken templates from internal database backup</strong> batch process on the <strong>Batch job</strong> page.</p>
+<p><img src="./media/GER-BackupTemplates-3.png" alt="Batch job page"></p>
+<p>The execution log of the completed <strong>Restore broken templates from internal database backup</strong> batch process includes information about the templates that have been restored from the backup storage location to the primary storage location.</p>
+<p><img src="./media/GER-BackupTemplates-4.png" alt="Batch job history page"></p>
+<p>By default, the process of automatically creating backup copies of templates that reside in ER format configurations is turned on. To stop making backup copies of templates, set the <strong>Stop making backup copies of template</strong> option to <strong>Yes</strong> on the <strong>Attachments</strong> tab of the <strong>Electronic reporting parameters</strong> page. You can open this page from the <strong>Electronic reporting</strong> workspace.</p>
+<p>If you set the <strong>Stop making backup copies of templates</strong> option to <strong>Yes</strong> and don't want to keep the backup copies that were previously made of templates, select <strong>Clean up backup storage</strong> on the <strong>Electronic reporting parameters</strong> page.</p>
+<p>If you upgraded your environment to Finance and Operations version 10.0.5 (October 2019) and want to migrate to a new environment that includes ER format configurations that can be run, select <strong>Fill in backup storage</strong> on the <strong>Electronic reporting parameters</strong> page before the migration occurs. This button starts the process of making backup copies of all available templates, so that they can be stored in the ER backup storage location for templates.</p>
+<p><img src="./media/GER-BackupTemplates-5.png" alt="Electronic reporting parameters page"></p>
+<h2 id="manual-recovery">Manual recovery</h2>
+<p>Go to <strong>Organization administration</strong> &gt; <strong>Electronic reporting</strong> &gt; <strong>Restore broken templates</strong> to manually initiate the process of restoring ER templates from the backup storage location to the primary storage location. Before you start this process, on the <strong>Restore broken templates</strong> page you can specify whether it will be performed interactively, or the batch process will be scheduled for this.</p>
+<h2 id="supported-deployments">Supported deployments</h2>
+<p>In Finance and Operations version 10.0.5, the Backup storage of ER templates feature is available only in cloud deployments.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="general-electronic-reporting.html">Electronic reporting (ER) overview</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Configure the Electronic reporting (ER) framework (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

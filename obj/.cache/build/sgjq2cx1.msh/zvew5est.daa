@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot product receipts and invoicing | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot product receipts and invoicing | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshoot-product-receipts-and-invoicing">Troubleshoot product receipts and invoicing</h1>
+
+<p>This topic describes how to fix issues that you might encounter while you work with product receipts and invoicing.</p>
+<h2 id="i-cant-post-more-than-one-invoice-for-a-purchase-order-line-that-has-category-based-items">I can't post more than one invoice for a purchase order line that has category-based items.</h2>
+<p>A quantity is mandatory if you want to post invoices. Therefore, if the full quantity of a line has been invoiced for only a partial amount, you won't be able to invoice the remaining amount on another invoice.</p>
+<h2 id="i-receive-an-object-reference-not-set-error-during-purchase-order-confirmation-or-an-exception-has-been-thrown-by-the-target-of-an-invocation-exception-occurs-during-vendor-invoice-posting">I receive an &quot;Object reference not set&quot; error during purchase order confirmation, or an &quot;Exception has been thrown by the target of an invocation&quot; exception occurs during vendor invoice posting.</h2>
+<p>This issue can occur because of inconsistency in purchase order distributions.</p>
+<p>To unblock this issue and reset the purchase order to a <em>Draft</em> state, go to <strong>Procurement and sourcing &gt; Periodic tasks &gt; Clean up &gt; Purchase order distribution reset</strong>. For more information, see the following blog post: <a href="https://cloudblogs.microsoft.com/dynamics365/it/2020/08/12/resolve-po-distribution-errors-in-dynamics-365-supply-chain-management/">Resolve PO distribution errors in Dynamics 365 Supply Chain Management</a>.</p>
+<h2 id="i-cant-consolidate-multiple-product-receipts-into-a-single-purchase-order">I can't consolidate multiple product receipts into a single purchase order.</h2>
+<p>You can't consolidate multiple product receipts into a single purchase order if the different product receipt lines have different accounting dates.</p>
+<p>In earlier versions of Microsoft Dynamics 365 Supply Chain Management, consolidation was allowed in this situation. However, the practice is prone to error. The accounting date on the purchase order lines that are created should not differ from the accounting date on the product receipt lines that those purchase order lines were created from. (The accounting date on the purchase order lines matches the accounting date on the purchase order header.) Therefore, the consolidation of multiple product receipts into a single purchase orders is no longer allowed.</p>
+<p>The accounting date is used, for example, for budget reservations and encumbrance. Therefore, it should be kept during the transition from product receipt to purchase order.</p>
+<h2 id="when-product-receipts-are-canceled-transactions-can-be-posted-to-a-suspended-ledger-account">When product receipts are canceled, transactions can be posted to a suspended ledger account.</h2>
+<h3 id="issue-description">Issue description</h3>
+<p>If a product receipt is canceled, the system allows transactions to be posted to suspended ledger accounts, even though the main accounts are suspended.</p>
+<h3 id="reproduce-the-issue">Reproduce the issue</h3>
+<p>The following procedure shows one way to reproduce the issue.</p>
+<ol>
+<li>On the <strong>Accounts payable parameters</strong> page, on the <strong>General</strong> tab, make sure that the <strong>Post product receipt in ledger</strong> option is set to <em>Yes</em>.</li>
+<li>Create a purchase order, and add an order line that has a quantity of <em>1,000</em> for a product.</li>
+<li>Confirm the purchase order.</li>
+<li>Post the product receipt, and check the vouchers.</li>
+<li>Suspend the relevant main accounts, <em>200140</em> and <em>140200</em>.</li>
+<li>Cancel the posted product receipt.</li>
+<li>Notice that transactions can be posted to the suspended leger accounts.</li>
+</ol>
+<h3 id="issue-resolution">Issue resolution</h3>
+<p>Transactions can be posted to the suspended leger accounts when product receipts are canceled, because this behavior allows for correct postings.</p>
+<h2 id="a-product-receipt-voucher-number-is-consumed-even-if-no-financial-voucher-is-generated-during-product-receipt">A product receipt voucher number is consumed even if no financial voucher is generated during product receipt.</h2>
+<p>If the <strong>Accrue liability on product receipt</strong> option is set to <em>No</em> for the item model group, no postings to the general ledger will occur. However, a physical event will be recorded for the purpose of accounting in a subledger, and that event requires a voucher number. This voucher number is the voucher number that is referenced in the inventory transactions.</p>
+<p>We recommend that you set the <strong>Accrue liability on product receipt</strong> option to <em>Yes</em>, as described in the following blog post: <a href="https://cloudblogs.microsoft.com/dynamics365/no-audience/2014/11/11/post-misc-charges-at-time-of-product-receipt/">Post Misc. charges at time of product receipt</a>.</p>
+<h2 id="the-post-to-charge-account-in-ledger-setting-isnt-turned-on">The Post to charge account in ledger setting isn't turned on.</h2>
+<h3 id="issue-description-1">Issue description</h3>
+<p>This issue occurs when a purchase order is invoiced, if the <strong>Post to charge account in ledger</strong> option is set to <em>Yes</em> on the <strong>Invoice</strong> tab of the <strong>Accounts payable parameters</strong> page.</p>
+<h3 id="reproduce-the-issue-1">Reproduce the issue</h3>
+<p>The following procedure shows one way to reproduce the issue.</p>
+<ol>
+<li><p>Go to <strong>Accounts payable &gt; Setup &gt; Accounts payable parameters</strong>.</p>
+</li>
+<li><p>On the <strong>Invoice</strong> tab, set the <strong>Post to charge account in ledger</strong> option to <em>Yes</em>.</p>
+</li>
+<li><p>Go to <strong>Inventory management &gt; Setup &gt; Posting &gt; Posting</strong>.</p>
+</li>
+<li><p>On the <strong>Purchase order</strong> tab, make sure that you've deleted all the lines in the purchase expenditure for the product.</p>
+</li>
+<li><p>Go to <strong>Accounts payable &gt; Purchase orders &gt; All purchase orders</strong>.</p>
+</li>
+<li><p>Create a purchase order. In the <strong>Vendor account</strong> field, select <em>1001 Acme Office Supplies</em>.</p>
+</li>
+<li><p>Add a purchase order line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>D0011 Laser Projector</em></li>
+<li><strong>Site:</strong> <em>1</em></li>
+<li><strong>Warehouse:</strong> <em>11</em></li>
+<li><strong>Quantity:</strong> <em>4</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, on the <strong>Purchase</strong> tab, in the <strong>Action</strong> group, select <strong>Confirm</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Receive</strong> tab, in the <strong>Generate</strong> group, select <strong>Product receipt</strong>.</p>
+</li>
+<li><p>In the <strong>Posting product receipt</strong> dialog box, in the <strong>Product receipt</strong> field, enter an arbitrary number, and then select <strong>OK</strong>.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Invoice</strong> tab, in the <strong>Generate</strong> group, select <strong>Invoice</strong>.</p>
+</li>
+<li><p>In the <strong>Number</strong> field, enter an arbitrary number as the invoice number.</p>
+</li>
+<li><p>Update the match status, and post.</p>
+</li>
+<li><p>Notice that you now receive the following error when you generate an invoice from a purchase order: &quot;Account number for transaction type Purchase expenditure for product does not exist.&quot;</p>
+</li>
+</ol>
+<h3 id="issue-resolution-1">Issue resolution</h3>
+<p>This depends on the parameter settings for invoices and invoice groups. For more information, see the following blog post: <a href="https://cloudblogs.microsoft.com/dynamics365/no-audience/2014/12/15/accounting-for-purchase-charge-and-stock-variation/">Accounting for Purchase charge and Stock variation</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot issues during initial synchronization </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot issues during initial synchronization ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides troubleshooting information that can help you fix issues that might occur during initial synchronization.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="troubleshoot-issues-during-initial-synchronization">Troubleshoot issues during initial synchronization</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic provides troubleshooting information for dual-write integration between Finance and Operations apps and Dataverse. Specifically, it provides information that can help you fix issues that might occur during initial synchronization.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some of the issues that this topic addresses might require either the system admin role or Microsoft Azure Active Directory (Azure AD) tenant admin credentials. The section for each issue explains whether a specific role or credentials are required.</p>
+</div>
+<h2 id="check-for-initial-synchronization-errors-in-a-finance-and-operations-app">Check for initial synchronization errors in a Finance and Operations app</h2>
+<p>After you enable the mapping templates, the status of the maps should be <strong>Running</strong>. If the status is <strong>Not running</strong>, errors occurred during initial synchronization. To view the errors, select the <strong>Initial sync details</strong> tab on the <strong>Dual-write</strong> page.</p>
+<p><img src="media/initial_sync_status.png" alt="Error on the Initial sync details tab"></p>
+<h2 id="you-cant-complete-initial-synchronization-400-bad-request">You can't complete initial synchronization: 400 Bad Request</h2>
+<p><strong>Required role to fix the issue:</strong> System admin</p>
+<p>You might receive the following error message when you try to run the mapping and initial synchronization:</p>
+<p><em>([Bad Request], The remote server returned an error: (400) Bad Request.), AX export encountered an error</em></p>
+<p>Here is an example of the full error message.</p>
+<pre><code class="lang-console">Dual write Initial Sync completed with status: Error. Following are the details:
+Executed leg: From AX Financial dimensions to CRM msdyn_dimensionattributes
+with exported records count: 0, ImportRecordsErrorCount: 0,
+ImportRecordsInsertedCount: 0 and ImportRecordsUpdatedCount: 0
+ErrorsDetails:
+Dual write Initial sync failed
+Message: ([Bad Request], The remote server returned an error: (400) Bad Request.), AX export encountered an error
+Stacktrace: at
+Microsoft.Dynamics.Integrator.QueryGenerator.AxClient.\&lt;ExportAxPackage\&gt;d__16.MoveNext()
+in X:\\bt\\1024532\\repo\\src\\Core\\QueryGenerator\\AxClient.cs:line 265
+\--- End of stack trace from previous location where exception was thrown ---
+at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+at Microsoft.D365.ServicePlatform.Context.ServiceContext.Activity.\&lt;ExecuteAsync\&gt;d__11\`2.MoveNext()
+\--- End of stack trace from previous location where exception was thrown ---
+</code></pre>
+<p>If this error occurs consistently, and you can't complete the initial synchronization, follow these steps to fix the issue.</p>
+<ol>
+<li>Sign in to the virtual machine (VM) for the Finance and Operations app.</li>
+<li>Open Microsoft Management Console.</li>
+<li>In the <strong>Services</strong> pane, make sure that the Microsoft Dynamics 365 Data import export framework service is running. Restart it if it has been stopped, because the initial synchronization requires it.</li>
+</ol>
+<h2 id="initial-synchronization-error-403-forbidden">Initial synchronization error: 403 Forbidden</h2>
+<p>You might receive the following error message during initial synchronization:</p>
+<p><em>([Forbidden], The remote server returned an error: (403) Forbidden.), AX export encountered an error</em></p>
+<p>To fix the issue, follow these steps.</p>
+<ol>
+<li>Sign in to the Finance and Operations app.</li>
+<li>On the <strong>Azure Active Directory applications</strong> page, delete the <strong>DtAppID</strong> client, and then add it again.</li>
+</ol>
+<p><img src="media/aad_applications.png" alt="DtAppID client in the list of Azure AD applications"></p>
+<h2 id="self-reference-or-circular-reference-failures-during-initial-synchronization">Self-reference or circular reference failures during initial synchronization</h2>
+<p>You might receive an error messages if any of your mappings have self-references or circular references. The errors fall into these categories:</p>
+<ul>
+<li><a href="#error-vendor-map">Errors in the Vendors V2–to–msdyn_vendors table mapping</a></li>
+<li><a href="#error-customer-map">Errors in the Customers V3–to–Accounts table mapping</a></li>
+</ul>
+<h2 id="error-vendor-map">Resolve errors in the Vendors V2–to–msdyn_vendors table mapping</h2>
+<p>You might encounter initial synchronization errors for the mapping of <strong>Vendors V2</strong> to <strong>msdyn_vendors</strong> if the tables have existing rows where there are values in the <strong>PrimaryContactPersonId</strong> and <strong>InvoiceVendorAccountNumber</strong> columns. These errors occur because <strong>InvoiceVendorAccountNumber</strong> is a self-referencing column, and <strong>PrimaryContactPersonId</strong> is a circular reference in the vendor mapping.</p>
+<p>The error messages that you receive will have the following form.</p>
+<p><em>Couldn't resolve the guid for the field: &lt;field&gt;. The lookup was not found: &lt;value&gt;. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/&lt;entity&gt;?$select=&lt;field&gt;&amp;$filter=&lt;field&gt; eq &lt;value&gt;</code></em></p>
+<p>Here are some examples:</p>
+<ul>
+<li><em>Couldn't resolve the guid for the field: msdyn_vendorprimarycontactperson.msdyn_contactpersonid. The lookup was not found: 000056. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/contacts?$select=msdyn_contactpersonid.contactid&amp;$filter=msdyn_contactpersonid eq '000056'</code></em></li>
+<li><em>Couldn't resolve the guid for the field: msdyn_invoicevendoraccountnumber.msdyn_vendoraccountnumber. The lookup was not found: V24-1. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/msdn_vendors?$select=msdyn_vendoraccountnumber,msdyn_vendorid&amp;$filter=msdyn_vendoraccountnumber eq 'V24-1'</code></em></li>
+</ul>
+<p>If any rows in the vendor table have values in the <strong>PrimaryContactPersonId</strong> and <strong>InvoiceVendorAccountNumber</strong> columns, follow these steps to complete the initial synchronization.</p>
+<ol>
+<li><p>In the Finance and Operations app, delete the <strong>PrimaryContactPersonId</strong> and <strong>InvoiceVendorAccountNumber</strong> columns from the mapping, and then save the mapping.</p>
+<ol>
+<li><p>On the dual-write mapping page for <strong>Vendors V2 (msdyn_vendors)</strong>, on the <strong>Table mappings</strong> tab, in the left filter, select <strong>Finance and Operations apps.Vendors V2</strong>. In the right filter, select <strong>Sales.Vendor</strong>.</p>
+</li>
+<li><p>Search for <strong>primarycontactperson</strong> to find the <strong>PrimaryContactPersonId</strong> source column.</p>
+</li>
+<li><p>Select <strong>Actions</strong>, and then select <strong>Delete</strong>.</p>
+<p><img src="media/vend_selfref3.png" alt="Deleting the PrimaryContactPersonId column"></p>
+</li>
+<li><p>Repeat these steps to delete the <strong>InvoiceVendorAccountNumber</strong> column.</p>
+<p><img src="media/vend-selfref4.png" alt="Deleting the InvoiceVendorAccountNumber column"></p>
+</li>
+<li><p>Save your changes to the mapping.</p>
+</li>
+</ol>
+</li>
+<li><p>Turn off change tracking for the <strong>Vendors V2</strong> table.</p>
+<ol>
+<li><p>In the <strong>Data management</strong> workspace, select the <strong>Data tables</strong> tile.</p>
+</li>
+<li><p>Select the <strong>Vendors V2</strong> table.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Options</strong>, and then select <strong>Change tracking</strong>.</p>
+<p><img src="media/selfref_options.png" alt="Selecting the Change tracking option"></p>
+</li>
+<li><p>Select <strong>Disable Change Tracking</strong>.</p>
+<p><img src="media/selfref_tracking.png" alt="Selecting Disable Change Tracking"></p>
+</li>
+</ol>
+</li>
+<li><p>Run initial synchronization for the <strong>Vendors V2 (msdyn_vendors)</strong> mapping. The initial synchronization should run successfully, without any errors.</p>
+</li>
+<li><p>Run initial synchronization for the <strong>CDS Contacts V2 (contacts)</strong> mapping. You must sync this mapping if you want to sync the primary contact column on the vendors table, because initial synchronization must also be done for the contact rows.</p>
+</li>
+<li><p>Add the <strong>PrimaryContactPersonId</strong> and <strong>InvoiceVendorAccountNumber</strong> columns back to the <strong>Vendors V2 (msdyn_vendors)</strong> mapping, and then save the mapping.</p>
+</li>
+<li><p>Run initial synchronization again for the <strong>Vendors V2 (msdyn_vendors)</strong> mapping. Because change tracking is turned off, all the rows will be synced.</p>
+</li>
+<li><p>Turn change tracking back on for the <strong>Vendors V2</strong> table.</p>
+</li>
+</ol>
+<h2 id="error-customer-map">Resolve errors in the Customers V3–to–Accounts table mapping</h2>
+<p>You might encounter initial synchronization errors for the mapping of <strong>Customers V3</strong> to <strong>Accounts</strong> if the tables have existing rows where there are values in the <strong>ContactPersonID</strong> and <strong>InvoiceAccount</strong> columns. These errors occur because <strong>InvoiceAccount</strong> is a self-referencing column, and <strong>ContactPersonID</strong> is a circular reference in the vendor mapping.</p>
+<p>The error messages that you receive will have the following form.</p>
+<p><em>Couldn't resolve the guid for the field: &lt;field&gt;. The lookup was not found: &lt;value&gt;. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/&lt;entity&gt;?$select=&lt;field&gt;&amp;$filter=&lt;field&gt; eq &lt;value&gt;</code></em></p>
+<p>Here are some examples:</p>
+<ul>
+<li><em>Couldn't resolve the guid for the field: primarycontactid.msdyn_contactpersonid. The lookup was not found: 000056. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/contacts?$select=msdyn_contactpersonid.contactid&amp;$filter=msdyn_contactpersonid eq '000056'</code></em></li>
+<li><em>Couldn't resolve the guid for the field: msdyn_billingaccount.accountnumber. The lookup was not found: 1206-1. Try this URL(s) to check if the reference data exists: <code>https://focdsdevtest2.crm.dynamics.com/api/data/v9.0/accounts?$select=accountnumber.account&amp;$filter=accountnumber eq '1206-1'</code></em></li>
+</ul>
+<p>If any rows in the customer table have values in the <strong>ContactPersonID</strong> and <strong>InvoiceAccount</strong> columns, follow these steps to complete the initial synchronization. You can use this approach for any out-of-box tables, such <strong>Accounts</strong> and <strong>Contacts</strong>.</p>
+<ol>
+<li><p>In the Finance and Operations app, delete the <strong>ContactPersonID</strong> and <strong>InvoiceAccount</strong> columns from the <strong>Customers V3 (accounts)</strong> mapping, and then save the mapping.</p>
+<ol>
+<li><p>On the dual-write mapping page for <strong>Customers V3 (accounts)</strong>, on the <strong>Table mappings</strong> tab, in the left filter, select <strong>Finance and Operations app.Customers V3</strong>. In the right filter, select <strong>Dataverse.Account</strong>.</p>
+</li>
+<li><p>Search for <strong>contactperson</strong> to find the <strong>ContactPersonID</strong> source column.</p>
+</li>
+<li><p>Select <strong>Actions</strong>, and then select <strong>Delete</strong>.</p>
+<p><img src="media/cust_selfref3.png" alt="Deleting the ContactPersonID column"></p>
+</li>
+<li><p>Repeat these steps to delete the <strong>InvoiceAccount</strong> column.</p>
+<p><img src="media/cust_selfref4.png" alt="Deleting the InvoiceAccount column"></p>
+</li>
+<li><p>Save your changes to the mapping.</p>
+</li>
+</ol>
+</li>
+<li><p>Turn off change tracking for the <strong>Customers V3</strong> table.</p>
+<ol>
+<li><p>In the <strong>Data management</strong> workspace, select the <strong>Data tables</strong> tile.</p>
+</li>
+<li><p>Select the <strong>Customers V3</strong> table.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Options</strong>, and then select <strong>Change tracking</strong>.</p>
+<p><img src="media/selfref_options.png" alt="Selecting the Change tracking option"></p>
+</li>
+<li><p>Select <strong>Disable Change Tracking</strong>.</p>
+<p><img src="media/selfref_tracking.png" alt="Selecting Disable Change Tracking"></p>
+</li>
+</ol>
+</li>
+<li><p>Run initial synchronization for the <strong>Customers V3 (Accounts)</strong> mapping. The initial synchronization should run successfully, without any errors.</p>
+</li>
+<li><p>Run initial synchronization for the <strong>CDS Contacts V2 (contacts)</strong> mapping.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>There are two maps that have the same name. Be sure to select the map that has the following description on the <strong>Details</strong> tab: <strong>Dual-write template for sync between FO.CDS Vendor Contacts V2 to CDS.Contacts. Requires new package [Dynamics365SupplyChainExtended].</strong></p>
+</div>
+</li>
+<li><p>Add the <strong>InvoiceAccount</strong> and <strong>ContactPersonId</strong> columns back to the <strong>Customers V3 (Accounts)</strong> mapping, and then save the mapping. Both the <strong>InvoiceAccount</strong> column and the <strong>ContactPersonId</strong> column are now part of live synchronization mode again. In the next step, you will do the initial synchronization for these columns.</p>
+</li>
+<li><p>Run initial synchronization again for the <strong>Customers V3 (Accounts)</strong> mapping. Because change tracking is turned off, the data for <strong>InvoiceAccount</strong> and <strong>ContactPersonId</strong> will be synced from the Finance and Operations app to Dataverse.</p>
+</li>
+<li><p>To sync the data for <strong>InvoiceAccount</strong> and <strong>ContactPersonId</strong> from Dataverse to the Finance and Operations app, you must use a data integration project.</p>
+<ol>
+<li><p>In Power Apps, create a data integration project between the <strong>Sales.Account</strong> and <strong>Finance and Operations apps.Customers V3</strong> tables. The data direction must be from Dataverse to the Finance and Operations app. Because <strong>InvoiceAccount</strong> is a new attribute in dual-write, you might want to skip initial synchronization for it. For more information, see <a href="https://docs.microsoft.com/power-platform/admin/data-integrator">Integrate data into Dataverse</a>.</p>
+<p>The following illustration shows a project that updates <strong>CustomerAccount</strong> and <strong>ContactPersonId</strong>.</p>
+<p><img src="media/cust_selfref6.png" alt="Data integration project to update CustomerAccount and ContactPersonId"></p>
+</li>
+<li><p>Add the company criteria in the filter on the Dataverse side, so that only rows that match the filter criteria will be updated in the Finance and Operations app. To add a filter, select the filter button. Then, in the <strong>Edit query</strong> dialog box, you can add a filter query such as <strong>_msdyn_company_value eq '&lt;guid&gt;'</strong>.</p>
+<blockquote>
+<p>[NOTE]
+If the filter button isn't present, create a support ticket to ask the data integration team to enable the filter capability on your tenant.</p>
+</blockquote>
+<p>If you don't enter a filter query for <strong>_msdyn_company_value</strong>, all the rows will be synced.</p>
+<p><img src="media/cust_selfref7.png" alt="Adding a filter query"></p>
+</li>
+</ol>
+<p>The initial synchronization of the rows is now completed.</p>
+</li>
+<li><p>In the Finance and Operations app, turn change tracking back on for the <strong>Customers V3</strong> table.</p>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-initial-sync.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

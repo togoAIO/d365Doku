@@ -1,0 +1,803 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Passen Sie die Konfigurationen f&#252;r elektronische Berichte an, um ein elektronisches Dokument zu erstellen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Passen Sie die Konfigurationen f&#252;r elektronische Berichte an, um ein elektronisches Dokument zu erstellen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie ein von Microsoft bereitgestelltes EB-Format (Elektronische Berichterstellung) anpassen, so dass ein benutzerdefiniertes elektronisches Dokument generiert wird.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERWorkspace, ERSolutionTable, ERParameters, ERDataModelDesigner, ERModelMappingTable, ERModelMappingDesigner, EROperationDesigner, ERVendorTable">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="customize-electronic-reporting-configurations-to-generate-an-electronic-document">Passen Sie die Konfigurationen für elektronische Berichte an, um ein elektronisches Dokument zu erstellen</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Der <a href="general-electronic-reporting.html">Framework für die elektronische Berichterstattung (EB)</a> Mit dieser Option können Sie die EB <a href="general-electronic-reporting.html#Configuration">Konfigurationen</a> hochladen, die in Ihrer Microsoft Dynamics 365 Finance Instanz bereitgestellt wird. Auf diese Weise können die von Microsoft bereitgestellten Konfigurationen als EB-Lösung dienen, mit der elektronische Kundenrechnungen (E-Rechnungen) erstellt werden. Mit dieser EB-Lösung können Sie Ihre benutzerdefinierte EB-Lösung für den Zugriff auf Ihre benutzerdefinierten Datenbankfelder konfigurieren und E-Rechnungen erstellen, die Ihren spezifischen Anforderungen entsprechen, ohne den Quellcode bearbeiten zu müssen.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Für das Beispiel in diesem Thema müssen Sie einen Bundessteueridentifikationscode als neues benutzerdefiniertes Attribut für jeden Kunden angeben, den Sie elektronisch in Rechnung stellen. Daher müssen Sie die Struktur der aktuell verwendeten Rechnung anpassen, indem Sie in jeder generierten E-Rechnung einen neuen Artikel hinzufügen, der mit dem Steuerkennzeichen gefüllt werden muss.</p>
+<p>Die Prozeduren in diesem Thema erläutern, wie ein Benutzer mit der Rolle Systemadministrator, Entwickler für die elektronische Berichterstattung oder funktionaler Berater für die elektronische Berichterstellung die folgenden Aufgaben ausführen kann:</p>
+<ul>
+<li><a href="#ConfigureER">Konfigurieren Sie den minimalen Satz von EB-Parametern, der erforderlich ist, um das EB-Framework zu verwenden</a>.</li>
+<li><a href="#ImportERConfigurations1">Importieren Sie die ersten Versionen der Standard-EB-Konfigurationen, die zum Generieren von E-Rechnungen bereitgestellt werden</a>.</li>
+<li><a href="#ConfigureAR1">Konfigurieren Sie die Debitorenparameter so, dass die Standard-ER-Konfigurationen verwendet werden</a>.</li>
+<li><a href="#ConfigureLE">Konfigurieren Sie die Parameter der juristischen Person, um Kunden Rechnung zu stellen</a>.</li>
+<li><a href="#ConfigureCustomer1">Bereiten Sie einen Kundendatensatz für die elektronische Rechnungsstellung vor</a>.</li>
+<li><a href="#ProcessInvoice1">Hinzufügen, Buchen und Senden einer Kundenrechnung mithilfe der Standard-EB-Konfigurationen</a>.</li>
+<li><a href="#AddCustomField">Fügen Sie ein benutzerdefiniertes Datenbankfeld hinzu, um einen Steueridentifikationscode für Kunden zu verwalten</a>.</li>
+<li><a href="#RefreshERMetadata">Aktualisieren Sie die EB-Metadaten, um Datenbankänderungen für den EB-Modellzuordnungsdesigner zu aktivieren</a>.</li>
+<li><a href="#DesignCustomERConfigurations">Entwerfen Sie die benutzerdefinierten EB-Konfigurationen, um E-Rechnungen zu generieren, die das neue Steuerkennzeichen enthalten</a>.</li>
+<li><a href="#ConfigureAR2">Konfigurieren Sie die Debitorenparameter so, dass die benutzerdefinierten EB-Konfigurationen verwendet werden</a>.</li>
+<li><a href="#ConfigureCustomer2">Aktualisieren Sie einen Kundendatensatz für die elektronische Rechnungsstellung</a>.</li>
+<li><a href="#ProcessInvoice2">Hinzufügen, Buchen und Senden einer Kundenrechnung mithilfe der benutzerdefinierten-EB-Konfigurationen</a>.</li>
+<li><a href="#ImportERConfigurations2">Importieren Sie die neuen Versionen der Standard-EB-Konfigurationen, die zum Generieren von E-Rechnungen bereitgestellt werden</a>.</li>
+<li><a href="#RebaseCustomERConfigurations">Übernehmen Sie die Änderungen an den neuen Versionen der Standard-EB-Konfigurationen in Ihre benutzerdefinierten EB-Konfigurationen</a>.</li>
+<li><a href="#ProcessInvoice3">Hinzufügen, Buchen und Senden einer Kundenrechnung mithilfe der neuen Versionen der benutzerdefinierten-EB-Konfigurationen</a>.</li>
+</ul>
+<p>Alle diese Prozeduren können im Unternehmen <strong>DEMF</strong> ausgeführt werden.</p>
+<h2 id="configure-the-er-framework"><a name="ConfigureER"></a>Konfigurieren des EB-Frameworks</h2>
+<p>Als Benutzer in der Rolle des Electronic Reporting Functional Consultant oder des Electronic Reporting Developer müssen Sie den minimalen Satz von EB-Parametern konfigurieren. Anschließend können Sie das EB-Framework verwenden, um benutzerdefinierte Versionen der Standardkonfigurationen der EB-Lösung zu entwerfen, mit denen E-Rechnungen erstellt werden.</p>
+<h3 id="configure-er-parameters">Parameter der elektronischen Berichterstellung konfigurieren</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Parameter für elektronische Berichterstellung</strong> aus.</li>
+<li>Auf der Seite <strong>Parameter für elektronische Berichterstellung</strong> legen Sie auf der Registerkarte <strong>Allgemein</strong> die Option <strong>Entwurfsmodus aktivieren</strong> auf <strong>Ja</strong> fest.</li>
+<li>Auf der <strong>Anhänge</strong> Registerkarte im Feld <strong>Konfigurationen</strong> wählen Sie <strong>Datei</strong> aus.</li>
+<li>Wählen Sie in den Feldern <strong>Einzelvorgangsarchiv</strong>, <strong>Temporär</strong>, <strong>Grundlage</strong> und <strong>Andere</strong> den <strong>Dateityp</strong> aus.</li>
+</ol>
+<p>Weitere Informationen zu EB-Parametern finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Konfigurieren des EB-Frameworks (This is an external link)</a>.</p>
+<h3 id="activate-an-er-configuration-provider">Aktivieren eines EB-Konfigurationsanbieters</h3>
+<p>Jede hinzugefügte EB-Konfiguration wird als Eigentum eines EB-Konfigurationsanbieters markiert. Der EB-Konfigurationsanbieter, der im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> aktiviert ist, wird zu diesem Zweck verwendet. Daher müssen Sie im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> einen EB-Konfigurationsanbieter aktivieren, bevor Sie mit dem Hinzufügen oder Bearbeiten von EB-Konfigurationen beginnen.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Nur der Besitzer einer EB-Konfiguration kann diese bearbeiten. Daher muss im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> der entsprechende EB-Konfigurationsanbieter aktiviert werden, bevor eine EB-Konfigurationen bearbeitet werden kann.</p>
+</div>
+<h4 id="review-the-list-of-er-configuration-providers">Überprüfen der Liste der EB-Konfigurationsanbieter</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Auf der Seite <strong>Konfigurationsanbietertabelle</strong> hat jeder Anbieterdatensatz einen eindeutigen Namen und eine eindeutige URL. Überprüfen Sie den Inhalt dieser Seite. Wenn bereits ein Datensatz für <strong>Litware, Inc.</strong> (<code>https://www.litware.com</code>) vorhanden ist, überspringen Sie die nächste Prozedur <a href="#AddProvider">Hinzufügen eines neuen EB-Konfigurationsanbieters</a>.</li>
+</ol>
+<h4 id="add-a-new-er-configuration-provider"><a id="AddProvider"></a>Hinzufügen eines neuen EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsanbieter</strong> die Option <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>Litware, Inc.</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Internetadresse</strong> <code>https://www.litware.com</code> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<h4 id="activate-an-er-configuration-provider">Aktivieren eines EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Litware, Inc.</strong> aus. Wählen Sie dann <strong>Als aktiv festlegen</strong> aus.</li>
+</ol>
+<p>Weitere Informationen zu EB-Konfigurationsanbietern finden Sie unter <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Erstellen von Konfigurationsanbietern und Markieren als aktiv</a>.</p>
+<h2 id="import-the-initial-versions-of-standard-er-configurations"><a name="ImportERConfigurations1"></a>Importieren der ursprünglichen Versionen der standardmäßigen EB-Konfigurationen</h2>
+<p>Um Ihrer aktuellen Instanz von Finance die standardmäßigen EB-Konfigurationen hinzuzufügen, müssen Sie sie aus dem EB <a href="general-electronic-reporting.html#Repository">Repository</a> importieren, das für diese Instanz konfiguriert wurde.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Microsoft</strong> aus. Wählen Sie dann <strong>Repositorys</strong> aus, um die Liste der Repositorys für den Microsoft-Anbieter anzuzeigen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> das Repository des Typs <strong>Global</strong> aus. Wählen Sie dann <strong>Öffnen</strong> aus. Wenn Sie aufgefordert werden, das Herstellen einer Verbindung zum Regulatory Configuration Service zu autorisieren, folgen Sie den Autorisierungsanweisungen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> in der Konfigurationsstruktur im linken Bereich die Formatkonfiguration <strong>Peppol Verkaufsrechnung</strong> aus.</li>
+<li>Wählen Sie im Inforegister <strong>Versionen</strong> die Version <strong>11.2.2</strong> aus.</li>
+<li>Wählen Sie <strong>Importieren</strong>, um die ausgewählte Version vom globalen Respository herunterzuladen.</li>
+</ol>
+<p><img src="media/er-quick-start3-import-solution1.png" alt="Konfigurationsrepository-Seite"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Probleme beim Zugriff auf das <a href="er-download-configurations-global-repo.html">globale Repository</a> haben, können Sie für das <a href="download-electronic-reporting-configuration-lcs.html">Herunterladen von Konfigurationen</a> stattdessen Microsoft Dynamics Lifecycle Services (LCS) verwenden.</p>
+</div>
+<h3 id="review-the-imported-er-configurations">Überprüfen der importierten EB-Konfigurationen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationen</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</li>
+<li>Auf der Seite <strong>Konfigurationen</strong> erweitern Sie die Registerkarte <strong>Konfigurationskomponenten</strong>.</li>
+<li>Erweitern Sie im Konfigurationsbaum im linken Bereich <strong>Rechnungsmodell</strong> und erweitern <strong>UBL Verkaufsrechnung</strong>.</li>
+</ol>
+<p>Beachten Sie, dass zusätzlich zum ausgewählten EB-Format <strong>Peppols Verkaufsrecnung</strong> weitere erforderliche EB-Konfigurationen importiert wurden. Da ständig neue Versionen von EB-Konfigurationen im Global Repository und LCS veröffentlicht werden, damit die entsprechenden Lösungen den neuen Anforderungen entsprechen, wurden die neuesten Versionen der erforderlichen <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Datenmodell</a> Konfiguration und der <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Modellabbildung</a> importiert.</p>
+<p><img src="media/er-quick-start3-imported-solution1a.png" alt="Konfigurationsseite"></p>
+<p>Um den Status zu simulieren, den EB-Konfigurationen in der aktuellen Finanzinstanz hätten, wenn Sie Version <strong>11.2.2</strong> des EB-Formats <strong>Peppol Verkaufsrechnung</strong> früher importiert hätten, (z. B. am 7. August 2019) folgen Sie diesen Schritten.</p>
+<ul>
+<li>Wählen Sie im Aktionsbereich die Option <strong>Löschen</strong>, um alle EB-Konfigurationen zu löschen, die nach dem 7. August 2019 veröffentlicht wurden. Einzig <strong>Rechnungsmodell</strong>, <strong>Rechnungsmodellzuordnung</strong> (ursprünglich <strong>Rechnungsmodellzuordnung</strong>), <strong>UBL Verkaufsrechnung</strong> und <strong>Peppol Verkaufsrechnung</strong> Konfigurationen müssen verbleiben.</li>
+<li>Für die verbleibenden EB-Konfigurationen auf der Registerkarte <strong>Versionen</strong> wählen Sie <strong>Löschen</strong>, um alle Versionen von EB-Konfigurationen zu löschen, die nach dem 7. August 2019 veröffentlicht wurden.</li>
+</ul>
+<p>Prüfen Sie, dass die folgenden EB-Konfigurationen in der Konfigurationsstruktur verfügbar sind:</p>
+<ul>
+<li><p><strong>Rechnungsmodell</strong> Konfiguration des EB-Datenmodells (ursprünglich <strong>Kundenrechnungsmodell</strong> benannt):</p>
+<ul>
+<li>Version 11 enthält Version 10 der <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Datenmodell</a> EB-Komponente, die die Datenstruktur der Fakturierungsgeschäftsdomäne darstellt. Diese EB-Konfiguration wurde als Vorgänger des <strong>Peppol Verkaufsrechnung</strong> EB-Format importiert das für den Import ausgewählt wurde.</li>
+<li>Version 50 enthält Version 31 der EB-Datenmodellkomponente. Diese EB-Konfiguration wurde als Vorfahr der Version vom 7. August 2019 importiert, <strong>Rechnungsmodellzuordnung</strong> Konfiguration der EB-Modellzuordnung.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution1b1.png" alt="Konfiguration des EB-Datenmodells für das Rechnungsmodell auf der Seite Konfigurationen"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Version 50 dieses Datenmodells nicht sehen, öffnen Sie das globale Repository und importieren Sie Version 50.19 der EB-Konfiguration <strong>Rechnungsmodellzuordnung</strong>.</p>
+</div>
+</li>
+<li><p><strong>Rechnungsmodellzuordnung</strong> Konfiguration des EB-Datenmodells (ursprünglich <strong>KundenRechnungsmodellzuordnung</strong> benannt):</p>
+<ul>
+<li>Version 50.19 wurde als neueste Implementierung von Version 50 der <strong>Rechnungsmodell</strong> Konfiguration des EB-Datenmodells importiert. Es enthält zwei <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Modellzuordnung</a> EB-Komponenten, die beschreiben, wie das Datenmodell zur Laufzeit mit Anwendungsdaten gefüllt wird.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution1b2.png" alt="Konfiguration des EB-Datenmodells für das Rechnungsmodellzuordnung auf der Seite Konfigurationen"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Version 50.19 dieser Modellzuordnung nicht sehen, öffnen Sie das globale Repository und importieren Sie Version 50.19 der EB-Konfiguration <strong>Rechnungsmodellzuordnung</strong>.</p>
+</div>
+</li>
+<li><p><strong>UBL-Vertriebsrechung</strong> EB-Formatkonfiguration:</p>
+<ul>
+<li>Version 11.2 enthält die EB-Komponenten <a href="general-electronic-reporting.html#FormatComponentOutbound">Format</a> und Formatzuordnung. Die Formatkomponente legt das Berichtslayout fest. Die Formatzuordnungskomponente enthält die Modelldatenquelle und legt fest, wie die Datenquelle verwendet wird, um das Berichtslayout zur Laufzeit auszufüllen. Dieses EB-Format wurde so konfiguriert, dass E-Rechnungen im Universal Business Language Format (UBL) erstellt werden. Sie wurde als übergeordnetes EB-Format der <strong>Peppol Verkaufsrechnung</strong> importiert, die für den Import ausgewählt wurde.</li>
+</ul>
+</li>
+<li><p><strong>Peoppol Vertriebsrechung</strong> EB-Formatkonfiguration:</p>
+<ul>
+<li>Version 11.2.2 enthält die Format- und Formatzuordnungs-EB-Komponenten, die für die Erstellung von E-Rechnungen im PEPPOL-Format (Pan-European Public Procurement OnLine) konfiguriert wurden.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution1b3.png" alt="Peppol Vertriebsrechnug EB_Formatkonfiguration auf der Seite Konfigurationen"></p>
+</li>
+</ul>
+<h2 id="configure-the-accounts-receivable-parameters"><a name="ConfigureAR1"></a>Debitorenparameter konfigurieren</h2>
+<ol>
+<li>Gehen Sie zu <strong>Debitoren</strong> &gt; <strong>Einrichtung</strong> &gt; <strong>Debitorenparameter</strong>.</li>
+<li>Auf der Registerkarte <strong>Elektronische Dokumente</strong> auf dem Inforegister <strong>Elektronische Berichterstattung</strong> im Feld <strong>Verkaufs- und Freitextrechnung</strong> wählen Sie <strong>Peppol Verkaufsrechnung</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<p><img src="media/er-quick-start3-configure-ar1.png" alt="Registerkarte Elektronische Dokumente auf der Seite Debitorenparameter"></p>
+<h2 id="configure-the-legal-entity-parameters"><a name="ConfigureLE"></a>Konfigurieren Sie die Parameter der juristischen Person</h2>
+<ol>
+<li>Gehen Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Organisationen</strong> &gt; <strong>Juristische Personen</strong>.</li>
+<li>Für die ausgewählte <strong>DEMF</strong> Firma, auf dem Inforegister <strong>Bankkonto-Information</strong> im Feld <strong>Routing-Nummer</strong> geben Sie <strong>1234</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+<li>Schließen Sie die Seite <strong>Juristische Personen</strong>.</li>
+</ol>
+<h2 id="prepare-a-customer-record"><a name="ConfigureCustomer1"></a>Einen Debitorendatensatz vorbereiten</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Debitoren</strong> &gt; <strong>Alle Debitoren</strong>.</li>
+<li>Auf der Seite <strong>Alle Kunden</strong> Seite wählen Sie den <strong>DE-014</strong> Kundenkonto-Link aus.</li>
+</ol>
+<h3 id="add-a-customer-contact">Einen Kundenkontakt hinzufügen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Debitoren</strong> &gt; <strong>Alle Debitoren</strong>.</li>
+<li>Klicken Sie im Aktivitätsbereich auf der Registerkarte <strong>Kunde</strong> in der Gruppe <strong>Konto</strong> auf <strong>Kontakte</strong>.</li>
+<li>Wählen Sie <strong>Kontakte hinzufügen</strong>.</li>
+<li>Auf der Seite <strong>Kontakte</strong> im Feld <strong>Vorname</strong> öffnen Sie die Suche, wählen Sie <strong>Adam Carter</strong> und dann wählen Sie <strong>Wählen</strong>, um die Suche zu schließen.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+<li>Schließen Sie die Seite <strong>Konakte</strong>.</li>
+</ol>
+<h3 id="define-a-primary-contact">Definieren Sie einen primären Kontakt</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Debitoren</strong> &gt; <strong>Alle Debitoren</strong>.</li>
+<li>Auf dem Inforegister <strong>Verkaufsdemografie</strong> im Feld <strong>Hauptansprechpartner</strong> wählen Sie <strong>Adam Carter</strong>.</li>
+</ol>
+<h3 id="set-the-e-invoicing-option">Stellen Sie die Option für die elektronische Rechnungsstellung ein</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Debitoren</strong> &gt; <strong>Alle Debitoren</strong>.</li>
+<li>Auf dem Inforegister <strong>Rechnung und Lieferung</strong> stellen Sie die Option <strong>E-Rechnung</strong> auf <strong>Ja</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+<li>Schließen Sie die Seite <strong>Alle Kunden</strong>.</li>
+</ol>
+<h2 id="process-a-customer-invoice-by-using-the-standard-er-configurations"><a name="ProcessInvoice1"></a>Verarbeiten einer Kundenrechnung mithilfe der Standard-EB-Konfigurationen</h2>
+<p>Sie können jetzt die von Ihnen importierten Standard-EB-Konfigurationen verwenden, um eine Freitextrechnung elektronisch an einen Kunden zu senden.</p>
+<h3 id="add-a-new-invoice">Fügen Sie eine neue Rechnung hinzu</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Freitextrechnung</strong> wählen Sie <strong>Neu</strong>.</p>
+</li>
+<li><p>Auf dem Inforegisterr <strong>Freitext-Rechnungskopf</strong> im Feld <strong>Kundenkonto</strong> wählen Sie <strong>DE-014</strong>.</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Rechnungszeilen</strong> wird eine Rechnungsposition automatisch hinzugefügt. Legen Sie die folgenden Felder für diese Position fest:</p>
+<ul>
+<li>Geben Sie im Feld <strong>Beschreibung</strong> <strong>Notebook</strong> ein.</li>
+<li>Wählen Sie im Feld <strong>Hauptkonto</strong> die Option <strong>401100</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Einzelpreis</strong> die Zahl <strong>1000</strong> ein.</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+</ol>
+<p><img src="media/er-quick-start3-add-invoice.png" alt="Freitextrechnungs-Seite"></p>
+<p>Weitere Informationen finden Sie unter <a href="../../../finance/accounts-receivable/create-free-text-invoice-new.html">Erstellen einer Freitextrechnung</a>.</p>
+<h3 id="post-a-new-invoice">Eine neue Rechnung buchen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</li>
+<li>Auf der Seite <strong>Freitextrechnung</strong> wählen Sie im Aktionsbereich die Option <strong>Buchen</strong>.</li>
+<li>Im Dialogfeld <strong>Freitextrechnung buchen</strong> wählen Sie <strong>OK</strong> aus.</li>
+</ol>
+<p><img src="media/er-quick-start3-post-invoice.png" alt="Details der Seite Freitextrechnung"></p>
+<h3 id="send-a-posted-invoice">Senden Sie eine gebuchte Rechnung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Freitextrechnung</strong> im Aktionsbereich in der Gruppe <strong>Dokument</strong> wählen Sie <strong>Senden</strong> &gt; <strong>Original</strong>.</p>
+<p><img src="media/er-quick-start3-send-invoice.png" alt="Vorschau der Originalrechnung"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Freitextrechnung</strong>.</p>
+</li>
+</ol>
+<h3 id="analyze-a-generated-e-invoice">Analysieren Sie eine generierte E-Rechnung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Einzelvorgänge für elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Rlektronische Berichterstattung</strong> wählen Sie auf dieser Seite den ersten Datensatz mit der Aufgabenbeschreibung aus die <strong>Senden Sie das E-Rechnungs-XML</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Dateien anzeigen</strong>, um auf die Liste der generierten Dateien zuzugreifen.</p>
+<p><img src="media/er-quick-start3-jobs-list.png" alt="Elektronische Berichterstellungsseite"></p>
+</li>
+<li><p>Wählen Sie <strong>Öffnen</strong>, um die generierte E-Rechnungs-XML-Datei herunterzuladen.</p>
+</li>
+<li><p>Analysieren Sie die XML-Datei für die elektronische Rechnung. Beachten Sie, dass das Kundensteuerschema derzeit durch die <strong>SchemaID</strong> und <strong>SchemaAgencyID</strong> XML-Attribute dargestellt wird. Beachten Sie auch, dass das <strong>cbc: CustomizationID</strong> XML-Element derzeit den folgenden Text enthält: <code>urn:www.cenbii.eu:transaction:biicoretrdm010:ver1.0:# urn:www.peppol.eu:bis:peppol5a:ver1.0</code>.</p>
+<p><img src="media/er-quick-start3-e-invoice1.png" alt="Vorschau der generierten XML-Datei für die elektronische Rechnung"></p>
+</li>
+</ol>
+<h2 id="add-a-custom-database-field"><a name="AddCustomField"></a>Fügen Sie ein benutzerdefiniertes Datenbankfeld hinzu</h2>
+<p>Sie können die Funktion <a href="../../fin-ops/get-started/user-defined-fields.html">Benutzerdefinierte Feld</a> nutzen zum Ausführen der folgenden Anpassung in der aktuellen Finanzinstanz:</p>
+<ul>
+<li>Passen Sie die Datenbankstruktur an, indem Sie ein neues benutzerdefiniertes Datenbankfeld hinzufügen, in dem für jeden Kunden ein Bundessteueridentifikationscode gespeichert ist.</li>
+<li>Passen Sie die Seite <strong>Kunde</strong> durch Hinzufügen eines neuen Dateneingabefelds an, mit dem ein Steuerkennzeichenwert in das neue benutzerdefinierte Datenbankfeld eingegeben werden kann.</li>
+</ul>
+<p>Befolgen Sie diese Schritte, um die Anpassung vorzunehmen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Kunden</strong> &gt; <strong>Alle Kunden</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Alle Kunden</strong> Seite wählen Sie den <strong>DE-014</strong> Kundenkonto-Link aus.</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Allgemeines</strong> klicken Sie mit der rechten Maustaste in einen leeren Bereich im Feld <strong>Sprache</strong> und wählen Sie dann <strong>Personalisieren: UpperGroup</strong>.</p>
+<p>Der Inhalt im Inforegister <strong>Allgemeines</strong> wird hervorgehoben und ein Menü <strong>Personalisieren</strong> wird angezeigt.</p>
+</li>
+<li><p>Auf dem Menü <strong>Personifizieren</strong> wählen Sie <strong>Fügen Sie ein Feld hinzu</strong>.</p>
+</li>
+<li><p>In dem Dialogfeld <strong>Spalten hinzufügen</strong> wählen Sie <strong>Neues Feld erstellen</strong>.</p>
+</li>
+<li><p>In dem Dialogfeld <strong>Neues Feld erstellen</strong> im Feld <strong>Tabellenname</strong> wählen Sie <strong>Kunden</strong>.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Namenpräfix</strong> <strong>FederalTaxID</strong> ein.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Der gesamte Feldname wurde automatisch als <strong>FederalTaxID_Benutzerdefiniert</strong> definiert.</p>
+</div>
+</li>
+<li><p>Geben Sie im Feld <strong>Beschriftung</strong> die <strong>Steuernummer</strong> ein.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Typ</strong> die Option <strong>Text</strong>.</p>
+</li>
+<li><p>In das Feld <strong>Länge</strong> geben Sie <strong>20</strong> ein.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im angezeigten Meldungsfeld die Option <strong>Ja</strong>, um zu bestätigen, dass Sie einen neuen Feldeintrag <strong>FederalTaxID</strong> für die Tabelle <strong>Kunden</strong> erstellen möchten.</p>
+</li>
+<li><p>Wählen Sie <strong>Einfügen</strong>, um <a name="insert_custom_field"></a>das Feld <strong>FederalTaxID_Benutzerdefiniert</strong> der aktuellen Seite hinzuzufügen.</p>
+<p><img src="media/er-quick-start3-create-new-field.gif" alt="Seite alle Debitoren"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Alle Kunden</strong>.</p>
+</li>
+</ol>
+<h2 id="refresh-the-er-metadata"><a name="RefreshERMetadata"></a>Aktualisieren Sie die EB-Metadaten</h2>
+<p>Sie müssen die EB-Metadaten aktualisieren, um das von Ihnen hinzugefügte benutzerdefinierte Feld <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">sichtbar (This is an external link)</a> im EB Modellzuordnungsdesigner anzuzeigen.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Tabellenreferenz neu erstellen</strong>.</li>
+<li>In dem Dialogfeld <strong>Datenmodell aktualisieren</strong> wählen Sie <strong>OK</strong>.</li>
+</ol>
+<h2 id="design-the-custom-er-configurations"><a name="DesignCustomERConfigurations"></a>Entwerfen Sie die benutzerdefinierten EB-Konfigurationen</h2>
+<p>Sie können die von Microsoft bereitgestellten EB-Konfigurationen verwenden, um Ihre benutzerdefinierten EB-Konfigurationen so zu gestalten, dass sie E-Rechnungen generieren, die das neue Steuerkennzeichen enthalten.</p>
+<h3 id="customize-the-data-model-configuration">Datenmodellkonfiguration anpassen</h3>
+<p>Als Benutzer in der Rolle des Electronic Reporting Functional Consultant können Sie Ihr benutzerdefiniertes EB-Datenmodell entwerfen.</p>
+<h4 id="add-a-custom-data-model-configuration">Benutzerdefinierte Daten-Modellkonfiguration hinzufügen</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich <strong>Benutzerdefiniertes Rechnungsmodell</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Konfiguration erstellen</strong> aus.</li>
+<li>Im Dropdown-Dialogfeld im Feld <strong>Neu</strong> wählen Sie <strong>Ableiten vom Namen: Kundenrechnungsmodell, Microsoft</strong>, um anzuzeigen, dass Ihre neue benutzerdefinierte EB-Datenmodellkonfiguration auf der EB-Datenmodellkonfiguration basieren sollte.</li>
+<li>Geben Sie im Feld <strong>Name</strong> die Bezeichnung <strong>Rechnungsmodell (Litware)</strong> ein.</li>
+<li>Wählen Sie <strong>Konfiguration erstellen</strong> aus, um die neue EBKonfiguration zu erstellen.</li>
+</ol>
+<p>Sie können jetzt den EB-Datenmodell-Designer verwenden, um Version 50.1 der EB-Konfiguration <strong>Rechnungsmodells (Litware)</strong> in <strong>Entwurf</strong> <a href="general-electronic-reporting.html#component-versioning">Status</a> zu ändern.</p>
+<p><img src="media/er-quick-start3-added-custom-model.png" alt="Version 50.1 der EB-Konfiguration auf der Seite Konfigurationen"></p>
+<h4 id="configure-a-custom-data-model">Konfigurieren ein benutzerdefiniertes Datenmodell</h4>
+<p>Sie müssen Ihr benutzerdefiniertes Datenmodell ändern, indem Sie ein neues Feld hinzufügen, um den Wert eines Steueridentifikationscodes des Bundes anzugeben. Dieser Code ist Teil der Kundendaten für jedes EB-Format, das dieses Datenmodell als Datenquelle verwendet.</p>
+<ol>
+<li><p>Wählen Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich <strong>Rechnungsmodell (Litware)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Version <strong>50.1</strong> der ausgewählten EB-Datenmodellkonfiguration aus und wählen Sie den Status <strong>Entwurf</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich die Option <strong>Designer</strong> für die ausgewählte Konfigurationsversion.</p>
+</li>
+<li><p>Auf der Seite <strong>Datenmodelldesigner</strong> wählen Sie im Datenmodellbaum die Seite <strong>Kundeninformation (Kunde)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Im Dropdown-Dialogfeld im Feld <strong>Neuer Knoten als</strong> akzeptieren Sie den Standardwert <strong>Untergeordnetes Element eines aktiven Knotens</strong>.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Name</strong> <strong>FederalTaxId_Litware</strong> ein.</p>
+</li>
+<li><p>In dem Feld <strong>Artikeltyp</strong> akzeptieren Sie den Standardwert <strong>Zeichenfolge</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Hinzufügen</strong> und dann <strong>Speichern</strong> aus.</p>
+<p><img src="media/er-quick-start3-add-data-model-field.png" alt="Datenmodell-Designerseite"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Felder <strong>Beschriftung</strong> und <strong>Beschreibung</strong> beschreiben den Zweck des neuen Feldes. Sie können diese Felder in mehreren Sprachen ausfüllen. Weitere Informationen finden Sie unter <a href="er-design-multilingual-reports.html">Mehrsprachige Berichte in der elektronischen Berichterstattung erstellen</a>.</p>
+</div>
+</li>
+<li><p>Schließen Sie die Seite <strong>Datenmodelldesigner</strong>.</p>
+</li>
+</ol>
+<h4 id="complete-a-custom-data-model-configuration">Benutzerdefinierte Daten-Modellkonfiguration ergänzen</h4>
+<p>Sie müssen Ihre Arbeit mit Version 50.1 Ihrer benutzerdefinierten EB-Datenmodellkonfiguration <a href="general-electronic-reporting.html#component-versioning">abschließen</a>, um sie verfügbar zu machen, damit andere benutzerdefinierte EB-Konfigurationen hinzugefügt werden können.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Rechnungsmodell</strong> und wählen Sie dann <strong>Rechnungsmodell (Litware)</strong> aus.</li>
+<li>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</li>
+</ol>
+<p>Der Status von Version 50.1 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 50.2 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Datenmodellkonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-model1.png" alt="Version 50.1 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<h3 id="customize-the-model-mapping-configuration">Datenmodellkonfigurationazuordnung anpassen</h3>
+<p>Als Benutzer in der Rolle Entwickler für elektronische Berichterstellung können Sie Ihr benutzerdefiniertes EB-Datenmodell entwerfen.</p>
+<h4 id="add-a-custom-model-mapping-configuration">Eine benutzerdefinierte Modellkonfigurationszuordnung hinzufügen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> und wählen Sie dann <strong>Benutzerdefiniertes Rechnungsmodellzuordnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Konfiguration erstellen</strong> aus.</p>
+</li>
+<li><p>Im Dropdown-Dialogfeld im Feld <strong>Neu</strong> wählen Sie <strong>Ableiten vom Namen: Kundenrechnungsmodellzuordnung, Microsoft</strong>, um anzuzeigen, dass Ihre neue benutzerdefinierte EB-Modellzuordnungskonfiguration auf der EB-Datenzuordnungskonfiguration basieren sollte.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Name</strong> die Bezeichnung <strong>Rechnungsmodellzuordnung (Litware)</strong> ein.</p>
+</li>
+<li><p>In dem Feld <strong>Zielmodell</strong> wählen Sie <strong>Rechnungsmodell (Litware)</strong>.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dieser Schritt ist sehr wichtig. Wenn Sie es weglassen, können Sie Ihr benutzerdefiniertes Datenmodell nicht in der konfigurierten Modellzuordnung verwenden.</p>
+</div>
+</li>
+<li><p>Wählen Sie <strong>Konfiguration erstellen</strong> aus, um die neue EBKonfiguration zu erstellen.</p>
+</li>
+</ol>
+<p><img src="media/er-quick-start3-adding-custom-mapping.png" alt="Eine benutzerdefinierte Modellzuordnungskonfiguration auf der Konfigurationsseite hinzufügen"></p>
+<h4 id="configure-a-custom-model-mapping">Konfigurieren einer benutzerdefinierten Modellzuordnung</h4>
+<p>Sie müssen Ihre benutzerdefinierte Modellzuordnung ändern und angeben, wie das benutzerdefinierte Feld <strong>FederalTaxID_Litware</strong> des benutzerdefinierten Datenmodells zur Laufzeit mit Anwendungsdaten ausgefüllt werden sollte.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> &gt; <strong>Benutzerdefiniertes Rechnungsmodellzuordnung</strong> und wählen Sie <strong>Rechnugsmodellzuordnung (Litware)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Modell für Datenquellenzuordnung</strong> die Zuordnung <strong>Kundenrechnung</strong> aus.</p>
+<p><img src="media/er-quick-start3-select-customer-mapping.png" alt="Modell für die Seite Datenquellenzuordnung"></p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Modellzuordnungsdesigner</strong> im Bereich <strong>Datenquellen</strong> erweitern Sie die <strong>CustInvoiceJour</strong> Datenquelle, die die Anwendungstabelle <strong>CustInvoiceJour</strong> darstellen.</p>
+</li>
+<li><p>Unter <strong>CustInvoiceJour</strong>, erweitern Sie <strong>Beziehungen</strong>, um die Liste der Beziehungen vom Typ Viele-zu-Eins (N: 1) für die <strong>CustInvoiceJour</strong> Tabelle zu überprüfen.</p>
+</li>
+<li><p>Unter <strong>CustInvoiceJour</strong> &gt; <strong>Beziehungen</strong>, erweitern Sie <strong>Kunden (CustTable)</strong> um Zugang zu den Feldern und Beziehungen der <strong>Kunden (CustTable)</strong> Tabelle zu erhalten.</p>
+</li>
+<li><p>Wählen Sie das Datenquellenfeld <strong>FederalTaxID_Benutzerdefiniert</strong> aus, das Sie <a href="#insert_custom_field">zuvor</a> implementiert haben.</p>
+</li>
+<li><p>In dem Bereich <strong>Datenmodell</strong> erweitern Sie <strong>Benutzerdefinierte Information (Kunde)</strong> und wählen Sie das Datenmodellfeld <strong>FederalTaxIDv_Litware</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus.</p>
+<p><img src="media/er-quick-start3-customize-model-mapping.gif" alt="Modellzuordnungsdesigner – Seite"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modell für Datenquellenzuordnung</strong>.</p>
+</li>
+</ol>
+<h4 id="complete-a-custom-model-mapping-configuration">Benutzerdefinierte Modellzuordnungskonfiguration ergänzen</h4>
+<p>Sie müssen Ihre Arbeit mit Version 50.19.1 Ihrer benutzerdefinierten EB-Modellzuordnungskonfiguration <a href="general-electronic-reporting.html#component-versioning">ergänzen</a> , um sie zur Verwendung verfügbar zu machen.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> &gt; <strong>Benutzerdefiniertes Rechnungsmodellzuordnung</strong> und wählen Sie <strong>Rechnugsmodellzuordnung (Litware)</strong> aus.</li>
+<li>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</li>
+</ol>
+<p>Der Status von Version 50.19.1 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 50.19.2 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Modellzuordnungskonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-mapping1.png" alt="Version 50.19.1 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die unterstützte Konfiguration <a href="general-electronic-reporting-manage-configuration-lifecycle.html">Lebenszyklus</a> deckt nicht den Lebenszyklus von Datenbankänderungen ab. Wenn Sie die Version 50.19.1 der exportierten <strong>Rechnungsmodellzuordnung (Litware)</strong> Konfiguration von der aktuellen Finanzinstanz exportieren und versuchen, sie in eine andere Instanz zu importieren, die das benutzerdefinierte Feld <strong>FederalTaxID_Benutzerdefiniert</strong> in der Tabelle <strong>CustTable</strong> nicht enthält, wird eine Ausnahme auftreten. Die Ausnahme besagt, dass die importierte EB-Konfiguration nicht mit den Metadaten der Zielfinanzinstanz kompatibel ist.</p>
+</div>
+<h3 id="customize-the-format-configuration">Anpassen der Formatkonfiguration</h3>
+<p>Als Benutzer in der Rolle des Electronic Reporting Functional Consultant können Sie Ihr benutzerdefiniertes EB Format entwerfen.</p>
+<h4 id="add-a-custom-format-configuration">Neue benutzerdefinierte Formatkonfiguration hinzufügen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> &gt; <strong>UBL Vertriebsrechung</strong> und wählen Sie dann <strong>Peppol Verkaufsrechnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Konfiguration erstellen</strong> aus.</p>
+</li>
+<li><p>Im Dropdown-Dialogfeld im Feld <strong>Neu</strong> wählen Sie <strong>Ableiten vom Namen: Peppol Verkaufsrechnung, Microsoft</strong>, um anzuzeigen, dass Ihre neue benutzerdefinierte EB-Formatkonfiguration auf der EB-Formatkonfiguration basieren sollte.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Name</strong> die Bezeichnung <strong>Peppol Verkaufsrechnung</strong> ein.</p>
+</li>
+<li><p>In dem Feld <strong>Datenmodell</strong> wählen Sie <strong>Rechnungsmodell (Litware)</strong>, um Ihr benutzerdefiniertes Datenmodell und Ihre Modellzuordnungkomponenten zu verwenden.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Dieser Schritt ist sehr wichtig. Wenn Sie es weglassen, können Sie Ihr benutzerdefiniertes Datenmodell nicht im konfigurierten Format nutzen.</p>
+</div>
+</li>
+<li><p>Wählen Sie im Feld <strong>Datenmodell</strong> die Staffdefinition <strong>InvoiceCustomer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Konfiguration erstellen</strong> aus, um die neue EBKonfiguration zu erstellen.</p>
+</li>
+</ol>
+<p><img src="media/er-quick-start3-adding-custom-format.png" alt="Eine benutzerdefinierte Formatkonfiguration auf der Konfigurationsseite hinzufügen"></p>
+<p>Sie können jetzt den EB-Vorgangs-Designer verwenden, um Version 11.2.2.1 der EB-Konfiguration <strong>Peppol Verkaufsrechnung (Litware)</strong> im <strong>Entwurf</strong> <a href="general-electronic-reporting.html#component-versioning">Status</a> zu bearbeiten.</p>
+<p><img src="media/er-quick-start3-added-custom-format.png" alt="Version 11.2.2.1 der EB-Konfiguration auf der Seite Konfigurationen"></p>
+<h4 id="configure-a-custom-format">Konfigurieren eines benutzerdefinierten Formats</h4>
+<p>Sie müssen Ihr benutzerdefiniertes Format ändern, indem Sie ein neues Formatelement hinzufügen, um den Wert des Steueridentifikationscodes eines in Rechnung gestellten Kunden einzugeben.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> &gt; <strong>UBL Vertriebsrechung</strong> &gt; <strong>Peppol Verkaufsrechnung</strong> und wählen Sie dann <strong>Peppol Verkaufsrechnung (Litware)</strong> aus.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</li>
+<li>Erweitern Sie im Formatbaum <strong>XMLHeader</strong> &gt; <strong>Rechnung</strong> &gt; <strong>cac:AccountingCustomerParty</strong> &gt; <strong>cac:Party</strong> &gt; <strong>cac:PartyTaxScheme</strong> &gt; <strong>cac:TaxScheme</strong>, und wählen <strong>cbc:ID</strong>.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> und dann <strong>XML</strong> &gt; <strong>Attribut</strong> aus.</li>
+<li>Geben Sie im Dialogfeld <strong>Komponenteneigenschaft</strong> im Feld <strong>Name</strong> <strong>FederalTaxId</strong> ein.</li>
+<li>Wählen Sie <strong>OK</strong>, um ein neues Formatelement hinzuzufügen, um ein neues <strong>FederalTaxID</strong> XML-Attribut in einer generierten XML-Datei zu erstellen.</li>
+<li>Erweitern Sie im Formatbaum unter <strong>XMLHeader</strong> &gt; <strong>Rechnung</strong> &gt; <strong>cac:AccountingCustomerParty</strong> &gt; <strong>cac.Party</strong> &gt; <strong>cac:PartyTaxScheme</strong> &gt; <strong>cac:TaxScheme</strong> &gt; <strong>cbc:ID</strong> und wählen <strong>cac.AccountingCustomerParty</strong>.</li>
+<li>Wählen Sie <strong>Nach oben</strong>.</li>
+</ol>
+<p><img src="media/er-quick-start3-customized-format.png" alt="Neues Formatelement auf der Seite Format-Designer"></p>
+<h4 id="configure-a-custom-format-mapping">Konfigurieren einer benutzerdefinierten Formatzuordnung</h4>
+<ol>
+<li><p>Erweitern Sie auf der Seite <strong>Format Designer</strong>, auf der Registerkarte <strong>Zuordnung</strong> die Datenquelle <strong>Rechnung</strong> vom Typ <strong>Modell</strong>.</p>
+</li>
+<li><p>Unter <strong>Rechnung</strong>, erweitern Sie <strong>Kundeninformation (Kunde)</strong> und wählen <strong>FederalTaxID_Litware</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus.</p>
+<p><img src="media/er-quick-start3-customized-format-mapping.png" alt="Formatdesignerseite"></p>
+</li>
+<li><p>Wählen Sie aus der Datenquelle <strong>Rechnung</strong> den Typ <strong>Modell</strong> aus und wählen Sie <strong>Bearbeiten</strong>.</p>
+</li>
+<li><p>In dem Feld <strong>Version</strong> Version <strong>1</strong> von Ihrem benutzerdefinierten Datenmodell auswählen und dann <strong>OK</strong> wählen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Seite <strong>Format-Designer</strong> schließen.</p>
+</li>
+</ol>
+<h4 id="complete-a-custom-format-configuration">Eine benutzerdefinierte Formatkonfiguration ergänzen</h4>
+<p>Sie müssen Ihre Arbeit mit Version 11.2.2.1 Ihrer benutzerdefinierten EB-Formatkonfiguration <a href="general-electronic-reporting.html#component-versioning">ergänzen</a> , um sie zur Verwendung verfügbar zu machen.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Benutzerdefiniertes Rechnungsmodell</strong> &gt; <strong>UBL Vertriebsrechung</strong> &gt; <strong>Peppol Verkaufsrechnung</strong> und wählen Sie dann <strong>Peppol Verkaufsrechnung (Litware)</strong> aus.</li>
+<li>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</li>
+</ol>
+<p>Der Status von Version 11.2.2.1 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 11.2.2.2 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Formatkonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-format1.png" alt="Version 11.2.2.1 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<h2 id="configure-the-accounts-receivable-parameters-to-start-to-use-custom-er-configurations"><a name="ConfigureAR2"></a>Konfigurieren Sie die Debitorenparameter so, dass die benutzerdefinierten EB-Konfigurationen verwendet werden</h2>
+<ol>
+<li>Gehen Sie zu <strong>Debitoren</strong> &gt; <strong>Einrichtung</strong> &gt; <strong>Debitorenparameter</strong>.</li>
+<li>Auf der Registerkarte <strong>Elektronische Dokumente</strong> auf dem Inforegister <strong>Elektronische Berichterstattung</strong> im Feld <strong>Verkaufs- und Freitextrechnung</strong> wählen Sie <strong>Peppol Verkaufsrechnung (Litware)</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<p><img src="media/er-quick-start3-configure-ar2.png" alt="Seite Debitorenparameter, Registerkarte Elektronische Dokumenten, Inforegister Elektronische Berichterstattung"></p>
+<h2 id="update-a-customer-record-by-adding-a-federal-tax-identification-code"><a name="ConfigureCustomer2"></a>Aktualisieren Sie einen Kundendatensatz, indem Sie einen Bundessteueridentifikationscode hinzufügen</h2>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Debitoren</strong> &gt; <strong>Alle Debitoren</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Alle Kunden</strong> Seite wählen Sie den <strong>DE-014</strong> Kundenkonto-Link aus.</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Allgemeines</strong> im Feld <strong>Federal Tax ID</strong> geben Sie <strong>LITWARE-6789</strong> ein.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+<p><img src="media/er-quick-start3-added-tax-id-value.png" alt="DE-014 Kundendetails Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Alle Kunden</strong>.</p>
+</li>
+</ol>
+<h2 id="process-a-customer-invoice-by-using-custom-er-configurations"><a name="ProcessInvoice2"></a>Verarbeiten einer Kundenrechnung mithilfe der benutzerdefinierten EB-Konfigurationen</h2>
+<h3 id="select-and-send-a-posted-invoice">Wählen Sie eine gebuchte Rechnung aus und senden Sie diese</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</li>
+<li>Auf der Seite <strong>Freitextrechnung</strong> wählen Sie die Rechnung aus, die Sie zuvor hinzugefügt und gebucht haben.</li>
+<li>Im Aktionsbereich in der Gruppe <strong>Dokument</strong> wählen Sie <strong>Senden</strong> &gt; <strong>Original</strong>.</li>
+<li>Schließen Sie die Seite <strong>Freitextrechnung</strong>.</li>
+</ol>
+<h3 id="analyze-a-generated-e-invoice">Analysieren Sie eine generierte E-Rechnung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Einzelvorgänge für elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Elektronische Berichterstattung</strong> wählen Sie den letzten Datensatz mit der Aufgabenbeschreibung <strong>Senden Sie das E-Rechnungs-XML</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Dateien anzeigen</strong>, um auf die Liste der generierten Dateien zuzugreifen.</p>
+</li>
+<li><p>Wählen Sie <strong>Öffnen</strong>, um die generierte E-Rechnungs-XML-Datei herunterzuladen.</p>
+</li>
+<li><p>Analysieren Sie die XML-Datei für die elektronische Rechnung. Beachten Sie, dass das Kundensteuerschema gemäß Ihrer Anpassung das benutzerdefinierte Steuerschema <strong>FederalTaxID</strong> XML-Attribut zusätzlich zu den <strong>SchemaID</strong> und <strong>SchemaAgencyID</strong> XML-Attributen enthält. Der Wert dieses neuen XML-Attributs wird durch die <strong>LITWARE-6789</strong> Bundessteuer-ID definiert, die für einen in Rechnung gestellten Kunden eingegeben wurde.</p>
+<p><img src="media/er-quick-start3-e-invoice2.png" alt="Vorschau der generierten XML-Datei für die elektronische Rechnung mit Ihren Anpassungen"></p>
+</li>
+</ol>
+<h2 id="import-the-latest-versions-of-standard-er-configurations"><a name="ImportERConfigurations2"></a>Importieren der letzten Versionen der standardmäßigen EB-Konfigurationen</h2>
+<p>Um die Standard-EB-Konfigurationen in Ihrer Finanzinstanz <a href="general-electronic-reporting-manage-configuration-lifecycle.html">auf dem Laufenden</a> zu halten, müssen Sie neue Versionen davon importieren, sobald sie im EB <a href="general-electronic-reporting.html#Repository">Repository</a>, das für diese Instanz eingerichtet wurde, verfügbar sind.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Microsoft</strong> aus. Wählen Sie dann <strong>Repositorys</strong> aus, um die Liste der Repositorys für den Microsoft-Anbieter anzuzeigen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> das Repository des Typs <strong>Global</strong> aus. Wählen Sie dann <strong>Öffnen</strong> aus. Wenn Sie aufgefordert werden, das Herstellen einer Verbindung zum Regulatory Configuration Service zu autorisieren, folgen Sie den Autorisierungsanweisungen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> in der Konfigurationsstruktur im linken Bereich die Formatkonfiguration <strong>Peppol Verkaufsrechnung</strong> aus.</li>
+<li>Auf dem Inforegister <strong>Versionen</strong> wählen Sie <strong>32.6.7</strong> der ausgewählten EB-Formatkonfiguration, die zur Unterstützung elektronischer Kundenrechnungen im PEPPOL BIS 3-Format freigegeben wurde. Weitere Informationen finden Sie unter <a href="https://support.microsoft.com/help/4490320/an-update-for-european-union-to-support-export-of-customers-electronic">KB4490320</a>.</li>
+<li>Wählen Sie <strong>Importieren</strong> aus, um die ausgewählte Version aus dem globalen Repository auf die aktuelle Finance-Instanz herunterzuladen.</li>
+</ol>
+<p><img src="media/er-quick-start3-import-solution2.png" alt="Version 32.6.7 auf der Seite Konfigurations-Repository ausgewählt"></p>
+<p>Informationen dazu, wie dieser Prozess automatisiert werden kann, finden Sie unter <a href="er-download-updated-versions-global-repo.html">Importieren Sie aktualisierte Versionen von EB-Konfigurationen</a>.</p>
+<h3 id="review-the-imported-er-configurations">Überprüfen der importierten EB-Konfigurationen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationen</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</li>
+<li>Erweitern Sie das Inforegister <strong>Konfigurationskomponenten</strong>.</li>
+<li>Wählen Sie in der Konfigurationsstruktur im linken Bereich <strong>Rechnungsmodell</strong> aus. Beachten Sie, dass der Name vom <strong>Benutzerdefinierten Rechnungsmodell</strong> in <strong>Rechnungsmodell</strong> in einer der importierten EB-Datenmodellkonfigurationen geändert wurde.</li>
+<li>Wählen Sie in der Konfigurationsstruktur im linken Bereich <strong>Rechnungsmodellzuordnung</strong> aus. Beachten Sie, dass der Name vom <strong>Benutzerdefinierten Rechnungsmodellmapping</strong> in <strong>Rechnungsmodellmapping</strong> in einer der importierten EB-Modelkonfigurationen geändert wurde.</li>
+<li>Erweitern Sie <strong>UBL Verkaufsrechnung</strong> &gt; <strong>Peppol Verkaufsrechnung</strong>.</li>
+</ol>
+<p>Beachten Sie, dass zusätzlich zum ausgewählten EB-Format <strong>Peppols Verkaufsrechnung</strong> die neuesten Versionen der weiteren erforderlichen EB-Konfigurationen importiert wurden. Da ständig neue Versionen von EB-Konfigurationen im Global Repository und LCS veröffentlicht werden, damit die entsprechenden EB-Lösungen den neuen Anforderungen entsprechen, wurden die neuesten Versionen der erforderlichen Datenmodell-Konfiguration und der Modellabbildung importiert.</p>
+<p>Stellen Sie sicher, dass die folgenden EB-Konfigurationen auch in der Konfigurationsstruktur verfügbar sind:</p>
+<ul>
+<li><p><strong>Rechnungsmodell</strong> EB Datenmodellkonfiguration:</p>
+<ul>
+<li>Version 206 (oder höher) enthält Version 24 (oder höher) der Datenmodell EB-Komponente, die die Datenstruktur der Fakturierungsgeschäftsdomäne darstellt. Diese EB-Konfiguration wurde als Vorfahr der neuesten verfügbaren EB-Modellzuordnungskonfiguration <strong>Rechnungsmodellzuordnung</strong> importiert.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution2b1.png" alt="Version 206 auf der Seite Konfiguration"></p>
+</li>
+<li><p><strong>Rechnungsmodellzuordnung</strong> EB Modellzuordnungskonfiguration:</p>
+<ul>
+<li>Version 206.132 (oder höher) wurde als neueste Implementierung von Version 206 der <strong>Rechnungsmodell</strong> Konfiguration des EB-Datenmodells importiert. Es enthält mehrere Komponenten der Modellzuordnung, die beschreiben, wie das Datenmodell zur Laufzeit mit Anwendungsdaten gefüllt wird.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution2b2.png" alt="Version 206.132 auf der Seite Konfiguration"></p>
+</li>
+<li><p><strong>UBL-Vertriebsrechung</strong> EB-Formatkonfiguration:</p>
+<ul>
+<li>Version 32.6 enthält die EB-Komponenten Format und Formatzuordnung. Die Formatkomponente legt das Berichtslayout fest. Die Formatzuordnungskomponente enthält die Modelldatenquelle und legt fest, wie die Datenquelle verwendet wird, um das Berichtslayout zur Laufzeit auszufüllen. Dieses EB-Format wurde so konfiguriert, dass E-Rechnungen im UBL-Forma erstellt werden. Sie wurde als übergeordnetes EB-Format der <strong>Peppol Verkaufsrechnung</strong> importiert, die für den Import ausgewählt wurde.</li>
+</ul>
+</li>
+<li><p><strong>Peoppol Vertriebsrechung</strong> EB-Formatkonfiguration:</p>
+<ul>
+<li>Version 32.6.7 enthält die EB-Komponenten Format- und Formatzuordnung, die für die Erstellung von E-Rechnungen im PEPPOL-Format eingerichtet wurden.</li>
+</ul>
+<p><img src="media/er-quick-start3-imported-solution2b3.png" alt="Version 32.6.7 auf der Seite Konfiguration"></p>
+</li>
+</ul>
+<h2 id="adopt-the-changes-to-the-new-standard-er-configurations-in-your-custom-er-configurations"><a name="RebaseCustomERConfigurations"></a>Übernehmen Sie die Änderungen an den neuen Versionen der Standard-EB-Konfigurationen in Ihre benutzerdefinierten EB-Konfigurationen</h2>
+<h3 id="adopt-your-custom-er-data-model">Übernehmen Sie Ihr benutzerdefiniertes EB-Datenmodell</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Rechnungsmodell</strong> und wählen Sie dann <strong>Rechnungsmodell (Litware)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Entwurfversion <strong>50.2</strong> der ausgewählten EB-Datenmodellkonfiguration aus und wählen Sie <strong>Zurücksetzen</strong> aus.</p>
+</li>
+<li><p>In dem Feld <strong>Zielversion</strong> bestätigen Sie die Auswahl der Version <strong>206</strong> der Basis-EB-Datenmodellkonfiguration und wählen Sie dann <strong>OK</strong>.</p>
+<p>Die Entwurfsversion Ihrer benutzerdefinierten EB-Datenmodellkonfiguration wird neu nummeriert von <strong>50.2</strong> zu <strong>206.2</strong>, um anzuzeigen, dass es jetzt Ihre Anpassung enthält, die mit den Änderungen in der neuesten Version (206) der Basis-EB-Datenmodellkonfiguration zusammengeführt wurde.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Zurücksetzen kann nicht rückgängig gemacht werden. Um das Zurücksetzen abzubrechen, wählen Sie Version <strong>50.1</strong> des Modells <strong>Rechnungsmodell (Litware)</strong> auf dem Inforegister <strong>Versionen</strong> aus und wählen Sie dann <strong>Diese Version abrufen</strong> aus. Version 206.2 wird dann in <strong>50.2</strong> umnummeriert und der Inhalt der Entwurfsversion 50.2 stimmt mit dem Inhalt von Version 50.1 überein.</p>
+</div>
+</li>
+<li><p>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+</ol>
+<p>Der Status von Version 206.2 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 206.3 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Datenmodellkonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-model2.png" alt="Version 206.2 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<h3 id="adopt-your-custom-er-model-mapping">Übernehmen Sie Ihr benutzerdefiniertes EB-Modellzuordnung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Rechnungsmodell</strong> &gt; <strong>Benutzerdefiniertes Rechnungsmodellzuordnung</strong> und wählen Sie <strong>Rechnugsmodellzuordnung (Litware)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Entwurfsversion <strong>50.19.2</strong> des ausgewählten EB-Datenzuordnungskonfiguration aus und wählen Sie <strong>Zurücksetzen</strong> aus.</p>
+</li>
+<li><p>In dem Feld <strong>Zielversion</strong> bestätigen Sie die Auswahl der Version <strong>206.132</strong> der Basis-EB-Modellzuordnungskonfiguration und wählen Sie dann <strong>OK</strong>.</p>
+<p>Die Entwurfsversion Ihrer benutzerdefinierten EB-Modellzuordnungskonfiguration wird neu nummeriert von <strong>50.19.2</strong> zu <strong>206.132.2</strong>, um anzuzeigen, dass es jetzt Ihre Anpassung enthält, die mit den Änderungen in der neuesten Version (206.132) der Basis-EB-Modellzuordnungskonfiguration zusammengeführt wurde.</p>
+<p>Beachten Sie, dass einige Konflikte beim Zurücksetzen entdeckt wurden. Sie müssen diese Konflikte jetzt manuell lösen.</p>
+<p><img src="media/er-quick-start3-rebase-conflicts-model-mapping1.png" alt="Konfliktnachrichten auf der Seite Konfigurationen neu starten"></p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich die Option <strong>Designer</strong> aus und wählen Sie dann in der Zuordnungsliste <strong>Kundenrechnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie für jeden Zurücksetzungs-Konflikt <strong>Eigenen Wert behalten</strong> aus, weil Sie die Versionsnummer Ihres benutzerdefinierten Datenmodells für jede erwähnte Komponente behalten müssen.</p>
+<p><img src="media/er-quick-start3-rebase-conflicts-model-mapping2.png" alt="Zurücksetzungskonflikte auf der Modellzuordnungsdesigner-Seite"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> und dann schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Wählen Sie in der Liste der Zuordnungen <strong>Projektrechnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie für jeden Zurücksetzungs-Konflikt <strong>Eigenen Wert behalten</strong> aus, weil Sie die Versionsnummer Ihres benutzerdefinierten Datenmodells für jede erwähnte Komponente behalten müssen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus und dann schließen Sie die Seite <strong>Modellzuordnung</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Zurücksetzen kann nicht rückgängig gemacht werden. Um das Zurücksetzen abzubrechen, wählen Sie Version <strong>50.19.1</strong> der Modellzuordnung <strong>Rechnungsmodellzuordnung (Litware)</strong> auf dem Inforegister <strong>Versionen</strong> aus und wählen Sie dann <strong>Diese Version abrufen</strong> aus. Version 206.132.2 wird dann in <strong>50.19.2</strong> umnummeriert und der Inhalt der Entwurfsversion 50.19.2 stimmt mit dem Inhalt von Version 50.19.1 überein.</p>
+</div>
+</li>
+<li><p>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+</ol>
+<p>Der Status von Version 206.132.2 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 206.132.3 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Modellzuordnungskonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-mapping2.png" alt="Version 206.132.2 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<h3 id="adopt-your-custom-er-format">Übernehmen Sie Ihr benutzerdefiniertes EB-Format</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Rechnungsmodell</strong> &gt; <strong>Peppol Verkaufsrechung</strong> &gt; <strong>Peppol Verkaufsrechnung</strong> und wählen Sie dann <strong>Peppol Verkaufsrechnung (Litware)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Entwurfsversion <strong>11.2.2.2</strong> der ausgewählten EB-Formatkonfiguration aus und wählen Sie <strong>Zurücksetzen</strong> aus.</p>
+</li>
+<li><p>In dem Feld <strong>Zielversion</strong> bestätigen Sie die Auswahl der Version <strong>32.6.7</strong> der Basis-EB-Formatkonfiguration und wählen Sie dann <strong>OK</strong>.</p>
+<p>Die Entwurfsversion Ihrer benutzerdefinierten EB-Formatkonfiguration wird neu nummeriert von <strong>11.2.2.2</strong> zu <strong>32.6.7.2</strong>, um anzuzeigen, dass es jetzt Ihre Anpassung enthält, die mit den Änderungen in der neuesten Version (32.6.7) der Basis-EB-Formatkonfiguration zusammengeführt wurde.</p>
+<p>Beachten Sie, dass einige Konflikte beim Zurücksetzen entdeckt wurden. Sie müssen diese Konflikte jetzt manuell lösen.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie für jeden Zurücksetzungs-Konflikt <strong>Eigenen Wert behalten</strong> aus, weil Sie die Versionsnummer Ihres benutzerdefinierten Datenmodells für jede erwähnte Komponente behalten müssen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Registerkarte <strong>Zuordnung</strong> den Typ <strong>Modell</strong> aus der Datenquelle <strong>Rechnung</strong> aus und wählen Sie dann <strong>Bearbeiten</strong>.</p>
+</li>
+<li><p>In dem Feld <strong>Version</strong> Version <strong>2</strong> von Ihrem benutzerdefinierten Datenmodell auswählen und dann <strong>OK</strong> wählen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Zurücksetzen kann nicht rückgängig gemacht werden. Um das Zurücksetzen abzubrechen, wählen Sie Version <strong>11.2.2.1</strong> des Formats <strong>Peppol Verkaufsrechnung (Litware)</strong> auf dem Inforegister <strong>Versionen</strong> aus und wählen Sie dann <strong>Diese Version abrufen</strong> aus. Version 32.6.7.2 wird dann in <strong>11.2.2.2</strong> umnummeriert und der Inhalt der Entwurfsversion 11.2.2.2 stimmt mit dem Inhalt von Version 11.2.2.1 überein.</p>
+</div>
+</li>
+<li><p>Seite <strong>Format-Designer</strong> schließen.</p>
+</li>
+<li><p>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+</ol>
+<p>Der Status von Version 32.6.7.2 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 32.6.7.3 mit dem Status <strong>Entwurf</strong> wird hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrer benutzerdefinierten EB-Formatkonfiguration vornehmen.</p>
+<p><img src="media/er-quick-start3-completed-custom-format2.png" alt="Version 32.6.7.2 wurde auf der Seite Konfigurationen abgeschlossen"></p>
+<h2 id="process-a-customer-invoice-by-using-new-versions-of-the-custom-er-configurations"><a name="ProcessInvoice3"></a>Verarbeiten einer Kundenrechnung mithilfe der neuen Versionen der benutzerdefinierten EB-Konfigurationen</h2>
+<h3 id="select-and-send-a-posted-invoice">Wählen Sie eine gebuchte Rechnung aus und senden Sie diese</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren</strong> &gt; <strong>Rechnungen</strong> &gt; <strong>Alle Freitextrechnungen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Freitextrechnung</strong> wählen Sie die Rechnung aus, die Sie zuvor hinzugefügt und gebucht haben.</p>
+</li>
+<li><p>Im Aktionsbereich in der Gruppe <strong>Dokument</strong> wählen Sie <strong>Senden</strong> &gt; <strong>Original</strong>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Weil Sie jetzt zwei Versionen der <strong>Peppol Verkaufsrechnung (Litware)</strong> EB-Formatkonfiguration haben und keine Version ein <a href="general-electronic-reporting.html#component-date-effectivity">Datum des Inkrafttretens</a> hat, wird die neueste Version verwendet, um eine E-Rechnung zu erstellen.</p>
+</div>
+</li>
+<li><p>Schließen Sie die Seite <strong>Freitextrechnung</strong>.</p>
+</li>
+</ol>
+<h3 id="analyze-a-generated-e-invoice">Analysieren Sie eine generierte E-Rechnung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Einzelvorgänge für elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Elektronische Berichterstattung</strong> wählen Sie den neuesten Datensatz mit der Aufgabenbeschreibung <strong>Senden Sie das E-Rechnungs-XML</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Dateien anzeigen</strong>, um auf die Liste der generierten Dateien zuzugreifen.</p>
+</li>
+<li><p>Wählen Sie <strong>Öffnen</strong>, um die generierte E-Rechnungs-XML-Datei herunterzuladen.</p>
+</li>
+<li><p>Analysieren Sie die XML-Datei für die elektronische Rechnung. Beachten Sie, dass das Kundensteuerschema gemäß Ihrer Anpassung immer noch das benutzerdefinierte Steuerschema <strong>FederalTaxID</strong> XML-Attribut zusätzlich zu den <strong>SchemaID</strong> und <strong>SchemaAgencyID</strong> XML-Attributen enthält. Weil die Änderungen in der neuen Version des Basis-Formats <strong>UBL Verkaufsrechnung</strong> mit Ihrer Anpassung zusammengeführt wurde, wurde der Text im <strong>cbc: CustomizationID</strong> XML-Element von <code>urn:www.cenbii.eu:transaction:biicoretrdm010:ver1.0:# urn:www.peppol.eu:bis:peppol5a:ver1.0</code> zu <code>urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0</code> geändert.</p>
+<p><img src="media/er-quick-start3-e-invoice3.png" alt="Vorschau der generierten XML-Datei für die elektronische Rechnung mit Ihren Anpassungen"></p>
+</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung</a></li>
+<li><a href="download-electronic-reporting-configuration-lcs.html">Herunterladen elektronischer Berichterstellungskonfigurationen von Lifecycle Services</a></li>
+<li><a href="er-download-configurations-global-repo.html">Herunterladen von EB-Konfigurationen aus dem globalen Repository des Konfigurationsdienstes</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/finance/accounts-receivable/create-free-text-invoice-new">Freitextrechnung erstellen</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/fin-ops-core/fin-ops/get-started/user-defined-fields">Benutzerdefinierte Felder erstellen und damit arbeiten</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-quick-start3-customize-report.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

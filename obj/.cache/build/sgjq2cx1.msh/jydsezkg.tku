@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Warehouse slotting | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Warehouse slotting | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="warehouse-slotting">Warehouse slotting</h1>
+
+
+<p>Several warehouse slotting features are available to help warehouse managers intelligently plan picking locations before they release orders to the warehouse and create picking work.</p>
+<p>The <em>Warehouse slotting feature</em> lets you consolidate demand by item and unit of measure from orders that have a status of <em>Ordered</em>, <em>Reserved</em>, or <em>Released</em>. Generated demand can then be applied to locations that will be used for picking, based on quantity, unit, physical dimensions, fixed locations, and more. After the slotting plan has been established, replenishment work can be created to bring the appropriate amount of inventory to each location.</p>
+<p>The <em>Warehouse slotting for transfer orders</em> feature lets warehouse managers replenish picking locations, based on demand from transfer orders that aren't yet released to the warehouse. It ensures that picking locations will include all the items that are required for the transfer orders after they are released to warehouse. This feature requires that you also turn on the <em>Warehouse slotting feature</em> feature.</p>
+<p>The <em>Warehouse slotting allocation enhancements</em> feature adds an option for the template lines that are used by the <em>Warehouse slotting feature</em> feature. The option enables the system to consider existing on-hand inventory at a target location. Therefore, fewer replenishments might be generated for slotting. The <em>Warehouse slotting allocation enhancements</em> feature requires that you also turn on the <em>Warehouse slotting feature</em> feature. It can optionally be used together with the <em>Warehouse slotting for transfer orders</em> feature.</p>
+<h2 id="turn-on-the-warehouse-slotting-features">Turn on the warehouse slotting features</h2>
+<p>Before you can use these features, they must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the features and turn them on if they are required. Turn on the following features as required:</p>
+<ul>
+<li><p>Warehouse slotting feature</p>
+</li>
+<li><p>Warehouse slotting for transfer orders</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The <em>Warehouse slotting feature</em> feature must be turned on before this feature.</p>
+</div>
+</li>
+<li><p>Warehouse slotting allocation enhancements</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The <em>Warehouse slotting feature</em> feature must be turned on before this feature.</p>
+</div>
+</li>
+</ul>
+<h2 id="set-up-warehouse-slotting">Set up warehouse slotting</h2>
+<p>To use warehouse slotting, you must set up the following elements in your system:</p>
+<ul>
+<li>Slotting unit of measure tiers</li>
+<li>Directive codes</li>
+<li>Slotting templates</li>
+<li>Location directives</li>
+</ul>
+<h3 id="unit-tiers">Create unit-of-measure tiers for slotting</h3>
+<p>Unit-of-measure tiers enable multiple units of measure to be grouped together for the purposes of slotting. For example, if multiple sizes of boxes are all picked from the same box picking area, one tier can be created for all the sizes. <strong>A line must be created for each unit of measure that should be part of the tier.</strong></p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Slotting unit of measure tiers</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Unit of measure tier:</strong> <em>EaBoxPl</em></li>
+<li><strong>Description:</strong> <em>Each box pallet</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Units of measure</strong> FastTab, select <strong>New</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Unit:</strong> <em>Box</em></li>
+<li><strong>Description:</strong> Leave this field blank. It will be filled in automatically when you save your changes.</li>
+<li><strong>Unit class:</strong> <em>Quantity</em></li>
+</ul>
+</li>
+<li><p>Select <strong>New</strong> to add a second line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Unit:</strong> <em>ea</em></li>
+<li><strong>Description:</strong> Leave this field blank. It will be filled in automatically when you save your changes.</li>
+<li><strong>Unit class:</strong> <em>Quantity</em></li>
+</ul>
+</li>
+<li><p>Select <strong>New</strong> to add a third line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Unit:</strong> <em>PL</em></li>
+<li><strong>Description:</strong> Leave this field blank. It will be filled in automatically when you save your changes.</li>
+<li><strong>Unit class:</strong> <em>Quantity</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to save the tier.</p>
+</li>
+</ol>
+<h3 id="create-a-directive-code-for-slotting">Create a directive code for slotting</h3>
+<p>You must select the directive code that should be associated with a template.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Directive codes</strong>.</li>
+<li>On the Action Pane, select <strong>New</strong>.</li>
+<li>In the <strong>Directive code</strong> field, enter <em>Slotting</em>.</li>
+<li>In the <strong>Directive description</strong> field, enter <em>Slotting</em>.</li>
+</ol>
+<h3 id="set-up-slotting-templates">Set up slotting templates</h3>
+<p>Each slotting template controls how inventory is assigned to locations for a specific warehouse. Each template must include a line for each slotting specification. Use the procedures in this section to set up slotting templates.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Slotting templates</strong>.</li>
+<li>Select <strong>New</strong> to create a template.</li>
+</ol>
+<p>Next, you must set up the template header, slotting specifications, and location directives, as explained in the following subsections. The setup for slotting for transfer orders resembles the setup for slotting for sales orders, but the <strong>Demand type</strong> field is set <em>Transfer orders</em> instead of <em>Sales order</em>.</p>
+<h4 id="set-up-the-header-for-a-sales-order-slotting-template">Set up the header for a sales order slotting template</h4>
+<ol>
+<li><p>In the header for the template, set the following values:</p>
+<ul>
+<li><p><strong>Slotting template:</strong> <em>61</em></p>
+</li>
+<li><p><strong>Description:</strong> <em>61</em></p>
+</li>
+<li><p><strong>Demand type:</strong> <em>Sales order</em></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Currently, <em>Sales orders</em> and <em>Transfer orders</em> are the only demand types that are supported. You can select <em>Transfer orders</em> only if the <em>Warehouse Slotting for transfer orders</em> feature is turned on.</p>
+</div>
+</li>
+<li><p><strong>Demand strategy:</strong> <em>Ordered</em></p>
+<p>The following values are available in this field:</p>
+<ul>
+<li><strong>Ordered</strong> – The full ordered quantity on the sales order should be considered demand.</li>
+<li><strong>Reserved</strong> – Only the sales order line quantities that are reserved (physical and ordered) should be considered demand.</li>
+<li><strong>Released</strong> – The released quantity should be considered demand.</li>
+</ul>
+</li>
+<li><p><strong>Warehouse:</strong> <em>61</em></p>
+</li>
+<li><p><strong>Allow wave demand to use unreserved quantities:</strong> <em>Yes</em></p>
+</li>
+</ul>
+</li>
+</ol>
+<p>You can also specify a query to narrow the scope of the demand that is evaluated.</p>
+<h4 id="set-up-slotting-specifications-for-each-template">Set up slotting specifications for each template</h4>
+<p>For each sales order template that you create, follow these steps to add a line for each slotting specification.</p>
+<ol>
+<li><p>On the <strong>Slotting template details</strong> FastTab, select <strong>New</strong> to create a template line.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><p><strong>Sequence:</strong> <em>1</em></p>
+</li>
+<li><p><strong>Description:</strong> <em>Fixed location</em></p>
+</li>
+<li><p><strong>Minimum quantity:</strong> <em>1</em></p>
+<p>This field defines the minimum quantity of demand that is required for the line.</p>
+</li>
+<li><p><strong>Maximum quantity:</strong> <em>1000000</em></p>
+<p>This field defines the maximum quantity of demand that is valid for the line.</p>
+</li>
+<li><p><strong>Unit:</strong> Leave this field blank.</p>
+<p>This field defines the unit of measure that the minimum and maximum quantities refer to.</p>
+</li>
+<li><p><strong>Unit of Measure Tier:</strong> <em>EaBoxPl</em></p>
+<p>This field defines the units of measure of demand that are valid for the line. (For more information, see the <a href="#unit-tiers">Set up unit-of-measure tiers for slotting</a> section earlier in this topic.)</p>
+</li>
+<li><p><strong>Assign slot criteria:</strong> <em>Consider qty</em></p>
+<p>The following values are available in this field:</p>
+<ul>
+<li><strong>Assume empty</strong> – This system should assume that all locations in the picking area are empty and should not check those locations for inventory.</li>
+<li><strong>Consider qty</strong> – The system should check the locations in the picking area for inventory and should skip any locations that aren't empty.</li>
+<li><strong>Consider on-hand</strong> – The system should check whether any target location contains unreserved quantities for the item on the demand line. If the quantity is large enough to satisfy at least one unit of the demand line, the generated slotting plan record is reduced by the available amount. For example, if the demand is 10 cases, and one case is on hand, the located demand will be nine cases. If the demand is 10 cases, and one each is on hand, the located demand will be 10 cases. This value is available only when the <em>Warehouse slotting allocation enhancements</em> feature is turned on.</li>
+</ul>
+</li>
+<li><p><strong>Directive code:</strong> <em>Slotting</em></p>
+<p>This field defines the location directive that is used to find the picking location of the replenishment work.</p>
+</li>
+<li><p><strong>Overflow location:</strong> Leave this field blank.</p>
+<p>This field defines the location that inventory that is put to if a location can't be found for the quantity when the line is processed.</p>
+</li>
+<li><p><strong>Allow let up:</strong> <em>Yes</em></p>
+<p>When this option is set to <em>Yes</em>, if any demand can't be slotted, movement work will be created to take inventory out of locations where there is inventory, but where nothing was slotted. The template is then run again. This time, it ignores the inventory in the locations. This functionality works best when the <strong>Assign slot criteria</strong> field is set to <em>Consider qty</em>.</p>
+</li>
+<li><p><strong>Fixed location usage:</strong> <em>Only fixed locations for the product</em></p>
+<p>The following values are available in this field:</p>
+<ul>
+<li><strong>Fixed and non-fixed locations</strong> – The system should not be limited to using only fixed locations.</li>
+<li><strong>Only fixed locations for the product</strong> – The system should slot only to locations that are fixed locations for the product.</li>
+<li><strong>Only fixed locations for the product variant</strong> – The system should slot only to locations that are fixed locations for the product variant.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If the slotting template contains at least one line where the <strong>Assign slot criteria</strong> field is set to <em>Consider on-hand</em>, let-ups are no longer allowed for any line in the template.</p>
+</div>
+<ol>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a second template line.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Sequence:</strong> <em>2</em></li>
+<li><strong>Description:</strong> <em>Other</em></li>
+<li><strong>Minimum Qty:</strong> <em>1</em></li>
+<li><strong>Maximum Qty:</strong> <em>1000000</em></li>
+<li><strong>Unit:</strong> Leave this field blank.</li>
+<li><strong>Unit of measure tier:</strong> <em>EaBoxPl</em></li>
+<li><strong>Assign slot criteria:</strong> <em>Consider qty</em></li>
+<li><strong>Directive code:</strong> <em>Slotting</em></li>
+<li><strong>Overflow location:</strong> Leave this field blank.</li>
+<li><strong>Allow let up:</strong> <em>Yes</em></li>
+<li><strong>Use fixed locations:</strong> <em>Fixed and non-fixed locations</em></li>
+</ul>
+<p>In the query for the second line, you will now specify the criteria that are used to determine what locations the demand for that line can be slotted to.</p>
+</li>
+<li><p>Select the line where the <strong>Sequence</strong> field is set to <em>2</em>.</p>
+</li>
+<li><p>Select <strong>Edit query</strong>.</p>
+</li>
+<li><p>On the <strong>Range</strong> tab, select <strong>Add</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Location profile ID</em></li>
+<li><strong>Criteria:</strong> <em>Pick-06</em> (Select the double plus sign [<strong>++</strong>] in the field to expand the list, and then select <em>Pick-06</em> - <em>Picking Site 6</em>.)</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<h4 id="set-up-location-directives">Set up location directives</h4>
+<p>At least one location directive must be set up to support slotting picks. Use the procedures in this section to set up a new <em>replenishment location directive</em> for slotting picks.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</li>
+<li>In the left pane, in the <strong>Work order type</strong> field, select <em>Replenishment</em>.</li>
+<li>On the Action Pane, select <strong>New</strong>.</li>
+<li>In the header for the new location directive, in the <strong>Name</strong> field, enter <em>61 Slotting pick</em>.</li>
+<li>In the <strong>Sequence number</strong> field, accept the default value.</li>
+</ol>
+<h5 id="configure-the-location-directives-fasttab">Configure the Location directives FastTab</h5>
+<ol>
+<li><p>On the <strong>Location directives</strong> FastTab, set the following values. Accept the default values for all other fields.</p>
+<ul>
+<li><strong>Work type:</strong> <em>Pick</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+<li><strong>Directive code:</strong> <em>Slotting</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Lines</strong> FastTab available.</p>
+</li>
+</ol>
+<h5 id="configure-the-lines-fasttab">Configure the Lines FastTab</h5>
+<ol>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong> to create a line.</p>
+</li>
+<li><p>On the new line, set the following values.</p>
+<ul>
+<li><strong>From quantity:</strong> <em>0</em></li>
+<li><strong>To quantity:</strong> <em>1000000</em></li>
+</ul>
+</li>
+<li><p>Accept the default values for the remaining fields.</p>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+</ol>
+<h5 id="configure-the-location-directive-actions-fasttab">Configure the Location Directive Actions FastTab</h5>
+<ol>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>New</strong> to create a line.</p>
+</li>
+<li><p>On the new line, set the following values. Accept the default values for all other fields.</p>
+<ul>
+<li><strong>Sequence number:</strong> Accept the default value.</li>
+<li><strong>Name:</strong> <em>Bulk</em></li>
+<li><strong>Strategy:</strong> <em>None</em></li>
+</ul>
+</li>
+<li><p>Accept the default values for the remaining fields.</p>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Edit query</strong> button available.</p>
+</li>
+</ol>
+<h5 id="edit-the-query">Edit the query</h5>
+<ol>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>Edit query</strong>.</p>
+</li>
+<li><p>On the <strong>Range</strong> tab, select <strong>Add</strong> to add a line to the grid.</p>
+</li>
+<li><p>On the new line, set the following values:</p>
+<ul>
+<li><strong>Table:</strong> <em>Locations</em></li>
+<li><strong>Derived table:</strong> <em>Locations</em></li>
+<li><strong>Field:</strong> <em>Zone ID</em></li>
+<li><strong>Criteria:</strong> <em>Bulk</em> (Select the double plus sign [<strong>++</strong>] in the field to expand the list, and then select <em>Bulk</em>.)</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<h2 id="scenario">Scenario</h2>
+<h3 id="set-up-the-scenario">Set up the scenario</h3>
+<p>For this scenario, use the built-in sample data, and create the records that are described in this section.</p>
+<h4 id="use-the-usmf-sample-data">Use the USMF sample data</h4>
+<p>To work through this scenario by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<h4 id="create-demand">Create demand</h4>
+<p>Follow these steps to create the demand that you will apply slotting to.</p>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales order</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a sales order.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, in the <strong>Customer account</strong> field, select <em>US-007</em>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, select <em>61</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The new sales order is opened. It includes an empty line on the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item:</strong> <em>L0101</em></li>
+<li><strong>Quantity:</strong> <em>20</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Add line</strong> to add a new line, and set the following values:</p>
+<ul>
+<li><strong>Item:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>8</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create a second sales order.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, in the <strong>Customer account</strong> field, select <em>US-008</em>.</p>
+</li>
+<li><p>In the <strong>Warehouse</strong> field, select <em>61</em>.</p>
+</li>
+<li><p>The new sales order is opened. It includes an empty line on the <strong>Sales order lines</strong> FastTab. On this line, set the following values:</p>
+<ul>
+<li><strong>Item:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="walk-through-a-typical-slotting-scenario">Walk through a typical slotting scenario</h3>
+<p>After all the prerequisite elements are in place, as described in the previous section, you're ready to try out the feature by working through each exercise in this section.</p>
+<h4 id="generate-demand">Generate demand</h4>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Replenishment &gt; Slotting templates</strong>, and select the slotting template that you created earlier.</li>
+<li>On the Action Pane, select <strong>Generate demand</strong>. This command evaluates all demand that is in the system, and that matches the slotting template query. The total demand across all orders is then consolidated onto one line per quantity/unit of measure. An informational message appears when the process is completed.</li>
+</ol>
+<h4 id="slotting-demand">Slotting demand</h4>
+<p>The <em>slotting demand</em> shows the results of demand generation, based on the setup of the slotting template.</p>
+<ul>
+<li>On the Action Pane, select <strong>Slotting demand</strong> to view the results from the <strong>Generate demand</strong> command. The lines in the slotting demand can be edited. You can delete a line, add a new line, or edit the line details.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can edit demand manually, or you can import it from an external system by using data management. Whatever is in the slotting demand will be used in the next step, regardless of where it came from.</p>
+</div>
+<h4 id="locate-demand">Locate demand</h4>
+<p>After demand has been generated, you must use the <strong>Locate demand</strong> command to generate the <em>slotting plan</em>.</p>
+<ul>
+<li>On the Action Pane, select <strong>Locate demand</strong>. The slotting process runs. An informational message appears when the process is completed.</li>
+</ul>
+<h4 id="slotting-plan">Slotting plan</h4>
+<p>The slotting plan shows the location that each item/quantity was assigned to, whether overflow was used, whether let-up work was created, and the template line that was used. <em>Any demand that could not be slotted is highlighted in red.</em></p>
+<ul>
+<li>On the Action Pane, select <strong>Slotting plan</strong> to view the results.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>The <strong>Generate demand</strong>, <strong>Locate demand</strong>, and <strong>Run replenishment</strong> processes are now run in a sandbox. (These processes are available from the Action Pane on the <strong>Slotting templates</strong> page.)</li>
+<li>The <strong>Generate demand</strong>, <strong>Locate demand</strong>, and <strong>Run replenishment</strong> processes have a lock to ensure that they can't be triggered at the same time. Otherwise, the data that is used could be deleted.</li>
+<li>The <strong>Generate demand</strong> and <strong>Locate demand</strong> processes show a warning if the run didn't generate records, or if the records are missing information.</li>
+<li>When you select <strong>Slotting plan</strong>, the page doesn't have <strong>New</strong>, <strong>Edit</strong>, or <strong>Delete</strong> buttons on the Action Pane, because the data source can't be edited.</li>
+<li>When you select <strong>Run replenishment</strong>, the system validates the selected slot template and processes.</li>
+</ul>
+</div>
+<h4 id="create-replenishment">Create replenishment</h4>
+<p>After the slotting plan has been created, you must create <em>replenishment work</em>, based on the plan.</p>
+<ul>
+<li>On the Action Pane, select <strong>Run replenishment</strong>. An informational message appears when the process is completed. This message indicates the number of headers that were created for the work build ID.</li>
+</ul>
+<p>Location directives that will be used are identified based on the directive code that is specified on each template line.</p>
+<h2 id="tips">Tips</h2>
+<h3 id="set-up-automatic-slotting">Set up automatic slotting</h3>
+<p>After all the required elements are in place, you can set up slotting to run automatically by following these steps.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Replenishment &gt; Run slotting</strong>.</p>
+</li>
+<li><p>Specify the slotting steps to run. Select one or more of the following slotting steps:</p>
+<ul>
+<li>Generate demand</li>
+<li>Locate demand</li>
+<li>Create replenishment work</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The slotting steps are progressive. If you want to select <em>Locate demand</em>, you must first select <em>Generate demand</em>.</p>
+</div>
+</li>
+<li><p>Specify the slotting template to use.</p>
+</li>
+<li><p>Set the recurrence to run automatically, if you want.</p>
+</li>
+</ol>
+<p>For the exercises in the scenario, do <strong>not</strong> set up automatic slotting.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

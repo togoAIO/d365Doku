@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure optional features for a Dynamics 365 Commerce evaluation environment </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure optional features for a Dynamics 365 Commerce evaluation environment ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic explains how to configure optional features for a Microsoft Dynamics 365 Commerce evaluation environment.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-optional-features-for-a-dynamics-365-commerce-evaluation-environment">Configure optional features for a Dynamics 365 Commerce evaluation environment</h1>
+
+
+<p>This topic explains how to configure optional features for a Microsoft Dynamics 365 Commerce evaluation environment.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>If you want to evaluate the transactional email features, the following prerequisites must be met:</p>
+<ul>
+<li>You have an available email server (Simple Mail Transfer Protocol [SMTP] server) that can be used from the Microsoft Azure subscription where you provisioned the evaluation environment.</li>
+<li>You have the server's fully qualified domain name (FQDN)/IP address, SMTP port number, and authentication details available.</li>
+</ul>
+<h2 id="configure-the-image-back-end">Configure the image back end</h2>
+<h3 id="find-your-media-base-url">Find your media base URL</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Before you can complete this procedure, you must complete the steps in <a href="cpe-post-provisioning.html#set-up-your-site-in-commerce">Set up your site in Commerce</a>.</p>
+</div>
+<ol>
+<li><p>Sign in to the Commerce site builder by using the URL you made a note of when you initialized e-Commerce during provisioning (see <a href="provisioning-guide.html#initialize-e-commerce">Initialize e-Commerce</a>).</p>
+</li>
+<li><p>Open the <strong>Fabrikam</strong> site.</p>
+</li>
+<li><p>On the menu on the left, select <strong>Media Library</strong>.</p>
+</li>
+<li><p>Select any single image asset.</p>
+</li>
+<li><p>In the property inspector on the right, find the <strong>Public URL</strong> property. The value is a URL. Here is an example:</p>
+<p><code>https://images-us-sb.cms.commerce.dynamics.com/cms/api/fabrikam/imageFileData/MA1nQC</code>.</p>
+</li>
+<li><p>Replace the last identifier in the URL (<strong>MA1nQC</strong> in the preceding example) with the string <strong>search?fileName=</strong>. Here is what the example URL looks like after this change is made:</p>
+<p><code>https://images-us-sb.cms.commerce.dynamics.com/cms/api/fabrikam/imageFileData/search?fileName=</code></p>
+<p>This URL is your media base URL. Make a note of it.</p>
+</li>
+</ol>
+<h3 id="update-the-media-base-url">Update the media base URL</h3>
+<ol>
+<li>Sign in to Commerce headquarters.</li>
+<li>Use the menu on the left to go to <strong>Modules &gt; Retail and commerce &gt; Channel setup &gt; Channel profiles</strong>.</li>
+<li>Select <strong>Edit</strong>.</li>
+<li>Under <strong>Profile properties</strong>, replace the value for the <strong>Media Server Base URL</strong> property with the media base URL that you created earlier.</li>
+<li>Select the channel that is named <strong>scXXXXXXXXX</strong>.</li>
+<li>Under <strong>Profile properties</strong>, select <strong>Add</strong>.</li>
+<li>For the property that was added, select <strong>Media Server Base URL</strong> as the property key. As the property value, enter the media base URL that you created earlier.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h2 id="configure-and-test-the-email-server">Configure and test the email server</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The SMTP server or email service that you enter here must be accessible from the Azure subscription that you're using for the environment.</p>
+</div>
+<ol>
+<li>Sign in to Commerce headquarters.</li>
+<li>Use the menu on the left to go to <strong>Modules &gt; Retail and Commerce &gt; Headquarters setup &gt; Parameters &gt; Email parameters</strong>.</li>
+<li>On the <strong>SMTP settings</strong> tab, in the <strong>Outgoing mail server</strong> field, enter the FQDN or IP address of your SMTP server or email service.</li>
+<li>In the <strong>SMTP port number</strong> field, enter the port number. (If you aren't using Secure Sockets Layer [SSL], the default port number is <strong>25</strong>.)</li>
+<li>If authentication is required, enter values in the <strong>User name</strong> and <strong>Password</strong> fields.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>Select <strong>Refresh</strong>.</li>
+<li>On the <strong>Test email</strong> tab, in the <strong>Email provider</strong> field, select <strong>SMTP</strong>.</li>
+<li>In the <strong>Send to</strong> field, enter the email address that the test email should be delivered to.</li>
+<li>Select <strong>Send test email</strong>.</li>
+</ol>
+<h2 id="configure-email-templates">Configure email templates</h2>
+<p>For each transactional event that you want to send emails for, you must update the email template with a valid sender email address.</p>
+<ol>
+<li><p>Sign in to Commerce headquarters.</p>
+</li>
+<li><p>Use the menu on the left to go to <strong>Modules &gt; Retail and Commerce &gt; Headquarters setup &gt; Parameters &gt; Organization email templates</strong>.</p>
+</li>
+<li><p>Select <strong>Show list</strong>.</p>
+</li>
+<li><p>For each template in the list, follow these steps:</p>
+<ol>
+<li>In the <strong>Sender email</strong> field, enter the sender email address.</li>
+<li>Optional: In the <strong>Sender name</strong> field, enter the name that should be used as the sender name.</li>
+</ol>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h2 id="customize-email-templates">Customize email templates</h2>
+<p>You might want to customize the email templates so that they use different images. Or you might want to update the links in the templates so that they go to your evaluation environment. This procedure explains how to download the default templates, customize them, and update the templates in the system.</p>
+<ol>
+<li><p>In a web browser, download the <a href="https://download.microsoft.com/download/d/7/b/d7b6c4d4-fe09-4922-9551-46bbb29d202d/Commerce.Preview.Default.Email.Templates.zip">Microsoft Dynamics 365 Commerce Evaluation default email templates zip file</a> to your local computer. This file contains the following HTML documents:</p>
+<ul>
+<li>Order confirmation template</li>
+<li>Issue gift card template</li>
+<li>New order template</li>
+<li>Pack order template</li>
+<li>Pick order template</li>
+</ul>
+</li>
+<li><p>Customize the templates by using a text or HTML editor. See the list of <a href="#supported-tokens-in-the-email-template">supported tokens</a> later in this topic.</p>
+</li>
+<li><p>Sign in to Commerce.</p>
+</li>
+<li><p>Use the menu on the left to go to <strong>Modules &gt; Organization administration &gt; Setup &gt; Organization email templates</strong>.</p>
+</li>
+<li><p>Expand the list on the left to see all the templates.</p>
+</li>
+<li><p>For each template that you want to customize, follow these steps:</p>
+<ol>
+<li>Select the template in the list.</li>
+<li>Under <strong>Email message content</strong>, select the appropriate language version in the list. (The default language is <strong>en-us</strong>.)</li>
+<li>Under <strong>Email message content</strong>, select <strong>Edit</strong>. The <strong>Upload email template</strong> pane appears.</li>
+<li>Select <strong>Browse</strong>, and find the HTML file that has the customized content.</li>
+<li>Select <strong>Upload</strong>. The template is uploaded into the system, and a preview is shown.</li>
+<li>Select <strong>OK</strong>.</li>
+<li>Optional: Customize the <strong>Subject</strong> property of the template.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="supported-tokens-in-the-email-template">Supported tokens in the email template</h3>
+<p>When the email is rendered, these tokens are replaced with actual values that apply to the customer and the customer's order.</p>
+<h4 id="sales-order">Sales order</h4>
+<p>The following tokens apply to the overall sales order.</p>
+<table>
+<thead>
+<tr>
+<th>Name of the token</th>
+<th>Token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order number</td>
+<td>%salesid%</td>
+</tr>
+<tr>
+<td>Customer's name</td>
+<td>%customername%</td>
+</tr>
+<tr>
+<td>Delivery address</td>
+<td>%deliveryaddress%</td>
+</tr>
+<tr>
+<td>Billing address</td>
+<td>%customeraddress%</td>
+</tr>
+<tr>
+<td>Order date</td>
+<td>%shipdate%</td>
+</tr>
+<tr>
+<td>Delivery mode</td>
+<td>%modeofdelivery%</td>
+</tr>
+<tr>
+<td>Discount</td>
+<td>%discount%</td>
+</tr>
+<tr>
+<td>Sales tax</td>
+<td>%tax%</td>
+</tr>
+<tr>
+<td>Order total</td>
+<td>%total%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sales-line">Sales line</h4>
+<p>The following tokens are replaced with values for each product in the order.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Put the <strong>Product list - start</strong> token at the beginning of the HTML block that is repeated for every product, and put the <strong>Product list - end</strong> token at the end of the block.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Name of the token</th>
+<th>Token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product list - start</td>
+<td>&lt;!--%tablebegin.salesline% --&gt;</td>
+</tr>
+<tr>
+<td>Product list - end</td>
+<td>&lt;!--%tableend.salesline%--&gt;</td>
+</tr>
+<tr>
+<td>Product name</td>
+<td>%lineproductname%</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>%lineproductdescription%</td>
+</tr>
+<tr>
+<td>Quantity</td>
+<td>%linequantity%</td>
+</tr>
+<tr>
+<td>Line unit price</td>
+<td>%lineprice% (verify)</td>
+</tr>
+<tr>
+<td>line item total</td>
+<td>%linenetamount%</td>
+</tr>
+<tr>
+<td>line discount</td>
+<td>%linediscount%</td>
+</tr>
+<tr>
+<td>Ship date</td>
+<td>%lineshipdate%</td>
+</tr>
+<tr>
+<td>Procurement method</td>
+<td>%linedeliverymode%</td>
+</tr>
+<tr>
+<td>delivery address</td>
+<td>%linedeliveryaddress%</td>
+</tr>
+<tr>
+<td>Sales unit of the line</td>
+<td>%lineunit%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="cpe-overview.html">Dynamics 365 Commerce evaluation environment overview</a></p>
+<p><a href="provisioning-guide.html">Provision a Dynamics 365 Commerce evaluation environment</a></p>
+<p><a href="cpe-post-provisioning.html">Configure a Dynamics 365 Commerce evaluation environment</a></p>
+<p><a href="cpe-bopis.html">Configure BOPIS in a Dynamics 365 Commerce evaluation environment</a></p>
+<p><a href="cpe-faq.html">Dynamics 365 Commerce evaluation environment FAQ</a></p>
+<p><a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/lifecycle-services/lcs-user-guide">Microsoft Lifecycle Services (LCS)</a></p>
+<p><a href="https://docs.microsoft.com/business-applications-release-notes/october18/dynamics365-retail/retail-cloud-scale-unit">Retail Cloud Scale Unit (RCSU)</a></p>
+<p><a href="https://azure.microsoft.com/features/azure-portal">Microsoft Azure portal</a></p>
+<p><a href="https://aka.ms/Dynamics365CommerceWebsite">Dynamics 365 Commerce website</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/cpe-optional-features.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

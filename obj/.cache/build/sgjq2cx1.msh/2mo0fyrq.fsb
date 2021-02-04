@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Solver-Strategie f&#252;r Produktkonfiguration | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Solver-Strategie f&#252;r Produktkonfiguration | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="solver-strategy-for-product-configuration" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="29">Solver-Strategie für Produktkonfiguration</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/supply-chain/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544" sourcefile="articles_de/supply-chain/includes/banner.md" sourcestartlinenumber="2">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="33">In diesem Thema wird beschrieben, wie Sie die Solver-Strategie verwenden können, um die Leistung der Produktkonfiguration zu verbessern.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="35">Das Konzept der Solver-Strategien wurde erstmalig im Kumulativen Update 7 (CU7) für Microsoft Dynamics AX 2012 R2 eingeführt. Es wurde in kumulierter Update 8 (CU8) für Microsoft Dynamics AX 2012 R3 und Microsoft Dynamics 365 for Finance and Operations Enterprise Edition 7.3.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="37">Das Solver-Strategiekonzept besteht aus den folgenden Strategien:</p>
+<ul sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="39">
+<li sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="39">Standard</li>
+<li sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="40">Minimaldomänen zuerst</li>
+<li sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="41">Von oben nach unten</li>
+<li sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="42">Z3</li>
+</ul>
+<h2 id="solver-strategy" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="44">Solver-Strategie</h2>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="46">Ein Produktkonfigurationsmodell kann als <a href="http://aima.cs.berkeley.edu/2nd-ed/newchap05.pdf" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="46">Constraint-Satisfaction-Problem (CSP)</a> formuliert werden. Microsoft Solver Foundation (MSF) bietet zwei Typen von Lösungs-Strategien, um die CSPs zu beheben, die von Produktkonfigurationsmodellen verwendet werden können. Diese Solver-Strategien hängen von <a href="https://techterms.com/definition/heuristic" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="46">Heuristiken</a> ab, mit denen die Reihenfolge bestimmt wird, in der die Variablen der CSPs berücksichtigt werden, wenn das Problem behoben wird. Heuristiken können sich deutlich auf die Leistung auswirken, wenn ein Problem oder eine Klasse von Problemen gelöst wird.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="48">Die Solver-Strategie für Produktkonfigurationsmodelle bestimmt, welcher Solver mit Heuristiken verwendet wird. Die Strategien <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="48">Standard</strong>, <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="48">Minimaldomänen zuerst</strong> und <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="48">Oben-nach-unten</strong> verwenden die beiden Solver von MSF, wohingegen die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="48">Z3</strong> den Z3-Solver verwendet.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="50">Tatsächliche Kundenimplementierungsstudien haben gezeigt, dass eine Änderung der Solver-Strategie für ein Produktkonfigurationsmodell die Antwortzeit von Minuten in Millisekunden reduzieren kann. Daher lohnt sich der Aufwand, verschiedene Solver-Strategien auszuprobieren, um die effizienteste Strategie für Ihr Produktkonfigurationsmodell zu finden.</p>
+<h2 id="change-the-settings-for-the-solver-strategy" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="52">Ändern der Einstellungen für die Solver-Strategie</h2>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="54">Um die Solver-Strategie auf der Seite <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="54">Produktkonfigurationsmodelle</strong> im Aktivitätsbereich zu ändern, wählen Sie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="54">Modelleigenschaften</strong> aus. Wählen Sie dann im Dialogfeld <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="54">Modelldetails bearbeiten</strong> eine Solver-Strategie aus.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="56"><a href="media/solver-strategy.png" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="56"><img src="media/solver-strategy.png" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="56" alt="Ändern der Solver-Strategie"></a></p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="58">Aktuell gibt es keine Logik, die automatisch feststellt, welche Solver-Strategie die effizienteste Strategie für eine einschränkungsbasierte Produktkonfiguration sein wird. Daher müssen Sie die Solver-Strategien einzeln nacheinander ausprobieren.</p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="60">Die folgende Tabelle enthält Empfehlungen zur Verwendung der Solver-Strategie in unterschiedlichen Szenarien.</p>
+<table sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="62">
+<thead>
+<tr sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="62">
+<th sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="62">Solver-Strategie</th>
+<th sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="62">Verwenden der Strategie in diesem Szenario</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="64">
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="64">Standard</td>
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="64">Die <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="64">Standard</strong>-Strategie wurde optimiert, um eine Lösung für Modelle zu bieten, die von Tabelleneinschränkungen abhängen. Kundenimplementierungsstudien haben gezeigt, dass diese Strategie die effizienteste Strategie in Szenarien ist, in denen Tabelleneinschränkungen in großem Umfang verwendet werden.</td>
+</tr>
+<tr sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Minimaldomänen zuerst</td>
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Die Strategien <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Minimaldomänen zuerst</strong> und <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Von oben nach unten</strong> sind eng verwandt. Kundenimplementierungsstudien haben gezeigt, dass die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Von oben nach unten</strong> leistungsfähiger ist, als die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Minimaldomänen zuerst</strong>. Allerdings wird die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Minimaldomänen zuerst</strong> zwecks Abwärtskompatibilität im Produkt beibehalten. Beide diese Solver-Strategien haben sich bei der Lösung von Modellen, die mehrere arithemtische Ausdrücke enthalten, bei denen keine Tabelleneinschränkungen verwendet werden, als effizienter erwiesen. Jedoch ist in einigen Fällen die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="65">Standard</strong> leistungsfähiger als diese beiden Strategien. Daher denken Sie daran, jede Strategie auszuprobieren.</td>
+</tr>
+<tr sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Von oben nach unten</td>
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Die Strategien <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Minimaldomänen zuerst</strong> und <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Von oben nach unten</strong> sind eng verwandt. Kundenimplementierungsstudien haben gezeigt, dass die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Von oben nach unten</strong> leistungsfähiger ist, als die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Minimaldomänen zuerst</strong>. Allerdings wird die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Minimaldomänen zuerst</strong> zwecks Abwärtskompatibilität im Produkt beibehalten. Beide diese Solver-Strategien haben sich bei der Lösung von Modellen, die mehrere arithemtische Ausdrücke enthalten, bei denen keine Tabelleneinschränkungen verwendet werden, als effizienter erwiesen. Jedoch ist in einigen Fällen die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="66">Standard</strong> leistungsfähiger als diese beiden Strategien. Daher denken Sie daran, jede Strategie auszuprobieren.</td>
+</tr>
+<tr sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="67">
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="67">Z3</td>
+<td sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="67">Es wird empfohlen, die Strategie <strong sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="67">Z3</strong> als standardmäßige Solver-Strategie zu verwenden. Wenn Sie Bedenken hinsichtlich Leistung oder Skalierbarkeit haben, können Sie die anderen Strategien prüfen.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-resources" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="69">Zusätzliche Ressourcen</h2>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="71"><a href="build-product-configuration-model.html" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="71">Produktkonfiguration – Übersicht</a></p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="73"><a href="https://techterms.com/definition/heuristic" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="73">Heuristik</a></p>
+<p sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="75"><a href="http://aima.cs.berkeley.edu/2nd-ed/newchap05.pdf" sourcefile="articles_de/supply-chain/pim/solver-strategy-product-configuration.md" sourcestartlinenumber="75">Constraint-Satisfaction-Problem</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

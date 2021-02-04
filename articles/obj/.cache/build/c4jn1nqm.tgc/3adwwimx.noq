@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Fiscal printer integration sample for Poland </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Fiscal printer integration sample for Poland ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides an overview of the fiscal integration sample for Poland.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="RetailFunctionalityProfile, RetailFormLayout, RetailParameters">
+    <meta name="ms.search.scope" content="Operations, Retail, Commerce">
+    <meta name="ms.search.region" content="Poland">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="fiscal-printer-integration-sample-for-poland">Fiscal printer integration sample for Poland</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The Dynamics 365 Commerce functionality for Poland includes a sample integration of the point of sale (POS) with a fiscal printer. The sample extends the <a href="fiscal-integration-for-retail-channel.html">fiscal integration functionality</a> and supports the POSNET THERMAL HD 2.02 protocol for fiscal printers from <a href="https://www.posnet.com.pl">Posnet Polska S.A.</a> The sample enables communication with a fiscal printer that is connected via a COM port by using a native software driver. It was implemented and tested by using a software emulator that Posnet provided for the Posnet Thermal HD FV EJ fiscal printer. The sample is provided in the form of source code and is part of the Retail software development kit (SDK).</p>
+<p>Microsoft doesn't release any hardware, software, or documentation from Posnet. For information about how to get the fiscal printer and operate it, contact <a href="https://www.posnet.com.pl">Posnet Polska S.A.</a></p>
+<h2 id="scenarios">Scenarios</h2>
+<p>The following scenarios are covered by the fiscal printer integration sample for Poland:</p>
+<ul>
+<li><p>Sales scenarios:</p>
+<ul>
+<li><p>Print a fiscal receipt for cash-and-carry sales and returns.</p>
+</li>
+<li><p>Capture a response from the fiscal printer, and store it in the channel database.</p>
+</li>
+<li><p>Taxes:</p>
+<ul>
+<li>Map to the fiscal printer's tax codes (departments).</li>
+<li>Transfer mapped tax data to the fiscal printer.</li>
+</ul>
+</li>
+<li><p>Payments:</p>
+<ul>
+<li>Map to the fiscal printer's methods of payment.</li>
+<li>Print payments on a fiscal receipt.</li>
+<li>Print change information.</li>
+</ul>
+</li>
+<li><p>Print line discounts.</p>
+</li>
+<li><p>Gift cards:</p>
+<ul>
+<li>Exclude an issued/re-charged gift card line from a fiscal receipt for a sale.</li>
+<li>Print a payment that uses a gift card as a regular method of payment.</li>
+</ul>
+</li>
+<li><p>Print fiscal receipts for customer order operations:</p>
+<ul>
+<li>A fiscal receipt isn't printed for a customer order deposit.</li>
+<li>Print a fiscal receipt for carry-out lines of a hybrid customer order.</li>
+<li>Print a fiscal receipt for the pickup operation for a customer order.</li>
+<li>Print a fiscal receipt for a return order.</li>
+</ul>
+</li>
+<li><p>Print the <a href="emea-pol-customer-information.html">customer information</a> that is specified for a sales transaction on a fiscal receipt. An example of this information is the customer's VAT number.</p>
+</li>
+</ul>
+</li>
+<li><p>End of day statements (fiscal X and fiscal Z reports).</p>
+</li>
+<li><p>Error handling, such as the following options:</p>
+<ul>
+<li>Retry fiscal registration if a retry is possible, such as if the fiscal printer isn't connected, isn't ready, or isn't responding, the printer is out of paper, or there is a paper jam.</li>
+<li>Postpone fiscal registration.</li>
+<li>Skip fiscal registration, or mark the transaction as registered, and include info codes to capture the reason for the failure and additional information.</li>
+<li>Check the availability of the fiscal printer before a new sales transaction is opened or a sales transaction is finalized.</li>
+</ul>
+</li>
+</ul>
+<h3 id="default-data-mapping">Default data mapping</h3>
+<p>The following default data mapping is included in the fiscal document provider configuration that is provided as part of the fiscal integration sample:</p>
+<ul>
+<li><p>Value-added tax (VAT) rates mapping:</p>
+<p><em>0 : 23.00 ; 1 : 8.00 ; 2 : 5.00 ; 3 : 0.00</em></p>
+</li>
+<li><p>Tender type mapping:</p>
+<p><em>0 : 0 ; 1 : 0 ; 2 : 2 ; 3 : 2 ; 4 : 0 ; 5 : 0 ; 6 : 0 ; 7 : 2 ; 8 : 0</em></p>
+</li>
+</ul>
+<h3 id="gift-cards">Gift cards</h3>
+<p>The fiscal printer integration sample implements the following rules that are related to gift cards:</p>
+<ul>
+<li>Exclude sales lines that are related to the <em>Issue gift card</em> and <em>Add to gift card</em> operations from the fiscal receipt.</li>
+<li>Don't print a fiscal receipt if it consists only of gift card lines.</li>
+<li>Deduct the total amount of gift cards that are issued or re-charged in a transaction from payment lines of the fiscal receipt.</li>
+<li>Save calculated adjustments of payment lines in the channel database with a reference to a corresponding fiscal transaction.</li>
+<li>Payment by gift card is considered a regular payment.</li>
+</ul>
+<h3 id="customer-deposits-and-customer-order-deposits">Customer deposits and customer order deposits</h3>
+<p>The fiscal printer integration sample implements the following rules that are related to customer deposits and customer order deposits:</p>
+<ul>
+<li>Don't print a fiscal receipt if a transaction is a customer deposit.</li>
+<li>Don't print a fiscal receipt if a transaction contains only a customer order deposit or a customer order deposit refund.</li>
+<li>Print the amount of the previously paid deposit on a fiscal receipt for a customer order pickup operation.</li>
+<li>Deduct the customer order deposit amount from payment lines when a hybrid customer order is created.</li>
+<li>Save calculated adjustments of payment lines in the channel database with a reference to a fiscal transaction for a hybrid customer order.</li>
+</ul>
+<h3 id="limitations-of-the-sample">Limitations of the sample</h3>
+<ul>
+<li>The fiscal printer supports only scenarios where sales tax is included in the price. Therefore, the <strong>Price include sales tax</strong> option must be set to <strong>Yes</strong> for both stores and customers.</li>
+<li>Daily reports (fiscal X and fiscal Z) are printed by using the embedded <em>Shift report</em> format.</li>
+<li>Printing a bar code on fiscal receipts is considered a potential customization, because this feature isn't supported in the embedded formats and can be implemented only by using the customizable <strong>Super-format</strong> report.</li>
+<li>The fiscal printer doesn't support mixed transactions. The <strong>Prohibit mixing sales and returns in one receipt</strong> option should be set to <strong>Yes</strong> in POS functionality profiles.</li>
+</ul>
+<h2 id="set-up-commerce-for-poland">Set up Commerce for Poland</h2>
+<h3 id="configure-fiscal-integration">Configure fiscal integration</h3>
+<p>Complete the fiscal integration setup steps as described in <a href="setting-up-fiscal-integration-for-retail-channel.html">Set up the fiscal integration for Commerce channels</a>:</p>
+<ul>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process">Set up a fiscal registration process</a>. Note also the settings for the fiscal registration process that are <a href="#set-up-the-registration-process">specific to this fiscal printer integration sample</a>.</li>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings">Set error handling settings</a>.</li>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-fiscal-xz-reports-from-the-pos">Set up fiscal X/Z reports from the POS</a>.</li>
+<li><a href="setting-up-fiscal-integration-for-retail-channel.html#enable-manual-execution-of-postponed-fiscal-registration">Enable manual execution of postponed fiscal registration</a>.</li>
+</ul>
+<h3 id="enable-extensions">Enable extensions</h3>
+<h4 id="commerce-runtime-extension-components">Commerce runtime extension components</h4>
+<p>The Commerce runtime (CRT) extension components are included in the Retail SDK. To complete the following procedures, open the CRT solution, <strong>CommerceRuntimeSamples.sln</strong>, under <strong>RetailSdk\SampleExtensions\CommerceRuntime</strong>.</p>
+<ol>
+<li><p>Find the <strong>Runtime.Extensions.DocumentProvider.PosnetSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Extensions.DocumentProvider.PosnetSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.Runtime.Extensions.DocumentProvider.PosnetSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the assembly file to the CRT extension folder:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> Copy the assembly to the <strong>\bin\ext</strong> folder under the Microsoft Internet Information Services (IIS) Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> Copy the assembly to the <strong>\ext</strong> folder under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Find the extensions configuration file for CRT:</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> The file is named <strong>commerceruntime.ext.config</strong>, and it's in the bin\ext folder under the IIS Commerce Scale Unit site location.</li>
+<li><strong>Local CRT on Modern POS:</strong> The file is named <strong>CommerceRuntime.MPOSOffline.Ext.config</strong>, and it's under the local CRT client broker location.</li>
+</ul>
+</li>
+<li><p>Register the CRT change in the extension's configuration file. Add <strong>source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.Extensions.DocumentProvider.PosnetSample&quot;</strong>.</p>
+</li>
+<li><p>Restart the Commerce service.</p>
+<ul>
+<li><strong>Commerce Scale Unit:</strong> Restart the Commerce service site from IIS Manager.</li>
+<li><strong>Client broker:</strong> End the <strong>dllhost.exe</strong> process in Task Manager, and then restart Modern POS.</li>
+</ul>
+</li>
+</ol>
+<h4 id="hardware-station-extension-components">Hardware station extension components</h4>
+<p>The Hardware station extension components are included in the Retail SDK. To complete the following procedures, open the Hardware Station solution, <strong>HardwareStationSamples.sln</strong>, under <strong>RetailSdk\SampleExtensions\HardwareStation</strong>.</p>
+<ol>
+<li><p>Find the <strong>Extension.PosnetThermalFVFiscalPrinterSample</strong> project, and build it.</p>
+</li>
+<li><p>In the <strong>Extension.PosnetThermalFVFiscalPrinterSample\bin\Debug</strong> folder, find the <strong>Contoso.Commerce.HardwareStation.PosnetThermalFVFiscalPrinterSample.dll</strong> assembly file.</p>
+</li>
+<li><p>Copy the files to a deployed Hardware station machine:</p>
+<ul>
+<li><strong>Remote Hardware station:</strong> Copy the files to the <strong>bin</strong> folder under the IIS Hardware station site location. Copy the printer driver libraries (<strong>libposcmbth.dll</strong>, <strong>libcmbth_serial.dll</strong>, and <strong>cmbth_pl.lng</strong>).</li>
+</ul>
+</li>
+<li><p>Find the configuration file for the Hardware station's extensions. The file is named <strong>HardwareStation.Extension.config</strong>:</p>
+<ul>
+<li><strong>Remote Hardware station:</strong> The file is located under the IIS Hardware station site location.</li>
+</ul>
+</li>
+<li><p>Add the following section to the <strong>composition</strong> section of the config file.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.PosnetThermalFVFiscalPrinterSample&quot; /&gt;
+</code></pre>
+</li>
+<li><p>Restart the Hardware station service:</p>
+<ul>
+<li><strong>Remote Hardware station:</strong> Restart the Hardware station site from IIS Manager.</li>
+</ul>
+</li>
+</ol>
+<h3 id="set-up-the-registration-process">Set up the registration process</h3>
+<p>To enable the registration process, follow these steps to set up Headquarters. For more details, see <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process">Set up a fiscal registration process</a>.</p>
+<ol>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Fiscal Connectors</strong>. Import the configuration from <strong>RetailSdk\SampleExtensions\HardwareStation\Extension.Posnet.ThermalDeviceSample\Configuration\ConnectorConnectorPosnetThermalFVEJ.xml</strong>.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Fiscal Document providers</strong>. Import the configuration from <strong>RetailSdk\SampleExtensions\CommerceRuntime\Extension.DocumentProvider.PosnetSample\Configuration\DocumentProviderPosnetSample.xml</strong>.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Connector Technical profiles</strong>. Create a new profile, and select the loaded connector from the earlier step. Update connection settings if an update is required.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Connector Functional profiles</strong>. Create a new profile, and select the loaded connector and document provider from the earlier steps. Update data mapping settings, if an update is required.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Connector Functional group</strong>. Create a new group, and select the connector functional profile from the earlier step.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel Setup &gt; Fiscal Integration &gt; Registration process</strong>. Create a new process, and select the connector functional group from the earlier step.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Functionality profiles</strong>. Open the functionality profile that is linked to the store where the registration process should be activated. On the <strong>Fiscal registration process</strong> FastTab, select the registration process that was created earlier.</li>
+<li>Go to <strong>Retail and Commerce &gt; Channel setup &gt; POS setup &gt; POS profiles &gt; Hardware profiles</strong>. Open the hardware profile that is linked to the Hardware station that the fiscal printer will be connected to. On the <strong>Fiscal peripherals</strong> FastTab, select the connector technical profile.</li>
+<li>Open the distribution schedule (<strong>Retail and Commerce &gt; Retail and Commerce IT &gt; Distribution schedule</strong>), and select jobs <strong>1070</strong> and <strong>1090</strong> to transfer data to the channel database.</li>
+</ol>
+<h3 id="production-environment">Production environment</h3>
+<p>Follow these steps to create deployable packages that contain Commerce components, and to apply those packages in a production environment.</p>
+<ol>
+<li><p>Complete the steps that are described in the <a href="#enable-extensions">Enable extensions</a> section earlier in this topic.</p>
+</li>
+<li><p>Make the following changes in the package configuration files under the <strong>RetailSdk\Assets</strong> folder:</p>
+<ul>
+<li><p>In the <strong>commerceruntime.ext.config</strong> and <strong>CommerceRuntime.MPOSOffline.Ext.config</strong> configuration files, add the following line to the <strong>composition</strong> section.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.Extensions.DocumentProvider.PosnetSample&quot; /&gt;
+</code></pre>
+</li>
+<li><p>In the <strong>HardwareStation.Extension.config</strong> configuration file, add the following line to the <strong>composition</strong> section.</p>
+<pre><code class="lang-xml">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.PosnetThermalFVFiscalPrinterSample&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Make the following changes in the <strong>BuildTools\Customization.settings</strong> package customization configuration file:</p>
+<ul>
+<li><p>Add the following line to include the CRT extension in the deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.Extensions.DocumentProvider.PosnetSample.dll&quot;/&gt;
+</code></pre>
+</li>
+<li><p>Add the following line to include the Hardware station extension in the deployable packages.</p>
+<pre><code class="lang-xml">&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.PosnetThermalFVFiscalPrinterSample.dll&quot;/&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Start the MSBuild Command Prompt for Visual Studio utility, and run <strong>msbuild</strong> under the Retail SDK folder to create deployable packages.</p>
+</li>
+<li><p>Apply the packages via Microsoft Dynamics Lifecycle Services (LCS) or manually. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-packaging">Create deployable packages (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+</ol>
+<h2 id="design-of-extensions">Design of extensions</h2>
+<h3 id="commerce-runtime-extension-design">Commerce runtime extension design</h3>
+<p>The purpose of the extension that is a fiscal document provider is to generate printer-specific documents and handle responses from the fiscal printer.</p>
+<p>The Commerce runtime extension is <strong>Runtime.Extensions.DocumentProvider.PosnetSample</strong>. This extension generates a set of printer-specific commands in JavaScript Object Notation (JSON) format that are defined by POSNET specification 19-3678.</p>
+<p>For more details about the design of the fiscal integration solution, see <a href="fiscal-integration-for-retail-channel.html#fiscal-registration-process-and-fiscal-integration-samples-for-fiscal-devices">Fiscal registration process and fiscal integration samples for fiscal devices</a>.</p>
+<h4 id="request-handler">Request handler</h4>
+<p>The <strong>DocumentProviderPosnetProtocol</strong> request handler is the entry point for the request to generate documents from the fiscal printer.</p>
+<p>The handler is inherited from the <strong>INamedRequestHandler</strong> interface. The <strong>HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the connector document provider name that is specified in Headquarters.</p>
+<p>The connector supports the following requests:</p>
+<ul>
+<li><strong>GetFiscalDocumentDocumentProviderRequest</strong> – This request contains information about what document should be generated. It returns a printer-specific document that should be registered in the fiscal printer.</li>
+<li><strong>GetSupportedRegistrableEventsDocumentProviderRequest</strong> – This request returns the list of events to subscribe to. Currently, the following events are supported: sales, printing X report, and printing Z report.</li>
+</ul>
+<h4 id="configuration">Configuration</h4>
+<p>The configuration file is found in the <strong>Configuration</strong> folder of the extension project. The purpose of the file is to enable settings for the document provider to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following settings are added:</p>
+<ul>
+<li>VAT rates mapping</li>
+<li>Tender type mapping</li>
+<li>Deposit payment type</li>
+</ul>
+<h3 id="hardware-station-extension-design">Hardware station extension design</h3>
+<p>The purpose of the extension that is a fiscal connector is to communicate with the fiscal printer.</p>
+<p>The Hardware station extension is <strong>HardwareStation.Extension.PosnetThermalFVFiscalPrinterSample</strong>. This extension calls the functions of the POSNET driver to submit commands that the Commerce runtime extension generates to the fiscal printer. It also handles device errors.</p>
+<h4 id="request-handler-1">Request handler</h4>
+<p>The <strong>FiscalPrinterHandler</strong> request handler is the entry point for handling the request to the fiscal peripheral device.</p>
+<p>The handler is inherited from the <strong>INamedRequestHandler</strong> interface. The <strong>HandlerName</strong> method is responsible for returning the name of the handler. The handler name should match the fiscal connector name that is specified in Headquarters.</p>
+<p>The connector supports the following requests:</p>
+<ul>
+<li><strong>SubmitDocumentFiscalDeviceRequest</strong> – This request sends documents to printers and returns the response from the fiscal printer.</li>
+<li><strong>IsReadyFiscalDeviceRequest</strong> – This request is used for a health check of the device.</li>
+<li><strong>InitializeFiscalDeviceRequest</strong> – This request is used for printer initialization.</li>
+</ul>
+<h4 id="configuration-1">Configuration</h4>
+<p>The configuration file is located in the <strong>Configuration</strong> folder of the extension project. The purpose of the file is to enable settings for the connector to be configured from Headquarters. The file format is aligned with the requirements for fiscal integration configuration. The following settings are added:</p>
+<ul>
+<li><strong>Connection string</strong> – This string describes the details of the connection to the device in a format that is supported by the driver. For details, see the POSNET driver documentation.</li>
+<li><strong>Date and time synchronization</strong> – This setting specifies whether the date and time of the printer must be synced with the connected Hardware station.</li>
+<li><strong>Device timeout</strong> – The amount of time, in milliseconds, that the driver will wait for a response from the device. For details, see the POSNET driver documentation.</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/localizations/emea-pol-fpi-sample.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

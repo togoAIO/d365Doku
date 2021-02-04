@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>What's new or changed for India GST in 10.0.10 (May 2020) </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="What's new or changed for India GST in 10.0.10 (May 2020) ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes new or changed functionality for India GST features released in Dynamics 365 Finance version 10.0.10.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Finance">
+    <meta name="ms.search.region" content="India">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="whats-new-or-changed-for-india-gst-in-10010-may-2020">What's new or changed for India GST in 10.0.10 (May 2020)</h1>
+
+
+<p>This topic includes a summary of the new features and critical bug fixes released in Dynamics 365 Finance version 10.0.10 for India GST localization.</p>
+<h2 id="new-features">New features</h2>
+<h3 id="import-order-over-delivery">Import order over delivery</h3>
+<p>Previously, you could not adjust import order quantities on the <strong>Invoice registration</strong> page. This meant that customers couldn't accept a delivery of more items than what was originally ordered. With this new feature, you can update the invoice registration quantity to match the over delivery quantity. Complete the following steps to set up accepting over delivery.</p>
+<ol>
+<li>Go to <strong>Procurement and sourcing</strong> &gt; <strong>Setup</strong> &gt; <strong>Procurement and sourcing parameters</strong>.</li>
+<li>On the <strong>Deliver</strong> tab, set <strong>Accept delivery</strong> to <strong>Yes</strong>, and then select <strong>Save</strong>.</li>
+</ol>
+<p>Complete the following steps to update the over delivery quantity.</p>
+<ol>
+<li>On the <strong>Invoice registration</strong> page, in the <strong>Overview</strong> pane, in the <strong>Import invoice number</strong> field, select the invoice you want to update.</li>
+<li>In the <strong>Lines</strong> pane, in the <strong>Receive</strong> field, update the quantity.</li>
+</ol>
+<p><img src="media/GST-over-delivery-1-10-0-10.PNG" alt="Invoice registration page"></p>
+<h3 id="tds-on-foreign-vendor-transactions">TDS on foreign vendor transactions</h3>
+<p>TDS on a foreign vendor invoice results in a voucher imbalance error because the transactions on voucher do not balance.
+As per rule 26 of Income tax act, TDS on a foreign currency transaction is converted on the TTR buying rate instead of normal GAP rate.</p>
+<p><strong>TDS on transaction in foreign currency</strong></p>
+<ul>
+<li>Main transaction in GAP rate or manually updated exchange rate</li>
+<li>TDS on transaction as per TDS exchange rate</li>
+</ul>
+<p>You can set up the <strong>TDS exchange rate</strong> as <strong>TDS</strong> and the <strong>Accounting currency exchange rate type</strong> as <strong>Default</strong> on the <strong>Ledger</strong> page.</p>
+<p><img src="media/GST-tds-exchange-rate-2-10-0-10.png" alt="Ledger page, Currency FastTab"></p>
+<p><strong>Accounting entries</strong>
+| Description                | Dr. (US$)     | Dr. (INR)          | Cr. (US$)                | Cr. (INR)                                        |
+|----------------------------|--------------|-------------------|-------------------------|-------------------------------------------------|
+|     Service/lease exp.    |     100      |     GAP rate      |                         |                                                 |
+|     CGST                   |        9     |      GAP rate     |                         |                                                 |
+|     SGST                   |        9     |      GAP rate     |                         |                                                 |
+|     Vendor                 |              |                   |     108     (118-10)    |     (118@GAP rate - 10@TDS exchange rate)    |
+|     TDS payable            |              |                   |     10                  |     TDS exchange rate                           |
+|     Total                  |     118      |                   |     118                 |                                                 |</p>
+<h2 id="critical-fixes">Critical fixes</h2>
+<ul>
+<li><p>Enable date time tracking for the <strong>Tax run time lookup condition</strong> table.</p>
+</li>
+<li><p>Transaction type is not showing when the <strong>Tax journal</strong> is posted.</p>
+</li>
+<li><p>Unable to generate a recurring free text invoice using the <strong>Free text invoice template</strong>.</p>
+</li>
+<li><p>There is a difference between the sales tax payment and the actual transaction posted to tax authorities. This fix ensures
+that the sales tax settlement amount and the actual amount posted to the tax authority is matched.
+-<strong>Adjusted amount origin</strong> field shows an incorrect value. The system is picking the adjusted base amount posted in the
+initial transaction and that same amount is used for subsequent transactions.</p>
+</li>
+<li><p>Tax calculation appears incorrect when a discount is applied through the <strong>General Journal</strong> in multi-line transactions.
+This happens with the discount ledger account for debit or credit. Two scenarios include:</p>
+<ul>
+<li>Creating a credit note for a customer (GST is calculating negative value for discount).</li>
+<li>Creating an invoice/debit note for a customer (GST is calculating positive value for discount).</li>
+</ul>
+</li>
+</ul>
+<h2 id="upcoming-fixes-in-10011">Upcoming fixes in 10.0.11</h2>
+<ul>
+<li>When a vendor record is created with multiple sub-vendors, the main supplier name and address are displayed in GSTR-2,
+which is not the information selected on the <strong>Tax information</strong> tab during posting.</li>
+<li>The <strong>Withholding tax journal</strong> is created to adjust the withholding tax (TDS) amount and select the voucher transaction
+for adjustment. An error occurs when the journal is posted and the transaction has been selected and transferred to
+the <strong>General journal</strong>.</li>
+<li>Warning message is displayed when you define a charge code with the posting type of <strong>Ledger</strong> and an item combination
+on the transaction.</li>
+<li>A system error occurs while running withholding (TDS) tax payment.</li>
+<li>Incorrect tax information is created from sales agreement and pushed to the sales order. Specifically,
+the <strong>Address</strong> field displays the address of the legal entity instead of the warehouse address.</li>
+<li>When you post a free text invoice with GST tax and you selected to round off when setting up currencies, the system is
+not rounding the invoice amount for the customer sub-ledger account, but is rounding off correctly in the customer
+main ledger for the voucher.</li>
+<li>The TDS section code and invoice number are not appearing in TDS inquiries.</li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/finance/localizations/apac-ind-news-letter-10-0-10.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

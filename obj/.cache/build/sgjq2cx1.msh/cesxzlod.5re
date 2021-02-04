@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Refund payment processing in call centers | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Refund payment processing in call centers | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="refund-payment-processing-in-call-centers" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="29">Refund payment processing in call centers</h1>
+
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="31">This topic explains how payment refunds are generated through call centers when returns are created, or when orders or order lines are canceled.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="33">A user who creates a return order for a customer as a call center user in Microsoft Dynamics 365 Commerce headquarters uses the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="33">Return order</strong> page to create the initial return materials authorization (RMA). The RMA defines the products that the customer wants to return or exchange, and it creates a linked return sales order that has an order type of <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="33">Returned order</strong>. This linked returned order is used to track the posting of the returned inventory and any credit notes or payment refunds that are posted.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">If the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">Enable order completion</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">Yes</strong> for the call center channel, the call center user who creates the RMA must run the order completion processing flow by selecting <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">Complete</strong> on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">Return order</strong> page. The <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="35">Complete</strong> function provides a calculated return summary that outlines the refund amount that is due. Additionally, when it's correctly configured, it systematically creates a refund payment line against the returned order.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="37">Call center logic determines the payment method for the refund payment line, based on the payment method that was used for the original order. If the return order that is created isn't linked to an original order, a default payment method that is taken from a system parameter is applied.</p>
+<h2 id="how-a-call-center-determines-which-payment-method-to-apply-to-a-return-order" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="39">How a call center determines which payment method to apply to a return order</h2>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="41">The call center uses the payment method of the original order to determine the payment method that should be applied to a return order. Here is how this process works for the following original payment methods:</p>
+<ul sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43"><p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43"><strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">Normal</strong> (cash) or <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">Check</strong> – When a return order that is created references an original order that was paid for by using the normal (cash) or check payment type, the call center application references configurations on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">Call center refund methods</strong> page. This page enables organizations to define, by order currency, how refunds are issued to customers for orders that were originally paid for by using the normal or check payment type. The <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">Call center refund methods</strong> page also enables organizations to select whether a system-generated refund check is sent to the customer, or whether a customer account credit is created against the internal customer account balance. In these scenarios, call center logic references the currency of the return order and then uses the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="43">Retail payment method</strong> value for that currency to create a refund payment line on the return sales order. Later, an accounts receivable (AR) customer payment journal that uses the mapped AR payment method is linked to the currency.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="45">The following illustration shows the configuration for a scenario where a customer returns products from a sales order that is linked to the USD currency, and that was originally paid for by using the normal or check payment type. In this scenario, a refund will be issued to the customer through a system-generated refund check. The <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="45">REF-CHK</strong> AR payment method has been configured as a refund check payment type.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="47"><img src="media/callcenterrefundmethods.png" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="47" alt="Configuration of call center refund methods for normal and check original payments"></p>
+</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="49"><p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="49"><strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="49">Credit card</strong> – When a return order that is created references an original order that was paid for by using a credit card, call center logic for refund payments applies the same original credit card to the return order.</p>
+</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="50"><p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="50"><strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="50">Loyalty card</strong> – When a return order that is created references an original order that was paid for by using a customer loyalty card, call center logic for refund payments applies the refund to the same loyalty card.</p>
+</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="51"><p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="51"><strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="51">Gift card</strong> (internal) – When a return order that is created references an original order that was paid for by using a gift card that was issued from Dynamics 365 Commerce (internal gift card functionality), call center logic for refund payments applies the refund to the same original gift card number.</p>
+</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="52"><p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="52"><strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="52">Gift card</strong> (External) – When a return order that is created references an original order that was paid for by using an external third-party gift card, call center logic for refund payments applies the default return payment method that is defined on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="52">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="52">Call center parameters</strong> page.</p>
+</li>
+</ul>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="54">If the original order payment type is unknown for any reason, or if multiple payment methods were used to pay for the original order, call center logic applies the default return payment method that is defined on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="54">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="54">Call center parameters</strong> page.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="56">The following illustration shows the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="56">Payment method</strong> field on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="56">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="56">Call center parameters</strong> page.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="58"><img src="media/callcenterrefundparameters.png" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="58" alt="Payment method field on the RMA/Return tab of the Call center parameters page"></p>
+<div class="NOTE" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="60">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="61">The refund processing rules that are described earlier also apply to orders or order lines that a call center user cancels in Commerce headquarters. If the cancellation of an order or specific order lines causes any overpayments, the same rules will be used to generate refund payment lines.</p>
+</div>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="63">Typically, a return order goes through a standard process, where inventory is received (or scrapped), a packing slip is posted against the return order, and then an invoice posting process is run for the return sales order. The return sales order is linked and systematically generated as part of the process of creating the return order. In typical scenarios, payment refunds aren't issued to customers until the invoice for the return sales order is posted.</p>
+<h3 id="what-happens-when-an-invoice-is-posted-on-a-return-sales-order" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="65">What happens when an invoice is posted on a return sales order</h3>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="67">The following scenarios explain what happens when an invoice is posted on a return sales order:</p>
+<ul sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="69">
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="69">If the refund payment on the return order is for a credit card, additional logic is invoked when the invoice is posted. This logic calls the payment processor to refund payment to the customer's credit card. A refund customer payment voucher is also created and systematically posted against the customer's account. This payment journal will be settled against the return order credit note voucher.</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="70">If the refund payment that must be issued is for the check payment type, a customer payment voucher that uses the AR payment method is created, and must be manually posted or printed before the payment voucher can be posted against the customer account. To process the refund check, users can use either the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="70">Customer payment journal</strong> page in Accounts receivable or the specialized <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="70">Refund check processing</strong> page in Retail and Commerce.</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="71">If the refund payment that must be issued is for the internal gift card or loyalty card payment type, when the return order is invoiced, the refund payment voucher is created and posted against the customer account. This invoicing step also adds the refund amount back to the customer's internally tracked gift card balance or loyalty points balance.</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="72">If a payment method that uses the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="72">Customer</strong> function (for example, a customer account) is linked to the return sales order, credit limit validations are ignored when the payment is processed. No payment voucher is created or posted in this context. When a customer payment type is used on a return order, the credit note voucher that the invoice posting process creates serves as the customer credit voucher and indicates a refund to the customer's AR balance.</li>
+</ul>
+<h2 id="advance-credit" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="74">Advance credit</h2>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">When a user processes return orders as a call center user in a call center where the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Enable order completion</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Yes</strong>, an exception to the previously described process for refund payment posting can occur if the call center user who is creating the return order sets the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Advance credit</strong> option to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Yes</strong> on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Call center parameters</strong> page. In this case, the payment refund occurs immediately after the return order is successfully submitted by using the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Submit</strong> function on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="76">Return summary</strong> page. The system immediately creates a prepayment customer payment voucher for the return value, even though the return sales order itself hasn't yet been invoiced. This approach can be used in situations where an organization must issue refunds to customers in advance because of customer service issues, and it doesn't want to require that returned inventory be received before the refunds are issued.</p>
+<h2 id="replacement-orders" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="78">Replacement orders</h2>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="80">When a return order is issued, the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="80">Replacement order</strong> function can be used to generate a new sales order for the customer. This approach can be used in exchange scenarios. The <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="80">Replacement order</strong> function creates another sales order for the new items that must be sent, but a cross-reference link on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="80">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="80">Call center parameters</strong> page links the replacement order, the RMA, and the returned sales order.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="82">When payments on a replacement order are processed, organizations have two options:</p>
+<ul sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="84">
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="84">Refund the customer for the return order, based on the original payment method, and then collect a separate payment for the replacement order. No additional configuration is required to use this option.</li>
+<li sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Set the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Apply credit</strong> option to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Yes</strong> on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Call center parameters</strong> page. In this case, a customer payment method is systematically applied to both the return order and the replacement order. This option can help prevent any external refund payment from being issued. It also helps prevent any payment processing on the transaction. It can be useful in situations where an even exchange is being processed, and the organization prefers to use the credit voucher that is generated when the return order is invoiced to pay for the invoice that is generated by the replacement order. When the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Apply credit</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="85">Yes</strong>, the organization must manually settle the credit note against the replacement order's invoice after both those financial documents have been generated.</li>
+</ul>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">A setting of <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">Yes</strong> for the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">Apply credit</strong> option is applicable only when the return order will be linked to a replacement order. In this case, the customer payment method that will be used to systematically pay for the return and the exchange order is defined by the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">Apply credits payment method</strong> field on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">Call center parameters</strong> page. Only a payment of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="87">Customer</strong> function payment type can be selected in this field.</p>
+<div class="NOTE" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="89">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="90">For a return order that has no linked replacement order, a setting of <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="90">Yes</strong> for the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="90">Apply credit</strong> option will have no effect on the return order payment logic, because this setting applies only to replacement orders.</p>
+</div>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="92"><img src="media/callcenterrefundparameters1.png" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="92" alt="Apply credits payment method field on the RMA/Return tab of the Call center parameters page"></p>
+<div class="IMPORTANT" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="94">
+<h5>Important</h5>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">If users who create replacement orders plan to use the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credit</strong> option, they should not run the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Complete</strong> function on the return order before they set the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credit</strong> option to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Yes</strong>. After the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Complete</strong> function is run, the refund payment is calculated and applied to the return sales order. Any attempt to set the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credit</strong> option to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Yes</strong> after a refund payment has already been calculated and applied won't trigger a recalculation of the refund payment, and the payment method that is selected in the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credits payment method</strong> field won't be applied. If the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credit</strong> option must be used in this context, the user must delete the replacement order and the RMA, and then start over and create a new RMA. This time, the user must ensure that the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Apply credit</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Yes</strong> before the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="95">Complete</strong> function is run.</p>
+</div>
+<h2 id="payment-overrides-for-call-center-returns" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="97">Payment overrides for call center returns</h2>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="99">Although call center logic systematically determines the refund payment method in the manner that is described earlier in this topic, users might sometimes want to override those payments. For example, a user might edit or remove existing refund payment lines, and apply new payment lines. System-calculated refund payments can be changed only by users who have the correct override permissions. These permissions can be configured on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="99">Override permissions</strong> page in Retail and Commerce. To do a refund payment override, the user must be linked to a security role where the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="99">Allow alternate payment</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="99">Yes</strong> on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="99">Override permissions</strong> page.</p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="101"><img src="media/overridepermissions.png" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="101" alt="Allow alternate payment option on the Override permissions page"></p>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Alternatively, an organization can set the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Allow payment override</strong> option to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Yes</strong> on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Call center parameters</strong> page. In this case, a security override code must be selected in the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Security Override Code</strong> field. The security override code is an alphanumeric code that must be externally managed, because users can't view it in Commerce headquarters after it's set. The security override code should be known by only a few key, trusted people in an organization. When the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Allow payment override</strong> option is set to <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="103">Yes</strong>, if any users who don't have the correct role permissions try to change the method of payment on a return order, they will have the option to enter the security override code. If they don't know it, or if a manager or supervisor can't enter it on the page for them, they won't be able to override the return payment method.</p>
+<div class="NOTE" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="105">
+<h5>Note</h5>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="106">If the security override code is lost or forgotten, the organization will have to reset it by defining a new security override code in the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="106">Security Override Code</strong> field on the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="106">RMA/Return</strong> tab of the <strong sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="106">Call center parameters</strong> page.</p>
+</div>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="108"><img src="media/overridepaymentparameter.png" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="108" alt="Payment override parameters on the RMA/Return tab of the Call center parameters page"></p>
+<div class="IMPORTANT" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="110">
+<h5>Important</h5>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="111">Before organizations try to override refund payments that use credit card payment types, they should verify that their credit card processor allows for unlinked returns. Many processors require that refunds be posted back to the original card. Any attempt to issue a refund to a card that has no previous captures might cause posting failures with the processor.</p>
+</div>
+<h2 id="additional-resources" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="113">Additional resources</h2>
+<p sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="115"><a href="work-with-payments.html" sourcefile="articles/commerce/call-center-refund-payments.md" sourcestartlinenumber="115">Payment methods in call centers</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

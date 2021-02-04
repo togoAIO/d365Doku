@@ -1,0 +1,663 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Anpassen eines EB-Formats, um ein benutzerdefiniertes elektronisches Dokument zu generieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Anpassen eines EB-Formats, um ein benutzerdefiniertes elektronisches Dokument zu generieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="adjust-an-er-format-to-generate-a-custom-electronic-document">Anpassen eines EB-Formats, um ein benutzerdefiniertes elektronisches Dokument zu generieren</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Die Prozeduren in diesem Thema erläutern, wie ein Benutzer mit der Rolle des Systemadministrators oder des funktionalen Beraters für die elektronische Berichterstellung die folgenden Aufgaben ausführen kann:</p>
+<ul>
+<li>Konfigurieren der Parameter für das <a href="general-electronic-reporting.html">Framework für elektronische Berichterstellung (EB)</a>.</li>
+<li>Importieren von EB-Konfigurationen, die von Microsoft bereitgestellt und zum Generieren einer Zahlungsdatei verwendet werden, während eine <a href="../../../finance/cash-bank-management/tasks/vendor-payment-overview.html">Kreditorenzahlung</a> verarbeitet wird.</li>
+<li>Erstellen einer benutzerdefinierten Version einer standardmäßigen EB-Formatkonfiguration, die von Microsoft bereitgestellt wird.</li>
+<li>Ändern der benutzerdefinierten EB-Formatkonfiguration, sodass Zahlungsdateien generiert werden, die den Anforderungen einer bestimmten Bank entsprechen.</li>
+<li>Übernehmen von Änderungen, die an der standardmäßigen EB-Formatkonfiguration vorgenommen wurden, in die benutzerdefinierte EB-Formatkonfiguration.</li>
+</ul>
+<p>Alle der folgenden Prozeduren können im <strong>GBSI</strong>-Unternehmen ausgeführt werden. Eine Codierung ist nicht erforderlich.</p>
+<ul>
+<li><p><a href="#ConfigureFramework">Konfigurieren des EB-Frameworks</a></p>
+<ul>
+<li><p><a href="#ConfigureParameters">Parameter der elektronischen Berichterstellung konfigurieren</a></p>
+</li>
+<li><p><a href="#ActivateProvider">Aktivieren eines EB-Konfigurationsanbieters</a></p>
+<ul>
+<li><a href="#ReviewProvidersList">Überprüfen der Liste der EB-Konfigurationsanbieter</a></li>
+<li><a href="#ActivateProvider">Hinzufügen eines neuen EB-Konfigurationsanbieters</a></li>
+<li><a href="#ActivateAddedProvider">Aktivieren eines EB-Konfigurationsanbieters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="#ImportERSolution1">Importieren der standardmäßigen EB-Formatkonfigurationen</a></p>
+<ul>
+<li><a href="#ImportERFormat1">Importieren der standardmäßigen EB-Konfigurationen</a></li>
+<li><a href="#ReviewImportedERSolution">Überprüfen der importierten EB-Konfigurationen</a></li>
+</ul>
+</li>
+<li><p><a href="#PrepareVendorPayment">Vorbereiten einer Kreditorenzahlung zur Verarbeitung</a></p>
+<ul>
+<li><a href="#AddBankAccount">Hinzufügen von Bankdaten für ein Kreditorenkonto</a></li>
+<li><a href="#EnterVendorPayment">Eingeben einer Kreditorenzahlung</a></li>
+</ul>
+</li>
+<li><p><a href="#ProcessVendorPayment1">Verarbeiten einer Kreditorenzahlung durch Verwendung des standardmäpigen EB-Formats</a></p>
+<ul>
+<li><a href="#ConfigureMethodOfPayment1">Einrichten der elektronischen Zahlungsmethode</a></li>
+<li><a href="#ProcessPayment1">Verarbeiten einer Kreditorenzahlung</a></li>
+</ul>
+</li>
+<li><p><a href="#CustomizeProvidedFormat">Anpassen des standardmäßigen EB-Formats</a></p>
+<ul>
+<li><a href="#DeriveProvidedFormat">Erstellen eines benutzerdefinierten Formats</a></li>
+<li><a href="#ConfigureDerivedFormat">Bearbeiten eines benutzerdefinierten Formats</a></li>
+<li><a href="#MarkFormatRunnable">Markieren eines benutzerdefinierten Formats als ausführbar</a></li>
+</ul>
+</li>
+<li><p><a href="#ProcessVendorPayment2">Verarbeiten einer Kreditorenzahlung durch Verwendung des benutzerdefinierten EB-Formats</a></p>
+<ul>
+<li><a href="#ConfigureMethodOfPayment2">Einrichten der elektronischen Zahlungsmethode</a></li>
+<li><a href="#ProcessPayment2">Verarbeiten einer Kreditorenzahlung</a></li>
+</ul>
+</li>
+<li><p><a href="#ImportERSolution2">Importieren neuer Versionen der standardmäßigen EB-Formatkonfigurationen</a></p>
+<ul>
+<li><a href="#ImportERFormat2">Importieren neuer Versionen der standardmäßigen EB-Konfigurationen</a></li>
+<li><a href="#ReviewImportedERFormat">Überprüfen der importierten EB-Formatkonfigurationen</a></li>
+</ul>
+</li>
+<li><p><a href="#AdoptNewBaseVersion">Übernehmen der Änderungen in der neuen Version eines importierten Formats in ein benutzerdefiniertes Format</a></p>
+<ul>
+<li><a href="#CompleteDerivedFormat">Vervollständigen der aktuellen Entwurfsversion eines benutzerdefinierten Formats</a></li>
+<li><a href="#RebaseDerivedFormat">Zurücksetzen eines benutzerdefinierten Formats auf eine neue Basisversion</a></li>
+<li><a href="#ProcessPayment3">Verarbeiten einer Kreditorenzahlung durch Verwendung eines zurückgesetzten EB-Formats</a></li>
+</ul>
+</li>
+<li><p><a href="#References">Zusätzliche Ressourcen</a></p>
+</li>
+</ul>
+<h2 id="configure-the-er-framework"><a id="ConfigureFramework"></a>Konfigurieren des EB-Frameworks</h2>
+<p>Als Benutzer mit der Rolle des funktionalen Beraters für die elektronische Berichterstellung müssen Sie den minimalen Satz von EB-Parametern konfigurieren, bevor Sie das EB-Framework zum Entwerfen einer benutzerdefinierten Version eines standardmäßigen EB-Formats verwenden können.</p>
+<h3 id="configure-er-parameters"><a id="ConfigureParameters"></a>Parameter der elektronischen Berichterstellung konfigurieren</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Parameter für elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li><p>Auf der Seite <strong>Parameter für elektronische Berichterstellung</strong> legen Sie auf der Registerkarte <strong>Allgemein</strong> die Option <strong>Entwurfsmodus aktivieren</strong> auf <strong>Ja</strong> fest.</p>
+</li>
+<li><p>Legen Sie auf der Registerkarte <strong>Anhänge</strong> die folgenden Parameter fest:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Konfigurationen</strong> den <strong>Dateityp</strong> für das <strong>USMF</strong>-Unternehmen aus.</li>
+<li>Wählen Sie in den Feldern <strong>Einzelvorgangsarchiv</strong>, <strong>Temporär</strong>, <strong>Grundlage</strong> und <strong>Andere</strong> den <strong>Dateityp</strong> aus.</li>
+</ul>
+</li>
+</ol>
+<p>Weitere Informationen zu EB-Parametern finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/electronic-reporting-er-configure-parameters">Konfigurieren des EB-Frameworks (This is an external link)</a>.</p>
+<h3 id="activate-an-er-configuration-provider"><a id="ActivateProvider"></a>Aktivieren eines EB-Konfigurationsanbieters</h3>
+<p>Jede hinzugefügte EB-Konfiguration wird als Eigentum eines EB-Konfigurationsanbieters markiert. Der EB-Konfigurationsanbieter, der im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> aktiviert ist, wird zu diesem Zweck verwendet. Daher müssen Sie im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> einen EB-Konfigurationsanbieter aktivieren, bevor Sie mit dem Hinzufügen oder Bearbeiten von EB-Konfigurationen beginnen.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Nur der Besitzer einer EB-Konfiguration kann diese bearbeiten. Daher muss im Arbeitsbereich <strong>Elektronische Berichterstellung</strong> der entsprechende EB-Konfigurationsanbieter aktiviert werden, bevor eine EB-Konfigurationen bearbeitet werden kann.</p>
+</div>
+<h4 id="review-the-list-of-er-configuration-providers"><a id="ReviewProvidersList"></a>Überprüfen der Liste der EB-Konfigurationsanbieter</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Auf der Seite <strong>Konfigurationsanbietertabelle</strong> hat jeder Anbieterdatensatz einen eindeutigen Namen und eine eindeutige URL. Überprüfen Sie den Inhalt dieser Seite. Wenn bereits ein Datensatz für <strong>Litware, Inc.</strong> (<code>https://www.litware.com</code>) vorhanden ist, überspringen Sie die nächste Prozedur <a href="#ActivateProvider">Hinzufügen eines neuen EB-Konfigurationsanbieters</a>.</li>
+</ol>
+<h4 id="add-a-new-er-configuration-provider"><a id="ActivateProvider"></a>Hinzufügen eines neuen EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Zugehörige Links</strong> die Option <strong>Konfigurationsanbieter</strong> aus.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsanbieter</strong> die Option <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>Litware, Inc.</strong> ein.</li>
+<li>Geben Sie im Feld <strong>Internetadresse</strong> <code>https://www.litware.com</code> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<h4 id="activate-an-er-configuration-provider"><a id="ActivateAddedProvider"></a>Aktivieren eines EB-Konfigurationsanbieters</h4>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Litware, Inc.</strong> aus. Wählen Sie dann <strong>Als aktiv festlegen</strong> aus.</li>
+</ol>
+<p>Weitere Informationen zu EB-Konfigurationsanbietern finden Sie unter <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Erstellen von Konfigurationsanbietern und Markieren als aktiv</a>.</p>
+<h2 id="import-the-standard-er-format-configurations"><a id="ImportERSolution1"></a>Importieren der standardmäßigen EB-Formatkonfigurationen</h2>
+<h3 id="import-the-standard-er-configurations"><a id="ImportERFormat1"></a>Importieren der standardmäßigen EB-Konfigurationen</h3>
+<p>Um Ihrer aktuellen Instanz von Microsoft Dynamics 365 Finance die standardmäßigen EB-Konfigurationen hinzuzufügen, müssen Sie sie aus dem EB-<a href="general-electronic-reporting.html#Repository">Repository</a> importieren, das für diese Instanz konfiguriert wurde.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Microsoft</strong> aus. Wählen Sie dann <strong>Repositorys</strong> aus, um die Liste der Repositorys für den Microsoft-Anbieter anzuzeigen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> das Repository des Typs <strong>Global</strong> aus. Wählen Sie dann <strong>Öffnen</strong> aus. Wenn Sie aufgefordert werden, das Herstellen einer Verbindung zum Regulatory Configuration Service zu autorisieren, folgen Sie den Autorisierungsanweisungen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> in der Konfigurationsstruktur im linken Bereich die Formatkonfiguration <strong>BACS (UK)</strong> aus.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Version <strong>1.1</strong> der ausgewählten EB-Formatkonfiguration aus.</li>
+<li>Wählen Sie <strong>Importieren</strong> aus, um die ausgewählte Version aus dem globalen Repository auf die aktuelle Finance-Instanz herunterzuladen.</li>
+</ol>
+<p><img src="media/er-quick-start2-import-solution1.png" alt="Konfigurationsrepository-Seite"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Probleme beim Zugriff auf das <a href="er-download-configurations-global-repo.html">globale Repository</a> haben, können Sie für das <a href="download-electronic-reporting-configuration-lcs.html">Herunterladen von Konfigurationen</a> stattdessen Microsoft Dynamics Lifecycle Services (LCS) verwenden.</p>
+</div>
+<h3 id="review-the-imported-er-configurations"><a id="ReviewImportedERSolution"></a>Überprüfen der importierten EB-Konfigurationen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationen</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Zahlungsmodell</strong>.</p>
+</li>
+<li><p>Beachten Sie, dass zusätzlich zum ausgewählten EB-Format <strong>BACS (UK)</strong> weitere erforderliche EB-Konfigurationen importiert wurden. Stellen Sie sicher, dass die folgenden EB-Konfigurationen in der Konfigurationsstruktur verfügbar sind:</p>
+<ul>
+<li><strong>Zahlungsmodell</strong>: Diese Konfiguration enthält die EB-Komponente <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Datenmodell</a>, die die Datenstruktur der Zahlungsgeschäftsdomäne darstellt.</li>
+<li><strong>Zahlungsmodellzuordnung 1611</strong>: Diese Konfiguration enthält die EB-Komponente <a href="general-electronic-reporting.html#data-model-and-model-mapping-components">Modellzuordnung</a>, die beschreibt, wie das Datenmodell zur Laufzeit mit Anwendungsdaten gefüllt wird.</li>
+<li><strong>BACS (UK)</strong>: Diese Konfiguration enthält die EB-Komponenten <a href="general-electronic-reporting.html#FormatComponentOutbound">Format</a> und Formatzuordnung. Die Formatkomponente legt das Berichtslayout fest. Die Formatzuordnungskomponente enthält die Modelldatenquelle und legt fest, wie das Berichtslayout mithilfe dieser Datenquelle zur Laufzeit ausgefüllt wird.</li>
+</ul>
+</li>
+</ol>
+<p><img src="media/er-quick-start2-imported-solution1.png" alt="Konfigurationsseite"></p>
+<h2 id="prepare-a-vendor-payment-for-processing"><a id="PrepareVendorPayment"></a>Vorbereiten einer Kreditorenzahlung zur Verarbeitung</h2>
+<h3 id="add-bank-information-for-a-vendor-account"><a id="AddBankAccount"></a>Hinzufügen von Bankdaten für ein Kreditorenkonto</h3>
+<p>Sie müssen Bankdaten für ein Kreditorenkonto hinzufügen, auf die später in einer registrierten Zahlung verwiesen wird.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Kreditoren</strong> &gt; <strong>Alle Kreditoren</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Alle Kreditoren</strong> das Kreditorenkonto <strong>GB_SI_000001</strong> aus. Wählen Sie dann im Aktivitätsbereich auf der Registerkarte <strong>Kreditor</strong> in der Gruppe <strong>Einrichtung</strong> die Option <strong>Bankkonten</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditoren-Bankkonten</strong> die Option <strong>Neu</strong> aus und geben Sie dann die folgenden Informationen ein:</p>
+<ol>
+<li>In das Feld <strong>Bankkonto</strong> geben Sie <strong>GBP OPER</strong> ein.</li>
+<li>Wählen Sie im Feld <strong>Bankgruppen</strong> die Option <strong>BankGBP</strong> aus.</li>
+<li>Im Feld <strong>Bankkontonummer</strong> geben Sie <strong>202015</strong> ein.</li>
+<li>Im Feld <strong>SWIFT-Code</strong> geben Sie <a id="DefineSWIFTCode"></a><strong>CHASDEFXXXX</strong> ein.</li>
+<li>Im Feld <strong>IBAN</strong> geben Sie <strong>GB33BUKB20201555555555</strong> ein.</li>
+<li>Im Feld <strong>Bankleitzahl</strong> können Sie den Standardwert <a id="DefineRoutingNumber"></a><strong>123456</strong> beibehalten.</li>
+</ol>
+<p><img src="media/er-quick-start2-bank-account.png" alt="Seite „Kreditoren-Bankkonten“"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+<li><p>Öffnen Sie auf der Seite <strong>Alle Kreditoren</strong> das Kreditorenkonto <strong>GB_SI_000001</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite mit den Kreditorendetails <strong>Bearbeiten</strong> aus, um die Seite bei Bedarf bearbeiten zu können.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Zahlung</strong> im Feld <strong>Bankkonto</strong> die Option <strong>GBP OPER</strong> aus.</p>
+<p><img src="media/er-quick-start2-bank-account-reference.png" alt="Seite „Kreditorendetails“"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+</ol>
+<h3 id="enter-a-vendor-payment"><a id="EnterVendorPayment"></a>Eingeben einer Kreditorenzahlung</h3>
+<p>Sie müssen eine neue Kreditorenzahlung eingeben, indem Sie einen <a href="https://docs.microsoft.com/dynamics365/finance/accounts-payable/create-vendor-payments-payment-proposal">Zahlungsvorschlag</a> verwenden.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungserfassung</strong> die Option <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Name</strong> die Option <strong>VendPay</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Positionen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlungsvorschlag</strong> &gt; <strong>Zahlungsvorschlag erstellen</strong> aus.</p>
+</li>
+<li><p>Konfigurieren Sie im Dialogfeld <strong>Kreditorenzahlungsvorschlag</strong> Bedingungen, um ausschließlich nach Datensätzen für das Kreditorenkonto <strong>GB_SI_000001</strong> zu filtern, und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+<li><p>Wählen Sie die Zeile für die Rechnung <strong>00000007_Inv</strong> aus und wählen Sie dann <strong>Zahlung erstellen</strong> aus.</p>
+<p><img src="media/er-quick-start2-payment-proposal.png" alt="Dialogfeld „Kreditorenzahlungsvorschlag“"></p>
+</li>
+<li><p>Überprüfen Sie, ob die eingegebene Zahlung für die Verwendung der Zahlungsmethode <strong>Elektronisch</strong> konfiguriert ist.</p>
+<p><img src="media/er-quick-start2-payment-line.png" alt="Seite für Kreditorenzahlungen"></p>
+</li>
+</ol>
+<h2 id="process-a-vendor-payment-by-using-the-standard-er-format"><a id="ProcessVendorPayment1"></a>Verarbeiten einer Kreditorenzahlung durch Verwendung des standardmäpigen EB-Formats</h2>
+<h3 id="set-up-the-electronic-payment-method"><a id="ConfigureMethodOfPayment1"></a>Einrichten der elektronischen Zahlungsmethode</h3>
+<p>Sie müssen die elektronische Zahlungsmethode so konfigurieren, dass sie die importierte EB-Formatkonfiguration verwendet.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungseinstellungen</strong> &gt; <strong>Zahlungsmethoden</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Zahlungsmethoden – Kreditoren</strong> im linken Bereich die Zahlungsmethode <strong>Elektronisch</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> aus.</p>
+</li>
+<li><p>Legen Sie auf dem Inforegister <strong>Dateiformate</strong> die Option <strong>Allgemeines elektronisches Exportformat</strong> auf <strong>Ja</strong> fest.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Formatkonfiguration exportieren</strong> die Formatkonfiguration <strong>BACS (UK)</strong> aus.</p>
+<p><img src="media/er-quick-start2-method-of-payment1.png" alt="Seite „Zahlungsmethoden – Kreditoren“"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+</ol>
+<h3 id="process-a-vendor-payment"><a id="ProcessPayment1"></a>Verarbeiten einer Kreditorenzahlung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungserfassung</strong> die Zahlungserfassung aus, die Sie zuvor hinzugefügt haben, und wählen Sie dann <strong>Positionen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seiite <strong>Kreditorenzahlungen</strong> die Option <strong>Zahlungen generieren</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Dialogfeld <strong>Zahlungen generieren</strong> die folgenden Informationen ein:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Zahlungsmethode</strong> die Option <strong>Elektronisch</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Bankkonto</strong> die Option <strong>GBSI OPER</strong> aus.</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Legen Sie im Dialogfeld <strong>Elektronische Berichtsparameter</strong> die Option <strong>Kontrollbericht drucken</strong> auf <strong>Ja</strong> fest und wählen Sie dann <strong>OK</strong> aus.</p>
+<p><img src="media/er-quick-start2-payment-dialog1.png" alt="Dialogfeld „Elektronische Berichtsparameter“"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Zusätzlich zur Zahlungsdatei können Sie jetzt den Kontrollbericht generieren.</p>
+</div>
+</li>
+<li><p>Laden Sie die ZIP-Datei herunter und entpacken Sie daraus die folgenden Dateien:</p>
+<ul>
+<li><p>Den Kontrollbericht im Excel-Format</p>
+</li>
+<li><p>Die Zahlungsdatei im TXT-Format</p>
+<p>Beachten Sie, dass in Übereinstimmung mit der <a href="#PositionRoutingNumber">Struktur</a> des angegebenen EB-Formats die Zahlungsposition in der generierten Datei mit der Bankleitzahl beginnt, die für das konfigurierte Bankkonto <a href="#DefineRoutingNumber">definiert</a> wurde.</p>
+<p><img src="media/er-quick-start2-payment-file1.png" alt="Zahlungsdatei im TXT-Format"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="customize-the-standard-er-format"><a id="CustomizeProvidedFormat"></a>Anpassen des standardmäßigen EB-Formats</h2>
+<p>Für das Beispiel in diesem Abschnitt verwenden Sie die von Microsoft bereitgestellten EB-Konfigurationen, um Kreditorenzahlungsdateien im BACS-Format zu generieren. Sie müssen jedoch eine Anpassung vornehmen, um die Anforderungen einer bestimmten Bank zu unterstützen. Sie möchten außerdem Ihr benutzerdefiniertes Format aktualisieren können, wenn neue Versionen von EB-Konfigurationen verfügbar sind. Dieses Upgrade sollte jedoch möglichst wenig kosten.</p>
+<p>In diesem Fall müssen Sie als Vertreter von Litware, Inc. eine neue EB-Formatkonfiguration erstellen (ableiten), indem Sie die von Microsoft bereitgestellte Konfiguration <strong>BACS (UK)</strong> als Basis verwenden.</p>
+<h3 id="create-a-custom-format"><a id="DeriveProvidedFormat"></a>Erstellen eines benutzerdefinierten Formats</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Zahlungsmodell</strong> und wählen Sie dann <strong>BACS (UK)</strong> aus. Litware, Inc. verwendet Version 1.1 dieser EB-Formatkonfiguration als Basis für die benutzerdefinierte Version.</p>
+</li>
+<li><p>Wählen Sie <strong>Konfiguration erstellen</strong> aus, um das Dropdown-Dialogfeld zu öffnen. Sie können dieses Dialogfeld verwenden, um eine neue Konfiguration für ein benutzerdefiniertes Zahlungsformat zu erstellen.</p>
+</li>
+<li><p>Wählen Sie in der Feldgruppe <strong>Neu</strong> die Option <strong>Von Name ableiten: BACS (UK), Microsoft</strong> aus.</p>
+</li>
+<li><p>In das Feld <strong>Name</strong> geben Sie <strong>BACS (UK, benutzerdefiniert)</strong> ein.</p>
+<p><img src="media/er-quick-start2-add-derived-format.png" alt="Konfigurations-Dropdown-Dialogfeld erstellen"></p>
+</li>
+<li><p>Wählen Sie <strong>Konfiguration erstellen</strong>.</p>
+</li>
+</ol>
+<p>Version 1.1.1 der EB-Formatkonfiguration <strong>BACS (UK, benutzerdefiniert)</strong> wird erstellt. Diese Version hat den <a href="general-electronic-reporting.html#component-versioning">Status</a> <strong>Entwurf</strong> und kann bearbeitet werden. Der aktuelle Inhalt Ihres benutzerdefinierten EB-Formats entspricht dem Inhalt des von Microsoft bereitgestellten Formats.</p>
+<p><img src="media/er-quick-start2-derived-format-configuration1.png" alt="Konfigurationsseite"></p>
+<h3 id="edit-a-custom-format"><a id="ConfigureDerivedFormat"></a>Bearbeiten eines benutzerdefinierten Formats</h3>
+<p>Sie müssen Ihr benutzerdefiniertes Format so konfigurieren, dass es den bankspezifischen Anforderungen entspricht. Beispielsweise kann eine Bank verlangen, dass generierte Zahlungsdateien den SWIFT-Code (Society for Worldwide Interbank Financial Telecommunication) einer Bank enthalten, der in der verarbeiteten Kreditorenzahlung die Agentenrolle zugewiesen ist. SWIFT-Codes sind internationale Bankleitzahlen, die bestimmte Banken weltweit identifizieren. Sie werden auch als Bank Identifier Codes (BICs) bezeichnet. Der SWIFT-Code muss 11 Zeichen lang sein und am Anfang jeder Zahlungsposition in eine generierte Zahlungsdatei eingegeben werden.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Zahlungsmodell</strong> und wählen Sie dann <strong>BACS (UK, benutzerdefiniert)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Version <strong>1.1.1</strong> der ausgewählten Konfiguration aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Formatdesigner</strong> die Option <strong>Details anzeigen</strong> aus, um weitere Informationen zu den Formatelementen anzuzeigen.</p>
+</li>
+<li><p>Erweitern und überprüfen Sie die folgenden Elemente:</p>
+<ul>
+<li>Das Element <strong>BACSReportsFolder</strong> vom Typ <strong>Ordner</strong>. Dieses Element wird verwendet, um eine Ausgabe im ZIP-Format zu generieren.</li>
+<li>Das Element <strong>file</strong> vom Typ <strong>Datei</strong>. Dieses Element wird verwendet, um eine Zahlungsdatei im TXT-Format zu generieren.</li>
+<li>Das Element <strong>transactions</strong> vom Typ <strong>Sequenz</strong>. Dieses Element wird verwendet, um eine einzelne Zahlungsposition in einer Zahlungsdatei zu generieren.</li>
+<li>Das Element <strong>transaction</strong> vom Typ <strong>Sequenz</strong>. Dieses Element wird verwendet, um die einzelnen Felder einer Zahlungsposition zu generieren.</li>
+</ul>
+</li>
+<li><p>Wählen Sie das Element <strong>transaction</strong> aus.</p>
+<p><img src="media/er-quick-start2-derived-format0.png" alt="Transaktionselement im EB-Vorgangsdesigner"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Der bereitgestellte Bericht ist so konfiguriert, dass <a id="PositionRoutingNumber"></a>jede Zahlungsposition mit der Bankleitzahl beginnt. Das Formatelement <strong>vendBankRouteNum</strong> wird zu diesem Zweck verwendet.</p>
+</div>
+</li>
+<li><p>Wählen Sie <strong>Hinzufügen</strong> und dann den Typ <strong>Text\Zeichenfolge</strong> des Formatelements aus, das Sie hinzufügen:</p>
+<ol>
+<li>In das Feld <strong>Name</strong> geben Sie <strong>vendBankSWIFT</strong> ein.</li>
+<li>In das Feld <strong>Mindestlänge</strong> geben Sie <strong>11</strong> ein.</li>
+<li>In das Feld <strong>Höchstlänge</strong> geben Sie <strong>11</strong> ein.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Element <strong>vendBankSWIFT</strong> wird verwendet, um den SWIFT-Code einer Kreditorenbank in generierte Dateien einzugeben.</p>
+</div>
+</li>
+<li><p>Wählen Sie in der Formatstruktur den Punkt <strong>vendBankSWIFT</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Nach oben verschieben</strong> aus, um das ausgewählte Formatelement um eine Ebene nach oben zu verschieben. Wiederholen Sie diesen Schritt, bis das Element <strong>vendBankSWIFT</strong> das <a id="PositionSWIFTCode"></a>erste Element unter dem übergeordneten Element <strong>transaction</strong> ist.</p>
+<p><img src="media/er-quick-start2-derived-format1.png" alt="„vendBankSWIFT“ als erstes Element unter „transaction“ im EB-Vorgangsdesigner"></p>
+</li>
+<li><p>Während <strong>vendBankSWIFT</strong> in der Formatstruktur ausgewählt ist, wählen Sie die Registerkarte <strong>Zuordnung</strong> aus und erweitern Sie dann die <strong>Modelldatenquelle</strong>.</p>
+</li>
+<li><p>Erweitern Sie <strong>model.Payment</strong> &gt; <strong>model.Payment.CreditorAgent</strong> und wählen Sie das Datenquellenfeld <strong>model.Payment.CreditorAgent.BICFI</strong> aus. Dieses Datenquellenfeld stellt den SWIFT-Code einer Kreditorenbank bereit, der die Agentenrolle in der verarbeiteten Kreditorenzahlung zugewiesen ist.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus. Das Formatelement <strong>vendBankSWIFT</strong> ist jetzt an das Datenquellenfeld <strong>model.Payment.CreditorAgent.BICFI</strong> gebunden, sodass SWIFT-Codes in generierte Zahlungsdateien eingegeben werden.</p>
+<p><img src="media/er-quick-start2-derived-format2.png" alt="Formatelement „vendBankSWIFT“ gebunden an das Datenquellenfeld „model.Payment.CreditorAgent.BICFI“ im EB-Vorgangsdesigner"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Schließen Sie die Designerseite.</p>
+</li>
+</ol>
+<h3 id="mark-a-custom-format-as-runnable"><a id="MarkFormatRunnable"></a>Markieren eines benutzerdefinierten Formats als ausführbar</h3>
+<p>Nachdem die erste Version Ihres benutzerdefinierten Formats mit dem Status <strong>Entwurf</strong> erstellt wurde, können Sie es zu Testzwecken ausführen. Um den Bericht auszuführen, müssen Sie eine Kreditorenzahlung mithilfe der Zahlungsmethode verarbeiten, die sich auf Ihr benutzerdefiniertes EB-Format bezieht. Beim Aufrufen eines EB-Formats aus der Anwendung werden standardmäßig nur Versionen mit dem Status <strong>Abgeschlossen</strong> oder <strong>Freigegeben</strong> <a href="general-electronic-reporting.html#component-versioning">berücksichtigt</a>. Dieses Verhalten verhindert, dass EB-Formate mit unfertigen Designs verwendet werden. Für Ihre Testläufe können Sie die Anwendung jedoch zwingen, die Version Ihres EB-Formats mit dem Status <strong>Entwurf</strong> zu verwenden. Auf diese Weise können Sie die aktuelle Formatversion anpassen, falls Änderungen erforderlich sind. Weitere Informationen finden Sie unter <a href="electronic-reporting-destinations.html#applicability">Anwendbarkeit</a>.</p>
+<p>Um die Entwurfsversion eines EB-Formats zu verwenden, müssen Sie das EB-Format explizit markieren.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> im Aktivitätsbereich, auf der Registerkarte <strong>Konfigurationen</strong> in der Gruppe <strong>Erweiterte Einstellungen</strong> wählen Sie <strong>Benutzerparameter</strong> aus.</p>
+</li>
+<li><p>Legen Sie im Dialogfeld <strong>Benutzerparameter</strong> die Option <strong>Testlaufeinstellungen</strong> auf <strong>Ja</strong> fest und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> aus, um die aktuelle Seite bei Bedarf bearbeiten zu können.</p>
+</li>
+<li><p>Wählen Sie in der Konfigurationsstruktur im linken Bereich den Punkt <strong>BACS (UK, benutzerdefiniert)</strong> aus.</p>
+</li>
+<li><p>Legen Sie die Option <strong>Entwurf ausführen</strong> auf <strong>Ja</strong> fest.</p>
+<p><img src="media/er-quick-start2-derived-format-configuration2.png" alt="Option „Entwurf ausführen“ auf der Konfigurationsseite"></p>
+</li>
+</ol>
+<h2 id="process-a-vendor-payment-by-using-the-custom-er-format"><a id="ProcessVendorPayment2"></a>Verarbeiten einer Kreditorenzahlung durch Verwendung des benutzerdefinierten EB-Formats</h2>
+<h3 id="set-up-the-electronic-payment-method"><a id="ConfigureMethodOfPayment2"></a>Einrichten der elektronischen Zahlungsmethode</h3>
+<p>Sie müssen die elektronische Zahlungsmethode so konfigurieren, dass Ihr benutzerdefiniertes EB-Format zur Verarbeitung von Kreditorenzahlungen verwendet wird.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungseinstellungen</strong> &gt; <strong>Zahlungsmethoden</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Zahlungsmethoden – Kreditoren</strong> im linken Bereich die Zahlungsmethode <strong>Elektronisch</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> aus.</p>
+</li>
+<li><p>Legen Sie auf dem Inforegister <strong>Dateiformate</strong> die Option <strong>Allgemeines elektronisches Exportformat</strong> auf <strong>Ja</strong> fest.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Formatkonfiguration exportieren</strong> die Formatkonfiguration <strong>BACS (UK, benutzerdefiniert)</strong> aus.</p>
+<p><img src="media/er-quick-start2-method-of-payment2.png" alt="Seite „Zahlungsmethoden – Kreditoren“"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+</ol>
+<h3 id="process-a-vendor-payment"><a id="ProcessPayment2"></a>Verarbeiten einer Kreditorenzahlung</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungserfassung</strong> die Zahlungserfassung aus, die Sie zuvor erstellt haben.</p>
+</li>
+<li><p>Wählen Sie <strong>Positionen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungen</strong> über dem Raster <strong>Zahlungsstatus</strong> &gt; <strong>Kein</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlung generieren</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Dialogfeld <strong>Zahlungen generieren</strong> die folgenden Informationen ein:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Zahlungsmethode</strong> die Option <strong>Elektronisch</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Bankkonto</strong> die Option <strong>GBSI OPER</strong> aus.</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Legen Sie im Dialogfeld <strong>Elektronische Berichtsparameter</strong> die Option <strong>Kontrollbericht drucken</strong> auf <strong>Ja</strong> fest und wählen Sie dann <strong>OK</strong> aus.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Zusätzlich zur Zahlungsdatei können Sie nur den Kontrollbericht generieren.</p>
+</div>
+</li>
+<li><p>Laden Sie die ZIP-Datei herunter und entpacken Sie daraus die folgenden Dateien:</p>
+<ul>
+<li><p>Den Kontrollbericht im Excel-Format</p>
+</li>
+<li><p>Die Zahlungsdatei im TXT-Format</p>
+<p>Beachten Sie, dass gemäß der Struktur Ihres benutzerdefinierten EB-Formats die Zahlungsposition in der generierten Datei jetzt mit dem SWIFT-Code <a href="#PositionSWIFTCode">beginnt</a>, der für das Bankkonto des Kreditors <a href="#DefineSWIFTCode">eingegeben</a> wurde, dessen Zahlung verarbeitet wurde.</p>
+<p><img src="media/er-quick-start2-payment-file2.png" alt="Zahlungsdatei im TXT-Format"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="import-new-versions-of-the-standard-er-format-configurations"><a id="ImportERSolution2"></a>Importieren neuer Versionen der standardmäßigen EB-Formatkonfigurationen</h2>
+<p>Für das Beispiel in diesem Abschnitt erhalten Sie eine Benachrichtigung über den Knowledge Base-Artikel <a href="https://fix.lcs.dynamics.com/Issue/Details?kb=3182046">KB3763330</a>. Diese Benachrichtigung informiert Sie über die neue Version des EB-Formats <strong>BACS (UK)</strong>, das von Microsoft veröffentlicht wurde. Zusätzlich zum Kontrollbericht können Benutzer mit dieser neuen Version noch den Zahlungsavisbericht und den Begleitzettel-Bericht erstellen, während eine Kreditorenzahlung verarbeitet wird. Sie möchten diese Funktion jetzt nutzen.</p>
+<h3 id="import-new-versions-of-the-standard-er-configurations"><a id="ImportERFormat2"></a>Importieren neuer Versionen der standardmäßigen EB-Konfigurationen</h3>
+<p>Um neue Versionen der EB-Konfigurationen zur aktuellen Finance-Instanz hinzuzufügen, müssen Sie sie aus dem EB-<a href="general-electronic-reporting.html#Repository">Repository</a> importieren, das Sie konfiguriert haben.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Wählen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Bereich <strong>Konfigurationsanbieter</strong> die Kachel <strong>Microsoft</strong> aus. Wählen Sie dann <strong>Repositorys</strong> aus, um die Liste der Repositorys für den Microsoft-Anbieter anzuzeigen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> das Repository des Typs <strong>Global</strong> aus. Wählen Sie dann <strong>Öffnen</strong> aus. Wenn Sie aufgefordert werden, das Herstellen einer Verbindung zum Regulatory Configuration Service zu autorisieren, folgen Sie den Autorisierungsanweisungen.</li>
+<li>Wählen Sie auf der Seite <strong>Konfigurationsrepositorys</strong> in der Konfigurationsstruktur im linken Bereich die Formatkonfiguration <strong>BACS (UK)</strong> aus.</li>
+<li>Wählen Sie auf dem Inforegister <strong>Versionen</strong> die Version <strong>3.3</strong> der ausgewählten EB-Formatkonfiguration aus.</li>
+<li>Wählen Sie <strong>Importieren</strong> aus, um die ausgewählte Version aus dem globalen Repository auf die aktuelle Finance-Instanz herunterzuladen.</li>
+</ol>
+<p><img src="media/er-quick-start2-import-solution2.png" alt="Konfigurationsrepository-Seite"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Probleme beim Zugriff auf das <a href="er-download-configurations-global-repo.html">globale Repository</a> haben, können Sie für das <a href="download-electronic-reporting-configuration-lcs.html">Herunterladen von Konfigurationen</a> stattdessen LCS verwenden.</p>
+</div>
+<h3 id="review-the-imported-er-format-configurations"><a id="ReviewImportedERFormat"></a>Überprüfen der importierten EB-Formatkonfigurationen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationen</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Zahlungsmodell</strong> und wählen Sie dann <strong>BACS (UK)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Versionen</strong> die Version <strong>3.3</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Formatdesigner</strong> das Formatelement <strong>BACSReportsFolder</strong>.</p>
+</li>
+<li><p>Beachten Sie, dass Version 3.3 das Formatelement <strong>PaymentAdviceReport</strong> enthält, das zum Generieren eines Zahlungsavisberichts verwendet wird, wenn eine Kreditorenzahlung verarbeitet wird.</p>
+<p><img src="media/er-quick-start2-imported-solution2.png" alt="Formatelement „PaymentAdviceReport“ im EB-Vorgangsdesigner"></p>
+</li>
+<li><p>Schließen Sie die Designerseite.</p>
+</li>
+</ol>
+<h2 id="adopt-the-changes-in-the-new-version-of-an-imported-format-in-a-custom-format"><a id="AdoptNewBaseVersion"></a>Übernehmen der Änderungen in der neuen Version eines importierten Formats in ein benutzerdefiniertes Format</h2>
+<h3 id="complete-the-current-draft-version-of-a-custom-format"><a id="CompleteDerivedFormat"></a>Vervollständigen der aktuellen Entwurfsversion eines benutzerdefinierten Formats</h3>
+<p>Wenn Sie den aktuellen Status Ihres benutzerdefinierten Formats beibehalten möchten, vervollständigen Sie den Entwurf von Version 1.1.1, indem Sie ihren Status von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> ändern.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Elektronische Berichterstellung</strong>.</li>
+<li>Auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationen</strong> wählen Sie die Kachel <strong>Berichterstellungskonfigurationen</strong> aus.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich zunächst den Punkt <strong>Zahlungsmodell</strong> und dann den Punkt <strong>BACS (UK, benutzerdefiniert)</strong>. Wählen Sie dann <strong>BACS (UK, benutzerdefiniert)</strong> aus.</li>
+<li>Wechseln Sie auf dem Inforegister <strong>Versionen</strong> zu <strong>Status ändern</strong> &gt; <strong>Abgeschlossen</strong> und wählen Sie dann <strong>OK</strong> aus.</li>
+</ol>
+<p>Der Status von Version 1.1.1 wird von <strong>Entwurf</strong> zu <strong>Abgeschlossen</strong> geändert und die Version ist jetzt schreibgeschützt. Eine neue bearbeitbare Version 1.1.2 mit dem Status <strong>Entwurf</strong> wurde hinzugefügt. Mit dieser Version können Sie weitere Änderungen an Ihrem benutzerdefinierten EB-Format vornehmen.</p>
+<h3 id="rebase-a-custom-format-to-a-new-base-version"><a id="RebaseDerivedFormat"></a>Zurücksetzen eines benutzerdefinierten Formats auf eine neue Basisversion</h3>
+<p>Um die neuen Funktionen von Version 3.3 des Formats <strong>BACS (UK)</strong> in Ihrer Anpassung nutzen zu können, müssen Sie die Basiskonfigurationsversion für die benutzerdefinierte Konfiguration ändern, <strong>BACS (UK, benutzerdefiniert)</strong>. Dieser Prozess wird als <a href="general-electronic-reporting.html#upgrading-a-format-selecting-a-new-version-of-base-format-rebase">Rebasierung</a> bezeichnet. Verwenden Sie anstelle von Version 1.1 von <strong>BACS (UK)</strong> Version 3.3.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> in der Konfigurationsstruktur im linken Bereich den Punkt <strong>Zahlungsmodell</strong> und wählen Sie dann <strong>BACS (UK, benutzerdefiniert)</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Versionen</strong> Version <strong>1.1.2</strong> und dann <strong>Zurücksetzen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Dialogfeld <strong>Zurücksetzen</strong> im Feld <strong>Zielversion</strong> Version <strong>3.3</strong> der Basiskonfiguration aus, um sie als neue Basis anzuwenden und zum Aktualisieren der Konfiguration zu verwenden.</p>
+<p><img src="media/er-quick-start2-rebase1.png" alt="Dialogfeld zurücksetzen"></p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Beachten Sie, dass die Nummer der Entwurfsversion von <strong>1.1.2</strong> zu <strong>3.3.2</strong> geändert wurde, um die Änderung in der Basisversion widerzuspiegeln.</p>
+<p>Wenn die benutzerdefinierte Version und eine neue Basisversion zusammengeführt werden, können aufgrund von Formatänderungen, die nicht automatisch zusammengeführt werden können, einige Konflikte auftreten.</p>
+<p><img src="media/er-quick-start2-rebase2.png" alt="Zurückgesetzte Konfiguration mit Konflikten auf der Konfigurationsseite"></p>
+<p>Wenn Konflikte auftreten, müssen sie im Formatdesigner manuell gelöst werden.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Versionen</strong> die Version <strong>3.3.2</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Formatdesigner</strong> auf dem Inforegister <strong>Details</strong> einen durch das Zurücksetzen verursachten Konfliktdatensatz aus und wählen Sie dann <strong>Basiswert anwenden</strong> aus.</p>
+<p><img src="media/er-quick-start2-rebase3.png" alt="Durch Zurücksetzen verursachter Konfliktdatensatz im EB-Vorgangdesigner"></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+<p>Der durch das Zurücksetzen verursachte Konfliktdatensatz sollte auf dem Inforegister <strong>Details</strong> nicht mehr angezeigt werden.</p>
+<p><img src="media/er-quick-start2-rebase4.png" alt="Konflikt gelöst im EB-Vorgangdesigner"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie haben den Konflikt gelöst, indem Sie bestätigt haben, dass in diesem EB-Format Version 3 des Basismodells verwendet werden muss.</p>
+</div>
+</li>
+<li><p>Erweitern Sie <strong>BACSReportsFolder</strong> &gt; <strong>file</strong> &gt; <strong>transactions</strong> &gt; <strong>transaction</strong>.</p>
+</li>
+<li><p>Beachten Sie auf der Registerkarte <strong>Zuordnung</strong>, dass Version 3.3.2 Ihres benutzerdefinierten EB-Formats sowohl Ihre Anpassung (das Formatelement <strong>vendBankSWIFT</strong> und seine Bindung) als auch die neuen Funktionen von Version 3.3 des von Microsoft bereitgestellten Basis-EB-Formats (das Formatelement <strong>PaymentAdviceReport</strong> zusammen mit seinen verschachtelten Elementen und konfigurierten Bindungen) enthält. Mit nur wenigen Mausklicks haben Sie die Änderungen einer neuen Basisversion übernommen, indem Sie sie mit Ihrer Anpassung zusammengeführt haben.</p>
+<p><img src="media/er-quick-start2-rebase5.png" alt="Zusammengeführtes Format im EB-Vorgangdesigner"></p>
+</li>
+<li><p>Schließen Sie die Designerseite.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Zurücksetzen kann nicht rückgängig gemacht werden. Um das Zurücksetzen abzubrechen, wählen Sie Version <strong>1.1.1</strong> des Formats <strong>BACS (UK, benutzerdefiniert)</strong> auf dem Inforegister <strong>Versionen</strong> aus und wählen Sie dann <strong>Diese Version abrufen</strong> aus. Version 3.3.2 wird dann in 1.1.2 umnummeriert und der Inhalt der Entwurfsversion 1.1.2 stimmt mit dem Inhalt von Version 1.1.1 überein.</p>
+</div>
+<h3 id="process-a-vendor-payment-by-using-a-rebased-er-format"><a id="ProcessPayment3"></a>Verarbeiten einer Kreditorenzahlung durch Verwendung eines zurückgesetzten EB-Formats</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungserfassung</strong> die Zahlungserfassung aus, die Sie zuvor erstellt haben.</p>
+</li>
+<li><p>Wählen Sie <strong>Positionen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Seite <strong>Kreditorenzahlungen</strong> über dem Raster <strong>Zahlungsstatus</strong> &gt; <strong>Kein</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlung generieren</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Dialogfeld <strong>Zahlungen generieren</strong> die folgenden Informationen ein:</p>
+<ul>
+<li>Wählen Sie im Feld <strong>Zahlungsmethode</strong> die Option <strong>Elektronisch</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Bankkonto</strong> die Option <strong>GBSI OPER</strong> aus.</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Geben Sie im Dialogfeld <strong>Elektronische Berichtsparameter</strong> die folgenden Informationen ein:</p>
+<ul>
+<li>legen Sie die <strong>Kontrollbereicht drucken</strong> auf <strong>Ja</strong> fest.</li>
+<li>Legen Sie die Option <strong>Zahlungsavis drucken</strong> auf <strong>Ja</strong> fest.</li>
+</ul>
+<p><img src="media/er-quick-start2-payment-dialog2.png" alt="Dialogfeld für elektronische Berichtsparameter"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Zusätzlich zur Zahlungsdatei können Sie jetzt sowohl den Kontrollbericht als auch den Zahlungsavisbericht erstellen.</p>
+</div>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Laden Sie die ZIP-Datei herunter und entpacken Sie daraus die folgenden Dateien:</p>
+<ul>
+<li><p>Den Kontrollbericht im Excel-Format</p>
+</li>
+<li><p>Den Zahlungsavisbericht im Excel-Format</p>
+<p><img src="media/er-quick-start2-payment-advice-report.png" alt="Zahlungsavisbericht im Excel-Format"></p>
+</li>
+<li><p>Die Zahlungsdatei im TXT-Format</p>
+<p>Beachten Sie, dass die Zahlungsposition in der generierten Datei mit dem SWIFT-Code beginnt, der für das Bankkonto eines Kreditors eingegeben wurde, dessen Zahlung verarbeitet wurde.</p>
+<p><img src="media/er-quick-start2-payment-file3.png" alt="Zahlungsdatei im TXT-Format"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="additional-resources"><a id="References"></a>Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung</a></li>
+<li><a href="download-electronic-reporting-configuration-lcs.html">Herunterladen elektronischer Berichterstellungskonfigurationen von Lifecycle Services</a></li>
+<li><a href="er-download-configurations-global-repo.html">Herunterladen von EB-Konfigurationen aus dem globalen Repository des Konfigurationsdienstes</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

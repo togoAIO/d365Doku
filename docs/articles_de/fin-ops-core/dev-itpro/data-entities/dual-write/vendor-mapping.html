@@ -1,0 +1,878 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrierte Masterdaten von Kreditoren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrierte Masterdaten von Kreditoren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="integrated-vendor-master">Integrierte Masterdaten von Kreditoren</h1>
+
+[!include[banner](../../includes/banner.md)][!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>Der Begriff <em>Lieferant</em> bezieht sich auf eine Lieferantenorganisation oder einen Einzelunternehmer, der Waren oder Dienstleistungen an ein Unternehmen liefert. Der Begriff <em>Lieferant</em> ist zwar in Microsoft Dynamics 365 Supply Chain Management ein etabliertes Konzept, in in modellgesteuerten Apps in Dynamics 365 gibt es dieses Konzept aber nicht. Sie können jedoch die Entität <strong>Konto/Kontakt</strong> zum Speichern von Lieferanteninformationen überladen. Die integrierten Masterdaten von Kreditoren führen ein explizites Kreditorenkonzept in modellgesteuerten Apps in Dynamics 365 ein. Sie können entweder das neue Lieferantendesign verwenden oder Lieferantendaten in der Entität <strong>Konto/Kontakt</strong> speichern. Duales Schreiben unterstützt beide Ansätze.</p>
+<p>In beiden Ansätzen werden die Lieferantendaten zwischen Dynamics 365 Supply Chain Management, Dynamics 365 Sales, Dynamics 365 Field Service, und Power Apps-Portalen integriert . In Supply Chain Management stehen die Daten für Workflows wie Bestellanforderungen und Bestellungen zur Verfügung.</p>
+<h2 id="vendor-data-flow">Kreditorendatenfluss</h2>
+<p>Wenn Sie Daten nicht in der Entität <strong>Konto/Kontakt</strong> in Dataverse speichern möchten, können Sie das neue Lieferantendesign verwenden.</p>
+<p><img src="media/dual-write-vendor-data-flow.png" alt="Kreditorendatenfluss"></p>
+<p>Wenn Sie Daten weiterhin in der Entität <strong>Konto/Kontakt</strong> speichern möchten, können Sie das erweiterte Lieferantendesign verwenden. Um das erweiterte Lieferantendesign zu verwenden, müssen Sie die Herstellerworkflows im Lösungspaket für duales Schreiben konfigurieren. Weitere Informationen finden Sie unter <a href="vendor-switch.html">Wechsel zwischen Kreditorendesigns</a>.</p>
+<p><img src="media/dual-write-vendor-detail.jpg" alt="Erweiterter Kreditorendatenfluss"></p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Wenn Sie Power Apps-Portale für Self-Service-Kreditoren verwenden, können die Kreditoreninformationen direkt an Finance and Operations-Apps weitergeleitet werden.</p>
+</div>
+<h2 id="templates">Vorlagen</h2>
+<p>Kreditorendaten enthalten alle Informationen über den Kreditor, z. B. die Kreditorengruppe, Adressen, Kontaktinformationen, das Zahlungsprofil und das Rechnungsprofil. Eine Sammlung von Tabellenzuordnungen arbeitet während der Interaktion der Kreditorendaten zusammen, wie in der folgenden Tabelle dargestellt.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations Apps</th>
+<th>Sonstige Dynamics 365-Apps</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kreditor V2</td>
+<td>Konto</td>
+<td>Unternehmen, die die Kontoentität verwenden, um Kreditorendaten speichern, können diese weiterhin auf die gleiche Weise verwenden. Sie können auch die explizite Lieferantenfunktion nutzen, die dank der Integration von Finance and Operations Apps zur Verfügung stehen.</td>
+</tr>
+<tr>
+<td>Kreditor V2</td>
+<td>Msdyn_vendors</td>
+<td>Unternehmen, die eine benutzerdefinierte Lösung für Lieferanten verwenden, können das vordefinierte Lieferantenkonzept nutzen, das in Dataverse durch die Integration von Finance and Operations Apps eingeführt wird.</td>
+</tr>
+<tr>
+<td>Kreditorengruppen</td>
+<td>msdyn_vendorgroups</td>
+<td>Diese Vorlage synchronisiert Lieferantengruppeninformationen.</td>
+</tr>
+<tr>
+<td>Kreditorzahlungsmethode</td>
+<td>msdyn_vendorpaymentmethods</td>
+<td>Diese Vorlage synchronisiert Informationen zu den Zahlungsmethoden für Lieferanten.</td>
+</tr>
+<tr>
+<td>CDS-Kontakte V2</td>
+<td>Kontakte</td>
+<td>Die Vorlage <a href="customer-mapping.html#cds-contacts-v2-to-contacts">Kontakte</a> synchronisiert alle primären, sekundären und tertiären Kontaktinformationen für Kunden und Lieferanten.</td>
+</tr>
+<tr>
+<td>Zahlungsplanpositionen</td>
+<td>msdyn_paymentschedulelines</td>
+<td>Diese Vorlage <a href="customer-mapping.html#payment-schedule-lines-to-msdyn_paymentschedulelines">Zahlungsplanpositionen</a> synchronisiert die Referenzdaten für Kunden und Lieferanten.</td>
+</tr>
+<tr>
+<td>Zahlungsplan</td>
+<td>msdyn_paymentschedules</td>
+<td>Die Vorlage <a href="customer-mapping.html#payment-schedule-to-msdyn_paymentschedules">Zahlungspläne</a> synchronisiert die Referenzdaten für Zahlungspläne sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr>
+<td>Zahlungstagpositionen CDS V2</td>
+<td>msdyn_paymentdaylines</td>
+<td>Die Vorlage <a href="customer-mapping.html#payment-day-lines-cds-v2-to-msdyn_paymentdaylines">Zahlungstagpositionen</a> synchronisiert die Referenzdaten für Zahlungstagpositionen für Kunden und Lieferanten.</td>
+</tr>
+<tr>
+<td>Zahlungstage CDS</td>
+<td>msdyn_paymentdays</td>
+<td>Die Vorlage <a href="customer-mapping.html#payment-days-cds-to-msdyn_paymentdays">Zahlungstage</a> synchronisiert die Referenzdaten für Zahlungstage sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr>
+<td>Zahlungsbedingungen</td>
+<td>msdyn_paymentterms</td>
+<td>Die Vorlage <a href="customer-mapping.html#terms-of-payment-to-msdyn_paymentterms">Zahlungsbedingungen</a> synchronisiert die Referenzdaten für Zahlungsbedingungen sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+<tr>
+<td>Namensaffixe</td>
+<td>msdyn_nameaffixes</td>
+<td>Die Vorlage <a href="customer-mapping.html#name-affixes-to-msdyn_nameaffixes">Namensaffixe</a> synchronisiert die Referenzdaten für Namensaffixe sowohl für Kunden als auch für Lieferanten.</td>
+</tr>
+</tbody>
+</table>
+[!include[symbols](../../includes/dual-write-symbols.md)]<h2 id="vendors-v2-to-msdyn_vendors">Kreditoren V2 zu msdyn_vendors</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VENDORACCOUNTNUMBER</td>
+<td>=</td>
+<td>msdyn_vendoraccountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORGROUPID</td>
+<td>=</td>
+<td>msdyn_vendorgroupid.msdyn_vendorgroup</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORORGANIZATIONNAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORPARTYTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isperson</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONFIRSTNAME</td>
+<td>=</td>
+<td>msdyn_firstname</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONLASTNAME</td>
+<td>=</td>
+<td>msdyn_lastname</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITLIMIT</td>
+<td>=</td>
+<td>msdyn_vendorcreditlimit</td>
+<td></td>
+</tr>
+<tr>
+<td>ISFOREIGNENTITY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isforeignentity</td>
+<td></td>
+</tr>
+<tr>
+<td>ISONETIMEVENDOR</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isonetimevendor</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSBUILDINGCOMPLIMENT</td>
+<td>=</td>
+<td>msdyn_addressbuildingcompliment</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONCHILDRENNAMES</td>
+<td>=</td>
+<td>msdyn_childrennames</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCITY</td>
+<td>=</td>
+<td>msdyn_addresscity</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCOUNTRYREGIONID</td>
+<td>=</td>
+<td>msdyn_addresscountryregionid</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>msdyn_addresscountryregionisocode</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCOUNTYID</td>
+<td>=</td>
+<td>msdyn_addresscountyid</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITRATING</td>
+<td>=</td>
+<td>msdyn_creditrating</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_addressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSDISTRICTNAME</td>
+<td>=</td>
+<td>msdyn_addressdistrictname</td>
+<td></td>
+</tr>
+<tr>
+<td>DUNSNUMBER</td>
+<td>=</td>
+<td>msdyn_dunsnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ETHNICORIGINID</td>
+<td>=</td>
+<td>msdyn_ethnicorigin</td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDPRIMARYADDRESS</td>
+<td>=</td>
+<td>msdyn_formattedprimaryaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONHOBBIES</td>
+<td>=</td>
+<td>msdyn_hobbies</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONINITIALS</td>
+<td>=</td>
+<td>msdyn_initials</td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td>&gt;&lt;</td>
+<td>msdyn_language</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONLASTNAMEPREFIX</td>
+<td>=</td>
+<td>msdyn_lastnameprefix</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONMIDDLENAME</td>
+<td>=</td>
+<td>msdyn_middlename</td>
+<td></td>
+</tr>
+<tr>
+<td>ORGANIZATIONNUMBER</td>
+<td>=</td>
+<td>msdyn_organizationnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>OURACCOUNTNUMBER</td>
+<td>=</td>
+<td>msdyn_ourvendoraccountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTID</td>
+<td>=</td>
+<td>msdyn_paymentid</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPHONETICFIRSTNAME</td>
+<td>=</td>
+<td>msdyn_phoneticfirstname</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPHONETICMIDDLENAME</td>
+<td>=</td>
+<td>msdyn_phoneticmiddlename</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPHONETICLASTNAME</td>
+<td>=</td>
+<td>msdyn_phoneticlastname</td>
+<td></td>
+</tr>
+<tr>
+<td>ORGANIZATIONPHONETICNAME</td>
+<td>=</td>
+<td>msdyn_organizationphoneticname</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSPOSTBOX</td>
+<td>=</td>
+<td>msdyn_addresspostbox</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYURL</td>
+<td>=</td>
+<td>msdyn_primarycontacturl</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYEMAILADDRESS</td>
+<td>=</td>
+<td>msdyn_primaryemailaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYEMAILADDRESSDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryemailaddressdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFACEBOOK</td>
+<td>=</td>
+<td>msdyn_primaryfacebook</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFACEBOOKDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryfacebookdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFAXNUMBER</td>
+<td>=</td>
+<td>msdyn_primaryfaxnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFAXNUMBERDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryfaxnumberdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFAXNUMBEREXTENSION</td>
+<td>=</td>
+<td>msdyn_primaryfaxnumberextension</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYLINKEDIN</td>
+<td>=</td>
+<td>msdyn_primarylinkedin</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYLINKEDINDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarylinkedindescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYPHONENUMBER</td>
+<td>=</td>
+<td>msdyn_pimaryphonenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYPHONENUMBERDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryphonenumberdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYPHONENUMBEREXTENSION</td>
+<td>=</td>
+<td>msdyn_primaryphonenumberextension</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYTELEX</td>
+<td>=</td>
+<td>msdyn_primarytelex</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYTELEXDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarytelexdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYTWITTER</td>
+<td>=</td>
+<td>msdyn_primarytwitter</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYTWITTERDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarytwitterdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYURLDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryurldescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPROFESSIONALSUFFIX</td>
+<td>=</td>
+<td>msdyn_professionalsuffix</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPROFESSIONALTITLE</td>
+<td>=</td>
+<td>msdyn_professionatitle</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSSTATEID</td>
+<td>=</td>
+<td>msdyn_addressstateid</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSSTREET</td>
+<td>=</td>
+<td>msdyn_addressstreet</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSSTREETNUMBER</td>
+<td>=</td>
+<td>msdyn_addressstreetnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORKNOWNASNAME</td>
+<td>=</td>
+<td>msdyn_vendorknownasname</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSZIPCODE</td>
+<td>=</td>
+<td>msdyn_addresszipcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTPAYMENTDAYNAME</td>
+<td>=</td>
+<td>msdyn_defaultpaymentdayname.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTPAYMENTSCHEDULENAME</td>
+<td>=</td>
+<td>msdyn_paymentschedule.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTPAYMENTTERMSNAME</td>
+<td>=</td>
+<td>msdyn_paymentterms.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>HASONLYTAKENBIDS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_hasonlytakenbids</td>
+<td></td>
+</tr>
+<tr>
+<td>ISMINORITYOWNED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isminorityowned</td>
+<td></td>
+</tr>
+<tr>
+<td>ISVENDORLOCALLYOWNED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isvendorlocallyowned</td>
+<td></td>
+</tr>
+<tr>
+<td>ISSERVICEVETERANOWNED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isserviceveteranowned</td>
+<td></td>
+</tr>
+<tr>
+<td>ISOWNERDISABLED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_ownerisdisabled</td>
+<td></td>
+</tr>
+<tr>
+<td>ISWOMANOWNER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_womanowner</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONANNIVERSARYDAY</td>
+<td>=</td>
+<td>msdyn_personanniversaryday</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONANNIVERSARYYEAR</td>
+<td>=</td>
+<td>msdyn_anniversaryyear</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONBIRTHDAY</td>
+<td>=</td>
+<td>msdyn_birthday</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONBIRTHYEAR</td>
+<td>=</td>
+<td>msdyn_birthyear</td>
+<td></td>
+</tr>
+<tr>
+<td>ORGANIZATIONEMPLOYEEAMOUNT</td>
+<td>=</td>
+<td>msdyn_numberofemployees</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORHOLDRELEASEDATE</td>
+<td>=</td>
+<td>msdyn_vendoronholdreleasedate</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORPARTYNUMBER</td>
+<td>=</td>
+<td>msdyn_vendorpartynumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLOCATIONID</td>
+<td>=</td>
+<td>msdyn_addresslocationid</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONANNIVERSARYMONTH</td>
+<td>=</td>
+<td>msdyn_vendorpersonanniversarymonth</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONBIRTHMONTH</td>
+<td>=</td>
+<td>msdyn_vendorpersonbirthmonth</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONMARITALSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_maritalstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLATITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_addresslatitude</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLONGITUDE</td>
+<td>&gt;&gt;</td>
+<td>msdyn_addresslongitude</td>
+<td></td>
+</tr>
+<tr>
+<td>ONHOLDSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_onholdstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td>=</td>
+<td>msdyn_currencycode.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>ISVENDORLOCATEDINHUBZONE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isvendorlocatedinhubzone</td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTVENDORPAYMENTMETHODNAME</td>
+<td>=</td>
+<td>msdyn_vendorpaymentmethod.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEVENDORACCOUNTNUMBER</td>
+<td>=</td>
+<td>msdyn_invoicevendoraccountnumber.msdyn_vendoraccountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONGENDER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_gender</td>
+<td></td>
+</tr>
+<tr>
+<td>AREPRICESINCLUDINGSALESTAX</td>
+<td>&gt;&lt;</td>
+<td>msdyn_priceincludessalestax</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESTAXGROUPCODE</td>
+<td>=</td>
+<td>msdyn_taxgroup.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPERSONID</td>
+<td>=</td>
+<td>msdyn_vendorprimarycontactperson.msdyn_contactpersonid</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vendor-groups-to-msdyn_vendorgroups">Kreditorengruppen zu msdyn_vendorgroups</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEFAULTPAYMENTTERMNAME</td>
+<td>=</td>
+<td>msdyn_paymentterms.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORGROUPID</td>
+<td>=</td>
+<td>msdyn_vendorgroup</td>
+<td></td>
+</tr>
+<tr>
+<td>CLEARINGPERIODPAYMENTTERMNAME</td>
+<td>=</td>
+<td>msdyn_clearingperiodpaymentpermname.msdyn_name</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vendor-payment-method-to-msdyn_vendorpaymentmethods">Kreditorenzahlungsmethode zu msdyn_vendorpaymentmethods</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>SUMBYPERIOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_sumbyperiod</td>
+<td></td>
+</tr>
+<tr>
+<td>DISCOUNTGRACEPERIODDAYS</td>
+<td>=</td>
+<td>msdyn_discountgraceperioddays</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymentstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOWPAYMENTCOPIES</td>
+<td>&gt;&lt;</td>
+<td>msdyn_allowpaymentcopies</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymenttype</td>
+<td></td>
+</tr>
+<tr>
+<td>LASTFILENUMBER</td>
+<td>=</td>
+<td>msdyn_lastfilenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LASTFILENUMBERTODAY</td>
+<td>=</td>
+<td>msdyn_lastfilenumbertoday</td>
+<td></td>
+</tr>
+<tr>
+<td>ACCOUNTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_accounttype</td>
+<td></td>
+</tr>
+<tr>
+<td>BRIDGINGPOSTINGENABLED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_bridgingposting</td>
+<td></td>
+</tr>
+<tr>
+<td>ENABLEPOSTDATEDCHECKCLEARINGPOSTING</td>
+<td>&gt;&lt;</td>
+<td>msdyn_postdatedcheckclearingposting</td>
+<td></td>
+</tr>
+<tr>
+<td>PROMISSORYNOTEDRAFTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_promissorynotedrafttype</td>
+<td></td>
+</tr>
+<tr>
+<td>DIRECTDEBIT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_directdebit</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

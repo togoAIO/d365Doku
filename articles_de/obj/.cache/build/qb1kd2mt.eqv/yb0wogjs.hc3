@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Szenarioeinrichtung f&#252;r IoT-Intelligenz </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Szenarioeinrichtung f&#252;r IoT-Intelligenz ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie Szenarien f&#252;r IoT-Intelligenz in Microsoft Dynamics 365 Supply Chain Management konfigurieren.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="scenario-setup-for-iot-intelligence">Szenarioeinrichtung für IoT-Intelligenz</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird erläutert, wie Sie Szenarien für IoT-Intelligenz in Microsoft Dynamics 365 Supply Chain Management konfigurieren. Bevor Sie die Szenarien einrichten können, müssen Sie <a href="iot-lcs-setup.html">Microsoft Dynamics Lifecycle Services (LCS) einrichten</a>.</p>
+<p>In diesem Thema konfigurieren Sie das Szenario <strong>Ausfallzeiten der Geräte</strong> , sodass eine Benachrichtigung in Supply Chain Management generiert wird, wenn eine Maschine ausfällt. Das Thema zeigt auch, wie Sie das <strong>Produktqualität</strong>-Szenario konfigurieren, in dem eine Benachrichtigung generiert wird, wenn das Attribut eines Elements außerhalb eines angegebenen Bereichs liegt, und wie das <strong>Produktionsverzögerungen</strong>-Szenario konfiguriert wird, sodass eine Benachrichtigung generiert wird, wenn der Produktionsdurchsatz einen Schwellenwert unterschreitet.</p>
+<h2 id="configure-the-equipment-downtime-scenario-in-supply-chain-management">Szenario Ausfallzeiten der Geräte im Supply Chain Management konfigurieren</h2>
+<p>Das Szenario <strong>Ausfallzeiten der Geräte</strong> ordnet ein <strong>PartOut</strong>-Signal einem Maschinenalarmschwellenwert zu. Die Maschine wird nur überwacht, wenn sie für das Szenario ausgewählt und in Supply Chain Management auf <strong>Ausgeführt</strong> festgelegt wird. Wenn die Zeit seit dem letzten Empfang eines <strong>PartOut</strong>-Signals der Maschine den Alarmschwellenwert übersteigt, wird eine Benachrichtigung <strong>Maschine ausgefallen</strong> ausgelöst. Wenn die Maschine noch läuft, wird eine <strong>Maschine ein</strong> ausgelöst, wenn das nächste <strong>PartOut</strong>-Signal empfangen wird. Wenn eine Maschine 30 Minuten lang außer Betrieb bleibt, wird eine neue <strong>Maschine aus</strong>-Benachrichtigung ausgelöst.</p>
+<p>Das Szenario <strong>Ausfallzeiten der Geräte</strong> weist die Folgenden Abhängigkeiten auf:</p>
+<ul>
+<li>Eine Warnung kann nur ausgelöst werden, wenn ein Produktionsauftrag auf einer zugeordneten Maschine ausgeführt wird.</li>
+<li>Ein Signal, das das <strong>PartOut</strong>-Signal einer zugeordneten Maschine darstellt, muss mit einem eindeutigen IoT-Hub und einem eindeutigen Eigenschaftsnamen enthalten sein.</li>
+<li>Eine UNIX-<strong>Zeitstempel</strong>-Eigenschaft, bei der der Wert in Millisekunden (ms) angegeben wird, muss in der Azure IoT Hub-Nachricht vorhanden sein.</li>
+</ul>
+<p>Gehen Sie folgendermaßen vor, um das Szenario zu konfigurieren.</p>
+<ol>
+<li><p>Melden Sie sich im Supply Chain Management an.</p>
+</li>
+<li><p>Aktivieren Sie das IoT-Intelligenz-Funktionsflag. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview">Funktionsverwaltung – Übersicht</a>.</p>
+</li>
+<li><p>Konfigurieren Sie die Kennzahlen. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/supply-chain/iot/iot-metrics-setup">So konfigurieren Sie Kennzahlen (This is an external link)</a>.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Produktionssteuerung &gt; Einrichtung &gt; IoT-Intelligenz &gt; Szenariovewaltung</strong>.</p>
+</li>
+<li><p>Wählen Sie auf der <strong>Ausfallzeiten der Geräte</strong>-Kachel <strong>Konfigurieren</strong> aus, um den Konfigurationsassistenten zu öffnen.</p>
+<p>Die erste Seite im Assistenten ist die Seite <strong>Definition des Gerätesensorschemas</strong>. Das Ziel auf dieser Seite ist es, das Schema in Supply Chain Management so einzurichten, dass es mit dem JSON-Format (JavaScript Object Notation) der IoT Hub-Nachrichten übereinstimmt. Es können mehrere Nachrichtenschemata definiert werden. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/supply-chain/iot/iot-schema-format">Schemaformate für IoT-Hub-Nachrichten (This is an external link)</a>. In diesem Beispiel enthält die Nachrichtennutzlast einen Stapel von Nachrichten, der das folgende Format aufweist.</p>
+<pre><code class="lang-json">{
+    &quot;timestamp&quot;: 1576016821614,
+    &quot;payload&quot;: [
+        {
+            &quot;id&quot;: &quot;IoTInt.Machine1225.PartOut&quot;,
+            &quot;timestamp&quot;: 1576016821614,
+            &quot;value&quot;: True
+        },
+        {
+            &quot;id&quot;: &quot;IoTInt.Machine1226.PartOut&quot;,
+            &quot;timestamp&quot;: 1576016991616,
+            &quot;value&quot;: True
+        }
+    ]
+}
+</code></pre>
+</li>
+<li><p>Fügen Sie einer Tabelle eine Zeile hinzu und legen Sie die folgenden Werte fest:</p>
+<ol>
+<li>Setzen Sie das Feld <strong>Schemaname</strong> auf <strong>ID</strong>.</li>
+<li>Setzen Sie das Feld <strong>Schemapfad</strong> auf <strong>/payload[*]/id</strong>.</li>
+<li>Setzen Sie das Feld <strong>Beschreibung</strong> auf <strong>Nachrichten-ID</strong>.</li>
+</ol>
+</li>
+<li><p>Fügen Sie einer Tabelle eine andere Zeile hinzu und legen Sie die folgenden Werte fest:</p>
+<ol>
+<li>Setzen Sie das Feld <strong>Schemaname</strong> auf <strong>Zeitstempel</strong>.</li>
+<li>Setzen Sie das Feld <strong>Schemapfad</strong> auf <strong>/payload[*]/timestamp</strong>.</li>
+<li>Setzen Sie das Feld <strong>Beschreibung</strong> auf <strong>Nachrichtenzeitstempel</strong>.</li>
+</ol>
+</li>
+<li><p>Fügen Sie einer Tabelle eine andere Zeile hinzu und legen Sie die folgenden Werte fest:</p>
+<ol>
+<li>Setzen Sie das Feld <strong>Schemaname</strong> auf <strong>Wert</strong>.</li>
+<li>Setzen Sie das Feld <strong>Schemapfad</strong> auf <strong>/payload[*]/value</strong>.</li>
+<li>Setzen Sie das Feld <strong>Beschreibung</strong> auf <strong>Nachrichtenwert</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie müssen nicht alle Eigenschaften in der Nachricht definieren. Definieren Sie nur die Eigenschaften, die Sie benötigen. In den vorhergehenden Schritten haben Sie keine Zeile für <strong>Root-Zeitstempel</strong> erstellt. Der Pfad von <strong>Root-Zeitstempel</strong> wäre <strong>/timestamp</strong>.</p>
+</div>
+</li>
+<li><p>Wählen Sie <strong>Weiter</strong>, um zur Seite <strong>Gerätesensorschemazuordnung</strong> zu wechseln.</p>
+</li>
+<li><p>In der Zeile für <strong>Geräteressourcen-ID</strong> wählen Sie im Feld <strong>Schemaname</strong> <strong>ID</strong> aus.</p>
+</li>
+<li><p>In der Zeile für <strong>UTC-Zeit</strong> wählen Sie im Feld <strong>Schemaname</strong> <strong>Zeitstempel</strong> aus.</p>
+</li>
+<li><p>In der Zeile für <strong>Teilsignal</strong> wählen Sie im Feld <strong>Schemaname</strong> <strong>Wert</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Weiter</strong>, um zur Seite <strong>Konfiguration der Geräteressourcen-ID</strong> zu wechseln.</p>
+</li>
+<li><p>Führen Sie diese Schritte aus, um die Werte in der IoT Hub-Nachricht den Supply Chain Management-Ressourcen zuzuordnen:</p>
+<ol>
+<li>Fügen Sie in der Tabelle <strong>Signaldatenwerte</strong> eine neue Zeile hinzu. Geben Sie im <strong>Wert</strong>-Feld <strong>IoTInt.Machine1225.PartOut</strong> ein. Dieser Wert kommt von der JSON-<strong>id</strong>-Eigenschaft in der IoT-Hub-Nachricht.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+<li>Wählen Sie in der Tabelle <strong>Geschäftsdatensatzzuordnung</strong> <strong>Neu</strong> aus. Ein Standardwert für das Feld <strong>Geschäftsdatensatztyp</strong> wird automatisch aufgefüllt und muss nicht geändert werden.</li>
+<li>Wählen Sie im Feld <strong>Geschäftsdatensatz</strong> die Supply Chain Management-Maschinenressource aus, von der dieser Signalwert gesendet wird.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+<li>Wiederholen Sie diese Schritte, um eine neue Geschäftsdatensatzzuordnung für <strong>Machine1226</strong> hinzuzufügen. In Supply Chain Management können Sie einem einzelnen Datensatz mehrere Signaldatenwerte zuordnen.</li>
+</ol>
+</li>
+<li><p>Verwenden Sie die Spalte <strong>Ausgewählt</strong>, um die Maschinen auszuwählen, die Sie verarbeiten möchten. Sie müssen nicht alle Signalwerte definieren und nicht alle Maschinen auswählen.</p>
+</li>
+<li><p>Wählen Sie <strong>Weiter</strong>, um zur Seite <strong>Teilsignalkonfiguration</strong> zu wechseln.</p>
+</li>
+<li><p>Fügen Sie in der Tabelle <strong>Signaldatenwerte</strong> eine Zeile hinzu, und setzen Sie das Feld <strong>Wert</strong> auf <strong>Wahr</strong>. Dieser Wert kommt von der JSON-<strong>value</strong>-Eigenschaft in der IoT-Hub-Nachricht. Sie können so viele Werte hinzufügen, wie Sie für Ihr Szenario benötigen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Weiter</strong>, um zur Seite <strong>Schwellenwert für Geräteausfallzeiten</strong> zu wechseln. Die aufgelisteten Maschinen sind die Maschinen, die zuvor Signalwerten zugeordnet wurden. Auf dieser Seite definieren Sie einen Schwellenwert, um festzustellen, ob eine Maschine ausgefallen ist. Wenn Sie beispielsweise den Schwellenwert auf <strong>10</strong> festlegen, generiert Supply Chain Management eine Benachrichtigung, wenn 10 Minuten lang kein <strong>PartOut</strong>-Signal von einer Maschine empfangen wird.</p>
+</li>
+<li><p>Wählen Sie <strong>Weiter</strong>, um zur Seite <strong>Szenario aktivieren</strong> zu wechseln. Legen Sie die Option fest, um das Szenario zu aktivieren.</p>
+</li>
+<li><p>Wählen Sie <strong>Fertig stellen</strong> aus.</p>
+</li>
+</ol>
+<p>Die Szenarioeinrichtung ist jetzt abgeschlossen. IoT-Intelligenz beginnt automatisch mit der Verarbeitung der IoT-Hub-Nachrichten.</p>
+<h2 id="configure-the-product-quality-scenario-in-supply-chain-management">Szenario Produktqualität im Supply Chain Management konfigurieren</h2>
+<p>Das Szenario <strong>Produktqualität</strong> generiert eine Benachrichtigung, wenn ein Attribut eines Elements außerhalb eines angegebenen Bereichs liegt. Beispielsweise sendet ein Sensor das Gewicht jedes Elements an den IoT-Hub. Wenn ein Artikel zu schwer oder zu leicht ist, wird in Supply Chain Management eine Benachrichtigung generiert.</p>
+<p>Das Szenario <strong>Produktmenge</strong> weist die Folgenden Abhängigkeiten auf:</p>
+<ul>
+<li>Eine Warnung kann nur ausgelöst werden, wenn ein Produktionsauftrag auf einer zugeordneten Maschine ausgeführt wird und ein Produkt mit einem zugeordneten Chargenattribut produziert wird.</li>
+<li>Ein Signal, das das Chargenattribut darstellt, muss an den IoT-Hub gesendet werden und ein eindeutiger Eigenschaftsname muss enthalten sein.</li>
+<li>Eine UNIX-<strong>Zeitstempel</strong>-Eigenschaft, bei der der Wert in ms angegeben wird, muss in der IoT Hub-Nachricht vorhanden sein.</li>
+</ul>
+<h2 id="configure-the-production-delays-scenario-in-supply-chain-management">Szenario Produktionsverzögerungen im Supply Chain Management konfigurieren</h2>
+<p>Das Szenario <strong>Produktionsverzögerungen</strong> generiert eine Benachrichtigung, wenn der Produktionsdurchsatz einen Schwellenwert unterschreitet. In diesem Szenario wird ein <strong>PartOut</strong>-Signal für jeden produzierten Artikel an IoT-Hub gesendet. In Supply Chain Management wird die Auftragsverzögerung basierend auf der geplanten Ausführungszeit des Produktionsauftrags, der Anzahl der zu produzierenden Artikel, der Ausführungszeit des Auftrags und der Anzahl der empfangenen <strong>PartOut</strong>-Signale berechnet. Eine Verzögerungsbenachrichtigung wird generiert, wenn die Zahl der <strong>PartOut</strong>-Signale für den Einzelvorgang den Schwellenwert unterschreitet.</p>
+<p>Das Szenario <strong>Produktionsverzögerungen</strong> weist die Folgenden Abhängigkeiten auf:</p>
+<ul>
+<li>Eine Warnung kann nur ausgelöst werden, wenn ein Produktionsauftrag auf einer zugeordneten Maschine ausgeführt wird.</li>
+<li>Ein Signal, das das <strong>PartOut</strong>-Signal einer zugeordneten Maschine darstellt, muss mit einem eindeutigen Azure IoT-Hub und einem eindeutigen Eigenschaftsnamen enthalten sein.</li>
+<li>Eine UNIX-<strong>Zeitstempel</strong>-Eigenschaft, bei der der Wert in ms angegeben wird, muss in der IoT Hub-Nachricht vorhanden sein.</li>
+</ul>
+<h2 id="disable-a-scenario">Deaktivieren eines Szenarios</h2>
+<p>Um ein Szenario zu deaktivieren, führen Sie folgende Schritte aus.</p>
+<ol>
+<li>Wechseln Sie in Supply Chain Management zu <strong>Produktionskontrolle &gt; Einrichtung &gt; IoT-Intelligenz &gt; Szenarioverwaltung</strong>.</li>
+<li>Wählen Sie auf der Kachel für das Szenario <strong>Konfigurieren</strong> aus.</li>
+<li>Wählen Sie <strong>Weiter</strong>, um zur letzten Assistentenseite zu wechseln.</li>
+<li>Legen Sie die Option fest, um das Szenario zu deaktivieren.</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/iot/iot-scenario-setup.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

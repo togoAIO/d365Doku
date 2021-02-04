@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Inventory aging report examples and logic | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Inventory aging report examples and logic | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="inventory-aging-report-examples-and-logic" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="32">Inventory aging report examples and logic</h1>
+
+
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="36">This topic presents some examples that show how to interpret the results of an <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="36">Inventory aging</strong> report. This report categorizes on-hand quantity and inventory values for a selected item or item group into several period buckets. This topic also shows the internal logic of the report.</p>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="38">The examples in this topic show results that are presented on a standard <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="38">Inventory aging</strong> report. However, in general, we recommend that you use the <a href="inventory-aging-report-storage.html" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="38">Inventory aging report storage</a> version of this report, especially when you have many items and warehouses that must be processed. Inventory aging report storage saves each report that you generate, shows the results as an interactive page and a chart, and lets you export any saved report.</p>
+<h2 id="sample-data-that-is-used-in-these-examples" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="40">Sample data that is used in these examples</h2>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="42">The examples in this topic are based on the sample inventory transaction data that is described in this section.</p>
+<h3 id="storage-dimension-setup" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="44">Storage dimension setup</h3>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="46">The example system contains the following setup of storage dimensions.</p>
+<table sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">
+<thead>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">Name</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">Active</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">Physical inventory</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="48">Financial inventory</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="50">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="50">Site</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="50">Yes</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="50">Yes</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="50">Yes</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="51">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="51">Warehouse</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="51">Yes</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="51">Yes</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="51">No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inventory-model" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="53">Inventory model</h3>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="55">For the example system, the inventory model for the released products is <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="55">FIFO</em>, and the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="55">Cost price</strong> setting for the inventory model is <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="55">Include physical value</em>.</p>
+<h3 id="inventory-transactions" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="57">Inventory transactions</h3>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="59">The example system contains the following inventory transactions for a released product that has the item number <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="59">1000</em>.</p>
+<table sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">
+<thead>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Reference</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Site</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Warehouse</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Receipt</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Issue</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Physical date</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Financial date</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Quantity</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Cost amount</th>
+<th sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="61">Physical cost amount</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">Purchase order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">11</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">Purchased</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">March 15</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">March 15</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">10</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">1,000</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="63">1,000</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">Purchase order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">2</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">21</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">Purchased</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">March 15</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">March 15</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">10</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">2,000</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="64">2,000</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">Purchase order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">11</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">Received</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">April 15</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">5</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="65">375</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">Transfer order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">11</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">Sold</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">May 2</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">May 2</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">-5</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">-458.33</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="66">-458.33</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">Transfer order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">12</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">Purchased</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">May 2</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">May 2</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">5</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">458.33</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="67">458.33</td>
+</tr>
+<tr sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">Sales order</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">12</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68"></td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">Sold</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">May 3</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">May 3</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">-1</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">-91.67</td>
+<td sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="68">-91.67</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-quantities-and-amounts-in-each-period-bucket-are-calculated" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="70">How quantities and amounts in each period bucket are calculated</h2>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="72">By using the sample data that is described in the previous sections, you can run an <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="72">Inventory aging</strong> report that has the following settings:</p>
+<ul sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="74">
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="74"><strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="74">As of date:</strong> <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="74">May 9, 2020</em></li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="75"><strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="75">Site:</strong> <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="75">View</em></li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="76"><strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="76">Warehouse:</strong> <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="76">No</em></li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="77"><strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="77">Item number:</strong> <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="77">Total</em></li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="78"><strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="78">Aging period:</strong> Set this field to generate monthly buckets.</li>
+</ul>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="80">In this case, the content of the report that is generated will resemble the following example.</p>
+<table>
+<thead>
+<tr>
+    <th rowspan="2">Item number</th>
+    <th rowspan="2">Site</th>
+    <th rowspan="2">On-hand quantity</th>
+    <th rowspan="2">On-hand value</th>
+    <th rowspan="2">Inventory value quantity</th>
+    <th rowspan="2">Inventory value</th>
+    <th rowspan="2">Average unit cost</th>
+    <th colspan="2">5/8/2020 - 5/1/2020</th>
+    <th colspan="2">4/30/2020 - 4/1/2020</th>
+    <th colspan="2">3/31/2020 - 3/1/2020</th>
+</tr>
+<tr>
+    <th>P1:Quantity</th>
+    <th>P1:Amount</th>
+    <th>P2:Quantity</th>
+    <th>P2:Amount</th>
+    <th>P3:Quantity</th>
+    <th>P3:Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1000</td>
+    <td>1</td>
+    <td>14</td>
+    <td>1,283.33</td>
+    <td>14</td>
+    <td>1,283.33</td>
+    <td>91.67</td>
+    <td></td>
+    <td></td>
+    <td>5.00</td>
+    <td>458.33</td>
+    <td>9.00</td>
+    <td>825.00</td>
+</tr>
+<tr>
+    <td>1000</td>
+    <td>2</td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>200.00</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>10.00</td>
+    <td>2,000.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+    <td><strong>1000 Totals</strong></td>
+    <td></td>
+    <td><strong>24.00</strong></td>
+    <td><strong>3,283.33</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><strong>5.00</strong></td>
+    <td><strong>458.33</strong></td>
+    <td><strong>19</strong></td>
+    <td><strong>2,825.00</strong></td>
+</tr>
+</tfoot>
+</table>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="156">Note the following details in this example report:</p>
+<ul sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158"><p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">Inventory value quantity</strong>, <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">Inventory value</strong>, and <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">Average unit cost</strong> values that are shown on the report are values for the financial inventory dimension (<strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="158">Site</strong>, in this case).</p>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="160">For example, for site 1, the report shows the following information:</p>
+<ul sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="162">
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="162">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="162">Inventory value quantity</strong> value is <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="162">14</em> (= 10 + 5 – 5 + 5 – 1).</li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="163">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="163">Inventory value</strong> value is <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="163">1,283.33</em> (= 1,000 + 375 – 458.33 + 458.33 – 91.67).</li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="164">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="164">Average unit cost</strong> value is <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="164">91.67</em>.</li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="165">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="165">On-hand value</strong> value and the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="165">Amount</strong> value in each period bucket are calculated by using the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="165">Average unit cost</strong> value.</li>
+</ul>
+</li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="167"><p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="167">The report determines the on-hand quantity for each period bucket by summarizing the total received inventory quantity for each period bucket. It then applies the first in, first out (FIFO) principle to deduct the total issued quantity, regardless of the inventory model that the items use.</p>
+</li>
+</ul>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="169">If you run the same report again, but this time you set both the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="169">Site</strong> and <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="169">Warehouse</strong> fields to <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="169">View</em>, the new report will resemble the following example.</p>
+<table>
+<thead>
+<tr>
+    <th rowspan="2">Item number</th>
+    <th rowspan="2">Site</th>
+    <th rowspan="2">Warehouse</th>
+    <th rowspan="2">On-hand quantity</th>
+    <th rowspan="2">On-hand value</th>
+    <th rowspan="2">Inventory value quantity</th>
+    <th rowspan="2">Inventory value</th>
+    <th rowspan="2">Average unit cost</th>
+    <th colspan="2">5/8/2020 - 5/1/2020</th>
+    <th colspan="2">4/30/2020 - 4/1/2020</th>
+    <th colspan="2">3/31/2020 - 3/1/2020</th>
+</tr>
+<tr>
+    <th>P1:Quantity</th>
+    <th>P1:Amount</th>
+    <th>P2:Quantity</th>
+    <th>P2:Amount</th>
+    <th>P3:Quantity</th>
+    <th>P3:Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1000</td>
+    <td>1</td>
+    <td>11</td>
+    <td>10</td>
+    <td>916.67</td>
+    <td>14</td>
+    <td>1,283.33</td>
+    <td>91.67</td>
+    <td></td>
+    <td></td>
+    <td>5.00</td>
+    <td>458.33</td>
+    <td>5.00</td>
+    <td>458.33</td>
+</tr>
+<tr>
+    <td>1000</td>
+    <td>1</td>
+    <td>12</td>
+    <td>4</td>
+    <td>366.67</td>
+    <td>14</td>
+    <td>1,283.33</td>
+    <td>91.67</td>
+    <td>4.00</td>
+    <td>366.67</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>1000</td>
+    <td>2</td>
+    <td></td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>200.00</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>10.00</td>
+    <td>2,000.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+    <td><strong>1000 Totals</strong></td>
+    <td></td>
+    <td></td>
+    <td><strong>24.00</strong></td>
+    <td><strong>3,283.33</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><strong>4.00</strong></td>
+    <td><strong>366.67</strong></td>
+    <td><strong>5.00</strong></td>
+    <td><strong>458.33</strong></td>
+    <td><strong>15</strong></td>
+    <td><strong>2,458.33</strong></td>
+</tr>
+</tfoot>
+</table>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="265">This time, site 1 is split into two rows, one for warehouse 11 and one for warehouse 12. However, the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="265">Inventory value quantity</strong>, <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="265">Inventory value</strong>, and <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="265">Average unit cost</strong> values are the same, because <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="265">Warehouse</strong> isn't a financial inventory dimension.</p>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="267">Additionally, notice that the quantity distribution of site 1 is different. In the first report that you ran, the system ignored the transfer order that occurred in the same site and deducted the quantity of the sales invoice from the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="267">3/31/2020 - 3/1/2020</strong> period bucket in site 1. However, in the new report, the system deducts the quantity of the sales invoice from the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="267">5/8/2020 - 5/1/2020</strong> period bucket in warehouse 12.</p>
+<h2 id="effects-of-inventory-closing" sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="269">Effects of inventory closing</h2>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="271">If you run the inventory closing for May and then run the previous report again, but you set the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="271">As of date</strong> field to <em sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="271">May 31, 2020</em>, you will notice the following results:</p>
+<ul sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="273">
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="273">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="273">Inventory value</strong> and <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="273">Average unit cost</strong> values are updated.</li>
+<li sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="274">The <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="274">On-hand value</strong> value and all the <strong sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="274">Amount</strong> values in every period bucket are updated accordingly.</li>
+</ul>
+<p sourcefile="articles/supply-chain/cost-management/inventory-aging-report.md" sourcestartlinenumber="276">The new report will resemble the following example.</p>
+<table>
+<thead>
+<tr>
+    <th rowspan="2">Item number</th>
+    <th rowspan="2">Site</th>
+    <th rowspan="2">Warehouse</th>
+    <th rowspan="2">On-hand quantity</th>
+    <th rowspan="2">On-hand value</th>
+    <th rowspan="2">Inventory value quantity</th>
+    <th rowspan="2">Inventory value</th>
+    <th rowspan="2">Average unit cost</th>
+    <th colspan="2">5/31/2020 - 5/1/2020</th>
+    <th colspan="2">4/30/2020 - 4/1/2020</th>
+    <th colspan="2">3/31/2020 - 3/1/2020</th>
+</tr>
+<tr>
+    <th>P1:Quantity</th>
+    <th>P1:Amount</th>
+    <th>P2:Quantity</th>
+    <th>P2:Amount</th>
+    <th>P3:Quantity</th>
+    <th>P3:Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1000</td>
+    <td>1</td>
+    <td>11</td>
+    <td>10</td>
+    <td>910.70</td>
+    <td>14</td>
+    <td>1,275.00</td>
+    <td>91.07</td>
+    <td>0.00</td>
+    <td></td>
+    <td>5.00</td>
+    <td>455.36</td>
+    <td>5.00</td>
+    <td>455.36</td>
+</tr>
+<tr>
+    <td>1000</td>
+    <td>1</td>
+    <td>12</td>
+    <td>4</td>
+    <td>364.29</td>
+    <td>14</td>
+    <td>1,275.00</td>
+    <td>91.07</td>
+    <td>4.00</td>
+    <td>364.29</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td>1000</td>
+    <td>2</td>
+    <td></td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>10</td>
+    <td>2,000.00</td>
+    <td>200.00</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>10.00</td>
+    <td>2,000.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+    <td><strong>1000 Totals</strong></td>
+    <td></td>
+    <td></td>
+    <td><strong>24.00</strong></td>
+    <td><strong>3,275.00</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><strong>4.00</strong></td>
+    <td><strong>364.29</strong></td>
+    <td><strong>5.00</strong></td>
+    <td><strong>455.36</strong></td>
+    <td><strong>15</strong></td>
+    <td><strong>2,455.36</strong></td>
+</tr>
+</tfoot>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

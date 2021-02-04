@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Rahmenbestellungen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Rahmenbestellungen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieser Artikel gibt Informationen zu Kaufvertr&#228;ge. Ein Kaufvertrag ist ein Vertrag, der eine Organisation bindet, eine angegebene Menge oder einen Betrag zu kaufen, indem sie mehrere Bestellungen t&#228;tigt. F&#252;r diese Zusage erh&#228;lt der K&#228;ufer Sonderpreise und Rabatte.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="AgreementClassification, AgreementLine, AgreementLinePrompt, PurchAgreement, PurchAgreementCreate, PurchAgreementGenerateReleaseOrder, PurchAgreementHistory, PurchAgreementInvoiceJournal, PurchLine, AgreementLines">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="purchase-agreements">Rahmenbestellungen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Dieser Artikel gibt Informationen zu Kaufverträge. Ein Kaufvertrag ist ein Vertrag, der eine Organisation bindet, eine angegebene Menge oder einen Betrag zu kaufen, indem sie mehrere Bestellungen tätigt. Für diese Zusage erhält der Käufer Sonderpreise und Rabatte.</p>
+<p>Kaufverträge können für eine bestimmte Menge eines Produkts, einen bestimmten Währungsbetrag eines Produkts oder einen bestimmten Währungsbetrag der Produkte in einer Beschaffungskategorie gelten. Die Preise und Rabatte des Kaufvertrags setzen alle Preise und Rabatte außer Kraft, die in anderen ggf. vorhandenen Handelsvereinbarungen angegeben sind.</p>
+<p>Auf der Seite <strong>Kaufverträge</strong> können Sie Kaufverträge, die zwischen Ihrer Organisation und Kreditoren gelten, erstellen, anwenden und weiterverfolgen. Nach der Erstellung eines Kaufvertrags können Sie zum Beispiel damit direkt eine Bestellung in Auftrag geben. Jeder Kaufvertrag hat einen Gültigkeitszeitraum, der von der Person definiert wird, die den Kaufvertrag erstellt. Das Lieferdatum einer Bestellung muss innerhalb der Gültigkeitsdaten dieser Gültigkeitsperiode liegen.</p>
+<p>Nachdem Sie einen Kaufvertrag erstellen, müssen Sie diesen aktivieren, bevor er gültig ist. Um einen Kaufvertrag zu aktivieren, legen Sie die <strong>Vertrag als 'Effektiv' kennzeichnen</strong> Option auf <strong>Ja</strong> fest.</p>
+<p>Um zu verhindern, dass Ihr Kaufvertrag verwendet und bestätigt wird, markieren Sie den Vertragsstatus als <strong>Geschlossen</strong>. Sie können den Status jederzeit nach dieser Änderung wieder als <strong>Gültig</strong> aktualisieren.</p>
+<h2 id="responsible-workers-on-purchase-agreements">Verantwortliche Mitarbeiter bei Kaufverträgen</h2>
+<p>Sie können einen primären und einen sekundären verantwortlichen Mitarbeiter in der Klassifizierung des Kaufvertrags identifizieren. Diese Werte werden vom resultierenden Kaufvertrag übernommen. Sie müssen dem Kaufvertrag keine verantwortlichen Mitarbeiter hinzufügen, und diese können im Kaufvertrag selbst fallweise direkt geändert werden. Sie können keinen sekundärverantwortlichen Mitarbeiter ohne einen primärverantwortlichen Mitarbeiter angeben, obwohl Sie keinen sekundärverantwortlichen Mitarbeiter benötigen. Sie können nicht denselben Mitarbeiter als primären und sekundären verantwortlichen Mitarbeiter angeben.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Bevor Sie die Funktion Zuständige Partei nutzen können, muss sie auf Ihrem System aktiviert werden. Administratoren können mit den Einstellungen <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> den Status der Funktion überprüfen und sie aktivieren. Im Arbeitsbereich <strong>Funktionsverwaltung</strong> ist die Funktion wie folgt aufgeführt:</p>
+<ul>
+<li><strong>Modul:</strong> <em>Beschaffung</em></li>
+<li><strong>Funktionsname:</strong> <em>Zuständige Partei für Kaufvertrag</em></li>
+</ul>
+</div>
+<h2 id="commitment-types">Zusagetypen</h2>
+<p>Jede Position in einem Kaufvertrag drückt eine Zusage für den Kauf eines Artikels aus. Sie können Positionen aus mehreren Bestellungen (POs) verwenden, um die Zusage zu erfüllen. Es gibt vier Typen von Zusagen:</p>
+<ul>
+<li><strong>Produktmengenzusage</strong> – Sie kaufen eine bestimmte Produktmenge.</li>
+<li><strong>Produktwertzusage</strong> – Sie kaufen einen bestimmten Währungsbetrag eines Produkts.</li>
+<li><strong>Produktkategorie-Wertzusage</strong> – Sie kaufen einen bestimmten Währungsbetrag einer Beschaffungskategorie. Der Betrag kann für einen Katalogartikel oder einen nicht im Katalog enthaltenen Artikel sein.</li>
+<li><strong>Wertzusage</strong> - Sie kaufen eine einem bestimmten Währungsbetrag entsprechende Menge eines oder mehrerer Produkte in einer Beschaffungskategorie.</li>
+</ul>
+<h2 id="pricing-terms-for-purchase-agreements">Preisgestaltungsbedingungen für Kaufverträge</h2>
+<p>Die Preisgestaltungsbedingungen können je nach Typ der Zusage variieren. Die Preisgestaltungsbedingungen von Rahmenbestellungen überschreiben alle anderen Preisgestaltungsbedingungen, die für Handelsvereinbarungen festgelegt wurden. In der folgenden Tabelle werden die preisbezogene Felder beschrieben, die von jedem Zusagetyp betroffen sind. Felder, die <strong>Ja</strong> enthalten, können in einer Auftragsposition aktualisiert werden.</p>
+<table>
+<thead>
+<tr>
+<th>Zusagetyp</th>
+<th>Preis je Einheit</th>
+<th>Preiseinheit</th>
+<th>Rabatt in Prozent</th>
+<th>Skontobetrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Produktmengenzusage</td>
+<td>Ja</td>
+<td>Ja</td>
+<td>Ja</td>
+<td>Ja</td>
+</tr>
+<tr>
+<td>Produktwertzusage</td>
+<td></td>
+<td></td>
+<td>Ja</td>
+<td></td>
+</tr>
+<tr>
+<td>Produktkategorie-Wertzusage</td>
+<td></td>
+<td></td>
+<td>Ja</td>
+<td></td>
+</tr>
+<tr>
+<td>Wertzusage</td>
+<td></td>
+<td></td>
+<td>Ja</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="policies-for-purchase-agreements">Richtlinien für Kaufverträge</h2>
+<p>Die folgenden Richtlinien wirken sich auf die Verknüpfung zwischen einer Kaufvertragszusage und den entsprechenden Bestellposition aus:</p>
+<ul>
+<li><strong>Maximum wird erzwungen</strong>: Die Gesamtmenge oder der Betrag für alle Auftragspositionen darf die Menge oder Summe nicht überschreiten, der auf der zugehörigen Zusage angegeben ist.</li>
+<li><strong>Festpreis und ‑rabatt</strong> – Der Preis in einer Auftragsposition und der Preis auf der entsprechenden Zusage müssen gleich sein. Wenn der Preis in der Auftragsposition geändert wird, ist die Verknüpfung mit der Zusage aufgehoben. Wenn die Verknüpfung aufgehoben ist, trägt die Auftragsposition nicht zur Erfüllung der Zusage bei.</li>
+<li><strong>Mindestfreigabebetrag und Höchstfreigabebetrag</strong> – Wenn ein Betrag angegeben ist, erhalten Sie eine Meldung, wenn Sie Änderungen an einer Auftragsposition vornehmen, die bewirken, dass sich die Auftragsposition von der zugehörigen Zusage unterscheidet.</li>
+</ul>
+<h2 id="fulfillment-calculations-for-purchase-agreements">Erfüllungsberechnungen für Kaufverträge</h2>
+<p>Erfüllungsmengen und ‑beträge werden auf der Registerkarte <strong>Erfüllung</strong> auf dem Inforegister <strong>Positionsdetails</strong> der Seite <strong>Kaufverträge</strong> angezeigt.</p>
+<p>Der Bereich <strong>Erfüllung</strong> zeigt den Restbetrag oder die Menge an, die benötigt wird, um die Zusage zu erfüllen.</p>
+<p>Im <strong>Vereinbarung</strong> Bereich werden die Gesamtmenge oder den Gesamtbetrag angezeigt, für den die Kaufvertragsposition gültig ist.</p>
+<p>Sie können auf die Bestellpositionen und Rechnungspositionen zugreifen, die zur Erfüllungsberechnung beitragen, indem Sie die Aktivität in <strong>Zugehörige Informationen</strong> für die Positionen oder im Kopf eines Kaufvertrags auswählen.</p>
+<h2 id="confirmations-and-version-history-for-purchase-agreements">Bestätigungen sowie Versionshistorie für Kaufverträge</h2>
+<p>Wenn Sie einen Kaufvertrag bestätigen, wird die aktuelle Version des Kauftrags in einer Historientabelle gespeichert. Wenn Sie den Kaufvertrag ändern, können Sie ihn erneut bestätigen, um eine andere Version des Kaufvertrags in der Historie zu speichern. Wenn Sie einen Verkaufvertrag nicht bestätigen, können Sie ihn trotzdem zum Erstellen von Aufträgen verwendet. Allerdings werden Informationen für den Kaufvertrag nicht gespeichert. Sie können alle Versionen der Vereinbarung in der Vorschau anzeigen oder drucken. Sie können die Überarbeitungen dann an den Kreditor weitergeben, um sie genehmigen zu lassen.</p>
+<h2 id="applying-purchase-agreements-in-the-ordering-process">Anwenden on Kaufverträgen im Bestellungsprozess</h2>
+<p>Wenn Sie eine Bestellung erstellen, können Sie einen Kaufvertrag für sie übernehmen. Informationen aus den Bedingungen für die Vereinbarung, wie die Zahlungsbedingungen, Lieferbedingungen und Lieferadresse, werden dann in den Kopf der Bestellung kopiert. Wenn die Bestellung eine oder mehrere Auftragspositionen für Produkte und Kategorien enthält, die im Kaufvertrag angegeben sind, werden die Preise und Rabatte aus dem Kaufvertrag für diese Positionen verwendet. Der Betrag oder die Menge in der Auftragsposition trägt zur Erfüllung der Zusage im Kaufvertrag bei. Die gleiche Bestellung kann sowohl Positionen enthalten, die mit keinem Kaufvertrag verknüpft sind, als auch Positionen, für die eine Zusage in einem Kaufvertrag besteht.</p>
+<p>Sie können einen Kaufvertrag auswählen, wenn Sie eine Bestellung erstellen. Sie können einen Kaufvertrag nicht aktivieren, nachdem die Bestellung erstellt wurde.<br>
+In einigen Fällen, in denen Kaufverträge indirekt erstellt werden, können Sie steuern, ob Supply Chain Management automatisch nach gültigen Kaufverträgen sucht. Dies kann beispielsweise ratsam sein, wenn Sie geplante Einkaufsbestellungen automatisch umwandeln oder Bestellungen erstellen, die auf Aufträgen basieren.</p>
+<h2 id="matching-policy-on-purchase-agreements">Zuordnungsrichtlinie zu Kaufverträgen</h2>
+<p>Sie können eine Zeilenabgleichsrichtlinie auf dem Kopf des Kaufvertrags definieren. Diese Zeilenabgleichsrichtlinie respektiert die Zeilenabgleichsrichtlinie für Kreditorenparameter, wenn das Feld <strong>Überschreiben der Abgleichsrichtlinie zulassen</strong> auf der Seite <strong>Abgleich der Kreditorenparameter</strong> (auf der Seite <strong>Preis- und Mengenabgleich</strong> Inforegister) auf <strong>Höher als die Unternehmensrichtlinie</strong> gesetzt ist. Belege, die sich auf den Kaufvertrag beziehen, verwenden die Zeilenabgleichsrichtlinie, die im Kopf des Kaufvertrags definiert ist, sofern in der entsprechenden Position, Position und Lieferant oder in der Einkaufsrichtlinie der Kategorie nichts anderes angegeben ist.</p>
+<h2 id="purchase-agreements-and-intercompany-trade">Kaufverträge und Intercompany-Handel</h2>
+<p>Intercompany-Handelsbeziehungen können zwischen Kreditorenkonten und Debitorenkonten erstellt werden, die zu verschiedenen juristischen Personen gehören. Wenn ein Auftrag oder eine Bestellung für eine der Parteien erstellt wird, wird eine Intercompany-Auftragskette erstellt. In der Auftragskette werden der Auftrag und die Bestellung in den entsprechenden juristischen Personen erstellt.</p>
+<p>Sie können einen Kaufvertrag für eine der Intercompany-Handelsparteien erstellen. Sie können den entsprechenden Kaufvertrag dann für den anderen Intercompany-Handelspartner in der anderen juristischen Person generieren.</p>
+<p>Wenn Sie eine Intercompany-Bestellung anlegen, die den Intercompany-Kaufvertrag in einer juristischen Person verwendet, wird für den entsprechenden Intercompany-Auftrag der entsprechende Intercompany-Kaufvertrag in der anderen juristischen Person verwendet. Die Erfüllung der Kaufvertragszusagen und die Erfüllung der Kaufverträge wird synchronisiert, genauso wie der Intercompany-Auftrag und die Intercompany-Bestellung synchronisiert werden.</p>
+<h2 id="financial-dimensions-on-purchase-agreements">Finanzdimensionen in Kaufverträgen</h2>
+<p>Sie können Finanzdimensionen in Dokumentüberschriften oder einzelne Positionen eines Kaufvertrags kopieren. Wenn Sie die Dimensionen im Vereinbarungskopf oder in der Kaufvertragsposition ändern, wirkt sich diese Änderung keine freigegebenen Aufträgen, es wird jedoch über alle neuen Aufträge angezeigt.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="tasks/create-purchase-agreement.html">Kaufvertrag erstellen</a></p>
+<p><a href="tasks/create-purchase-release-order-purchase-agreement.html">Einen Freigabeauftrag für den Einkauf aus einem Kaufvertrag erstellen</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/procurement/purchase-agreements.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,752 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure country context dependent ER model mappings | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure country context dependent ER model mappings | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-country-context-dependent-er-model-mappings">Configure country context dependent ER model mappings</h1>
+
+
+<p>You can configure Electronic reporting (ER) model mappings so that they implement a generic ER data model but are specific to Dynamics 365 Finance. This topic explains how to design multiple ER model mappings for an ER data model to control how they are used by corresponding ER formats that are run from companies that have different country/region contexts.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To complete the examples in this topic, you must have the following access:</p>
+<ul>
+<li><p>Access to Finance for one of the following roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+<li><p>Access to the instance of Regulatory Configuration Services (RCS) that has been provisioned for the same tenant as Finance for one of the following roles:</p>
+<ul>
+<li>Electronic reporting developer</li>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+</li>
+</ul>
+<p>Some steps in this topic require execution of an ER format. In some cases, execution of an ER format is affected by the country/region context of the company that you're currently signed in to. You can run an ER format in the current RCS instance if the company that has the required country/region context is available in RCS. Otherwise, you must upload a completed version of the ER model mapping and ER format configurations that use the ER data model to your Finance instance, and then run the ER format in that Finance instance. For information about how to import configurations that reside in RCS into a Finance instance, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/rcs-download-configurations">Import configurations from RCS (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<h2 id="single-model-mapping-case">Single model mapping case</h2>
+<p>Follow the steps in <a href="#appendix1">Appendix 1</a> of this topic to design the required ER components. You now have the <strong>Mapping (General)</strong> model mapping configuration that contains the model mapping for the <strong>Entry point 1</strong> definition.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Tree.PNG" alt="ER configurations page"></p>
+<h3 id="run-the-configured-format">Run the configured format</h3>
+<ol>
+<li>On the <strong>Configurations page</strong>, on the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that the web browser offers to download the text file that was generated by executed ER format. Because this format was configured to use the <strong>Entry point 1</strong> definition, and only a single model mapping is currently available for the base model that contains a mapping for this definition, the executed ER format used the <strong>Mapping (General)</strong> model mapping of the <strong>Mapping (General)</strong> configuration as a data source. Therefore, the downloaded file contains the <strong>Generic functionality 1</strong> text.</p>
+<h2 id="multiple-shared-model-mappings-case">Multiple shared model mappings case</h2>
+<p>Follow the steps in <a href="#appendix2">Appendix 2</a> of this topic to design the required ER components. You now have <strong>Mapping (General)</strong> and <strong>Mapping (General) custom</strong> model mapping configurations, each of which contains the model mapping for the <strong>Entry point 1</strong> definition.</p>
+<p><img src="./media/RCS-Context-specific-mapping-TreeCustom.PNG" alt="ER configurations page"></p>
+<h3 id="run-the-configured-format-1">Run the configured format</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Format to learn mappings</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that execution of the selected ER format is unsuccessful. An error message informs you that more than one model mapping exists for the <strong>Model to learn mappings</strong> model and the <strong>Entry point 1</strong> definition in the <strong>Mapping (General)</strong> and <strong>Mapping (General) custom</strong> model mapping configurations. The message also recommends that you select one of those configurations as the default configuration.</p>
+<p><img src="./media/RCS-Context-specific-mapping-FormatRunCustomFailed.PNG" alt="ER configurations page"></p>
+<h3 id="define-a-default-mapping-configuration">Define a default mapping configuration</h3>
+<p>Follow these steps to define the <strong>Mapping (General) custom</strong> model mapping configuration as the default configuration, so that its mappings can be used as data sources for the <strong>Format to learn mappings</strong> ER format.</p>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Mapping (General) custom</strong>.</li>
+<li>As required, select <strong>Edit</strong> to make the current page ready for editing.</li>
+<li>Set the <strong>Default for model mapping</strong> option to <strong>Yes</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p><img src="./media/RCS-Context-specific-mapping-MappingsCustomDefault.PNG" alt="ER configurations page"></p>
+<h3 id="run-the-configured-format-2">Run the configured format</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Format to learn mappings</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that execution of the selected ER format succeeds. The web browser offers to download the text file that was generated by executed ER format. Because this format was configured to use the <strong>Entry point 1</strong> definition, and the <strong>Mapping (General) custom</strong> model mapping configuration was selected as the default configuration, the executed ER format used the <strong>Mapping (General) copy</strong> model mapping of the <strong>Mapping (General) custom</strong> configuration as a data source. Therefore, the downloaded file contains the <strong>Generic functionality 1 custom</strong> text.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you change the company that you're currently signed in to and run this ER format again, you get the same content in the generated file, because the default ER model mapping configuration doesn't contain any company-dependent restrictions.</p>
+</div>
+<h2 id="multiple-mixed-model-mappings-case">Multiple mixed model mappings case</h2>
+<p>Follow the steps in <a href="#appendix3">Appendix 3</a> of this topic to design the required ER components. You now have <strong>Mapping (General)</strong>, <strong>Mapping (General) custom</strong>, and <strong>Mapping (FR) model mapping</strong> configurations that contain the model mapping for the <strong>Entry point 1</strong> definition.</p>
+<p>Notice that version 1 of the <strong>Mapping (FR)</strong> model mapping configuration is configured so that it applies only to ER formats of the <strong>Model to learn mappings</strong> model that are run in Finance companies that have French country/region context.</p>
+<p><img src="./media/RCS-Context-specific-mapping-TreeFR.PNG" alt="ER configurations page"></p>
+<h3 id="run-the-configured-format-3">Run the configured format</h3>
+<ol>
+<li>Change the company to <strong>FRSI</strong>.</li>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Format to learn mappings</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that execution of the selected ER format succeeds. The web browser offers to download the text file that was generated by the executed ER format. Because this format was configured to use the <strong>Entry point 1</strong> definition, and the <strong>Mapping (General) custom</strong> model mapping configuration was selected as the default configuration, the executed ER format used the <strong>Mapping (General) copy</strong> model mapping of the <strong>Mapping (General) custom</strong> configuration as a data source. Therefore, the downloaded file contains the <strong>Generic functionality 1 custom</strong> text.</p>
+<h3 id="define-the-france-specific-mapping-configuration-as-the-default-configuration">Define the France-specific mapping configuration as the default configuration</h3>
+<p>Follow these steps to define the custom <strong>Mapping (FR)</strong> model mapping configuration as the default configuration. Note that, because this mapping is specific to France, it will be considered the default mapping between all model mapping configurations that have the <strong>FR</strong> country code specified in the <strong>ISO country/region codes</strong> field.</p>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Mapping (FR)</strong>.</li>
+<li>As required, select <strong>Edit</strong> to make the current page ready for editing.</li>
+<li>Set the <strong>Default for model mapping</strong> option to <strong>Yes</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p><img src="./media/RCS-Context-specific-mapping-TreeFRDefault.PNG" alt="ER configurations page"></p>
+<h3 id="run-the-configured-format-4">Run the configured format</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Format to learn mappings</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<p>Notice that execution of the selected ER format succeeds. The web browser offers to download the text file that was generated by the executed ER format. Because this format was configured to use the <strong>Entry point 1</strong> definition, and the <strong>Mapping (FR)</strong> model mapping configuration was selected as the default configuration, the executed ER format used the <strong>Mapping (FR)</strong> model mapping of the <strong>Mapping (FR)</strong> configuration as a data source. Therefore, the downloaded file contains the <strong>FR functionality 1</strong> text.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you change the company that you're currently signed in to and run this ER format again, the output will depend on the country/region context of the selected company.</p>
+</div>
+<h2 id="other-model-mapping-cases">Other model mapping cases</h2>
+<p>As you've seen, the selection of a model mapping for the execution of an ER format works in the following way:</p>
+<ul>
+<li>The model mapping definition that an ER format uses is specified (<strong>Entry point 1</strong> in the examples in this topic).</li>
+<li>All mapping configurations that contain a mapping that has the specified definition, and that satisfy any country/region context restrictions that are configured, can potentially be used to run the ER format (<strong>Mapping (General)</strong>, <strong>Mapping (General) custom</strong>, and <strong>Mapping (FR)</strong> in the examples in this topic).</li>
+<li>Any default model mapping that has country/region context restrictions has the highest priority for selection (<strong>Mapping (FR)</strong> in the examples in this topic).</li>
+<li>Any default model mapping that doesn't have country/region context restrictions has the next higher priority for selection  (<strong>Mapping (General) custom</strong> in the examples in this topic).</li>
+<li>Any model mapping that has country/region context restrictions has higher priority for selection than a model mapping that doesn't have country/region context restrictions.</li>
+</ul>
+<p>The following table provides information about the results of model mapping selection for all possible cases for model mapping settings:</p>
+<ul>
+<li>Column 1 indicates whether the first model mapping that doesn't have country/region context restrictions (for example, the shared <strong>Mapping (General)</strong> mapping) is presented and, if it is, whether the <strong>Default for model mapping</strong> option is set to <strong>Yes</strong> for it.</li>
+<li>Column 2 indicates whether the second model mapping that doesn't have country/region context restrictions (for example, the shared <strong>Mapping (General) custom</strong> mapping) is presented and, if it is, whether the <strong>Default for model mapping</strong> option is set to <strong>Yes</strong> for it.</li>
+<li>Column 3 indicates whether the first model mapping that has country/region A context restrictions (for example, the France-specific <strong>Mapping (FR)</strong> mapping) is presented and, if it is, whether the <strong>Default for model mapping</strong> option is set to <strong>Yes</strong> for it.</li>
+<li>Column 4 indicates whether the second model mapping that has country/region A context restrictions is presented and, if it is, whether the <strong>Default for model mapping</strong> option is set to <strong>Yes</strong> for it.</li>
+<li>Column 5 presents the result of a model mapping selection for execution of an ER format under the control of a company that has country/region A context.</li>
+<li>Column 6 presents the result of a model mapping selection for execution of an ER format under the control of a company that has country/region B context.</li>
+</ul>
+<p>In the table, a plus sign (+) indicates the presence of a model mapping configuration in the current instance of the Microsoft Azure service that is used to run an ER format (either Finance or RCS).</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Model mapping 1 without country/region context (MM1)</th>
+<th>Model mapping 2 without country/region context (MM2)</th>
+<th>Model mapping 1 with country/region A context (MM1A)</th>
+<th>Model mapping 2 with country/region A context (MM2A)</th>
+<th>Run under control of a company that has country/region A context</th>
+<th>Run under the control of a company that has country/region B context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Error (missing mapping)</td>
+<td>Error (missing mapping)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>+</td>
+<td></td>
+<td></td>
+<td></td>
+<td>MM1</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+</td>
+<td>+</td>
+<td></td>
+<td></td>
+<td>Error (multiple mappings)</td>
+<td>Error (multiple mappings)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+</td>
+<td></td>
+<td>+</td>
+<td></td>
+<td>MM1A</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+</td>
+<td></td>
+<td>+</td>
+<td>+</td>
+<td>Error (multiple mappings)</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>+</td>
+<td>default</td>
+<td>+</td>
+<td>+</td>
+<td>MM2</td>
+<td>MM2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>+</td>
+<td></td>
+<td>default</td>
+<td></td>
+<td>MM1A</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>+</td>
+<td></td>
+<td>default</td>
+<td>+</td>
+<td>MM1A</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>+</td>
+<td></td>
+<td>default</td>
+<td>default</td>
+<td>Error (multiple mappings)</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td></td>
+<td>MM1</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>11</td>
+<td>default</td>
+<td>+</td>
+<td></td>
+<td></td>
+<td>MM1</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>12</td>
+<td>default</td>
+<td></td>
+<td>+</td>
+<td></td>
+<td>MM1</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>default</td>
+<td>default</td>
+<td></td>
+<td></td>
+<td>Error (multiple mappings)</td>
+<td>Error (multiple mappings)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>default</td>
+<td></td>
+<td>default</td>
+<td></td>
+<td>MM1A</td>
+<td>MM1</td>
+</tr>
+<tr>
+<td>15</td>
+<td>default</td>
+<td></td>
+<td>default</td>
+<td>default</td>
+<td>MM1A</td>
+<td>MM2A</td>
+</tr>
+<tr>
+<td>16</td>
+<td></td>
+<td></td>
+<td>+</td>
+<td>+</td>
+<td>MM1A</td>
+<td>MM2A</td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td></td>
+<td>default</td>
+<td>default</td>
+<td>MM1A</td>
+<td>MM2A</td>
+</tr>
+</tbody>
+</table>
+<h2 id="learn-what-mapping-was-used-in-the-execution-of-an-er-format">Learn what mapping was used in the execution of an ER format</h2>
+<h3 id="configure-er-user-parameters">Configure ER user parameters</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, on the Action Pane, on the <strong>CONFIGURATIONS</strong> tab, select <strong>User parameters</strong>.</li>
+<li>Set the <strong>Run in debug mode</strong> option to <strong>Yes</strong>.</li>
+<li>Select <strong>Ok</strong>.</li>
+</ol>
+<h3 id="run-the-configured-format-5">Run the configured format</h3>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Format to learn mappings</strong>.</li>
+<li>On the <strong>Versions</strong> FastTab, select <strong>Run</strong>.</li>
+<li>Select <strong>Ok</strong>.</li>
+</ol>
+<h3 id="review-the-er-debug-log">Review the ER debug log</h3>
+<ol>
+<li>In the navigation pane, go to <strong>Modules &gt; Organization administration &gt; Electronic reporting &gt; Configuration debug log</strong>.</li>
+<li>Select the <strong>Reload this page</strong> button.</li>
+</ol>
+<p><img src="./media/RCS-Context-specific-mapping-DebugLog.PNG" alt="ER run logs page"></p>
+<p>Notice that a new record has been added to the ER debug log for the executed ER format. Because the <strong>Level</strong> field of this record is set to <strong>Info</strong>, the record is informational. Because the Format component field is set to <strong>Mapping configuration</strong>, the record informs you about a model mapping that was used during execution of the <strong>Format to learn mappings</strong> ER format (selected in the <strong>Configuration name</strong> field). The content of the <strong>Generated text</strong> field informs you that the <strong>Mapping (FR)</strong> mapping component that resides in the <strong>Mapping (FR)</strong> configuration has been used to run this report.</p>
+<h2 id="appendix1"> Appendix 1</h2>
+<h3 id="configure-a-sample-data-model">Configure a sample data model</h3>
+<p>Sign in to your RCS instance.</p>
+<p>In this example, you will create a configuration for sample company, Litware, Inc. To complete these steps, you must first complete, in RCS, the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create a configuration provider and mark it as active</a> procedure.</p>
+<h4 id="create-an-er-data-model-configuration">Create an ER data model configuration</h4>
+<ol>
+<li>On the default dashboard, select <strong>Electronic reporting</strong>.</li>
+<li>Select the <strong>Reporting configurations</strong> tile.</li>
+<li>On the <strong>Configurations</strong> page, select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>Name</strong> field, enter <strong>Model to learn mappings</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>Select the <strong>Configuration components</strong> FastTab.</li>
+</ol>
+<p>Notice that draft version 1 of this ER configuration is ready for editing. This version contains the data model component.</p>
+<h4 id="design-a-sample-data-model">Design a sample data model</h4>
+<ol>
+<li><p>On the <strong>Configurations page</strong>, select <strong>Designer</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, in the <strong>Name</strong> field, enter <strong>Entry point 1</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, in the <strong>Name</strong> field, enter <strong>Functionality description</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, in the <strong>New node</strong> field group, select <strong>Model root</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Entry point 2</strong>.</p>
+</li>
+<li><p>Select <strong>Entry point 2</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the drop-down dialog box, in the <strong>Name</strong> field, enter <strong>Functionality description</strong>.</p>
+</li>
+<li><p>Select <strong>Add</strong>.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Model.PNG" alt="ER data model designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h4 id="complete-the-modified-version-of-the-model-configuration">Complete the modified version of the model configuration</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, on the <strong>Versions</strong> FastTab, select <strong>Change status</strong>.</p>
+<blockquote>
+<p>Change the status of designed model configuration from <strong>Draft</strong> to <strong>Completed</strong>, so that it can be used to design the required model mappings and formats.</p>
+</blockquote>
+</li>
+<li><p>Select <strong>Complete</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Notice that the configuration that you created is saved as completed version 1.</p>
+<h3 id="configure-a-sample-model-mapping">Configure a sample model mapping</h3>
+<h4 id="create-an-er-model-mapping-configuration">Create an ER model mapping configuration</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>New</strong> field group, select <strong>Model mapping based on data model Model to learn mappings</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Mapping (General)</strong>.</li>
+<li>In the <strong>Data model definition</strong> field, select <strong>Entry point 1</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+</ol>
+<p>Notice that draft version 1 of this ER configuration is ready for editing. This version contains the model mapping component.</p>
+<h4 id="design-a-sample-model-mapping">Design a sample model mapping</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, select <strong>Designer</strong>.</p>
+<p>Notice that the model mapping of the <strong>To model</strong> direction type has been automatically added to this component for the <strong>Entry point 1</strong> definition.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to start editing the added model mapping.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;Generic functionality 1&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Formula designer</strong> page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping1.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Definition</strong> field, select <strong>Entry point 2</strong>.</p>
+</li>
+<li><p>In the <strong>Name</strong> field, enter <strong>Mapping (General) 2</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;Generic functionality 2&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Formula designer</strong> page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping2.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mappings.PNG" alt="ER model mappings page"></p>
+</li>
+<li><p>Close the <strong>Model mappings</strong> page.</p>
+</li>
+</ol>
+<h4 id="complete-the-modified-version-of-the-model-mapping-configuration">Complete the modified version of the model mapping configuration</h4>
+<ol>
+<li><p>On the <strong>Configurations page</strong>, on the <strong>Versions</strong> FastTab, select <strong>Change status</strong>.</p>
+<blockquote>
+<p>Change the status of designed model mapping configuration from <strong>Draft</strong> to <strong>Completed</strong>, so that it can be used by ER formats.</p>
+</blockquote>
+</li>
+<li><p>Select <strong>Complete</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Notice that the configuration that is created is saved as completed version 1.</p>
+<h3 id="configure-a-sample-format">Configure a sample format</h3>
+<h4 id="create-an-er-format-configuration">Create an ER format configuration</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Model to learn mappings</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>New</strong> field group, select <strong>Format based on data model Model to learn mappings</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Format to learn mappings</strong>.</li>
+<li>In the <strong>Data model definition</strong> field, select <strong>Entry point 1</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+</ol>
+<p>Notice that draft version 1 of this ER configuration is ready for editing. This version contains the format component.</p>
+<h4 id="design-a-sample-format">Design a sample format</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, select <strong>Designer</strong>.</li>
+<li>Select <strong>Add root</strong>.</li>
+<li>In the <strong>Text</strong> group, select the <strong>String</strong> item.</li>
+<li>Select <strong>OK</strong>.</li>
+</ol>
+<h4 id="bind-format-elements-to-a-data-source">Bind format elements to a data source</h4>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Mapping</strong> tab, expand the model data source.</p>
+</li>
+<li><p>Select the <strong>Functionality description</strong> field.</p>
+</li>
+<li><p>Select <strong>Bind</strong>.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Format.PNG" alt="ER format designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h2 id="appendix2"> Appendix 2</h2>
+<h3 id="configure-a-sample-model-mapping-for-general-customization">Configure a sample model mapping for general customization</h3>
+<p>You might want to customize a model mapping that a configuration provider (partner) provided to you, and then use the customized version as a data source for your ER formats. In this case, you must create a custom ER model mapping configuration to make the required changes in existing model mappings. The procedures in this appendix use the <strong>Mapping (General)</strong> model mapping as an example.</p>
+<h4 id="create-an-er-model-mapping-configuration-1">Create an ER model mapping configuration</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Mapping (General)</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>New</strong> field group, select <strong>Derive from Name: Mapping (General), Litware, Inc.</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Mapping (General) custom</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+</ol>
+<p>Notice that draft version 1 of this ER configuration is ready for editing.</p>
+<h4 id="design-a-sample-model-mapping-1">Design a sample model mapping</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, select <strong>Designer</strong>.</p>
+<blockquote>
+<p>Notice that the model mappings of the base configuration have been automatically copied to this configuration.</p>
+</blockquote>
+</li>
+<li><p>Select the <strong>Mapping (General) Copy</strong> mapping.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;Generic functionality 1 custom&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping1Custom.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>Select the <strong>Mapping (General) 2 Copy</strong> mapping.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;Generic functionality 2 custom&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping2Custom.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-MappingsCustom.PNG" alt="ER model mappings page"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h4 id="complete-the-modified-version-of-the-model-mapping-configuration-1">Complete the modified version of the model mapping configuration</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, on the <strong>Versions</strong> FastTab, select <strong>Change status</strong>.</p>
+<blockquote>
+<p>Change the status of designed model mapping configuration from <strong>Draft</strong> to <strong>Completed</strong>, so that it can be used by ER formats.</p>
+</blockquote>
+</li>
+<li><p>Select <strong>Complete</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Notice that the configuration that is created is saved as completed version 1.</p>
+<h2 id="appendix3"> Appendix 3</h2>
+<h3 id="configure-a-sample-model-mapping-for-countryregion-specific-customization">Configure a sample model mapping for country/region-specific customization</h3>
+<p>For some ER formats, there might be country/region-specific requirements for data preparation. In this case, you can manage a separate ER model mapping configuration and isolate the implementation of these country/region-specific requirements from the general implementation. The procedures in this appendix use the <strong>Format to learn mappings</strong> ER format and French-specific requirements as an example.</p>
+<h4 id="create-an-er-model-mapping-configuration-2">Create an ER model mapping configuration</h4>
+<p>First, create a new ER model mapping configuration to implement the country/region-specific requirements. Use your custom ER model mapping configuration as a base.</p>
+<ol>
+<li>On the <strong>Configurations</strong> page, in the configurations tree, select <strong>Mapping (General) custom</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+<li>In the drop-down dialog box, in the <strong>New</strong> field group, select <strong>Derive from Name: Mapping (General) custom, Litware, Inc</strong>.</li>
+<li>In the <strong>Name</strong> field, enter <strong>Mapping (FR)</strong>.</li>
+<li>Select <strong>Create configuration</strong>.</li>
+</ol>
+<p>Notice that draft version 1 of this ER configuration is ready for editing.</p>
+<h4 id="design-a-sample-model-mapping-2">Design a sample model mapping</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, select <strong>Designer</strong>.</p>
+<blockquote>
+<p>Notice that model mappings of the base configuration have been automatically copied to this configuration.</p>
+</blockquote>
+</li>
+<li><p>Select the <strong>Mapping (General) Copy Copy</strong> mapping.</p>
+</li>
+<li><p>Rename it <strong>Mapping (FR)</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;FR functionality 1&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping1FR.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+</li>
+<li><p>Select the <strong>Mapping (General) 2 Copy Copy</strong> mapping.</p>
+</li>
+<li><p>Rename it <strong>Mapping (FR) 2</strong>.</p>
+</li>
+<li><p>Select <strong>Designer</strong>.</p>
+</li>
+<li><p>In the <strong>Data model</strong> section, select <strong>Edit</strong>.</p>
+</li>
+<li><p>In the <strong>Formula</strong> field, enter <strong>&quot;FR functionality 2&quot;</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-Mapping2FR.PNG" alt="ER model mapping designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>Close the page.</p>
+<p><img src="./media/RCS-Context-specific-mapping-MappingsFR.PNG" alt="ER model mappings page"></p>
+</li>
+<li><p>Close the page.</p>
+</li>
+</ol>
+<h4 id="specify-countryregion-context-restrictions-for-use">Specify country/region context restrictions for use</h4>
+<ol>
+<li>On the <strong>Configurations</strong> page, on the <strong>ISO Country/region codes</strong> FastTab, select <strong>New</strong>.</li>
+<li>In the <strong>ISO</strong> field, select <strong>FR</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p>Note that you must sign in to a specific company in Finance to run an ER format. Therefore, this company can be considered a party that controls both ER format execution and selection of the correct ER model mapping of the base ER data model. By adding the <strong>FR</strong> country code, you specify that this model mapping is available for selection by an ER format of the base data model only when that format is run under the control of a company that has French country/region context.</p>
+<p>You can add multiple country/region codes for a single version of an ER model mapping configuration. In this way, model mappings that reside in that model mapping configuration can be used for an ER format that is run under the control of companies that have a different country/region context.</p>
+<p>Note that the list of country/region codes is specified for each version of an ER model mapping configuration and can vary from version to version.</p>
+<h4 id="complete-the-modified-version-of-the-model-mapping-configuration-2">Complete the modified version of the model mapping configuration</h4>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, on the <strong>Versions</strong> FastTab, select <strong>Change status</strong>.</p>
+<blockquote>
+<p>Change the status of designed model mapping configuration from <strong>Draft</strong> to <strong>Completed</strong>, so that it can be used by ER formats.</p>
+</blockquote>
+</li>
+<li><p>Select <strong>Complete</strong>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Notice that the configuration that is created is saved as completed version 1.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="general-electronic-reporting.html">Electronic reporting (ER) overview</a></p>
+<p><a href="tasks/er-manage-model-mapping-configurations-july-2017.html">Manage ER model mapping in separate ER configurations</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/lcs-solutions/apply-country-context">Apply country/region context (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h4 id="i-configured-two-shared-er-model-mapping-configurations-in-rcs-and-marked-one-of-them-as-the-default-model-mapping-configuration-i-successfully-ran-an-er-format-that-was-created-for-the-same-base-er-data-model-configuration-to-test-model-mappings-i-then-imported-the-whole-er-solution-er-data-model-two-er-model-mapping-configurations-and-er-format-configuration-into-finance-why-do-i-receive-an-error-message-when-i-try-to-run-the-same-er-format-in-finance">I configured two shared ER model mapping configurations in RCS and marked one of them as the default model mapping configuration. I successfully ran an ER format that was created for the same base ER data model configuration, to test model mappings. I then imported the whole ER solution (ER data model, two ER model mapping configurations, and ER format configuration) into Finance. Why do I receive an error message when I try to run the same ER format in Finance?</h4>
+<p>The default model mapping setting is environment-specific. It's configured in RCS but isn't exported to Finance. To successfully run this ER format, you must mark one of ER model mapping configurations as the default model mapping configuration in Finance too.</p>
+<h4 id="i-configured-one-model-mapping-as-a-shared-model-mapping-and-completed-the-draft-version-of-it-i-then-added-a-new-model-mapping-configuration-for-same-data-model-and-configured-it-as-french-specific-why-is-the-shared-model-mapping-selected-when-i-run-an-er-format-even-though-this-er-format-uses-the-correct-root-definition-and-execution-is-done-under-the-control-of-the-company-that-has-french-countryregion-context">I configured one model mapping as a shared model mapping and completed the draft version of it. I then added a new model mapping configuration for same data model and configured it as French-specific. Why is the shared model mapping selected when I run an ER format, even though this ER format uses the correct root definition and execution is done under the control of the company that has French country/region context?</h4>
+<p>Make sure that the shared model mapping configuration isn't marked as the default model mapping configuration. Otherwise, it will have higher priority during mapping selection. Also make sure that the French-specific model mapping configuration is considered when a mapping is selected during ER format execution. An ER model mapping configuration is available for selection only if at least one of the following conditions is met:</p>
+<ul>
+<li>At least one version of the ER model mapping configuration has either <strong>Completed</strong> or <strong>Shared</strong> status. In this case, the version that has the highest version number will be used for ER format execution.</li>
+<li>The <strong>Run draft</strong> option for the ER model mapping configuration is turned on. In this case, the version that has <strong>Draft</strong> status will be used for ER format execution.</li>
+</ul>
+<blockquote>
+<p>The <strong>Run draft</strong> option becomes available on the <strong>Configurations</strong> page for each ER model mapping configuration when the <strong>Run setting</strong> ER user parameter is turned on.</p>
+</blockquote>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot issues related to upgrades of Finance and Operations apps | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot issues related to upgrades of Finance and Operations apps | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshoot-issues-related-to-upgrades-of-finance-and-operations-apps" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="32">Troubleshoot issues related to upgrades of Finance and Operations apps</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="40">This topic provides troubleshooting information for dual-write integration between Finance and Operations apps and Dataverse. Specifically, it provides information that can help you fix issues that are related to upgrades of Finance and Operations apps.</p>
+<div class="IMPORTANT" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="42">
+<h5>Important</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="43">Some of the issues that this topic addresses might require either the system admin role or Microsoft Azure Active Directory (Azure AD) tenant admin credentials. The section for each issue explains whether a specific role or credentials are required.</p>
+</div>
+<h2 id="database-synchronization-errors" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="45">Database synchronization errors</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="47"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="47">Required role to fix the issue:</strong> System admin</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="49">You might receive an error message that resembles the following example when you try to use the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="49">DualWriteProjectConfiguration</strong> table to update a Finance and Operations app to Platform update 30.</p>
+<pre><code class="lang-console" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="51">Infolog diagnostic message: 'Cannot select a row in Dual write project sync (DualWriteProjectConfiguration). The SQL database has issued an error.' on category 'Error'. 10/28/2019 15:18:20: Infolog diagnostic message: 'Object Server Database Synchronizer: ' on category 'Error'. 10/28/2019 15:18:20: Infolog diagnostic message: '[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ISDELETE'.' on category 'Error'. 10/28/2019 15:18:20: Infolog diagnostic message: 'SELECT T1.PROJECTNAME,T1.EXTERNALENTITYNAME,T1.INTERNALENTITYNAME,T1.EXTERNALENVIRONMENTURL,T1.STATUS,T1.ENABLEBATCHLOOKUP,T1.PARTITIONMAP,T1.QUERYFILTEREXPRESSION,T1.INTEGRATIONKEY,T1.ISDELETE,T1.ISDEBUGMODE,T1.RECVERSION,T1.PARTITION,T1.RECID FROM DUALWRITEPROJECTCONFIGURATION T1 WHERE (PARTITION=5637144576)' on category 'Error'. 10/28/2019 15:18:20: Infolog diagnostic message: 'session 1043 (Admin)' on category 'Error'. 10/28/2019 15:18:20: Infolog diagnostic message: 'Stack trace: Call to TTSCOMMIT without first calling TTSBEGIN.' on category 'Error'.
+10/28/2019 15:18:20: Application configuration sync failed.
+Microsoft.Dynamics.AX.Framework.Database.TableSyncException: Custom action threw exception(s), please investigate before synchronizing again: 'InfoException:Stack trace: Call to TTSCOMMIT without first calling TTSBEGIN.&quot;
+</code></pre>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="57">To fix the issue, follow these steps.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="59">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="59">Sign in to the virtual machine (VM) for the Finance and Operations app.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="60">Open Visual Studio as an admin, and open the Application Object Tree (AOT).</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="61">Search for <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="61">DualWriteProjectConfiguration</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="62">In the AOT, right-click <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="62">DualWriteProjectConfiguration</strong>, and select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="62">Add to new project</strong>. Select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="62">OK</strong> to create the new project that uses default options.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="63">In Solution Explorer, right-click <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="63">Project properties</strong>, and set <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="63">Synchronize Database on Build</strong> to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="63">True</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="64">Build the project, and confirm that the build is successful.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="65">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="65">Dynamics 365</strong> menu, select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="65">Synchronize database</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="66">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="66">Synchronize</strong> to do a full database synchronization.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="67">After the full database synchronization is successful, rerun the database synchronization step in Microsoft Dynamics Lifecycle Services (LCS) and use the manual upgrade scripts as applicable, so that you can proceed with the update.</li>
+</ol>
+<h2 id="missing-table-columns-issue-on-maps" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="69">Missing table columns issue on maps</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="71"><strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="71">Required role to fix the issue:</strong> System admin</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="73">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="73">Dual-write</strong> page, you might receive an error message that resembles the following example:</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="75"><em sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="75">Missing source field &lt;field name&gt; in the schema.</em></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="77"><img src="media/error_missing_field.png" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="77" alt="Example of the missing source column error message"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="79">To fix the issue, first follow these steps to make sure that the columns are in the table.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="81">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="81">Sign in to the VM for the Finance and Operations app.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="82">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="82">Workspaces &gt; Data management</strong>, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="82">Framework parameters</strong> tile, and then, on the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="82">Table settings</strong> tab, select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="82">Refresh table list</strong> to refresh the tables.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="83">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="83">Workspaces &gt; Data management</strong>, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="83">Data tables</strong> tab, and make sure that the table is listed. If the table isn't listed, sign in to the VM for the Finance and Operations app, and make sure the table is available.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="84">Open the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="84">Table mapping</strong> page from the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="84">Dual-write</strong> page in the Finance and Operations app.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="85">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="85">Refresh table list</strong> to automatically fill the columns in the table mappings.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="87">If the issue still isn't fixed, follow these steps.</p>
+<div class="IMPORTANT" sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="89">
+<h5>Important</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="90">These steps guide you through the process of deleting a table and then adding it again. To avoid issues, be sure to follow the steps exactly.</p>
+</div>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="92">
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="92">In the Finance and Operations app, go to <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="92">Workspaces &gt; Data management</strong>, and select the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="92">Data tables</strong> tile.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="93">Find the table that is missing the attribute. Click <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="93">Modify target mapping</strong> in the toolbar.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="94">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="94">Map staging to target</strong> pane, click <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="94">Generate mapping</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="95">Open the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="95">Table mapping</strong> page from the <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="95">Dual-write</strong> page in the Finance and Operations app.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="96">If the attribute is not auto-populated on the map, add it manually by clicking <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="96">Add attribute</strong> button and then clicking <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="96">Save</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="97">Select the map and click <strong sourcefile="articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-finops-upgrades.md" sourcestartlinenumber="97">Run</strong>.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

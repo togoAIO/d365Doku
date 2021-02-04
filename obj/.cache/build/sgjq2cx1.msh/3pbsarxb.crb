@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Service management overview | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Service management overview | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="service-management-overview">Service management overview</h1>
+
+
+<p>Use <strong>Service management</strong> to establish service agreements and service subscriptions, handle service orders and customer inquiries, and to manage and analyze the delivery of services to customers. You can use service agreements to define the resources that are used in a typical service visit. You can also use service agreements to view how those resources are invoiced to the customer. A service agreement can also include a service level agreement that specifies standard response times, and offers tools to record the actual time.</p>
+<p>You can create service orders to manage information about scheduled and unscheduled visits by a service technician to a customer site. Service orders include information such as:</p>
+<ol>
+<li><p>The hours of work that the service technician will perform</p>
+</li>
+<li><p>The type of service or repair</p>
+</li>
+<li><p>The item to repair, including details about the symptoms and diagnosis</p>
+</li>
+<li><p>Any expenses and fees related to the service or repair</p>
+</li>
+</ol>
+<p>You can receive, process, and dispatch service requests. After you have created a service order, you can use service stages to monitor progress and specify rules that control what actions are enabled in each stage. When a service order is complete, you can sign off on the order to confirm that it is complete, and then post the order to start the invoice process.</p>
+<p>Use the reporting tools to monitor service order margins and subscription transactions, and print work descriptions and work receipts.</p>
+<h2 id="business-processes">Business processes</h2>
+<p>The following diagram illustrates the high level business processes for <strong>Service management</strong>, and shows where service processes integrate with other modules.</p>
+<p><a href="./media/sm_home_page.gif"><img src="./media/sm_home_page.gif" alt="Service management business process diagram"></a></p>
+<h2 id="service-management-at-a-glance">Service management at a glance</h2>
+<table>
+<thead>
+<tr>
+<th>Important tasks</th>
+<th>Primary pages</th>
+<th>Popular reports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fulfill service agreements</td>
+<td>Service agreements</td>
+<td>Service order margin</td>
+</tr>
+<tr>
+<td>Handle customer inquiries</td>
+<td>Service orders</td>
+<td>Work description</td>
+</tr>
+<tr>
+<td></td>
+<td>Dispatch board</td>
+<td>Transaction - subscription</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Subscription fee transactions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="integration-of-service-management">Integration of Service management</h2>
+<p>Service management can be integrated with the following modules:</p>
+<ul>
+<li><a href="../sales-marketing/overview-sales-marketing.html">Sales and marketing overview</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/index">Human resources</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

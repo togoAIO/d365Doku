@@ -1,0 +1,1387 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrate procurement between Supply Chain Management and Field Service | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrate procurement between Supply Chain Management and Field Service | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="integrate-procurement-between-supply-chain-management-and-field-service">Integrate procurement between Supply Chain Management and Field Service</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/public-preview-releases">Service update availability</a>.</p>
+</div>
+
+<p>Microsoft Dynamics 365 Supply Chain Management provides robust procurement functionality. Dynamics 365 Field Service offers similar functionality that supports the purchasing processes that are associated with the service process. The functionality in these two apps is integrated through dual-write, and the resulting cross-functional use cases are enabled through table mappings, solution logic, views, and forms.</p>
+<p>This integration supports purchase order creation and, in most cases, updates from both apps. However, Supply Chain Management controls pricing, addresses, and product receipt. Several powerful cross-functional use cases are enabled for organizations that use both Field Service and Supply Chain Management. These use cases enable procurements to be initiated and tracked across both systems.</p>
+<p>The following illustration shows the tables in both systems and how they are mapped to each other. Purchase orders in Field Service reference an <em>account</em> row, whereas purchase orders in Supply Chain Management reference a <em>vendor</em> row. To resolve the integration, dual-write uses a reference to link <em>vendor</em> rows with <em>account</em> rows. For more information, see <a href="vendor-mapping.html">Integrated vendor master</a>.</p>
+<p><img src="media/scm-field-service-tables.png" alt="Mappings for procurement"></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To integrate Supply Chain Management with Field Service, you must install the following components:</p>
+<ul>
+<li>Field Service version 8.8.31.60 or later, for comprehensive purchase order integration</li>
+<li>Supply Chain Management version 10.0.14 or later</li>
+<li>Dual-write, to run the OneFSSCM solution</li>
+</ul>
+<h2 id="installation-guidelines">Installation guidelines</h2>
+<h3 id="prerequisites-1">Prerequisites</h3>
+<ul>
+<li><strong>Dual-write</strong> – For more information, see the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-home-page">Dual-write home page (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</li>
+<li><strong>Dynamics 365 Field Service</strong> – For more information, see <a href="https://docs.microsoft.com/dynamics365/field-service/install-field-service#step-1-install-dynamics-365-field-service">How to install Dynamics 365 Field Service</a>.</li>
+</ul>
+<p>When they are enabled in Microsoft Dataverse, dual-write and Field Service introduce several solution layers that extend the environment with new metadata, forms, views, and logic. These solutions can be enabled in any order, though you typically install in the order that is given here:</p>
+<ol>
+<li><p><strong>Field Service Common</strong> – Field Service Common is installed when Field Service is installed in the environment.</p>
+</li>
+<li><p><strong>Field Service (Anchor)</strong> – Field Service (Anchor) is installed when Field Service is installed in the environment.</p>
+</li>
+<li><p><strong>Supply Chain Management Extended</strong> – Supply Chain Management Extended is automatically installed when dual-write is enabled in an environment.</p>
+</li>
+<li><p><strong>OneFSSCM solution</strong> – OneFSSCM is automatically installed by whichever solution (Field Service or Supply Chain Management) is installed last.</p>
+<ul>
+<li>If Field Service is already installed in the environment, and you enable dual-write, which installs Supply Chain Management Extended, OneFSSCM is installed.</li>
+<li>If Supply Chain Management Extended is already installed in the environment, and you install Field Service, OneFSSCM is installed.</li>
+</ul>
+</li>
+</ol>
+<h2 id="initial-synchronization">Initial synchronization</h2>
+<p>To create new purchase orders and work with existing purchase orders, you must sync the reference data between Supply Chain Management and Dataverse. You use the initial write functionality to detect the table relationships and find the tables that you must enable for a given map.</p>
+<p>You must sync the following tables:</p>
+<ul>
+<li><p>Product templates</p>
+<p>When you run the initial write, you get a full list of the tables that are required. Here are some examples of these templates:</p>
+<ul>
+<li>All products</li>
+<li>Released products V2</li>
+<li>Dataverse released distinct products</li>
+</ul>
+</li>
+<li><p>Sites</p>
+</li>
+<li><p>Warehouses</p>
+</li>
+<li><p>Procurement categories templates</p>
+<p>Here are some examples of these templates:</p>
+<ul>
+<li>Procurement categories</li>
+<li>Pro</li>
+<li>Product category hierarchy</li>
+<li>Product category assignments</li>
+</ul>
+</li>
+<li><p>Vendor templates, such as Vendor V2</p>
+</li>
+<li><p>Contact person templates, such as Dataverse Contacts V2</p>
+</li>
+<li><p>Worker templates, such as Worker</p>
+</li>
+</ul>
+<p>Synchronization of the tables ensures that all documents (purchase orders and product receipts) in Supply Chain Management are available in Dataverse.</p>
+<h3 id="account-and-vendor-tables">Account and Vendor tables</h3>
+<p>Purchase orders in Field Service rely on the Account table to track vendors. Therefore, the Dataverse tables for purchase orders use accounts to track vendors. To accommodate this key difference, the following four workflows must be activated to keep the accounts and vendors in sync:</p>
+<ul>
+<li>Create Vendors in Accounts table</li>
+<li>Create Vendors in Vendors table</li>
+<li>Update Vendors in Accounts table</li>
+<li>Update Vendors in Vendors table</li>
+</ul>
+<p>If OneFSSCM is installed, because both Field Service and Supply Chain Management Extended are installed, these workflows are automatically activated. If Field Service isn't installed, but you want to integrate the purchase order tables with Dataverse, you must activate these workflows. In both cases, unless you start from scratch, you might have to ensure that all vendors are created as accounts in Dataverse before you create purchase orders. Otherwise, errors might occur.</p>
+<h3 id="initial-synchronization-1">Initial synchronization</h3>
+<p>After all the prerequisites are in place, if you want existing purchase orders and product receipts to be available in both systems, you must do an initial synchronization of the following templates:</p>
+<ul>
+<li>Purchase Order Header V2</li>
+<li>CDS Purchase Order Line</li>
+<li>CDS Purchase Order Line soft delete</li>
+<li>Purchase Order Receipt</li>
+<li>Purchase Order Receipt Product</li>
+</ul>
+<h2 id="mappings-with-logic">Mappings with logic</h2>
+<p>The procurement integration extends the product mapping with the following logic to ensure that the <strong>Field Service Product Type</strong> column is correctly set in the products table in Dataverse:</p>
+<ul>
+<li>If <strong>Product Type</strong> is set to <em>Product</em>, and <strong>Item model group, Stocked product</strong> is set to <em>True</em>, <strong>Field Service Product Type</strong> is set to <em>Inventory</em>.</li>
+<li>If <strong>Product Type</strong> is set to <em>Product</em>, and <strong>Item model group, Stocked product</strong> is set to <em>False</em>, <strong>Field Service Product Type</strong> is set to <em>Non-Inventory</em>.</li>
+<li>If <strong>Product Type</strong> is set to <em>Service</em>, <strong>Field Service Product Type</strong> is set to <em>Service</em>.</li>
+</ul>
+<p>In addition, Dataverse includes logic that maps vendors with their related accounts. This logic sets the default invoice vendor account. On create, server-side plug-in logic sets the default invoice vendor account from the vendor that is related to the account. The vendor has a reference to the invoice account that is used to set this value.</p>
+<h2 id="supported-scenarios">Supported scenarios</h2>
+<ul>
+<li><p>Purchase orders can be created and updated by Dataverse users. However, the process and data are controlled by Supply Chain Management. The constraints on updates to purchase order columns in Supply Chain Management apply when updates come from Field Service. For example, you can't update a purchase order if it has been finalized.</p>
+</li>
+<li><p>If the purchase order is controlled by change management in Supply Chain Management, a Field Service user can update the purchase order only when the Supply Chain Management approval status is <em>Draft</em>.</p>
+</li>
+<li><p>Several columns are managed only by Supply Chain Management and can't be updated in Field Service. To learn which columns can't be updated, review the mapping tables in the product. For the sake of simplicity, most of these columns are set to read-only on Dataverse pages.</p>
+<p>For example, the columns for price information are managed by Supply Chain Management. Supply Chain Management has trade agreements that Field Service can benefit from. columns such as <strong>Unit price</strong>, <strong>Discount</strong>, and <strong>Net amount</strong> come only from Supply Chain Management. To ensure that the price is synced to Field Service, you should use the <strong>Sync</strong> feature on the <strong>Purchase Order</strong> and <strong>Purchase Order Product</strong> pages in Dataverse when purchase order data has been entered. For more information, see <a href="#sync-procurement">Sync with the Dynamics 365 Supply Chain Management procurement data on demand</a>.</p>
+</li>
+<li><p>The <strong>Totals</strong> column is available only in Field Service, because there are no up-to-date totals of the purchase order in Supply Chain Management. The totals in Supply Chain Management are calculated based on multiple parameters that aren't available in Field Service.</p>
+</li>
+<li><p>Purchase order lines where only a procurement category is specified, or where the product that is specified is an item of the <em>Service</em> product type or Field Service product type, can be initiated only in Supply Chain Management. The lines are then synced to Dataverse and are visible in Field Service.</p>
+</li>
+<li><p>If only Field Service is installed, not Supply Chain Management, the <strong>Warehouse</strong> column is mandatory on the purchase order. However, if Supply Chain Management is installed, this requirement is relaxed, because Supply Chain Management allows for purchase order lines where no warehouse is specified in certain situations.</p>
+</li>
+<li><p>Product receipts (purchase order receipts in Dataverse) are managed by Supply Chain Management and can't be created from Dataverse if Supply Chain Management is installed. The product receipts from Supply Chain Management are synced from Supply Chain Management to Dataverse.</p>
+</li>
+<li><p>Under-delivery is allowed in Supply Chain Management. The OneFSSCM solution adds logic so that, when the product receipt line (or purchase order receipt product in Dataverse) is created or updated, an inventory journal row is created in Dataverse to adjust the remaining quantity that is on order for under-delivery scenarios.</p>
+</li>
+</ul>
+<h2 id="unsupported-scenarios">Unsupported scenarios</h2>
+<ul>
+<li>Field Service prevents lines from being added to a canceled purchase order in Supply Chain Management. As a workaround, you can change the system status of the purchase order in Field Service, and then add the new line in either Field Service or Supply Chain Management.</li>
+<li>Although procurement rows affect inventory levels in both systems, this integration doesn't ensure inventory alignment across Supply Chain Management and Field Service. Both Field Service and Supply Chain Management have other processes that update inventory levels. Those processes are outside the scope of procurement.</li>
+</ul>
+<h2 id="status-management">Status management</h2>
+<p>The statuses of purchase orders in Field Service differ from the statuses in Supply Chain Management.</p>
+<h3 id="field-service-purchase-order-and-purchase-order-product-statuses">Field Service purchase order and purchase order product statuses</h3>
+<table>
+<thead>
+<tr>
+<th>Header – System status</th>
+<th>Header - Approval status</th>
+<th>Item status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ul><li>Draft</li><li>Submitted</li><li>Cancelled</li><li>Product received</li><li>Billed</li></ul></td>
+<td><ul><li>Null</li><li>Approved</li><li>Rejected</li></ul></td>
+<td><ul><li>Pending</li><li>Received</li><li>Cancelled</li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="supply-chain-management-purchase-order-and-purchase-order-line-statuses">Supply Chain Management purchase order and purchase order line statuses</h3>
+<p>Line approval statuses are active only when there is a line workflow.</p>
+<table>
+<thead>
+<tr>
+<th>Header – documents status</th>
+<th>Header - Approval status</th>
+<th>Line status</th>
+<th>Line approval status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ul><li>Open Order (Back order)</li><li>Received</li><li>Invoiced</li><li>Cancelled</li></ul></td>
+<td><ul><li>Draft</li><li>In Review</li><li>Approved</li><li>Rejected</li><li>In External Review</li><li>Confirmed</li><li>Finalized</li></ul></td>
+<td><ul><li>Open Order (back order)</li><li>Received</li><li>Invoiced</li><li>Cancelled</li></ul></td>
+<td><ul><li>Not Submitted</li><li>In Review</li><li>Approved</li><li>Rejected</li></ul></td>
+</tr>
+</tbody>
+</table>
+<p>The following rules are applied to the status columns:</p>
+<ul>
+<li>The status in Supply Chain Management can't be updated from Field Service. However, in some cases, the status in Field Service will be updated when the purchase order status in Supply Chain Management is changed.</li>
+<li>If a purchase order in Supply Chain Management is under change management, and a change is being processed, the approval status is <em>Draft</em> or <em>In Review</em>. In this case, the Field Service approval status will be set to <em>Null</em>.</li>
+<li>If the purchase order approval status in Supply Chain Management is set to <em>Approved</em>, <em>In External review</em>, <em>Confirmed</em>, or <em>Finalized</em>, the Field Service purchase order approval status will be set to <em>Approved</em>.</li>
+<li>If the purchase order approval status in Supply Chain Management is set to <em>Rejected</em>, the Field Service purchase order approval status will be set to <em>Rejected</em>.</li>
+<li>If the document header status in Supply Chain Management is changed to <em>Open order (Back order)</em>, and the Field Service purchase order status is <em>Draft</em> or <em>Cancelled</em>, the Field Service purchase order status will be changed to <em>Submitted</em>.</li>
+<li>If the document header status in Supply Chain Management is changed to <em>Cancelled</em>, and no purchase order receipt products in Field Service are associated with the purchase order (via purchase order products), the Field Service system status is set to <em>Cancelled</em>.</li>
+<li>If purchase order line status in Supply Chain Management is <em>Cancelled</em>, the purchase order product status in Field Service is set to <em>Cancelled</em>. In addition, if the purchase order line status in Supply Chain Management is changed from <em>Cancelled</em> to <em>Back Order</em>, the purchase order product item status in Field Service is set to <em>Pending</em>.</li>
+</ul>
+<h2 id="sync-procurement">Sync with the Supply Chain Management procurement data on demand</h2>
+<p>Supply Chain Management includes procurement data that handles trade agreements, discounts, and other scenarios that rely on secondary processes in Supply Chain Management. The procurement engine uses complex rules to determine the best price for a given purchase order. When you use dual-write, data isn't always kept synchronous across the two environments, especially in scenarios where the row was created or updated from Dataverse and might trigger follow-on processes in Supply Chain Management.</p>
+<h2 id="sync-the-procurement-data-from-supply-chain-management">Sync the procurement data from Supply Chain Management</h2>
+<ol>
+<li>In Dataverse, go to <strong>Inventory &gt; Purchase Order</strong>.</li>
+<li>Select <strong>New</strong> to create a new purchase order, or select the row for an existing purchase order.</li>
+<li>From the purchase order or purchase order line.</li>
+<li>On the Action Pane, select <strong>Sync</strong>.</li>
+</ol>
+<p>All columns from Dataverse and Field Service that are shared by Supply Chain Management are synced.</p>
+<p>Here are the situations where you might use the <strong>Sync</strong> function:</p>
+<ul>
+<li>If you make multiple successive changes to the same row from Dataverse, run the <strong>Sync</strong> function.</li>
+<li>If you aren't sure whether a change might be the second successive change from Dataverse, it might make sense to run the <strong>Sync</strong> function.</li>
+<li>If you receive an error message about updating a value from Supply Chain Management, run the <strong>Sync</strong> function, and then retry the update in Dataverse.</li>
+</ul>
+<h2 id="templates">Templates</h2>
+<p>The following templates are available for the integration of procurement-related documents.</p>
+<table>
+<thead>
+<tr>
+<th>Supply Chain Management</th>
+<th>Field Service</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purchase order header V2</td>
+<td>msdyn_Purchaseorders</td>
+<td>This table contains the columns that represent the purchase order header.</td>
+</tr>
+<tr>
+<td>Purchase order line entity</td>
+<td>msdyn_PurchaseOrderProducts</td>
+<td>This table contains the rows that represent lines on a purchase order. The product number is used for synchronization. This identifies the product as a stock keeping unit (SKU), including product dimensions. For more information about product integration with Dataverse, see <a href="product-mapping.html">Unified product experience</a>.</td>
+</tr>
+<tr>
+<td>Product receipt header</td>
+<td>msdyn_purchaseorderreceipts</td>
+<td>This table contains the product receipt headers that are created when a product receipt is posted in Supply Chain Management.</td>
+</tr>
+<tr>
+<td>Product receipt line</td>
+<td>msdyn_purchaseorderreceiptproducts</td>
+<td>This table contains the product receipt lines that are created when a product receipt is posted in Supply Chain Management.</td>
+</tr>
+<tr>
+<td>Purchase order line soft deleted entity</td>
+<td>msdyn_purchaseorderproducts</td>
+<td>This table contains information about purchase order lines that are soft-deleted. A purchase order line in Supply Chain Management can be soft-deleted only when the purchase order has been confirmed or approved, if change management is turned on. The row exists in the Supply Chain Management database and is marked as <strong>IsDeleted</strong>. Because Dataverse doesn't have a concept of soft-deletion, it's important that this information be synced to Dataverse. In this way, lines that are soft-deleted in Supply Chain Management can automatically be deleted from Dataverse. In this case, the logic for deleting a line in Dataverse is located in Supply Chain Management Extended.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mapping-tables">Mapping tables</h2>
+<h3 id="mapping-types">Mapping types</h3>
+<p>There are several different mapping types. The following table explains the symbols used in the template tables.</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>One-way</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>=</td>
+<td>Bidirectional</td>
+</tr>
+<tr>
+<td>&gt;&lt;</td>
+<td>Bidirectional, and data is transformed in the process.</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>One-way, and data is transformed in the process.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filters">Filters</h3>
+<p>The source filter and reverse source filter determine which rows are synchronized.</p>
+<h3 id="default-values">Default values</h3>
+<p>If a synchronized field does not exist in either the Finance and Operations table or the other Dynamics 365 table, then a default value is assigned in the synchronized table. In some cases, the default value is an integer that is a lookup to an attribute value in the Common Data Model. For example, in the Contacts table of the Common Data Model, the default value of <a href="customer-mapping.html#customers-v3-to-contacts"><strong>address1_addresstypecode</strong></a> is <strong>3</strong>. In the Common Data Model, for <a href="https://docs.microsoft.com/common-data-model/schema/core/applicationcommon/foundationcommon/contact#address1AddressTypeCode">address1AddressTypeCode</a> the value of <strong>3</strong> is <strong>Primary address</strong>.</p>
+<h3 id="product-receipt-header-to-msdyn_purchaseorderreceipts">Product receipt header to msdyn_purchaseorderreceipts</h3>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RECORDID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_recordid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTRECEIPTDATE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_datereceived</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresslatitude</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresslongitude</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseorder.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYMODEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_shipvia.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYTERMSID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryterm.msdyn_termscode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERVENDORACCOUNTNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_ordervendor.msdyn_vendoraccountnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTERPERSONNELNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_requesterpersonnel.cdm_workernumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVERYADDRESSPRIVATE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_isdeliveryaddressprivate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresscountryregionid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresscountyid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressstateid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresszipcode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressname</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSTIMEZONE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresstimezone</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresspostbox</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressstreetnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressstreet</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTRECEIPTNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ATTENTIONINFORMATION</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_note</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYCITYINKANA</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliverycityinkana</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYSTREETINKANA</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliverystreetinkana</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELIVERYADDRESS</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_formatteddeliveryaddress</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresslocationid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresscity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressdescription</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressdistrictname</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliverybuildingcompliment</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressdunsnumber</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="product-receipt-line-to-msdyn_purchaseorderreceiptproducts">Product receipt line to msdyn_purchaseorderreceiptproducts</h3>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RECORDID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_recordid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresscountryregionid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddresscountyid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_deliveryaddressstateid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>EXPECTEDDELIVERYDATE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_expecteddeliverydate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALITEMNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_externalitemnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ITEMBATCHNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_itembatchnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ITEMSERIALNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_itemserialnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDESCRIPTION</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_linedescription</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDEREDPURCHASEQUANTITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_orderedpurchasequantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PROCUREMENTPRODUCTCATEGORYNAME</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_procurementproductcategory.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PROCUREMENTPRODUCTCATEGORYHIERARCHYNAME</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_procurementproductcategory.msdyn_hierarchy.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTRECEIPTDATE</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_productreceiptdate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTRECEIPTHEADERRECORDID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseorderreceipt.msdyn_recordid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTRECEIPTNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_productreceiptnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERLINENUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseorderproduct.msdyn_lineorder</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseorderproduct.msdyn_purchaseorder.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseorder.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEUNITSYMBOL</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_purchaseunitsymbol.msdyn_symbol</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVEDINVENTORYQUANTITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_receivedinventoryquantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVEDINVENTORYSTATUSID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_receivedinventorystatusid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVEDPURCHASEQUANTITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_quantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGSITEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_receivingsiteid.msdyn_siteid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGWAREHOUSEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_associatetowarehouse.msdyn_warehouseidentifier</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGWAREHOUSELOCATIONID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_receivingwarehouselocation.msdyn_warehouselocationid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGWAREHOUSEID</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_receivingwarehouselocation.msdyn_warehouse.msdyn_warehouseidentifier</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REMAININGINVENTORYQUANTITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_remaininginventoryquantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REMAININGPURCHASEQUANTITY</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_remainingpurchasequantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNUMBER</td>
+<td>&gt;&gt;</td>
+<td><code>msdyn_product.msdyn_productnumber</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="purchase-order-headers-v2-to-msdyn_purchaseorders">Purchase order headers V2 to msdyn_purchaseorders</h3>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td></td>
+<td><code>msdyn_addressname</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDDELIVERYDATE</td>
+<td></td>
+<td><code>msdyn_dateexpected</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td></td>
+<td><code>msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSNAME</td>
+<td></td>
+<td><code>msdyn_paymentterm.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTRECEIVINGWAREHOUSEID</td>
+<td></td>
+<td><code>msdyn_receivetowarehouse.msdyn_warehouseidentifier</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ACCOUNTINGDATE</td>
+<td></td>
+<td><code>msdyn_accountingdate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>AREPRICESINCLUDINGSALESTAX</td>
+<td></td>
+<td><code>msdyn_arepriceincludingsalestax</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ATTENTIONINFORMATION</td>
+<td></td>
+<td><code>msdyn_attentioninformation</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CASHDISCOUNTCODE</td>
+<td></td>
+<td><code>msdyn_cashdiscountcode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CASHDISCOUNTPERCENTAGE</td>
+<td></td>
+<td><code>msdyn_cashdiscountpercentage</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td></td>
+<td><code>msdyn_contactpersonid.msdyn_contactpersonid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td></td>
+<td><code>transactioncurrencyid.isocurrencycode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DEFAULTRECEIVINGSITEID</td>
+<td></td>
+<td><code>msdyn_defaultreceivingsiteid.msdyn_siteid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYTERMSID</td>
+<td></td>
+<td><code>msdyn_deliveryterm.msdyn_termscode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td></td>
+<td><code>msdyn_email</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ISCHANGEMANAGEMENTACTIVE</td>
+<td></td>
+<td><code>msdyn_ischangemanagementactive</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELIVEREDDIRECTLY</td>
+<td></td>
+<td><code>msdyn_isdeliverydirectly</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td></td>
+<td><code>msdyn_language</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERERPERSONNELNUMBER</td>
+<td></td>
+<td><code>msdyn_ordererpersonnelnumber.cdm_workernumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REASONCODE</td>
+<td></td>
+<td><code>msdyn_reasoncode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REASONCOMMENT</td>
+<td></td>
+<td><code>msdyn_reasoncomment</code></td>
+<td></td>
+</tr>
+<tr>
+<td>TOTALDISCOUNTPERCENTAGE</td>
+<td></td>
+<td><code>msdyn_totaldiscountpercentage</code></td>
+<td></td>
+</tr>
+<tr>
+<td>URL</td>
+<td></td>
+<td><code>msdyn_url</code></td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORORDERREFERENCE</td>
+<td></td>
+<td><code>msdyn_vendororderreference</code></td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORPAYMENTMETHODNAME</td>
+<td></td>
+<td><code>msdyn_vendorpaymentmethod.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORPAYMENTMETHODSPECIFICATIONNAME</td>
+<td></td>
+<td><code>msdyn_vendorpaymentmethodspecificationname</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDERVENDORACCOUNTNUMBER</td>
+<td></td>
+<td><code>msdyn_vendor.accountnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYMODEID</td>
+<td></td>
+<td><code>msdyn_shipvia.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEVENDORACCOUNTNUMBER</td>
+<td></td>
+<td><code>msdyn_invoicevendoraccount.accountnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DOCUMENTAPPROVALSTATUS</td>
+<td></td>
+<td><code>msdyn_documentapprovalstatus</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERSTATUS</td>
+<td></td>
+<td><code>msdyn_purchaseorderstatus</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td></td>
+<td><code>msdyn_city</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td></td>
+<td><code>msdyn_country</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td></td>
+<td><code>msdyn_stateorprovince</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td></td>
+<td><code>msdyn_postalcode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td></td>
+<td><code>msdyn_address1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREETNUMBER</td>
+<td></td>
+<td><code>msdyn_invoiceaddressstreetnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDDELIVERYDATE</td>
+<td></td>
+<td><code>msdyn_confirmeddeliverydate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td></td>
+<td><code>msdyn_longitude</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td></td>
+<td><code>msdyn_latitude</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONID</td>
+<td></td>
+<td><code>msdyn_deliveryaddresscountryregionid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTYID</td>
+<td></td>
+<td><code>msdyn_deliveryaddresscountyid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td></td>
+<td><code>msdyn_deliveryaddressdescription</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDISTRICTNAME</td>
+<td></td>
+<td><code>msdyn_deliveryaddressdistrictname</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDUNSNUMBER</td>
+<td></td>
+<td><code>msdyn_deliveryaddressdunsnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLOCATIONID</td>
+<td></td>
+<td><code>msdyn_deliveryaddresslocationid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSPOSTBOX</td>
+<td></td>
+<td><code>msdyn_deliveryaddresspostbox</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSTIMEZONE</td>
+<td></td>
+<td><code>msdyn_deliveryaddresstimezone</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYBUILDINGCOMPLIMENT</td>
+<td></td>
+<td><code>msdyn_deliverybuildingcompliment</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELIVERYADDRESS</td>
+<td></td>
+<td><code>msdyn_formatteddeliveryaddress</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDINVOICEADDRESS</td>
+<td></td>
+<td><code>msdyn_formattedinvoiceaddress</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td></td>
+<td><code>msdyn_invoiceaddresscity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONID</td>
+<td></td>
+<td><code>msdyn_invoiceaddresscountryregionid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTY</td>
+<td></td>
+<td><code>msdyn_invoiceaddresscounty</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATE</td>
+<td></td>
+<td><code>msdyn_invoiceaddressstate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td></td>
+<td><code>msdyn_invoiceaddressstreet</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td></td>
+<td><code>msdyn_address2</code></td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td></td>
+<td><code>msdyn_invoiceaddresszipcode</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="purchase-order-line-soft-deleted-table-to-msdyn_purchaseorderproducts">purchase order line soft deleted table to msdyn_purchaseorderproducts</h3>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LINENUMBER</td>
+<td></td>
+<td><code>msdyn_lineorder</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td></td>
+<td><code>msdyn_purchaseorder.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ISDELETED</td>
+<td></td>
+<td><code>msdyn_issoftdeletedinscm</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="purchase-order-line-table-to-msdyn_purchaseorderproducts">purchase order line table to msdyn_purchaseorderproducts</h3>
+<p>This template synchronizes data between Finance and Operations apps and Dataverse.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations field</th>
+<th>Map type</th>
+<th>Customer engagement field</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REQUESTEDDELIVERYDATE</td>
+<td></td>
+<td><code>msdyn_dateexpected</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDESCRIPTION</td>
+<td></td>
+<td><code>msdyn_description</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINENUMBER</td>
+<td></td>
+<td><code>msdyn_lineorder</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PRODUCTNUMBER</td>
+<td></td>
+<td><code>msdyn_product.msdyn_productnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERNUMBER</td>
+<td></td>
+<td><code>msdyn_purchaseorder.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDEREDPURCHASEQUANTITY</td>
+<td></td>
+<td><code>msdyn_quantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINEAMOUNT</td>
+<td></td>
+<td><code>msdyn_lineamount</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEPRICE</td>
+<td></td>
+<td><code>msdyn_unitcost</code></td>
+<td></td>
+</tr>
+<tr>
+<td>BARCODE</td>
+<td></td>
+<td><code>msdyn_barcode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CATCHWEIGHTUNITSYMBOL</td>
+<td></td>
+<td><code>msdyn_catchweightunitsymbol.msdyn_symbol</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDSHIPPINGDATE</td>
+<td></td>
+<td><code>msdyn_confirmedshippingdate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERREFERENCE</td>
+<td></td>
+<td><code>msdyn_customerreference</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERREQUISITIONNUMBER</td>
+<td></td>
+<td><code>msdyn_customerrequisitionnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>EXTERNALITEMNUMBER</td>
+<td></td>
+<td><code>msdyn_externalitemnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ISPARTIALDELIVERYPREVENTED</td>
+<td></td>
+<td><code>msdyn_ispartialdeliveryprevented</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTAMOUNT</td>
+<td></td>
+<td><code>msdyn_linediscountamount</code></td>
+<td></td>
+</tr>
+<tr>
+<td>LINEDISCOUNTPERCENTAGE</td>
+<td></td>
+<td><code>msdyn_linediscountpercentage</code></td>
+<td></td>
+</tr>
+<tr>
+<td>ORDEREDCATCHWEIGHTQUANTITY</td>
+<td></td>
+<td><code>msdyn_orderedcatchweightquantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEORDERLINESTATUS</td>
+<td></td>
+<td><code>msdyn_purchaseorderlinestatus</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEPRICEQUANTITY</td>
+<td></td>
+<td><code>msdyn_purchasepricequantity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGSITEID</td>
+<td></td>
+<td><code>msdyn_receivingsiteid.msdyn_siteid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTEDSHIPPINGDATE</td>
+<td></td>
+<td><code>msdyn_requestedshippingdate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>REQUESTERPERSONNELNUMBER</td>
+<td></td>
+<td><code>msdyn_requesterpersonnelnumber.cdm_workernumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PROCUREMENTPRODUCTCATEGORYNAME</td>
+<td></td>
+<td><code>msdyn_procurementproductcategory.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PROCUREMENTPRODUCTCATEGORYHIERACHYNAME</td>
+<td></td>
+<td><code>msdyn_procurementproductcategory.msdyn_hierarchy.msdyn_name</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CURRENCYCODE</td>
+<td></td>
+<td><code>transactioncurrencyid.isocurrencycode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>CONFIRMEDDELIVERYDATE</td>
+<td></td>
+<td><code>msdyn_confirmeddeliverydate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td></td>
+<td><code>msdyn_deliveryaddresscity</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONID</td>
+<td></td>
+<td><code>msdyn_deliveryaddresscountryregionid</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATEID</td>
+<td></td>
+<td><code>msdyn_deliveryaddressstate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td></td>
+<td><code>msdyn_deliveryaddressstreet</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREETNUMBER</td>
+<td></td>
+<td><code>msdyn_deliveryaddressstreetnumber</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td></td>
+<td><code>msdyn_deliveryaddresszipcode</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FORMATTEDDELVERYADDRESS</td>
+<td></td>
+<td><code>msdyn_formatteddeliveryaddress</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PURCHASEUNITSYMBOL</td>
+<td></td>
+<td><code>msdyn_unit.msdyn_symbol</code></td>
+<td></td>
+</tr>
+<tr>
+<td>RECEIVINGWAREHOUSEID</td>
+<td></td>
+<td><code>msdyn_associatetowarehouse.msdyn_warehouseidentifier</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSDESCRIPTION</td>
+<td>&gt;</td>
+<td><code>msdyn_deliveryaddressdescription</code></td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSNAME</td>
+<td>&gt;</td>
+<td><code>msdyn_deliveryaddressname</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

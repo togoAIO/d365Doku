@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Transportation management engines </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Transportation management engines ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Transportation management engines define the logic that is used to generate and process transportation rates in Transportation management.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="TMSFreightBillType, TMSGenericEngine, TMSMileageEngine, TMSRateEngine, TMSTransitTimeEngine, TMSZoneEngine, TMSFreightBillTypeAssignment, TMSZoneMaster, TMSEngineParameters">
+    <meta name="ms.search.scope" content="Core, Operations, Supply Chain, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="transportation-management-engines">Transportation management engines</h1>
+
+
+<p>Transportation management engines define the logic that is used to generate and process transportation rates in Transportation management.</p>
+<p>A transportation management engine calculates tasks, such as the carrier’s transportation rate. The engine system lets you change calculation strategies at runtime, based on data in Supply Chain Management. A transportation management engine resembles a plug-in that is related to a particular carrier contract.</p>
+<h2 id="what-engines-are-available">What engines are available?</h2>
+<p>The following table shows the transportation management engines that are available.</p>
+<table>
+<thead>
+<tr>
+<th>Transportation management engine</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rate engine</strong></td>
+<td>Calculates rates.</td>
+</tr>
+<tr>
+<td><strong>Generic engine</strong></td>
+<td>Simple auxiliary engines that are used by other engines that do not require data from Supply Chain Management, for example, an apportionment engine. Apportionment engines are used to reduce the final costs of transportation to specific orders and lines, based on dimensions, such as volume and weight.</td>
+</tr>
+<tr>
+<td><strong>Mileage engine</strong></td>
+<td>Calculates the transportation distance.</td>
+</tr>
+<tr>
+<td><strong>Transit time engine</strong></td>
+<td>Calculates the time that is required to travel from the start to the end destination.</td>
+</tr>
+<tr>
+<td><strong>Zone engine</strong></td>
+<td>Calculates the zone based on the current address and calculates the number of zones that must be crossed in order to travel from address A to address B.</td>
+</tr>
+<tr>
+<td><strong>Freight bill type</strong></td>
+<td>Standardizes the freight invoice and the freight bill lines and is used for automatic freight bill matching.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-engines-must-be-configured-to-rate-a-shipment">What engines must be configured to rate a shipment?</h2>
+<p>To rate a shipment using a specific carrier, you must configure multiple transportation management engines. The <strong>Rate engine</strong> is required, but other transportation management engines may be required to support the <strong>Rate engine</strong>. For example, the <strong>Rate engine</strong> can be used to retrieve data from the <strong>Mileage engine</strong> to calculate the rate based on mileage between the source and the destination.</p>
+<h2 id="whats-required-to-initialize-a-transportation-management-engine">What’s required to initialize a transportation management engine?</h2>
+<p>A transportation management engine requires that you set up initialization data in order to function in a specific way. The setup can include the following types of data:</p>
+<ul>
+<li>References to other transportation management engines. For details, see the configuration example in this section.</li>
+<li>References to .NET types that are used by the transportation management engine.</li>
+<li>Simple configuration data.</li>
+</ul>
+<p>In most cases, you can click the <strong>Parameters</strong> button in the transportation management engine’s setup forms to configure the initialization data. <strong>Example of the configuration of a rate engine that references a mileage engine</strong> The following example shows the setup that is required for a rate engine that is based on the .NET engine type Microsoft.Dynamics.Ax.Tms.Bll.MileageRateEngine and references a mileage engine.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>RateBaseAssigner</em></td>
+<td>The .NET type that interprets the rate base assignment data for a particular schema. The syntax of the parameter value consists of two segments delimited by a vertical bar (</td>
+</tr>
+<tr>
+<td><em>MileageEngineCode</em></td>
+<td>Mileage engine code that identifies the mileage engine record in the database.</td>
+</tr>
+<tr>
+<td><em>ApportionmentEngine</em></td>
+<td>Generic engine code that identifies the apportionment engine in the database.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-is-metadata-used-in-transportation-management-engines">How is metadata used in transportation management engines?</h2>
+<p>Transportation management engines that rely on data that is defined in Supply Chain Management can use different data schemas. The transportation management system enables different transportation management engines to use the same generic physical database tables. To make sure that run-time interpretation of engine data is correct, you can define metadata for the database tables. This reduces the cost of building new transportation management engines because additional table and form structures are not required in Operations.</p>
+<h2 id="what-can-be-used-as-search-data-in-rate-calculations">What can be used as search data in rate calculations?</h2>
+<p>The data that you use when you calculate rates is controlled by the metadata configuration. For example, if you want to search for rates based on postal codes you must set up metadata based on the lookup type of a postal code.</p>
+<h2 id="do-all-engine-configurations-require-metadata">Do all engine configurations require metadata?</h2>
+<p>No, transportation management engines that are used to retrieve the data that is required for rate calculation from external systems don’t need metadata. The rate data for these engines can be retrieved from external transportation carrier systems, usually through a web service. For example, can use a mileage engine that retrieves data directly from Bing maps so that you don’t need a metadata for this engine.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Note</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The transportation management engines that are delivered with Supply Chain Management rely on data that is retrieved from the application. Engines that connect to external systems are not included with Operations. However, the engine-based extensibility model lets you build extensions using Visual Studio Tools.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-do-i-configure-metadata-for-a-transportation-management-engine">How do I configure metadata for a transportation management engine?</h2>
+<p>Metadata for transportation management engines is configured differently for the different types of engines.</p>
+<table>
+<thead>
+<tr>
+<th>Transportation management engine</th>
+<th>Metadata configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rate engine</strong></td>
+<td>Requires a <strong>Rate base type</strong>. The rate base type contains metadata for the rate base data and the rate base assignment data. The structure of rate base metadata is determined by the type of rate engine. The structure of the rate base assignment metadata is determined by the type of rate base assigner that is associated with that rate engine. You set up the rate base type of a rate engine on the <strong>Rate engine</strong> page and on the <strong>Rate master</strong> page.</td>
+</tr>
+<tr>
+<td><strong>Zone engine</strong></td>
+<td>Requires metadata to be set up directly on the zone master.</td>
+</tr>
+<tr>
+<td><strong>Transit time engine</strong> and <strong>Mileage engine</strong></td>
+<td>Retrieves the metadata directly from the mileage engine’s configuration setup form.</td>
+</tr>
+</tbody>
+</table>
+<p>  <strong>Example of metadata for a rate engine</strong> The transportation management engine requires identification of the origin address, the destination state and country/region, and the start and end point of the shipment. By using these requirements, the metadata would look like the data in the following table. The table also includes information about what type of input data is required.</p>
+<ul>
+<li>Define this information in <strong>Transportation management</strong> &gt; <strong>Setup</strong> on the <strong>Rate base type</strong> page.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Sequence</th>
+<th>Name</th>
+<th>Field type</th>
+<th>Data type</th>
+<th>Lookup type</th>
+<th>Mandatory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Origin postal code</td>
+<td>Assignment</td>
+<td>String</td>
+<td>Postal Code</td>
+<td>Selected</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Destination state</td>
+<td>Assignment</td>
+<td>String</td>
+<td>State</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Destination start postal code</td>
+<td>Assignment</td>
+<td>String</td>
+<td>Postal Code</td>
+<td>Selected</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Destination end postal code</td>
+<td>Assignment</td>
+<td>String</td>
+<td>Postal Code</td>
+<td>Selected</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Destination country</td>
+<td>Assignment</td>
+<td>String</td>
+<td>Country/region</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/supply-chain/transportation/transportation-management-engines.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

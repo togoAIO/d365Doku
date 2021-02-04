@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Set up custom pages for user sign-ins </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Set up custom pages for user sign-ins ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic describes how to build custom pages in Microsoft Dynamics 365 Commerce that handle customized sign-ins for users of Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail, Commerce, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="set-up-custom-pages-for-user-sign-ins">Set up custom pages for user sign-ins</h1>
+
+
+<p>This topic describes how to build custom pages in Microsoft Dynamics 365 Commerce that handle customized sign-ins for users of Azure Active Directory (Azure AD) business-to-consumer (B2C) tenants.</p>
+<h2 id="overview">Overview</h2>
+<p>To use custom pages that are authored in Dynamics 365 Commerce to handle user sign-in flows, you must set up the Azure AD policies that will be referenced in the Commerce environment. You can configure the &quot;Sign up and sign in,&quot; &quot;Profile editing,&quot; and &quot;Password reset&quot; Azure AD B2C policies by using the Azure AD B2C application. The Azure AD B2C tenant and policy names can then be referenced during the provisioning process that is done for the Commerce environment by using Microsoft Dynamics Lifecycle Services (LCS).</p>
+<p>The custom Commerce pages can be built by using the sign in, sign up, account profile edit, or password reset module. The page URLs that are published for these custom pages should then be referenced in Azure AD B2C policy configurations in the Azure portal.</p>
+<h2 id="set-up-b2c-policies">Set up B2C policies</h2>
+<p>After you set up your Azure AD B2C tenant and associate it with your Commerce environment, go to the <strong>Azure AD B2C</strong> page in the Azure portal, and then, on the menu, under <strong>Policies</strong>, select <strong>User flows (policies)</strong>.</p>
+<p><img src="media/B2C_CustomPage_PoliciesMenu.png" alt="User flows (policies) command on the menu"></p>
+<p>You can now configure the &quot;Sign up and sign in,&quot; &quot;Profile editing,&quot; and &quot;Password reset&quot; user sign-in flows.</p>
+<h3 id="configure-the-sign-up-and-sign-in-policy">Configure the &quot;Sign up and sign in&quot; policy</h3>
+<p>To configure the &quot;Sign up and sign in&quot; policy, follow these steps.</p>
+<ol>
+<li><p>Select <strong>New user flow</strong>, and then, on the <strong>Recommended</strong> tab, select the <strong>Sign up and sign in</strong> policy.</p>
+</li>
+<li><p>Enter a name for the policy (for example, <strong>B2C_1_SignInSignUp</strong>).</p>
+</li>
+<li><p>In the <strong>Identity Providers</strong> section, select the identity providers to use for the policy. At a minimum, <strong>Email signup</strong> must be selected.</p>
+</li>
+<li><p>In the <strong>Collect attribute</strong> column, select the check boxes for <strong>Email Address</strong>, <strong>Given Name</strong>, and <strong>Surname</strong>.</p>
+</li>
+<li><p>In the <strong>Return claim</strong> column, select the check boxes for <strong>Email Addresses</strong>, <strong>Given Name</strong>, <strong>Identity Provider</strong>, <strong>Surname</strong>, and <strong>User's Object ID</strong>.</p>
+<p><img src="media/B2C_SignInSignUp_Attributes.png" alt="Attributes and claims selected"></p>
+</li>
+<li><p>Select <strong>OK</strong> to create the policy.</p>
+</li>
+<li><p>Double-click the new policy name, and then, in the navigation pane, select <strong>Properties</strong>.</p>
+</li>
+<li><p>Set the <strong>Enable JavaScript enforcing page layout (preview)</strong> option to <strong>On</strong>.</p>
+<p><img src="media/B2C_SignInSignUp_EnableJavascript.png" alt="Properties page for the new policy"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The policy name will be fully referenced in the Commerce environment. (The <strong>B2C_1_</strong> prefix will be included in the reference.) Policies can't be renamed after they are created. If you're replacing an existing policy for your Commerce environment, you can delete the original policy and build a new policy that has the same name. Alternatively, if the environment has already been provisioned, you can submit the new policy name through a service request.</p>
+</div>
+<p>You will return to this policy to finish the setup after you've built the custom pages. For now, close the policy to return to the <strong>User flows (policies)</strong> page in the Azure portal.</p>
+<h3 id="configure-the-profile-editing-policy">Configure the &quot;Profile editing&quot; policy</h3>
+<p>To configure the &quot;Profile editing&quot; policy, follow these steps.</p>
+<ol>
+<li>Select <strong>New user flow</strong>, and then, on the <strong>Recommended</strong> tab, select the <strong>Profile editing</strong> policy.</li>
+<li>Enter a name for the policy (for example, <strong>B2C_1_EditProfile</strong>).</li>
+<li>In the <strong>Identity Providers</strong> section, select the identity providers to use for the policy. At a minimum, <strong>Local Account SignIn</strong> must be selected.</li>
+<li>In the <strong>Collect attribute</strong> column, select the check boxes for <strong>Email Addresses</strong> and <strong>Surname</strong>.</li>
+<li>In the <strong>Return claim</strong> column, select the check boxes for <strong>Email Addresses</strong>, <strong>Given Name</strong>, <strong>Identity Provider</strong>, <strong>Surname</strong>, and <strong>User's Object ID</strong>.</li>
+<li>Select <strong>OK</strong> to create the policy.</li>
+<li>Double-click the new policy name, and then, in the navigation pane, select <strong>Properties</strong>.</li>
+<li>Set the <strong>Enable JavaScript enforcing page layout (preview)</strong> option to <strong>On</strong>.</li>
+</ol>
+<p>You will return to this policy to finish the setup after you've built the custom pages. For now, close the policy to return to the <strong>User flows (policies)</strong> page in the Azure portal.</p>
+<h3 id="configure-the-password-reset-policy">Configure the &quot;Password reset&quot; policy</h3>
+<p>To configure the &quot;Password reset&quot; policy, follow these steps.</p>
+<ol>
+<li><p>Select <strong>New user flow</strong>, and then, on the <strong>Preview</strong> tab, select the <strong>Password reset v1.1</strong> policy.</p>
+<p><img src="media/B2C_ForgetPassword_Menu.png" alt="Password reset v1.1 policy selected on the Preview tab"></p>
+</li>
+<li><p>Enter a name for the policy (for example, <strong>B2C_1_ForgetPassword</strong>).</p>
+</li>
+<li><p>In the <strong>Identity Providers</strong> section, select <strong>Reset password using email address</strong>.</p>
+</li>
+<li><p>In the <strong>Return claim</strong> column, select the check boxes for <strong>Email Addresses</strong>, <strong>Given Name</strong>, <strong>Surname</strong>, and <strong>User's Object ID</strong>.</p>
+<p><img src="media/B2C_ForgetPassword_Attributes.png" alt="Claims selected"></p>
+</li>
+<li><p>Select <strong>OK</strong> to create the policy.</p>
+</li>
+<li><p>Double-click the new policy name, and then, in the navigation pane, select <strong>Properties</strong>.</p>
+</li>
+<li><p>Set the <strong>Enable JavaScript enforcing page layout (preview)</strong> option to <strong>On</strong>.</p>
+</li>
+</ol>
+<p>You will return to this policy to finish the setup after you've built the custom pages. For now, close the policy to return to the <strong>User flows (policies)</strong> page in the Azure portal.</p>
+<h2 id="build-the-custom-pages">Build the custom pages</h2>
+<p>To build the custom pages to handle user sign-ins, follow these steps.</p>
+<ol>
+<li><p>In the Commerce authoring tools, go to your site.</p>
+</li>
+<li><p>Build the following five templates and five pages:</p>
+<ul>
+<li>A <strong>Sign In</strong> template and page that use the sign in module.</li>
+<li>A <strong>Sign Up</strong> template and page that use the sign up module.</li>
+<li>A <strong>Password Reset</strong> template and page that use the password reset module.</li>
+<li>A <strong>Password Reset verification</strong> template and page that use the password reset verification module.</li>
+<li>A <strong>Profile Edit</strong> template and page that use the account profile edit module</li>
+</ul>
+</li>
+</ol>
+<p>When you build the pages, follow these guidelines:</p>
+<ul>
+<li>For each page or module, use the layout and style that best suit your business requirements.</li>
+<li>Publish all pages and URLs that must be used in the Azure AD B2C setup.</li>
+<li>After the pages and URLs are published, collect the URLs that must be used for the Azure AD B2C policy configurations. A <strong>?preloadscripts=true</strong> suffix will be added to every URL when it's used.</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Don't reuse universal headers and footers that have relative links. Because these pages will be hosted in the Azure AD B2C domain when they are used, only absolute URLs should be used for all links.</p>
+</div>
+<h2 id="configure-azure-ad-b2c-policies-with-custom-page-information">Configure Azure AD B2C policies with custom page information</h2>
+<p>In the Azure portal, return to the <strong>Azure AD B2C</strong> page, and then, on the menu, under <strong>Policies</strong>, select <strong>User flows (policies)</strong>.</p>
+<h3 id="update-the-sign-up-and-sign-in-policy-with-custom-page-information">Update the &quot;Sign up and sign in&quot; policy with custom page information</h3>
+<p>To update the &quot;Sign up and sign in&quot; policy with custom page information, follow these steps.</p>
+<ol>
+<li><p>In the <strong>Sign in and sign up</strong> policy that you configured earlier, in the navigation pane, select <strong>Page layouts</strong>.</p>
+</li>
+<li><p>Select the <strong>Unified sign up or sign in page</strong> layout.</p>
+</li>
+<li><p>Set the <strong>Use custom page content</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>In the <strong>Custom page URI</strong> field, enter the full sign-in URL. Include the <strong>?preloadscripts=true</strong> suffix. For example, enter <code>www.&lt;my domain&gt;.com/sign-in?preloadscripts=true</code>.</p>
+</li>
+<li><p>In the <strong>Page Layout Version (Preview)</strong> field, select <strong>1.2.0</strong>.</p>
+</li>
+<li><p>Select the <strong>Local account sign up page</strong> layout.</p>
+</li>
+<li><p>Set the <strong>Use custom page content</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>In the <strong>Custom page URI</strong> field, enter the full sign-up URL. Include the <strong>?preloadscripts=true</strong> suffix. For example, enter <code>www.&lt;my domain&gt;.com/sign-up?preloadscripts=true</code>.</p>
+</li>
+<li><p>In the <strong>Page Layout Version (Preview)</strong> field, select <strong>1.2.0</strong>.</p>
+</li>
+<li><p>In the <strong>User attributes</strong> section, follow these steps:</p>
+<ol>
+<li>For the <strong>Email Address</strong>, <strong>Given Name</strong>, and <strong>Surname</strong> attributes, select <strong>No</strong> in the <strong>Requires Verification</strong> field.</li>
+<li>For the <strong>Given Name</strong> and <strong>Surname</strong> attributes, select <strong>No</strong> in the <strong>Optional</strong> field.</li>
+</ol>
+<p><img src="media/B2C_SignUp_PageURLConfig.png" alt="Configuration of the Local account sign up page policy"></p>
+</li>
+</ol>
+<h3 id="update-the-profile-editing-policy-with-custom-page-information">Update the &quot;Profile editing&quot; policy with custom page information</h3>
+<p>To update the &quot;Profile editing&quot; policy with custom page information, follow these steps.</p>
+<ol>
+<li><p>In the <strong>Profile Editing</strong> policy that you configured earlier, in the navigation pane, select <strong>Page layouts</strong>.</p>
+</li>
+<li><p>Select the <strong>Profile edit page</strong> layout.</p>
+</li>
+<li><p>Set the <strong>Use custom page content</strong> option to <strong>Yes</strong>.</p>
+</li>
+<li><p>In the <strong>Custom page URI</strong> field, enter the full profile edit URL. Include the <strong>?preloadscripts=true</strong> suffix. For example, enter <code>www.&lt;my domain&gt;.com/profile-edit?preloadscripts=true</code>.</p>
+</li>
+<li><p>In the <strong>Page Layout Version (Preview)</strong> field, select <strong>1.2.0</strong>.</p>
+</li>
+<li><p>In the <strong>User attributes</strong> section, follow these steps:</p>
+<ol>
+<li>For the <strong>Email Address</strong>, <strong>Given Name</strong> attributes, select <strong>No</strong> in the <strong>Requires Verification</strong> field.</li>
+<li>For the <strong>Given Name</strong> and <strong>Surname</strong> attributes, select <strong>No</strong> in the <strong>Optional</strong> field.</li>
+</ol>
+</li>
+</ol>
+<h3 id="update-the-password-reset-policy-with-custom-page-information">Update the &quot;Password reset&quot; policy with custom page information</h3>
+<p>To update the &quot;Password reset&quot; policy with custom page information, follow these steps.</p>
+<ol>
+<li>In the <strong>Password Reset</strong> policy that you configured earlier, in the navigation pane, select <strong>Page layouts</strong>.</li>
+<li>Select the <strong>New password page</strong> layout.</li>
+<li>Set the <strong>Use custom page content</strong> option to <strong>Yes</strong>.</li>
+<li>In the <strong>Custom page URI</strong> field, enter the full password reset URL. Include the <strong>?preloadscripts=true</strong> suffix. For example, enter <code>www.&lt;my domain&gt;.com/passwordreset?preloadscripts=true</code>.</li>
+<li>In the <strong>Page Layout Version (Preview)</strong> field, select <strong>1.2.0</strong>.</li>
+<li>Select the <strong>Account verification page</strong> layout.</li>
+<li>Set the <strong>Use custom page content</strong> option to <strong>Yes</strong>.</li>
+<li>In the <strong>Custom page URI</strong> field, enter the full password reset verification URL. Include the <strong>?preloadscripts=true</strong> suffix. For example, enter <code>www.&lt;my domain&gt;.com/passwordreset-verification?preloadscripts=true</code>.</li>
+<li>In the <strong>Page Layout Version (Preview)</strong> field, select <strong>1.2.0</strong>.</li>
+</ol>
+<h2 id="customize-default-text-strings-for-labels-and-descriptions">Customize default text strings for labels and descriptions</h2>
+<p>In the module library, sign-in modules are prefilled with default text strings for the labels and descriptions. You can customize these strings in the software development kit (SDK) by updating the values in the global.json file for the sign in module.</p>
+<p>For example, the default text for the forgotten password link is <strong>Forgotten password?</strong>. The following shows this default text on the sign-in page.</p>
+<p><img src="media/B2C_SignUp_ModuleFace.png" alt="Default text for the forgotten password link on the sign-in page"></p>
+<p>However, in the global.json file for the module library sign-in module, you can edit the text to <strong>Forgot Password?</strong>, as shown in the following illustration.</p>
+<p><img src="media/B2C_CustomizingStringsForModule.png" alt="Updated link text in the sign in module's global.json file"></p>
+<p>After you update the global.json file and publish your changes, the new link text appears in the sign-in module in both Commerce and on the live sign-in page.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="configure-your-domain-name.html">Configure your domain name</a></p>
+<p><a href="deploy-ecommerce-site.html">Deploy a new e-commerce tenant</a></p>
+<p><a href="create-ecommerce-site.html">Create an e-commerce site</a></p>
+<p><a href="associate-site-online-store.html">Associate a Dynamics 365 Commerce site with an online channel</a></p>
+<p><a href="manage-robots-txt-files.html">Manage robots.txt files</a></p>
+<p><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/upload-bulk-redirects">Upload URL redirects in bulk (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<p><a href="set-up-B2C-tenant.html">Set up a B2C tenant in Commerce</a></p>
+<p><a href="configure-multi-B2C-tenants.html">Configure multiple B2C tenants in a Commerce environment</a></p>
+<p><a href="add-cdn-support.html">Add support for a content delivery network (CDN)</a></p>
+<p><a href="enable-store-detection.html">Enable location-based store detection</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/commerce/custom-pages-user-logins.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

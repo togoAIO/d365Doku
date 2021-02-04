@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Workflow FAQ | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Workflow FAQ | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="workflow-faq">Workflow FAQ</h1>
+
+
+<p>This topic answers frequently asked questions about the workflow system.</p>
+<h2 id="why-are-multiple-notifications-received-when-a-work-item-is-rejected">Why are multiple notifications received when a work item is rejected?</h2>
+<p>When a work item is rejected, that work item is completed as rejected. Another work item is created and assigned to the originator. This means that there is a notification to the originator for the rejected work item, and a separate notification to the user assigned to the new &quot;change requested&quot; work item.</p>
+<p>Each notification is for a different work item, but the similarity can cause confusion. We are looking at ways to improve this in a future release.</p>
+<h2 id="why-are-my-workflow-exports-failing">Why are my workflow exports failing?</h2>
+<p>There is currently a limitation in the workflow export feature that prevents workflow names from exceeding 48 characters. Using a name that is longer than 48 characters can result in a &quot;Server failed to authenticate the request&quot; error and/or prevent a file to be exported  without a file type. The following blog post provides more details, <a href="https://community.dynamics.com/ax/b/elandaxdynamicsaxupgradesanddevelopment/archive/2019/04/10/workflow-export-troubleshooting">Workflow export troubleshooting</a>.</p>
+<h2 id="can-the-submitter-of-a-workflow-also-approve-the-workflow">Can the submitter of a workflow also approve the workflow?</h2>
+<p>Yes, a submitter of a workflow can also approve the workflow if it is configured that way. To prevent this behavior, set <strong>System administration &gt; Workflow &gt; Workflow parameters &gt; General &gt; Approver &gt; Disallow approval by submitter</strong> to <strong>Yes</strong>.</p>
+<h2 id="can-i-add-alerts-to-workflows-to-provide-notifications-to-users">Can I add alerts to workflows to provide notifications to users?</h2>
+<p>Here are a few key areas to note about adding alerts to workflows to provide notifications:</p>
+<ul>
+<li>Alerts versus workflow notification mechanisms
+<ul>
+<li>Alerts can be set up for record changes. Workflows change records, so it's possible to set up an alert related to a record change caused by a workflow. However, because workflows have different built-in notification options, using alerts isn’t ideal.</li>
+</ul>
+</li>
+<li>Standard notifications from workflows
+<ul>
+<li>Workflows have built in email notifications. A customer can configure the notifications so that the users are sent emails. Those notifications don’t result in Action Center messages for users.</li>
+<li>In a future update we will be adding an Action Center message so a user is assigned a workflow work item.</li>
+</ul>
+</li>
+<li>Adding notifications to workflows
+<ul>
+<li>Action Center messages can be created for specific users, such as a message created from a workflow in X++.</li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/business-events/business-events-workflow">Workflows have business events</a> that the customer could use to trigger Flows have the notifications that they are looking for.</li>
+</ul>
+</li>
+</ul>
+<p>In summary, if a user does not get the proper notification from the Action Center when they are assigned a workflow work item, then leverage <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/business-events/business-events-workflow">Workflow business events</a> with Microsoft Power Automate to provide additional or different notifications.</p>
+<h2 id="why-is-workflow-editor-not-able-to-start-under-ad-fs">Why is workflow editor not able to start under AD FS?</h2>
+<p>When running under Active Directory Federation Services (AD FS) in an upgraded environment, the workflow editor may have trouble starting. If it does, make sure that the URL &quot;https://dynamicsaxworkfloweditor/&quot; is added to the property <strong>Microsoft Dynamics 365 for Operations On-premises - Workflow - Native application</strong> in the ADFS settings.</p>
+<h2 id="why-am-i-getting-sql-deadlocks-on-workflow-processing">Why am I getting SQL deadlocks on workflow processing?</h2>
+<p>The default field value for the <strong>Number of workflow items per batch</strong> on the <strong>Workflow parameters</strong> page is 0. A value of 0 causes the  default to change to 20 items per batch. Be careful when adjusting this value because a high number of items per batch (&gt; 40) can cause SQL deadlocks.</p>
+<h2 id="what-is-the-workflow-enhanced-error-feature">What is the Workflow Enhanced Error feature?</h2>
+<p>The Workflow Enhanced Error feature in version 10.0.13 adds error codes to differentiate different classes of workflow errors. The error messages reported will be mostly similar with minor differences to make them clearer.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

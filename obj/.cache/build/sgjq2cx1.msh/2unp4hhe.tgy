@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Master planning with demand forecasts | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Master planning with demand forecasts | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="master-planning-with-demand-forecasts">Master planning with demand forecasts</h1>
+
+
+<p>You can use a demand forecast together with Planning Optimization to account for expected demand in your master planning. You can manually create a demand forecast, import it, or generate it by using the demand forecasting functionality in Microsoft Dynamics 365 Supply Chain Management. For more information about demand forecasting, see <a href="../introduction-demand-forecasting.html">Demand forecasting overview</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Separate forecast planning isn't supported with Planning Optimization. Therefore, the <strong>Current forecast plan</strong> setting on the <strong>Master planning parameters</strong> page has no effect when you use Planning Optimization.</p>
+</div>
+<h2 id="set-up-a-master-plan-to-include-a-demand-forecast">Set up a master plan to include a demand forecast</h2>
+<p>To configure a master plan so that it includes a demand forecast, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Master planning &gt; Setup &gt; Plans &gt; Master plans</strong>.</p>
+</li>
+<li><p>Select an existing plan, or create a new plan.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following fields:</p>
+<ul>
+<li><strong>Forecast model</strong> – Select the forecast model to apply. This model will be considered when a supply suggestion is generated for the current master plan.</li>
+<li><strong>Include demand forecast</strong> – Set this option to <em>Yes</em> to include the demand forecast in the current master plan. If you set it to <em>No</em>, demand forecast transactions won't be included in the master plan.</li>
+<li><strong>Method used to reduce forecast requirements</strong> – Select the method that should be used to reduce forecast requirements. For more information, see the <a href="#reduction-keys">Forecast reduction keys</a> section later in this topic.</li>
+</ul>
+</li>
+<li><p>On the <strong>Time fence in days</strong> FastTab, you can set the following fields to specify the period that the demand forecast is included during:</p>
+<ul>
+<li><strong>Forecast plan</strong> – Set this option to <em>Yes</em> to override the forecast plan time fence that originates from the individual coverage groups. Set it to <em>No</em> to use the values from the individual coverage groups for the current master plan.</li>
+<li><strong>Forecast time period</strong> – If you set the <strong>Forecast plan</strong> option to <em>Yes</em>, specify the number of days (from today's date) that the demand forecast should be applied.</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The <strong>Forecast plan</strong> setting isn't yet supported with Planning Optimization.</p>
+</div>
+</li>
+</ol>
+<h2 id="set-up-a-coverage-group-to-include-a-demand-forecast">Set up a coverage group to include a demand forecast</h2>
+<p>To configure a coverage group so that it includes a demand forecast, follow these steps.</p>
+<ol>
+<li><p>Go to <strong>Master planning &gt; Setup &gt; Plans &gt; Coverage groups</strong>.</p>
+</li>
+<li><p>Select an existing coverage group, or create a new group.</p>
+</li>
+<li><p>On the <strong>Other</strong> FastTab, set the following fields:</p>
+<ul>
+<li><p><strong>Forecast plan time fence</strong> – Enter the number of days (from today's date) that the demand forecast should be applied for. This value can be overridden by using the <strong>Forecast plan</strong> option on the master plan, as described in the previous section.</p>
+</li>
+<li><p><strong>Reduction key</strong> – Select the reduction key to apply. For more information, see the <a href="#create-reduction-key">Create and set up a forecast reduction key</a> and <a href="#use-reduction-key">Use a reduction key</a> sections later in this topic.</p>
+</li>
+<li><p><strong>Reduce forecast by</strong> – For master plans where the <strong>Method used to reduce forecast requirements</strong> field is set to <em>Transactions - reduction key</em> or <em>Transactions - dynamic period</em>, specify which transactions should reduce the forecast. Select one of the following values:</p>
+<ul>
+<li><strong>All transactions</strong> – All transactions should reduce the forecast.</li>
+<li><strong>Orders</strong> – Only sales orders should reduce the forecast.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you select <em>All transactions</em>, transactions that have both demand and supply in the same inventory dimensions are considered neutral and are ignored during the forecast reduction. For example, if the planning dimension is set to site only, not warehouse, a transfer order between site 1, warehouse 11, and site 1, warehouse 13, will be ignored and won't reduce the remaining demand forecast.</p>
+</div>
+</li>
+<li><p><strong>Include intercompany orders</strong> – Set this option to <em>Yes</em> if intercompany orders should be included when the forecast is reduced. Otherwise, set it to <em>No</em>.</p>
+</li>
+<li><p><strong>Include customer forecast in the demand forecast</strong> – Specify whether a customer forecast should be included in the overall forecast. This option determines how actual demand reduces the forecasted demand. You can use it to ensure that master planning covers the supply of items that are purchased by specific customers.</p>
+<ul>
+<li>Set this option to <em>Yes</em> to include a customer forecast in the overall forecast. In this case, actual customer demand reduces both the customer forecast and the overall forecast. Master planning generates planned orders to cover only the overall forecast quantity.</li>
+<li>Set this option to <em>No</em> if you don't want to include a customer forecast in the overall forecast. In this case, actual customer demand reduces only the customer forecast. Master planning generates planned orders to cover both the overall forecast quantity and the forecast for each customer quantity.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="reduction-keys">Forecast reduction keys</h2>
+<p>This section provides information about the different methods that are used to reduce forecast requirements. It includes examples of the results of each method. It also explains how to create, set up, and use a forecast reduction key. Some methods use a forecast reduction key to reduce forecast requirements.</p>
+<h3 id="methods-that-are-used-to-reduce-forecast-requirements">Methods that are used to reduce forecast requirements</h3>
+<p>When you include a forecast in a master plan, you can select how the forecast requirements are reduced when actual demand is included. Note that master planning excludes forecast requirements from the past, which means all forecast requirements before today's date.</p>
+<p>To include a forecast in a master plan and select the method that is used to reduce forecast requirements, go to <strong>Master planning &gt; Setup &gt; Plans &gt; Master plans</strong>. In the <strong>Forecast model</strong> field, select a forecast model. In the <strong>Method used to reduce forecast requirements</strong> field, select a method. The following options are available:</p>
+<ul>
+<li>None</li>
+<li>Percent – reduction key</li>
+<li>Transactions – reduction key (not yet supported with Planning Optimization)</li>
+<li>Transactions – dynamic period</li>
+</ul>
+<p>The following sections provide more information about each option.</p>
+<h4 id="none">None</h4>
+<p>If you select <strong>None</strong>, the forecast requirements aren't reduced during master scheduling. In this case, master planning creates planned orders to supply the forecasted demand (forecast requirements). These planned orders maintain the suggested quantity, regardless of other types of demand. For example, if sales orders are placed, master planning creates additional planned orders to supply the sales orders. The quantity of the forecast requirements isn't reduced.</p>
+<h4 id="percent--reduction-key">Percent – reduction key</h4>
+<p>If you select <strong>Percent - reduction key</strong>, the forecast requirements are reduced according to the percentages and periods that are defined by the reduction key. In this case, master planning creates planned orders where the quantity is calculated as forecasted quantity × reduction key in each period. If there are other types of demand, master planning also creates planned orders to supply that demand.</p>
+<h5 id="example-percent--reduction-key">Example: Percent – reduction key</h5>
+<p>This example shows how a reduction key reduces demand forecast requirements according to the percentages and periods that are defined by the reduction key.</p>
+<p>For this example, you include the following demand forecast in a master plan.</p>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Demand forecast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>February</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>March</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>April</td>
+<td>1,000</td>
+</tr>
+</tbody>
+</table>
+<p>On the <strong>Reduction keys</strong> page, you set up the following lines.</p>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Unit</th>
+<th>Percent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Month</td>
+<td>100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Month</td>
+<td>75</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Month</td>
+<td>50</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Month</td>
+<td>25</td>
+</tr>
+</tbody>
+</table>
+<p>You assign the reduction key to the item's coverage group. Then, on the <strong>Master plans</strong> page, in the <strong>Method used to reduce forecast requirements</strong> field, you select <strong>Percent - reduction key</strong>.</p>
+<p>In this case, if you run forecast scheduling on January 1, the demand forecast requirements are consumed according to the percentages that you set up on the <strong>Reduction keys</strong> page. The following requirement quantities are transferred to the master plan.</p>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Planned order quantity</th>
+<th>Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January</td>
+<td>0</td>
+<td>= 0% × 1,000</td>
+</tr>
+<tr>
+<td>February</td>
+<td>250</td>
+<td>= 25% × 1,000</td>
+</tr>
+<tr>
+<td>March</td>
+<td>500</td>
+<td>= 50% × 1,000</td>
+</tr>
+<tr>
+<td>April</td>
+<td>750</td>
+<td>= 75% × 1,000</td>
+</tr>
+<tr>
+<td>May through December</td>
+<td>1,000</td>
+<td>= 100% × 1,000</td>
+</tr>
+</tbody>
+</table>
+<h4 id="transactions--reduction-key">Transactions – reduction key</h4>
+<p>If you select <strong>Transactions - reduction key</strong>, the forecast requirements are reduced by the transactions that occur during the periods that are defined by the reduction key.</p>
+<h5 id="example-transactions--reduction-key">Example: Transactions – reduction key</h5>
+<p>This example shows how actual orders that occur during the periods that are defined by the reduction key reduce demand forecast requirements.</p>
+<p>For this example, you select <strong>Transactions - reduction key</strong> in the <strong>Method used to reduce forecast requirements</strong> field on the <strong>Master plans</strong> page.</p>
+<p>The following sales orders exist on January 1.</p>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Number of pieces ordered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January</td>
+<td>956</td>
+</tr>
+<tr>
+<td>February</td>
+<td>1,176</td>
+</tr>
+<tr>
+<td>March</td>
+<td>451</td>
+</tr>
+<tr>
+<td>April</td>
+<td>119</td>
+</tr>
+</tbody>
+</table>
+<p>If you use the same demand forecast of 1,000 pieces per month that was used in the previous example, the following requirement quantities are transferred to the master plan.</p>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Number of pieces required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January</td>
+<td>44</td>
+</tr>
+<tr>
+<td>February</td>
+<td>0</td>
+</tr>
+<tr>
+<td>March</td>
+<td>549</td>
+</tr>
+<tr>
+<td>April</td>
+<td>881</td>
+</tr>
+<tr>
+<td>May through December</td>
+<td>1,000</td>
+</tr>
+</tbody>
+</table>
+<h4 id="transactions--dynamic-period">Transactions – dynamic period</h4>
+<p>If you select <strong>Transactions - dynamic period</strong>, the forecast requirements are reduced by the actual order transactions that occur during the dynamic period. The dynamic period covers the current forecast dates and ends at the start of the next forecast. In this case, master planning creates planned orders to supply the forecasted demand (forecast requirements). However, when actual order transactions are placed, the forecast requirements are reduced. The actual transactions consume part of the forecasted requirements.</p>
+<p>When this option is used, the following behavior occurs:</p>
+<ul>
+<li>Reduction keys aren't required or used.</li>
+<li>If the forecast is completely reduced, the forecast requirements for the current forecast become 0 (zero).</li>
+<li>If there is no future forecast, forecast requirements from the last forecast that was entered are reduced.</li>
+<li>Time fences are included in the forecast reduction calculation.</li>
+<li>Positive days are included in the forecast reduction calculation.</li>
+<li>If actual order transactions exceed the forecasted requirements, the remaining transactions aren't forwarded to the next forecast period.</li>
+</ul>
+<h5 id="example-1-transactions--dynamic-period">Example 1: Transactions – dynamic period</h5>
+<p>Here a simple example that shows how the <strong>Transactions - dynamic period</strong> method works.</p>
+<p>For this example, you include the following demand forecast in a master plan.</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Demand forecast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 1</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>February 1</td>
+<td>1,000</td>
+</tr>
+</tbody>
+</table>
+<p>You also create the following sales orders.</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Sales order quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 15</td>
+<td>200</td>
+</tr>
+<tr>
+<td>February 15</td>
+<td>400</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, the following planned orders are created.</p>
+<table>
+<thead>
+<tr>
+<th>Demand forecast date</th>
+<th>Quantity</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 1</td>
+<td>800</td>
+<td>Forecast requirements (= 1,000 – 200)</td>
+</tr>
+<tr>
+<td>January 15</td>
+<td>200</td>
+<td>Sales orders requirements</td>
+</tr>
+<tr>
+<td>February 1</td>
+<td>600</td>
+<td>Forecast requirements (= 1,000 – 400)</td>
+</tr>
+<tr>
+<td>February 15</td>
+<td>400</td>
+<td>Sales orders requirements</td>
+</tr>
+</tbody>
+</table>
+<h5 id="example-2-transactions--dynamic-period">Example 2: Transactions – dynamic period</h5>
+<p>In most cases, systems are set up so that transactions reduce demand forecast in specific forecast periods: weeks, months, and so on. These periods are defined in the reduction key. However, the time between two demand forecast lines can also <em>imply</em> a period.</p>
+<p>For this example, you create a demand forecast for the following dates and quantities.</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Demand forecast</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>January 1</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>January 5</td>
+<td>500</td>
+</tr>
+<tr>
+<td>January 12</td>
+<td>1,000</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that, in this forecast, there isn't a clear period between the forecast dates. Between the first and second dates there is a four-day span, and between the second and third dates there is a seven-day span. These spans are the dynamic periods.</p>
+<p>You also create the following sales order lines.</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Sales order quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>December 15 in the previous year</td>
+<td>500</td>
+</tr>
+<tr>
+<td>January 3</td>
+<td>100</td>
+</tr>
+<tr>
+<td>January 10</td>
+<td>200</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, the forecast is reduced in the following manner:</p>
+<ul>
+<li>Because the first sales order isn't in any period, it doesn't reduce any forecast.</li>
+<li>Because the second sales order is between January 1 and January 5, it reduces the forecast for January 1 by 100.</li>
+<li>Because the third sales order is between January 5 and January 12, it reduces the forecast for January 5 by 200.</li>
+</ul>
+<p>Therefore, the following planned orders are created.</p>
+<table>
+<thead>
+<tr>
+<th>Demand forecast date</th>
+<th>Quantity</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>December 15 in the previous year</td>
+<td>500</td>
+<td>Sales order requirements</td>
+</tr>
+<tr>
+<td>January 1</td>
+<td>900</td>
+<td>Forecast requirements period January 1 to January 5 (= 1,000 – 100)</td>
+</tr>
+<tr>
+<td>January 3</td>
+<td>100</td>
+<td>Sales order requirements</td>
+</tr>
+<tr>
+<td>January 5</td>
+<td>300</td>
+<td>Forecast requirements period January 5 to January 10 (= 500 – 200)</td>
+</tr>
+<tr>
+<td>January 12</td>
+<td>1,000</td>
+<td>Forecast requirements period January 12 to end</td>
+</tr>
+</tbody>
+</table>
+<h3 id="create-reduction-key">Create and set up a forecast reduction key</h3>
+<p>A forecast reduction key is used in the <strong>Transactions - reduction key</strong> and <strong>Percent- reduction key</strong> methods for reducing forecast requirements. Follow these steps to create and set up a reduction key.</p>
+<ol>
+<li><p>Go to <strong>Master planning &gt; Setup &gt; Coverage &gt; Reduction keys</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> or press <strong>Ctrl+N</strong> to create a reduction key.</p>
+</li>
+<li><p>In the <strong>Reduction key</strong> field, enter a unique identifier for the forecast reduction key. Then, in the <strong>Name</strong> field, enter a name.</p>
+</li>
+<li><p>Define the periods and the reduction key percentage in each period:</p>
+<ul>
+<li>The <strong>Effective date</strong> field indicates the date when creation of the periods starts. When the <strong>Use the effective date</strong> option is set to <strong>Yes</strong>, the periods start on the effective date. When it's set to <strong>No</strong>, the periods start on the date when master planning is run.</li>
+<li>Define the periods that the forecast reduction should occur during.</li>
+<li>For a specific period, specify the percentages that the forecast requirements should be reduced by. You can enter positive values to decrease requirements or negative values to increase requirements.</li>
+</ul>
+</li>
+</ol>
+<h3 id="use-reduction-key">Use a reduction key</h3>
+<p>A forecast reduction key must be assigned to the coverage group of the item. Follow these steps to assign a reduction key to an item's coverage group.</p>
+<ol>
+<li><p>Go to <strong>Master planning &gt; Setup &gt; Coverage &gt; Coverage groups</strong>.</p>
+</li>
+<li><p>On the <strong>Other</strong> FastTab, in the <strong>Reduction key</strong> field, select the reduction key to assign to the coverage group. The reduction key then applies to all items that belong to the coverage group.</p>
+</li>
+<li><p>To use a reduction key to calculate forecast reduction during master scheduling, you must define this setting in the setup of the forecast plan or the master plan. Go to one of the following locations:</p>
+<ul>
+<li>Master planning &gt; Setup &gt; Plans &gt; Forecast plans</li>
+<li>Master planning &gt; Setup &gt; Plans &gt; Master plans</li>
+</ul>
+</li>
+<li><p>On the <strong>Forecast plans</strong> or <strong>Master plans</strong> page, on the <strong>General</strong> FastTab, in the <strong>Method used to reduce forecast requirements</strong> field, select either <strong>Percent - reduction key</strong> or <strong>Transactions - reduction key</strong>.</p>
+</li>
+</ol>
+<h3 id="reduce-a-forecast-by-transactions">Reduce a forecast by transactions</h3>
+<p>When you select <strong>Transactions - reduction key</strong> or <strong>Transactions - dynamic period</strong> as the method for reducing forecast requirements, you can specify which transactions reduce the forecast. On the <strong>Coverage groups</strong> page, on the <strong>Other</strong> FastTab, in the <strong>Reduce forecast by</strong> field, select <strong>All transactions</strong> if all transactions should reduce the forecast or <strong>Orders</strong> if only sales orders should reduce the forecast.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

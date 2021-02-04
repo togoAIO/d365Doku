@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Beispiel der Steuerregistrierungsserviceintegration f&#252;r &#214;sterreich | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Beispiel der Steuerregistrierungsserviceintegration f&#252;r &#214;sterreich | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="fiscal-registration-service-integration-sample-for-austria" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="27">Integrationsbeispiel für Steuererfassungsdienst für Österreich</h1>
+
+<div class="IMPORTANT" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/" sourcefile="articles_de/commerce/includes/banner.md" sourcestartlinenumber="2">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+<h2 id="introduction" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="31">Einführung</h2>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="33">Um die lokalen steuerlichen Anforderungen für Kassen in Österreich zu erfüllen, umfassen die Dynamics 365 Retail-Funktionen für Österreich eine Beispielintegration der Verkaufsstelle (POS) in einen externen Steuerregistrierungsservice. Das Beispiel erweitert die <a href="fiscal-integration-for-retail-channel.html" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="33">steuerliche Integrationsfunktionen</a>. Es basiert auf der <a href="https://www.efsta.eu/at/fiskalloesungen/oesterreich" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="33">EFR (Electronisches Fiskalregister)</a>-Lösung von <a href="https://www.efsta.eu/at/" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="33">EFSTA</a> und ermöglicht die Kommunikation mit dem EFR-Service über das HTTPS-Protokoll. Der EFR-Dienst sollte entweder in der Retail Hardware station oder auf einem separaten Computer gehostet werden, zu dem von der Hardare station aus eine Verbindung hergestellt werden kann. Das Beispiel wird in der Form eines Quellcodes bereitgestellt und ist Teil des Retail Software Development Kit (SDK).</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="35">Microsoft gibt keine Hardware, Software oder Dokumentation von EFSTA aus frei. Um Informationen darüber zu erhalten, wie Sie die EFR-Lösung beziehen und betreiben, wenden Sie sich an <a href="https://www.efsta.eu/at/kontakt" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="35">EFSTA</a>.</p>
+<h2 id="scenarios" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="38">Szenarien</h2>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="40">Die folgenden Szenarien werden im Beispiel für die Integration des Steuerregistrierungsservice für Österreich abgedeckt:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="42">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="42"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="42">Registrierung der Bargeldbuchungen im Steuererfassungsdienst:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="44">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="44">Senden Sie detaillierte Buchungsdaten zum Steuererfassungsdienst. Diese Daten beinhalten Informationen zu Verkaufspositionen sowie Informationen über Rabatte, Zahlungen und Steuern.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="45">Erfassen Sie eine Antwort vom Steuererfassungsdienst. Diese Antwort beinhaltet eine digitale Signatur und einen Link zur erfassten Buchung.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="46">Erfassen Sie Steuern und ordnen Sie diese den Steuercodes des Erfassungsdiensts zu.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="47">Drucken Sie den QR-Code für eine erfasste Buchung auf den Beleg.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="49"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="49">Die Erfassung von Geschenkkartenvorgängen und Debitoreneinzahlungen als Sachbuchungen im Steuererfassungsdienst.</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="51">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="51">Stellen Sie eine Geschenkkarte aus oder laden Sie sie mit Geld auf.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="52">Erfassen Sie eine Debitorenkonto-Einzahlung.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="53">Erfassen Sie eine Debitorenauftragseinzahlung.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="55"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="55">Die Erfassung von Sachbuchungen und Ereignissen im Steuererfassungsdienst:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="57">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="57">Schlicht öffnen und Schicht schließen</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="58">Anfangsbetrag, Bareinlage und Zahlungsmittelentfernung</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="59">Preisüberschreibung</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="60">MwSt.-Überschreibung</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="61">Belegkopie drucken</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="62">Kassenlade öffnen</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="63">X-Bericht drucken</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="64">Z-Bericht drucken</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="66"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="66">Drucken von Tagesendabrechnungen (X/Z-Berichte) die spezifische Felder für Österreich enthalten:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="68">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="68">Gesamtanzahl von Produkten oder Dienstleistungen, die an Debitoren geliefert wurden</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="69">Aufschlüsselung von Verkäufen nach Steuersatz</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="70">Aufschlüsselung von Zahlungen nach Kassierer-/Kassenoperator</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="71">Preisrabatte und Retouren, die Tagesumsatz verringern</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="72">Nullverkäufe (Geschenke)</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="74"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="74">Fehlerbehebung, wie beispielsweise die folgenden Optionen:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="76">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="76">Versuchen Sie die Steuererfassung erneut, falls ein Neuversuch möglich ist, wie z. B. wenn der Steuererfassungsdienst nicht verfügbar ist, nicht bereit ist oder nicht reagiert.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="77">Verschieben Sie die Steuererfassung.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="78">Überspringen Sie Steuererfassung, oder markieren Sie die Buchung als erfasst, und schließen Sie Infocodes ein, um den Grund für den Fehler und zusätzliche Informationen zu erfassen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="79">Überprüfen Sie die Verfügbarkeit des Steuererfassungsdiensts, bevor eine neue Verkaufsbuchung geöffnet wird oder eine Verkaufsbuchung abgeschlossen wird.</li>
+</ul>
+</li>
+</ul>
+<h3 id="default-data-mapping" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="81">Standarddatenzuordnung</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="83">Die folgende Standarddatenzuordnung ist in der Steuerbeleganbieter-Konfiguration enthalten, die als Teil des Steuerintegrationsbeispiels bereitgestellt wird:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="85">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="85"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="85">Mehrwertsteuer-(MwSt.)-Satzzuordnung:</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="87"><em sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="87">A: 20,00; B: 10,00; C: 13,00; D: 0,00; E: 19,00; F: 7,00</em></p>
+</li>
+</ul>
+<h3 id="gift-cards" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="89">Geschenkkarten</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="91">Das Steuererfassungsdienst-Integrationsbeispiel implementiert die folgenden Regeln bezüglich Geschenkkarten:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="93">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="93">Schließen Sie Verkaufspositionen aus, die sich auf die Vorgänge <em sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="93">Geschenkkarte ausstellen</em> und <em sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="93">Zu Geschenkkarte hinzufügen</em> aus einer Bargeldbuchung beziehen. Anstatt diese Positionen als Teil einer Bargeldbuchung zu erfassen, erfassen Sie sie als getrennte Sachbuchung im Steuererfassungsdienst.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="94">Drucken Sie keine Steuergruppenaufschlüsselung und keinen QR-Code auf einen Beleg, wenn der Beleg nur aus Geschenkkartenpositionen besteht.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="95">Drucken Sie den Gesamtbetrag von Geschenkkarten, die in einer Buchung getrennt vom Bargeldbuchungsbetrag auf dem Beleg ausgestellt oder erneut belastet wurden.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="96">Speichern Sie berechnete Zahlungsregulierungspositionen in der Kanaldatenbank mit einem Verweis auf eine entsprechende Steuerbuchung.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="97">Zahlung per Geschenkkarte wird als eine normale Zahlung betrachtet.</li>
+</ul>
+<h3 id="customer-deposits-and-customer-order-deposits" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="99">Debitoreneinzahlungen und Debitorenauftragseinzahlungen</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="101">Das Integrationsbeispiel des Steuererfassungsdiensts implementiert die folgenden Regeln in Bezug auf Debitoreneinzahlungen und Debitorenauftragseinzahlungen:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="103">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="103">Erfassen Sie eine Sachbuchung, wenn eine Buchung eine Debitoreneinzahlung ist.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="104">Erfassen Sie eine Bargeldbuchung, wenn eine Buchung nur eine Debitorenauftragseinzalung oder eine Debitoren-Auftragseinzahlungsrückerstattung enthält.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="105">Ziehen Sie den Debitorenauftragseinzahlungsbetrag von den Zahlungspositionen ab, wenn ein hybrider Kundenauftrag erstellt wird.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="106">Speichern Sie berechnete Zahlungsregulierungspositionen in der Kanaldatenbank mit einem Verweis auf eine Steuerbuchung für einen hybriden Debitorenauftrag.</li>
+</ul>
+<h3 id="limitations-of-the-sample" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="108">Einschränkungen des Beispiels</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="110">Der Steuererfassungsdienst unterstützt nur Szenarien, bei denen die Mehrwertsteuer im Preis enthalten ist. Daher muss die Option <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="110">Preis in Mehrwertsteuer enthalten</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="110">Ja</strong> sowohl für Geschäfte als auch Debitoren festgelegt werden.</p>
+<h2 id="set-up-commerce-for-austria" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="112">Commerce für Österreich einrichten</h2>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="114">In diesem Abschnitt werden die Commerce-Einstellungen beschrieben, die für Österreich spezifisch und empfohlen sind. Weitere Informationen zum Einrichten finden Sie unter <a href="../index.html" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="114">Commerce-Homepage</a>.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="116">Um die Österreich-spezifischen Funktionen zu verwenden, müssen Sie die folgenden Einstellungen angeben:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="118">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="118">Legen Sie in der primären Adresse der juristischen Person das Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="118">Land/Region</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="118">AUT</strong> (Österreich) fest.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="119">Legen Sie im POS-Funktionsprofil jedes einzelnen Einzelhandelsgeschäfts in Österreich das Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="119">ISO-Code</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="119">AT</strong> (Österreich) fest.</li>
+</ul>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="121">Sie müssen auch die folgenden Einstellungen für Österreich angeben. Beachten Sie, dass Sie entsprechende Verteilungseinzelvorgänge ausführen müssen, nachdem Sie die Einrichtung abschließen.</p>
+<h3 id="set-up-vat-per-austrian-requirements" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="123">MwSt. nach österreichischen Anforderungen einrichten</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="126">Sie müssen Mehrwertsteuercodes, Mehrwertsteuergruppen und Artikel-Mehrwertsteuergruppen erstellen. Sie müssen auch Mehrwertsteuerinformationen für Produkte und Dienstleistungen einrichten. Weitere Informationen dazu, wie die Mehrwertsteuer in eingerichtet und verwendet wird, finden Sie unter <a href="../../financials/general-ledger/indirect-taxes-overview.md" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="126">Mehrwertsteuerüberblick</a>.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="129">Auf Verkaufsbelegen können Sie einen abgekürzten Code für einen Mehrwertsteuercode drucken (beispielsweise „A“ oder „B”). Um diese Funktionalität verfügbar zu machen, legen Sie das Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="129">Code drucken</strong> auf der Seite <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="129">Mehrwertsteuercodes</strong> fest.</p>
+<h3 id="set-up-stores" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="131">Shops einrichten</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="133">Aktualisieren Sie auf der Seite <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="133">Alle Geschäfte</strong> die Details der Geschäfte. Legen Sie genauer die folgenden Parameter fest:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="135">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="135">Geben Sie im Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="135">Mehrwertsteuergruppe</strong> die Mehrwertsteuergruppe an, die für Verkäufe an den Standarddebitoren verwendet werden soll.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="136">Legen Sie die Option <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="136">Preis enthält Mehrwertsteuersatz</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="136">Ja</strong> fest.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="137">Legen Sie das Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="137">Name</strong> auf den Unternehmensnamen fest. Durch diese Änderung wird sichergestellt, dass der Unternehmensname auf dem Verkaufsbeleg erscheint. Alternativ können Sie den Unternehmensnamen im Verkaufsbeleglayout als Freiformtext hinzufügen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="138">Legen Sie das Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="138">Steuernummer (TIN)</strong> auf die Unternehmenskennnummer fest. Durch diese Änderung wird sichergestellt, dass die Identifikationsnummer auf dem Verkaufsbeleg erscheint. Alternativ können Sie Unternehmenskennnummer dem Verkaufsbeleglayout als Freiformtext hinzufügen.</li>
+</ul>
+<h3 id="set-up-functionality-profiles" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="140">Einrichten von Funktionsprofilen</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="142">POS-Funktionsprofile einrichten:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">Richten Sie im Inforegister <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">Belegnummerierung</strong> die Belegnummerierung ein, indem Sie Datensätzen für die Belegbuchungstypen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">Verkauf</strong>, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">Auftrag</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="144">Retoure</strong> erstellen oder aktualisieren.</li>
+</ul>
+<h3 id="configure-custom-fields-so-that-they-can-be-used-in-receipt-formats-for-sales-receipts" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="146">Konfigurieren Sie benutzerdefinierte Felder, damit sie in Belegformate für Verkaufsbelege verwendet werden können</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="148">Sie können den Sprachtext und die benutzerdefinierten Felder konfigurieren, die in den POS-Belegformaten verwendet werden. Das Standardunternehmen des Benutzers, der die Boneinrichtung erstellt, sollte die gleiche juristische Person sein, in dem die Sprachtexteinstellung erstellt wird. Alternativ sollten dieselben Sprachtexte im Standardunternehmen des Benutzers und in der juristischen Person des Shops verwendet werden, für den das Setup erstellt wird.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Fügen Sie auf der Seite <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Sprachentext</strong> die folgenden Datensätze für die Beschriftungen der benutzerdefinierten Felder für Bonlayouts hinzu. Beachten Sie, dass <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Sprachen-ID</strong>, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Text-ID</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Text</strong>-Werte, die in der Tabelle angezeigt werden, nur Beispiele sind. Sie können sie ändern, damit sie Ihre Anforderungen erfüllen. Allerdings müssen die <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="150">Text-ID</strong>-Werte, die Sie verwenden, eindeutig sein und gleich oder größer als 900001 sein.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="152">Fügen Sie dem Abschnitt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="152">POS</strong> des <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="152">Sprachentext</strong> aus der Tabelle die folgenden POS-Beschriftungen hinzu:</p>
+<table sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="154">
+<thead>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="154">
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="154">Sprachkennung</th>
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="154">Textkennung</th>
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="154">Text</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="156">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="156">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="156">900001</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="156">QR-Code</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">900002</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="157">Forlaufende Nummer</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="158">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="158">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="158">900003</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="158">Einzelhandelsdruckcode für Steuer</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">900004</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="159">Gesamt (Umsatz)</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">900005</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="160">Gesamte Steuern (Umsatz)</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">900006</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="161">Gesamte enthaltene Steuern (Umsatz)</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">900007</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="162">Steuerbetrag (Umsatz)</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">en-US</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">900008</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="163">Steuergrundlage (Umsatz)</td>
+</tr>
+</tbody>
+</table>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Fügen Sie auf der Seite <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Benutzerdefinierte Felder</strong> die folgenden Datensätze für die benutzerdefinierten Felder für Bonlayouts hinzu. Beachten Sie, dass die Werte für <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Textkennung Titel</strong> den Werten <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Textkennung</strong> entsprechen müssen, die Sie auf der Seite <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="165">Sprachentext</strong> angegeben haben:</p>
+<table sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="167">
+<thead>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="167">
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="167">Name</th>
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="167">Typ</th>
+<th sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="167">Textkennung Titel</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="169">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="169">QRCODE</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="169">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="169">900001</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">CONTINUOUSNUMBER</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="170">900002</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="171">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="171">RETAILPRINTCODE</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="171">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="171">900003</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">SALESTOTAL</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="172">900004</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">SALESTOTALTAX</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="173">900005</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">SALESTOTALINCLUDETAX</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="174">900006</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">SALESTAXAMOUNT</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="175">900007</td>
+</tr>
+<tr sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">SALESTAXBASIS</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">Zugang</td>
+<td sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="176">900008</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configure-receipt-formats" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="178">Bonformate konfigurieren</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="180">Ändern Sie für jedes erforderliche Belegformat den Wert des Felds <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="180">Druckverhalten</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="180">Immer drucken</strong>.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="182">In Designer für Bonformat fügen Sie die folgenden benutzerdefinierten Felder den entsprechenden Bonabschnitten hinzu. Beachten Sie, dass die Feldnamen den Sprachtexten entsprechen, die Sie im vorherigen Abschnitt definiert haben.</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="184">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="184"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="184"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="184">Kopfzeile:</strong> Fügen Sie die folgenden Felder hinzu:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="186">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="186">Die Felder <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="186">Shopname</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="186">Steueridentifikationsnummer</strong>, die zum Drucken des Unternehmensnamens und der Identitätsnummer auf Belegen verwendet werden. Alternativ können Sie den Unternehmensnamen und die Identitätsnummer im Layout als Freiformtext hinzufügen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Shopadresse</strong>, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Datum</strong>, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Zeit 24 h</strong>, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Bonnummer</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="187">Registernummer</strong></li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="188">Felder <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="188">Fortlaufende Zahl</strong>, um die Nummer der Bargeldbuchungen im Steuererfassungsdienst zu identifizieren.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="190">Positionen:</strong> Fügen Sie die folgenden Felder hinzu:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="192">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="192"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="192">Artikelname</strong>.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="193"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="193">Menge</strong>.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="194"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="194">Gesamtpreis mit USt.</strong>.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="195"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="195">Steuereinzelhandels-Druckcode</strong>, der verwendet wird, um den abgekürzten Code zu drucken, der dem Mehrwertsteuercode entspricht, der für den Artikel gilt.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="197"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="197"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="197">Fußzeile:</strong> Fügen Sie die folgenden Felder hinzu:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="199">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="199"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="199">Ändern Sie die Zahlungsfelder, damit die Zahlungsbeträge für jede Zahlungsmethode gedruckt werden. Beispiel: Fügen Sie die Felder <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="199">Name des Zahlungsmittels</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="199">Betrag des Zahlungsmittels</strong> einer Position des Layouts hinzu.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="200">Verkaufssumme</strong>-Feldgruppe:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="202">Summe (Verkauf)</strong>, das verwendet wird, um den Gesamt-Barverkaufsbetrag des Belegs zu drucken. Der Betrag enthält keine Steuer. Vorauszahlungen und Geschenkkartenvorgänge werden ausgeschlossen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="203">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="203">Summe einschließlich Steuer (Verkauf)</strong>, das verwendet wird, um den Gesamt-Barverkaufsbetrag des Belegs zu drucken. Der Betrag enthält Steuer. Vorauszahlungen und Geschenkkartenvorgänge werden ausgeschlossen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="204">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="204">Gesamtsteuer (Verkauf)</strong>, das verwendet wird, um den Gesamtsteuerbetrag für Barverkäufe des Belegs zu drucken. Vorauszahlungen und Geschenkkartenvorgänge werden ausgeschlossen.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="206"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="206"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="206">Steueraufschlüsselung</strong>-Feldgruppe. Die Felder in dieser Feldgruppe müssen in einer separaten Position gedruckt werden.</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="208">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="208">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="208">Steuerkennung</strong>, das ein Standardfeld ist, das den Druck einer Mehrwertsteuerzusammenfassung für jeden Mehrwertsteuercode aktiviert. Das Feld muss einer neuen Position hinzugefügt werden.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="209"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="209">Steuerprozentsatz</strong>-Feld, das ein Standardfeld ist, das zum Drucken des tatsächlichen Steuersatzes für den Mehrwertsteuercode verwendet wird.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="210">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="210">Steuerbasis (Verkauf)</strong>, das verwendet wird, um den Gesamtbarverkaufsbetrag für den Mehrwertsteuercode des Belegs zu drucken. Vorauszahlungen und Geschenkkartenvorgänge werden ausgeschlossen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="211">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="211">Steuerbetrag (Verkauf)</strong>, das verwendet wird, um den Steuerbetrag für Barverkäufe des Belegs für den Mehrwertsteuercode zu drucken.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="212">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="212">Steuereinzelhandels-Druckcode</strong>, das verwendet wird, um den abgekürzten Code zu drucken, der dem Mehrwertsteuercode entspricht.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="214"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="214">Feld <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="214">QR-Code</strong>, das verwendet wird, um den Verweis auf die erfasste Bargeldbuchung in der Form eines QR-Codes zu drucken.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="216">Weitere Informationen zum Arbeiten mit Belegformaten finden Sie unter <a href="../receipt-templates-printing.html" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="216">Einrichten und Entwerfen von Bonformaten</a>.</p>
+<h3 id="configure-fiscal-integration" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="218">Steuerintegration konfigurieren</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="220">Schließen Sie die Schritte zur Einrichtung der steuerlichen Integration ab, wie unter <a href="setting-up-fiscal-integration-for-retail-channel.html" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="220">Einrichtung der steuerlichen Integration für Commerce-Kanäle</a> beschrieben:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="222">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="222"><a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="222">Richten Sie einen Steuererfassungsprozesses ein</a>. Beachten Sie auch die Einstellungen für den Steuererfassungsprozess, die <a href="#set-up-the-registration-process" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="222">für dieses Steuererfassungsdienst-Integrationsbeispiel spezifisch sind</a>.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="223"><a href="setting-up-fiscal-integration-for-retail-channel.html#set-error-handling-settings" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="223">Legen Sie Einstellungen zur Fehlerbehandlung fest</a>.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="224"><a href="setting-up-fiscal-integration-for-retail-channel.html#enable-manual-execution-of-postponed-fiscal-registration" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="224">Aktivieren Sie manuelle Ausführung der verschobenen steuerlichen Erfassung</a>.</li>
+</ul>
+<h2 id="deployment-guidelines-for-cash-registers-for-austria" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="226">Bereitstellungsrichtlinien für Kassen für Österreich</h2>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="228">Das Steuererfassungsdienst-Integrationsbeispiel für Österreich ist Teil des Retail SDK. Informationen zur Installation und Verwendung des SDK finden Sie in der <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-overview" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="228">Retail Software Development Kit (SDK)-Architektur (This is an external link)</a>.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="230">Dieses Beispiel besteht aus Erweiterungen für CRT, Hardwarestation und POS. Um dieses Beispiel auszuführen, müssen Sie CRT, Hardwarestation und POS-Projekte ändern und erstellen. Es wird empfohlen, dass Sie ein unverändertes Retail SDK verwenden, um die Änderungen vorzunehmen, die in diesem Thema beschrieben werden. Es wird außerdem empfohlen, dass Sie ein Quellsteuerungssystem verwenden, wie Azure DevOps, bei dem noch keine Dateien geändert wurden.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="232">Gehen Sie folgendermaßen vor, um eine Entwicklungsumgebung einzurichten, damit Sie das Beispiel testen und erweitern können.</p>
+<h3 id="enable-commerce-runtime-extensions" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="234">Commerce-Laufzeiterweiterungen aktivieren</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="236">Die CRT-Erweiterungskomponenten sind in den CRT-Beispielen enthalten. Um die folgenden Prozeduren abzuschließen, öffnen Sie die CRT-Lösung, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="236">CommerceRuntimeSamples.sln</strong>, unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="236">RetailSdk\SampleExtensions\CommerceRuntime</strong>.</p>
+<h4 id="documentproviderefrsample-component" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="238">DocumentProvider.EFRSample-Komponente</h4>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="240">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="240"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="240">Suchen Sie das Projekt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="240">Runtime.Extensions.DocumentProvider.EFRSample</strong>, und erstellen Sie es.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="241"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="241">Im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="241">Runtime.Extensions.DocumentProvider.EFRSample\bin\Debug</strong> suchen Sie die Assembly-Datei <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="241">Contoso.Commerce.Runtime.DocumentProvider.EFRSample.dll</strong>.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="242"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="242">Kopieren Sie die Assemblydatei in den CRT-Erweiterungsordner:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">Commerce-Skalierungseinheit:</strong> Kopieren Sie die Assembly in den Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="244">\bin\ext</strong> unter dem Microsoft Internet Information Services (IIS) Commerce-Skalierungseinheit-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="245"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="245">Lokales CRT i Modern POS:</strong> Kopieren Sie die Assembly in den Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="245">\ext</strong> unter dem lokalen CRT-Clientbroker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="247">Suchen Sie die Erweiterungskonfigurationsdatei für CRT:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="249">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="249"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="249">Commerce-Skalierungseinheit:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="249">commerceruntime.ext.config</strong>, und sie befindet sich im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="249">bin\ext</strong> unter dem IIS Commerce-Skalierungseinheit-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="250"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="250">Lokales CRT in Modern POS:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="250">CommerceRuntime.MPOSOffline.Ext.config</strong>, und sie befindet sich unter dem lokalen CRT-Clientbroker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="252">Erfassen Sie die CRT-Änderung in der Erweiterungskonfigurationsdatei.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="254">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.EFRSample&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="documentproviderdatamodelefr-component" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="258">DocumentProvider.DataModelEFR-Komponente</h4>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="260">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="260"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="260">Suchen Sie das Projekt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="260">Runtime.Extensions.DocumentProvider.DataModelEFR</strong>, und erstellen Sie es.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="261"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="261">Im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="261">Runtime.Extensions.DocumentProvider.DataModelEFR\bin\Debug</strong> suchen Sie die Assembly-Datei <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="261">Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll</strong>.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="262"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="262">Kopieren Sie die Assemblydatei in den CRT-Erweiterungsordner:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">Commerce-Skalierungseinheit:</strong> Kopieren Sie die Assembly in den Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="264">\bin\ext</strong> unter dem IIS Commerce-Skalierungseinheit-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="265"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="265">Lokales CRT i Modern POS:</strong> Kopieren Sie die Assembly in den Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="265">\ext</strong> unter dem lokalen CRT-Clientbroker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="267">Suchen Sie die Erweiterungskonfigurationsdatei für CRT:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="269">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="269"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="269">Commerce-Skalierungseinheit:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="269">commerceruntime.ext.config</strong>, und sie befindet sich im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="269">bin\ext</strong> unter dem IIS Commerce-Skalierungseinheit-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="270"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="270">Lokales CRT in Modern POS:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="270">CommerceRuntime.MPOSOffline.Ext.config</strong>, und sie befindet sich unter dem lokalen CRT-Clientbroker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="272">Erfassen Sie die CRT-Änderung in der Erweiterungskonfigurationsdatei.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="274">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h4 id="update-extension-configuration-file" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="278">Erweiterungskonfigurationsdatei aktualisieren</h4>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="280">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="280"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="280">Suchen Sie die Erweiterungskonfigurationsdatei für CRT:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="282">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="282"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="282">Commerce-Skalierungseinheit:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="282">commerceruntime.ext.config</strong>, und sie befindet sich im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="282">bin\ext</strong> unter dem IIS Commerce-Skalierungseinheit-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283">Lokales CRT in Modern POS:</strong> Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="283">CommerceRuntime.MPOSOffline.Ext.config</strong>, und sie befindet sich unter dem lokalen CRT-Clientbroker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="285">Erfassen Sie die CRT-Änderung in der Erweiterungskonfigurationsdatei.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="287">&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.RegisterAuditEventAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.XZReportsAustria&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-hardware-station-extensions" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="293">Hardware station-Erweiterungen aktivieren</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="295">Die Hardware station-Erweiterungskomponenten sind in den Hardware station-Beispielen enthalten. Um die folgenden Prozeduren abzuschließen, öffnen Sie die Lösung, <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="295">HardwareStationSamples.sln.sln</strong>, unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="295">RetailSdk\SampleExtensions\HardwareStation</strong>.</p>
+<h4 id="efrsample-component" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="297">EFRSample-Komponente</h4>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="299">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="299"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="299">Suchen Sie das Projekt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="299">HardwareStation.Extension.EFRSample</strong>, und erstellen Sie es.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="300"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="300">Im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="300">Extension.EFRSample\bin\Debug</strong> suchen Sie folgende Dateien:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">Die <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="302">Contoso.Commerce.HardwareStation.EFRSample.dll</strong>-Assembly</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="303">Die <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="303">Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll</strong>-Assembly</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="305"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="305">Kopieren Sie die Assembly-Dateien in den Hardware stations-Erweiterungsordner:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="307">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="307"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="307">Freigegebene Hardware station:</strong> Kopieren Sie die Dateien in den Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="307">Lagerfach</strong> unter dem IIS Hardware stations-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="308"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="308">Dedizierte Hardware station auf Modern POS:</strong> Kopieren Sie die Dateien zum Modern POS-Client-Broker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310">Suchen Sie die Erweiterungskonfigurationsdatei für die Erweiterungen der Hardware station. Die Datei hat den Namen <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="310">HardwareStation.Extension.config</strong>.</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="312">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="312"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="312">Freigegebene Hardware station:</strong> Die Datei befindet sich unter dem IIS Hardware station-Websitespeicherort.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="313"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="313">Dedizierte Hardware station auf Modern POS:</strong> Die Datei befindet sich unter dem Modern POS-Client-Broker-Speicherort.</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315">Fügen Sie die folgende Position zum Abschnitt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="315">Anordnung</strong> der Konfigurationsdatei hinzu.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="317">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.EFRSample.dll&quot; /&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="enable-modern-pos-extension-components" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="321">Modern POS-Erweiterungskomponenten aktivieren</h3>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="323">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="323"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="323">Öffnen Sie die Lösung unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="323">RetailSdk\POS\ModernPOS.sln</strong>, und stellen Sie sicher, dass sie fehlerfrei kompiliert werden kann. Außerdem stellen Sie sicher, dass Sie Modern POS von Microsoft Visual Studio aus ausführen können, indem Sie den Befehl <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="323">Run</strong> verwenden.</p>
+<div class="NOTE" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="325">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="326">Modern POS darf nicht angepasst werden. Sie müssen die Benutzerkontensteuerung (UAC) aktivieren, und Sie müssen zuvor installierte Instanzen von Modern POS bei Bedarf deinstallieren.</p>
+</div>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="328"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="328">Aktivieren Sie das Laden der Instanzen, indem Sie die folgenden Zeilen in <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="328">extensions.json</strong> hinzufügen.</p>
+<pre><code class="lang-json" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="330">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.AT&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="340">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="341">Weitere Informationen und Beispiele, die zeigen, wie Quellcodeordner einbezogen werden und das Laden von Erweiterungen ermöglicht wird, finden Sie in den Anleitungen in der readme.md-Datei im Projekt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="341">Pos.Extensions</strong>.</p>
+</div>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="343"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="343">Erstellen Sie die Lösung neu.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="344"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="344">Führen Sie Modern POS im Debugger aus, und testen Sie die Funktionen.</p>
+</li>
+</ol>
+<h3 id="enable-cloud-pos-extension-components" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="346">Cloud POS-Erweiterungskomponenten aktivieren</h3>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="348">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="348"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="348">Öffnen Sie die Lösung unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="348">RetailSdk\POS\CloudPOS.sln</strong>, und stellen Sie sicher, dass sie fehlerfrei kompiliert werden kann.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="349"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="349">Aktivieren Sie das Laden der Instanzen, indem Sie die folgenden Zeilen in <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="349">extensions.json</strong> hinzufügen.</p>
+<pre><code class="lang-json" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="351">{
+    &quot;extensionPackages&quot;: [
+        {
+            &quot;baseUrl&quot;: &quot;Microsoft/AuditEvent.AT&quot;
+        }
+    ]
+}
+</code></pre>
+<div class="NOTE" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="361">
+<h5>Note</h5>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="362">Weitere Informationen und Beispiele, die zeigen, wie Quellcodeordner einbezogen werden und das Laden von Erweiterungen ermöglicht wird, finden Sie in den Anleitungen in der readme.md-Datei im Projekt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="362">Pos.Extensions</strong>.</p>
+</div>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="364"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="364">Erstellen Sie die Lösung neu.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="365"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="365">Führen Sie Lösung aus, indem Sie den Befehl <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="365">Run</strong> verwenden, und folgen Sie den Schritten im Retail SDK-Handbuch.</p>
+</li>
+</ol>
+<h3 id="set-up-the-registration-process" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="367">Den Erfassungsprozess einrichten</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="369">Um den Erfassungsprozess zu aktivieren, führen Sie diese Schritte aus, um die Zentralverwaltung einzurichten. Weitere Einzelheiten finden Sie unter <a href="setting-up-fiscal-integration-for-retail-channel.html#set-up-a-fiscal-registration-process" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="369">Steuerliche Integration für Commerce-Kanäle einrichten</a>.</p>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">Gehen Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">Retail und Commerce &gt; Zentralverwaltungseinrichtung &gt; Parameter &gt; Gemeinsame Commerce-Parameter</strong>. Auf der Registerkarte <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">Allgemein</strong> legen Sie die Option <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">Steuerintegration aktivieren</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="371">Ja</strong> fest.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372">Gehen Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372">Retail und Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Steuerkonnektoren</strong>, und laden Sie die Konnektorkonfiguration. Der Dateispeicherort ist <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="372">RetailSdk\SampleExtensions\HardwareStation\Extension.EFRSample\Configuration\ConnectorEFRSample.xml</strong>.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="373"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="373">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="373">Retail and Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Steuerdokumentanbieter</strong>, und laden Sie die Dokumentanbieterkonfigurationen. Die Konfigurationsdateien befinden sich unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="373">RetailSdk\SampleExtensions\CommerceRuntime\Extensions.DocumentProvider.EFRSample\Configuration</strong>:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="375">DocumentProviderEFRSampleAustria.xml</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="376">DocumentProviderNonFiscalEFRSampleAustria.xml</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="378"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="378">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="378">Retail und Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Konnektorfunktionsprofile</strong>. Erstellen Sie zwei Konnektorfunktionsprofile, eines für jeden Dokumentanbieter, den Sie zuvor geladen haben, und wählen Sie den Konnektor aus, den Sie zuvor geladen haben. Aktualisieren Sie die Datenzuordnungseinstellungen nach Bedarf.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="379"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="379">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="379">Retail und Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Technische Profile des Connectors</strong>. Erstellen Sie ein neues technisches Konnektorprofil, und wählen Sie den Konnektor aus, den Sie vorher geladen haben. Aktualisieren Sie die Verbindungseinstellungen nach Bedarf.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="380"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="380">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="380">Retail und Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Steuerkonnektorgruppen</strong>. Erstellen Sie zwei neue Steuerkonnektorgruppen, eine für jedes Konnektorfunktionsprofil, das Sie vorher erstellt haben.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="381">Retail und Commerce &gt; Kanaleinrichtung &gt; Steuerintegration &gt; Steuererfassungsprozesse</strong>. Erstellen Sie einen neuen Steuererfassungsprozess, zwei Steuererfassungsprozess-Schritte, und wählen Sie die Steuerkonnektorgruppen aus, die Sie vorher erstellt haben.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Gehen Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Retail und Commerce &gt; Kanaleinrichtung &gt; POS-Einrichtung &gt; POS-Profile &gt; Funktionsprofile</strong>. Wählen Sie ein Funktionsprofil aus, das mit dem Einzelhandelsgeschäft verbunden ist, wo der Erfassungsprozess aktiviert werden soll. Im Inforegister <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Steuererfassungsprozess</strong> aktivieren Sie den Steuererfassungsprozess, den Sie vorher erstellt haben. Um die Erfassung von nicht-steuerlichen Ereignisse im POS zu ermöglichen, legen Sie im Inforegister <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Funktionen</strong> unter <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">POS</strong> die Option <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Überwachen</strong> auf <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="382">Ja</strong> fest.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383">Wechseln Sie zu <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383">Retail und Commerce &gt; Kanaleinrichtung &gt; POS-Einrichtung &gt; POS-Profile &gt; Hardwareprofile</strong>. Wählen Sie ein Hardwareprofil aus, das mit der Hardware station verknüpft ist, mit der der Belegdrucker verbunden wird. Im Inforegister <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="383">Peripheriegeräte für die Steuerverwaltung</strong> aktivieren Sie das technische Konnektorprofil, das Sie vorher erstellt haben.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">Öffnen Sie den Vertriebsplan (<strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">Retail and Commerce &gt; Retail and Commerce IT &gt; Vertriebsplan</strong>), und wählen Sie Jobs <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">1070</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="384">1090</strong> aus, um Daten zur Kanaldatenbank zu übertragen.</p>
+</li>
+</ol>
+<h3 id="production-environment" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="386">Produktionsumgebung</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="388">Die vorherige Prozedur aktiviert die Erweiterungen, die Komponenten des Steuererfassungsdienst-Integrationsbeispiels sind. Darüber hinaus müssen Sie diese Schritte ausführen, um bereitstellbare Pakete zu erstellen, die Commerce-Komponenten enthalten, und diese Pakete in einer Produktionsumgebung anzuwenden.</p>
+<ol sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="390">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="390"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="390">Nehmen Sie die folgenden Änderungen in den Paketkonfigurationsdateien unter dem Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="390">RetailSdk\Assets</strong> vor:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392">In den Konfigurationsdateien <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392">commerceruntime.ext.config</strong> und <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392">CommerceRuntime.MPOSOffline.Ext.config</strong> fügen Sie die folgenden Positionen zum Abschnitt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="392">Anordnung</strong> hinzu.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="394">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.EFRSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.ReceiptsAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.RegisterAuditEventAustria&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Microsoft.Dynamics.Commerce.Runtime.XZReportsAustria&quot; /&gt;
+</code></pre>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="402"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="402">In der Konfigurationsdatei <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="402">HardwareStation.Extension.config</strong> fügen Sie die folgende Position dem Abschnitt <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="402">Anordnung</strong> hinzu.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="404">&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.HardwareStation.EFRSample&quot; /&gt;
+&lt;add source=&quot;assembly&quot; value=&quot;Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="409"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="409">Nehmen Sie die folgenden Änderungen in der Paketanpassungs-Konfigurationsdatei <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="409">BuildTools\Customization.settings</strong> vor:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="411">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="411"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="411">Fügen Sie die folgenden Zeilen hinzu, um die CRT-Erweiterungen in die bereitstellbaren Paketen einzuschließen.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="413">&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.EFRSample.dll&quot; /&gt;
+&lt;ISV_CommerceRuntime_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll&quot; /&gt;
+</code></pre>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="418"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="418">Fügen Sie die folgende Zeilen hinzu, um die Hardware station-Erweiterung in die bereitstellbaren Pakete einzuschließen.</p>
+<pre><code class="lang-xml" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="420">&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.HardwareStation.EFRSample.dll&quot; /&gt;
+&lt;ISV_HardwareStation_CustomizableFile Include=&quot;$(SdkReferencesPath)\Contoso.Commerce.Runtime.DocumentProvider.DataModelEFR.dll&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="425"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="425">Starten Sie die MSBuild-Eingabeaufforderung für Visual Studio-Hilfsprogramm und führen Sie <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="425">msbuild</strong> unter dem Ordner Retail SDK aus, um bereitstellbare Pakete zu erstellen.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="426"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="426">Übernehmen Sie die Pakete über Microsoft Dynamics Lifecycle Services (LCS) oder manuell. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/retail-sdk-packaging" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="426">Bereitstellbare Pakete erstellen (This is an external link)</a>.</p>
+</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="427"><p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="427">Schließen Sie alle erforderlichen Setupaufgaben ab, die im Abschnitt <a href="#set-up-commerce-for-austria" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="427">Commerce für Österreich einrichten</a> beschrieben sind.</p>
+</li>
+</ol>
+<h2 id="design-of-extensions" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="429">Entwurf von Erweiterungen</h2>
+<h3 id="commerce-runtime-extension-design" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="431">Commerce-Laufzeiterweiterungsentwurf</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="433">Der Zweck der Erweiterung ist es, dass ein Steuerdokumentanbieter dienstspezifische Dokumente erzeugt und Antworten aus dem Steuererfassungsdienst handhabt.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="435">Die CRT-Erweiterung ist <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="435">Runtime.Extensions.DocumentProvider.EFRSample</strong>.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="437">Weitere Einzelheiten über das Design der Lösung für die steuerliche Integration finden Sie unter <a href="fiscal-integration-for-retail-channel.html#fiscal-registration-process-and-fiscal-integration-samples-for-fiscal-devices" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="437">Überblick über die steuerliche Integration für Commerce-Kanäle</a>.</p>
+<h4 id="request-handler" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="439">Anforderungshandler</h4>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="441">Es gibt zwei Anforderungshandler für Dokumentanbieter:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="443">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="443"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="443">DocumentProviderEFRFiscalAUT</strong> – Dieser Handler wird verwendet, um Steuerdokumente für den Steuererfassungsdienst zu erstellen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="444"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="444">DocumentProviderEFRNonFiscalAUT</strong> – Dieser Handler wird verwendet, um Steuerdokumente für den Steuererfassungsdienst zu erstellen.</li>
+</ul>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446">Diese Handler werden von der Oberfläche <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446">INamedRequestHandler</strong> geerbt. Die Methode <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="446">HandlerName</strong> ist für die Rückgabe des Namens des Handlers zuständig. Der Handlername sollte mit dem Name des Konnektordokumentanbieters übereinstimmen, der in der Zentralverwaltung angegeben ist.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="448">Der Konnektor unterstützt die folgenden Anforderungen:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="450">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="450"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="450">GetFiscalDocumentDocumentProviderRequest</strong> – Diese Anforderung enthält Informationen darüber, welches Dokument generiert werden soll. Sie gibt ein dienstspezifisches Dokument zurück, dass im Steuererfassungsdienst erfasst werden soll.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="451"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="451">GetNonFiscalDocumentDocumentProviderRequest</strong> – Diese Anforderung enthält Informationen darüber, welches nicht-steuerliche Dokument generiert werden soll. Sie gibt ein dienstspezifisches Dokument zurück, dass im Steuererfassungsdienst erfasst werden soll.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="452"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="452">GetSupportedRegistrableEventsDocumentProviderRequest</strong> – Diese Anforderung gibt die Liste der Ereignisse zurück, die Sie abonnieren können. Aktuell werden die folgenden Ereignisse unterstützt: Vertrieb, Drucken von X-Bericht, Drucken von Z-Bericht, Debitorenkonto-Einzahlungen, Debitorenauftragseinzahlungen, Überwachungsereignisse und Nicht-Vertriebsbuchungen.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="453"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="453">GetFiscalRegisterResponseToSaveDocumentProviderRequest</strong> – Diese Anforderung gibt die Antwort vom Steuererfassungsdienst zurück. Diese Antwort wird serialisiert, um eine Zeichenfolge zu bilden, sodass sie bereit zum Speichern ist.</li>
+</ul>
+<h4 id="configuration" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="455">Variante</h4>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="457">Die Konfigurationsdateien befinden sich im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="457">Konfiguration</strong> des Erweiterungsprojekts:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="459">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="459"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="459">DocumentProviderFiscalEFRSampleAustria</strong> – Für Steuerdokumente.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="460"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="460">DocumentProviderNonFiscalEFRSampleAustria</strong> – Für nicht-steuerliche Dokumente.</li>
+</ul>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="462">Der Zweck dieser Dateien ist es, Einstellungen zu aktivieren, damit der Dokumentanbieter von der Zentralverwaltung aus konfiguriert werden kann. Das Dateiformat wird mit den Anforderungen für die Steuerintegrationskonfiguration ausgerichtet. Die folgende Einstellung wird hinzugefügt:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="464">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="464">Zuordnung von MwSt.-Sätzen</li>
+</ul>
+<h3 id="hardware-station-extension-design" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="466">Hardware station-Erweiterungsentwurf</h3>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="468">Der Zweck der Erweiterung, die ein Steuerkonnektor ist, ist die Kommunikation mit dem Steuererfassungsdienst.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="470">Die Hardware station-Erweiterung ist <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="470">HardwareStation.Extension.EFRSample</strong>. Die Hardwarestation-Erweiterung verwendet das HTTP-Protokoll, um Dokumente, die die CRT-Erweiterung generiert, zum Steuererfassungsdienst zu übermitteln. Sie handhabt auch die Antworten, die vom Steuererfassungsdienst empfangen werden.</p>
+<h4 id="request-handler" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="472">Anforderungshandler</h4>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="474">Der Anforderungshandler <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="474">EFRHandler</strong> ist der Einstiegspunkt für die Handhabung von Anforderungen an den Steuererfassungsdienst.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="476">Der Handler wird von der Oberfläche <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="476">INamedRequestHandler</strong> geerbt. Die Methode <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="476">HandlerName</strong> ist für die Rückgabe des Namens des Handlers zuständig. Der Handlername sollte mit dem Name des Steuerkonnektors übereinstimmen, der in der Zentralverwaltung angegeben ist.</p>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="478">Der Konnektor unterstützt die folgenden Anforderungen:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="480">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="480"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="480">SubmitDocumentFiscalDeviceRequest</strong> – Diese Anforderung sendet Dokumente an den Steuererfassungsdienst und gibt eine Antwort von ihm zurück.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="481"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="481">IsReadyFiscalDeviceRequest</strong> – Diese Anforderung wird für eine Integritätsprüfung des Steuererfassungsdiensts verwendet.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="482"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="482">InitializeFiscalDeviceRequest</strong> – Diese Anforderung wird für Initialisierung des Steuererfassungsdiensts verwendet.</li>
+</ul>
+<h4 id="configuration" sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="484">Variante</h4>
+<p sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="486">Die Konfigurationsdatei befindet sich im Ordner <strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="486">Konfiguration</strong> des Erweiterungsprojekts. Der Zweck dieser Datei ist es, Einstellungen zu aktivieren, damit der Steuerkonnektor von der Zentralverwaltung aus konfiguriert werden kann. Das Dateiformat wird mit den Anforderungen für die Steuerintegrationskonfiguration ausgerichtet. Die folgenden Einstellungen werden hinzugefügt:</p>
+<ul sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="488">
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="488"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="488">Endpunktadresse</strong> – Die URL des Steuererfassungsdiensts.</li>
+<li sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="489"><strong sourcefile="articles_de/commerce/localizations/emea-aut-fi-sample.md" sourcestartlinenumber="489">Zeitlimit</strong> – Die Zeitdauer in Millisekunden, die der Treiber auf eine Antwort vom Steuererfassungsdienst wartet.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

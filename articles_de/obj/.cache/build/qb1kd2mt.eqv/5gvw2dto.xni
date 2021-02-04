@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Planung mit negativen Vorgabemengen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Planung mit negativen Vorgabemengen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie mit dem Negativ-Bestand umgegangen wird, wenn Sie die Planungsoptimierung einsetzen.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ReqCreatePlanWorkspace">
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="Manufacturing">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="planning-with-negative-on-hand-quantities">Planung mit negativen Vorgabemengen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Wenn das System eine negative aggregierte Bestandsmenge anzeigt, behandelt die Planungsmaschine die Menge als 0 (Null), um ein Überangebot zu vermeiden. Im Folgenden wird erläutert, wie diese Funktionalität funktioniert:</p>
+<ol>
+<li>Die Planungsoptimierung aggregiert die Bestandsmengen auf der untersten Ebene der Deckungsdimensionen. (Wenn z.B. <em>Lagerplatz</em> keine Deckungsdimension ist, aggregiert die Planungsoptimierung die verfügbaren Mengen auf der Ebene <em>Lager</em>).</li>
+<li>Wenn die aggregierte Bestandsmenge auf der untersten Ebene der Deckungsdimensionen negativ ist, geht das System davon aus, dass die Bestandsmenge tatsächlich 0 (Null) ist.</li>
+</ol>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Das Planungssystem kann nur so genau sein wie die Eingabedaten. Wenn die Eingabedaten ungenau sind, zeigen negative Datensätze auf dem Datenbestand an, dass die Bestandsinformationen in Microsoft Dynamics 365 Supply Chain Management nicht mit der realen Welt übereinstimmen. Daher wird das Planungsergebnis fehlerhaft sein. Um ein präzises Planungsergebnis zu erhalten, sollten Sie die Anzahl der Datensätze, die eine negative Bestandsmenge aufweisen, minimieren.</p>
+</div>
+<h2 id="example-1">Beispiel 1</h2>
+<p>Lager 13 ist wie folgt konfiguriert:</p>
+<ul>
+<li><strong>Deckungscode:</strong> Min./Max.</li>
+<li><strong>Minimum:</strong> 15 Stück (Stk.)</li>
+<li><strong>Maximal:</strong> 25 Stk.</li>
+</ul>
+<p>Die niedrigste Ebene der Deckungsdimensionen ist <em>Lager</em>, und die folgenden vorrätigen Mengen werden auf der Ebene <em>Lagerplatz</em> erfasst:</p>
+<ul>
+<li><strong>Standort 1, Lager 13, Lagerplatz 1:</strong> 20 Stk.</li>
+<li><strong>Standort 1 Lager 13, Lagerplatz 2:</strong> −8 Stk.</li>
+</ul>
+<p>Somit beträgt die aggregierte Bestandsmenge für Lager 13 12 Stk. (= 20 Stk. − 8 Stk.).</p>
+<p>In diesem Fall verwendet die Planungsmaschine eine Aggregat-Bestandsmenge von 12 Stk. für Lager 13.</p>
+<p>Das Ergebnis ist ein Planauftrag von 13 Stück. (= 25 Stk. − 12 Stk.), um Lager 13 aus 12 Stk. wieder aufzufüllen. auf 25 Stk.</p>
+<h2 id="example-2">Beispiel 2</h2>
+<p>Lager 13 ist wie folgt konfiguriert:</p>
+<ul>
+<li><strong>Abdeckungscode:</strong> Min./Max.</li>
+<li><strong>Minimum:</strong> 15 Stk.</li>
+<li><strong>Maximum:</strong> 25 Stk.</li>
+</ul>
+<p>Die niedrigste Ebene der Deckungsdimensionen ist <em>Lager</em>, und die folgenden vorrätigen Mengen werden auf der Ebene <em>Lagerplatz</em> erfasst:</p>
+<ul>
+<li><strong>Standort 1, Lager 13, Lagerplatz 1:</strong> 4 Stk.</li>
+<li><strong>Standort 1 Lager 13, Lagerplatz 2:</strong> −8 Stk.</li>
+</ul>
+<p>Daher beträgt die gesamte verfügbare Menge für Lager 13 −4 Stk. (= 4 Stk. − 8 Stk.). Mit anderen Worten, sie ist weniger als 0 (Null).</p>
+<p>In diesem Fall geht das Planungsmodul davon aus, dass die vorrätige Menge für Lager 13 0 St. beträgt. statt −4 Stk.</p>
+<p>Das Ergebnis ist ein Planauftrag von 25 Stück. (= 25 Stk. − 0 Stk.), um Lager 13 aus 0 Stk. wieder aufzufüllen. bis 25 Stk.</p>
+<h2 id="related-resources">Zugehörige Ressourcen</h2>
+<p><a href="planning-optimization-overview.html">Übersicht zur Planungsoptimierung</a></p>
+<p><a href="get-started.html">Erste Schritte mit der Planungsoptimierung</a></p>
+<p><a href="planning-optimization-fit-analysis.html">Planungsoptimierung Fit-Analyse</a></p>
+<p><a href="plan-history-logs.html">Planhistorie und Planungsprotokolle anzeigen</a></p>
+<p><a href="cancel-planning-job.html">Abbrechen eines Planungsauftrags</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/master-planning/planning-optimization/negative-on-hand.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Callcenter-Auftragssperren konfigurieren und mit ihnen arbeiten </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Callcenter-Auftragssperren konfigurieren und mit ihnen arbeiten ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird beschrieben, wie Sie mit Sperren auf Auftr&#228;gen arbeitet, indem Dynamics 365 Commerce verwendet wird.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="MCRHoldCodeTable, MCRSalesTableOrderHistory, MCRHoldCodeTrans, MCROrderEventSetup, MCROrderEventTable">
+    <meta name="ms.search.scope" content="Core, Operations, Retail">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-and-work-with-call-center-order-holds" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="29">Konfigurieren und Arbeiten mit Callcenter-Auftragssperren</h1>
+
+<div class="IMPORTANT" sourcefile="commerce/includes/banner.md" sourcestartlinenumber="1">
+<h5>Important</h5>
+<p sourcefile="commerce/includes/banner.md" sourcestartlinenumber="2">Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/" sourcefile="commerce/includes/banner.md" sourcestartlinenumber="2">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="33">In diesem Thema werden die Auftragssperrfunktionen beschrieben, die Dynamics 365 Commerce für Callcenteraufträge hat.</p>
+<h2 id="configuring-call-center-order-holds" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="35">Callcenter-Auftragssperren konfigurieren</h2>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Um die Callcenterauftrags-Sperrfunktionen zu verwenden, müssen Sie zunächst Sperrcodes definieren. Um einen Satz benutzerdefinierter Sperrcodes zu erstellen, basierend auf Ihren geschäftlichen Anforderungen, gehen Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Vertrieb und Marketing</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Einstellungen</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Aufträge</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Sperrcodes</strong>. Sie können einen Sperrcode optional kennzeichnen wie der Standardsperrcode, indem Sie die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Standard für Auftrag</strong> auf <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Ja</strong> festlegen. Dieser Sperrcode wird jederzeit verwendet, wenn ein Auftrag gesperrt wird. Wenn ein Auftrag reservierten Lagerbestand hat und die Reservierungen automatisch entfernt werden, wenn der Auftrag für einen bestimmten Grund gesperrt wird, entsprechend die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Entfernen Sie Lagerreservierungen</strong> auf <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="37">Ja</strong> für Ursachencodes.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Um den Typ des zu erstellenden Hinweises anzugeben der beim Melden aufgezeichnet wird, geben Benutzer, die einen Auftrag sperren, optionale Hinweise ein. Gehen Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Debitoren</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Einstellungen</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Debitorenparameter</strong>, und klicken Sie dann auf dem Inforegister <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Vertriebseinstellung</strong>, auf der Registerkarte, Satz <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Allgemeines</strong> <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Hinweistyp</strong>. Verwenden Sie das Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Gesperrter Auftragsstatus</strong>, um die Farbe festzulegen, die verwendet wird, um Aufträge hervorzuheben, die gesperrt sind, wenn sie auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="39">Kundendienst</strong> angezeigt werden.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Um einen optionalen Satz von Ursachensperrcodes zu erstellen, wechseln Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Retail und Commerce</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Kanaleinrichtung</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Infocodes</strong>. Diese Infocodes können als sekundäre Ursachencode verwendet werden, um den Hautsperrcode wieter zu definieren. Wählen Sie <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Neu</strong>, um einen Ursachencodesatz zu erstellen, und wählen Sie dann <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Untercodes</strong> um die Liste weiterer Gründe zu definieren. Um sämtliche Infocodes zu verknüpfen, die Sie im Callcenterkanal definieren, wechseln Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Retail und Commerce</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Kanäle</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Callcenter</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Alle Callcenter</strong>. Auf dem Inforegister <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Allgemeines</strong> legen Sie das Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="41">Sperrcode</strong> fest.</p>
+<h2 id="putting-orders-on-hold" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="43">Gesperrte Aufträge</h2>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="45">Aufträge, die Callcenterbenutzer im Back-Office-Commerce-Programm erstellen, können in bestimmten Situationen manuell oder automatisch gesperrt werden.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="47">Während der Verkaufserfassung aber vor Auftragsunterordnung und Bestätigung, sollten Callcenterbenutzer einen Auftrag manuell sperren, um ihn an freigegeben werden dem Lagerort das für die weitere Verarbeitung verhindert. Zum Beispiel ist der Debitor, der den Auftrag platziert, noch nicht bereit oder es fehlen zentrale Daten, um den Prozess erfolgreich zu verarbeiten.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Auf der Auftragserfassungsseite kann der Callcenterbenutzer einen Auftrag sperren, indem er die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Auftragsgriffe</strong> der Registerkarte <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Auftrag</strong> Auftragserfassungsmenüs verwendet. Alternativ kann der Benutzer die Menüoption <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Sperren</strong> auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Auftragszusammenfassung</strong> auswählen, die angezeigt wird, wenn sie bei einem Callcenterauftrag <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="49">Vollständig</strong> auswählen.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="51">In beiden Fällen wird die Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="51">Auftragssperre</strong> angezeigt. Der Benutzer kann dann <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="51">Neu</strong> auswählen, um eine Sperre für den Auftrag zu erstellen. Im Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="51">Code sperren</strong> sollte der Benutzer den Code auswählen, der den Grund für die Sperre am besten beschreibt. Im Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="51">Ursachencode</strong> kann der Benutzer einen zusätzlicher optionalen Code auswählen, um eine zweite Sperre des Werts bereitzustellen.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="53">Unter Inforegister unter <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="53">Hinweise</strong> im Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="53">Sperre-Hinweise</strong>, kann der Benutzer die zusätzlichen Freihandnotizen eingeben, um zusätzliche Informationen oder Informationen zur Sperre bereitzustellen. Diese Notizen können andere Benutzer unterstützen, die dem Sperrauftrag später überprüfen.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="55">Nachdem Sie die Sperrinformationen eingegeben und gespeichert haben, kann der Benutzer die Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="55">Auftragssperre</strong> schließen. Der Benutzer kehrt dann zur Auftragseintragserfassung zurück. Wenn keine weiteren Aktivitäten für den Auftrag erforderlich sind, kann der Benutzer die Auftragseintragsseite schließen.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="57">Wenn die Markierung <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="57">Aktivieren Sie Auftragsabschluss</strong> im Callcenterkanal aktiviert ist, wird die Zahlung für einen gesperrten Auftrag nicht angewendet. Durch Kontrast für einen Auftrag, der nicht gesperrt ist, können Benutzer die Auftragseintragsseite nicht verlassen, bis die Zahlung angewendet wird. Selbstverständlich ist Zahlung erforderlich, bevor die Auftragssperre freigegeben wird.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="59">Darüber hinaus können Callcenterbenutzer eine manuelle Sperre für Aufträge erstellen, die aus einem bestimmten Grund verdächtig erscheinen. Aufträge können auch automatisch gesperrt werden, wenn sie mit Betrugskriterien und aktiven Regeln übereinstimmen. Weitere Informationen zu diesen Auftragssperrtypen, finden Sie unter <a href="https://docs.microsoft.com/dynamics365/unified-operations/retail/set-up-fraud-alerts" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="59">Einstellungsbetrugswarnungen</a>.</p>
+<h2 id="viewing-and-managing-orders-that-are-on-hold" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="61">Aufträge anzeigen und verwalten, die gesperrt sind</h2>
+<h3 id="viewing-hold-information-for-a-single-sales-order" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="63">Anzeigen von Sperrinformationen für einen einzelnen Auftrag</h3>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="65">Auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="65">Kundendienst</strong> können Benutzer Aufträge ansehen, die gesperrt sind, da die Auftragspositionen mit einer bestimmten Farbe hervorgehoben werden. Diese Farbe wird im Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="65">Gesperrter Auftragsstatus</strong> auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="65">Debitorenparameter</strong> definiert.</p>
+<div class="NOTE" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="67">
+<h5>Note</h5>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="68">Wenn die Position auf der Seite aktiviert ist, ist die Hervorhebungsfarbe nicht sichtbar.</p>
+</div>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Benutzer können auch detaillierte Statusinformationen für einen Auftrag anzeigen, um zu erfahren, ob der Auftrag gesperrt ist. Die detaillierten Statusinformationen können über die Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Alle Aufträge</strong> oder <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Kundendienst</strong> angezeigt werden. Wenn ein Auftrag gesperrt ist, ist die Markierung <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Nicht verarbeiten</strong> festgelegt, und das Feld <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Detaillierter Status</strong> zeigt entweder den Status <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Gesperrt</strong> oder <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="70">Betrugssperre</strong>, je nach Szenario.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Um die Details eines bestimmten Auftrags anzuzeigen, kann der Benutzer eine detaillierte Ansicht der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Auftragssperre</strong> auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Kundendienst</strong> anzeigen, indem das Menü <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Optionen</strong> für den ausgewählten Auftrag verwendet wird. Benutzer können auf die Ansicht von der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Jeder Auftrag</strong> zugreifen, indem die Menüoption <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Auftragssperre</strong> auf der Registerkarte <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="72">Auftrag</strong> ausgewählt wird.</p>
+<h3 id="viewing-all-orders-that-are-on-hold" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="74">Alle Aufträge anzeigen und verwalten, die gesperrt sind</h3>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="76">Um alle Aufträge anzuzeigen, die auf manuelle oder automatische Sperre gesetzt wurden, gehen Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="76">Retail und Commerce</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="76">Kunden</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="76">Auftragssperren</strong>.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="78">Workbench enthält eine Listenansicht <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="78">Auftragssperren</strong>, die alle Aufträge enthält, die aufgrund von manuellen oder Betrug-zugeordneten Aktivitäten gesperrt sind. Mithilfe der Standardfilterungs- und Sortierfunktionen auf der Seite können Benutzer Ansichten erstellen, mit denen sie arbeiten mit oder bestimmte Sperrcodes verwalten lassen, für die Sie für die Überprüfung zuständig sind. Der Workbench <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="78">Aufträge sperren</strong> gibt auch die Anzahl von Tagen an, für die ein Auftrag gesperrt war. Diese Informationen können Benutzer unterstützen, die Warteschlange zu priorisieren.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="80">Um eine detailliertere Ansicht der Aufträge abzurufen die gesperrt sind, können Benutzer auf die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="80">Auftragssperre</strong> im Menü klicken. Diese Ansicht gibt Informationen zum Debitor, enthält Hinweise, dass der Auftrag angewendet wurde, Kunden oder Sperraktivitäten. Die Ansicht bietet auch Details zur Ursache für ein automatischen Sperre, wenn der Auftrag gesperrt wurde, da er einer Betrugsregel entsprach.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="82">In der Listenansicht und der detaillierten Ansicht der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="82">Auftragssperre</strong> können Benutzer auftragsbezogene zusätzliche Informationen, wie Zahlungen, Summen und Hinweise anzeigen oder bearbeiten.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="84">Die Optionen auf der Registerkarte <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="84">Sperre auschecken an</strong> ist unter Umständen hilfreich, falls mehrere Benutzer in Ihrem Unternehmen an der Sperrwarteschlange gleichzeitig arbeiten. Wenn Sie die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="84">Auschecken</strong> auswählen, können Benutzer angeben, dass sie arbeiten, um die Auftragssperre zu überprüfen und zu untersuchen. Dadurch verlieren andere Benutzer nicht Zeit, wenn Sie versuchen, dieselbe Arbeit zu tun. Von der detaillierten Ansicht der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="84">Auftragssperre</strong> können Benutzer Informationen zum Auscheckdatum und den Zeitaufwand anzeigen sowie den Benutzer, der den Sperrdatensatz ausgecheckt hat.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="86">Nachdem ein Sperrdatensatz ausgecheckt ist, kann nur der Benutzer, der sie ausgecheckt hat, das Auschecken löschen.&quot;&quot; Diese Einschränkung soll verhindern, dass Benutzer Datensätze nehmen, an denen andere Benutzer bereits arbeiten. Um einen Auftrag wieder in der Warteschlange freizugeben damit andere Benutzer sie bearbeiten können, wählt der Benutzer, der den Datensatz prüfte, die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="86">Auschecken deaktivieren</strong> aus.</p>
+<div class="NOTE" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="88">
+<h5>Note</h5>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="89">Der Sperre wird nicht freigegeben, wenn das Auschecken deaktiviert ist.</p>
+</div>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="91">In bestimmten Situationen, beispielsweise, wenn ein Benutzer krank ist oder das Unternehmen verlassen hat, müssen möglicherweise Datensätze, die für diesen Benutzer ausgecheckt sind, neu zugeordnet werden. Ein Manager kann Datensätze neu zuweisen, indem er die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="91">Auschecken außerkraftsetzen</strong> verwendet.</p>
+<h2 id="releasing-orders-that-are-on-hold" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="93">Alle Aufträge anzeigen und verwalten, die gesperrt sind</h2>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="95">In der Listenansicht und der detaillierten Ansicht der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="95">Auftragssperre</strong> enthält die Registerkarte <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="95">Sperre deaktivieren</strong> die Optionen, die verwendet werden, um eine Auftragssperre freizugeben. Verwenden Sie die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="95">Sperre deaktivieren</strong>, um einen Auftrag vom ausgewählten Sperrcode freizugeben.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="97">Callcenteraufträge benötigen Zahlung. Daher kann ein Sperre nicht vollständig deaktiviert werden, wenn die Zahlung nicht in den Auftrag übernommen wurde. Auf der Seite <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="97">Callcenterparameter</strong> auf der Registerkarte <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="97">Sperren</strong> überprüfen Sie, ob der <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="97">Senden, wenn diese Option deaktiviert ist</strong> Parameter aktiviert ist. Diese Einstellung stellt sicher, dass die deaktivierte Sperre durch die korrekte Auftragsübermittlungslogik geht, um Zahlungen zu überprüfen und zu autorisieren. Wenn Zahlungen fehlen, erhält der Benutzer eine Fehlermeldung, und der Sperrcode wird nicht gelöscht.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">Wenn der Parameter <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">Senden, wenn deaktiviert ist</strong> nicht festgelegt wurde, können Benutzer die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">Deaktivieren und übermitteln</strong> im Menü <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">Sperre deaktivieren</strong> auswählen, um sicherzustellen, dass der Auftrag alle erforderlichen Zahlungsprüfungen durchläuft. Wenn die Übermittlung fehlschlägt, wenn <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">uftragsabschluss aktivieren</strong> im Callcenterkanal aktiviert ist, wird der Auftrag von seinem Sperrstatus freigegeben, jedoch die Markierung <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="99">nicht verarbeiten</strong> beibehalten. Daher wird der Auftrag nicht freigegeben für den Lagerort, bis korrekte Zahlungen berücksichtigt und überprüft wurden.</p>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="101">Wenn Benutzer einen Sperre verrechnen aber zusätzliche Änderungen am Auftrag vornehmen möchten, bevor er für das spätere Verarbeiten freigegeben wurde, können sie die Option <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="101">deaktivieren und ändern</strong> auswählen. Diese Option entfernt den Sperrcode und öffnet die Auftragsdetails, damit Benutzer zusätzliche Änderungen am Auftrag vornehmen können. Benutzer können Zahlung auch übernehmen und die Reihenfolge von Zahlungsprüfungslogik senden, wenn die den Callcenterkanal-Markierung <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="101">Aktivieren Sie Auftragsabschluss</strong> aktiviert ist.</p>
+<h2 id="reporting-options" sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="103">Sonstige Berichtsoptionen</h2>
+<p sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="105">Gehen Sie zu <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="105">Retail und Commerce</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="105">Abfragen und Berichte</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="105">Callcenterberichte</strong> &gt; <strong sourcefile="commerce/work-with-order-holds.md" sourcestartlinenumber="105">Auftragssperrenbericht</strong>, um einen Bericht zu Auftragssperren nach Datumsbereich, Sperrcode oder zugehörigen Kriterien auszuführen.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/work-with-order-holds.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

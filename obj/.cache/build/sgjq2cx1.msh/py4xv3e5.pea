@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Automate testing with Electronic reporting | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Automate testing with Electronic reporting | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="automate-testing-with-electronic-reporting" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="32">Automate testing with Electronic reporting</h1>
+
+
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="36">This topic explains how you can use the Electronic reporting (ER) framework to automate testing of some functionality. The example in this topic shows how to automate the testing of vendor payment processing.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="38">The application uses the ER framework to generate payment files and corresponding documents during vendor payment processing. The ER framework consists of a data model, model mappings, and format components that support payment processing for different payment types and the generation of documents in different formats. These components can be downloaded from Microsoft Dynamics Lifecycle Services (LCS) and imported into the instance.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="40">You also can customize each Microsoft component and use it as the basis of your own custom component. By creating a custom version, you can make changes that support specific requirements. For example, you can adjust the ER data model and ER model mapping to access customer-specific application data, or you can change an ER format to modify the layout of a generated document.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="42">You can use customized ER formats to process payment files that generate vendor payments and also to process control reports. Versioning is supported in ER components. Therefore, Microsoft can provide updated versions of ER solutions for vendor payment processing, and you can automatically merge the updated version with your customized component by rebasing it. However, you must test the rebased version to make sure that it works as you expect.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="44">ER data models and ER model mappings are common for many ER formats that are used to process payments of different types and to generate country/region-specific payment documents. Therefore, it's highly desirable to automate user acceptance and integration testing so that it's automatically done in multiple companies but considers the country/region context of each target company, uses different datasets, and so on.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="46">For more information about how to create a custom version of a format that is based on the format that you received from a configuration provider, see <a href="tasks/er-upgrade-format.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="46">ER Upgrade your format by adopting a new, base version of that format</a>.</p>
+<h2 id="key-concepts" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="48">Key concepts</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="50">Functional power users can author user acceptance and integration testing without having to write source code.</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="52">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="52"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="52">Use the ER baseline feature to compare generated documents to master copies. For more information, see <a href="er-trace-reports-compare-baseline.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="52">Trace generated report results and compare them with baseline values</a>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="53"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="53">Use Task recorder to record test cases, and include baseline assessment. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/user-interface/task-recorder" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="53">Task recorder resources (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="54"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="54">Group test cases for required test scenarios. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/lifecycle-services/using-task-guides-and-bpm-to-create-user-acceptance-tests" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="54">Create and automate user acceptance tests (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="56">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="56">Use Business process modeler (BPM) in LCS to make libraries for user acceptance tests.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="57">Use BPM test libraries to create a test plan and test suites in Microsoft Azure DevOps Services (Azure DevOps).</li>
+</ul>
+</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="59">Functional power users can run user acceptance and integration tests.</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="61">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="61">Use Regression suite automation tool (RSAT) to run test cases of the desired test suite.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="62">Report the results of the testing to Azure DevOps, and use this service to investigate those results.</li>
+</ul>
+<h2 id="prerequisites" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="64">Prerequisites</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="66">Before you can complete the tasks in this topic, you must complete the following prerequisites:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="68">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="68"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="68">Deploy a topology that supports test automation. You must have access to the instance of this topology for the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="68">System administrator</strong> role. This topology must contain the demo data that will be used in this example. For more information, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/perf-test/continuous-build-test-automation" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="68">Deploy and use an environment that supports continuous build and test automation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="69"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="69">To run user acceptance and integration tests automatically, you must install RSAT in the topology that you're using and configure it in the appropriate manner. For information about how to install and configure RSAT and configure it to work with Finance and Operations apps and Azure DevOps, see <a href="https://www.microsoft.com/download/details.aspx?id=57357" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="69">Regression Suite Automation Tool</a>. Pay attention to the prerequisites for using the tool. The following illustration shows an example of the RSAT settings. The blue rectangle encloses the parameters that specify access to Azure DevOps. The green rectangle encloses the parameters that specify access to the instance.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="71"><img src="media/GER-Configure.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="71" alt="RSAT settings" title="Screenshot of the RSAT Settings dialog box"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="73"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="73">To organize test cases in suites to help guarantee the correct execution sequence, so that you can collect logs of test executions for further reporting and investigation, you must have access to Azure DevOps from the deployed topology.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="74"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="74">To complete the example in this topic, we recommend that you download <a href="https://go.microsoft.com/fwlink/?linkid=874684" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="74">ER usage for RSAT tests</a>. This zip file contains the following task guides:</p>
+<table sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="76">
+<thead>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="76">
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="76">Content</th>
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="76">File name and location</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="78">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="78">Sample task recording to prepare data for testing</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="78">Prepare\Recording.xml</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="79">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="79">Sample task recording to process vendor payment</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="79">Process\Recording.xml</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h2 id="prepare-the-accounts-payable-module-to-process-vendor-payments" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="81">Prepare the Accounts payable module to process vendor payments</h2>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="83">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="83"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="83">Sign in to your instance.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="84"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="84">Download the following ER configurations from LCS. For instructions, see <a href="tasks/er-import-configuration-lifecycle-services.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="84">ER Import a configuration from Lifecycle Services</a>.</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="86">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="86"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="86">Payment model</strong> ER model configuration</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="87"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="87">Payment model mapping 1611</strong> ER model mapping configuration</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="88"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="88">BACS (UK)</strong> ER format configuration</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="90"><img src="media/GER-Configurations.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="90" alt="Electronic reporting configurations" title="Screenshot of the Configurations page in Electronic reporting"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="92"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="92">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="92">GBSI</strong> demo data company, which has a country/region context in Great Britain.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="93"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="93">Configure Accounts payable parameters:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="95">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="95"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="95">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="95">Accounts payable &gt; Payment setup &gt; Methods of payment</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="96"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="96">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="96">Electronic</strong> method of payment.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="97"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="97">Configure the selected method of payment so that it uses the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="97">BACS (UK)</strong> ER format that you downloaded earlier for vendor payment processing:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="99">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="99">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="99">File formats</strong> FastTab, set the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="99">Generic electronic Export format</strong> option to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="99">Yes</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="100">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="100">Export format configuration</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="100">BACS (UK)</strong>.</li>
+</ol>
+</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="102"><img src="media/GER-APParameters.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="102" alt="Methods of payment page" title="Screenshot of the Methods of payment page"></p>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="104">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="105">If you have the derived version of this ER format that was created to support customizations, you can select this configuration in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="105">Electronic</strong> method of payment.</p>
+</div>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="107"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="107">Create an example vendor payment:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="109">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="109"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="109">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="109">Accounts payable &gt; Payments &gt; Payment journal</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="110"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="110">Make sure that you haven't posted the payment journal.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="112"><img src="media/GER-APJournal.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="112" alt="Payment journal page" title="Screenshot of the Payment journal page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="114"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="114">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="114">Lines</strong>, and enter a line that has the following information.</p>
+<table sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="116">
+<thead>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="116">
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="116">Field</th>
+<th sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="116">Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="118">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="118">Vendor name</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="118">GB_SI_000001</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="119">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="119">Debit</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="119">1,000.00</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="120">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="120">Currency</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="120">GBP</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="121">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="121">Offset account type</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="121">Bank</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="122">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="122">Offset account</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="122">GBSI OPER</td>
+</tr>
+<tr sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="123">
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="123">Method of payment</td>
+<td sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="123">Electronic</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="125"><img src="media/GER-APJournalLines.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="125" alt="Vendor payments page" title="Screenshot of the Vendor payments page"></p>
+</li>
+</ol>
+<h2 id="prepare-the-er-framework-to-test-vendor-payment-processing" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="127">Prepare the ER framework to test vendor payment processing</h2>
+<h3 id="configure-er-parameters" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="129">Configure ER parameters</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="131">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="131"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="131">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="131">Organization administration &gt; Electronic reporting &gt; Electronic reporting parameters</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="132"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="132">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="132">Attachments</strong> tab, in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="132">Baseline</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="132">File</strong> as the document type that the Document management (DM) framework uses to keep documents that are related to the baseline feature as DM attachments.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="134"><img src="media/GER-ERParameters.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="134" alt="Electronic reporting parameters page" title="Screenshot of the Electronic reporting parameters page"></p>
+</li>
+</ol>
+<h3 id="generate-baseline-copies-of-vendor-paymentrelated-documents" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="136">Generate baseline copies of vendor payment–related documents</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="138">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="138"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="138">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="138">Accounts payable &gt; Payments &gt; Payment journal</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="139"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="139">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="139">Lines</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="140"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="140">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="140">Generate payments</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="141"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="141">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="141">Electronic</strong> method of payment.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="142"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="142">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="142">GBSI OPER</strong> bank account.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="143"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="143">Set the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="143">Print control report</strong> option to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="143">Yes</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="144"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="144">Download the generated output as a zip file.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="145"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="145">Open the downloaded file.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="146"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="146">Extract following files from the downloaded file:</p>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="148">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="148"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="148">File</strong> payment file in text format</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="149"><strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="149">ERVendOutPaymControlReport</strong> control report file in XLSX format</li>
+</ul>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="151"><img src="media/GER-APJournalProcessed.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="151" alt="Extracted files" title="Screenshot of extracted file names in Windows explorer"></p>
+</li>
+</ol>
+<h3 id="turn-on-the-er-baseline-feature" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="153">Turn on the ER baseline feature</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="155">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="155">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="155">Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="156">On the Action Pane, on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="156">Configurations</strong> tab, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="156">User parameters</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="157">Set the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="157">Run in debug mode</strong> option to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="157">Yes</strong>.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="159">By turning on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="159">Run in debug mode</strong> parameter, you force the ER framework to perform the following actions after the execution of any ER format that generates outgoing documents:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="161">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="161"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="161">Determine whether a baseline was configured for any of components of the executed ER format.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="162"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="162">Determine whether each configured baseline is applicable in the current conditions (company code of the signed-in company, file name and file name extension of the generated output, and so on).</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="163"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="163">For each applicable baseline, perform the following actions:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="165">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="165">Compare the output that is generated during execution of the ER format with the corresponding baseline.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="166">Store the results of the comparison in the ER configurations debug log.</li>
+</ol>
+</li>
+</ol>
+<h3 id="configure-er-baselines-for-vendor-payment-processing" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="168">Configure ER baselines for vendor payment processing</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="170">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="170"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="170">Go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="170">Organization administration &gt; Electronic reporting &gt; Configurations</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="171"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="171">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="171">Baselines</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="172"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="172">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="172">New</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="173"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="173">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="173">Reference</strong> field, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="173">BACS (UK)</strong> format.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="174"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="174">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="174">Attachments</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="175"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="175">Add a new baseline for the vendor payment file:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="177">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="177">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="177">New</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="178">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="178">Type</strong> field, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="178">File</strong> DM document type that you configured in the ER parameters to store baseline artifacts.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="179">Browse to select the locally saved <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="179">File</strong> payment file in text format.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="180">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="180">Description</strong> field, enter <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="180">Payment TXT file</strong>.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="182"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="182">Add a new baseline for the control report for the vendor payment:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="184">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="184">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="184">New</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="185">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="185">Type</strong> field, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="185">File</strong> DM document type that you configured in the ER parameters to store baseline artifacts.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="186">Browse to select the locally saved <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="186">ERVendOutPaymControlReport</strong> control report file in XLSX format.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="187">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="187">Description</strong> field, enter <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="187">Payment XLSX control report</strong>.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="189"><img src="media/GER-BaselineAttachments.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="189" alt="Baselines for the vendor payment file and control report" title="Screenshot of the Configurations page with the Payment XLSX control report selected"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="191"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="191">Close the page.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="192"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="192">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="192">Baselines</strong> FastTab, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="192">New</strong> to configure a baseline for the payment file:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="194">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="194">Name the line <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="194">Baseline setting for payment file</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="195">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="195">File component name</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="195">file</strong> to apply this baseline to the ER format output that generates the payment file in BACS (UK) text format.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="196">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="196">Companies</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="196">GBSI</strong> to apply this baseline when the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="196">BACS (UK)</strong> ER format is run in the GBSI company.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="197">In <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="197">File name mask</strong> field, enter <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="197">*.TXT</strong> to apply this baseline only to outputs of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="197">file</strong> format component that have the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="197">.txt</strong> file name extension.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="198">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="198">Baseline</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="198">Payment TXT file</strong> so that this baseline is used for comparison with the generated output.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="200"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="200">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="200">New</strong> to configure a baseline for the control report:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="202">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="202">Name the line <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="202">Baseline setting for control report</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="203">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="203">File component name</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="203">ERVendOutPaymControlReport</strong> to apply this baseline to the ER format output that generates the control report.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="204">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="204">Companies</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="204">GBSI</strong> to apply this baseline when the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="204">BACS (UK)</strong> ER format is run in the GBSI company.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="205">In <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="205">File name mask</strong> field, enter <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="205">*.XLSX</strong> to apply this baseline only to outputs of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="205">ERVendOutPaymControlReport</strong> format component that have the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="205">.xslx</strong> file name extension.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="206">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="206">Baseline</strong> field, select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="206">Payment XLSX control report</strong> so that this baseline is used for comparison with the generated output.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="208"><img src="media/GER-BaselineRules.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="208" alt="Baselines FastTab on the Configurations page" title="Screenshot of the Baselines FastTab on the Configurations page"></p>
+</li>
+</ol>
+<h2 id="record-tests-to-validate-vendor-payment-processing" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="210">Record tests to validate vendor payment processing</h2>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="212">As a functional power user, you can record your own steps to test vendor payment processing. We recommend that you play (and edit, as required) the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="212">Prepare\Recording.xml</strong> task recording that you downloaded earlier. This recording is used to set all testing data to the correct state. That step is required because the testing can be done many times, and every test must use data that is in the same state.</p>
+<h3 id="reset-user-settings" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="214">Reset user settings</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="216">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="216">Open the default dashboard.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="217">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="217">Settings</strong> button (the gear symbol).</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="218">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="218">User options</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="219">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="219">Usage data</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="220">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="220">Reset</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="221">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="221">Yes</strong> to confirm that you want to reset usage data.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="222">Close the page.</li>
+</ol>
+<h3 id="record-the-steps-to-prepare-data-for-testing" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="224">Record the steps to prepare data for testing</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="226">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="226">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="226">Settings</strong> button (the gear symbol).</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="227">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="227">Task recorder</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="228">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="228">Playback recording</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="229">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="229">Open from this PC</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="230">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="230">Browse</strong>, and select the locally save <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="230">Prepare\Recording.xml</strong> file.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="231">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="231">Start</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="232">Keep selecting <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="232">Play next pending step</strong> until all the steps in the recording have been played.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="234">This task recording performs the following actions:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="236">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="236"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="236">Set the status of the processed payment line to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="236">None</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="238"><img src="media/GER-Recording1Review1.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="238" alt="Task recording steps 3 through 4" title="Screenshot of task recording steps 3 through 4"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="240"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="240">Turn on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="240">Run in debug mode</strong> ER user parameter.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="242"><img src="media/GER-Recording1Review2.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="242" alt="Task recording steps 9 through 10" title="Screenshot of task recording steps 9 through 10"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="244"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="244">Clean up the ER debug log that contains the results of the comparison of generated files to baselines.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="246"><img src="media/GER-Recording1Review3.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="246" alt="Task recording steps 13 through 15" title="Screenshot of task recording steps 13 through 15"></p>
+</li>
+</ol>
+<h3 id="record-the-steps-to-test-vendor-payment-processing" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="248">Record the steps to test vendor payment processing</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="250">We recommend that you play (and edit, as required) the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="250">Process\Recording.xml</strong> task recording that you downloaded earlier. This recording is used to process vendor payments and validate the results of the comparison of generated documents to corresponding baselines.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="252">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="252">Select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="252">Settings</strong> button (the gear symbol).</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="253">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="253">Task recorder</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="254">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="254">Playback recording</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="255">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="255">Open from this PC</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="256">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="256">Browse</strong>, and select the locally saved <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="256">Process\Recording.xml</strong> file.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="257">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="257">Start</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="258">Keep selecting <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="258">Play next pending step</strong> until all the steps in the recording have been played.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="260">This task recording performs the following actions:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="262">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="262"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="262">Start vendor payment processing.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="263"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="263">Select the correct runtime parameters, and turn on generation of a control report.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="265"><img src="media/GER-Recording2Review1.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="265" alt="Task recording steps 3 through 8" title="Screenshot of task recording steps 3 through 8"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="267"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="267">Access the ER debug log to record the results of the comparison of generated outputs to corresponding baselines.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="269">In the ER debug log, the results of the comparison appear in the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="269">Generated text</strong> field. The <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="269">Format component</strong> and <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="269">Format path that caused a log entry</strong> fields refer to the file component for which the generated output has been compared to the baseline.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="271"><img src="media/GER-ERDebugLog.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="271" alt="Entries on the Electronic reporting run logs page" title="Screenshot of entries on the Electronic reporting run logs page"></p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="273"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="273">The comparison of the current output to the baseline is recorded by using the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="273">Validate</strong> Task recorder option and selecting  <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="273">Current Value</strong>.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="275"><img src="media/GER-TRRecordValidation.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="275" alt="Using the Validate option for comparison with the current value" title="Screenshot of using the Validate option for comparison with the current value"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="277">The following illustration shows what the recorded validation steps look like in the task recording.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="279"><img src="media/GER-Recording2Review2.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="279" alt="Task recording steps 13 and 15" title="Screenshot of task recording steps 13 and 15"></p>
+</li>
+</ol>
+<h2 id="add-the-recorded-tests-to-azure-devops" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="281">Add the recorded tests to Azure DevOps</h2>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="283">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="283"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="283">Open the Azure DevOps environment.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="284"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="284">Select the project that you defined in the RSAT parameters when you <a href="#prerequisites" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="284">configured the tool</a>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="285"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="285">Select the test plan that you defined in the RSAT parameters when you <a href="#prerequisites" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="285">configured the tool</a>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="286"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="286">Create a new test case for the selected test plan:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="288">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="288">Name the test case <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="288">Prepare data to test processing of vendor's electronic payment</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="289">Attach the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="289">Recording.xml</strong> file from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="289">Prepare</strong> folder that you downloaded earlier.</li>
+</ol>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="291"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="291">Create a new test case for the selected test plan:</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="293">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="293">Name the test case <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="293">Test processing of vendor payments by using ER format BACS (UK)</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="294">Attach the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="294">Recording.xml</strong> file from the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="294">Process</strong> folder that you downloaded earlier.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="296"><img src="media/GER-RSAT-DevOps-Tests-Passed.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="296" alt="New test cases for the selected test plan" title="Screenshot of the new test cases for the selected test plan"></p>
+</li>
+</ol>
+<div class="NOTE" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="298">
+<h5>Note</h5>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="299">Pay attention to the correct execution order of the tests that are added.</p>
+</div>
+<h2 id="prepare-rsat-to-run-the-recorded-tests" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="301">Prepare RSAT to run the recorded tests</h2>
+<h3 id="load-the-tests-from-azure-devops-to-rsat" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="303">Load the tests from Azure DevOps to RSAT</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="305">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="305"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="305">Open the local RSAT application in the current topology.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="306"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="306">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="306">Load</strong> to load the tests that currently reside in Azure DevOps into RSAT.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="308"><img src="media/GER-RSAT-RSAT-Tests-Loaded.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="308" alt="Tests loaded into RSAT" title="Screenshot of the tests loaded into RSAT"></p>
+</li>
+</ol>
+<h3 id="create-automation-and-parameters-files" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="310">Create automation and parameters files</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="312">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="312"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="312">In RSAT, select the tests that you loaded from Azure DevOps.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="313"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="313">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="313">New</strong> to create RSAT automation and parameters files.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="315"><img src="media/GER-RSAT-RSAT-Tests-Initiated.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="315" alt="RSAT automation and parameters files created in RSAT" title="Screenshot of the RSAT automation and parameters files created in RSAT"></p>
+</li>
+</ol>
+<h3 id="modify-the-parameters-files" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="317">Modify the parameters files</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="319">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="319"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="319">In RSAT, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="319">Prepare data to test processing of vendor's electronic payment</strong> test case.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="320"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="320">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="320">Edit</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="321"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="321">In the Microsoft Excel workbook that is opened, on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="321">General</strong> worksheet, change the company code to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="321">GBSI</strong>, because this company will be used for test execution.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="322"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="322">In RSAT, select the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="322">Test processing of vendor payments by using ER format BACS (UK)</strong> test case.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="323"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="323">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="323">Edit</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="324"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="324">In the Excel workbook that is opened, on the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="324">General</strong> worksheet, change the company code to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="324">GBSI</strong>.</p>
+</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="325"><p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="325">On the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="325">ERFormatMappingRunLogTable</strong> worksheet, notice that cells A:3 and C:3 contain the text of the fields in the ER debug log table that are used to validate the results of the comparison of the output to the baseline. These texts will be used to evaluate ER debug log records that are created during test execution.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="327"><img src="media/GER-RSAT-RSAT-ExcelParameters.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="327" alt="ERFormatMappingRunLogTable worksheet" title="Screenshot of the ERFormatMappingRunLogTable worksheet"></p>
+</li>
+</ol>
+<h2 id="run-the-tests-and-analyze-the-results" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="329">Run the tests and analyze the results</h2>
+<h3 id="run-the-tests-in-rsat" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="331">Run the tests in RSAT</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="333">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="333">In RSAT, select the loaded tests.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="334">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="334">Run</strong>.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="336">Notice that test cases are automatically run in the application by using a web browser.</p>
+<h3 id="analyze-the-results-of-test-execution" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="338">Analyze the results of test execution</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="340">The results of the test execution are stored in RSAT. Notice that both tests were passed.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="342"><img src="media/GER-RSAT-RSAT-Tests-Passed.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="342" alt="Tests that passed in RSAT" title="Screenshot of tests that passed in RSAT"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="344">Notice that the results of the test execution are also sent to Azure DevOps so that you can do further analysis.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="346"><img src="media/GER-RSAT-DevOps-Tests-Added.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="346" alt="Results of test execution in Azure DevOps" title="Screenshot of the results of test execution in Azure DevOps"></p>
+<h3 id="simulate-a-situation-where-tests-fail" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="348">Simulate a situation where tests fail</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="350">This test suite must fail when at least one of the generated outputs doesn't match the corresponding baseline. To achieve this situation, you can use your derived version of the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="350">BACS (UK)</strong> format that will generate a payment file that has different content than the corresponding baseline. To simulate this situation, you can use the same <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="350">BACS (UK)</strong> format but change the payment amount on the processed payment line.</p>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="352">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="352">Open the application and go to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="352">Accounts payable &gt; Payments &gt; Payment journal</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="353">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="353">Lines</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="354">Select the payment line, and then select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="354">Payment status &gt; None</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="355">In the <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="355">Debit</strong> field, change the value from <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="355">1,000.00</strong> to <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="355">2,000.00</strong>.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="356">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="356">Save</strong> to save your changes.</li>
+</ol>
+<h3 id="run-the-tests-in-rsat-1" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="358">Run the tests in RSAT</h3>
+<ol sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="360">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="360">In RSAT, select the loaded tests.</li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="361">Select <strong sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="361">Run</strong>.</li>
+</ol>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="363">Notice that test cases are automatically run in the application by using a web browser.</p>
+<h3 id="analyze-the-results-of-test-execution-1" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="365">Analyze the results of test execution</h3>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="367">The results of the test execution are stored in RSAT. Notice that the second test failed during the second execution.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="369"><img src="media/GER-RSAT-RSAT-Tests-Failed.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="369" alt="Failed test results in RSAT" title="Screenshot of the failed test results in RSAT"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="371">Notice that the results of the test execution are also sent to Azure DevOps so that you can do further analysis.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="373"><img src="media/GER-RSAT-DevOps-Tests-Failed.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="373" alt="Failed test results in Azure DevOps" title="Screenshot of the failed test results in Azure DevOps"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="375">You can access the status of each test. You can also access the execution log so that you analyze the reasons for any failure. In the following illustration, the execution log shows that the failure occurred because of the difference in content between the generated payment file and its baseline.</p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="377"><img src="media/GER-RSAT-DevOps-Tests-Failed-Log.png" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="377" alt="Execution log for analyzing failure in Azure DevOps" title="Screenshot of the execution log for analyzing failure in Azure DevOps"></p>
+<p sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="379">Therefore, as you've seen, the functioning of any ER format can be evaluated automatically by using RSAT as the testing platform and by using Task recorder-based test cases that use the ER baseline feature.</p>
+<h2 id="additional-resources" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="381">Additional resources</h2>
+<ul sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="383">
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="383"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/user-interface/task-recorder" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="383">Task recorder resources (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="384"><a href="https://www.microsoft.com/download/details.aspx?id=57357" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="384">Regression suite automation tool</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="385"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/lifecycle-services/using-task-guides-and-bpm-to-create-user-acceptance-tests" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="385">Create and automate user acceptance tests (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="386"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/perf-test/continuous-build-test-automation" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="386">Deploy and use an environment that supports continuous build and test automation (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="387"><a href="er-trace-reports-compare-baseline.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="387">Trace generated report results and compare them with baseline values</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="388"><a href="tasks/er-upgrade-format.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="388">ER Upgrade your format by adopting a new, base version of that format</a></li>
+<li sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="389"><a href="tasks/er-import-configuration-lifecycle-services.html" sourcefile="articles/fin-ops-core/dev-itpro/analytics/er-automate-testing.md" sourcestartlinenumber="389">ER Import a configuration from Lifecycle Services</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

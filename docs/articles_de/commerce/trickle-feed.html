@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Auftragserstellung per Einzelzulauf bei Transaktionen im Gesch&#228;ft | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Auftragserstellung per Einzelzulauf bei Transaktionen im Gesch&#228;ft | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="trickle-feed-based-order-creation-for-retail-store-transactions">Auftragserstellung per Einzelzulauf bei Transaktionen im Geschäft</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In den Versionen Dynamics 365 Retail 10.0.4 und früher ist die Buchung der Aufstellungen ein Vorgang, der am Tagesende durchgeführt wird. Alle Transaktionen werden am Ende des Tages in den Büchern gebucht. Große Transaktionen müssen dann in einem begrenzten Zeitfenster verarbeitet werden, was manchmal zu Lade- und Sperrproblemen und Fehlern bei der Buchung von Aufstellungen führt. Einzelhändler können so außerdem nicht den ganzen Tag über Einnahmen und Zahlungen in ihren Büchern erfassen.</p>
+<p>Mit der in Retail-Version 10.0.5 eingeführten Auftragserstellung per Einzelzulauf werden Transaktionen den ganzen Tag über bearbeitet. Am Ende des Tages werden nur eine Abstimmung der Zahlungsmittel und andere Bargeldverwaltungstransaktionen durchgeführt. Diese Funktionalität verteilt den Aufwand für die Erstellung von Aufträgen, Rechnungen und Zahlungen auf den gesamten Tag und sorgt so für eine bessere Leistung und die Möglichkeit, Umsätze und Zahlungen in den Büchern nahezu in Echtzeit zu verbuchen.</p>
+<h2 id="how-to-use-trickle-feed-based-posting">So arbeiten Sie mit der Einzelzulaufbuchung</h2>
+<ol>
+<li><p>Um die Buchung auf Basis von Einzelzuläufen für Einzelhandelstransaktionen zu aktivieren, aktivieren Sie die Funktion <strong>Einzelhandelsaufstellungen – Einzelzulauf</strong> mit der Funktionsverwaltung.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Bevor Sie diese Funktion aktivieren, stellen Sie sicher, dass keine ausstehenden Anweisungen zur Veröffentlichung anstehen.</p>
+</div>
+</li>
+<li><p>Das aktuelle Anweisungsdokument wird in zwei Typen unterteilt: Transaktionsaufstellung und Finanzaufstellung.</p>
+<ul>
+<li><p>Die Transaktionsaufstellung erfasst alle nicht gebuchten und geprüften Transaktionen und erstellten Aufträge, Verkaufsrechnungen, Zahlungs‑ und Rabatterfassungen sowie die Einnahmen‑ und Ausgabentransaktionen in der von Ihnen konfigurierten Kadenz. Sie sollten diesen Prozess so konfigurieren, dass er sehr häufig ausgeführt wird, sodass Dokumente erstellt werden, wenn die Einzelhandelstransaktionen über den P-Job in die Zentralverwaltung hochgeladen werden. Mit der Transaktionsaufstellung, die bereits Aufträge und Verkaufsrechnungen erstellt, ist es nicht wirklich notwendig, den Batchauftrag <strong>Lager buchen</strong> zu konfigurieren. Sie können ihn jedoch weiterhin verwenden, um möglicherweise vorhandene geschäftliche Anforderungen zu erfüllen.</p>
+</li>
+<li><p>Die Finanzaufstellung ist für die Erstellung am Ende des Tages ausgelegt und unterstützt nur die Abschlussmethode <strong>Schicht</strong>. Diese Aufstellung beschränkt sich auf die finanzielle Abstimmung und erstellt nur die Erfassungen zu den Differenzbeträgen zwischen gezähltem Betrag und Transaktionsbetrag für die verschiedenen Zahlungsmittel sowie Erfassungen zu anderen Bargeldverwaltungstransaktionen.</p>
+</li>
+</ul>
+</li>
+<li><p>Um die Transaktionsaufstellung zu berechnen, gehen Sie zu <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Transaktionsaufstellungen stapelweise berechnen</strong>. Um die Transaktionsaufstellungen stapelweise zu buchen, gehen Sie zu <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Transaktionsaufstellungen stapelweise buchen</strong>.</p>
+</li>
+<li><p>Um die Finanzaufstellung zu berechnen, gehen Sie zu <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Finanzaufstellungen stapelweise berechnen</strong>. Um die Finanzaufstellungen stapelweise zu buchen, gehen Sie zu <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Finanzaufstellungen stapelweise buchen</strong>.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Menüpunkte <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Aufstellungen stapelweise berechnen</strong> und <strong>Retail und Commerce &gt; Retail und Commerce IT &gt; POS-Buchung &gt; Aufstellungen stapelweise buchen</strong> werden mit dieser neuen Funktion entfernt.</p>
+</div>
+<p>Alternativ können Transaktions- und Finanzaufstellungen manuell angelegt werden. Wechseln Sie zu <strong>Retail und Commerce &gt; Kanäle &gt; Shops</strong>, und klicken Sie auf <strong>Aufstellungen</strong>. Klicken Sie auf <strong>Neu</strong>, und wählen Sie dann den Typ der Aufstellung aus, die Sie erstellen möchten. Felder auf der Seite <strong>Aufstellungen</strong> und Aktionen unter der Gruppe <strong>Aufstellung</strong> auf der Seite zeigen relevante Daten und Aktionen basierend auf dem ausgewählten Aufstellungstyp an.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

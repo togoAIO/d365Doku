@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einen Min-Max-Auff&#252;llungsprozess einrichten | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einen Min-Max-Auff&#252;llungsprozess einrichten | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="set-up-a-min-max-replenishment-process">Einen Min-Max-Auffüllungsprozess einrichten</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Diese Prozedur zeigt Ihnen an, wie ein neuer Auffüllungsprozess eingerichtet wird, der die Min./Max.-Auffüllungsstrategie verwendet. Wenn Lagerbestand unter der Untergrenze liegt, wird Arbeit erstellt, um den Lagerplatz aufzufüllen. Die Prozedur zeigt auch, wie feste Entnahmeorte verwendet werden, um die Lagerauffüllung zuzulassen, selbst wenn der Lagerbestand unter die Untergrenze sinkt und wie der Auffüllungsprozess aktiviert wird, um mithilfe eines Batchauftrags regelmäßig ausgeführt zu werden. Diese Aufgaben werden normalerweise von einem Lagerortleiter ausgeführt. Sie können diese Prozedur im USMF-Demodatunternehmen ausführen, unter Verwendung der Beispielswerte unten, oder Sie können sie mit Ihren eigenen Daten ausführen. Wenn Sie Ihre eigenen Daten verwenden, stellen Sie sicher, dass Sie einen Lagerort haben, der für Lagerortverwaltungsprozesse aktiviert ist.</p>
+<h2 id="create-a-fixed-picking-location">Erstellen Sie einen festen Entnahmeort</h2>
+<ol>
+<li>Gehen Sie auf <strong>Navigationsbereich &gt; Module &gt; Lagerortverwaltung &gt; Einstellungen &gt; Feste Lagerplätze</strong>. Dies ist eine optionale Aufgabe für Min./Max.-Auffüllung, aber wenn Sie feste Entnahmeorte verwenden, ermöglicht dies das Auffüllen des Bestands, selbst wenn es unterhalb des minimalen Niveaus fällt, da das System bestimmen kann, welche Artikel aufgefüllt werden müssen, selbst wenn keine mehr übrig sind.</li>
+<li>Klicken Sie auf <strong>Neu</strong>.</li>
+<li>Geben Sie im Feld <strong>Artikelnummer</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie den Artikel A0001 auswählen.</li>
+<li>Geben Sie im Feld <strong>Standort</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie „Standort 2“ auswählen.</li>
+<li>Geben Sie im Feld <strong>Lagerort</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie Lagerort 24 auswählen.</li>
+<li>Geben Sie im Feld <strong>Lagerplatz</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie „CP-003“ auswählen.</li>
+<li>Schließen Sie die Seite.</li>
+</ol>
+<h2 id="create-a-replenishment-location-directive">Erstellen Sie eine Auffüllungslagerplatz-Anweisung</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Lagerplatzrichtlinien</strong>. Lagerplatzanweisungen werden verwendet, um zu bestimmen, von wo Artikel im Auffüllungsprozess entnommen werden sollen.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> die Option „Wiederbeschaffung“ aus.</li>
+<li>Klicken Sie im <strong>Aktivitätsbereich</strong> auf <strong>Neu</strong>.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen Wert ein.</li>
+<li>Wählen Sie im Feld <strong>Arbeitstyp</strong> die Option „Entnahme“ aus.</li>
+<li>Geben Sie im Feld <strong>Standort</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie „Standort 2“ auswählen.</li>
+<li>Geben Sie im Feld <strong>Lagerort</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wenn Sie USMF verwenden, können Sie Lagerort 24 auswählen.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Klicken SIe im Abschnitt <strong>Positionen</strong> auf <strong>Neu</strong>.</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Geben Sie im Feld <strong>Bis Menge</strong> eine Zahl ein. Beispielweise können Sie es auf 9999 festlegen.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Teilung zulassen</strong>. Wenn Sie diese Option auswählen, ermöglicht es der Arbeitserstellungsprozess, dass die Arbeitspositionsmengen über mehrere Lagerplätze verteilt werden.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Im Abschnitt <strong>Lagerplatzanweisungsaktivität</strong> wählen Sie <strong>Neu</strong> aus:</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen Wert ein.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Klicken Sie im <strong>Aktivitätsbereich</strong> auf <strong>Abfrage bearbeiten</strong>. Sie können diese Abfrage bearbeiten, um Einschränkungen hinzuzufügen, bei denen der Bestand innerhalb des Auffüllungsprozesses ausgewählt werden kann. Beispielsweise kann es sein, dass Bestand nur aus dem Sammelbereich des Lagerorts verwendet werden soll.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Schließen Sie die Seite.</li>
+</ol>
+<h2 id="create-a-replenishment-work-template">Erstellen Sie eine Auffüllungs-Arbeitsvorlage</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Arbeit &gt; Arbeitsvorlagen</strong>. Diese Arbeitsvorlage wird verwendet, um das System darin zu führen, wie die Min./Max.-Auffüllungsarbeit erstellt werden muss. Als Minimum muss es eine Arbeitsvorlagenposition für eine Entnahme und eine Einlagerung geben. Die Arbeitsvorlage weist darauf hin, dass sie „Ungültig“ ist, bis die gesamten erforderlichen Informationen ausgefüllt wurden.</li>
+<li>Wählen Sie im Feld <strong>Arbeitsauftragstyp</strong> die Option „Wiederbeschaffung“ aus.</li>
+<li>Klicken Sie im <strong>Aktivitätsbereich</strong> auf <strong>Neu</strong>.</li>
+<li>Geben Sie in das Feld <strong>Arbeitsvorlage</strong> einen Wert ein.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Im Abschnitt <strong>Arbeitsvorlagendetails</strong> klicken Sie auf <strong>Neu</strong>:</li>
+<li>Wählen Sie im Feld <strong>Arbeitstyp</strong> die Option „Entnahme“ aus.</li>
+<li>Geben Sie im Feld <strong>Arbeitsklassenkennung</strong> einen Wert ein, oder wählen Sie einen Wert aus. Diese sollte eine Arbeitsklasse sein, die der Auffüllung zugeordnet ist. Wenn Sie USMF erwenden, wählen Sie „Auffüllen“ aus.</li>
+<li>Im Abschnitt <strong>Arbeitsvorlagendetails</strong> klicken Sie auf <strong>Neu</strong>:</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Wählen Sie im Feld <strong>Arbeitstyp</strong> die Option 'Einlagern'.</li>
+<li>Geben Sie im Feld <strong>Arbeitsklassenkennung</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Klicken Sie auf <strong>Speichern</strong>.</li>
+<li>Schließen Sie die Seite.</li>
+</ol>
+<h2 id="create-a-new-replenishment-template">Erstellen Sie eine neue Auffüllungsvorlage</h2>
+<ol>
+<li>Wechseln Sie <strong>Lagerortverwaltung &gt; Einstellungen &gt; Wiederbeschaffung &gt; Wiederbeschaffungsvorlagen</strong>. Die Auffüllungsvorlage wird verwendet, um die Artikel und Mengen sowie den aufzufüllenden Lagerplatz zu definieren.</li>
+<li>Klicken Sie im <strong>Aktivitätsbereich</strong> auf <strong>Neu</strong>.</li>
+<li>Geben Sie im Feld <strong>Auffüllungsvorlage</strong> einen Wert ein. Geben Sie der Vorlage einen Namen, um anzugeben, dass sie für die Min./Max.-Auffüllung ist.</li>
+<li>Geben Sie im Feld <strong>Beschreibung</strong> einen Wert ein.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Dem Serienbedarf erlauben, nicht reservierte Mengen zu verwenden</strong>. Wenn Sie diese Option auswählen, wird die Wellenbedarfsauffüllung aktiviert, um Mengen zu verbrauchen, die der Min./Max.-Auffüllung zugeordnet sind. Beispielsweise kann dies hilfreich, wenn die Min./Max.-Auffüllungsarbeit nicht sofort verarbeitet wird, um zu verhindern, dass unnötige Bedarfsauffüllungsarbeit erstellt wird.</li>
+<li>Im Abschnitt <strong>Auffüllungsvorlagendetails</strong> klicken Sie auf <strong>Neu</strong>.</li>
+<li>Geben Sie im Feld <strong>Laufende Nummer</strong> eine Zahl ein.</li>
+<li>Geben Sie im Feld <strong>Beschreibung</strong> einen Wert ein.</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Geben Sie im Feld <strong>Auffüllungseinheit</strong> einen Wert ein oder wählen Sie einen Wert aus. Wählen Sie beispielsweise Stck. aus. Diese Einstellung ist obligatorisch. Sie ermöglicht es Ihnen, eine andere Maßeinheit für die Auffüllungsarbeit anzugeben im Vergleich zur Einheit, die für die minimalen und maximalen Lagerbestände in dieser Vorlage angegeben ist.</li>
+<li>Geben Sie im Feld <strong>Arbeitsvorlage</strong> einen Wert ein, oder wählen Sie einen Wert aus. Wählen Sie die Arbeitsvorlage aus, die Sie zuvor erstellt haben.</li>
+<li>Geben Sie im Feld <strong>Mindestmenge</strong> eine Zahl ein. Wählen Sie die Mindestmenge aus, die die Auffüllung auslösen soll. Legen Sie diese beispielsweise auf 50 fest. Es ist möglich, diese auf null zu belassen, wenn Sie einen festen Lagerplatz auffüllen und die Option <strong>Leere feste Lagerplätze auffüllen</strong> auf „Ja“ festgelegt ist. Außerdem wird empfohlen, dass Sie die <strong>Nur feste Lagerplätze auffüllen</strong> aus Leistungsgründen auswählen.</li>
+<li>Geben Sie im Feld <strong>Höchstmenge</strong> eine Zahl ein. Legen Sie diese beispielsweise auf 100 fest.</li>
+<li>Geben Sie im Feld <strong>Einheit</strong> einen Wert ein, oder wählen Sie einen Wert aus. Weisen Sie die Einheit für die Mindest- und Höchstmengen zu. Legen Sie diese beispielsweise auf Stck. fest.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Leere feste Lagerplätze auffüllen</strong>. Aktivieren Sie dieses Kontrollkästchen, um feste Lagerplätze aufzufüllen, wenn sie leer sind. Andernfalls wird nur die Lagerplätze, in denen es eine verfügbare Menge gibt, aufgefüllt.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Nur leere feste Lagerplätze auffüllen</strong>.</li>
+<li>Klicken Sie auf <strong>Produkte auswählen</strong>. Dies ist die Stelle, an der definiert wird, welche Produkte aufgefüllt werden sollten. Wenn die Option &quot;Feste Entnahmeorte&quot; aktiviert ist, müssen Sie auch die Lagerplätze in dieser Abfrage definieren. Variantenspezifische Abfragen sind verfügbar, sowie auch produktspezifische Abfragen.</li>
+<li>Wählen Sie die Zeile <strong>Artikel</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Kriterien</strong> einen Wert ein. Wählen Sie die Artikel aus, die an den festen Lagerplätzen aufgefüllt werden sollen. Geben Sie beispielsweise A* ein, um alle Artikelnummern auszuwählen, die mit A beginnen.</li>
+<li>Klicken Sie auf <strong>Hinzufügen</strong>. Fügen Sie die Entität &quot;Lagerplatz&quot; (es sei denn, dass sie bereits vorhanden ist) hinzu, um die Auffüllungsarbeit auf die festen Entnahmeorte innerhalb eines bestimmten Bereichs des Lagerorts einzuschränken.</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Legen Sie das Feld <strong>Tabelle</strong> auf „Lagerplätze“ fest.</li>
+<li>Wählen Sie im Feld <strong>Feld</strong> die Option „Lagerortprofilkennung“aus.</li>
+<li>Geben Sie im Feld <strong>Kriterien</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Schließen Sie die Seite.</li>
+</ol>
+<h2 id="set-the-replenishment-process-to-run-as-a-batch-job">Legen Sie fest, dass der Auffüllungsprozess als Batchauftrag ausgeführt wird</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Wiederbeschaffung &gt; Wiederbeschaffen</strong>. Die Seite „Auffüllungen“ ermöglicht es Ihnen festzulegen, dass Auffüllung als Batchauftrag ausgeführt wird oder festzulegen, dass sie manuell gestartet wird.</li>
+<li>Klicken Sie auf <strong>Filter</strong>.</li>
+<li>Markieren Sie in der Liste die ausgewählte Zeile.</li>
+<li>Geben Sie im Feld <strong>Kriterien</strong> einen Wert ein, oder wählen Sie einen Wert aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Erweitern Sie den Abschnitt <strong>Im Hintergrund ausführen</strong>.</li>
+<li>Legen Sie Option <strong>Stapelverarbeitung</strong> auf „Ja“ fest.</li>
+<li>Klicken Sie auf <strong>Wiederholung</strong>.</li>
+<li>Wählen Sie die Option <strong>Kein Enddatum</strong> aus.</li>
+<li>Legen Sie das <strong>Wiederholungsmuster</strong> fest. Wählen Sie beispielsweise &quot;Tage&quot; aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

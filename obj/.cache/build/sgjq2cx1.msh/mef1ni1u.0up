@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Add support for a content delivery network (CDN) | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Add support for a content delivery network (CDN) | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="add-support-for-a-content-delivery-network-cdn" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="31">Add support for a content delivery network (CDN)</h1>
+
+
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="36">This topic describes how to add a content delivery network (CDN) to your Microsoft Dynamics 365 Commerce environment.</p>
+<h2 id="overview" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="38">Overview</h2>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="40">When you set up an e-commerce environment in Dynamics 365 Commerce, you can configure it to work with your CDN service.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="42">Your custom domain can be enabled during the provisioning process for your e-commerce environment. Alternatively, you can use a service request to set it up after the provisioning process is completed. The provisioning process for the e-commerce environment generates a host name that is associated with the environment. This host name has the following format, where &lt;<em sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="42">e-commerce-tenant-name</em>&gt; is the name of your environment:</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="44">&lt;e-commerce-tenant-name&gt;.commerce.dynamics.com</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="46">The host name or endpoint that is generated during the provisioning process supports a Secure Sockets Layer (SSL) certificate only for *.commerce.dynamics.com. It doesn't support SSL for custom domains. Therefore, you must terminate SSL for custom domains in your CDN and forward traffic from the CDN to the host name or endpoint that Commerce generated.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="48">Additionally, the <em sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="48">statics</em> (JavaScript or Cascading Style Sheets [CSS] files) from Commerce are served from the endpoint that Commerce generated (*.commerce.dynamics.com). The statics can be cached only if the host name or endpoint that Commerce generated is put behind the CDN.</p>
+<h2 id="set-up-ssl" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="50">Set up SSL</h2>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="52">To help guarantee that SSL is set up, and that statics are cached, you must configure your CDN so that it is associated with the host name that Commerce generated for your environment. You must also cache the following pattern for statics only:</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="54">/_msdyn365/_scnr/*</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="56">After you provision your Commerce environment with the custom domain that is provided, or after you provide the custom domain for your environment by using a service request, point your custom domain to the host name or endpoint that Commerce generated.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="58">As was previously mentioned, the generated host name or endpoint supports an SSL certificate only for *.commerce.dynamics.com. It doesn't support SSL for custom domains.</p>
+<h2 id="cdn-services" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="60">CDN services</h2>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="62">Any CDN service can be used with a Commerce environment. Here are two examples:</p>
+<ul sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="64">
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="64"><strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="64">Microsoft Azure Front Door Service</strong> – The Azure CDN solution. For more information about Azure Front Door Service, see <a href="https://docs.microsoft.com/azure/frontdoor/" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="64">Azure Front Door Service Documentation</a>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="65"><strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="65">Akamai Dynamic Site Accelerator</strong> – For more information, see <a href="https://www.akamai.com/us/en/products/performance/dynamic-site-accelerator.jsp" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="65">Dynamic Site Accelerator</a>.</li>
+</ul>
+<h2 id="cdn-setup" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="67">CDN setup</h2>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="69">The CDN setup process consists of these general steps:</p>
+<ol sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="71">
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="71">Add a front-end host.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="72">Configure a backend pool.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="73">Set up rules for routing and caching.</li>
+</ol>
+<h3 id="add-a-front-end-host" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="75">Add a front-end host</h3>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="77">Any CDN service can be used, but for the example in this topic, Azure Front Door Service is used.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="79">For information about how to set up Azure Front Door Service, see <a href="https://docs.microsoft.com/azure/frontdoor/quickstart-create-front-door" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="79">Quickstart: Create a Front Door for a highly available global web application</a>.</p>
+<h3 id="configure-a-backend-pool-in-azure-front-door-service" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="81">Configure a backend pool in Azure Front Door Service</h3>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="83">To configure a backend pool in Azure Front Door Service, follow these steps.</p>
+<ol sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="85">
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="85">Add <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="85">&lt;ecom-tenant-name&gt;.commerce.dynamics.com</strong> to a backend pool as a custom host that has an empty backend host header.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="86">Under <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="86">Load balancing</strong>, leave the default values.</li>
+</ol>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="88">The following illustration shows the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="88">Add a backend</strong> dialog box in Azure Front Door Service with the backend host name entered.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="90"><img src="./media/CDN_BackendPool.png" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="90" alt="Add a backend pool dialog box"></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="92">The following illustration shows the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="92">Add a backend pool</strong> dialog box in Azure Front Door Service with the default load balancing values.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="94"><img src="./media/CDN_BackendPool_2.png" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="94" alt="Add a backend pool dialog box continued"></p>
+<h3 id="set-up-rules-in-azure-front-door-service" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="96">Set up rules in Azure Front Door Service</h3>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="98">To set up a routing rule in Azure Front Door Service, follow these steps.</p>
+<ol sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="100">
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="100">Add a routing rule.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="101">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="101">Name</strong> field, enter <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="101">default</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="102">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="102">Accepted protocol</strong> field, select <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="102">HTTP and HTTPS</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="103">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="103">Frontend hosts</strong> field, enter <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="103">dynamics-ecom-tenant-name.azurefd.net</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="104">Under <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="104">Patterns to match</strong>, in the upper field, enter <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="104">/*</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="105">Under <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="105">Route Details</strong>, set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="105">Route type</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="105">Forward</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="106">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="106">Backend pool</strong> field, select <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="106">ecom-backend</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="107">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="107">Forwarding protocol</strong> field group, select the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="107">Match request</strong> option.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="108">Set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="108">URL rewrite</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="108">Disabled</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="109">Set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="109">Caching</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="109">Disabled</strong>.</li>
+</ol>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="111">To set up a caching rule in Azure Front Door Service, follow these steps.</p>
+<ol sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="113">
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="113">Add a caching rule.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="114">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="114">Name</strong> field, enter <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="114">statics</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="115">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="115">Accepted protocol</strong> field, select <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="115">HTTP and HTTPS</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="116">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="116">Frontend hosts</strong> field, enter <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="116">dynamics-ecom-tenant-name.azurefd.net</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="117">Under <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="117">Patterns to match</strong>, in the upper field, <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="117">/_msdyn365/_scnr/*</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="118">Under <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="118">Route Details</strong>, set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="118">Route type</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="118">Forward</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="119">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="119">Backend pool</strong> field, select <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="119">ecom-backend</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="120">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="120">Forwarding protocol</strong> field group, select the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="120">Match request</strong> option.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="121">Set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="121">URL rewrite</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="121">Disabled</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="122">Set the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="122">Caching</strong> option to <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="122">Disabled</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="123">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="123">Query string caching behavior</strong> field, select <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="123">Cache every unique URL</strong>.</li>
+<li sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="124">In the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="124">Dynamic compression</strong> field group, select the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="124">Enabled</strong> option.</li>
+</ol>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="126">The following illustration shows the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="126">Add a rule</strong> dialog box in Azure Front Door Service.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="128"><img src="./media/CDN_CachingRule.png" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="128" alt="Add a rule dialog box"></p>
+<div class="WARNING" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="130">
+<h5>Warning</h5>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="131">If the domain that you will use is already active and live, create a support ticket from the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="131">Support</strong> tile in <a href="https://lcs.dynamics.com/" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="131">Microsoft Dynamics Lifecycle Services</a> to get assistance for your next steps. For more information, see <a href="../fin-ops-core/dev-itpro/lifecycle-services/lcs-support.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="131">Get support for Finance and Operations apps or Lifecycle Services (LCS)</a>.</p>
+</div>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="133">If your domain is new and is not a pre-existing live domain, you can add your custom domain to the configuration for Azure Front Door Service. This will enable web traffic to direct to your site via the Azure Front Door instance. To add the custom domain (for example, <code sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="133">www.fabrikam.com</code>), you must configure a Canonical Name (CNAME) for the domain.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="135">The following illustration shows the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="135">CNAME configuration</strong> dialog box in Azure Front Door Service.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="137"><img src="./media/CNAME_Configuration.png" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="137" alt="CNAME Configuration dialog box"></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="139">You can use Azure Front Door Service to manage the certificate, or you can use your own certificate for the custom domain.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="141">The following illustration shows the <strong sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="141">Custom Domain HTTPS</strong> dialog box in Azure Front Door Service.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="143"><img src="./media/Custom_Domain_HTTPS.png" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="143" alt="Custom Domain HTTPS dialog box"></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="145">For detailed instructions on adding a custom domain to your Azure Front Door, see <a href="https://docs.microsoft.com/azure/frontdoor/front-door-custom-domain" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="145">Add a custom domain to your Front Door</a>.</p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="147">Your CDN should now be correctly configured so that it can be used with your Commerce site.</p>
+<h2 id="additional-resources" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="149">Additional resources</h2>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="151"><a href="configure-your-domain-name.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="151">Configure your domain name</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="153"><a href="deploy-ecommerce-site.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="153">Deploy a new e-commerce tenant</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="155"><a href="create-ecommerce-site.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="155">Create an e-commerce site</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="157"><a href="associate-site-online-store.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="157">Associate a Dynamics 365 Commerce site with an online channel</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="159"><a href="manage-robots-txt-files.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="159">Manage robots.txt files</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="161"><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/upload-bulk-redirects" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="161">Upload URL redirects in bulk (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="163"><a href="set-up-B2C-tenant.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="163">Set up a B2C tenant in Commerce</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="165"><a href="custom-pages-user-logins.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="165">Set up custom pages for user logins</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="167"><a href="configure-multi-B2C-tenants.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="167">Configure multiple B2C tenants in a Commerce environment</a></p>
+<p sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="169"><a href="enable-store-detection.html" sourcefile="articles/commerce/add-cdn-support.md" sourcestartlinenumber="169">Enable location-based store detection</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

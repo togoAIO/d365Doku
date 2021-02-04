@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot live synchronization issues </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot live synchronization issues ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="This topic provides troubleshooting information that can help you fix issues with live synchronization.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="troubleshoot-live-synchronization-issues">Troubleshoot live synchronization issues</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic provides troubleshooting information for dual-write integration between Finance and Operations apps and Dataverse. Specifically, it provides information that can help you fix issues with live synchronization.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some of the issues that this topic addresses might require either the system admin role or Microsoft Azure Active Directory (Azure AD) tenant admin credentials. The section for each issue explains whether a specific role or credentials are required.</p>
+</div>
+<h2 id="live-synchronization-throws-a-403-forbidden-error-when-you-create-a-row-in-a-finance-and-operations-app">Live synchronization throws a 403 Forbidden error when you create a row in a Finance and Operations app</h2>
+<p>You might receive the following error message when you create a row in a Finance and Operations app:</p>
+<p><em>[{\&quot;error\&quot;:{\&quot;code\&quot;:\&quot;0x80072560\&quot;,\&quot;message\&quot;:\&quot;The user is not a
+member of the organization.\&quot;}}], The remote server returned an error: (403)
+Forbidden.&quot;}}&quot;.</em></p>
+<p>To fix the issue, follow the steps in <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/requirements-and-prerequisites">System requirements and prerequisites (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>. To complete those steps, the dual-write application users who are created in Dataverse must have the system admin role. The default owning team must also have the system admin role.</p>
+<h2 id="live-synchronization-for-any-table-consistently-throws-a-similar-error-when-you-create-a-row-in-a-finance-and-operations-app">Live synchronization for any table consistently throws a similar error when you create a row in a Finance and Operations app</h2>
+<p><strong>Required role to fix the issue:</strong> System admin</p>
+<p>You might receive an error message like the following every time that you try to save table data in a Finance and Operations app:</p>
+<p><em>Cannot save the changes to the database. Unit of Work can not commit transaction. Unable to write data to entity uoms. Writes to UnitOfMeasureEntity failed with error message Unable to sync with entity uoms.</em></p>
+<p>To fix the issue, you must make sure that the prerequisite reference data exists in both the Finance and Operations app and Dataverse. For example, if the customer that you're in the Finance and Operations app belongs to a specific customer group, make sure that the customer group exists in Dataverse.</p>
+<p>If data exists on both sides, and you've confirmed that the issue isn't data-related, follow these steps.</p>
+<ol>
+<li><p>Stop the related table.</p>
+</li>
+<li><p>Sign in to the Finance and Operations app, and make sure that rows for the failing table exist in the DualWriteProjectConfiguration and DualWriteProjectFieldConfiguration tables. For example, here is what the query looks like if the <strong>Customers</strong> table is failing.</p>
+<pre><code class="lang-sql">Select projectname, externalenvironmentURL ,\* 
+from DUALWRITEPROJECTCONFIGURATION 
+where INTERNALENTITYNAME = 'Customers V3' and
+    EXTERNALENTITYNAME = 'accounts' 
+</code></pre>
+</li>
+<li><p>If there are rows for the failing table even after you stop the table mapping, delete the rows that are related to the failing table. Make a note of the <strong>projectname</strong> column in the DualWriteProjectConfiguration table, and fetch the row in the DualWriteProjectFieldConfiguration table by using the project name to delete the row.</p>
+</li>
+<li><p>Start the table mapping. Validate whether the data is synced without any issues.</p>
+</li>
+</ol>
+<h2 id="handle-read-or-write-privilege-errors-when-you-create-data-in-a-finance-and-operations-app">Handle read or write privilege errors when you create data in a Finance and Operations app</h2>
+<p>You might receive a &quot;Bad Request&quot; error message that resembles the following example when you create data in a Finance and Operations app.</p>
+<p><img src="media/error_record_id_source.png" alt="Example of the Bad Request error message"></p>
+<p>To fix the issue, you must assign the correct security role to the team of the mapped Dynamics 365 Sales or Dynamics 365 Customer Service business unit to enable the missing privilege.</p>
+<ol>
+<li><p>In the Finance and Operations app, find the business unit that is mapped in the Data Integration connection set.</p>
+<p><img src="media/mapped_business_unit.png" alt="Organization mapping"></p>
+</li>
+<li><p>Sign in to the environment in the model-driven app in Dynamics 365, navigate to <strong>Setting &gt; Security</strong>, and find the team of the mapped business unit.</p>
+<p><img src="media/setting_security_page.png" alt="Team of the mapped business unit"></p>
+</li>
+<li><p>Open the page for the team for editing, and then select <strong>Manage roles</strong> to open the <strong>Manage Team Roles</strong> dialog box.</p>
+<p><img src="media/manage_team_roles.png" alt="Manage roles button"></p>
+</li>
+<li><p>Assign the role that has the read/write privilege for the relevant tables, and then select <strong>OK</strong>.</p>
+</li>
+</ol>
+<h2 id="fix-synchronization-issues-in-an-environment-that-has-a-recently-changed-dataverse-environment">Fix synchronization issues in an environment that has a recently changed Dataverse environment</h2>
+<p><strong>Required role to fix the issue:</strong> System admin</p>
+<p>You might receive the following error message when you create data in a Finance and Operations app:</p>
+<p><em>{&quot;entityName&quot;:&quot;CustCustomerV3Entity&quot;,&quot;executionStatus&quot;:2,&quot;fieldResponses&quot;:[],&quot;recordResponses&quot;:[{&quot;errorMessage&quot;:&quot;<strong>Unable
+to generate payload for entity
+CustCustomerV3Entity</strong>&quot;,&quot;logDateTime&quot;:&quot;2019-08-27T18:51:52.5843124Z&quot;,&quot;verboseError&quot;:&quot;Payload
+creation failed with error Invalid URI: The URI is
+empty.&quot;}],&quot;isErrorCountUpdated&quot;:true}</em></p>
+<p>Here is what the error looks like in the model-driven app in Dynamics 365:</p>
+<p><em>An unexpected error occurred from ISV code. (ErrorType = ClientError) Unexpected exception from plug-in (Execute): Microsoft.Dynamics.Integrator.DualWriteRuntime.Plugins.PostCommitPlugin: System.Exception: failed to process entity account - (A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond</em></p>
+<p>This error occurs when the Dataverse environment is incorrectly reset at the same time that you try to create data in the Finance and Operations app.</p>
+<p>To fix the issue, follow these steps.</p>
+<ol>
+<li><p>Sign in to the Finance and Operations virtual machine (VM), open SQL Server Management Studio (SSMS), and look for rows in the DUALWRITEPROJECTCONFIGURATIONENTITY table where <strong>internalentityname</strong> equals <strong>Customers V3</strong> and <strong>externalentityname</strong> equals <strong>accounts</strong>. Here is what the query looks like.</p>
+<pre><code class="lang-sql">select projectname, externalenvironmentURL ,\* 
+from DUALWRITEPROJECTCONFIGURATION 
+where INTERNALENTITYNAME = 'Customers V3' and EXTERNALENTITYNAME = 'accounts'
+</code></pre>
+</li>
+<li><p>Use the project name from the results of the previous query to run the following query.</p>
+<pre><code class="lang-sql">select \* 
+from DUALWRITEPROJECTFIELDCONFIGURATION 
+where projectname = &lt;project name from previous query&gt;
+</code></pre>
+</li>
+<li><p>Make sure that the <strong>externalenvironmentURL</strong> column has the correct Dataverse or app URL. Delete any duplicate rows that point to the wrong Dataverse URL. Delete the corresponding rows in the DUALWRITEPROJECTFIELDCONFIGURATION and DUALWRITEPROJECTCONFIGURATION tables.</p>
+</li>
+<li><p>Stop the table mapping, and then restart it</p>
+</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-unified-Operations-public/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/dual-write-troubleshooting-live-sync.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

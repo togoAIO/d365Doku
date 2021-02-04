@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Komprimieren gro&#223;er Dokumente, die in der elektronischen Berichterstellung generiert werden | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Komprimieren gro&#223;er Dokumente, die in der elektronischen Berichterstellung generiert werden | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="compress-large-documents-that-are-generated-in-electronic-reporting">Komprimieren großer Dokumente, die in der elektronischen Berichterstellung generiert werden</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Sie können das <a href="general-electronic-reporting.html">Framework für die elektronische Berichterstellung (EB)</a> verwenden, um eine Lösung zu konfigurieren, die Transaktionsdaten abruft, um ein ausgehendes Dokument zu generieren. Dieses generierte Dokument ist möglicherweise sehr groß. Wenn dieser Dokumenttyp generiert wird, wird der Speicher des <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/dev-tools/access-instances#location-of-packages-source-code-and-other-aos-configurations">Anwendungsobjektservers (AOS)</a> zur Speicherung verwendet. Irgendwann muss das Dokument dann aus Ihrer Microsoft Dynamics 365 Finance-Anwendung heruntergeladen werden. Derzeit ist die maximale Größe eines einzelnen Dokuments, das in EB generiert werden kann, auf 2 Gigabyte (GB) begrenzt. Des Weiteren <a href="https://fix.lcs.dynamics.com/Issue/Details?bugId=489291">begrenzt</a> Finance die Größe einer heruntergeladenene Datei derzeit auf 1 GB. Daher müssen Sie eine EB-Lösung konfigurieren, die die Wahrscheinlichkeit verringert, dass diese Einschränkungen überschritten werden und Sie eine Ausnahme <strong>Stream war zu lang</strong> oder <strong>Überlauf oder Unterlauf in der Rechenoperation</strong> erhalten.</p>
+<p>Wenn Sie eine Lösung konfigurieren, können Sie Ihr EB-Format im Vorgangs-Designer anpassen, indem Sie ein Stammelement vom Typ <strong>Ordner</strong> hinzufügen, um den Inhalt zu komprimieren, der von einem der verschachtelten Elemente generiert wird. Die Komprimierung arbeitet „just in time“, sodass die maximale Speichernutzung und die Größe der herunterzuladenden Datei verringert werden können.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Komprimierung nimmt einen zusätzlichen Prozentsatz der CPU-Auslastung in Anspruch.</p>
+</div>
+<p>Weitere Informationen zu diesem Ansatz erhalten Sie, wenn Sie das Beispiel in diesem Thema abschließen.</p>
+<h2 id="example-compress-an-outbound-document">Beispiel: Komprimieren eines ausgehenden Dokuments</h2>
+<p>Dieses Beispiel zeigt, wie ein Benutzer, dem die Rolle <strong>Systemadministrator</strong> oder <strong>Funktionaler Berater für elektronische Berichterstellung</strong> zugewiesen ist, ein EB-Format konfigurieren kann, um ein generiertes Dokument zu komprimieren.</p>
+<h3 id="prerequisites">Voraussetzungen</h3>
+<p>Bevor Sie die Prozeduren in diesem Thema abschließen können, müssen die folgenden Schritte abgeschlossen werden.</p>
+<ol>
+<li><a href="er-defer-xml-element.html#activate-a-configuration-provider">Aktivieren eines Konfigurationsanbieters</a>.</li>
+<li><a href="er-defer-xml-element.html#import-the-sample-er-configurations">Importieren Sie die EB-Beispielkonfigurationen</a>.</li>
+<li><a href="er-defer-xml-element.html#review-the-imported-format">Überprüfen Sie das importierte Format</a>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Derzeit beginnt die Formatstruktur mit dem Element <strong>Bericht</strong> vom Typ <strong>Datei</strong> und enthält XML-Elemente. Daher wird ein ausgehendes Dokument im XML-Format generiert und es wird keine Komprimierung verwendet.</p>
+</div>
+<h3 id="generate-an-er-format-to-get-an-uncompressed-document">Generieren Sie ein EB-Format, um ein unkomprimiertes Dokument zu erhalten</h3>
+<ol>
+<li><p><a href="er-defer-xml-element.html#run-the-imported-format">Führen Sie das importierte Format aus</a>.</p>
+</li>
+<li><p>Beachten Sie, dass die Größe des generierten Dokuments im XML-Format 3 Kilobyte (KB) beträgt.</p>
+<p><img src="media/er-compress-outbound-files1.png" alt="Vorschau des unkomprimierten ausgehenden Dokuments"></p>
+</li>
+</ol>
+<h3 id="modify-the-format-to-compress-the-generated-output">Ändern des Formats, um die generierte Ausgabe zu komprimieren</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</li>
+<li>Erweitern Sie auf der Seite <strong>Konfigurationen</strong> die Konfigurationsstruktur für <strong>Modell zum Erlernen verzögerter Elemente</strong>.</li>
+<li>Wähle Sie die Konfiguration <strong>Format zum Verstehen verzögerter XML-Elemente</strong> aus.</li>
+<li>Wählen Sie <strong>Designer</strong> aus, um die Formatstruktur zu ändern.</li>
+<li>Wählen Sie auf der Seite <strong>Formatdesigner</strong> auf der Registerkarte <strong>Format</strong> die Option <strong>Stamm hinzufügen</strong> aus, um ein Stammformatelement hinzuzufügen.</li>
+<li>Wählen Sie im Dialogfeld <strong>Hinzufügen</strong> <strong>Verbreitet\Ordner</strong> aus.</li>
+<li>Wählen Sie <strong>OK</strong> aus, um das Hinzufügen des neuen Stammelements zu bestätigen.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Formatstruktur beginnt mit dem Element des Typs <strong>Ordner</strong>. Dieses Element generiert eine Ausgabe als komprimierte Datei (ZIP-Format). Wenn ein Dokument, das vom Element <strong>Bericht</strong> generiert wird, in eine ausgehende ZIP-Datei eingefügt wird, wird sein Inhalt komprimiert, um die Größe der ausgehenden Datei zu verringern.</p>
+</div>
+<h3 id="generate-an-er-format-to-get-a-compressed-document">Generieren eines EB-Formats, um ein komprimiertes Dokument zu erhalten</h3>
+<ol>
+<li><p>Wählen Sie auf der Seite <strong>Formatdesigner</strong> die Option <strong>Ausführen</strong> aus.</p>
+</li>
+<li><p>Laden Sie die vom Webbrowser angebotene ZIP-Datei herunter und öffnen Sie sie zur Überprüfung.</p>
+</li>
+<li><p>Beachten Sie, dass die Größe des generierten Dokuments im ZIP-Format 1 KB beträgt.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Komprimierungsrate der XML-Datei, die diese ZIP-Datei enthält, beträgt 87 Prozent. Die Komprimierungsrate hängt von den Daten ab, die komprimiert werden.</p>
+</div>
+<p><img src="media/er-compress-outbound-files2.png" alt="Vorschau des komprimierten ausgehenden Dokuments"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn das EB-<a href="electronic-reporting-destinations.html">Ziel</a> für das Formatelement konfiguriert ist, das die Ausgabe generiert (in diesem Beispiel das Element <strong>Bericht</strong>), wird die Komprimierung der Ausgabe umgangen.</p>
+</div>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="general-electronic-reporting.html">Überblick über die elektronische Berichterstellung (ER)</a></p>
+<p><a href="electronic-reporting-destinations.html">Zielorte für elektronische Berichterstellung (ER)</a></p>
+<p><a href="er-defer-xml-element.html">Ausführung von XML-Elementen in ER-Formaten verzögern</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

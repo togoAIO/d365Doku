@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cash register functionality for France | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Cash register functionality for France | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cash-register-functionality-for-france">Cash register functionality for France</h1>
+
+
+<p>This topic provides an overview of the cash register functionality that is available for France in Dynamics 365 Commerce. It also provides guidelines for setting up the functionality.</p>
+<p>The functionality consists of the following parts:</p>
+<ul>
+<li>Common point-of-sale (POS) features that are available to customers in all countries or regions. Examples include an option to register various events in the POS audit log.</li>
+<li>France-specific features, such as digital signatures for sales transactions.</li>
+</ul>
+<h2 id="overview">Overview</h2>
+<h3 id="common-pos-features">Common POS features</h3>
+<p>To learn about POS features that are available to customers in all countries or regions, see <a href="../index.html">Commerce home page</a>.</p>
+<p>The following POS localization features that are available to customers in all countries or regions can now be used specifically for France:</p>
+<ul>
+<li><p><strong>Register additional events in the POS audit event log.</strong> If the <strong>Audit</strong> option in the POS functionality profile is set to <strong>Yes</strong>, the following events are registered in the POS audit event log:</p>
+<ul>
+<li>Sign-in</li>
+<li>Sign-out</li>
+<li>Printing a copy of a receipt</li>
+<li>Starting offline mode</li>
+<li>Ending offline mode</li>
+<li>Cleanup of transactions from the channel database</li>
+</ul>
+</li>
+</ul>
+<h3 id="france-specific-pos-features">France-specific POS features</h3>
+<p>The following France-specific POS features are enabled when the <strong>ISO code</strong> field in the POS functionality profile is set to <strong>FR</strong>.</p>
+<h4 id="digital-signing-overview">Digital signing overview</h4>
+<p>The following types of data (transactions and events) are digitally signed in POS:</p>
+<ul>
+<li>Sales transactions</li>
+<li>Copies of receipts</li>
+<li>Closed shift/Z reports</li>
+<li>Audit events</li>
+</ul>
+<p>The signature is created and recorded in the channel database at the same time that the transaction is finalized or the event is registered. The data that is signed is a text string that consists of several data fields. These fields vary, depending on the type of data. The general signing process consists of the following steps:</p>
+<ol>
+<li>Based on the type of data, select the next sequential number for signing purposes.</li>
+<li>Extract the data fields that must be signed from the record that is being signed.</li>
+<li>Build a string that consists of a comma-separated list of the data fields.</li>
+<li>Add the previous signature for the same type of data.</li>
+<li>Calculate a hash code of the string by using the SHA-x algorithm.</li>
+<li>Encrypt the resulting string by using a digital certificate.</li>
+<li>Do the base64url transformation for the resulting string.</li>
+<li>Store the string that is used for signing, the sequential number, the signature, and the thumbprint of the certificate in a fiscal response record that is linked to the transaction or event.</li>
+<li>Transfer the fiscal response to the enterprise resource planning (ERP) system in Headquarters, together with the transaction or event.</li>
+</ol>
+<h4 id="digital-signing-of-sales-transactions">Digital signing of sales transactions</h4>
+<p>Only transactions for cash sales are signed. Here are some examples of transactions that are excluded from the signing process:</p>
+<ul>
+<li>Prepayments (customer account deposits)</li>
+<li>Quotations</li>
+<li>Prepayments for sales orders (customer order deposits)</li>
+<li>Issuing a gift card and adding funds to a gift card</li>
+<li>Non-sales transactions (float entry, tender removal, and so on)</li>
+</ul>
+<p>The data that is signed for a sales transaction is a text string that consists of the following data fields:</p>
+<ol>
+<li>The total amount of sales lines. The amount includes tax per tax rate.</li>
+<li>The total amount of sales. The amount includes tax.</li>
+<li>The date and time of the transaction, in the format YYYYMMDDHHMMSS.</li>
+<li>The register number.</li>
+<li>The sequential number of the signed sales transaction.</li>
+<li>The type of sales transaction.</li>
+<li>A value (Y/N) that indicates whether the transaction is the first signed sales transaction for the register.</li>
+<li>The previous signature for the same register. A blank value is used for the first signed sales transaction.</li>
+</ol>
+<p>You can view the transaction signature, together with the transaction data that was used to generate it, on the <strong>Fiscal transactions</strong> FastTab of the <strong>Store transactions</strong> page in Headquarters.</p>
+<h4 id="digital-signing-of-receipt-copies">Digital signing of receipt copies</h4>
+<p>When a copy of a receipt is printed, the event is registered in the POS audit event log. Only copies of receipts for signed sales transactions are signed. The data that is signed for a receipt copy event is a text string that consists of the following data fields:</p>
+<ol>
+<li>The receipt number of the original sales transaction.</li>
+<li>The type of transaction for the original sales transaction.</li>
+<li>The number of the receipt copy for this sales transaction.</li>
+<li>The staff ID of the operator who is printing the receipt copy.</li>
+<li>The date and time of the receipt copy event, in the format YYYYMMDDHHMMSS.</li>
+<li>The sequential number of the signed receipt copy event.</li>
+<li>A value (Y/N) that indicates whether the transaction is the first signed receipt copy event for the register.</li>
+<li>The previous signature for the same register. A blank value is used for the first signed receipt copy event.</li>
+</ol>
+<p>You can view the signature of the receipt copy, together with the event data that was used to generate it, on the <strong>Signature</strong> tab of the <strong>Audit events</strong> page in Headquarters.</p>
+<h4 id="digital-signing-of-closed-shifts">Digital signing of closed shifts</h4>
+<p>When a shift is closed, the event is registered in the POS audit event log. The data that is signed for a shift closing event is a text string that consists of the following data fields:</p>
+<ol>
+<li>The total amount of sales. The amount includes tax per tax rate.</li>
+<li>The total amount of sales. The amount includes tax.</li>
+<li>The date and time of the shift closing event, in the format YYYYMMDDHHMMSS.</li>
+<li>The sequential number of the shift closing event.</li>
+<li>A value (Y/N) that indicates whether the transaction is the first signed shift closing event for the register.</li>
+<li>The previous signature for the same register. A blank value is used for the first signed shift closing event.</li>
+</ol>
+<p>You can view the signature of a closed shift, together with the shift data that was used to generate it, on the <strong>Signature</strong> tab of the <strong>Shifts</strong> page in Headquarters.</p>
+<h4 id="digital-signing-of-events">Digital signing of events</h4>
+<p>The data that is signed for an event other than a receipt copy or shift closing event is a text string that consists of the following data fields:</p>
+<ol>
+<li>The sequential number of the signed event.</li>
+<li>A predefined event code.</li>
+<li>A description of the event.</li>
+<li>The date and time of the event.</li>
+<li>The staff ID of the operator who raised the event.</li>
+<li>The register number.</li>
+<li>A value (Y/N) that indicates whether the transaction is the first signed event for the register.</li>
+<li>The previous signature for the same register. A blank value is used for the first signed event.</li>
+</ol>
+<p>You can view the event signature, together with the event data that was used to generate it, on the <strong>Signature</strong> tab of the <strong>Audit events</strong> page in Headquarters.</p>
+<h4 id="receipts">Receipts</h4>
+<p>Receipts for France can include additional information that was implemented by using custom fields:</p>
+<ul>
+<li><p><strong>Transaction type</strong> – You can add a field to a receipt format layout to identify the type of transaction. For example, a sales receipt will include the text &quot;Sales.&quot;</p>
+</li>
+<li><p><strong>Sequential number of signed sales transaction</strong> – A receipt can include the sequential number of a signed sales transaction. This number is used to associate the printed receipt with a digital signature in the database.</p>
+</li>
+<li><p><strong>Extract from digital signature</strong> – A receipt can include an extract from the digital signature. This extract is used to confirm that the transaction is signed. It consists of a concatenation of the third, seventh, thirteenth, and nineteenth symbols of the signature.</p>
+</li>
+<li><p><strong>Reprint number</strong> – An original receipt or a receipt copy can include the number of the receipt copy. For an original receipt, the value is <strong>0</strong> (zero).</p>
+</li>
+<li><p><strong>Line count</strong> – A receipt can include the number of printed item lines on the receipt.</p>
+</li>
+<li><p><strong>Sales totals</strong> – Custom fields for receipt totals exclude non-sales amounts from the total transaction amounts. Non-sales amounts include amounts for the following operations:</p>
+<ul>
+<li>Prepayments (customer account deposits)</li>
+<li>Prepayments for sales orders (customer order deposits)</li>
+<li>Issuing a gift card</li>
+<li>Adding funds to a gift card</li>
+</ul>
+</li>
+<li><p><strong>Certification data</strong> – A receipt can include the category and number of the certificate of compliance that an authorized body issued per the NF 525 certification requirements.</p>
+</li>
+<li><p><strong>Build number</strong> – A receipt can include the POS build number.</p>
+</li>
+</ul>
+<h4 id="restricting-the-duration-of-shifts">Restricting the duration of shifts</h4>
+<p>There is an option to enforce daily shift closing in POS. A shift can't last longer than the time that is specified in the <strong>Shift closing time</strong> field. Several minutes before that time, the operator will start to receive warnings that the shift must be closed. The number of minutes is determined by the value of the <strong>Shift closing interval (minutes)</strong> field.</p>
+<h4 id="x-and-z-reports">X and Z reports</h4>
+<p>The information that is included on X and Z reports is based on French requirements:</p>
+<ul>
+<li><strong>Total sales</strong> for the shift. This information includes amounts only for cash sales transactions. Prepayments and operations for issuing a gift card are excluded.</li>
+<li><strong>Total returns</strong> for the shift.</li>
+<li><strong>Cumulative grand total</strong>. This amount is calculated as the cumulative grand total amount of the previous shift plus the total sales amount of this shift minus the absolute value of the total returns amount of this shift.</li>
+<li><strong>Cumulative perpetual grand total</strong>. This amount is calculated as the cumulative perpetual grand total amount of the previous shift plus the total sales amount of this shift plus the absolute value of the total returns amount of this shift.</li>
+<li>Value-added tax (VAT) amounts per tax rate.</li>
+</ul>
+<p>The totals are also stored in the closed shift record and transferred to Headquarters.</p>
+<h4 id="period-grand-total-journal">Period grand total journal</h4>
+<p>Period grand total journals summarize sales totals per store and fiscal period.</p>
+<p>Period grand total journals are maintained on the <strong>Period grand total journal</strong> page. To create a new journal, you must specify a store. If previous journals exist for the store, the next fiscal period after the last closed journal for the store is automatically used as the new journal period. If previous journals do not exist, you can specify the end date of the journal. In this case, the fiscal period that includes the specified date is used as the journal period.</p>
+<p>The journal can then be calculated. Shifts that were closed during the journal period are selected, and totals are calculated for those shifts. You can view the journal's tax totals per sales tax code. You can also view the shifts that are included in the journal.</p>
+<p>After the journal is calculated, it can be closed. A closed journal can't be modified, and another journal can't be created for a previous period, the same period, or an intersecting period. However, the last closed journal for a store can be canceled. In that case, another journal can be created for the same store and period.</p>
+<p>A closed journal is digitally signed. You can view the journal signature, together with the journal data that was used to generate it, on the <strong>Signature details</strong> tab of the <strong>Period grand total journal</strong> page in Headquarters.</p>
+<h4 id="archive">Archive</h4>
+<p>An archive is an XML file that can be exported from a Period grand total journal that has been closed. It includes the totals for the closed period, and also includes detailed data about sales transactions and events. The exported file is digitally signed, and the signature is contained in a separate file.</p>
+<p>The archive format is implemented by using <a href="../../dev-itpro/analytics/general-electronic-reporting.md">Electronic reporting (ER)</a>.</p>
+<h2 id="setting-up-commerce-for-france">Setting up Commerce for France</h2>
+<p>This section describes the Commerce settings that are specific to and recommended for France. For more information, see <a href="../index.html">Commerce home page</a>.</p>
+<p>To use the France-specific functionality, you must complete these tasks:</p>
+<ul>
+<li>Set the <strong>Country/region</strong> field to <strong>FRA</strong> (France) in the primary address of the legal entity.</li>
+<li>Set the <strong>ISO code</strong> field to <strong>FR</strong> (France) in the POS functionality profile of every store that is located in France.</li>
+</ul>
+<p>You must also specify the following settings for France. Note that you must run appropriate distribution jobs after you complete the setup.</p>
+<h3 id="set-up-the-legal-entity">Set up the legal entity</h3>
+<p>You must make the following changes on the <strong>Legal entities</strong> page. These settings are used in the archive format.</p>
+<ul>
+<li>On the <strong>Bank account information</strong> FastTab, in the <strong>Routing number</strong> field, specify the VAT identifier of the organization.</li>
+<li>On the <strong>Statutory reporting</strong> FastTab, in the <strong>NAF code</strong> field, specify the Nomenclature des Activités Françaises (NAF) code of the organization.</li>
+<li>On the <strong>Tax registration</strong> FastTab, in the <strong>Tax registration number</strong> field, specify the Système d'identification du répertoire des établissements (SIRET) number of the organization.</li>
+</ul>
+<h3 id="set-up-vat-per-french-requirements">Set up VAT per French requirements</h3>
+<p>You must create sales tax codes, sales tax groups, and item sales tax groups. You must also set up sales tax information for products and services. For more information about how to set up and use sales tax, see <a href="../../financials/general-ledger/indirect-taxes-overview.md">Sales tax overview</a>.</p>
+<p>You must also specify sales tax groups and enable the <strong>Prices include sales tax</strong> option for stores that are located in France.</p>
+<h3 id="set-up-functionality-profiles">Set up functionality profiles</h3>
+<p>You must enable auditing by setting the <strong>Audit</strong> option to <strong>Yes</strong>.</p>
+<p>To enforce daily shift closing, you must make the following changes:</p>
+<ul>
+<li>Set the <strong>Enforce daily shift closing</strong> option to <strong>Yes</strong>.</li>
+<li>Set the <strong>Shift closing time</strong> and <strong>Shift closing interval (minutes)</strong> fields.</li>
+</ul>
+<h3 id="configure-custom-fields-so-that-they-can-be-used-in-receipt-formats-for-sales-receipts">Configure custom fields so that they can be used in receipt formats for sales receipts</h3>
+<p>You can configure the language text and custom fields that are used in the POS receipt formats. The default company of the user who creates the receipt setup should be the same legal entity where the language text setup is created. Alternatively, the same language texts should be created in both the user's default company and the legal entity of the store that the setup is created for.</p>
+<p>On the <strong>Language text</strong> page, add the following records for the labels of the custom fields for receipt layouts. Note that the <strong>Language ID</strong>, <strong>Text ID</strong>, and <strong>Text</strong> values that are shown in the table are just examples. You can change them to meet to your requirements. However, the <strong>Text ID</strong> values that you use must be unique, and they must be equal to or higher than 900001.</p>
+<table>
+<thead>
+<tr>
+<th>Language ID</th>
+<th>Text ID</th>
+<th>Text ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>en-US</td>
+<td>900001</td>
+<td>Transaction type</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900002</td>
+<td>Sequential number</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900003</td>
+<td>Digital signature</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900004</td>
+<td>Reprint number</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900005</td>
+<td>Sales tax amount</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900006</td>
+<td>Sales total</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900007</td>
+<td>Sales total tax</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900008</td>
+<td>Sales total including tax</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900009</td>
+<td>Build number</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900010</td>
+<td>Certification category</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900011</td>
+<td>Certificate number</td>
+</tr>
+<tr>
+<td>en-US</td>
+<td>900012</td>
+<td>Line count</td>
+</tr>
+</tbody>
+</table>
+<p>On the <strong>Custom fields</strong> page, add the following records for the custom fields for receipt layouts. Note that <strong>Caption text ID</strong> values must correspond to the <strong>Text ID</strong> values that you specified on the <strong>Language text</strong> page.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Caption text ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRANSACTIONTYPE</td>
+<td>Receipt</td>
+<td>900001</td>
+</tr>
+<tr>
+<td>SEQUENTIALNUMBER</td>
+<td>Receipt</td>
+<td>900002</td>
+</tr>
+<tr>
+<td>DIGITALSIGNATURE</td>
+<td>Receipt</td>
+<td>900003</td>
+</tr>
+<tr>
+<td>REPRINTNUMBER</td>
+<td>Receipt</td>
+<td>900004</td>
+</tr>
+<tr>
+<td>SALESTAXAMOUNT</td>
+<td>Receipt</td>
+<td>900005</td>
+</tr>
+<tr>
+<td>SALESTOTAL</td>
+<td>Receipt</td>
+<td>900006</td>
+</tr>
+<tr>
+<td>SALESTOTALTAX</td>
+<td>Receipt</td>
+<td>900007</td>
+</tr>
+<tr>
+<td>SALESTOTALINCLUDETAX</td>
+<td>Receipt</td>
+<td>900008</td>
+</tr>
+<tr>
+<td>BUILDNUMBER</td>
+<td>Receipt</td>
+<td>900009</td>
+</tr>
+<tr>
+<td>CERTIFICATIONCATEGORY</td>
+<td>Receipt</td>
+<td>900010</td>
+</tr>
+<tr>
+<td>CERTIFICATENUMBER</td>
+<td>Receipt</td>
+<td>900011</td>
+</tr>
+<tr>
+<td>LINECOUNT</td>
+<td>Receipt</td>
+<td>900012</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configure-receipt-formats">Configure receipt formats</h3>
+<p>For every required receipt format, change the value of the <strong>Print behavior</strong> field to <strong>Always print</strong>.</p>
+<p>In the Receipt format designer, add the following custom fields to the appropriate receipt sections. Note that field names correspond to the language texts that you defined in the previous section.</p>
+<ul>
+<li><p><strong>Header:</strong> Add the following field:</p>
+<ul>
+<li><strong>Transaction type</strong> – This field identifies the type of receipt.</li>
+</ul>
+</li>
+<li><p><strong>Lines:</strong> We recommend that you add the following standard fields:</p>
+<ul>
+<li><strong>Unit price with tax</strong></li>
+<li><strong>Total price with tax</strong></li>
+<li><strong>Tax ID</strong></li>
+</ul>
+</li>
+<li><p><strong>Footer:</strong> Add the following fields:</p>
+<ul>
+<li><strong>Sales total</strong> – This field prints the receipt's total cash sale amount. The amount excludes tax. Prepayments and gift card operations are excluded.</li>
+<li><strong>Sales total tax</strong> – This field prints the receipt's total tax amount for cash sales. Prepayments and gift card operations are excluded.</li>
+<li><strong>Sales total including tax</strong> – This field prints the receipt's total cash sale amount. The amount includes tax. Prepayments and gift card operations are excluded.</li>
+<li><strong>Tax ID</strong> – This standard field enables a sales tax summary to be printed per sales tax code. The field must be added to a new line.</li>
+<li><strong>Sales tax amount</strong> – This field prints the receipt's tax amount for cash sales per sales tax code. Prepayments and gift card operations are excluded. The field must be added to the same line as the <strong>Tax ID</strong> field.</li>
+<li><strong>Sequential number</strong> – This field prints the sequential number of a signed sales transaction.</li>
+<li><strong>Digital signature</strong> – This field prints the extract from the digital signature.</li>
+<li><strong>Reprint number</strong> – This field prints the number of a receipt copy.</li>
+<li><strong>Build number</strong> – This field prints the POS build number.</li>
+<li><strong>Certification category</strong> – This field prints the category of the certificate of compliance that an authorized body issued per the NF 525 certification requirements.</li>
+<li><strong>Certificate number</strong> – This field prints the number of the certificate of compliance that an authorized body issued per the NF 525 certification requirements.</li>
+<li><strong>Line count</strong> – This field prints the number of printed item lines on a receipt.</li>
+<li><strong>Text</strong> – Add a text field, and specify the VAT identifier of the organization.</li>
+<li><strong>Text</strong> – Add a text field, and specify the NAF code of the organization.</li>
+<li><strong>Text</strong> – Add a text field, and specify the SIRET number of the organization.</li>
+<li><strong>Store name</strong> – This standard field prints the name of the store.</li>
+<li><strong>Store address</strong> – This standard field prints the address of the store.</li>
+</ul>
+</li>
+</ul>
+<p>For more information about how to work with receipt formats, see <a href="../receipt-templates-printing.html">Set up and design receipt formats</a>.</p>
+<h3 id="configure-the-digital-signature-parameters-for-headquarters">Configure the digital signature parameters for Headquarters</h3>
+<p>To digitally sign Period grand total journals and archives, you must set up digital signature parameters. The signing is done by using a digital certificate that is stored in Microsoft Azure Key Vault storage. The following steps must be completed before you can use a certificate that is stored in Key Vault storage:</p>
+<ul>
+<li>The Key Vault storage must be created. We recommend that you deploy the storage in the same geographical region as the Commerce Scale Unit.</li>
+<li>The certificate must be uploaded to the Key Vault storage.</li>
+<li>The Application Object Server (AOS) application must be authorized to read secrets from the Key Vault storage.</li>
+</ul>
+<p>For more information about how to work with Key Vault, see <a href="https://docs.microsoft.com/azure/key-vault/key-vault-get-started">Get started with Azure Key Vault</a>.</p>
+<p>Then, on the <strong>Key Vault parameters</strong> page, you must specify the parameters for accessing the Key Vault storage:</p>
+<ul>
+<li><strong>Name</strong> and <strong>Description</strong> – The name and description of the Key Vault storage.</li>
+<li><strong>Key Vault URL</strong> – The URL of the Key Vault storage.</li>
+<li><strong>Key Vault client</strong> – An interactive client ID of the Azure Active Directory (Azure AD) application that is associated with the Key Vault storage for authentication purposes. This client should have access to read secrets from the storage.</li>
+<li><strong>Key Vault secret key</strong> – A secret key that is associated with the Azure AD application that is used for authentication in the Key Vault storage.</li>
+<li><strong>Name</strong>, <strong>Description</strong>, and <strong>Secret reference</strong> – The name, description, and secret reference of the certificate.</li>
+</ul>
+<p>Finally, on the <strong>Commerce parameters</strong> page, you must specify the parameters for digital signatures:</p>
+<ul>
+<li><strong>Certificate</strong> – Select the certificate that you configured in the previous step.</li>
+<li><strong>Hash function</strong> – Specify one of the cryptographic hash algorithms that are supported by Microsoft .NET, such as <strong>SHA1</strong>.</li>
+<li><strong>Encoding</strong> – Specify the encoding of the signed data, such as <strong>UTF-8</strong>.</li>
+</ul>
+<h3 id="configure-the-archive-export-format">Configure the archive export format</h3>
+<p>You can download the ER configuration for the archive from Microsoft Dynamics Lifecycle Services (LCS). For more information, see <a href="../../dev-itpro/analytics/electronic-reporting-import-ger-configurations.md">Import electronic reporting configurations</a>. You must download the following versions, or later versions, of the configurations:</p>
+<ul>
+<li><strong>Retail channel data.version.2</strong> data model</li>
+<li><strong>Archiving DMM.version.2.3</strong> data model mapping</li>
+<li><strong>Retail data archive FR .version.2.5</strong> format</li>
+</ul>
+<p>After you import the configurations, on the <strong>Commerce parameters</strong> page, on the <strong>Electronic documents</strong> tab, in the <strong>Retail data archive export format</strong> field, select the <strong>Retail data archive FR .version.2.5</strong> format.</p>
+<h3 id="renitialize-commerce-components">Renitialize Commerce components</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You only need to complete the steps of this section if you are updating an existing environment.</p>
+</div>
+<p>To enable audit events, you must reinitialize the Commerce Extensible enumerations. To enable transmitting France-specific data from POS to HQ, you must reinitialize the Commerce Scheduler.</p>
+<p>On the <strong>General</strong> FastTab of the <strong>Commerce parameters</strong> page, click <strong>Initialize</strong>. For more information, see <a href="../enable-configure-retail-functionality.html">Initialize seed data in new Retail environments</a></p>
+<p>There is an option to separately configure the scheduler. Click <strong>Commerce scheduler</strong> &gt; <strong>Initialize commerce scheduler</strong>. On the <strong>Initialize Commerce scheduler</strong> page, click <strong>OK</strong>.</p>
+<h3 id="configure-channel-components">Configure channel components</h3>
+<p>To enable France-specific functionality, you must configure extensions for channel components. For more information, see the <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/commerce/localizations/emea-fra-deployment">deployment guidelines (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

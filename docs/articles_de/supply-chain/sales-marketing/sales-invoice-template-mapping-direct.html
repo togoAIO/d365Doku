@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Rechnungskopfzeilen und &#8209;positionen direkt von Supply Chain Management zu Sales synchronisieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Rechnungskopfzeilen und &#8209;positionen direkt von Supply Chain Management zu Sales synchronisieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronize-sales-invoice-headers-and-lines-directly-from-finance-and-operations-to-sales">Verkaufsrechnungskopfzeilen und -positionen direkt von Finance and Operations aus mit Sales synchronisieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Das Thema erklärt die Vorlagen und die zugrunde liegenden Aufgaben, die verwendet werden, um Rechnungskopfzeilen und -positionen direkt aus Dynamics 365 Supply Chain Management zu Dynamics 365 Sales zu synchronisieren.</p>
+<h2 id="data-flow-in-prospect-to-cash">Datenfluss in Interessent nach Bargeld</h2>
+<p>Die Lösung Interessent nach Bargeld verwendet die Datenenintegrationsfunktion, um Daten über Instanzen von Supply Chain Management und Sales hinweg zu synchronisieren. Die „Interessent zu Bargeld”-Vorlagen, die über die Datenintegrationsfunktion verfügbar sind, ermöglichen den Fluss von Konten, Kontakten, Produkten, Verkaufsangeboten, Aufträgen und Verkaufsrechnungen zwischen Supply Chain Management und Sales. Die folgende Abbildung zeigt, wie Daten zwischen Supply Chain Management und Sales synchronisiert werden.</p>
+<p><a href="media/prospect-to-cash-data-flow.png"><img src="media/prospect-to-cash-data-flow.png" alt="Datenfluss in Interessent nach Bargeld"></a></p>
+<h2 id="templates-and-tasks">Vorlagen und Aufgaben</h2>
+<p>Um auf die verfügbaren Vorlagen zuzugreifen, öffnen Sie <a href="https://preview.admin.powerapps.com/dataintegration">Power Apps-Administrator-Center</a>. Wählen Sie <strong>Projekte</strong>, und dann auf, in der oberen rechten Ecke, wählen Sie <strong>Neues Projekt</strong>, um öffentliche Vorlagen auszuwählen.</p>
+<p>Die folgende Vorlage und die zugrunde liegenden Aufgaben werden verwendet, um Rechnungskopfzeilen und -positionen aus Supply Chain Management mit Sales zu synchronisieren:</p>
+<ul>
+<li><p><strong>Name der Vorlage in der Datenintegration:</strong> Verkaufsrechnungen (Finance and Operations zu Sales) - direkt</p>
+</li>
+<li><p><strong>Namen der Aufgaben im Datenintegrationsprojekt:</strong></p>
+<ul>
+<li>SalesInvoiceHeader</li>
+<li>SalesInvoiceLine</li>
+</ul>
+</li>
+</ul>
+<p>Die folgenden Synchronisierungsaufgaben sind erforderlich, bevor die Synchronisierung von Rechnungskopfzeilen und -positionen erfolgen kann:</p>
+<ul>
+<li>Produkte (Supply Chain Management zu Sales) – Direkt</li>
+<li>Konten (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+<li>Kontakte (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+<li>Auftragskopf und -positionen (Supply Chain Management zu Sales) – Direkt</li>
+</ul>
+<h2 id="entity-set">Entitätssatz</h2>
+<table>
+<thead>
+<tr>
+<th>Lieferkettenverwaltung</th>
+<th>Verk.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extern gepflegte Debitorenverkaufsrechnungs-Kopfzeilen</td>
+<td>Rechnungen</td>
+</tr>
+<tr>
+<td>Extern gepflegte Debitorenverkaufsrechnungs-Positionen</td>
+<td>InvoiceDetails</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entitätsfluss</h2>
+<p>Verkaufsrechnungen werden in Supply Chain Management erstellt und mit Sales synchronisiert.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Steuer für Belastungen auf dem Verkaufsrechnungskopf ist derzeit nicht in der Synchronisierung von Supply Chain Management mit Sales enthalten. Sales unterstützt keine Steuerinformationen auf Kopfebene. Allerdings sind Steuern, die den Belastungen auf Positionsebene zugeordnet sind, in die Synchronisierung einbezogen.</p>
+</div>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to Cash-Lösung für Sales</h2>
+<ul>
+<li>Ein Feld <strong>Rechnungsnummer</strong> wurde zur Entität <strong>Rechnung</strong> hinzugefügt und wird auf der Seite angezeigt.</li>
+<li>Die Schaltfläche <strong>Rechnung erstellen</strong> auf der Seite <strong>Auftrag</strong> ist ausgeblendet, da Rechnungen in Supply Chain Management erstellt und mit Sales synchronisiert werden. Die Seite <strong>Rechnung</strong> kann nicht geändert werden, da Rechnungen über Supply Chain Management synchronisiert werden.</li>
+<li>Der <strong>Auftragsstatus</strong>-Wert wird automatisch in <strong>Fakturiert</strong> geändert, wenn die zugehörige Rechnung aus Supply Chain Management mit Sales synchronisiert wurde. Darüber hinaus wird der Eigentümer des Auftrags, aufgrund dessen die Rechnung erstellt wurde, als Eigentümer der Rechnung zugewiesen. Daher kann der Besitzer des Auftrags die Rechnung anzeigen.</li>
+</ul>
+<h2 id="preconditions-and-mapping-setup">Voraussetzungen und Einrichtung der Zuordnung</h2>
+<p>Vor dem Synchronisieren von Rechnungen müssen die Systeme mit den folgenden Einstellungen synchronisiert werden:</p>
+<h3 id="setup-in-sales">Einrichtung in Sales</h3>
+<p>Gehen Sie zu <strong>Einstellungen</strong> &gt; <strong>Verwaltung</strong> &gt; <strong>Systemeinstellungen</strong> &gt; <strong>Sales</strong>, und überprüfen Sie, ob die folgenden Einstellungen verwendet werden:</p>
+<ul>
+<li>Die Option <strong>Systempreisberechnungssystem verwenden</strong> wird auf <strong>Ja</strong> festgelegt.</li>
+<li>Das Feld <strong>Rabattberechnungsmethode</strong> wird auf <strong>Positionsartikel</strong> festgelegt.</li>
+</ul>
+<h3 id="setup-in-the-data-integration-project">Einrichtung im Datenenintegrationsprojekt</h3>
+<h4 id="salesinvoiceheader-task">SalesInvoiceHeader-Aufgabe</h4>
+<ul>
+<li><p>Vergewissern Sie sich, dass die erforderliche Zuordnung für <strong>InvoiceCountryRegionId</strong> zu <strong>BillingAddress_Country</strong> vorhanden ist.</p>
+<p>Der Vorlagenwert ist eine Wertzuordnung, in der verschiedene Länder/Regionen zugeordnet sind.</p>
+</li>
+<li><p>Preisliste ist erforderlich, um Rechnungen in Sales zu erstellen. Aktualisieren Sie die Wertzuordnung für <strong>pricelevelid.name [Price list name]</strong> auf die Preisliste, die in Sales pro Währung verwendet wird. Sie können die Standardpreisliste für eine einzelne Währung verwenden. Alternativ können Sie, wenn Sie Preislisten in mehreren Währungen haben, eine Zuordnung verwenden.</p>
+<p>Der Vorlagenwert für <strong>pricelevelid.name [Price list name]</strong> ist ein Wertzuordnung, die auf Währung mit USD = CRM Service USA (Beispiel) basiert.</p>
+</li>
+</ul>
+<h4 id="salesinvoiceline-task">SalesInvoiceLine-Aufgabe</h4>
+<ul>
+<li><p>Vergewissern Sie sich, dass die erforderliche Zuordnung für <strong>Maßeinheit</strong> vorhanden ist.</p>
+</li>
+<li><p>Stellen Sie sicher, dass die erforderliche Wertzuordnung für <strong>SalesUnitSymbol</strong> in Supply Chain Management vorhanden ist.</p>
+<p>Ein Vorlagenwert, der eine Wertzuordnung hat, wird für <strong>SalesUnitSymbol</strong> als <strong>Quantity_UOM</strong> definiert.</p>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integration">Vorlagenzuordnung in Datenintegration</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Felder <strong>Zahlungsbedingungen</strong>, <strong>Frachtbedingungen</strong>, <strong>Lieferbedingungen</strong>, <strong>Liefermethode</strong> und <strong>Bereitstellungsmodus</strong> sind nicht in den Standardzuordnungen enthalten. Um diese Feldern zuzuordnen, müssen Sie eine Wertzuordnung einrichten, die spezifisch für die Daten in den Organisationen ist, zwischen denen die Entität synchronisiert wird.</p>
+</div>
+<p>Die folgenden Abbildungen zeigen ein Beispiel für eine Vorlagenzuordnung in Datenintegration.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Zuordnung zeigt, welche Feldinformationen von Sales zu Supply Chain Management synchronisiert werden.</p>
+</div>
+<h3 id="salesinvoiceheader">SalesInvoiceHeader</h3>
+<p><img src="media/sales-invoice-direct-template-mapping-data-integrator-1.png" alt="Vorlagenzuordnung in Datenintegration"></p>
+<h3 id="salesinvoiceline">SalesInvoiceLine</h3>
+<p><img src="media/sales-invoice-direct-template-mapping-data-integrator-2.png" alt="Vorlagenzuordnung in Datenintegration"></p>
+<h2 id="related-topics">Verwandte Themen</h2>
+<p><a href="prospect-to-cash.html">Prospect-to-Cash</a></p>
+<p><a href="accounts-template-mapping-direct.html">Konten direkt von Sales mit Konten in Supply Chain Management synchronisieren</a></p>
+<p><a href="products-template-mapping-direct.html">Produkte direkt von Supply Chain Management mit Produkten in Sales synchronisieren</a></p>
+<p><a href="contacts-template-mapping-direct.html">Kontakte direkt von Sales mit Kontakten oder Debitoren in Supply Chain Management synchronisieren</a></p>
+<p><a href="sales-order-template-mapping-direct-two-ways.html">Synchronisieren von Aufträgen direkt zwischen Sales und Supply Chain Management</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

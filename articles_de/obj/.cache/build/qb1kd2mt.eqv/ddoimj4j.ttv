@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Transaktionen in der Verkaufsstelle (POS) anhalten und fortsetzen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Transaktionen in der Verkaufsstelle (POS) anhalten und fortsetzen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Benutzer laufende Transaktionen aussetzen und sie sp&#228;ter oder in einem anderen Register mit Dynamics 365 Commerce wiederaufnehmen k&#246;nnen.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail">
+    <meta name="ms.search.region" content="global">
+    <meta name="ms.search.industry" content="Retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="suspend-and-resume-a-transaction-in-the-point-of-sale-pos">Transaktionen in der Verkaufsstelle (POS) anhalten und fortsetzen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>Benutzer von Verkaufsstelle (POS) können laufende Buchungen unterbrechen und sie später fortsetzen oder in einem anderen Register fortsetzen. Buchungen erfolgen häufig unterbrochen, um ein Register für eine andere Aufgabe schnell freizugeben, ohne einen Status für die aktuelle Buchung zu verlieren. Beispielsweis beginnt ein Shopangestellter eine Kundentransaktion auf einem mobilen Gerät aber muss diese an einer Kasste mit Geldlade ausführen. In diesem Fall muss der Shop die Buchung im mobilen Gerät gestoppt werden und diese dann auf einer Kasse wieder aufgerufen werden.</p>
+<h2 id="configure-suspend-and-resume-functionality">Funktionen unterbrechen und wieder aufnehmen konfigurieren</h2>
+<h3 id="pos-operations">POS-Vorgänge</h3>
+<p>Zwei <a href="pos-operations.html">POS-Vorgängen</a> können die POS-Support Szenarien unterbrechen und fortsetzen. Sie können diese Arbeitsgänge auf dem <a href="pos-screen-layouts.html">Schaltflächenraster</a> der Buchungsseite oder der Willkommensseite zuweisen.</p>
+<ul>
+<li>503: Transaktion aussetzen</li>
+<li>504: Transaktion zurückrufen</li>
+</ul>
+<h3 id="receipt-template">Zugangsvorlage</h3>
+<p>Der POS kann so konfiguriert werden, dass er einen gedruckten Beleg generiert, wenn eine Buchung unterbroche wird. Dieser Beleg kann dann verwendet werden, um die Buchung zu erkennen und später zurückzurufen.</p>
+<p>Um dem POS die Möglichkeit zu geben, einen Beleg zu drucken, müssen Sie das Belegformat <strong>Transaktion unterbrechen</strong> dem Shopprofil zuweisen. Sie können das Belegformat entwerfen, dass bestimmte Details zur Transaktion enthält. Beispielsweise kann das Format eines Strichcodes enthalten, um das Scannen zu unterstützen.</p>
+<h3 id="receipt-numbering">Bonnummerierung</h3>
+<p>Wei bei POS-Buchungs-Typen, die für einen gedruckten Beleg generiert wurden, können Sie einen Nummernkreis für unterbrochene Buchungen im Abschnitt <strong>Belegnummerierung</strong> des Funktionsprofils der Filiale definieren.</p>
+<h3 id="void-when-closing-shift">Stornieren, wenn Schicht geschlossen wird</h3>
+<p>Sie können <strong>Stornieren Sie, wenn Schicht endet</strong> Option verwenden, um festzulegen, dass Benutzer entweder alle unterbrochenen Buchungen unterbrechen oder stornieren, bevor sie ihre Schicht schließen. Während dem <strong>Schicht schließen</strong> Arbeitsgangs forder der POS Benutzer auf, unterbrochene Buchungen anzuzeigen oder zu stornieren.</p>
+<h2 id="suspend-and-resume-a-transaction">Transaktionen anhalten und fortsetzen</h2>
+<h3 id="suspend-a-transaction">Transaktion aussetzen</h3>
+<p>Benutzer, die über die entsprechenden Rechte verfügen und die eingeben Bildschirmlayout haben, das den Arbeitsgang <strong>Buchung aussetzen</strong> enthält, können eine Buchung fortsetzen, damit sie an einer anderen Kasse später zurückgerufen werden kann.</p>
+<p>Buchungen können unterbrochen werden, wenn sie <strong>nicht</strong> die folgenden Rückvergütungstypen enthalten:</p>
+<ul>
+<li>Aktive Zahlungspositionen</li>
+<li>Geschenkkartepositionen (entweder eine Geschenkkarte ausstellen oder Geschenkkartensaldo hinzufügen)</li>
+</ul>
+<p>Eine unterbrochene Buchung hat keine Verkaufsinformations- oder Bestandsverfügbarkeit-Informationen für den Shop.</p>
+<h3 id="resume-a-suspended-transaction">Ruft eine ausgesetzte Transaktion zurück.</h3>
+<p>Unterbrochene Transaktionen können in denselben Shop von jedem Benutzer erneut aufgerufen und fortgesetzt werden, der über die entsprechenden Rechte hat und der ebenfalls ein Layout, hat das den Arbeitsgang <strong>Transaktlion zurückrufen</strong> umfasst.</p>
+<p>Um schnell und einfach eine unterbrochene Buchung aufzurufen, scannen Sie den Strichcode auf dem gedruckten Beleg, während Sie die Liste der Buchungen vom Arbeitsgang anzeigen <strong>Buchung zurückrufen</strong>.</p>
+<h3 id="considerations-for-offline-mode">Betrachtungen für Offlinemodus</h3>
+<ul>
+<li>Buchungen, die unterbrochen wurden, während der POS im Online-Modus ist, kann nicht im Offline-Modus fortgesetzt werden, weil die Daten nicht mit der Offline-Datenbank synchronisiert werden.</li>
+<li>Wenn Sie eine Buchung unterbrechen, während der POS im Offline-Modus ist, können Sie sie im Offline-Modus zurückrufen, vorausgesetzt, dass der Betrag vom POS nicht in rechnerabhängigem Betrieb geändert wurde, seit die Buchung unterbrochen wurde. Wenn der POS wieder im Online-Modus ist, werden die Daten zu unterbrochene Buchungen verschoben udn von der Offline-Datenbank entfernt. Daher können Sie die Transaktionen nur im Online-Modus fortsetzen. Wenn Sie vom POS wieder in den Offline-Modus wechseln, sind Sie nicht mehr in der Lage, die unterbrochene Transaktionen fortzusetzen, da sie bereits offline aus der Datenbank entfernt wurden.</li>
+</ul>
+<h3 id="void-a-suspended-transaction">Ausgesetzte Buchung stornieren</h3>
+<p>Sie können unterbrochene Buchungen stornieren, indem Sie die Buchung zuerst erneut aufrufen und dann <strong>Transaktion stornieren</strong> ausführen oder die Buchung in der Liste <strong>Transaktion zurückrufen</strong> auswählen und <strong>Storniert</strong> auf der App-Leiste auswählen. Alternativ kann der Shop konfiguriert werden, damit Benutzer aufgefordert werden, unterbrochene Transaktionen zu stornieren, wenn sie ihre Schicht schließen.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/pos-suspend-recall-transactions.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

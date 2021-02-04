@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Lieferungen manuell auf der Seite zur Lieferungskonsolidierung konsolidieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Lieferungen manuell auf der Seite zur Lieferungskonsolidierung konsolidieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="consolidate-shipments-manually-by-using-the-consolidate-shipments-page">Lieferungen manuell auf der Seite zur Lieferungskonsolidierung konsolidieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird ein Szenario vorgestellt, in dem mehrere Aufträge an das Lager freigegeben werden und anschließend später auf der Seite <strong>Lieferungskonsolidierung</strong> konsolidiert werden.</p>
+<h2 id="make-demo-data-available">Demodaten zur Verfügung stellen</h2>
+<p>Das Szenario in diesem Thema verweist auf Werte und Datensätze, die in den für Microsoft Dynamics 365 Supply Chain Management bereitgestellten Standarddemodaten enthalten sind. Wenn Sie die hier angegebenen Werte während der Übungen verwenden möchten, müssen Sie in einer Umgebung arbeiten, in der die Demodaten installiert sind, und die juristische Person auf <strong>USMF</strong> festlegen, bevor Sie beginnen.</p>
+<h2 id="set-up-shipment-consolidation-policies-and-product-filters">Richten Sie Richtlinien zur Lieferungskonsolidierung und Produktfilter ein</h2>
+<p>In dem hier beschriebenen Szenario wird davon ausgegangen, dass Sie die Funktion bereits aktiviert und die Übungen in <a href="configure-shipment-consolidation-policies.html">Richtlinien zur Lieferungskonsolidierung konfigurieren</a> ausgeführt haben und die dort beschriebenen Richtlinien und anderen Datensätze erstellt haben. Stellen Sie sicher, dass Sie diese Übungen ausführen, bevor Sie mit diesem Szenario fortfahren.</p>
+<h2 id="create-the-sales-orders-for-this-scenario">Erstellen Sie die Kundenaufträge für dieses Szenario</h2>
+<p>Erstellen Sie zunächst eine Sammlung von Kundenaufträgen, mit denen Sie arbeiten können. Sie müssen mit einem Lagerort arbeiten, der für WMS-Prozesse (Advanced Warehouse) aktiviert ist. Sofern nicht ausdrücklich ein anderes Lager erwähnt wird, muss dasselbe Lager für jeden der folgenden Auftragssätze verwendet werden.</p>
+<p>Wechseln Sie zu <strong>Debitoren &gt; Aufträge &gt; Alle Kundenaufträge</strong>, und erstellen Sie eine Sammlung von Kundenaufträgen mit den Einstellungen, die in den folgenden Unterabschnitten beschrieben werden.</p>
+<h3 id="create-sales-orders-1-and-2">Aufträge 1 und 2 erstellen</h3>
+<ol>
+<li><p>Erstellen Sie zwei identische Aufträge mit den folgenden Einstellungen:</p>
+<ul>
+<li><strong>Debitorenkonto:</strong> <em>US-007</em></li>
+<li><strong>Pool:</strong> <em>ShipCons</em></li>
+</ul>
+</li>
+<li><p>Eine Auftragsposition hat die folgenden Einstellungen:</p>
+<ul>
+<li><strong>Artikelnummer:</strong> <em>A0001</em> (ein Artikel, dem kein <strong>Code 4</strong>-Filter zugeordnet ist)</li>
+<li><strong>Menge</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Lager &gt; Reservierung</strong> und dann im Aktionsbereich die Option <strong>Los reservieren</strong> aus, um die Bestellposition zu reservieren.</p>
+</li>
+</ol>
+<h3 id="create-sales-orders-3-and-4">Aufträge 3 und 4 erstellen</h3>
+<ol>
+<li><p>Erstellen Sie zwei identische Aufträge mit den folgenden Einstellungen:</p>
+<ul>
+<li><strong>Debitorenkonto:</strong> <em>US-007</em></li>
+<li><strong>Pool:</strong> Lassen Sie dieses Feld leer.</li>
+</ul>
+</li>
+<li><p>Eine Auftragsposition hat die folgenden Einstellungen:</p>
+<ul>
+<li><strong>Artikelnummer:</strong> <em>A0001</em> (ein Artikel, dem kein <strong>Code 4</strong>-Filter zugeordnet ist)</li>
+<li><strong>Menge</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Lager &gt; Reservierung</strong> und dann im Aktionsbereich die Option <strong>Los reservieren</strong> aus, um die Bestellposition zu reservieren.</p>
+</li>
+</ol>
+<h2 id="release-the-orders-to-the-warehouse">Aufträge für den Lagerort freigeben</h2>
+<p>Führen Sie die folgenden Schritte aus, um jeden Auftrag, den Sie für dieses Szenario erstellt haben, für das Lager freizugeben.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Debitoren &gt; Aufträge &gt; Alle Aufträge</strong>.</li>
+<li>Suchen und wählen Sie den freizugebenden Auftrag aus.</li>
+<li>Klicken Sie im Aktivitätsbereich auf der Registerkarte <strong>Lagerort</strong>, in der Gruppe <strong>Aktivitäten &gt; Für Lagerort freigeben</strong>, um die ausgewählten Aufträge freizugeben.</li>
+<li>Wiederholen Sie diesen Vorgang für alle anderen Aufträge, die Sie für dieses Szenario erstellt haben.</li>
+</ol>
+<h2 id="consolidate-shipments">Lieferungen konsolidieren</h2>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Lieferungen &gt; Alle Lieferungen</strong>.</li>
+<li>Suchen und wählen Sie eine Lieferung aus, die erstellt wurde, als Kundenauftrag 1 für das Lager freigegeben wurde. (Das <strong>Lieferungskonsolidierungsrichtlinie</strong>-Feld sollte auf <em>Auftragspool</em> gesetzt sein.)</li>
+<li>Klicken Sie im Aktivitätsbereich auf der Registerkarte <strong>Lieferungen</strong> auf <strong>Lieferungen &gt; Lieferungen konsolidieren</strong>.</li>
+<li>Überprüfen Sie die Lieferungen, die zur Konsolidierung vorgeschlagen werden. Für die Konsolidierung sollte nur eine Lieferung mit derselben Richtlinie vorgeschlagen werden.</li>
+<li>Schließen Sie die Seite <strong>Lieferungskonsolidierung</strong>.</li>
+<li>Suchen und wählen Sie eine Lieferung aus, die erstellt wurde, als Kundenauftrag 3 für das Lager freigegeben wurde. (Das <strong>Lieferungskonsolidierungsrichtlinie</strong>-Feld sollte auf <em>Standard</em> gesetzt sein.)</li>
+<li>Klicken Sie im Aktivitätsbereich auf der Registerkarte <strong>Lieferungen</strong> auf <strong>Lieferungen &gt; Lieferungen konsolidieren</strong>.</li>
+<li>Überprüfen Sie, dass keine Lieferungen zur Konsolidierung vorgeschlagen werden.</li>
+<li>Wählen Sie <strong>Filter anzeigen</strong> aus.</li>
+<li>Entfernen Sie im <strong>Filter</strong>-Bereich den Filter <strong>Auftragsnummer</strong> und wählen Sie dann <strong>Anwenden</strong> aus.</li>
+<li>Überprüfen Sie die Lieferungen, die zur Konsolidierung vorgeschlagen werden. Für die Konsolidierung sollte nur eine Lieferung mit derselben Richtlinie vorgeschlagen werden.</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="about-shipment-consolidation-policies.html">Lieferungskonsolidierungsrichtlinien</a></li>
+<li><a href="configure-shipment-consolidation-policies.html">Richtlinien zur Lieferungskonsolidierung konfigurieren</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>
