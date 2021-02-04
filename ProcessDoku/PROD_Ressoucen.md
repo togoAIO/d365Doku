@@ -4,10 +4,10 @@
 Navigation zu den Ressourcen: `Produktion Control --> Setup --> Ressourcen`
 
 Hier befinden sich die Ressourcen:
-![Link Text](..\images\Production\Ressoucren\00_Ressource_Menu.png)
+![Link Text](./media/Production/Ressoucren./00_Ressource_Menu.png)
 
 Hier befinden sich die Ressourcen:
-![Link Text](..\images\Production\Ressoucren\00_Menu_Ressources_gif.gif)
+![Link Text](./meda/Production/Ressoucren/00_Menu_Ressources_gif.gif)
 
 ## Grundlagen
 
