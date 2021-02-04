@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronize warehouses from Supply Chain Management to Field Service | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronize warehouses from Supply Chain Management to Field Service | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronize-warehouses-from-supply-chain-management-to-field-service">Synchronize warehouses from Supply Chain Management to Field Service</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic discusses the templates and underlying tasks that are used to synchronize warehouses from Dynamics 365 Supply Chain Management to Dynamics 365 Field Service.</p>
+<p><a href="./media/FSWarehouseOW.png"><img src="./media/FSWarehouseOW.png" alt="Synchronization of business processes between Supply Chain Management and Field Service"></a></p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>The following template and underlying tasks are used to run synchronization of warehouses from Supply Chain Management to Field Service.</p>
+<p><strong>Template in Data integration</strong></p>
+<ul>
+<li>Warehouses (Supply Chain Management to Field Service)</li>
+</ul>
+<p><strong>Task in the Data integration project</strong></p>
+<ul>
+<li>Warehouse</li>
+</ul>
+<h2 id="table-set">Table set</h2>
+<table>
+<thead>
+<tr>
+<th>Field Service</th>
+<th>Supply Chain Management</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msdyn_warehouses</td>
+<td>Warehouses</td>
+</tr>
+</tbody>
+</table>
+<h2 id="table-flow">Table flow</h2>
+<p>Warehouses that are created and maintained in Supply Chain Management can be synchronized to Field Service via a Microsoft Dataverse Data integration project. The warehouses that you want to synchronize to Field Service can be controlled with the Advanced query and filtering on the project. Warehouses that synchronize from Supply Chain Management are created in Field Service with the <strong>Is maintained externally</strong> column set to <strong>Yes</strong> and the record is read only.</p>
+<h2 id="field-service-crm-solution">Field Service CRM solution</h2>
+<p>To support the integration between Field Service and Supply Chain Management, additional functionality from the Field Service CRM solution is required. In the solution, the <strong>Is Maintained Externally</strong> column has been added to the <strong>Warehouse (msdyn_warehouses)</strong> table. This column helps to identify if the warehouse is handled from Supply Chain Management or if it only exists in Field Service. The settings for this column include:</p>
+<ul>
+<li><strong>Yes</strong> – The warehouse originated from Supply Chain Management and won't be editable in Sales.</li>
+<li><strong>No</strong> – The warehouse was entered directly in Field Service and is maintained here.</li>
+</ul>
+<p>The <strong>Is Externally Maintained</strong> column helps control the synchronization of inventory levels, adjustments, transfers, and usage on work orders. Only warehouses with <strong>Is Externally Maintained</strong> set to <strong>Yes</strong> can be used to synchronize directly to the same warehouse in the other system.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>It is possible to create multiple warehouses in Field Service (with <strong>Is Externally Maintained</strong> = No) and then map them to a single warehouse, with the Advanced query and filtering functionality. This is used in situations where you want Field Service to master the detailed inventory level and just send updates to Supply Chain Management. In this case, Field Service will not receive inventory-level updates from Supply Chain Management. For additional information, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/supply-chain/sales-marketing/synchronize-inventory-adjustments">Synchronize inventory adjustments from Field Service to Finance and Operations</a> and <a href="https://docs.microsoft.com/dynamics365/unified-operations/supply-chain/sales-marketing/field-service-work-order">Synchronize work orders in Field Service to sales orders linked to project in Finance and Operations</a>.</p>
+</div>
+<h2 id="prerequisites-and-mapping-setup">Prerequisites and mapping setup</h2>
+<h3 id="data-integration-project">Data Integration project</h3>
+<p>Before synchronizing the warehouses, make sure to update the Advanced query and filtering on the project to only include the warehouses that you want to bring from Supply Chain Management to Field Service. Note that you will need the warehouse in Field Service to apply it on work orders, adjustments, and transfers.</p>
+<p>To ensure that the <strong>Integration key</strong> exists for <strong>msdyn_warehouses</strong>:</p>
+<ol>
+<li>Go to Data Integration.</li>
+<li>Select the <strong>Connection Set</strong> tab.</li>
+<li>Select the connection set used for work order synchronization.</li>
+<li>Select the <strong>Integration key</strong> tab.</li>
+<li>Find msdyn_warehouses and confirm that the key <strong>msdyn_name (name)</strong> is added. If it is not shown, add it by clicking <strong>Add key</strong> and then click <strong>Save</strong> at the top of the page.</li>
+</ol>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<p>The following illustration shows the template mapping in Data integration.</p>
+<h3 id="warehouses-supply-chain-management-to-field-service-warehouse">Warehouses (Supply Chain Management to Field Service): Warehouse</h3>
+<p><a href="./media/Warehouse1.png"><img src="./media/Warehouse1.png" alt="Template mapping in Data integration"></a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

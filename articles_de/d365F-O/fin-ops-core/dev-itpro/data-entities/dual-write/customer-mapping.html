@@ -1,0 +1,1589 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrierte Masterdaten von Debitoren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrierte Masterdaten von Debitoren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird die Integration von Debitorendaten zwischen Finance and Operations und Dataverse beschrieben.">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="integrated-customer-master">Integrierte Masterdaten von Debitoren</h1>
+
+[!include[banner](../../includes/banner.md)][!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>Kundendaten können in mehr als einer Dynamics 365 Anwendung verwaltet werden. Beispielsweise kann eine Kundenzeile durch Verkaufsaktivitäten in Dynamics 365 Sales (eine modellgesteuerte App in Dynamics 365) oder eine Zeile durch Einzelhandelsaktivitäten in Dynamics 365 Commerce (eine Finance and Operations-App) entstehen. Unabhängig davon, woher die Kundendaten stammen, werden sie im Hintergrund integriert. Der integrierte Kundenstamm bietet Ihnen die Flexibilität, Kundendaten in jeder Dynamics 365 Anwendung zu verwalten, und bietet eine umfassende Ansicht des Kunden in der gesamten Dynamics 365 Anwendungssuite.</p>
+<h2 id="customer-data-flow">Debitorendatenfluss</h2>
+<p><em>Debitor</em> ist ein gut definiertes Konzept in Anwendungen. Daher umfasst die Integration von Debitorendaten nur die Harmonisierung des Debitorenkonzepts zwischen den beiden Anwendungen. Die folgende Abbildung zeigt den Debitorendatenfluss.</p>
+<p><img src="media/dual-write-customer-data-flow.png" alt="Debitorendatenfluss"></p>
+<p>Debitoren können in zwei Typen unterteilt werden: kommerzielle Debitoren/Unternehmensdebitoren und Verbraucher/Endbenutzer. Diese beiden Arten von Debitoren werden in Finance and Operations und Dataverse unterschiedlich gespeichert und verarbeitet.</p>
+<p>In Finance and Operations werden sowohl kommerzielle Debitoren/Unternehmensdebitoren als auch Verbraucher/Endbenutzer in einer einzigen Tabelle mit dem Namen <strong>CustTable</strong> (CustCustomerV3Entity) verwaltet, und sie werden basierend auf dem <strong>Type</strong>-Attribut klassifiziert. (Wenn <strong>Typ</strong> auf <strong>Organisation</strong> festgelegt ist, ist der Debitor ein kommerzieller Debitor/Unternehmensdebitor, und wenn <strong>Typ</strong> auf <strong>Person</strong> festgelegt ist, so ist der Debitor ein Verbraucher/Endbenutzer.) Die primären Kontaktpersoninformationen werden über die SMMContactPersonEntity-Entität verarbeitet.</p>
+<p>In Dataverse werden kommerzielle Debitoren/Unternehmensdebitoren in der Kontoentität verwaltet und als Debitoren identifiziert, wenn das <strong>RelationshipType</strong>-Attribute auf <strong>Debitor</strong> festgelegt ist. Sowohl Verbrauch/Endbenutzer als auch die Kontaktperson werden von der Kontaktentität dargestellt. Um eine klare Trennung zwischen einem Verbraucher/Endbenutzer und einer Kontaktperson zu haben, weist die <strong>Kontakt</strong>-Entität eine boolesche Markierung mit dem Namen <strong>Verkäuflich</strong> auf. Wenn <strong>Verkäuflich</strong> auf <strong>Wahr</strong> festgelegt ist, ist der Kontakt ein Verbraucher/Endbenutzer, und Angebote und Bestellungen können für diesen Kontakt erstellt werden. Wenn <strong>Verkäuflich</strong> auf <strong>Falsch</strong> festgelegt ist, ist der Kontakt nur eine primäre Kontaktperson eines Debitors.</p>
+<p>Wenn ein nicht-verkäuflicher Kontakt an einem Angebot oder Bestellprozess teilnimmt, wird <strong>Verkäuflich</strong> auf <strong>Wahr</strong> festgelegt, um den Kontakt als verkäuflichen Kontakt zu kennzeichnen. Einem Kontakt, der ein verkäuflicher Kontakt wurde, bleibt ein verkäuflicher Kontakt.</p>
+<h2 id="templates">Vorlagen</h2>
+<p>Debitorendaten enthalten alle Informationen über den Debitor, z. B. die Debitorengruppe, Adressen, Kontaktinformationen, das Zahlungsprofil, das Rechnungsprofil und den Treuestatus. Eine Sammlung von Tabellenzuordnungen arbeitet während der Interaktion der Debitorendaten zusammen, wie in der folgenden Tabelle dargestellt.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations Apps</th>
+<th>Sonstige Dynamics 365-Apps</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CDS-Kontakte V2</td>
+<td>Kontakte</td>
+<td>Diese Vorlage synchronisiert alle primären, sekundären und tertiären Kontaktinformationen für Debitoren und Kreditoren.</td>
+</tr>
+<tr>
+<td>Debitorengruppen</td>
+<td>msdyn_customergroups</td>
+<td>Diese Vorlage synchronisiert Debitorengruppeninformationen.</td>
+</tr>
+<tr>
+<td>Zahlungsmethode für Debitoren</td>
+<td>msdyn_customerpaymentmethods</td>
+<td>Diese Vorlage synchronisiert Informationen zu den Zahlungsmethoden für Debitoren.</td>
+</tr>
+<tr>
+<td>Debitoren V3</td>
+<td>Konten</td>
+<td>Diese Vorlage synchronisiert die Debitorenmasterinformationen für kommerzielle Debitoren und Geschäftsdebitoren.</td>
+</tr>
+<tr>
+<td>Debitoren V3</td>
+<td>Kontakte</td>
+<td>Diese Vorlage synchronisiert Debitorenmasterdaten für Kunden und Endbenutzer.</td>
+</tr>
+<tr>
+<td>Namensaffixe</td>
+<td>msdyn_nameaffixes</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Namensaffixe sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+<tr>
+<td>Zahlungstagpositionen CDS V2</td>
+<td>msdyn_paymentdaylines</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Zahlungstagpositionen sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+<tr>
+<td>Zahlungstage CDS</td>
+<td>msdyn_paymentdays</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Zahlungstage sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+<tr>
+<td>Zahlungsplanpositionen</td>
+<td>msdyn_paymentschedulelines</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Zahlungsplanpositionen sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+<tr>
+<td>Zahlungszeitplan</td>
+<td>msdyn_paymentschedules</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Zahlungspläne sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+<tr>
+<td>Zahlungsbedingungen</td>
+<td>msdyn_paymentterms</td>
+<td>Diese Vorlage synchronisiert die Referenzdaten für Zahlungsbedingungen sowohl für Debitoren als auch für Kreditoren.</td>
+</tr>
+</tbody>
+</table>
+[!include[banner](../../includes/dual-write-symbols.md)]<h2 id="cds-contacts-v2-to-contacts">CDS-Kontakte V2 zu Kontakten</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<p>Quellfilter: (AssociatedContactType = 1)</p>
+<p>Umgekehrter Quellfilter: msdyn_contactforvendor eq true und msdyn_sellable eq false und msdyn_contactpersonid ne ''</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONTACTPERSONPARTYNUMBER</td>
+<td>=</td>
+<td>msdyn_partynumber</td>
+<td></td>
+</tr>
+<tr>
+<td>ASSOCIATEDCONTACTTYPE</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>Lieferant</td>
+</tr>
+<tr>
+<td>FIRSTNAME</td>
+<td>=</td>
+<td>firstname</td>
+<td></td>
+</tr>
+<tr>
+<td>MIDDLENAME</td>
+<td>=</td>
+<td>middlename</td>
+<td></td>
+</tr>
+<tr>
+<td>LASTNAME</td>
+<td>=</td>
+<td>lastname</td>
+<td></td>
+</tr>
+<tr>
+<td>ASSOCIATEDCONTACTNUMBER</td>
+<td>=</td>
+<td>msdyn_vendorcontactid.msdyn_vendoraccountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCITY</td>
+<td>=</td>
+<td>address1_city</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTRYREGIONID</td>
+<td>=</td>
+<td>address1_country</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSCOUNTYID</td>
+<td>=</td>
+<td>address1_county</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYFAXNUMBER</td>
+<td>=</td>
+<td>fax</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTATEID</td>
+<td>=</td>
+<td>address1_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSSTREET</td>
+<td>=</td>
+<td>address1_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYADDRESSZIPCODE</td>
+<td>=</td>
+<td>address1_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYPHONENUMBER</td>
+<td>=</td>
+<td>telephone1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYEMAILADDRESS</td>
+<td>=</td>
+<td>emailaddress1</td>
+<td></td>
+</tr>
+<tr>
+<td>EMPLOYMENTDEPARTMENT</td>
+<td>=</td>
+<td>department</td>
+<td></td>
+</tr>
+<tr>
+<td>NOTES</td>
+<td>=</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>GENDER</td>
+<td>&gt;&lt;</td>
+<td>gendercode</td>
+<td></td>
+</tr>
+<tr>
+<td>GOVERNMENTIDENTIFICATIONNUMBER</td>
+<td>=</td>
+<td>governmentid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYURL</td>
+<td>=</td>
+<td>websiteurl</td>
+<td></td>
+</tr>
+<tr>
+<td>MARITALSTATUS</td>
+<td>&gt;&lt;</td>
+<td>familystatuscode</td>
+<td></td>
+</tr>
+<tr>
+<td>ISRECEIVINGDIRECTMAIL</td>
+<td>&gt;&lt;</td>
+<td>donotemail</td>
+<td></td>
+</tr>
+<tr>
+<td>EMPLOYMENTPROFESSION</td>
+<td>=</td>
+<td>jobtitle</td>
+<td></td>
+</tr>
+<tr>
+<td>SPOUSENAME</td>
+<td>=</td>
+<td>spousesname</td>
+<td></td>
+</tr>
+<tr>
+<td>nichts</td>
+<td>&gt;&gt;</td>
+<td>msdyn_contactforvendor</td>
+<td>True</td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td>=</td>
+<td>msdyn_contactpersonid</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="customer-groups-to-msdyn_customergroups">Debitorengruppen zu msdyn_customergroups</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUSTOMERGROUPID</td>
+<td>=</td>
+<td>msdyn_groupid</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>ISSALESTAXINCLUDEDINPRICE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_issalestaxincludedinprice</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMID</td>
+<td>=</td>
+<td>msdyn_paymenttermid.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>CLEARINGPERIODPAYMENTTERMNAME</td>
+<td>=</td>
+<td>msdyn_clearingperiodpaymenttermname.msdyn_name</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="customer-payment-method-to-msdyn_customerpaymentmethods">Zahlungsmethode für Debitoren zu msdyn_customerpaymentmethods</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>ACCOUNTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_accounttype</td>
+<td></td>
+</tr>
+<tr>
+<td>DISCOUNTGRACEPERIODDAYS</td>
+<td>=</td>
+<td>msdyn_discountgraceperioddays</td>
+<td></td>
+</tr>
+<tr>
+<td>BRIDGINGPOSTINGENABLED</td>
+<td>&gt;&lt;</td>
+<td>msdyn_bridgingpostingenabled</td>
+<td></td>
+</tr>
+<tr>
+<td>ISSEPA</td>
+<td>&gt;&lt;</td>
+<td>msdyn_issepa</td>
+<td></td>
+</tr>
+<tr>
+<td>LASTFILENUMBER</td>
+<td>=</td>
+<td>msdyn_lastfilenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>LASTFILENUMBERTODAY</td>
+<td>=</td>
+<td>msdyn_lastfilenumbertoday</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymenttype</td>
+<td></td>
+</tr>
+<tr>
+<td>CREATEANDDRAWBILLOFEXCHANGEDURINGINVOICEPOSTING</td>
+<td>&gt;&lt;</td>
+<td>msdyn_invoiceupdate</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymentstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>SUMBYPERIOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_sumbyperiod</td>
+<td></td>
+</tr>
+<tr>
+<td>ENABLEPOSTDATEDCHECKCLEARINGPOSTING</td>
+<td>&gt;&lt;</td>
+<td>msdyn_enablepostdatescheckclearingposting</td>
+<td></td>
+</tr>
+<tr>
+<td>BILLOFEXCHANGEDRAFTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_billofexchangedrafttype</td>
+<td></td>
+</tr>
+<tr>
+<td>DIRECTDEBIT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_directdebit</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="customers-v3-to-accounts">Debitoren V3 zu Konten</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<p>Quellfilter: ((PartyType == &quot;Organisation&quot;))</p>
+<p>Umgekehrter Quellfilter: customertypecode eq 3</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUSTOMERACCOUNT</td>
+<td>=</td>
+<td>accountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td>=</td>
+<td>address2_city</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>address2_country</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTY</td>
+<td>=</td>
+<td>address2_county</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLATITUDE</td>
+<td>&gt;</td>
+<td>address2_latitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLONGITUDE</td>
+<td>&gt;</td>
+<td>address2_longitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATE</td>
+<td>=</td>
+<td>address2_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td>=</td>
+<td>address2_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td>=</td>
+<td>address2_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITLIMIT</td>
+<td>=</td>
+<td>creditlimit</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>=</td>
+<td>address1_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>address1_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTY</td>
+<td>=</td>
+<td>address1_county</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>&gt;</td>
+<td>address1_latitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>&gt;</td>
+<td>address1_longitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>=</td>
+<td>address1_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>ORGANIZATIONNAME</td>
+<td>=</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td>ORGANIZATIONNUMBEROFEMPLOYEES</td>
+<td>=</td>
+<td>numberofemployees</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTEMAIL</td>
+<td>=</td>
+<td>emailaddress1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAX</td>
+<td>=</td>
+<td>fax</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONE</td>
+<td>=</td>
+<td>telephone1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTTWITTER</td>
+<td>=</td>
+<td>primarytwitterid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTURL</td>
+<td>=</td>
+<td>websiteurl</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESCURRENCYCODE</td>
+<td>=</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESMEMO</td>
+<td>=</td>
+<td>description</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITLIMITISMANDATORY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_creditlimitismandatory</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITRATING</td>
+<td>=</td>
+<td>msdyn_creditrating</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERGROUPID</td>
+<td>=</td>
+<td>msdyn_customergroupid.msdyn_groupid</td>
+<td></td>
+</tr>
+<tr>
+<td>IDENTIFICATIONNUMBER</td>
+<td>=</td>
+<td>msdyn_identificationnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEACCOUNT</td>
+<td>=</td>
+<td>msdyn_billingaccount.accountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_invoiceaddress</td>
+<td></td>
+</tr>
+<tr>
+<td>ISONETIMECUSTOMER</td>
+<td>&gt;&lt;</td>
+<td>msdyn_onetimecustomer</td>
+<td></td>
+</tr>
+<tr>
+<td>ONHOLDSTATUS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_onholdstatus</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTYCOUNTRY</td>
+<td>=</td>
+<td>msdyn_partycountry</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTYSTATE</td>
+<td>=</td>
+<td>msdyn_partystateprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTDAY</td>
+<td>=</td>
+<td>msdyn_paymentday.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTMETHOD</td>
+<td>=</td>
+<td>msdyn_customerpaymentmethod.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTSCHEDULE</td>
+<td>=</td>
+<td>msdyn_paymentschedule.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMS</td>
+<td>=</td>
+<td>msdyn_paymentterm.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTTERMSBASEDAYS</td>
+<td>=</td>
+<td>msdyn_paymenttermsbasedays</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFACEBOOK</td>
+<td>=</td>
+<td>msdyn_primaryfacebookid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAXEXTENSION</td>
+<td>=</td>
+<td>msdyn_faxextension</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTLINKEDIN</td>
+<td>=</td>
+<td>msdyn_primarylinkedinid</td>
+<td></td>
+</tr>
+<tr>
+<td>TAXEXEMPTNUMBER</td>
+<td>=</td>
+<td>msdyn_taxexemptnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>VENDORACCOUNT</td>
+<td>=</td>
+<td>msdyn_vendor.msdyn_vendoraccountnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTEMAILDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_emailaddress1description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFACEBOOKDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryfacebookdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAXDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_faxdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTLINKEDINDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarylinkedindescrption</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONEDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_telephone1description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONEEXTENSION</td>
+<td>=</td>
+<td>msdyn_telephone1extension</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTTWITTERDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarytwitteriddescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTURLDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_websiteurldescription</td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>de-de</td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>=</td>
+<td>address1_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATE</td>
+<td>=</td>
+<td>address1_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>nichts</td>
+<td>&gt;&gt;</td>
+<td>address1_addresstypecode</td>
+<td>2</td>
+</tr>
+<tr>
+<td>nichts</td>
+<td>&gt;&gt;</td>
+<td>customertypecode</td>
+<td>3</td>
+</tr>
+<tr>
+<td>PARTYTYPE</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>Organisation</td>
+</tr>
+<tr>
+<td>PARTYNUMBER</td>
+<td>=</td>
+<td>msdyn_partynumber</td>
+<td></td>
+</tr>
+<tr>
+<td>CONTACTPERSONID</td>
+<td>=</td>
+<td>primarycontactid.msdyn_contactpersonid</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="customers-v3-to-contacts">Debitoren V3 zu Kontakten</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<p>Quellfilter: ((PartyType == &quot;Person&quot;))</p>
+<p>Umgekehrter Quellfilter: msdyn_sellable eq true und msdyn_contactpersonid ne ''</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nichts</td>
+<td>&gt;&gt;</td>
+<td>msdyn_sellable</td>
+<td>True</td>
+</tr>
+<tr>
+<td>PARTYTYPE</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>Person</td>
+</tr>
+<tr>
+<td>PARTYNUMBER</td>
+<td>=</td>
+<td>msdyn_partynumber</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERACCOUNT</td>
+<td>=</td>
+<td>msdyn_contactpersonid</td>
+<td></td>
+</tr>
+<tr>
+<td>CUSTOMERGROUPID</td>
+<td>=</td>
+<td>msdyn_customergroupid.msdyn_groupid</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONFIRSTNAME</td>
+<td>=</td>
+<td>firstname</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONLASTNAME</td>
+<td>=</td>
+<td>lastname</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONMIDDLENAME</td>
+<td>=</td>
+<td>middlename</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONPROFESSIONALTITLE</td>
+<td>=</td>
+<td>jobtitle</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONGENDER</td>
+<td>&gt;&lt;</td>
+<td>gendercode</td>
+<td></td>
+</tr>
+<tr>
+<td>PERSONMARITALSTATUS</td>
+<td>&gt;&lt;</td>
+<td>familystatuscode</td>
+<td></td>
+</tr>
+<tr>
+<td>LANGUAGEID</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>de-de</td>
+</tr>
+<tr>
+<td>ADDRESSCITY</td>
+<td>=</td>
+<td>address1_city</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>address1_country</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSCOUNTY</td>
+<td>=</td>
+<td>address1_county</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLATITUDE</td>
+<td>&gt;</td>
+<td>address1_latitude</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLONGITUDE</td>
+<td>&gt;</td>
+<td>address1_longitude</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSLOCATIONROLES</td>
+<td>&lt;&lt;</td>
+<td>nichts</td>
+<td>Unternehmen</td>
+</tr>
+<tr>
+<td>ADDRESSSTATE</td>
+<td>=</td>
+<td>address1_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSSTREET</td>
+<td>=</td>
+<td>address1_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSZIPCODE</td>
+<td>=</td>
+<td>address1_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>ADDRESSPOSTBOX</td>
+<td>=</td>
+<td>address1_postofficebox</td>
+<td></td>
+</tr>
+<tr>
+<td>nichts</td>
+<td>&gt;&gt;</td>
+<td>address1_addresstypecode</td>
+<td>3</td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCITY</td>
+<td>=</td>
+<td>address2_city</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>address2_country</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSCOUNTY</td>
+<td>=</td>
+<td>address2_county</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLATITUDE</td>
+<td>&gt;</td>
+<td>address2_latitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSLONGITUDE</td>
+<td>&gt;</td>
+<td>address2_longitude</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTATE</td>
+<td>=</td>
+<td>address2_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSSTREET</td>
+<td>=</td>
+<td>address2_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>INVOICEADDRESSZIPCODE</td>
+<td>=</td>
+<td>address2_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCITY</td>
+<td>=</td>
+<td>address3_city</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTRYREGIONISOCODE</td>
+<td>=</td>
+<td>address3_country</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSCOUNTY</td>
+<td>=</td>
+<td>address3_county</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLATITUDE</td>
+<td>&gt;</td>
+<td>address3_latitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSLONGITUDE</td>
+<td>&gt;&gt;</td>
+<td>address3_longitude</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTATE</td>
+<td>=</td>
+<td>address3_stateorprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSSTREET</td>
+<td>=</td>
+<td>address3_line1</td>
+<td></td>
+</tr>
+<tr>
+<td>DELIVERYADDRESSZIPCODE</td>
+<td>=</td>
+<td>address3_postalcode</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTEMAIL</td>
+<td>=</td>
+<td>emailaddress1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTEMAILDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_emailaddress1description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAX</td>
+<td>=</td>
+<td>fax</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAXDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_faxdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFAXEXTENSION</td>
+<td>=</td>
+<td>msdyn_faxextension</td>
+<td></td>
+</tr>
+<tr>
+<td>IDENTIFICATIONNUMBER</td>
+<td>=</td>
+<td>msdyn_identificationnumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTYCOUNTRY</td>
+<td>=</td>
+<td>msdyn_partycountry</td>
+<td></td>
+</tr>
+<tr>
+<td>PARTYSTATE</td>
+<td>=</td>
+<td>msdyn_partystateprovince</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFACEBOOK</td>
+<td>=</td>
+<td>msdyn_primaryfacebookid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTFACEBOOKDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primaryfacebookdescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTLINKEDIN</td>
+<td>=</td>
+<td>msdyn_primaryinkedinid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTLINKEDINDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarylinkedindescrption</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONE</td>
+<td>=</td>
+<td>telephone1</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONEDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_telephone1description</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTPHONEEXTENSION</td>
+<td>=</td>
+<td>msdyn_telephone1extension</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTTWITTER</td>
+<td>=</td>
+<td>msdyn_primarytwitterid</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTTWITTERDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_primarytwitteriddescription</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTURL</td>
+<td>=</td>
+<td>websiteurl</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIMARYCONTACTURLDESCRIPTION</td>
+<td>=</td>
+<td>msdyn_websiteurldescription</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESCURRENCYCODE</td>
+<td>=</td>
+<td>transactioncurrencyid.isocurrencycode</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESMEMO</td>
+<td>=</td>
+<td>description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="name-affixes-to-msdyn_nameaffixes">Namenszusätze zu msdyn_nameaffixes</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AFFIX</td>
+<td>=</td>
+<td>msdyn_affix</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_affixtype</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="payment-day-lines-cds-v2-to-msdyn_paymentdaylines">CDS-Zahlungstagpositionen V2 zu msdyn_paymentdaylines</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_paymentday.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>LINENUMBER</td>
+<td>=</td>
+<td>msdyn_linenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>FREQUENCY</td>
+<td>&gt;&lt;</td>
+<td>msdyn_frequency</td>
+<td></td>
+</tr>
+<tr>
+<td>DAYOFWEEK</td>
+<td>&gt;&lt;</td>
+<td>msdyn_dayofweek</td>
+<td></td>
+</tr>
+<tr>
+<td>DAYOFMONTH</td>
+<td>=</td>
+<td>msdyn_dayofmonth</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="payment-days-cds-to-msdyn_paymentdays">CDS-Zahlungstage zu msdyn_paymentdays</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="payment-schedule-lines-to-msdyn_paymentschedulelines">Zahlungsplanpositionen zu msdyn_paymentschedulelines</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PAYMENTSCHEDULENAME</td>
+<td>=</td>
+<td>msdyn_paymentschedule.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>LINENUMBER</td>
+<td>=</td>
+<td>msdyn_linenumber</td>
+<td></td>
+</tr>
+<tr>
+<td>PERIODSAFTERDUEDATE</td>
+<td>=</td>
+<td>msdyn_periodsafterduedate</td>
+<td></td>
+</tr>
+<tr>
+<td>PERCENTORAMOUNT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_percentoramount</td>
+<td></td>
+</tr>
+<tr>
+<td>PERCENTORAMOUNTVALUE</td>
+<td>=</td>
+<td>msdyn_percentoramountvalue</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="payment-schedule-to-msdyn_paymentschedules">Zahlungsplan zu msdyn_paymentschedule</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOCATIONMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_allocationmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTFREQUENCYUNITS</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymentfrequencyunit</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTFREQUENCY</td>
+<td>=</td>
+<td>msdyn_paymentfrequency</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMBEROFPAYMENTS</td>
+<td>=</td>
+<td>msdyn_numberofpayments</td>
+<td></td>
+</tr>
+<tr>
+<td>FIXEDPAYMENTAMOUNT</td>
+<td>=</td>
+<td>msdyn_fixedpaymentamount</td>
+<td></td>
+</tr>
+<tr>
+<td>MINIMUMPAYMENTAMOUNT</td>
+<td>=</td>
+<td>msdyn_minimumpaymentamount</td>
+<td></td>
+</tr>
+<tr>
+<td>SALESTAXALLOCATIONMETHOD</td>
+<td>&gt;&lt;</td>
+<td>msdyn_salestaxallocationmethod</td>
+<td></td>
+</tr>
+<tr>
+<td>NOTES</td>
+<td>=</td>
+<td>msdyn_note</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="terms-of-payment-to-msdyn_paymentterms">Zahlungsbedingungen zu msdyn_paymentterms</h2>
+<p>Diese Vorlage synchronisiert Daten zwischen Finance and Operations-Apps und Common Data Service.</p>
+<table>
+<thead>
+<tr>
+<th>Finance and Operations-Feld</th>
+<th>Zuordnungstyp</th>
+<th>Anderes Dynamics 365-Feld</th>
+<th>Standardwert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DESCRIPTION</td>
+<td>=</td>
+<td>msdyn_description</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td>=</td>
+<td>msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMBEROFMONTHS</td>
+<td>=</td>
+<td>msdyn_numberofmonth</td>
+<td></td>
+</tr>
+<tr>
+<td>CUTOFFDAYOFMONTH</td>
+<td>=</td>
+<td>msdyn_cutoffdayofmonth</td>
+<td></td>
+</tr>
+<tr>
+<td>ISCASHPAYMENT</td>
+<td>&gt;&lt;</td>
+<td>msdyn_iscashpayment</td>
+<td></td>
+</tr>
+<tr>
+<td>NUMBEROFDAYS</td>
+<td>=</td>
+<td>msdyn_days</td>
+<td></td>
+</tr>
+<tr>
+<td>ISCERTIFIEDCOMPANYCHECK</td>
+<td>&gt;&lt;</td>
+<td>msdyn_iscertifiedcompanycheck</td>
+<td></td>
+</tr>
+<tr>
+<td>ISDEFAULTPAYMENTTERM</td>
+<td>&gt;&lt;</td>
+<td>msdyn_isdefaultpaymentterm</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITCARDPAYMENTTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_creditcardpaymenttype</td>
+<td></td>
+</tr>
+<tr>
+<td>CREDITCARDCREDITCHECKTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_creditcardcreditchecktype</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTDAYNAME</td>
+<td>=</td>
+<td>msdyn_paymentdayname.msdyn_name</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTMETHODTYPE</td>
+<td>&gt;&lt;</td>
+<td>msdyn_paymentmethodtype</td>
+<td></td>
+</tr>
+<tr>
+<td>PAYMENTSCHEDULENAME</td>
+<td>=</td>
+<td>msdyn_paymentschedulename.msdyn_name</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/data-entities/dual-write/customer-mapping.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

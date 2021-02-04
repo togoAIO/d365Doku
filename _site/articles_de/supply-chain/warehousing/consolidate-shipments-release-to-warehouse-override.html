@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Lieferungen konsolidieren, wenn die Richtlinie zur Lieferungskonsolidierung auf der Seite &#8222;Freigabe an Lager&#8220; &#252;berschrieben wird | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Lieferungen konsolidieren, wenn die Richtlinie zur Lieferungskonsolidierung auf der Seite &#8222;Freigabe an Lager&#8220; &#252;berschrieben wird | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="consolidate-shipments-when-the-shipment-consolidation-policy-is-overridden-from-the-release-to-warehouse-page">Lieferungen konsolidieren, wenn die Richtlinie zur Lieferungskonsolidierung auf der Seite „Freigabe an Lager“ überschrieben wird</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird ein Szenario vorgestellt, in dem eine oder mehrere Verkaufspositionen von der Seite <strong>Freigabe an Lager</strong> manuell an das Lager freigegeben werden müssen und die systemdefinierte Lieferungskonsolidierungsrichtlinie vor der Freigabe überschrieben werden muss. Eine Überschreibung der Lieferungskonsolidierungsrichtlinie kann erforderlich sein, wenn beispielsweise ein Auftrag, der normalerweise nicht mit offenen Lieferungen konsolidiert wird, mit offenen Lieferungen konsolidiert werden muss.</p>
+<p>Während des Szenarios erstellen Sie eine Reihe von Aufträgen und überschreiben dann die Standardrichtlinie für die Lieferungskonsolidierung, bevor Sie die Aufträge an das Lager freigeben.</p>
+<h2 id="make-demo-data-available">Demodaten zur Verfügung stellen</h2>
+<p>Das Szenario in diesem Thema verweist auf Werte und Datensätze, die in den für Microsoft Dynamics 365 Supply Chain Management bereitgestellten Standarddemodaten enthalten sind. Wenn Sie die hier angegebenen Werte während der Übungen verwenden möchten, müssen Sie in einer Umgebung arbeiten, in der die Demodaten installiert sind, und die juristische Person auf <strong>USMF</strong> festlegen, bevor Sie beginnen.</p>
+<h2 id="set-up-shipment-consolidation-policies-and-product-filters">Richten Sie Richtlinien zur Lieferungskonsolidierung und Produktfilter ein</h2>
+<p>In dem hier beschriebenen Szenario wird davon ausgegangen, dass Sie die Funktion bereits aktiviert und die Übungen in <a href="configure-shipment-consolidation-policies.html">Richtlinien zur Lieferungskonsolidierung konfigurieren</a> ausgeführt haben und die dort beschriebenen Richtlinien und anderen Datensätze erstellt haben. Stellen Sie sicher, dass Sie diese Übungen ausführen, bevor Sie mit diesem Szenario fortfahren.</p>
+<h2 id="create-the-sales-orders-for-this-scenario">Erstellen Sie die Kundenaufträge für dieses Szenario</h2>
+<ol>
+<li><p>Wechseln Sie zu <strong>Debitoren &gt; Aufträge &gt; Alle Aufträge</strong>, und erstellen Sie drei identische Aufträge mit den folgenden Einstellungen:</p>
+<ul>
+<li><strong>Debitorenkonto:</strong> <em>US-002</em></li>
+</ul>
+</li>
+<li><p>Eine Auftragsposition hat die folgenden Einstellungen:</p>
+<ul>
+<li><strong>Artikelnummer:</strong> <em>A0001</em> (ein Artikel, dem kein <strong>Code 4</strong>-Filter zugeordnet ist)</li>
+<li><strong>Menge</strong> <em>1.00</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Lager &gt; Reservierung</strong> und dann im Aktionsbereich die Option <strong>Los reservieren</strong> aus, um die Bestellposition zu reservieren.</p>
+</li>
+</ol>
+<h2 id="release-the-sales-orders-from-the-release-to-warehouse-page">Geben Sie die Aufträge von der Seite „Freigabe an Lager“ frei</h2>
+<p>Befolgen Sie diese Schritte, um die Lieferungskonsolidierungsrichtlinie während der Freigabe an das Lager zu überschreiben.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Lagerortverwaltung &gt; An Lager freigeben &gt; An Lager freigeben</strong>.</li>
+<li>Wählen Sie im oberen Bereich den ersten Auftrag aus, den Sie für dieses Szenario erstellt haben.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus, um die Position zur Freigabe zum Lager hinzuzufügen. Beachten Sie, dass die <em>Standard</em>-Lieferungskonsolidierungsrichtlinie im unteren Bereich angewendet wird.</li>
+<li>Wählen Sie im unteren Bereich <strong>Neue Lieferungskonsolidierungsrichtlinie auswählen</strong> aus.</li>
+<li>Wählen Sie eine Richtlinie aus, die eine Konsolidierung mit anderen offenen Lieferungen derselben Richtlinie ermöglicht. Wählen Sie zum Beispiel die <em>CustomerOrderNo</em>-Richtlinie aus.</li>
+<li>Wählen Sie <strong>An Lager freigeben</strong> aus.</li>
+<li>Wählen Sie im oberen Bereich den zweiten und dritten Auftrag aus, die Sie für dieses Szenario erstellt haben.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus, um die Positionen zur Freigabe zum Lager hinzuzufügen. Beachten Sie, dass die <em>Standard</em>-Richtlinie im unteren Bereich angewendet wird.</li>
+<li>Wählen Sie die zweite Zeile Position und dann im Feld <strong>Neue Lieferungskonsolidierungsrichtlinie auswählen</strong> die <em>CustomerOrderNo</em>-Richtlinie aus.</li>
+<li>Wählen Sie <strong>An Lager freigeben</strong> für beide Positionen aus.</li>
+</ol>
+<h2 id="verify-the-shipments">Überprüfen Sie die Lieferungen</h2>
+<p>Es sollten zwei Lieferungen erstellt worden sein:</p>
+<ul>
+<li>Die erste Lieferung enthält zwei Zeilen und wurde mit der <em>CustomerOrderNo</em>-Lieferungskonsolidierungsrichtlinie erstellt.</li>
+<li>Die zweite Lieferung enthält eine Position und wurde mit der <em>Standard</em>-Lieferungskonsolidierungsrichtlinie erstellt.</li>
+</ul>
+<p>Befolgen Sie diese Schritte, um die erstellten Lieferungen zu überprüfen.</p>
+<ol>
+<li>Gehen Sie zu <strong>Lagerortverwaltung &gt; Lieferungen &gt; Alle Lieferungen</strong>.</li>
+<li>Suchen Sie die gewünschte Lieferung und wählen Sie sie aus.</li>
+<li>Überprüfen Sie die Konsolidierungsrichtlinie, die verwendet wurde, als die Lieferung erstellt wurde, im Feld <strong>Richtlinie für Lieferungskonsolidierung</strong>.</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="about-shipment-consolidation-policies.html">Lieferungskonsolidierungsrichtlinien</a></li>
+<li><a href="configure-shipment-consolidation-policies.html">Richtlinien zur Lieferungskonsolidierung konfigurieren</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

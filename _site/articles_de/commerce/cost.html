@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kostenkonfiguration f&#252;r die verteilte Auftragsverwaltung (DOM) | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Kostenkonfiguration f&#252;r die verteilte Auftragsverwaltung (DOM) | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cost-configuration-for-distributed-order-management-dom">Kostenkonfiguration für die verteilte Auftragsverwaltung (DOM)</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Um den optimalen Standort zur Erledigung von Aufträgen zu ermitteln, berücksichtigen Organisationen mehrere Kostenkomponenten. Dazu gehören unter anderem Kosten für Versand, Bearbeitung und Verpackung. Anhand einer berechneten Kombination dieser Kosten wird der Erfüllungslagerplatz bestimmt.</p>
+<p>Bei der Verbesserung der Zuweisung von Aufträgen zu Erfüllungslagerplätzen durch die erste Iteration der verteilten Auftragsverwaltung (DOM) in Dynamics 365 Commerce wurde nur die Entfernung als Faktor berücksichtigt. Auch wenn diese ggf. mit Kosten korreliert, ist sie nicht mit Kosten identisch. So kann ein Übernachtversand über dieselbe Entfernung mehr als ein Drei- oder Sieben-Tage-Versand kosten.</p>
+<p>Mit der Funktion zur Kostenkonfiguration können Einzelhändler zusätzliche Kostenkomponenten anlegen und konfigurieren, die zur Ermittlung des besten Standortes zur Erfüllung von Auftragspositionen berechnet und berücksichtigt werden.</p>
+<p>Sind Kostenkomponenten konfiguriert, verwendet der DOM-Solver bei der Ermittlung des besten Erfüllungslagerplatzes nur diese Kostendefinitionen. Die Entfernungskomponente wird nicht als Kosten berücksichtigt. Sind keine Kostenkomponenten konfiguriert, verwendet der DOM-Solver bei der Ermittlung des besten Erfüllungslagerplatzes die Entfernungskomponente als Kosten.</p>
+<h2 id="set-up-cost-components">Kostenkomponenten einrichten</h2>
+<p>In System können zwei maßgebliche Kostenkomponenten festgelegt werden: <strong>Versand</strong> und <strong>Sonstiges</strong>.</p>
+<p>Wie in der folgenden Tabelle dargestellt, unterstützen beide Typen von Kostenkomponenten mehrere Berechnungsgrundlagen.</p>
+<table>
+<thead>
+<tr>
+<th>Typ der Kostenkomponente</th>
+<th>Berechnungsbasis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Versand</td>
+<td>
+<ul>
+<li>Einfach</li>
+<li>Mehrstufig</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>Sonstiges</td>
+<td>
+<ul>
+<li>Auftrag</li>
+<li>Verkaufsposition</li>
+<li>Ort</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="shipping-cost-component-type">Kostenkomponententyp „Versand“</h3>
+<p>In diesem Abschnitt wird beschrieben, wie die einzelnen Kombinationen des Kostenkomponententyps <strong>Versand</strong> und eine Berechnungsgrundlage für Versandkosten eingerichtet werden. Ferner wird erläutert, wie der DOM-Solver die einzelnen Kombinationen verwendet.</p>
+<h4 id="cost-component-type--shipping-and-calculation-basis--simple">Kostenkomponententyp = Versand und Berechnungsgrundlage = Einfach</h4>
+<p>Wird eine Kombination aus dem Kostenkomponententyp <strong>Versand</strong> und der Berechnungsgrundlage <strong>Einfach</strong> verwendet, beruhen die Versandkosten einer Lieferart entweder auf einer Kostenpauschale oder auf der Entfernung.</p>
+<p>Für diese Kombination müssen die folgenden Felder eingerichtet werden:</p>
+<ul>
+<li><p><strong>Kostenfaktor</strong>: Geben Sie einen eindeutigen Bezeichner für den Kostenfaktor ein.</p>
+</li>
+<li><p><strong>Beschreibung</strong>: Geben Sie Name und Beschreibung des Kostenfaktors ein.</p>
+</li>
+<li><p><strong>Startdatum</strong> und <strong>Enddatum</strong>: Mithilfe dieser Felder können Sie den Kostenfaktor auf einen bestimmten Zeitraum beschränken. Werden diese Felder leer gelassen, gilt der Kostenfaktor unendlich lang.</p>
+</li>
+<li><p><strong>Aktiv</strong>: Gibt an, ob der Kostenfaktor aktiv ist. Bei der DOM werden nur aktive Kostenfaktoren berücksichtigt, die dem Erfüllungsprofil zugewiesen sind.</p>
+</li>
+<li><p><strong>Unternehmen</strong>: Geben Sie die juristische Person an, für die Kostenfaktor konfiguriert wird. Alle Positionen der Berechnungskriterien müssen sich auf dieselbe juristische Person beziehen.</p>
+</li>
+<li><p><strong>Lieferarten</strong>: Geben Sie die Lieferarten an, für die die Kosten konfiguriert werden.</p>
+</li>
+<li><p><strong>Berechnungstyp</strong>: Geben Sie an, wie die Kosten für die einzelnen Lieferarten berechnet werden sollen. Es werden zwei Berechnungsarten unterstützt:</p>
+<ul>
+<li><strong>Fest</strong>: Für die Lieferart wird eine Pauschale verwendet. Bei Auswahl dieser Berechnungsart bestimmt das Feld <strong>Kosten</strong> die Kostenpauschale.</li>
+<li><strong>Pro Entfernungseinheit</strong>: Die Kosten für die Lieferart werden berechnet, indem der im Feld <strong>Kosten</strong> angegebene Wert mit der Entfernung zwischen Lieferadresse und Standorten multipliziert wird.</li>
+</ul>
+</li>
+<li><p><strong>Kosten</strong>: Geben Sie den Wert an, der im Zusammenhang mit dem Feld <strong>Berechnungstyp</strong> verwendet wird, um die Kosten für eine Lieferart zu berechnen.</p>
+</li>
+</ul>
+<h4 id="cost-component-type--shipping-and-calculation-basis--tiered">Kostenkomponententyp = Versand und Berechnungsgrundlage = Mehrstufig</h4>
+<p>Wird eine Kombination aus dem Kostenkomponententyp <strong>Versand</strong> und der Berechnungsgrundlage <strong>Mehrstufig</strong> verwendet, beruhen die Versandkosten einer Lieferart entweder auf einer Kostenpauschale oder auf der Entfernung. Allerdings beruht die Entfernung bei dieser Kombination auf einer mehrstufigen Entfernungsskala.</p>
+<p>Für diese Kombination müssen die folgenden Felder eingerichtet werden:</p>
+<ul>
+<li><p><strong>Kostenfaktor</strong>: Geben Sie einen eindeutigen Bezeichner für den Kostenfaktor ein.</p>
+</li>
+<li><p><strong>Beschreibung</strong>: Geben Sie Name und Beschreibung des Kostenfaktors ein.</p>
+</li>
+<li><p><strong>Standardkosten</strong>: Geben Sie die Kosten an, die für eine Lieferart verwendet werden sollen, wenn die Entfernung zwischen der Lieferadresse und dem Standort nicht in eine der mehrstufigen Entfernungen der Lieferart fällt.</p>
+</li>
+<li><p><strong>Startdatum</strong> und <strong>Enddatum</strong>: Mithilfe dieser Felder können Sie den Kostenfaktor auf einen bestimmten Zeitraum beschränken. Werden diese Felder leer gelassen, gilt der Kostenfaktor unendlich lang.</p>
+</li>
+<li><p><strong>Aktiv</strong>: Gibt an, ob der Kostenfaktor aktiv ist. Bei der DOM werden nur aktive Kostenfaktoren berücksichtigt, die dem Erfüllungsprofil zugewiesen sind.</p>
+</li>
+<li><p><strong>Unternehmen</strong>: Geben Sie die juristische Person an, für die Kostenfaktor konfiguriert wird. Alle Positionen der Berechnungskriterien müssen sich auf dieselbe juristische Person beziehen.</p>
+</li>
+<li><p><strong>Lieferarten</strong>: Geben Sie die Lieferarten an, für die die Kosten konfiguriert werden.</p>
+</li>
+<li><p><strong>Entfernungstyp</strong>: Geben Sie an, ob die mehrstufige Entfernungsdefinition Luftlinie oder Straßenentfernung ist.</p>
+</li>
+<li><p><strong>Entfernungseinheiten</strong>: Geben Sie die Einheit an, in der die Entfernung gemessen wird.</p>
+</li>
+<li><p><strong>Entfernung von</strong>: Geben Sie den Startpunkt der mehrstufigen Entfernung an.</p>
+</li>
+<li><p><strong>Entfernung bis</strong>: Geben Sie den Zielpunkt der mehrstufigen Entfernung an.</p>
+</li>
+<li><p><strong>Berechnungstyp</strong>: Geben Sie an, wie die Kosten für die einzelnen Lieferarten und die mehrstufige Entfernung berechnet werden sollen. Es werden zwei Berechnungsarten unterstützt:</p>
+<ul>
+<li><strong>Fest</strong>: Für die Lieferart wird eine Pauschale verwendet. Bei Auswahl dieser Berechnungsart bestimmt das Feld <strong>Kosten</strong> die Kostenpauschale.</li>
+<li><strong>Pro Entfernungseinheit</strong>: Die Kosten für die Lieferart und die mehrstufige Entfernung werden berechnet, indem der im Feld <strong>Kosten</strong> angegebene Wert mit der Entfernung zwischen Lieferadresse und Standorten multipliziert wird.</li>
+</ul>
+</li>
+<li><p><strong>Kosten</strong>: Geben Sie den Wert an, der im Zusammenhang mit dem Feld <strong>Berechnungstyp</strong> verwendet wird, um die Kosten für eine Lieferart zu berechnen.</p>
+</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>Bei Angaben mehrstufiger Entfernungen prüft das System, ob Entfernungen fehlen oder überlappen.</li>
+<li>Der für eine Lieferart verwendete Entfernungstyp muss für alle mehrstufigen Entfernungen identisch sein.</li>
+</ul>
+</div>
+<h3 id="other-cost-component-type">Kostenkomponententyp „Sonstiges“</h3>
+<p>In diesem Abschnitt wird beschrieben, wie die einzelnen Kombinationen des Kostenkomponententyps <strong>Sonstiges</strong> und eines weiteren Kostentyps bei nicht versandbezogenen Kosten berechnet werden. Ferner wird erläutert, wie der DOM-Solver die einzelnen Kombinationen verwendet.</p>
+<h4 id="cost-component-type--other-and-other-cost-type--sales-order">Kostenkomponententyp = Sonstiges und anderer Kostentyp = Auftrag</h4>
+<p>Eine Kombination aus dem Kostenkomponententyp <strong>Sonstiges</strong> und dem anderen Kostentyp <strong>Auftrag</strong> wird verwendet, um auf Auftragsebene Kosten ohne Versandbezug zu definieren.</p>
+<p>Für diese Kombination müssen die folgenden Felder eingerichtet werden:</p>
+<ul>
+<li><strong>Kostenfaktor</strong>: Geben Sie einen eindeutigen Bezeichner für den Kostenfaktor ein.</li>
+<li><strong>Beschreibung</strong>: Geben Sie Name und Beschreibung des Kostenfaktors ein.</li>
+<li><strong>Startdatum</strong> und <strong>Enddatum</strong>: Mithilfe dieser Felder können Sie den Kostenfaktor auf einen bestimmten Zeitraum beschränken. Werden diese Felder leer gelassen, gilt der Kostenfaktor unendlich lang.</li>
+<li><strong>Aktiv</strong>: Gibt an, ob der Kostenfaktor aktiv ist. Bei der DOM werden nur aktive Kostenfaktoren berücksichtigt, die dem Erfüllungsprofil zugewiesen sind.</li>
+<li><strong>Kosten</strong>: Geben Sie den Wert für nichtversandbezogene Kosten auf Auftragsebene ein.</li>
+</ul>
+<h4 id="cost-component-type--other-and-other-cost-type--sales-line">Kostenkomponententyp = Sonstiges und anderer Kostentyp = Auftragsposition</h4>
+<p>Eine Kombination aus dem Kostenkomponententyp <strong>Sonstiges</strong> und dem anderen Kostentyp <strong>Auftragsposition</strong> wird verwendet, um auf Auftragspositionsebene Kosten ohne Versandbezug zu definieren.</p>
+<p>Für diese Kombination müssen die folgenden Felder eingerichtet werden:</p>
+<ul>
+<li><strong>Kostenfaktor</strong>: Geben Sie einen eindeutigen Bezeichner für den Kostenfaktor ein.</li>
+<li><strong>Beschreibung</strong>: Geben Sie Name und Beschreibung des Kostenfaktors ein.</li>
+<li><strong>Startdatum</strong> und <strong>Enddatum</strong>: Mithilfe dieser Felder können Sie den Kostenfaktor auf einen bestimmten Zeitraum beschränken. Werden diese Felder leer gelassen, gilt der Kostenfaktor unendlich lang.</li>
+<li><strong>Aktiv</strong>: Gibt an, ob der Kostenfaktor aktiv ist. Bei der DOM werden nur aktive Kostenfaktoren berücksichtigt, die dem Erfüllungsprofil zugewiesen sind.</li>
+<li><strong>Kosten</strong>: Geben Sie den Wert für nichtversandbezogene Kosten auf Auftragspositionsebene ein.</li>
+</ul>
+<h4 id="cost-component-type--other-and-other-cost-type--location">Kostenkomponententyp = Sonstiges und anderer Kostentyp = Standort</h4>
+<p>Eine Kombination aus dem Kostenkomponententyp <strong>Sonstiges</strong> und dem anderen Kostentyp <strong>Standort</strong> wird verwendet, um für eine Gruppe von Standorten oder für einen einzelnen Standort nichtversandbezogene Kosten zu berechnet.</p>
+<p>Für diese Kombination müssen die folgenden Felder eingerichtet werden:</p>
+<ul>
+<li><p><strong>Kostenfaktor</strong>: Geben Sie einen eindeutigen Bezeichner für den Kostenfaktor ein.</p>
+</li>
+<li><p><strong>Beschreibung</strong>: Geben Sie Name und Beschreibung des Kostenfaktors ein.</p>
+</li>
+<li><p><strong>Startdatum</strong> und <strong>Enddatum</strong>: Mithilfe dieser Felder können Sie den Kostenfaktor auf einen bestimmten Zeitraum beschränken. Werden diese Felder leer gelassen, gilt der Kostenfaktor unendlich lang.</p>
+</li>
+<li><p><strong>Aktiv</strong>: Gibt an, ob der Kostenfaktor aktiv ist. Bei der DOM werden nur aktive Kostenfaktoren berücksichtigt, die dem Erfüllungsprofil zugewiesen sind.</p>
+</li>
+<li><p><strong>Erfüllungsgruppe</strong>: Geben Sie die Gruppe der Standorte an, für die die Kosten ohne Versandbezug definiert werden.</p>
+</li>
+<li><p><strong>Erfüllungslagerplatz</strong>: Geben Sie den Ort an, für den die Kosten ohne Versandbezug definiert werden.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Bei standortbasierten Berechnungskriterien können keine Erfüllungsgruppe und kein Erfüllungslagerplatz angegeben werden.</p>
+</div>
+</li>
+<li><p><strong>Kosten</strong>: Geben Sie den Wert für die Kosten ohne Versandbezug auf Ebene der Erfüllungsgruppe oder auf Ebene des Erfüllungslagerplatzes an.</p>
+</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Damit diese Kosten bei der DOM berücksichtigt werden, muss der Kostenfaktor im jeweiligen Erfüllungsprofil ergänzt werden.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

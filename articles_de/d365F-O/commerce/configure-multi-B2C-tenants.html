@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mehrere B2C-Mandanten in einer Commerce-Umgebung konfigurieren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Mehrere B2C-Mandanten in einer Commerce-Umgebung konfigurieren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird beschrieben, wann und wie mehrere Microsoft Azure Active Directory (Azure AD) Business-to-Consumer (B2C)-Mandanten pro Kanal f&#252;r die Benutzerauthentifizierung in einer dedizierten Dynamics 365 Commerce-Umgebung eingerichtet werden k&#246;nnen.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-multiple-b2c-tenants-in-a-commerce-environment">Mehrere B2C-Mandanten in einer Commerce-Umgebung konfigurieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema wird beschrieben, wann und wie mehrere Microsoft Azure Active Directory (Azure AD) Business-to-Consumer (B2C)-Mandanten pro Kanal für die Benutzerauthentifizierung in einer dedizierten Dynamics 365 Commerce-Umgebung eingerichtet werden können.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Dynamics 365 Commerce verwendet den Azure AD B2C-Cloud-Identitätsdienst zur Unterstützung von Benutzeranmeldeinformationen und Authentifizierungsströmen. Die Benutzer können die Authentifizierungsflüsse nutzen, um sich anzumelden, sich anzumelden und ihr Kennwort zurückzusetzen. Azure AD B2C speichert die sensiblen Authentifizierungsinformationen eines Benutzers, wie z.B. seinen Benutzernamen und sein Passwort. Der Benutzerdatensatz ist für jeden B2C-MiMandanten ter einzigartig und verwendet entweder die Anmeldedaten des Benutzernamens (E-Mail-Adresse) oder die Anmeldedaten des Anbieters der sozialen Identität.</p>
+<p>In den meisten Fällen wird in einer Commerce-Umgebung ein einzelner Azure AD B2C-Mandanten verwendet. Commerce-Kunden können dann mehrere Sites in derselben Commerce-Umgebung erstellen und veröffentlichen, und auf diesen Sites werden dieselben Kundendaten verwendet. Wenn die Sites in der Umgebung jedoch als unterschiedliche Marken behandelt werden und den Benutzern als separate Unternehmen erscheinen sollen, kann ein B2C-Mandanten für den Kanal konfiguriert werden, der für die Trennung von Site und Marke verwendet wird.</p>
+<h2 id="considerations-when-multiple-b2c-tenants-are-set-up-per-channel">Überlegungen, wenn mehrere B2C-Mandanten pro Kanal eingerichtet werden</h2>
+<p>Wenn jeder Kanal oder jede Website als separates Unternehmen behandelt wird, ist es oft die beste Option, getrennte juristische Personen für die Benutzerauthentifizierung in Commerce zu verwenden. Wenn Sie jedoch jeden Kanal/jede Website in derselben Umgebung und derselben juristischen Person behalten möchten, aber für jede Website eine separate Benutzerauthentifizierung wünschen, ist es wichtig, dass Sie die folgenden Punkte berücksichtigen, bevor Sie fortfahren:</p>
+<ul>
+<li><p>Die Benutzer haben für jeden Kanal/jede Website ihre eigenen, eindeutigen Anmeldedaten.</p>
+<p>Dieselbe Person kann zwei getrennte Konten pro Kanal/Site haben, da jedes Konto ein eindeutiger Eintrag in einem separaten B2C-Mieter ist.</p>
+</li>
+<li><p>In der Microsoft Dynamics-Umgebung werden separate Kundendatensätze für die Suche nach globalen Datensätzen zurückgegeben.</p>
+<p>Wenn ein Benutzer dieselbe E-Mail-Adresse über verschiedene Kanäle/Sites hinweg verwendet, werden bei der globalen Kundensuche Ergebnisse für jeden Kanal/Site zurückgegeben. (Es wird ein Kanalindikator) angezeigt.</p>
+</li>
+<li><p>Das Adressbuch kann dazu verwendet werden, Benutzer zu gruppieren, sodass sie pro Kanal nachverfolgt werden können.</p>
+</li>
+<li><p>Die Anzahl der Kundendatensätze pro Kanal kann sich erhöhen, und diese Erhöhung kann die Leistung der globalen Kundensuche beeinträchtigen.</p>
+</li>
+<li><p>B2C-Mandanten müssen sorgfältig einem Kanal zugeordnet werden, um Situationen zu vermeiden, in denen sich Kunden für einen falschen Mandanten anmelden. Andernfalls kann es zu Verwirrung oder Problemen bei der Nachverfolgung kommen.</p>
+</li>
+</ul>
+<p>Die folgende Abbildung zeigt mehrere B2C-Mieter in einer Commerce-Umgebung.</p>
+<p><img src="media/MultiB2C_In_Environment.png" alt="Mehrere B2C-Mandanten in einer Commerce-Umgebung"></p>
+<p>Wenn Sie entscheiden, dass Ihr Unternehmen unterschiedliche B2C-Mandanten pro Kanal in derselben Commerce-Umgebung benötigt, füllen Sie die Verfahren in den folgenden Abschnitten aus, um diese Funktion zu beantragen.</p>
+<h2 id="request-that-b2c-per-channel-be-enabled-in-your-environment">Beantragen Sie, dass B2C pro Kanal in Ihrer Umgebung aktiviert wird.</h2>
+<p>Wenn Sie derzeit möchten, dass verschiedene B2C-Mandanten pro Kanal in derselben Commerce-Umgebung verfügbar sind, müssen Sie eine Anfrage an Dynamics 365 Commerce senden. Weitere Informationen finden Sie unter <a href="../fin-ops-core/dev-itpro/lifecycle-services/lcs-support.html">Unterstützung für Lifecycle Services (LCS)</a>, oder besprechen Sie dieses Problem mit Ihrem Ansprechpartner für Commerce-Lösungen.</p>
+<h2 id="configure-b2c-tenants-in-your-environment">Konfigurieren von B2C-Mandanten in Ihrer Umgebung</h2>
+<p>Um B2C-Mandanten in Ihrer Umgebung zu konfigurieren, führen Sie die entsprechenden Verfahren in diesem Abschnitt aus.</p>
+<h3 id="add-an-azure-ad-b2c-tenant">Azure AD B2C-Mandant hinzufügen</h3>
+<p>Um einen Azure AD B2C-Mandanten zu Ihrer Umgebung hinzuzufügen, gehen Sie wie folgt vor.</p>
+<ol>
+<li><p>Melden Sie sich beim Commerce Site Builder für Ihre Umgebung als Systemadministrator an. Um einen Azure AD B2C-Mandanten zu konfigurieren, müssen Sie Systemadministrator für die Commerce-Umgebung sein.</p>
+</li>
+<li><p>Wählen Sie im linken Navigationsbereich <strong>Mandanteneinstellungen</strong>, um ihn zu erweitern.</p>
+</li>
+<li><p>Wählen Sie <strong>B2C-Einstellungen</strong> und dann <strong>Verwalten</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>B2C-Anwendung hinzufügen</strong>, und geben Sie dann die folgenden Informationen ein:</p>
+<ul>
+<li><strong>Anwendungsname</strong>: Geben Sie den Namen ein, der für die Anwendung im Zusammenhang mit der Verwaltung der Anwendung in Commerce verwendet werden soll. Wir empfehlen Ihnen, den Anwendungsnamen zu verwenden, den Sie beim Einrichten der Azure AD B2C-Anwendung im Azure-Portal gewählt haben. Auf diese Weise können Sie dazu beitragen, Verwirrung zu vermeiden, wenn Sie B2C-Mandanten in Commerce verwalten.</li>
+<li><strong>Mandantenname</strong>: Geben Sie den B2C-Mandantennamen so ein, wie er im Azure-Portal erscheint.</li>
+<li><strong>Passwort-Richtlinien-ID vergessen</strong>: Geben Sie die Richtlinien-ID ein (den Namen der Richtlinie im Azure-Portal).</li>
+<li><strong>Registrierungs-/Anmelde-Richtlinien-ID</strong>: Geben Sie die Richtlinien-ID ein (den Namen der Richtlinie im Azure-Portal).</li>
+<li><strong>Client GUID</strong>: Geben Sie die Azure AD B2C-Mandanten-ID ein, wie sie im Azure-Portal erscheint (nicht die Anwendungs-ID für den B2C-Mandanten).</li>
+<li><strong>Profilrichtlinien-ID bearbeiten</strong>: Geben Sie die Richtlinien-ID ein (den Namen der Richtlinie im Azure-Portal).</li>
+</ul>
+</li>
+<li><p>Wenn Sie mit der Eingabe dieser Informationen fertig sind, wählen Sie <strong>OK</strong>, um Ihre Änderungen zu sichern.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie sollten Felder wie <strong>Umfang</strong>, <strong>Nicht interaktive Richtlinien-ID</strong>, <strong>Nicht interaktive Client-ID</strong>, <strong>Benutzerdefinierte Anmeldedomäne</strong> und <strong>Anmelde-Richtlinien-ID</strong> leer lassen, es sei denn, das Dynamics 365 Commerce-Team weist Sie an, sie einzustellen.
+Ihr neuer Azure AD B2C-Mandanten sollte nun in der Liste unter <strong>B2C-Anwendungen verwalten</strong> erscheinen.</p>
+</div>
+<h3 id="manage-or-delete-an-azure-ad-b2c-tenant">Verwalten oder löschen eines Azure AD B2C-Mandanten</h3>
+<ol>
+<li>Melden Sie sich beim Commerce Site Builder für Ihre Umgebung als Systemadministrator an. Um einen Azure AD B2C-Mandanten zu konfigurieren, müssen Sie Systemadministrator für die Commerce-Umgebung sein.</li>
+<li>Wählen Sie im linken Navigationsbereich <strong>Mandanteneinstellungen</strong>, um ihn zu erweitern.</li>
+<li>Wählen Sie <strong>B2C-Einstellungen</strong> und dann <strong>Verwalten</strong>.</li>
+<li>Um einen B2C-Mandanten zu bearbeiten, wählen Sie das Bleistiftsymbol daneben. Um einen B2C-Mandanten zu löschen, wählen Sie das Mülleimersymbol daneben.</li>
+<li>Wählen Sie <strong>Speichern</strong>, und wählen Sie dann <strong>Veröffentlichen</strong>, um Ihre Änderungen zu aktivieren.</li>
+</ol>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Wenn ein B2C-Mandant für eine live/veröffentlichte Website konfiguriert ist, haben sich die Benutzer möglicherweise über Konten angemeldet, die auf dem Mandanten vorhanden sind. Wenn Sie einen konfigurierten Mandanten im Menü <strong>Mandanteneinstellungen &gt; B2C-Mandant</strong> löschen, entfernen Sie die Zuordnung dieses B2C-Mandanten zu Websites, die mit beliebigen Kanälen des Mandanten verknüpft sind. In diesem Fall können sich Ihre Benutzer möglicherweise nicht mehr bei ihren Konten anmelden. Seien Sie daher äußerst vorsichtig, wenn Sie einen konfigurierten Mandanten löschen.</p>
+<p>Wenn ein konfigurierter Mandanten gelöscht wird, werden der B2C-Mandant und die Datensätze weiterhin gepflegt, aber die Commerce-Systemkonfiguration dieses Mandanten wird geändert oder entfernt. Benutzer, die versuchen, sich bei der Site anzumelden oder anzumelden, legen einen neuen Kontodatensatz im Standard- oder neu zugeordneten B2C-Mandanten an, der für den Kanal der Site konfiguriert ist.</p>
+</div>
+<h2 id="configure-your-channel-with-a-b2c-tenant">Konfigurieren Ihres Kanals mit einem B2C-Mandanten</h2>
+<ol>
+<li>Melden Sie sich beim Commerce Site Builder für Ihre Umgebung als Systemadministrator an. Um einen Azure AD B2C-Mandanten zu konfigurieren, müssen Sie Systemadministrator für die Commerce-Umgebung sein.</li>
+<li>Wählen Sie im linken Navigationsbereich <strong>Site-Einstellungen</strong> aus, um den Bereich zu erweitern.</li>
+<li>Wählen Sie <strong>Kanäle</strong>, und wählen Sie dann den zu konfigurierenden Kanal.</li>
+<li>Wählen Sie im Eigenschaftsfenster auf der rechten Seite im Feld <strong>B2C-Anwendung wählen</strong> den konfigurierten Azure AD B2C-Mandanten, der für diesen Kanal verwendet werden soll.</li>
+<li>Wählen Sie in der Befehlsleiste <strong>Speichern und veröffentlichen</strong>, um die neue oder aktualisierte Konfiguration zu übernehmen.</li>
+</ol>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Wenn Sie die dem Channel zugeordnete B2C-Anwendung ändern, entfernen Sie die aktuellen Referenzen, die für alle Benutzer, die sich bereits in der Umgebung angemeldet haben, eingerichtet wurden. In diesem Fall sind alle Referenzen, die mit der aktuell zugeordneten B2C-Anwendung verbunden sind, für die Benutzer nicht verfügbar. Ändern Sie daher eine Azure AD B2C-Konfiguration des Channels nur dann, wenn Sie den Channel zum ersten Mal einrichten und sich noch keine Benutzer anmelden konnten. Andernfalls müssen sich die Benutzer möglicherweise erneut anmelden, um einen Datensatz im neuen Azure AD B2C-Mandanten zu erstellen.</p>
+</div>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="configure-your-domain-name.html">Domänennamen konfigurieren</a></p>
+<p><a href="deploy-ecommerce-site.html">Neuen E-Commerce-Mandanten bereitstellen</a></p>
+<p><a href="create-ecommerce-site.html">E-Commerce-Website erstellen</a></p>
+<p><a href="associate-site-online-store.html">Zuordnen einer Dynamics 365 Commerce-Website zu einem Onlinekanal</a></p>
+<p><a href="manage-robots-txt-files.html">Robots.txt-Dateien verwalten</a></p>
+<p><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/upload-bulk-redirects">URL-Umleitungen in Massen hochladen (This is an external link)</a></p>
+<p><a href="set-up-B2C-tenant.html">Einrichten eines B2C-Mandanten in Commerce</a></p>
+<p><a href="custom-pages-user-logins.html">Einrichten angepasster Seiten für die Benutzeranmeldungen</a></p>
+<p><a href="add-cdn-support.html">Hinzufügen von Unterstützung für ein Content Delivery Network (CDN)</a></p>
+<p><a href="enable-store-detection.html">Standortbasierte Shop-Erkennung aktivieren</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/configure-multi-B2C-tenants.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

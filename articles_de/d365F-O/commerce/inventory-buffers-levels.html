@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Konfigurieren Sie Inventarpuffer und Inventarebenen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Konfigurieren Sie Inventarpuffer und Inventarebenen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie Inventarpuffer und Inventarebenen konfigurieren, die die Nachrichten zur Inventarverf&#252;gbarkeit unter Microsoft Dynamics 365 Commerce Websites bestimmmen.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, Retail">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="configure-inventory-buffers-and-inventory-levels">Konfigurieren Sie Inventarpuffer und Inventarebenen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema wird erläutert, wie Sie Inventarpuffer und Inventarebenen konfigurieren, die die Nachrichten zur Inventarverfügbarkeit unter Microsoft Dynamics 365 Commerce Websites bestimmmen.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Dynamics 365 Commerce Zentralen befinden sich Inventardaten und verschiedene Kanäle wie POS-Anwendungen (Point of Sale), E-Commerce-Storefronts und andere benutzerdefinierte integrierte Anwendungen, mit denen Inventar asynchron abgerufen und verschoben werden kann. Daher sind die verfügbaren Inventarwerte, die über die vorhandene Inventarseite in der Commerce-Zentrale, über die POS-Benutzeroberfläche (UI) und über E-Commerce-APIs für die Verfügbarkeit von Inventar abgerufen werden, in Echtzeit nicht immer zu 100 Prozent genau.</p>
+<p>Anstatt die tatsächlichen Inventarwerte in E-Commerce-Geschäften anzuzeigen, ziehen es viele Einzelhändler vor, nur Nachrichten über den Status der Inventarverfügbarkeit anzuzeigen (z. B. Verfügbar oder Nicht verfügbar), um Kunden darüber zu informieren, ob ein Artikel zum Kauf verfügbar oder möglicherweise nicht verfügbar ist auf Lager. Für diesen Ansatz müssen Inventarpuffer und Inventarebenen, die das Inventarverfügbarkeits-Messaging bestimmen, verfügbar gemacht und konfiguriert werden.</p>
+<h2 id="prerequisite-turn-on-the-inventory-buffers-and-inventory-levels-feature">Voraussetzung: Aktivieren Sie die Funktion Inventarpuffer und Inventarebenen</h2>
+<p>Die Funktion für Inventarpuffer und Inventarebenen wird über die Funktionsverwaltung in der Commerce-Zentrale gesteuert. Um die Funktion zu aktivieren, führen Sie diese Schritte aus.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Systemverwaltung</strong> &gt; <strong>Arbeitsbereiche</strong> &gt; <strong>Datenverwaltung</strong>.</li>
+<li>Suche nach der Funktion <strong>Aktivieren Sie Inventarpuffer und Inventarebenen</strong>, wählen Sie die Zeile aus und wählen Sie dann <strong>Jetzt aktivieren</strong>.</li>
+</ol>
+<p>Nachdem die Funktion aktiviert wurde, finden Sie die Lagerbestände unter <strong>Einzelhandel und Handel &gt; Bestandsverwaltung</strong>.</p>
+<h2 id="create-and-configure-an-inventory-level-profile">Erstellen und konfigurieren Sie ein Profil auf Inventarebene</h2>
+<p>Ein <em>Profil auf Inventarebene</em> legt fest, ob ein bestimmter Produktmengenstatus als auf Lager, nicht auf Lager oder in einem anderen benutzerdefinierten Status betrachtet wird. Sie können mehrere Profile auf Inventarebene pro juristischer Person erstellen und konfigurieren. Jedes Profil besteht aus einer Reihe von Inventarebenen, und jede Ebene wird durch ein <em>Angebot</em>, einen <em>Code</em>, und einer <em>Beschriftung</em> definiert.</p>
+<ul>
+<li><strong>Bereich</strong> – Jeder Bereich wird durch eine <em>Startmenge</em> und ein <em>Endmenge</em> definiert Ein Mengenwert fällt in einen Bereich, wenn er größer als die Startmenge dieses Bereichs und nicht größer als die Endmenge ist.</li>
+<li><strong>Code</strong> – Ein Code ist eine interne Abkürzung, die die Ebene darstellt. Kunden, die direkt in die Inventar-APIs integriert sind, können mithilfe von Codes zusätzliche Logik für eine bestimmte Inventarebene erstellen. Beispielsweise können sie die Kauffunktion für ein Produkt deaktivieren, wenn der Bestandscode <strong>OOS</strong> (nicht vorrätig) lautet.</li>
+<li><strong>Etikett</strong> – Ein Etikett ist eine aussagekräftige kundenorientierte Nachricht, die Kunden auf einer E-Commerce-Website einen Lagerbestand vermittelt.</li>
+</ul>
+<h3 id="create-an-inventory-level-profile">Erstellen Sie ein Profil auf Inventarebene</h3>
+<p>Um ein Lagerbestandsprofil zu erstellen, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Gehen Sie zu <strong>Einzelhandel und Handel</strong> &gt; <strong>Bestandsverwaltung</strong> &gt; <strong>Lagerbestände</strong>.</li>
+<li>Wählen Sie im Aktionsbereich <strong>Neu</strong> und geben Sie dann Werte in das Feld <strong>Profil ID</strong> und <strong>Beschreibung</strong> ein.</li>
+<li>Auf der Infoseite <strong>Bereiche</strong> wählen Sie <strong>Hinzufügen</strong>, um eine neue Ebene hinzuzufügen, und geben Sie dann Werte in die Spalten <strong>Startmenge</strong>, <strong>Endmenge</strong>, <strong>Code</strong>, und <strong>Etikette</strong> für diese Ebene ein. Wiederholen Sie diesen Schritt, um weitere Ebenen hinzuzufügen. Bei Bedarf können Sie die Werte im Datenraster bearbeiten oder <strong>Löschen</strong> auswählen, um eine Ebene zu entfernen.</li>
+<li>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</li>
+</ol>
+<p>Wenn ein neues Profil erstellt wird, werden automatisch zwei Inventarebenen initialisiert:</p>
+<ul>
+<li><strong>OOS</strong> – Die Stufe Nicht vorrätig, bei der die Untergrenze des Bereichs negativ unendlich ist. Die Startmenge und der Code können für diese Ebene nicht bearbeitet werden.</li>
+<li><strong>VERFÜGBAR</strong> – Die verfügbare Ebene, bei der die Obergrenze des Bereichs unendlich ist. Die Endmenge und der Code können für diese Ebene nicht bearbeitet werden.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Es darf keine Lücken oder Überlappungen zwischen Bereichen in der Profildefinition geben.</p>
+</div>
+<p>Sie können die Schaltfläche <strong>Übersetzungen</strong> im Aktionsbereich verwenden, um lokalisierte Zeichenfolgen für die Beschriftungsnachricht zu konfigurieren. Sie müssen dann den Verteilungszeitplan-Einzelvorgang <strong>1110</strong> (<strong>Globale Konfiguration</strong>) ausführen, um die lokalisierten Zeichenfolgen für Kanäle zu synchronisieren.</p>
+<h3 id="configure-an-inventory-level-profile">Konfigurieren Sie ein Profil auf Inventarebene</h3>
+<p>Sie können ein Inventarebenenprofil entweder auf Produktkategorieebene oder auf der Ebene der einzelnen Produkte konfigurieren. Wenn ein Inventarebenenprofil für ein Produkt konfiguriert ist, wird die Inventarebene basierend auf den Bereichen bestimmt, die im verknüpften Profil definiert sind. Andernfalls wird der Lagerbestand verfügbar oder nicht verfügbar basierend darauf bestimmt, ob das Produkt eine positive Lagerbestandsmenge aufweist.</p>
+<p>Um ein Lagerbestandsprofil für eine Kategorie zu konfigurierenellen, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Gehen Sie zu <strong>Retail and Commerce</strong> &gt; <strong>Produkte und Kategorien</strong> &gt; <strong>Commerce-Produkthierarchie</strong>.</li>
+<li>Wählen Sie die Kategorie, um ein Lagerbestandsprofil zu konfigurieren.</li>
+<li>Auf dem Inforegister <strong>Verkaufen Sie Produkteigenschaften</strong> wählen Sie eine juristische Person aus.</li>
+<li>In dem Abschnitt <strong>Commerce Bestand</strong> im Feld <strong>Profil auf Bestandebene</strong> wählen Sie im Feld eines der vordefinierten Profile auf der Bestandebene aus.</li>
+</ol>
+<p>Sie können die Schaltfläche <strong>Produkte aktualisieren</strong> im Aktionsbereich auswählen, um den Wert des Profils auf Kategorieebene an die zugrunde liegenden Produkte der Kategorie weiterzugeben. Weitere Informationen finden Sie unter <a href="category-management-product-creation.html">Produktkategorien und Produkte verwalten</a>.</p>
+<p>Um ein Lagerbestandsprofil für ein Produkt freizugeben, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Navigieren Sie zu <strong>Einzelhandel und Handel</strong> &gt; <strong>Produkte und Kategorien</strong> &gt; <strong>Freigegebene Produkte nach Kategorie</strong>.</li>
+<li>Wählen Sie ein Produkt aus und öffnen Sie die Produktdetailseite.</li>
+<li>Im Inforegister <strong>Verkauf</strong> im Abschnitt <strong>Commerce Bestand</strong> im Feld <strong>Profil auf Bestandebene</strong> wählen Sie im Feld eines der vordefinierten Profile auf der Bestandebene aus.</li>
+</ol>
+<p>Wenn ein neues Produkt erstellt wird, wird das Feld <strong>Profil auf Inventarebene</strong> wie viele andere Attribute auf Produktebene auf den Wert gesetzt, der für die Kategorie konfiguriert ist, der das Produkt zugeordnet ist.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Das Inventarebenenprofil ist ein für eine juristische Person spezifisches Attribut. Für dieselbe Kategorie oder dasselbe Produkt kann der Profilwert auf Inventarebene zwischen juristischen Personen variieren.</p>
+</div>
+<p>Führen Sie die folgenden Schritte aus, um die Konfigurationen von Profilen auf Inventarebene mit Kanälen zu synchronisieren.</p>
+<ol>
+<li>Gehen Sie zu <strong>Retail and Commerce</strong> &gt; <strong>Retail and Commerce IT</strong> &gt; <strong>Vertriebsplan</strong>.</li>
+<li>Führen Sie den Verteilungsplan <strong>1040</strong> (<strong>Produkt</strong>) aus.</li>
+</ol>
+<h2 id="configure-an-inventory-buffer">Konfigurieren Sie einen Inventarpuffer</h2>
+<p>Der <em>Inventarpuffer</em> ist ein benutzerdefinierter Wert, der die zusätzliche Menge eines Artikels von der ursprünglichen Menge subtrahiert, um die geschätzte Menge zu berechnen. Diese geschätzte Menge bietet Einzelhändlern einen sicheren Puffer, damit sie ein Produkt nicht überbieten, indem sie mehr als den tatsächlichen Lagerbestand verkaufen. Sie können das Inventarebenenprofil entweder auf Produktkategorieebene oder auf der Ebene der einzelnen Produkte konfigurieren. Wenn kein Bestandpuffer angegeben wird, wird der Wert <strong>0</strong> (Null) verwendet.</p>
+<p>Um den Lagerbestandpuffer für eine Kategorie zu konfigurier, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Gehen Sie zu <strong>Retail and Commerce</strong> &gt; <strong>Produkte und Kategorien</strong> &gt; <strong>Commerce-Produkthierarchie</strong>.</li>
+<li>Wählen Sie die Kategorie, um den Bestandpuffer zu konfigurieren.</li>
+<li>Auf dem Inforegister <strong>Verkaufen Sie Produkteigenschaften</strong> wählen Sie eine juristische Person aus.</li>
+<li>In dem Abschnitt <strong>Commerce Bestand</strong> im Feld <strong>Bestandpuffer</strong> geben Sie im Feld einen positiven Wert ein.</li>
+</ol>
+<p>Sie können die Schaltfläche <strong>Produkte aktualisieren</strong> im Aktionsbereich auswählen, um den Wert des Puffers auf Kategorieebene an die zugrunde liegenden Produkte der Kategorie weiterzugeben. Weitere Informationen finden Sie unter <a href="category-management-product-creation.html">Produktkategorien und Produkte verwalten</a>.</p>
+<p>Um den Lagerbestandpuffer für ein freigegebene Produkt zu konfigurieren, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Navigieren Sie zu <strong>Einzelhandel und Handel</strong> &gt; <strong>Produkte und Kategorien</strong> &gt; <strong>Freigegebene Produkte nach Kategorie</strong>.</li>
+<li>Wählen Sie ein Produkt aus und öffnen Sie die Produktdetailseite.</li>
+<li>In Inforegister <strong>Verkaufen</strong> i Abschnitt <strong>Commerce Bestand</strong> im Feld <strong>Bestandpuffer</strong> geben Sie im Feld einen positiven Wert ein.</li>
+</ol>
+<p>Wenn ein neues Produkt erstellt wird, wird das Feld <strong>Bestandpuffer</strong> wie viele andere Attribute auf Produktebene auf den Wert gesetzt, der für die Kategorie konfiguriert ist, der das Produkt zugeordnet ist.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn sowohl das Inventarpuffer- als auch das Inventarebenenprofil für ein Produkt konfiguriert sind, wird die geschätzte Menge des Produkts (dh die ursprüngliche Menge abzüglich des Pufferwerts) für die Bereichsberechnung verwendet, um den Inventarbestand zu bestimmen.</p>
+</div>
+<p>Führen Sie die folgenden Schritte aus, um die Konfigurationen von Bestandpuffern mit Kanälen zu synchronisieren.</p>
+<ol>
+<li>Gehen Sie zu <strong>Retail and Commerce</strong> &gt; <strong>Retail and Commerce IT</strong> &gt; <strong>Vertriebsplan</strong>.</li>
+<li>Führen Sie den Verteilungsplan <strong>1040</strong> (<strong>Produkt</strong>) aus.</li>
+</ol>
+<h2 id="use-inventory-buffers-and-inventory-levels-in-e-commerce-scenario">Verwenden Sie Bestandpuffer und Bestandebenen im E-Commerce-Szenario</h2>
+<p>Der Commerce Site Builder verwendet die Funktionen für den Bestandpuffer und die Bestandebene in der Commerce-Zentrale, um die Nachrichten zur Verfügbarkeit des Inventars auf E-Commerce-Sites zu ermitteln. Weitere Informationen finden Sie unter <a href="inventory-settings.html">Bestandeinstellungen anwenden</a>.</p>
+<p>Wenn Sie eine E-Commerce-Lösung eines Drittanbieters integrieren, können Sie alternativ die <strong>GetEstimatedAvailability</strong> und <strong>GetEstimatedProductWarehouseAvailability</strong> APIs zur Anzeige der Inventarverfügbarkeit für ein Produkt in Ihrem E-Commerce-Szenario verwenden. Weitere Informationen zu diesen APIs finden Sie unter <a href="calculated-inventory-retail-channels.html">Berechnen Sie die Bestandverfügbarkeit für Retail Channel</a>.</p>
+<p>Durch die Einführung von Bestandpuffern und Bestandebenen können diese APIs Codes für Bestandebenen und Kennzeichnungsnachrichten zurückgeben, die auf der Grundlage der insgesamt verfügbaren und verfügbaren physischen Werte ermittelt werden. Die APIs können weiter konfiguriert werden, um zu bestimmen, ob die Bestandmenge zusammen mit der Nachricht zurückgegeben wird und ob die verfügbare Menge um den Bestandpufferwert reduziert wird.</p>
+<p>Führen Sie die folgenden Schritte aus, um die Antwort der Produktverfügbarkeits-APIs zu konfigurieren.</p>
+<ol>
+<li>Gehen Sie zu <strong>Retail and Commerce</strong> &gt; <strong>Heaquaters einrichten</strong> &gt; <strong>Parameter</strong> &gt; <strong>Commerce-Parameter</strong>.</li>
+<li>In dem <strong>Inventar speichern</strong> Abschnitt, auf der <strong>Inventar</strong> Registerkarte im Feld <strong>Produktverfügbarkeits-APIs für E-Commerce</strong> wählen Sie einen Wert.</li>
+<li>Um die Einstellungen auf Kanäle anzuwenden, führen Sie den <strong>1110</strong> (<strong>Globale Konfiguration</strong>) Verteilungsplanjob aus.</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="category-management-product-creation.html">Produktkategorien und Produkte verwalten</a></p>
+<p><a href="inventory-settings.html">Wenden Sie Inventareinstellungen an</a></p>
+<p><a href="calculated-inventory-retail-channels.html">Lagerverfügbarkeit für Retail Channels berechnen</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/inventory-buffers-levels.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

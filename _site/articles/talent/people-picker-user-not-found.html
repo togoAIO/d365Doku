@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>User not found in People Picker in Attract or Onboard | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="User not found in People Picker in Attract or Onboard | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="user-not-found-in-people-picker-in-attract-or-onboard">User not found in People Picker in Attract or Onboard</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Talent: Attract and Onboard apps are being retired. Learn more at <a href="https://community.dynamics.com/365/talent/b/dynamics365fortalent/posts/retiring-dynamics-365-talent-attract-and-onboard-apps">Retiring Dynamics 365 Talent: Attract and Onboard apps</a>.</p>
+</div>
+<h2 id="issue">Issue</h2>
+<p>Certain valid users in Microsoft Azure Active Directory (Azure AD) for the tenant do not appear when searching for the name in the People Picker in Dynamics 365 Talent: Attract or Dynamics 365 Talent: Onboard.</p>
+<h2 id="cause">Cause</h2>
+<p>Certain user types are not currently supported in Attract and Onboard. Verify that the user is not an Azure AD Business to Business (B2B) guest user. &quot;User Type&quot; information can be found in the Azure Active Directory blade on the Azure portal.</p>
+<p>For more information about Azure B2B, see <a href="https://docs.microsoft.com/azure/active-directory/b2b/what-is-b2b">What is guest user access in Azure Active Directory B2B</a>.</p>
+<p>For non-B2B users, there are certain users who may have an incomplete &quot;User Type&quot; property on the <strong>User</strong> object. This can be verified and fixed using the Azure AD Powershell module. For more information, see <a href="https://docs.microsoft.com/powershell/module/azuread/?view=azureadps-2.0">Azure AD</a>.</p>
+<h2 id="resolution">Resolution</h2>
+<p>To complete the following steps to resolve the issue, you will need to have &quot;Global Administrator&quot; permissions on the Azure Active Directory tenant or permissions for <strong>User.ReadWrite.All</strong>.</p>
+<p>To verify the &quot;User Type&quot; for the affected user.</p>
+<pre><code>PS C:\&gt;Get-AzureADUser -ObjectId &quot;testUpn@tenant.com&quot;
+</code></pre>
+<p>The command returns the following information.</p>
+<pre><code>ObjectId                             DisplayName UserPrincipalName      UserType
+--------                             ----------- -----------------      --------
+5e8b0f4d-2cd4-4e17-9467-b0f6a5c0c4d0 New user    testUpn@tenant.com     
+</code></pre>
+<p>Note the <strong>UserType</strong> property on the user. If the <strong>UserType</strong> is blank, for example not &quot;Member&quot; or &quot;Guest&quot;, update the <strong>UserType</strong> using the following command.</p>
+<pre><code>PS C:\&gt;Set-AzureADUser -ObjectId &quot;testUpn@tenant.com&quot; -UserType Member
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

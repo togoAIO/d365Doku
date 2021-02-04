@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Debuggen Sie Datenquellen eines ausgef&#252;hrten EB-Formats, um den Datenfluss und die Transformation zu analysieren </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Debuggen Sie Datenquellen eines ausgef&#252;hrten EB-Formats, um den Datenfluss und die Transformation zu analysieren ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie die Datenquellen eines ausgef&#252;hrten EB-Formats debuggen k&#246;nnen, um den konfigurierten Datenfluss und die konfigurierte Transformation besser zu verstehen.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../finance/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERSolutionTable, EROperationDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="debug-data-sources-of-an-executed-er-format-to-analyze-data-flow-and-transformation">Debuggen Sie Datenquellen eines ausgeführten EB-Formats, um den Datenfluss und die Transformation zu analysieren</h1>
+
+[!include[banner](../includes/banner.md)][!include[banner](../includes/preview-banner.md)]
+<p>Wenn Sie eine elektronische Berichterstellungs-(EB)-Lösung <a href="tasks/er-format-configuration-2016-11.html">konfigurieren</a>, um ausgehende Dokumente zu generieren, definieren Sie Methoden, die verwendet werden, um Daten aus der Anwendung abzurufen und sie in die Ausgabe einzugeben, die generiert wird. Um die Lebenszyklusunterstützung der EB-Lösung effizienter zu gestalten, sollte Ihre Lösung aus einem EB-<a href="general-electronic-reporting.html#DataModelComponent">Datenmodell</a> und deren <a href="general-electronic-reporting.html#ModelMappingComponent">Zuordnung</a>-Komponenten bestehen und auch einem EB-<a href="general-electronic-reporting.html#FormatComponentOutbound">Format</a> und dessen Zuordnungskomponenten bestehen, sodass die Modellzuordnung anwendungsspezifisch ist, wohingegen andere Komponenten anwendungsunabhängig bleiben. Daher <a href="general-electronic-reporting.html#FormatComponentOutbound">beeinflussen</a> möglicherweise mehrere EB-Komponenten den Prozess der Dateneingabe in die generierte Ausgabe.</p>
+<p>Manchmal sehen die Daten der generierten Ausgabe anders aus als die gleichen Daten in der Anwendungsdatenbank. In diesen Fällen möchten Sie bestimmen, welche EB-Komponente für die Datentransformation verantwortlich ist. Die EB-Datenquellendebugger-Funktion reduziert den Zeit- und Kostenaufwand für diese Untersuchung erheblich. Sie können die Ausführung eines EB-Formats unterbrechen und die Datenquellendebugger-Schnittstelle öffnen. Dort können Sie die verfügbaren Datenquellen durchsuchen und eine einzelne Datenquelle für die Ausführung auswählen. Diese manuelle Ausführung simuliert die Ausführung der Datenquelle während der realen Ausführung eines EB-Formats. Das Ergebnis wird auf einer Seite dargestellt, auf der Sie die empfangenen Daten analysieren können.</p>
+<p>Um die Datenquellendebug-Funktion zu aktivieren, legen Sie in den EB-Benutzerparametern die Option <strong>Datendebuggen bei Formatausführung aktivieren</strong> auf <strong>Ja</strong> fest. Sie können dann mit dem Debuggen von Datenquellen beginnen, während Sie ein EB-Format ausführen, um ausgehende Dokumente zu generieren. Sie können auch die Option <strong>Debuggen starten</strong> verwenden, um das Datenquellendebuggen für ein EB-Format zu initiieren, das im <a href="tasks/er-format-configuration-2016-11.html#design-the-format-of-an-electronic-document">EB-Vorgangs-Designer</a> konfiguriert ist.</p>
+<p>Dieses Thema enthält Richtlinien zum Initiieren des Datenquellendebuggens für ausgeführte EB-Formate. Es wird erläutert, wie die Informationen Ihnen helfen können, den Datenfluss und die Datentransformationen zu verstehen. In den Beispielen in diesem Thema wird der Geschäftsprozess für die Verarbeitung von Lieferantenzahlungen verwendet.</p>
+<h2 id="limitations">Einschränkungen</h2>
+<p>Der Datenquellen-Debugger kann verwendet werden, um auf die Daten von Datenquellen zuzugreifen, die in EB-Formaten verwendet werden, die zum Generieren ausgehender Dokumente ausgeführt werden. Er kann nicht zum Debuggen von Datenquellen in EB-Formaten verwendet werden, mit denen eingehende Dokumente analysiert werden sollen.</p>
+<p>Auf die folgenden Einstellungen von EB-Formaten kann derzeit für das Debuggen von Datenquellen nicht zugegriffen werden:</p>
+<ul>
+<li>Format-Transformationen</li>
+<li>Validierungsregeln für Format und Zuordnung</li>
+<li>Ausdrücke aktivieren</li>
+<li>Details zur speicherinternen Datenerfassung</li>
+</ul>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<ul>
+<li><p>Um die Beispiele in diesem Thema abzuschließen, müssen Sie den Zugriff auf eine der folgenden <a href="../sysadmin/tasks/assign-users-security-roles.html">Rollen</a> haben:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+<li><p>Das Unternehmen muss auf <strong>DEMF</strong> festgelegt sein.</p>
+</li>
+<li><p>Folgen Sie den Schritten in <a href="#appendix1">Anhang 1</a> dieses Themas, um die Komponenten der Microsoft EB-Lösung herunterzuladen, die zum Verarbeiten von Lieferantenzahlungen erforderlich sind.</p>
+</li>
+<li><p>Folgen Sie den Schritten in <a href="#appendix2">Anhang 2</a> dieses Themas, um die Kreditorenkonten für die Verarbeitung von Kreditorenzahlungen mithilfe der von Ihnen heruntergeladenen EB-Lösung vorzubereiten.</p>
+</li>
+</ul>
+<h2 id="process-a-vendor-payment-to-get-a-payment-file">Verarbeiten einer Lieferantenzahlung, um eine Zahlungsdatei abzurufen</h2>
+<ol>
+<li><p>Folgen Sie den Schritten in <a href="#appendix3">Anhang 3</a> dieses Themas, um Kreditorenzahlungen zu verarbeiten.</p>
+<p><img src="media/er-data-debugger-process-payment.png" alt="Verarbeitung der Kreditorenzahlung läuft"></p>
+</li>
+<li><p>Laden Sie die ZIP-Datei auf Ihren lokalen Computer herunter und speichern Sie sie.</p>
+</li>
+<li><p>Extrahieren Sie die Zahlungsdatei <strong>ISO20022 Credit transfer.xml</strong> aus der ZIP-Datei.</p>
+</li>
+<li><p>Öffnen Sie die extrahierte Zahlungsdatei mit der XML-Dateianzeige.</p>
+<p>In der Zahlungsdatei enthält der IBAN-Code (International Bank Account Number) des Kreditorenbankkontos keine Leerzeichen. Daher unterscheidet es sich von dem Wert, der <a href="#enteredIBANcode">eingegeben</a> wurde auf der Seite <strong>Bankkonten</strong>.</p>
+<p><img src="media/er-data-debugger-payment-file.png" alt="IBAN-Code ohne Leerzeichen"></p>
+<p>Mit dem EB-Datenquellendebugger können Sie erfahren, welche Komponente der EB-Lösung zum Abschneiden von Leerzeichen im IBAN-Code verwendet wird.</p>
+</li>
+</ol>
+<h2 id="turn-on-data-source-debugging">Aktivieren Sie das Debuggen von Datenquellen</h2>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> im Aktivitätsbereich, auf der Registerkarte <strong>Konfigurationen</strong> in der Gruppe <strong>Erweiterte Einstellungen</strong> wählen Sie <strong>Benutzerparameter</strong> aus.</p>
+</li>
+<li><p>Legen Sie die Option <strong>Debuggen von Daten beim Ausführen des Formats</strong> auf <strong>Ja</strong> fest.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Dieser Parameter ist benutzerspezifisch und unternehmensspezifisch.</p>
+</div>
+<p><img src="media/er-data-debugger-user-parameters.png" alt="Benutzerparameter-Dialogfeld"></p>
+</li>
+</ol>
+<h2 id="process-a-vendor-payment-for-debugging">Verarbeiten einer Kreditorenzahlung zum Debuggen</h2>
+<ol>
+<li><p>Folgen Sie den Schritten in <a href="#appendix3">Anhang 3</a> dieses Themas, um Kreditorenzahlungen zu verarbeiten.</p>
+</li>
+<li><p>Wählen Sie im Meldungsfeld <strong>Ja</strong> aus, um zu bestätigen, dass Sie die Kreditorenzahlungsabwicklung unterbrechen und stattdessen das Debuggen von Datenquellen auf der Seite <strong>Debuggen von Datenquellen</strong> starten möchten.</p>
+<p><img src="media/er-data-debugger-start-debugging.png" alt="Bestätigungsmeldungsfeld"></p>
+</li>
+</ol>
+<h2 id="debug-data-sources-that-are-used-in-payment-processing">Debuggen von Datenquellen, die bei der Zahlungsabwicklung verwendet werden</h2>
+<h3 id="debug-the-model-mapping">Debuggen der Modellzuordnung</h3>
+<ol>
+<li><p>Auf der Seite <strong>Debuggen von Datenquellen</strong> wählen Sie im Aktionsbereich die Option <strong>Modellzuordnung</strong> aus, um mit dem Debuggen ab dieser EB-Komponente zu beginnen.</p>
+</li>
+<li><p>Wählen Sie im Datenquellenbereich links die Datenquelle <strong>$notSentTransactions</strong> aus, und wählen Sie dann <strong>Alle Datensätze lesen</strong> aus.</p>
+<p>Sie können <strong>1 Datensatz lesen</strong>, <strong>10 Datensätze lesen</strong>, <strong>100 Datensätze lesen</strong> oder <strong>Alle Datensätze lesen</strong> auswählen, um das Lesen der entsprechenden Anzahl von Datensätzen aus der ausgewählten Datenquelle zu erzwingen. Auf diese Weise können Sie den Zugriff auf die Datenquelle aus EB-Format simulieren, das gerade ausgeführt wird.</p>
+</li>
+<li><p>Wählen Sie im Datenbereich rechts die Option <strong>Alle erweitern</strong> aus.</p>
+<p>Sie können sehen, dass die ausgewählte Datenquelle des Typs <strong>Datensatzliste</strong> einen einzelnen Datensatz enthält.</p>
+</li>
+<li><p>Erweitern Sie die Datenquelle <strong>$notSentTransactions</strong>, und wählen Sie die geschachtelte Methode <strong>vendBankAccountInTransactionCompany()</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie die Methode <strong>vendBankAccountInTransactionCompany ()</strong>, und wählen Sie das geschachtelte Feld <strong>IBAN</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Wert abrufen</strong>.</p>
+<p>Sie können <strong>Wert abrufen</strong> auswählen, um das Lesen des Werts eines ausgewählten Felds der ausgewählten Datenquelle zu erzwingen. Auf diese Weise können Sie den Zugriff auf dieses Feld aus dem EB-Format simulieren, das gerade ausgeführt wird.</p>
+</li>
+<li><p>Wählen Sie <strong>Alle erweitern</strong> aus.</p>
+<p><img src="media/er-data-debugger-debugging-model-mapping.png" alt="Wert des IBAN-Feldes in der Modellzuordnung"></p>
+<p>Wie Sie sehen, ist die Modellzuordnung nicht für die abgeschnittenen Leerzeichen verantwortlich, da der IBAN-Code, den sie für das Bankkonto des Kreditors zurückgibt, Leerzeichen enthält. Daher müssen Sie das Datenquellen-Debuggen fortsetzen.</p>
+</li>
+</ol>
+<h3 id="debug-the-format-mapping">Formatzuordnung debuggen</h3>
+<ol>
+<li><p>Auf der Seite <strong>Debuggen von Datenquellen</strong> wählen Sie im Aktionsbereich die Option <strong>Formatzuordnung</strong> aus, um mit dem Debuggen ab dieser EB-Komponente fortzufahren.</p>
+</li>
+<li><p>Wählen Sie die Datenquelle <strong>$PaymentByDebtor</strong> aus, und wählen Sie dann <strong>Alle Datensätze lesen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie <strong>$PaymentByDebtor</strong>.</p>
+</li>
+<li><p>Erweitern Sie <strong>$PaymentByDebtor.Lines</strong>, und wählen Sie dann <strong>Alle Datensätze auswählen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie <strong>$PaymentByDebtor.Lines.CreditorAccount</strong>.</p>
+</li>
+<li><p>Erweitern Sie <strong>$PaymentByDebtor.Lines.CreditorAccount.Identification</strong>, und wählen Sie dann <strong>$PaymentByDebtor.Lines.CreditorAccount.Identification.IBAN</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Wert abrufen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Alle erweitern</strong> aus.</p>
+<p><img src="media/er-data-debugger-debugging-format-mapping.png" alt="Wert des IBAN-Feldes in der Formatzuordnung"></p>
+<p>Wie Sie sehen, sind die Datenquellen der Modellzuordnung nicht für die abgeschnittenen Leerzeichen verantwortlich, da der IBAN-Code, den sie für das Bankkonto des Kreditors zurückgeben, Leerzeichen enthält. Daher müssen Sie das Datenquellen-Debuggen fortsetzen.</p>
+</li>
+</ol>
+<h3 id="debug-the-format">Das Format debuggen</h3>
+<ol>
+<li><p>Auf der Seite <strong>Debuggen von Datenquellen</strong> wählen Sie im Aktionsbereich die Option <strong>Format</strong> aus, um mit dem Debuggen ab dieser EB-Komponente fortzufahren.</p>
+</li>
+<li><p>Erweitern Sie die auszuwählenden Formatelemente <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong>, und wählen Sie dann <strong>Alle Datensätze lesen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie die auszuwählenden Formatelemente <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong>, und wählen Sie dann <strong>Alle Datensätze lesen</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie die auszuwählenden Formatelemente <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> &gt; <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong>, und wählen Sie dann <strong>Wert abrufen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Alle erweitern</strong> aus.</p>
+<p><img src="media/er-data-debugger-debugging-format.png" alt="Wert des IBAN-Feldes im Format"></p>
+<p>Wie Sie sehen, ist die Formatbindung nicht für die abgeschnittenen Leerzeichen verantwortlich, da der IBAN-Code, den sie für das Bankkonto des Kreditors zurückgibt, Leerzeichen enthält. Deshalb ist das Element <strong>BankIBAN</strong> so konfiguriert, dass eine Format-Transformation verwendet wird, bei der Leerzeichen abgeschnitten werden.</p>
+</li>
+<li><p>Schließen Sie den Datenquellen-Debugger.</p>
+</li>
+</ol>
+<h3 id="review-the-format-transformations">Überprüfen Sie die Format-Transformationen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Auf der Seite <strong>Konfigurationen</strong> wählen Sie <strong>Zahlungsmodell</strong> &gt; <strong>ISO20022-Kreditübertragung</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus, und erweitern Sie dann die Elemente, um <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong> auszuwählen.</p>
+<p><img src="media/er-data-debugger-referred-transformation.png" alt="BankIBAN-Element auf der Seite „Format-Designer“"></p>
+<p>Wie Sie sehen können, ist das Element <strong>BankIBAN</strong> so konfiguriert, dass es die Transformation <strong>nicht alphanumerisch entfernen</strong> verwendet.</p>
+</li>
+<li><p>Wählen Sie die Registerkarte <strong>Transformationen</strong> aus.</p>
+<p><img src="media/er-data-debugger-transformation.png" alt="Registerkarte „Transformationen“ für das BankIBAN-Element"></p>
+<p>Wie Sie sehen können, ist die Transformation <strong>nicht alphanumerisch entfernen</strong> so konfiguriert, dass ein Ausdruck verwendet wird, der Leerzeichen aus der bereitgestellten Textzeichenfolge abschneidet.</p>
+</li>
+</ol>
+<h2 id="start-to-debug-in-the-operation-designer">Debuggen im Vorgangs-Designer starten</h2>
+<p>Wenn Sie eine Entwurfsversion des EB-Formats konfigurieren, das direkt vom Vorgangs-Designer ausgeführt werden kann, können Sie auf den Datenquellen-Debugger zugreifen, indem Sie <strong>Debuggen starten</strong> im Aktionsbereich auswählen.</p>
+<p><img src="media/er-data-debugger-run-from-designer.png" alt="Schaltfläche „Debuggen starten“ auf der Seite „Format-Designer“"></p>
+<p>Die Formatzuordnung und Formatkomponenten des EB-Formats, das gerade bearbeitet wird, stehen zum Debuggen zur Verfügung.</p>
+<h2 id="start-to-debug-in-the-model-mapping-designer">Debuggen im Modellzuordnungs-Designer starten</h2>
+<p>Wenn Sie eine EB-Modellzuordnung konfigurieren, die direkt von der Seite <strong>Modellzuordnung</strong> ausgeführt werden kann, können Sie auf den Datenquellen-Debugger zugreifen, indem Sie <strong>Debuggen starten</strong> im Aktionsbereich auswählen.</p>
+<p><img src="media/er-data-debugger-run-from-designer-mapping.png" alt="Schaltfläche „Debuggen starten“ auf der Seite „Modellzuordnungs-Designer“"></p>
+<p>Die Modellzuordnungskomponente der zu bearbeitenden EB-Zuordnung steht zum Debuggen zur Verfügung.</p>
+<h2 id="appendix-1-get-an-er-solution"><a name="appendix1"></a>Anhang 1: Eine EB-Lösung abrufen</h2>
+<h3 id="download-an-er-solution">Eine EB-Lösung herunterladen</h3>
+<p>Wenn Sie eine EB-Lösung verwenden möchten, um eine elektronische Zahlungsdatei für eine Kreditorenzahlung zu erstellen, die verarbeitet wird, können Sie <a href="download-electronic-reporting-configuration-lcs.html">Herunterladen</a> das EB-Zahlungsformat <strong>ISO20022-Kreditübertragung</strong>, das in der Freigegebenen Anlagenbibliothek in Microsoft Dynamics Lifecycle Services (LCS) verfügbar ist oder aus dem globalen Repository.</p>
+<p><img src="media/er-data-debugger-import-from-repo.png" alt="Importieren des EB-Zahlungsformats auf der Seite „Konfigurations-Repository“"></p>
+<p>Zusätzlich zum ausgewählten EB-Format müssen die folgenden <a href="general-electronic-reporting.html#Configuration">Konfigurationen</a> automatisch in Ihre Microsoft Dynamics 365 Finance-Instanz als Teil der EB-Lösung <strong>ISO20022-Kreditübertragung</strong> importiert werden.</p>
+<ul>
+<li><strong>Zahlungsmodell</strong> <a href="general-electronic-reporting.html#DataModelComponent">EB-Datenmodellkonfiguration</a></li>
+<li><strong>ISO20022-Kreditübertragung</strong> <a href="general-electronic-reporting.html#FormatComponentOutbound">EB-Formatkonfiguration</a></li>
+<li><strong>Zahlungsmodellzuordnung 1611</strong> <a href="general-electronic-reporting.html#ModelMappingComponent">EB-Modellzuordnungskonfiguration</a></li>
+<li><strong>Zahlungsmodellzuordnung zu Ziel ISO20022</strong> EB-Modellzuordnungskonfiguration</li>
+</ul>
+<p>Sie finden diese Konfigurationen auf der Seite <strong>Konfigurationen</strong> des EB-Frameworks (<strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>).</p>
+<p><img src="media/er-data-debugger-configurations.png" alt="Auf der Seite „Konfigurationen“ importierte Konfigurationen"></p>
+<p>Wenn irgendeine der zuvor aufgelisteten Konfigurationen in der Konfigurationsstruktur fehlt, müssen Sie sie manuell aus der freigegebenen Anlagebibliothek von LCS in derselben Weise herunterladen, wie Sie das EB-Zahlungsformat <strong>ISO20022-Kreditübertragung</strong> heruntergeladen haben.</p>
+<h3 id="analyze-the-downloaded-er-solution">Die heruntergeladene EB-Lösung analysieren</h3>
+<h4 id="review-the-model-mapping">Die Modellzuordnung überprüfen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlungsmodell</strong> &gt; <strong>Zahlungsmodellzuordnung 1611</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie den Zuordnungsdatensatz <strong>Zahlungsmodellzuordnung ISO20022 CT</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus, und überprüfen Sie anschließend die geöffnete Modellzuordnung.</p>
+<p>Beachten Sie, dass das Feld <strong>Zahlungen</strong> des Datenmodells an die Datenquelle <strong>$notSentTransactions</strong> gebunden ist, die die Liste von Kreditorenzahlungspositionen zurück gibt, die verarbeitet werden.</p>
+<p><img src="media/er-data-debugger-model-mapping.png" alt="Feld „Zahlungen“ auf der Seite „Modellzuordnungs Designer“"></p>
+</li>
+</ol>
+<h4 id="review-the-format-mapping">Die Formatzuordnung überprüfen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlungsmodell</strong> &gt; <strong>ISO20022-Kreditübertragung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>In der Registerkarte <strong>Zuordnung</strong> überprüfen Sie die Formatzuordnung, die geöffnet ist.</p>
+<p>Beachten Sie, dass das Element <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> der Datei <strong>ISO20022CTReports</strong> &gt; <strong>XMLHeader</strong> an die Datenquelle <strong>$PaymentByDebtor</strong> gebunden ist, die so konfiguriert ist, dass sie Datensätze des Felds <strong>Zahlungen</strong> des Datenmodells gruppiert.</p>
+<p><img src="media/er-data-debugger-format-mapping.png" alt="PmtInf-Element auf der Seite „Format-Designer“"></p>
+</li>
+</ol>
+<h4 id="review-the-format">Das Format überprüfen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung</strong> &gt; <strong>Elektronische Berichterstellung</strong> &gt; <strong>Konfigurationen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Zahlungsmodell</strong> &gt; <strong>ISO20022-Kreditübertragung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus, und überprüfen Sie anschließend das geöffnete Format.</p>
+<p>Beachten Sie, dass das Formatelement unter <strong>Dokument</strong> &gt; <strong>CstmrCdtTrfInitn</strong> &gt; <strong>PmtInf</strong> &gt; <strong>CdtTrfTxInf</strong> &gt; <strong>CdtrAcct</strong> &gt; <strong>Id</strong> &gt; <strong>IBAN</strong> &gt; <strong>BankIBAN</strong> so konfiguriert ist, dass der IBAN-Code des Kreditorenkontos in der Zahlungsdatei eingegeben wird.</p>
+<p><img src="media/er-data-debugger-format.png" alt="BankIBAN-Element auf der Seite „Format-Designer“"></p>
+</li>
+</ol>
+<h2 id="appendix-2-configure-accounts-payable"><a name="appendix2"></a>Anhang 2: Kreditorenkonten konfigurieren</h2>
+<h3 id="modify-a-vendor-property">Eine Kreditoreneigenschaft ändern</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Kreditoren</strong> &gt; <strong>Alle Kreditoren</strong>.</li>
+<li>Wählen Sie Kreditor <strong>DE-01002</strong> aus, und wählen Sie dann im Aktionsbereich, auf der Registerkarte <strong>Kreditor</strong> in der Gruppe <strong>Einrichten</strong> die Option <strong>Bankkonten</strong> aus.</li>
+<li>Im Inforegister <strong>Identifizierung</strong> im Feld <strong>IBAN</strong>, <a name="enteredIBANcode"></a>geben Sie <strong>GB33 BUKB 2020 1555 5555 55</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-iban.png" alt="IBAN-Feld, festgelegt auf der Seite „Kreditorenbankkonten“"></p>
+<h3 id="set-up-a-method-of-payment">Einrichten einer Zahlungsmethode</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungseinstellungen</strong> &gt; <strong>Zahlungsmethoden</strong>.</li>
+<li>Wählen Sie die Zahlungsmethode <strong>SEPA CT</strong> aus.</li>
+<li>Legen Sie im Inforegister <strong>Dateiformate</strong> im Abschnitt <strong>Dateiformate</strong> die Option <strong>Generisches elektronisches Exportformat</strong> auf <strong>Ja</strong> fest.</li>
+<li>Wählen Sie im Feld <strong>Formatkonfiguration exportieren</strong> das EB-Format <strong>ISO20022-Kreditübertragung</strong> aus.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-payment-method.png" alt="Dateiformateinstellungen auf der Seite „Zahlungsmethoden“"></p>
+<h3 id="add-a-vendor-payment">Kreditorenzahlung hinzufügen</h3>
+<ol>
+<li>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</li>
+<li>Fügen Sie eine neue Zahlungserfassung hinzu.</li>
+<li>Wählen Sie <strong>Positionen</strong> aus, und fügen Sie eine neue Zahlungsposition hinzu.</li>
+<li>Wählen Sie im Feld <strong>Konto</strong> den Kreditor <strong>DE-01002</strong> hinzu.</li>
+<li>Geben Sie im Feld <strong>Soll</strong> einen Wert ein.</li>
+<li>Wählen Sie im Feld <strong>Zahlungsmethode</strong> die Option <strong>SEPA CT</strong> aus.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+<p><img src="media/er-data-debugger-payment-journal.png" alt="Kreditorenzahlung auf der Seite Kreditorenzahlungen hinzugefügt"></p>
+<h2 id="appendix-3-process-a-vendor-payment"><a name="appendix3"></a>Anhang 3: Eine Kreditorenzahlung verarbeiten</h2>
+<ol>
+<li>Wechseln Sie zu <strong>Kreditorenkonten</strong> &gt; <strong>Zahlungen</strong> &gt; <strong>Kreditorenzahlungserfassung</strong>.</li>
+<li>Auf der Seite <strong>Kreditorenzahlungserfassung</strong> wählen Sie die Zahlungserfassung aus, die Sie zuvor erstellt haben, und wählen Sie dann <strong>Positionen</strong> aus.</li>
+<li>Wählen Sie die Zahlungsposition aus, und wählen Sie dann <strong>Zahlungsstatus</strong> &gt; <strong>Kein</strong> aus.</li>
+<li>Wählen Sie <strong>Zahlungen generieren</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Zahlungsmethode</strong> die Option <strong>SEPA CT</strong> aus.</li>
+<li>Wählen Sie im Feld <strong>Bankkonto</strong> die Option <strong>DEMF OPER</strong> aus.</li>
+<li>Wählen Sie im Dialogfeld <strong>Zahlungen generieren</strong> die Option <strong>OK</strong> aus.</li>
+<li>Wählen Sie im Dialogfeld <strong>Elektronische Berichtsparameter</strong> die Option <strong>OK</strong> aus.</li>
+</ol>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-debug-data-sources.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

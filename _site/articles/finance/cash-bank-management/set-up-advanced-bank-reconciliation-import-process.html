@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Set up the advanced bank reconciliation import process | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Set up the advanced bank reconciliation import process | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="set-up-the-advanced-bank-reconciliation-import-process">Set up the advanced bank reconciliation import process</h1>
+
+
+<p>The Advanced bank reconciliation feature lets you import electronic bank statements and automatically reconcile them with bank transactions in Dynamics 365 Finance. This article explains how to set up the import functionality for your bank statements.</p>
+<p>The setup for bank statement import varies, depending on the format of your electronic bank statement. Finance supports three bank statement formats out of the box: ISO20022, MT940, and BAI2.</p>
+<h2 id="set-time-zone-preference">Set time zone preference</h2>
+<p>When you configure the bank statement import settings, it can be important to consider the time zone of the date-time data within the bank statement files that will be imported. The default is to assume any date and time values are already in Coordinated Universal Time (UTC) and so no time zone conversion will be applied when you import the data.</p>
+<p>There is an option available to specify a time zone to use for importing data. This option is available in the <strong>Time zone preference</strong> field on each <strong>Source data format details</strong> page (<strong>Data management workspace &gt; Configure data sources &gt; Select a data format &gt; Regional settings</strong> FastTab). This time zone preference you enter will apply to all the imports that use that source data format. You can create as many data source formats as needed for importing data from multiple time zones.</p>
+<p>This time zone might not be the same as a user’s or company’s time zone, so be sure to clarify what time zone the date and time data is using. We recommend that you consider the following points when setting a time zone preference.</p>
+<ul>
+<li><p>The time zone preference will apply to all imports using that source data format. You can create as many data source formats as needed to handle importing data from multiple time zones.</p>
+</li>
+<li><p>The time zone preference should be the local time zone of the date and time data in the import file.</p>
+</li>
+<li><p>The time zone of the date and time data might not be the same as a user’s or company’s time zone.</p>
+</li>
+<li><p>Users can adjust their own time zone using their <strong>User options</strong>.</p>
+</li>
+</ul>
+<p>Note that the following actions can help minimize potential date and time conflicts when you import bank statements.</p>
+<ul>
+<li><p>Avoid changing the time zone preferences for any bank accounts that have already had statements imported. Changing the time zone preference could impact the ordering of new statements relative to existing statements due to the time zone adjustment.</p>
+</li>
+<li><p>Review all the imports that use the selected data source format. The time zone preference specified for the format will apply to all the import projects that use that format. Verify that the time zone preference is appropriate for all the import projects that use that format.</p>
+</li>
+</ul>
+<h2 id="sample-files">Sample files</h2>
+<p>For all three formats, you must have files that translate the electronic bank statement from the original format to a format that Finance can use. You can find the required resource files under the <strong>Resources</strong> node in Application Explorer in Microsoft Visual Studio. After you find the files, copy them to a single known location, so that you can more easily upload them during the setup process.</p>
+<table>
+<thead>
+<tr>
+<th>Resource name</th>
+<th>File name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BankStmtImport_BAI2CSV_to_BAI2XML_xslt</td>
+<td>BAI2CSV-to-BAI2XML.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_BAI2XML_to_Reconciliation_xslt</td>
+<td>BAI2XML-to-Reconciliation.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_BankReconciliation_to_Composite_xslt</td>
+<td>BankReconciliation-to-Composite.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_ISO20022XML_to_Reconciliation_xslt</td>
+<td>ISO20022XML-to-Reconciliation.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_MT940TXT_to_MT940XML_xslt</td>
+<td>MT940TXT-to-MT940XML.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_MT940XML_to_Reconciliation_xslt</td>
+<td>MT940XML-to-Reconciliation.xslt</td>
+</tr>
+<tr>
+<td>BankStmtImport_SampleBankCompositeEntity_xml</td>
+<td>SampleBankCompositeEntity.xml</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples-of-bank-statement-formats-and-technical-layouts">Examples of bank statement formats and technical layouts</h2>
+<p>Below are examples of the advanced bank reconciliation import file technical layout definitions and three related bank statement example files: <a href="https://mbs.microsoft.com/customersource/northamerica/AX/learning/documentation/how-to-articles/exofbankstfotechlayouts">https://mbs.microsoft.com/customersource/northamerica/AX/learning/documentation/how-to-articles/exofbankstfotechlayouts</a></p>
+<table>
+<thead>
+<tr>
+<th>Technical layout definition</th>
+<th>Bank statement example file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DynamicsAXMT940Layout</td>
+<td>MT940StatementExample</td>
+</tr>
+<tr>
+<td>DynamicsAXISO20022Layout</td>
+<td>ISO20022StatementExample</td>
+</tr>
+<tr>
+<td>DynamicsAXBAI2Layout</td>
+<td>BAI2StatementExample</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-up-the-import-of-iso20022-bank-statements">Set up the import of ISO20022 bank statements</h2>
+<p>First, you must define the bank statement format processing group for ISO20022 bank statements by using the data entity framework.</p>
+<ol>
+<li>Go to <strong>Workspaces</strong> &gt; <strong>Data management</strong>.</li>
+<li>Click <strong>Import</strong>.</li>
+<li>Enter a name for the format, such as <strong>ISO20022</strong>.</li>
+<li>Set the <strong>Source data format</strong> field to <strong>XML-Element</strong>.</li>
+<li>Set the <strong>Entity name</strong> field to <strong>Bank statements</strong>.</li>
+<li>To upload the import files, click <strong>Upload</strong>, and then browse to select the <strong>SampleBankCompositeEntity.xml</strong> file that you saved earlier.</li>
+<li>After the Bank statements entity is uploaded and the mapping is completed, click the <strong>View map</strong> action for the entity.</li>
+<li>The Bank statements entity is a composite entity that consists of four separate entities. In the list, select <strong>BankStatementDocumentEntity</strong>, and then click the <strong>View map</strong> action.</li>
+<li>On the <strong>Transformations</strong> tab, click <strong>New</strong>.</li>
+<li>For sequence number 1, click <strong>Upload file</strong>, and select the <strong>ISO20022XML-to-Reconciliation.xslt</strong> file that you saved earlier. <strong>Note:</strong> Transformation files are built for the standard format. Because banks often diverge from this format, you may have to update the transformation file to map to your bank statement format. <!-- For details about the expected format for ISO20022, see [Dynamics AX ISO20022 Layout](./media/dynamicsaxiso20022layout1.xlsx).--></li>
+<li>Click <strong>New</strong>.</li>
+<li>For sequence number 2, click <strong>Upload file</strong>, and select the <strong>BankReconciliation-to-Composite.xslt</strong> file that you saved earlier.</li>
+<li>Click <strong>Apply transforms</strong>.</li>
+</ol>
+<p>After the format processing group is set up, the next step is to define the bank statement format rules for ISO20022 bank statements.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Setup</strong> &gt; <strong>Advanced bank reconciliation setup</strong> &gt; <strong>Bank statement format</strong>.</li>
+<li>Click <strong>New</strong>.</li>
+<li>Specify a statement format, such as <strong>ISO20022</strong>.</li>
+<li>Enter a name for the format.</li>
+<li>Set the <strong>Processing group</strong> field to the group that you defined earlier, such as <strong>ISO20022</strong>.</li>
+<li>Select the <strong>XML file</strong> check box.</li>
+</ol>
+<p>The last step is to enable Advanced bank reconciliation and set the statement format on the bank account.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong>.</li>
+<li>Select the bank account, and open it to view the details.</li>
+<li>On the <strong>Reconciliation</strong> tab, set the <strong>Advanced bank reconciliation</strong> option to <strong>Yes</strong>.</li>
+<li>Set the <strong>Statement format</strong> field to the format that you created earlier, such as <strong>ISO20022</strong>.</li>
+</ol>
+<h2 id="set-up-the-import-of-mt940-bank-statements">Set up the import of MT940 bank statements</h2>
+<p>First, you must define the bank statement format processing group for MT940 bank statements by using the data entity framework.</p>
+<ol>
+<li>Go to <strong>Workspaces</strong> &gt; <strong>Data management</strong>.</li>
+<li>Click <strong>Import</strong>.</li>
+<li>Enter a name for the format, such as <strong>MT940</strong>.</li>
+<li>Set the <strong>Source data format</strong> field to <strong>XML-Element</strong>.</li>
+<li>Set the <strong>Entity name</strong> field to <strong>Bank statements</strong>.</li>
+<li>To upload import files, click <strong>Upload</strong>, and then browse to select the <strong>SampleBankCompositeEntity.xml</strong> file that you saved earlier.</li>
+<li>After the Bank statements entity is uploaded and the mapping is completed, click the <strong>View map</strong> action for the entity.</li>
+<li>The Bank statements entity is a composite entity that consists of four separate entities. In the list, select <strong>BankStatementDocumentEntity</strong>, and then click the <strong>View map</strong> action.</li>
+<li>On the <strong>Transformations</strong> tab, click <strong>New</strong>.</li>
+<li>For sequence number 1, click <strong>Upload file</strong>, and select the <strong>MT940TXT-to-MT940XML.xslt</strong> file that you saved earlier.</li>
+<li>Click <strong>New</strong>.</li>
+<li>For sequence number 2, click <strong>Upload file</strong>, and select the <strong>MT940XML-to-Reconciliation.xslt</strong> file that you saved earlier. <strong>Note:</strong> Transformation files are built for the standard format. Because banks often diverge from this format, you may have to update the transformation file to map to your bank statement format. <!--- For details about the expected format for MT940, see [Dynamics AX MT940 Layout](./media/dynamicsaxmt940layout1.xlsx)--></li>
+<li>Click <strong>New</strong>.</li>
+<li>For sequence number 3, click <strong>Upload file</strong>, and select the <strong>BankReconciliation-to-Composite.xslt</strong> file that you saved earlier.</li>
+<li>Click <strong>Apply transforms</strong>.</li>
+</ol>
+<p>After the format processing group is set up, the next step is to define the bank statement format rules for MT940 bank statements.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Setup</strong> &gt; <strong>Advanced bank reconciliation setup</strong> &gt; <strong>Bank statement format</strong>.</li>
+<li>Click <strong>New</strong>.</li>
+<li>Specify a statement format, such as <strong>MT940</strong>.</li>
+<li>Enter a name for the format.</li>
+<li>Set the <strong>Processing group</strong> field to the group that you defined earlier, such as <strong>MT940</strong>.</li>
+<li>Set the <strong>File type</strong> field to <strong>txt</strong>.</li>
+</ol>
+<p>The last step is to enable Advanced bank reconciliation and set the statement format on the bank account.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong>.</li>
+<li>Select the bank account, and open it to view the details.</li>
+<li>On the <strong>Reconciliation</strong> tab, set the <strong>Advanced bank reconciliation</strong> option to <strong>Yes</strong>.</li>
+<li>When you're prompted to confirm your selection and enable Advanced bank reconciliation, click <strong>OK</strong>.</li>
+<li>Set the <strong>Statement format</strong> field to the format that you created earlier, such as <strong>MT940</strong>.</li>
+</ol>
+<h2 id="set-up-the-import-of-bai2-bank-statements">Set up the import of BAI2 bank statements</h2>
+<p>First, you must define the bank statement format processing group for BAI2 bank statements by using the data entity framework.</p>
+<ol>
+<li>Go to <strong>Workspaces</strong> &gt; <strong>Data management</strong>.</li>
+<li>Click <strong>Import</strong>.</li>
+<li>Enter a name for the format, such as <strong>BAI2</strong>.</li>
+<li>Set the <strong>Source data format</strong> field to <strong>XML-Element</strong>.</li>
+<li>Set the <strong>Entity name</strong> field to <strong>Bank statements</strong>.</li>
+<li>To upload import files, click <strong>Upload</strong>, and then browse to select the <strong>SampleBankCompositeEntity.xml</strong> file that you saved earlier.</li>
+<li>After the Bank statements entity is uploaded and the mapping is completed, click the <strong>View map</strong> action for the entity.</li>
+<li>The Bank statements entity is a composite entity that consists of four separate entities. In the list, select <strong>BankStatementDocumentEntity</strong>, and then click the <strong>View map</strong> action.</li>
+<li>On the <strong>Transformations</strong> tab, click <strong>New</strong>.</li>
+<li>For sequence number 1, click <strong>Upload file</strong>, and select the <strong>BAI2CSV-to-BAI2XML.xslt</strong> file that you saved earlier.</li>
+<li>Click <strong>New</strong>.</li>
+<li>For sequence number 2, click <strong>Upload file</strong>, and select the <strong>BAI2XML-to-Reconciliation.xslt</strong> file that you saved earlier. <strong>Note:</strong> Transformation files are built for the standard format. Because banks often diverge from this format, and you may have to update the transformation file to map to your bank statement format. <!--- For details about the expected format for BAI2, see [Dynamics AX BAI2 Layout](./media/dynamicsaxbai2layout1.xlsx).--></li>
+<li>Click <strong>New</strong>.</li>
+<li>For sequence number 3, click <strong>Upload file</strong>, and select the <strong>BankReconciliation-to-Composite.xslt</strong> file that you saved earlier.</li>
+<li>Click <strong>Apply transforms</strong>.</li>
+</ol>
+<p>After the format processing group is set up, the next step is to define the bank statement format rules for BAI2 bank statements.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Setup</strong> &gt; <strong>Advanced bank reconciliation setup</strong> &gt; <strong>Bank statement format</strong>.</li>
+<li>Click <strong>New</strong>.</li>
+<li>Specify a statement format, such as <strong>BAI2</strong>.</li>
+<li>Enter a name for the format.</li>
+<li>Set the <strong>Processing group</strong> field to the group that you defined earlier, such as <strong>BAI2</strong>.</li>
+<li>Set the <strong>File type</strong> field to <strong>txt</strong>.</li>
+</ol>
+<p>The last step is to enable Advanced bank reconciliation and set the statement format on the bank account.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong>.</li>
+<li>Select the bank account, and open it to view the details.</li>
+<li>On the <strong>Reconciliation</strong> tab, set the <strong>Advanced bank reconciliation</strong> option to <strong>Yes</strong>.</li>
+<li>When you're prompted to confirm your selection and enable Advanced bank reconciliation, click <strong>OK</strong>.</li>
+<li>Set the <strong>Statement format</strong> field to the format that you created earlier, such as <strong>BAI2</strong>.</li>
+</ol>
+<h2 id="test-the-bank-statement-import">Test the bank statement import</h2>
+<p>The final step is to test that you can import your bank statement.</p>
+<ol>
+<li>Go to <strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong>.</li>
+<li>Select the bank account that Advanced bank reconciliation functionality is enabled for.</li>
+<li>On the <strong>Reconcile</strong> tab, click <strong>Bank statements</strong>.</li>
+<li>On the <strong>Bank statement</strong> page, click <strong>Import statement</strong>.</li>
+<li>Set the <strong>Bank account</strong> field to the selected bank account. The <strong>Statement format</strong> field will be set automatically, based on the setting on the bank account.</li>
+<li>Click <strong>Browse</strong>, and select your electronic bank statement file.</li>
+<li>Click <strong>Upload</strong>.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+<p>If the import is successful, you will receive a message that states that your statement was imported. If the import wasn't successful, in the <strong>Data management</strong> workspace, in the <strong>Job history</strong> section, find the job. Click <strong>Execution details</strong> for the job to open the <strong>Execution summary</strong> page, and then click <strong>View execution log</strong> to view the import errors.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

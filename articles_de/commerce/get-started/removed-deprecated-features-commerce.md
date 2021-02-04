@@ -1,0 +1,110 @@
+---
+title: Entfernte oder veraltete Funktionen in Dynamics 365 Commerce
+description: In diesem Thema werden die Funktionen beschrieben, die entfernt wurden oder entfernt werden sollen von Dynamics 365 Commerce.
+author: josaw
+manager: AnnBe
+ms.date: 12/07/2020
+ms.topic: article
+ms.prod: ''
+ms.service: dynamics-ax-applications
+ms.technology: ''
+audience: Application User, Developer, IT Pro
+ms.reviewer: josaw
+ms.search.scope: Operations
+ms.search.region: Global
+ms.author: josaw
+ms.search.validFrom: 2020-04-30
+ms.dyn365.ops.version: Platform update 33
+ms.openlocfilehash: 37b541ff5037a38b60dbfd6a6c071f55afcc1304
+ms.sourcegitcommit: 069ed5789517b550065e5e2317658fec4027359e
+ms.translationtype: HT
+ms.contentlocale: 
+ms.lasthandoff: 12/07/2020
+ms.locfileid: "4689529"
+---
+# <a name="removed-or-deprecated-features-in-dynamics-365-commerce"></a>Entfernte oder veraltete Funktionen in Dynamics 365 Commerce
+
+[!include [banner](../includes/banner.md)]
+
+In diesem Thema werden die Funktionen beschrieben, die entfernt wurden oder entfernt werden sollen von Dynamics 365 Commerce.
+
+- Eine Funktion *entfernt* ist nicht mehr im Produkt verfügbar.
+- Eine Funktion *veraltet* wird nicht aktiv entwickelt und könnte bei einem zukünftigen Update entfernt werden.
+
+Diese Liste soll ihnen dabei helfen, diese entfernten und veralteten Funktionen bei Ihrer eigenen Planung zu berücksichtigen. 
+
+> [!NOTE]
+> Detaillierte Informationen über Objekte in Finance and Operations Apps finden Sie in den [Technischen Referenzberichten](https://mbs.microsoft.com/customersource/northamerica/AX/downloads/reports/axtechrefrep). Sie können die verschiedenen Versionen dieser Berichte vergleichen, um sich über Objekte zu informieren, die sich in jeder Version von Finance and Operations-Anwendungen geändert haben oder entfernt wurden.
+
+## <a name="features-removed-or-deprecated-in-the-commerce-10015-release"></a>Entfernte oder veraltete Funktionen in Commerce Version 10.0.15
+
+### <a name="internet-explorer-11-support-for-dynamics-365-is-deprecated"></a>Internet Explorer 11-Unterstützung für Dynamics 365 ist veraltet
+
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Ab Dezember 2020 wird die Unterstützung von Microsoft Internet Explorer 11 für alle Dynamics 365-Produkte veraltet sein und Internet Explorer 11 wird nach August 2021 nicht mehr unterstützt werden.<br><br>Dies wirkt sich auf Kunden aus, die Dynamics 365-Produkte verwenden, die für die Verwendung über eine Internet Explorer 11-Schnittstelle entworfen wurden. Nach August 2021 wird Internet Explorer 11 für solche Dynamics 365-Produkte nicht mehr unterstützt. |
+| **Ersetzt durch eine andere Funktion?**   | Wir empfehlen den Kunden den Übergang zu Microsoft Edge.|
+| **Betroffene Produktbereiche**         | Alle Dynamics 365-Produkte |
+| **Bereitstellungsoption**              | Alle|
+| **Status**                         | Veraltet. Internet Explorer 11 wird nach August 2021 nicht mehr unterstützt.|
+
+## <a name="features-removed-or-deprecated-in-the-commerce-10011-release"></a>Entfernte oder veraltete Funktionen in Commerce Version 10.0.11
+### <a name="data-action-hooks"></a>Datenaktivitätshooks
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Die Funktion für Datenaktions-Hooks wird aufgrund von Leistungsproblemen nicht mehr unterstützt. |
+| **Ersetzt durch eine andere Funktion?**   | Es wird empfohlen, [Datenaktion überschreibt (This is an external link)](https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/e-commerce-extensibility/data-action-overrides) zu verwenden, um die Geschäftslogik in der Datenaktionsschicht zu ändern.|
+| **Betroffene Produktbereiche**         | E-Commerce-Erweiterbarkeit Datenaktionen |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: ab Frühjahr 10.0.11 Version |
+
+### <a name="retail-sdk-support-for-visual-studio-2015-msbuild-140-and-retail-sdkreference-libraries-and-tools"></a>Retail SDK Unterstützung für Visual Studio 2015, msbuild 14.0 und Retail SDK\Referencebibliotheken und Tools
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Retail SDK-Unterstützung für Visual Studio 2015 wurde veraltet und aktualisiert, um VS 2017, msbuild 15.0 und alle Referenzbibliotheken und Commerce-Proxy-Generator-Tools im Ordner RetailSDK\Referenzen zu unterstützen, die in verschoben wurden NuGet-Pakete zur Vereinfachung des Erweiterungsmodells und des SDK-Aktualisierungsprozesses.|
+| **Ersetzt durch eine andere Funktion?**   | Wir empfehlen Ihnen, den Informationen in [Migrieren von Retail SDK von Visual Studio 2015 bis Visual Studio 2017 (This is an external link)](https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/dev-itpro/retail-sdk/migrate-sdk) zu folgen, um Ihr System zu aktualisieren. |
+| **Betroffene Produktbereiche**         | Retail SDK-Erweiterungen |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: ab Frühjahr 10.0.11 Version |
+
+### <a name="retail-server-extension-using-iedmmodelextender-and-commercecontroller"></a>Retail Server-Erweiterung mit IEdmModelExtender und CommerceController
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Die Retail Server -Erweiterung mit IEdmModelExtender und CommerceController wurde eingestellt, um ein vereinfachtes Erweiterungsmodell bereitzustellen. Die neue Implementierung enthält nur die Controller-Klasse ohne zusätzliche Implementierung der IEdmModelExtender-Klasse. Dadurch wird auch die Abhängigkeit von einer bestimmten OData-Version vermieden (wenn die OData-Version aktualisiert wird, können Erweiterungen beschädigt werden.) |
+| **Ersetzt durch eine andere Funktion?**   |  Wir empfehlen, dass Sie das IController-Klassenerweiterungsmodell verwenden, indem Sie das NuGet-Paket importieren(Microsoft.Dynamics.Commerce.Hosting.Contracts). |
+| **Betroffene Produktbereiche**         | Retail Server-Erweiterungen |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: ab Frühjahr 10.0.11 Version |
+
+### <a name="hardware-station-extension-using-ihardwarestationcontroller"></a>Hardware-Stationserweiterung mit IHardwareStationController
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Die Erweiterung der Hardwarestation mit IHardwareStationController wird eingestellt, um ein vereinfachtes Erweiterungsmodell bereitzustellen. Die neue Implementierung wird nur die IController-Klasse ohne zusätzliche Klassenimplementierung haben. Um die Abhängigkeit von den wichtigsten Hardware-Stationsbibliotheken zu vermeiden, muss die vorherige Erweiterung auf mehrere Bibliotheken verweisen.) |
+| **Ersetzt durch eine andere Funktion?**   | Es wird empfohlen, dass Sie das IController-Klassenerweiterungsmodell verwenden, indem Sie das NuGet-Paket importieren(Microsoft.Dynamics.Commerce.Hosting.Contracts). |
+| **Betroffene Produktbereiche**         | Hardwar-Stationserweiterungen |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: ab Frühjahr 10.0.11 Version |
+
+## <a name="features-removed-or-deprecated-in-the-commerce-10010-release"></a>Entfernte oder veraltete Funktionen in Commerce Version 10.0.10
+### <a name="pos-operation-803---picking-and-receiving"></a>POS-Vorgang 803 – Entnahme und Empfang
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Entnahme- und Empfangsvorgänge werden veraltet, aufgrund der Neugestaltung des neuen Vorgangs. |
+| **Ersetzt durch eine andere Funktion?**   | Ja. Er wird durch zwei neue POS-Vorgänge ersetzt: Eingangsvorgang (804) und Ausgangsvorgang (805).|
+| **Betroffene Produktbereiche**         | Verkaufsstellen-(POS)-Anwendung |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: Ab Version 10.0.10 erhält der Entnahme- und Empfangsvorgang keine neuen Funktionsupdates mehr. Nur kritische Fehlerbehebungen werden für diesen Vorgang in zukünftigen Versionen durchgeführt. Alle Kunden werden aufgefordert, auf die neuen [Eingehenden Vorgänge](https://docs.microsoft.com/dynamics365/commerce/pos-inbound-inventory-operation) und [Ausgehenden Vorgänge](https://docs.microsoft.com/dynamics365/commerce/pos-outbound-inventory-operation) zu wechseln, die weiterhin Teil unserer langfristigen Produkt-Roadmap sein werden. |
+
+
+## <a name="features-removed-or-deprecated-in-the-commerce-1007-release"></a>Entfernte oder veraltete Funktionen in Commerce Version 10.0.7
+### <a name="commerce-getproductavailabilities-and-getavailableinventorynearby-apis"></a>Commerce GetProductAvailabilities und GetAvailableInventoryNearby-APIs
+|   |  |
+|------------|--------------------|
+| **Grund für veralteten Zustand/Entfernung** | Neue optimierte APIs sind erstellt worden, um die GetProductAvailabilities und GetAvailableInventoryNearby-APIs zu ersetzen. |
+| **Ersetzt durch eine andere Funktion?**   | Ja: Es wird durch GetEstimatedAvailability- und GetEstimatedProductWarehouseAvailability-APIs ersetzt. |
+| **Betroffene Produktbereiche**         | E-Commerce-Anwendung SDK |
+| **Bereitstellungsoption**              | Alle |
+| **Status**                         | Veraltet: Ab Version 10.0.7 werden keine technischen Investitionen mehr für GetProductAvailabilities und GetAvailableInventoryNearby getätigt. Organisationen, die diese APIs in ihren E-Commerce-Bereitstellungen verwenden, sollten zu den neuen GetEstimatedAvailability- und GetEstimatedProductWarehouseAvailability-APIs wechseln und die [Optimierte Funktion zur Berechnung der Produktverfügbarkeit](https://docs.microsoft.com/dynamics365/commerce/calculated-inventory-retail-channels) aktivieren.  |
+
+## <a name="previous-announcements-about-removed-or-deprecated-features"></a>Frühere Ankündigungen über entfernte oder veraltete Funktionen
+Um mehr über Funktionen zu erfahren, die in früheren Versionen entfernt oder veraltet sind, siehe [Entfernte oder veraltete Funktionen in früheren Versionen](../../fin-ops-core/dev-itpro/migration-upgrade/deprecated-features.md?toc=/dynamics365/commerce/toc.json).

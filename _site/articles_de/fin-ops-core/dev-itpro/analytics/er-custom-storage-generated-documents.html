@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Angeben eines benutzerdefinierten Speicherorts f&#252;r generierte Dokumente | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Angeben eines benutzerdefinierten Speicherorts f&#252;r generierte Dokumente | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="specify-a-custom-storage-location-for-generated-documents">Angeben eines benutzerdefinierten Speicherorts für generierte Dokumente</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Mit der Anwendungsprogrammierschnittstelle (API) des Framework der elektronischen Berichterstellung (ER) können Sie die Liste der Speicherorte für Dokumente, die von ER-Formaten generiert werden, erweitern. Dieses Thema enthält einen Überblick über die Hauptaufgaben, die Sie erledigen müssen, um einen benutzerdefinierten Speicherort hinzuzufügen.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<p>Sie müssen eine Topologie bereitstellen, die einen fortlaufenden Build unterstützt. (Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/perf-test/continuous-build-test-automation">Bereitstellen von Topologien, die fortlaufenden Build und Testautomatisierung unterstützen</a>.) Für eine der folgenden Rollen benötigen Sie Zugriff auf diese Topologie:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+<p>Sie müssen zudem Zugriff auf die Entwicklungsumgebung für diese Topologie haben.</p>
+<h2 id="create-or-import-an-er-format-configuration">Erstellen oder Importieren einer ER-Formatkonfiguration</h2>
+<p>In der aktuellen Topologie <a href="tasks/er-format-configuration-2016-11.html">erstellen Sie ein neues ER-Format</a>, um Dokumente zu generieren, für die Sie einen benutzerdefinierten Speicherort hinzuzufügen möchten. Alternativ <a href="general-electronic-reporting-manage-configuration-lifecycle.html">importieren Sie ein vorhandenes ER-Format in diese Topologie</a>.</p>
+<p><img src="media/er-extend-file-storages-format.png" alt="Formatdesignerseite"></p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Das ER-Format, das Sie erstellen oder importieren, muss mindestens eines der folgenden Formatelemente enthalten:</p>
+<ul>
+<li>Datei</li>
+<li>Ordner</li>
+<li>Merge-Programm</li>
+<li>Anhang</li>
+</ul>
+</div>
+<h2 id="create-a-new-document-type">Erstellen eines neuen Dokumenttyps</h2>
+<p>Um festzulegen, wie Dokumente, die von einem ER-Format erzeugt werden, weitergeleitet werden, müssen Sie <a href="electronic-reporting-destinations.html">Elektronische Berichtsziele (ER)</a> konfigurieren. In jedem ER-Ziel, das konfiguriert wird, um generierten Dokumente als Dateien zu speichern, müssen Sie einen Dokumenttyp des Dokumentverwaltungsframework angeben. Verschiedene Dokumenttypen können verwendet werden, um Dokumente weiterzuleiten, die von verschiedenen ER-Formaten generiert werden.</p>
+<ol>
+<li>Fügen Sie einen neuen <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/fin-ops/organization-administration/configure-document-management">Dokumenttyp</a> für das ER-Format hinzu, das Sie bereits erstellt oder importiert haben. In der folgenden Abbildung lautet der Dokumenttyp <strong>FileX</strong>.</li>
+<li>Um dieses Dokumenttyp von anderen Dokumenttypen zu unterscheiden, schließen Sie ein bestimmtes Schlüsselwort in seinem Namen ein. Beispielsweise lautet der Name in der folgenden Abbildung <strong>(LOKALER) Ordner</strong>.</li>
+<li>Geben Sie im Feld <strong>Klasse</strong> die Option <strong>Datei zuordnen</strong> an.</li>
+<li>Geben Sie im Feld <strong>Gruppe</strong> die Option <strong>Datei</strong> an.</li>
+</ol>
+<p><img src="media/er-extend-file-storages-document-type.png" alt="Seite „Dokumenttypen”"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Dokumenttypen sind unternehmensspezifisch Zur Verwendung eines ER-Formats mit einem konfigurierten Ziel in mehreren Unternehmen müssen Sie einen separaten Dokumenttyp für jedes Unternehmen konfigurieren.</p>
+</div>
+<h2 id="review-source-code">Quellcode überprüfen</h2>
+<p>Überprüfen Sie den Code der <strong>insertFile()</strong>-Methode der Klasse <strong>ERDocuManagement</strong>. Beachten Sie, dass das Ereignis <strong>AttachingFile()</strong> ausgelöst wird, während die generierte Datei an einen Datensatz angefügt wurde.</p>
+<pre><code class="lang-xpp">/// &lt;summary&gt;
+/// Inserts file as attachment in Document Management.
+/// &lt;/summary&gt;
+/// &lt;param name = &quot;_owner&quot;&gt;A record as the attachment owner.&lt;/param&gt;
+/// &lt;param name = &quot;_stream&quot;&gt;The file stream.&lt;/param&gt;
+/// &lt;param name = &quot;_filePath&quot;&gt;The file path with name.&lt;/param&gt;
+/// &lt;param name = &quot;_attachmentName&quot;&gt;The name of file attachment.&lt;/param&gt;
+/// &lt;returns&gt;The reference to inserted file.&lt;/returns&gt;
+[Hookable(false)]
+public DocuRef insertFile(
+    Common _owner, 
+    System.IO.Stream _stream, 
+    str _filePath, 
+    str _attachmentName, 
+    DocuTypeId _docuTypeId)
+{
+    DocuRef docuRef;
+    if (_stream)
+    {
+        DocuType::createDefaults();
+        if (!this.isDocuTypeValid(_docuTypeId))
+        {
+            throw error(strFmt(&quot;@ElectronicReporting:DocuTypeIsNotValid&quot;, _docuTypeId));
+        }
+        var args = ERDocuManagementAttachingFileEventArgs::construct(_owner, _stream, _filePath, _attachmentName, _docuTypeId);
+        ERDocuManagementEvents::onAttachingFile(args);
+        if (args.isHandled())
+        {
+            docuRef = args.getDocuRef();
+        }
+        else
+        {
+            docuRef = this.attachFile(_owner, _stream, _filePath, _attachmentName, _docuTypeId);
+        }
+    }
+    return docuRef;
+}
+</code></pre>
+<p>Das Ereignis <strong>AttachingFile()</strong> wird ausgelöst, wenn die folgenden ER-Ziele verarbeitet werden:</p>
+<ul>
+<li><strong>Archiv</strong> – Wenn das Ziel verwendet wird, wird ein neuer Datensatz für das ER-Format, das ausgeführt wird, in der ERFormatMappingRunJobTable-Tabelle erstellt. Das Feld <strong>Archiviert</strong> in diesem Datensatz wird auf <strong>Falsch</strong> festgelegt. Wenn das ER-Format erfolgreich ausgeführt wird, wird das generierte Dokument an diesen Datensatz angefügt, und das Ereignis <strong>AttachingFile()</strong> wird verwendet. Der Dokumenttyp, der in diesem ER-Ziel ausgewählt wird, bestimmt den Speicherort für die angefügte Datei (Microsoft Azure-Speicher oder ein Microsoft SharePoint-Ordner).</li>
+<li><strong>Einzelvorgangsarchiv</strong> – Wenn dieses Ziel verwendet wird, wird ein neuer Datensatz für das ER-Formular, das ausgeführt wird, in der ERFormatMappingRunJobTable-Tabelle erstellt. Das Feld <strong>Archiviert</strong> in diesem Datensatz wird auf <strong>Wahr</strong> festgelegt. Wenn das ER-Format erfolgreich ausgeführt wird, wird das generierte Dokument an diesen Datensatz angefügt, und das Ereignis <strong>AttachingFile()</strong> wird verwendet. Der Dokumenttyp, der in den ER-Parametern konfiguriert wird, bestimmt den Speicherort für die angefügte Datei (Azure-Speicher oder ein SharePoint-Ordner).</li>
+</ul>
+<p><img src="media/er-extend-file-storages-parameters.png" alt="Parameterseite der elektronischen Berichterstellung"></p>
+<h2 id="configure-an-er-destination">Das Ziel einer elektronischen Berichterstellung konfigurieren</h2>
+<ol>
+<li>Konfigurieren Sie das archivierte Ziel für eines der zuvor genannten Elemente (Datei, Ordner, Merger-Programm oder Anhang) des ER-Formats, das von Ihnen erstelltoder importiert wurde. Eine Anleitung finden Sie unter <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/analytics/tasks/er-destinations-2016-11">ER-Konfigurationsziele</a>.</li>
+<li>Verwenden Sie den Dokumenttyp, den Sie zuvor für das konfigurierte Ziel hinzugefügt haben. (Im Beispiel in diesem Thema lautet der Dokumenttyp <strong>FileX</strong>.)</li>
+</ol>
+<p><img src="media/er-extend-file-storages-destination.png" alt="Dialogfeld&quot; Zieleinstellungen&quot;"></p>
+<h2 id="modify-source-code">Quellcode ändern</h2>
+<ol>
+<li><p>Fügen Sie Ihrem Microsoft Visual Studio-Projekt eine neue Klasse hinzu, und schreiben Sie Code, um das <strong>AttachingFile()</strong>-Ereignis zu abonnieren, das zuvor erwähnt wurde. (Weitere Informationen zum Erweiterbarkeitsmuster, das verwendet wird, finden Sie unter <a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/extensibility/respond-event-handler-result">Reaktion unter Verwendung von EventHandlerResult</a>) Beispiel: In der neuen Klasse schreiben Sie Code, der die folgenden Aktionen ausführt:</p>
+<ol>
+<li>Generierte Dateien in einem Ordner des lokalen Dateisystems des Servers speichern, auf dem Application Object Server (AOS) ausgeführt wird.</li>
+<li>Speichern Sie diese generierten Dateien nur, wenn der neuen Dokumenttyp (beispielsweise der Typ <strong>FileX</strong> mit &quot;(LOKALE)-Schlüsselwort im Namen) verwendet wird, während eine Datei an den Datensatz im ER-AusführungsJobprotokoll angefügt ist.</li>
+</ol>
+<pre><code class="lang-xpp">class ERDocuSubscriptionSample
+{
+    void new()
+    {
+    }
+    [SubscribesTo(classStr(ERDocuManagementEvents), 
+    staticDelegateStr(ERDocuManagementEvents, 
+    attachingFile))]
+    public static void ERDocuManagementEvents_attachingFile(ERDocuManagementAttachingFileEventArgs _args)
+    {
+        if (!_args.isHandled())
+        {
+            DocuType docuType = DocuType::find(_args.getDocuTypeId());
+            if (strContains(docuType.Name, '(LOCAL)'))
+            {
+                _args.markAsHandled();
+                var stream = _args.getStream();
+                if (stream.CanSeek)
+                {
+                    stream.Seek(0, System.IO.SeekOrigin::Begin);
+                }
+                using (var localStream = System.IO.File::OpenWrite(@'c:\0\' + _args.getAttachmentName()))
+                {
+                    stream.CopyTo(localStream);
+                }
+            }
+        }
+    }
+}
+</code></pre>
+</li>
+<li><p>Ihr Projekt neu erstellen</p>
+</li>
+</ol>
+<h2 id="run-the-er-format-that-you-created-or-imported">Ausführen des erstellten oder importierten ER-Formats</h2>
+<ol>
+<li>Führen Sie das ER-Format aus, das von Ihnen erstellt oder importiert wurde.</li>
+<li>Wechseln Sie zu <strong>Organisationsverwaltung &gt;Elektronische Berichterstellung &gt; Einzelvorgänge für elektronische Berichterstellung</strong>. Suchen Sie den Datensatz, der für diesen Ausführungseinzelvorgang erstellt wurde, und dem die generierte Datei angehängt wurde.</li>
+<li>Untersuchen Sie den lokalen <strong>C:\0</strong>-Ordner, um dieselbe generierte Datei zu finden.</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="electronic-reporting-destinations.html">Ziele für elektronische Berichterstellung (EB)</a></li>
+<li><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/extensibility/extensibility-home-page">Startseite für Erweiterbarkeit (This is an external link)</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1078 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure integration with Dayforce | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure integration with Dayforce | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-integration-with-dayforce">Configure integration with Dayforce</h1>
+
+<p>The integration between Microsoft Dynamics 365 Human Resources and Ceridian Dayforce relies on several configuration steps that are described in this article. You must configure the integration in both Human Resources and Dayforce before you can process a pay run.</p>
+<p>When you use a service such as Dayforce to complete pay runs, you must enable the integration in Human Resources. The integration requires specific data from Human Resources. Therefore, you must verify that data that is mapped to Dayforce is configured in Human Resources in a manner that supports the integration. The integration uses the following broad categories of data:</p>
+<ul>
+<li>Human resources data</li>
+<li>Compensation data</li>
+<li>Payroll data, such as pay cycles, pay periods, and earning codes</li>
+<li>Worker data</li>
+</ul>
+<p>This article describes the steps that you must follow to enable the integration. It also explains the types of data and the configuration details that the integration requires.</p>
+<h2 id="enable-the-integration">Enable the integration</h2>
+<p>In Human Resources, you must turn on the integration and enter the configuration information to connect to Dayforce. If you want the general ledger transaction that is produced to be imported into Microsoft Dynamics 365 Finance, you must also set up a Microsoft Azure storage account and enter the Azure Storage connection string in Finance.</p>
+<p>To turn on the integration in Human Resources, follow these steps.</p>
+<ol>
+<li>On the <strong>System administration</strong> page, select <strong>Integration configuration</strong>.</li>
+<li>Enter the secure File Transfer Protocol (FTP) endpoint and the secure FTP folder path.</li>
+<li>Enter the user name and password of the user who will access the secure FTP endpoint and folder path.</li>
+<li>Test the connection, as required, and set the <strong>Enable payroll integration</strong> option to <strong>Yes</strong>.</li>
+</ol>
+<p>When the integration is turned on, the data export package and files are created, and the frequency is set. You can change this frequency as you require.</p>
+<p>For more information about Azure storage accounts and Azure Storage connection strings, see the following Azure articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/azure/storage/common/storage-create-storage-account?toc=%2fazure%2fstorage%2ffiles%2ftoc.json">About Azure storage accounts</a></li>
+<li><a href="https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string">Configure Azure Storage connection strings</a></li>
+</ul>
+<h3 id="technical-details-when-payroll-integration-is-enabled">Technical details when payroll integration is enabled</h3>
+<p>Turning on the payroll integration has two primary effects:</p>
+<ul>
+<li>A data export project named &quot;Payroll integration export&quot; is created. This project contains the entities and fields required for the payroll integration. To examine the project, go to <strong>System administration</strong>, select the <strong>Data management</strong> tile, and then open the data project from the list of projects.</li>
+<li>This batch job executes the data export project, encrypts the resulting data package, and transfers the data package file to the SFTP endpoint configured on the <strong>Integration configuration</strong> screen.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The data package transferred to the SFTP endpoint is encrypted using a key that is unique to the package. The key is in an Azure Key Vault that is accessible only by Ceridian. It is not possible to decrypt and examine the data package contents. If you need to examine the contents of the data package, you need to export the &quot;Payroll integration export&quot; data project manually, download it, and then open it. Manual export will not apply encryption or transfer the package.</p>
+</div>
+<h2 id="configure-your-data">Configure your data</h2>
+<p>To process payroll, you must configure human resource data in Human Resources. You must set up organizational data, such as jobs and positions, together with benefits and compensation information. This information provides the employment, pay, and deduction information that is required in order to generate employee pay.</p>
+<h3 id="human-resource-data">Human resource data</h3>
+<h4 id="benefits">Benefits</h4>
+<p>Human resources provides tools for the setup and maintenance of the benefits, deductions, and worker compensation plans that an organization offers or processes for its workers.</p>
+<p>When you create benefits, keep in mind the following data and configurations that are used in Dayforce.</p>
+<h5 id="benefit-plans">Benefit plans</h5>
+<ul>
+<li>Plan (required)</li>
+<li>Type (required)</li>
+<li>Payroll impact (required)</li>
+<li>Recover arrears</li>
+<li>Deduction method</li>
+<li>Deduction priority</li>
+<li>Limit period</li>
+<li>Limit amount</li>
+</ul>
+<h5 id="benefits-1">Benefits</h5>
+<ul>
+<li>Plan (required)</li>
+<li>Type (required)</li>
+<li>Option (required)</li>
+<li>Benefit ID (required)</li>
+<li>Frequency</li>
+<li>Basis</li>
+<li>Amount or rate</li>
+<li>Earning code</li>
+</ul>
+<h5 id="supported-frequencies">Supported frequencies</h5>
+<ul>
+<li>Weekly</li>
+<li>Bi-weekly</li>
+<li>Semi-monthly</li>
+<li>Monthly</li>
+</ul>
+<h5 id="supported-bases">Supported bases</h5>
+<ul>
+<li>Fixed amount</li>
+<li>Percent of earnings</li>
+<li>Productive hours</li>
+</ul>
+<p>Dayforce creates the following deductions, based on the payroll impact that is defined on the benefit plan.</p>
+<table>
+<thead>
+<tr>
+<th>Selection in Human Resources</th>
+<th>Result in Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>None</td>
+<td>No deduction is created.</td>
+</tr>
+<tr>
+<td>Deduction only</td>
+<td>An employee deduction is created.</td>
+</tr>
+<tr>
+<td>Contribution only</td>
+<td>An employer deduction is created.</td>
+</tr>
+<tr>
+<td>Deduction and contribution</td>
+<td>Employee and employer deductions are created.</td>
+</tr>
+</tbody>
+</table>
+<p>For more information about how to define and manage a benefits program, see the following articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/deliver-employee-benefits-program">Deliver an employee benefits program</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/create-new-benefit">Create a new benefit</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/define-benefit-eligibility-rules-policies">Define benefit eligibility rules and policies</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/enroll-remove-benefits-workers">Enroll and remove benefits from workers</a></li>
+</ul>
+<h4 id="compensation">Compensation</h4>
+<p>Compensation management is used to control the delivery of base pay and awards. An employee's fixed base pay and merit increases are controlled through fixed compensation plans. The payment of incentive pay, such as bonus payments, performance awards, stock options, and grants, and also one-time awards, are controlled through variable compensation plans.</p>
+<p>Dayforce uses compensation information to calculate an employee's hourly or annual rate. Fixed compensation plans and pay rate conversions are required. Employees must be associated with a fixed compensation plan.</p>
+<p>For more information about compensation plans, see the following articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/create-fixed-compensation-plans">Create fixed compensation plans</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/create-variable-compensation-plans">Create variable compensation plans</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/develop-salary-compensation-structure-plan">Develop salary/compensation structure and plans</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/process-compensation">Process compensation</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/define-compensation-process-calculate-results">Define compensation process and calculate results</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/enroll-employee-fixed-compensation-plan">Enroll an employee in a fixed compensation plan</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/enroll-employee-variable-compensation-plan">Enroll an employee in a variable compensation plan</a></li>
+</ul>
+<h4 id="jobs">Jobs</h4>
+<p>A job is a collection of the tasks and responsibilities that are required of a person who performs a job. For more information, see the following articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/create-job">Setting up the components of a job</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/define-new-jobs">Define new jobs</a></li>
+</ul>
+<h5 id="positions">Positions</h5>
+<p>A position is an individual instance of a job. For example, the &quot;Sales manager (East)&quot; position is one of the positions that are associated with the &quot;Sales manager&quot; job. A position exists in a department. Only one worker can be associated with each position.</p>
+<p>Keep the following data and configuration in mind when you set up positions:</p>
+<ul>
+<li>Position (required)</li>
+<li>Description (required)</li>
+<li>Job (required)</li>
+<li>Department (required)</li>
+<li>Position type (required)</li>
+<li>Full-time equivalent</li>
+<li>Annual regular hours (required)</li>
+<li>Paid by legal entity (required)</li>
+<li>Pay cycle (required)</li>
+<li>Default financial dimension – Cost center (required)</li>
+<li>Worker assignment – Worker, assignment start, assignment end, reason code</li>
+</ul>
+<p>If multiple positions in the same department are associated with the same job, they are consolidated into a single position in Dayforce.</p>
+<p>For more information, see the following articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/departments-jobs-positions#positions">Organize your workforce using departments, jobs, and positions</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/set-up-positions">Set up positions</a></li>
+</ul>
+<h4 id="departments">Departments</h4>
+<p>A department is an operating unit that represents a category or functional area of an organization. A department is responsible for a specific area of the organization, such as sales, accounting, or human resources. You can use departments to report on functional areas. Departments might have profit and loss responsibility.</p>
+<p>For more information, see the following articles:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/talent/create-department-add-department-hierarchy">Create a department and associate it with the department hierarchy</a></li>
+<li><a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/hr/tasks/define-new-departments">Define new departments</a></li>
+</ul>
+<h4 id="pay-cycles-and-pay-periods">Pay cycles and pay periods</h4>
+<p>A pay cycle determines how often payroll is run and the specific days when workers are paid. For example, a pay cycle might be monthly, and employees might be paid on the last day of the month. Alternatively, a pay cycle might be weekly, and employees might be paid on the Tuesday after the end of the pay period. Pay cycles are assigned to positions to control when workers in those positions are paid.</p>
+<p>After you create pay cycles, you can generate pay periods for each cycle. Each pay period includes a default payment date that is based on information that you provide. However, you can modify the default payment date in a pay period to allow for exceptions, such as when the payment date falls on a holiday.</p>
+<p>The following information is used in Dayforce:</p>
+<ul>
+<li>Pay cycle (required)</li>
+<li>Pay cycle frequency (required)</li>
+<li>Period start date (first pay period required)</li>
+<li>Default payment date (first pay period required)</li>
+</ul>
+<p>This information is integrated with Dayforce as pay groups, and is separated by country or region for each pay cycle. At least one pay period must be generated before integration. Dayforce generates pay group calendars and payment dates, based on the start date of the first pay period and the default payment date that is set up in Human Resources.</p>
+<h4 id="earning-codes">Earning codes</h4>
+<p>Earning codes uniquely identify every type of earnings that workers receive. The codes have various parameters that are related to earnings, such as accounting rules, tax laws, reporting requirements, and gross-up capability.</p>
+<p>The following information is used in Dayforce:</p>
+<ul>
+<li>Earning Code (required)</li>
+<li>Description</li>
+<li>Unit of measure</li>
+<li>Productive</li>
+</ul>
+<h3 id="worker-data">Worker data</h3>
+<p>Records for the various types of workers that you have are important to your human resources and payroll systems. The information that you enter can be used to track workers and personal information.</p>
+<p>You can maintain the following information for workers:</p>
+<ul>
+<li><strong>Basic</strong> – Maintain basic information about a worker, such as contact information, demographic information, identification information, family information, military service status, expatriate information, and personal and emergency contacts.</li>
+<li><strong>Employment</strong> – Maintain information about a worker's employment, such as company or organization affiliation, position assignment, start and end dates, work eligibility, terms of employment, pension, vacation, and relocation information.</li>
+<li><strong>Leave and absence</strong> – Maintain information about a worker's absences, such as working calendars, absence transactions, and absence setup.</li>
+<li><strong>Compensation and payroll</strong> – Maintain information about a worker's compensation plans and payroll information, such as plan enrollment, awards, performance, commission, tax information, retirement, and salary deductions.</li>
+</ul>
+<p>When you enter worker information, keep in mind the following data and configurations that are used in Dayforce.</p>
+<h4 id="general-information">General information</h4>
+<ul>
+<li>Personnel number (required)</li>
+<li>First name (required)</li>
+<li>Last name (required)</li>
+<li>Middle name</li>
+<li>Seniority date</li>
+<li>Known as</li>
+</ul>
+<h4 id="personal-information">Personal information</h4>
+<ul>
+<li>Marital status (required)</li>
+<li>Birth date (required)</li>
+<li>Gender (required)</li>
+<li>Person with disabilities</li>
+<li>Nationality country region (only for Mexico)</li>
+</ul>
+<h4 id="address-information">Address information</h4>
+<ul>
+<li>Primary (required)</li>
+<li>Country/region (required)</li>
+<li>Postal code (required)</li>
+<li>Street Number (required) (Only for Mexico)</li>
+<li>Building Complement (Only for Mexico)</li>
+<li>City (required)</li>
+<li>State (required)</li>
+<li>County (required)</li>
+</ul>
+<h4 id="contact-information">Contact information</h4>
+<ul>
+<li>Primary (required)</li>
+<li>Contact number (required)</li>
+<li>Extension</li>
+</ul>
+<h4 id="payroll-information-and-earning-codes">Payroll information and earning codes</h4>
+<p>Employees may be assigned specific earnings at a given frequency of payment and have a preferred payment method. The following fields are used in Dayforce to help guarantee that those preferences and settings are used.</p>
+<h5 id="earning-codes-1">Earning codes</h5>
+<ul>
+<li>Position (required)</li>
+<li>Earning Code (required)</li>
+<li>Frequency (required)</li>
+<li>Amount (required)</li>
+</ul>
+<h5 id="payroll-information">Payroll information</h5>
+<ul>
+<li>Payment Method</li>
+<li>Economic Region (required)</li>
+<li>Employee Benefits ID</li>
+<li>National ID Number (required)</li>
+<li>Military Service Number</li>
+<li>Shift ID (required)</li>
+<li>Tax Number (required)</li>
+<li>Union ID (required)</li>
+<li>Work Day ID (required)</li>
+<li>Work Permit Number</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>For the payment method, Mexico supports <strong>Cash</strong>, <strong>Check</strong> (the company's physical check), and <strong>Electronic Payment</strong>. If np payment method is specified, <strong>Check</strong> is used by default.</p>
+</div>
+<h4 id="employment-details">Employment details</h4>
+<p>Employment detail history is used as key information to derive an employee's hire, termination, and rehire statuses in Dayforce. Dayforce supports only one active employment record at a time.</p>
+<ul>
+<li>Employment start date (required)</li>
+<li>Employment end date</li>
+<li>Start date</li>
+<li>Adjusted start date</li>
+<li>Termination date (required upon termination)</li>
+<li>Termination reason (required upon termination)</li>
+</ul>
+<p>An employee's key dates are derived by using the following information.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Most recent hire date</td>
+<td>Employment start of current non-terminated employment history record</td>
+</tr>
+<tr>
+<td>Termination date</td>
+<td>Termination date of current non-terminated employment history record</td>
+</tr>
+<tr>
+<td>Start date</td>
+<td>Adjusted start date, start date, or employment start of current non-active employment history record</td>
+</tr>
+<tr>
+<td>Original hire date</td>
+<td>Employment start of earliest employment history record</td>
+</tr>
+</tbody>
+</table>
+<h4 id="compensation-1">Compensation</h4>
+<p>A fixed compensation plan must be associated with every employee's primary position throughout an employment period. This period starts on the date that the employee was hired (or the employment start date) and continues until termination.</p>
+<ul>
+<li>Effective Date (required)</li>
+<li>Expiration date</li>
+<li>Pay Rate (required)</li>
+<li>Pay Rate Conversions (required)</li>
+<li>Annual equivalent (required)</li>
+<li>Hourly equivalent (required)</li>
+</ul>
+<p>If an hourly employee has multiple positions, the fixed compensation of the primary position is imported into Dayforce as the employee-level base rate/salary. For non-primary positions, the hourly rate is saved to the corresponding position in Dayforce.</p>
+<p>If a salaried employee has multiple positions, the cumulative hour rate and annual salary across all active positions are derived and used as the employee-level base rate/salary.</p>
+<h4 id="identification-numbers">Identification numbers</h4>
+<h5 id="social-security-identifier">Social Security identifier</h5>
+<p>Every employee must have one primary identifier. This identifier must be of <strong>SSN</strong> identification type. In Dayforce, it's automatically derived as the employee's Social Security identifier that is required for hire.</p>
+<ul>
+<li>Primary (required)</li>
+<li>Identification Type = &quot;SSN&quot;</li>
+<li>Issued Date</li>
+<li>Expiration Date</li>
+</ul>
+<p>Employees can declare multiple identification numbers of the <strong>SSN</strong> identification type. However, only the record that is marked as <strong>Primary</strong> is integrated into Dayforce, regardless of whether the number is active or expired.</p>
+<h4 id="bank-accounts-and-disbursements">Bank accounts and disbursements</h4>
+<p>Valid bank account information must be entered for any employee who chooses to be paid via bank account transfers.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank account number (required)</td>
+<td></td>
+</tr>
+<tr>
+<td>SWIFT code (required)</td>
+<td><strong>Bank ID</strong> field used when processing payroll in Mexico.</td>
+</tr>
+<tr>
+<td>Branch number (required)</td>
+<td></td>
+</tr>
+<tr>
+<td>Bank account type (required)</td>
+<td><strong>Account type</strong> field used when processing payroll in Mexico. Supported values include <strong>Checking</strong> and <strong>Payroll</strong>.</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Employees who choose to be paid via bank account transfers must provide a link to a remainder account that is under a legal entity that has its primary address in Mexico and associated with a valid bank account from a Mexican bank. All other non-remainder accounts are ignored.</p>
+</div>
+<h4 id="address-information-1">Address information</h4>
+<p>Every employee must have one primary location. In Dayforce, this location is used to determine the employee's primary residence for tax purposes.</p>
+<ul>
+<li>Primary (required)</li>
+<li>Country/region (required)</li>
+<li>Zip/postal code (required)</li>
+<li>Street (required)</li>
+<li>Street Number (required)</li>
+<li>Building Complement</li>
+<li>City (required)</li>
+<li>State (required)</li>
+<li>County (required)</li>
+</ul>
+<h2 id="configure-your-data-to-generate-payroll-in-united-states-and-canada">Configure your data to generate payroll in United States and Canada</h2>
+<p>If you're generating pay for employees in the United States and Canada, the following elements must be configured:</p>
+<ul>
+<li>Departments are required on positions.</li>
+<li>Cost centers must be set as financial dimensions and must be the first element in the default financial dimension string.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can configure Human Resources to require that Positions specify a Department. To do this, go to <strong>Human Resources Shared Positions &gt; Positions &gt; Require departments on positions</strong>. We recommend that this setting be enforced for the integration.</p>
+</div>
+<h3 id="job-types">Job types</h3>
+<p>Job types are used to group similar jobs into categories. Job types are required in order to process payroll in the United States and Canada. Examples of job types include full-time and part-time, or salary and hourly pay. Job types are mapped to Dayforce as pay types that indicate whether an employee is hourly or salaried.</p>
+<p>The following job types and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Job type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hourly</td>
+<td>Hourly</td>
+</tr>
+<tr>
+<td>Salaried</td>
+<td>Salaried</td>
+</tr>
+</tbody>
+</table>
+<h3 id="position-types">Position types</h3>
+<p>You use position types to describe whether the position is full-time, part-time, or something else. Position types are mapped to Dayforce as pay classes that indicate whether an employee is full-time or part-time.</p>
+<p>The following position types and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Position type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full-time</td>
+<td>Full time employee</td>
+</tr>
+<tr>
+<td>Part-time</td>
+<td>Part time employee</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reason-codes">Reason codes</h3>
+<p>Reason codes provide information about the status of an employee. Reason codes are mapped to Dayforce as status reasons that indicate the reason for changes to an employee's position or employment status.</p>
+<p>The following reason codes and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Reason code</th>
+<th>Description</th>
+<th>Applicable scenarios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RESIGNATION</td>
+<td>Resignation</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>TERMINATION</td>
+<td>Termination</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>RETIREMENT</td>
+<td>Retirement</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>OTHER</td>
+<td>Other Reasons</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>DEATH</td>
+<td>Death</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>LEAVEOFABSENCE</td>
+<td>Leave of Absence</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>CONTRACTEND</td>
+<td>End of Contract</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>SALARYCHANGE</td>
+<td>Change of Salary</td>
+<td>Compensation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="marital-status">Marital status</h3>
+<p>Marital status values are mapped to Dayforce and translated, as appropriate, to the accepted values upon integration.</p>
+<p>The following table shows how marital status values are mapped to Dayforce.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Married</td>
+<td>Married</td>
+</tr>
+<tr>
+<td>Single</td>
+<td>Single</td>
+</tr>
+<tr>
+<td>Widowed</td>
+<td>Widowed</td>
+</tr>
+<tr>
+<td>Divorced</td>
+<td>Divorced</td>
+</tr>
+<tr>
+<td>Registered Partnership</td>
+<td>Domestic Partnership</td>
+</tr>
+<tr>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Cohabiting</td>
+<td>Cohabiting</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gender">Gender</h3>
+<p>Gender designations are mapped to Dayforce and translated, as appropriate, to the accepted values upon integration.</p>
+<p>The following table shows how gender designations are mapped to Dayforce.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Male</td>
+<td>Male</td>
+</tr>
+<tr>
+<td>Female</td>
+<td>Female</td>
+</tr>
+<tr>
+<td>Non-specific</td>
+<td><em>Not supported</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="earning-codes-2">Earning codes</h3>
+<p>Earning codes uniquely identify every type of earnings that workers receive. The codes cover several parameters that are related to earnings, such as accounting rules, tax laws, reporting requirements, and gross-up capability. If an unsupported frequency is used, the <strong>Every Pay</strong> frequency is used by default for the calculation.</p>
+<h4 id="supported-frequencies-1">Supported frequencies</h4>
+<ul>
+<li>All</li>
+<li>EVERYPAY</li>
+<li>EACHPAYPERIOD</li>
+<li>EVRYOTHRPAYODD</li>
+<li>EVRYOTHRPAYEVN</li>
+<li>1OFMTH</li>
+<li>LASTOFMTH</li>
+<li>2OFMTH</li>
+<li>3OFMTH</li>
+<li>4OFMTH</li>
+<li>5OFMTH</li>
+<li>1N2OFMTH</li>
+<li>3N4OFMTH</li>
+<li>1N3OFMTH</li>
+<li>1N4OFMTH</li>
+<li>2N3OFMTH</li>
+<li>2N4OFMTH</li>
+<li>1N2N3OFMTH</li>
+<li>1N2N4OFMTH</li>
+<li>1N3N4OFMTH</li>
+<li>2N3N4OFMTH</li>
+<li>1N2N3N4OFMTH - 1N2N3N4OFMTH</li>
+<li>2N3N4N5OFMth - 2N3N4N5OFMth</li>
+<li>1OFQTR - 1OFQTR</li>
+<li>LASTOFQTR – LASTOFQTR</li>
+<li>LASTMTHOFQTR – LASTMTHOFQTR</li>
+<li>1OFYEAR - 1OFYEAR</li>
+<li>LASTOFYEAR – LASTOFYEAR</li>
+<li>NOVNDECOFYEAR - NOVNDECOFYEAR</li>
+</ul>
+<h3 id="addresses">Addresses</h3>
+<p>The identification of specific country or region, state, and county (municipality) codes requires specific formats that Dayforce and in-country/in-region providers can recognize. Although the format for cities is flexible, every city must be associated with a state.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Country/Region</td>
+<td>Country Code</td>
+</tr>
+<tr>
+<td>Zip/Postal Code</td>
+<td>Postal Code</td>
+</tr>
+<tr>
+<td>State</td>
+<td>State Code</td>
+</tr>
+<tr>
+<td>City</td>
+<td>City</td>
+</tr>
+<tr>
+<td>County</td>
+<td>County (Municipality)</td>
+</tr>
+<tr>
+<td>Street</td>
+<td>Address Line 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tax-regions">Tax regions</h3>
+<p>Tax regions are used to determine the appropriate tax that should be applied during payroll generation. Tax regions are mapped to Dayforce as location addresses. The default tax region must be associated with the worker's active position.</p>
+<ul>
+<li>Tax region (required)</li>
+<li>Country/Region (required)</li>
+<li>State (required)</li>
+<li>County</li>
+<li>City (required)</li>
+</ul>
+<h2 id="configure-your-data-to-generate-payroll-in-mexico">Configure your data to generate payroll in Mexico</h2>
+<p>If you're generating pay for employees in Mexico, the following elements must be configured:</p>
+<ul>
+<li>Departments are required on positions.</li>
+<li>Cost centers must be set as financial dimensions and must be the first element in the Default Financial Dimension string.</li>
+</ul>
+<h3 id="job-types-1">Job types</h3>
+<p>Job types are used to group similar jobs into categories. Job types are required in order to process payroll in Mexico. Examples of job types include full-time and part-time, or salary and hourly pay. Job types are mapped to Dayforce as pay types that indicate whether an employee is hourly or salaried.</p>
+<p>The following job types and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Job type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hourly</td>
+<td>MX Hourly</td>
+</tr>
+<tr>
+<td>Salaried</td>
+<td>MX Salaried</td>
+</tr>
+</tbody>
+</table>
+<h3 id="position-types-1">Position types</h3>
+<p>You use position types to describe whether the position is full-time, part-time, or something else. Position types are mapped to Dayforce as pay classes that indicate whether an employee is full-time or part-time.</p>
+<p>The following position types and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Position type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full-time</td>
+<td>Full time employee</td>
+</tr>
+<tr>
+<td>Part-time</td>
+<td>Part time employee</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reason-codes-1">Reason codes</h3>
+<p>Reason codes provide information about the status of an employee. Reason codes are mapped to Dayforce as status reasons that indicate the reason for changes to an employee's position or employment status.</p>
+<p>The following reason codes and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Reason code</th>
+<th>Description</th>
+<th>Applicable scenarios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEPARTUREBEFOREPAYMENT</td>
+<td>Departure before first payroll</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>RESIGNATION</td>
+<td>Resignation</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>PENSION</td>
+<td>Pension</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>TERMINATION</td>
+<td>Termination</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>RETIREMENT</td>
+<td>Retirement</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>ABSENTEE</td>
+<td>Absentee</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>OTHER</td>
+<td>Other Reasons</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>CLOSURE</td>
+<td>Business Closure</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>DEATH</td>
+<td>Death</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>LEAVEOFABSENCE</td>
+<td>Leave of Absence</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>CONTRACTEND</td>
+<td>End of Contract</td>
+<td>Terminate worker</td>
+</tr>
+<tr>
+<td>SALARYCHANGE</td>
+<td>Change of Salary</td>
+<td>Compensation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="terms-of-employment">Terms of employment</h3>
+<p>Terms of employment are used to create categories of employment terms. The terms are mapped to Dayforce as employment indicator values.</p>
+<p>The following terms of employment and descriptions are required.</p>
+<table>
+<thead>
+<tr>
+<th>Terms of employment</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regular</td>
+<td>Regular</td>
+</tr>
+<tr>
+<td>Direct</td>
+<td>Direct</td>
+</tr>
+<tr>
+<td>Internship</td>
+<td>Internship</td>
+</tr>
+<tr>
+<td>Permanent</td>
+<td>Permanent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="marital-status-1">Marital status</h3>
+<p>Marital status values are mapped to Dayforce and translated, as appropriate, to the accepted values upon integration.</p>
+<p>The following table shows how marital status values are mapped to Dayforce.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Married</td>
+<td>Married</td>
+</tr>
+<tr>
+<td>Single</td>
+<td>Single</td>
+</tr>
+<tr>
+<td>Widowed</td>
+<td>Widowed</td>
+</tr>
+<tr>
+<td>Divorced</td>
+<td>Divorced</td>
+</tr>
+<tr>
+<td>Registered Partnership</td>
+<td>Domestic Partnership</td>
+</tr>
+<tr>
+<td>None</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+<tr>
+<td>Cohabiting</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="gender-1">Gender</h3>
+<p>Gender designations are mapped to Dayforce and translated, as appropriate, to the accepted values upon integration.</p>
+<p>The following table shows how gender designations are mapped to Dayforce.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Male</td>
+<td>Male</td>
+</tr>
+<tr>
+<td>Female</td>
+<td>Female</td>
+</tr>
+<tr>
+<td>Non-specific</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-method">Payment method</h3>
+<p>Payment methods give the employee and the company a way to describe how employees will be paid. Payment methods are mapped to Dayforce and translated, as appropriate, to the accepted values upon integration.</p>
+<p>The following table shows how payment methods are mapped to Dayforce.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash</td>
+<td>Cash</td>
+</tr>
+<tr>
+<td>Electronic Payment</td>
+<td>Transfer</td>
+</tr>
+<tr>
+<td>Check</td>
+<td>Cheque</td>
+</tr>
+<tr>
+<td>Bank Draft</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+<tr>
+<td>Other</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="bank-account-type">Bank account type</h3>
+<p>Bank account types are used for electronic payments to employees. Bank account types are mapped to Dayforce as transfer account information. The bank account types are translated, as appropriate, to the accepted values upon integration.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checking Account</td>
+<td>CheckingAccount</td>
+</tr>
+<tr>
+<td>Payroll Account</td>
+<td>PayrollAccount</td>
+</tr>
+<tr>
+<td>Savings Account</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+<tr>
+<td>BankGirot account</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+<tr>
+<td>PlusGirot account</td>
+<td><em>Not supported by Mexico</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="earning-codes-3">Earning codes</h3>
+<p>Earning codes uniquely identify every type of earnings that workers receive. The codes cover several parameters that are related to earnings, such as accounting rules, tax laws, reporting requirements, and gross-up capability. If an unsupported frequency is used, the <strong>Every Pay</strong> frequency is used by default for the calculation.</p>
+<h4 id="supported-frequencies-2">Supported frequencies</h4>
+<ul>
+<li>All</li>
+<li>EVERYPAY</li>
+<li>EACHPAYPERIOD</li>
+<li>EVRYOTHRPAYODD</li>
+<li>EVRYOTHRPAYEVN</li>
+<li>1OFMTH</li>
+<li>LASTOFMTH</li>
+<li>2OFMTH</li>
+<li>3OFMTH</li>
+<li>4OFMTH</li>
+<li>5OFMTH</li>
+<li>1N2OFMTH</li>
+<li>3N4OFMTH</li>
+<li>1N3OFMTH</li>
+<li>1N4OFMTH</li>
+<li>2N3OFMTH</li>
+<li>2N4OFMTH</li>
+<li>1N2N3OFMTH</li>
+<li>1N2N4OFMTH</li>
+<li>1N3N4OFMTH</li>
+<li>2N3N4OFMTH</li>
+<li>1N2N3N4OFMTH - 1N2N3N4OFMTH</li>
+<li>2N3N4N5OFMth - 2N3N4N5OFMth</li>
+<li>1OFQTR - 1OFQTR</li>
+<li>LASTOFQTR – LASTOFQTR</li>
+<li>LASTMTHOFQTR – LASTMTHOFQTR</li>
+<li>1OFYEAR - 1OFYEAR</li>
+<li>LASTOFYEAR – LASTOFYEAR</li>
+<li>NOVNDECOFYEAR - NOVNDECOFYEAR</li>
+</ul>
+<h3 id="addresses-1">Addresses</h3>
+<p>The identification of specific country or region, state, and county (municipality) codes requires specific formats that Dayforce and in-country/in-region providers can recognize. Although the format for cities is flexible, every city must be associated with a state.</p>
+<table>
+<thead>
+<tr>
+<th>Human Resources</th>
+<th>Dayforce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Country/Region</td>
+<td>Country Code</td>
+</tr>
+<tr>
+<td>Zip/Postal Code</td>
+<td>Postal Code</td>
+</tr>
+<tr>
+<td>State</td>
+<td>State Code</td>
+</tr>
+<tr>
+<td>City</td>
+<td>City</td>
+</tr>
+<tr>
+<td>County</td>
+<td>County (Municipality)</td>
+</tr>
+<tr>
+<td>Street</td>
+<td>Address Line 1</td>
+</tr>
+<tr>
+<td>Street Number</td>
+<td>Address Line 2</td>
+</tr>
+<tr>
+<td>Building Complement</td>
+<td>Address Line 5</td>
+</tr>
+</tbody>
+</table>
+<h3 id="passport-number">Passport number</h3>
+<p>Employees can declare passport information. This information is of the <strong>Passport</strong> identification type and is integrated into Dayforce as part of an employee's Mexico-specific information.</p>
+<ul>
+<li>Identification Type = &quot;Passport&quot;</li>
+<li>Issued Date</li>
+<li>Expiration Date</li>
+</ul>
+<p>Employees can declare multiple identification numbers of the <strong>Passport</strong> identification type. However, only the current active passport entry is integrated into Dayforce. If all passport entries are expired, the passport that was most recently issued is integrated into Dayforce.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

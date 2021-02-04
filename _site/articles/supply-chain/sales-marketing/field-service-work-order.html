@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronize work orders in Field Service to sales orders in Supply Chain Management | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronize work orders in Field Service to sales orders in Supply Chain Management | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronize-work-orders-in-field-service-to-sales-orders-in-supply-chain-management">Synchronize work orders in Field Service to sales orders in Supply Chain Management</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic discusses the templates and underlying tasks that are used to synchronize work orders in Dynamics 365 Field Service to sales order in Dynamics 365 Supply Chain Management.</p>
+<p><a href="./media/field-service-integration.png"><img src="./media/field-service-integration.png" alt="Synchronization of business processes between Supply Chain Management and Field Service"></a></p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>The following templates and underlying tasks are used to run the synchronization of work orders in Field Service to sales orders in Supply Chain Management.</p>
+<h3 id="names-of-the-templates-in-data-integration">Names of the templates in Data integration</h3>
+<p>The <strong>Work orders to Sales orders (Field Service to Supply Chain Management)</strong> template is used to run synchronization.</p>
+<h3 id="names-of-the-tasks-in-the-data-integration-project">Names of the tasks in the Data integration project</h3>
+<ul>
+<li>WorkOrderHeader</li>
+<li>WorkOrderServiceLineEstimate</li>
+<li>WorkOrderServiceLineUsed</li>
+<li>WorkOrderProductLineEstimate</li>
+<li>WorkOrderProductLineUsed</li>
+</ul>
+<p>The following synchronization tasks are required before synchronization of sales order headers and lines can occur:</p>
+<ul>
+<li>Field Service Products (Supply Chain Management to Field Service)</li>
+<li>Accounts (Sales to Supply Chain Management) – Direct</li>
+</ul>
+<h2 id="entity-set">Entity set</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Field Service</strong></th>
+<th><strong>Supply Chain Management</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msdyn_workorders</td>
+<td>Dataverse sales order headers</td>
+</tr>
+<tr>
+<td>msdyn_workorderservices</td>
+<td>Dataverse sales order lines</td>
+</tr>
+<tr>
+<td>msdyn_workorderproducts</td>
+<td>Dataverse sales order lines</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entity flow</h2>
+<p>Work orders are created in Field Service. If the work orders include only externally maintained products, and if the <strong>Work order status</strong> value differs from <strong>Open-Unscheduled</strong> and <strong>Closed – Cancelled</strong>, the work orders can be synchronized to Supply Chain Management via a Microsoft Dataverse Data integration project. Updates on the work orders will be synchronized as sales orders in Supply Chain Management. These updates include the information about the origin type and status.</p>
+<h2 id="estimated-versus-used">Estimated versus Used</h2>
+<p>In Field Service, products and services on work orders have both <strong>Estimated</strong> values and <strong>Used</strong> values for quantities and amounts. However, in Supply Chain Management, sales orders don't have the same concept of <strong>Estimated</strong> and <strong>Used</strong> values. To support product allocation that uses the expected quantity on the sales order in Supply Chain Management, but to keep the used quantity that should be consumed and invoiced, two sets of tasks synchronize the products and services on the work order. One set of tasks is for <strong>Estimated</strong> values, and the other set of tasks is for <strong>Used</strong> values.</p>
+<p>This behavior enables scenarios where estimated values are used for allocation or reservation in Supply Chain Management, whereas used values are used for consumption and invoicing.</p>
+<h3 id="estimated">Estimated</h3>
+<p>For synchronization of product lines, the <strong>Estimated</strong> values are used when the <strong>Line Status</strong> value is <strong>Estimated</strong>, the <strong>Allocated</strong> option is set to <strong>Yes</strong>, and <strong>System Status</strong> value isn't <strong>Closed – Posted</strong>.</p>
+<p>For synchronization of service lines, the <strong>Estimated</strong> values are used when the <strong>Line Status</strong> value is <strong>Estimated</strong> and the <strong>System Status</strong> value isn't <strong>Closed – Posted</strong>.</p>
+<h3 id="used">Used</h3>
+<p>The <strong>Used</strong> values are used for consumption and invoicing. In these cases, the <strong>Used</strong> values are synchronized.</p>
+<p>The following table provides an overview of the various combinations for product lines.</p>
+<table>
+<thead>
+<tr>
+<th>System Status <br>(Field Service)</th>
+<th>Line Status <br>(Field Service)</th>
+<th>Allocated <br>(Field Service)</th>
+<th>Synchronized value <br>(Supply Chain Management)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open - Scheduled</td>
+<td>Estimated</td>
+<td>Yes</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - Scheduled</td>
+<td>Estimated</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Scheduled</td>
+<td>Used</td>
+<td>Yes</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Scheduled</td>
+<td>Used</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Estimated</td>
+<td>Yes</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Estimated</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Used</td>
+<td>Yes</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Used</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Estimated</td>
+<td>Yes</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Estimated</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Used</td>
+<td>Yes</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Used</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Estimated</td>
+<td>Yes</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Estimated</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Used</td>
+<td>Yes</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Used</td>
+<td>No</td>
+<td>Used</td>
+</tr>
+</tbody>
+</table>
+<p>The following table provides an overview of the various combinations for service lines.</p>
+<table>
+<thead>
+<tr>
+<th>System Status <br>(Field Service)</th>
+<th>Line Status <br>(Field Service)</th>
+<th>Synchronized value <br>(Supply Chain Management)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open - Scheduled</td>
+<td>Estimated</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - Scheduled</td>
+<td>Used</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Estimated</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - In Progress</td>
+<td>Used</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Estimated</td>
+<td>Estimated</td>
+</tr>
+<tr>
+<td>Open - Completed</td>
+<td>Used</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Estimated</td>
+<td>Used</td>
+</tr>
+<tr>
+<td>Closed - Posted</td>
+<td>Used</td>
+<td>Used</td>
+</tr>
+</tbody>
+</table>
+<p>Synchronization of <strong>Estimated</strong> values versus <strong>Used</strong> values is managed through the two sets of tasks for product lines and service lines. Predefined filters trigger the correct task, and the underlying mapping helps guarantee that the correct values for <strong>Expected</strong> versus <strong>Used</strong> are synchronized.</p>
+<h3 id="example">Example</h3>
+<ol>
+<li><p>A work order is created and scheduled in Field Service.</p>
+<p>The <strong>System Status</strong> value is <strong>Open – Scheduled</strong>.</p>
+<ul>
+<li><strong>Product line:</strong> Estimated Qty = 5ea, Used Qty = 0ea, Line Status = Estimated, Allocated = No</li>
+<li><strong>Service line:</strong> Estimated Qty = 2h, Used Qty = 0h, Line Status = Estimated</li>
+</ul>
+<p>In this example, the product's <strong>Used Qty</strong> value of <strong>0</strong> (zero) and the service's <strong>Estimated Qty</strong> value of <strong>2h</strong> are synchronized to Supply Chain Management.</p>
+</li>
+<li><p>Products are allocated in Field Service.</p>
+<p>The <strong>System Status</strong> value is <strong>Open – Scheduled</strong>.</p>
+<ul>
+<li><strong>Product line:</strong> Estimated Qty = 5ea, Used Qty = 0ea, Line Status = Estimated, Allocated = Yes</li>
+<li><strong>Service line:</strong> Estimated Qty = 2h, Used Qty = 0h, Line Status = Estimated</li>
+</ul>
+<p>In this example, the product's <strong>Estimated Qty</strong> value of <strong>5ea</strong> and the service's <strong>Estimated Qty</strong> value of <strong>2h</strong> are synchronized to Supply Chain Management.</p>
+</li>
+<li><p>The service technician starts to work on the work order and registers material usage of 6.</p>
+<p>The <strong>System Status</strong> value is <strong>Open – In Progress</strong>.</p>
+<ul>
+<li><strong>Product line:</strong> Estimated Qty = 5ea, Used Qty = 6ea, Line Status = Used, Allocated = Yes</li>
+<li><strong>Service line:</strong> Estimated Qty = 2h, Used Qty = 0h, Line Status = Estimated</li>
+</ul>
+<p>In this example, the product's <strong>Used Qty</strong> value of <strong>6</strong> and the service's <strong>Estimated Qty</strong> value of <strong>2h</strong> are synchronized to Supply Chain Management.</p>
+</li>
+<li><p>The service technician completes the work order and registers used time of 1.5 hours.</p>
+<p>The <strong>System Status</strong> value is <strong>Open – Completed</strong>.</p>
+<ul>
+<li><strong>Product line:</strong> Estimated Qty = 5ea, Used Qty = 6ea, Line Status = Used, Allocated = Yes</li>
+<li><strong>Service line:</strong> Estimated Qty = 2h, Used Qty = 1.5h, Line Status = Used</li>
+</ul>
+<p>In this example, the product's <strong>Used Qty</strong> value of <strong>6</strong> and the service's <strong>Used Qty</strong> of <strong>1.5h</strong> are synchronized to Supply Chain Management.</p>
+</li>
+</ol>
+<h2 id="sales-order-origin-and-status">Sales order origin and status</h2>
+<h3 id="sales-origin">Sales origin</h3>
+<p>To keep track of sales orders that originate from work orders, you can create a sales origin where the <strong>Origin type assignment</strong> option is set to <strong>Yes</strong> and the <strong>Sales origin type</strong> field is set to <strong>Work order integration</strong>.</p>
+<p>By default, the mapping selects the sales origin for the <strong>Work order integration</strong> sales origin type for all sales orders that are created from work orders. This behavior can be useful when you work with the sales order in Supply Chain Management. You must make sure that sales orders that originate from work orders aren't synchronized back to Field Service as work orders.</p>
+<p>For details about how to create the correct sales origin setup in Supply Chain Management, see the &quot;Preconditions and mapping setup&quot; section of this topic.</p>
+<h3 id="status">Status</h3>
+<p>When the sales order originates from a work order, the <strong>External work order status</strong> field appears on the <strong>Setup</strong> tab on the sales order header. This field shows the system status from the work order in Field Service, to help track the synchronized work order status of sales orders in the Supply Chain Management. This field can also help the user determine when the sales order should be shipped or invoiced.</p>
+<p>The <strong>External work order status</strong> field can have the following values:</p>
+<ul>
+<li>Open - Scheduled</li>
+<li>Open - In Progress</li>
+<li>Open - Completed</li>
+<li>Closed - Posted</li>
+</ul>
+<h2 id="field-service-crm-solution">Field Service CRM solution</h2>
+<p>To support the integration between Field Service and Supply Chain Management, additional functionality from the Field Service CRM solution is required. The solution includes the following changes.</p>
+<h3 id="work-order-entity">Work Order entity</h3>
+<p>The <strong>Has Externally Maintained Products Only</strong> field has been added to the <strong>Work Order</strong> entity and appears on the page. It's used to consistently track whether a work order consists entirely of externally maintained products. A work order consists entirely of externally maintained products when all the related products are maintained in Supply Chain Management. This field helps guarantee that users don't synchronize work orders that have products that are unknown.</p>
+<h3 id="work-order-product-entity">Work Order Product entity</h3>
+<ul>
+<li>The <strong>Order Has Externally Maintained Products Only</strong> field has been added to the <strong>Work Order Product</strong> entity and appears on the page. It's used to consistently track whether the work order product is maintained in Supply Chain Management. This field helps guarantee that users don't synchronize work order products that are unknown to Supply Chain Management.</li>
+<li>The <strong>Header System Status</strong> field has been added to the <strong>Work Order Product</strong> entity and appears on the page. It's used to consistently track the system status of the work order and helps guarantee correct filtering when work order products are synchronized to Supply Chain Management. When filters are set on the integration tasks, <strong>Header System Status</strong> information is also used to determine whether the estimated or used values should be synchronized.</li>
+<li>The <strong>Invoiced Unit Amount</strong> field shows the amount that is invoiced per actual unit that is used. The value is calculated as the <strong>Total Amount</strong> value divided by the <strong>Actual Quantity</strong> value. The field is used for integration to systems that don't support different values for the used quantity and the billed quantity. This field doesn't appear in the user interface (UI).</li>
+<li>The <strong>Invoiced Discount Amount</strong> field is calculated as the <strong>Discount Amount</strong> value plus the rounding from the calculation of the <strong>Invoiced Unit Amount</strong> value. This field is used for integration and doesn't appear in the UI.</li>
+<li>The <strong>Decimal Quantity</strong> field stores the value from the <strong>Quantity</strong> field as a decimal number. This field is used for integration and doesn't appear in the UI.</li>
+<li>The value in <strong>Used</strong> fields is reset to <strong>0</strong> (zero) if the <strong>Line Status</strong> value of the work order product is changed from <strong>Used</strong> to <strong>Estimated</strong>. This change helps prevent situations where a used quantity that is mistakenly entered is used for synchronization when the <strong>Line Status</strong> value is <strong>Estimated</strong> and the <strong>Allocated</strong> option is set to <strong>No</strong>.</li>
+</ul>
+<h3 id="work-order-service-entity">Work Order Service entity</h3>
+<ul>
+<li>The <strong>Order Has Externally Maintained Products Only</strong> field has been added to the <strong>Work Order Service</strong> entity and appears on the page. It's used to consistently track whether the work order service is maintained in Supply Chain Management. This field helps guarantee that users don't synchronize work order services that are unknown to Supply Chain Management.</li>
+<li>The <strong>Header System Status</strong> field has been added to the <strong>Work Order Service</strong> entity and appears on the page. It's used to consistently track the system status of the work order and helps guarantee correct filtering when work order services are synchronized to Supply Chain Management. When filters are set on the integration tasks, <strong>Header System Status</strong> information is also used to determine whether the estimated or used values should be synchronized.</li>
+<li>The <strong>Duration In Hours</strong> field stores the value from the <strong>Duration</strong> field after that value is converted from minutes to hours. This field is used for integration and doesn't appear in the UI.</li>
+<li>The <strong>Estimated Duration In Hours</strong> field stores the value from the <strong>Estimated Duration</strong> field after that value is converted from minutes to hours. This field is used for integration and doesn't appear in the UI.</li>
+<li>The <strong>Invoiced Unit Amount</strong> field stores the amount that is invoiced per actual unit that is used. The value is calculated as the <strong>Total Amount</strong> value divided by the <strong>Actual Quantity</strong> value. This field is used for integration to systems that don't support different values for the used quantity and the billed quantity. The field doesn't appear in the UI.</li>
+<li>The <strong>Invoiced Discount Amount</strong> field is calculated as the <strong>Discount Amount</strong> value plus the rounding from the calculation of the <strong>Invoiced Unit Amount</strong> value. This field is used for integration and doesn't appear in the UI.</li>
+<li>The <strong>External Line Order</strong> field is a calculated negative line order number that can be used in external systems where work order product and service lines are combined. This field enables work order products that are inserted to have positive line numbers and work order services to have negative line numbers. The value of this this field is calculated as the <strong>Line Order</strong> value multiplied by -1. This field doesn't appear in the UI.</li>
+<li>The value in <strong>Used</strong> fields is reset to <strong>0</strong> (zero) if the <strong>Line Status</strong> value of the work order service is changed from <strong>Used</strong> to <strong>Estimated</strong> for some reason. This change helps prevent situations where a used quantity that is mistakenly entered is used for synchronization when the <strong>Line Status</strong> value is <strong>Estimated</strong> and the <strong>Header System Status</strong> value is <strong>Closed – Posted</strong>.</li>
+</ul>
+<h2 id="preconditions-and-mapping-setup">Preconditions and mapping setup</h2>
+<p>Before you synchronize work orders, it's important that you update the following settings in the systems.</p>
+<h3 id="setup-in-field-service">Setup in Field Service</h3>
+<ul>
+<li>Make sure that the number series that is used for work orders in Field Service doesn't overlap the number sequence that is used for sales orders in Supply Chain Management. Otherwise, existing sales orders can be incorrectly updated in Field Service or Supply Chain Management.</li>
+<li>The <strong>Work Order Invoice Creation</strong> field must be set to <strong>Never</strong>, because the invoicing will be done from Supply Chain Management. Go to <strong>Field Service</strong> &gt; <strong>Settings</strong> &gt; <strong>Administration</strong> &gt; <strong>Field Service Settings</strong>, and make sure that the <strong>Work Order Invoice Creation</strong> field is set to <strong>Never</strong>.</li>
+</ul>
+<h3 id="setup-in-supply-chain-management">Setup in Supply Chain Management</h3>
+<p>Work order integration requires that you set up the sales origin. The sales origin is used to distinguish sales orders in Supply Chain Management that were created from work orders in Field Service. When a sales order has a sales origin of the <strong>Work order integration</strong> type, the <strong>External work order status</strong> field appears on the sales order header. Additionally, the sales origin helps guarantee that sales orders that were created from work orders in Field Service are filtered out during sales order synchronization from Supply Chain Management to Field Service.</p>
+<ol>
+<li>Go to <strong>Sales and marketing</strong> &gt; <strong>Setup</strong> &gt; <strong>Sales orders</strong> &gt; <strong>Sales origin</strong>.</li>
+<li>Select <strong>New</strong> to create a new sales origin.</li>
+<li>In the <strong>Sales origin</strong> field, enter a name for the sales origin, such as <strong>WorkOrder</strong>.</li>
+<li>In the <strong>Description</strong> field, enter a description, such as <strong>Field Service Work Order</strong>.</li>
+<li>Select the <strong>Origin type assignment</strong> check box.</li>
+<li>Set the <strong>Sales origin type</strong> field to <strong>Work order integration</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="setup-in-data-integration">Setup in Data integration</h3>
+<p>Ensure the <strong>Integration key</strong> exist for <strong>msdyn_workorders</strong></p>
+<ol>
+<li>Go to Data Integration</li>
+<li>Select <strong>Connection Set</strong> tab</li>
+<li>Select the Connection set used for Work order synchronization</li>
+<li>Select <strong>Integration key</strong> tab</li>
+<li>Find msdyn_workorders and check that the key <strong>msdyn_name (Work Order Number)</strong> is added. If it is not shown, add it by click <strong>Add key</strong> and click <strong>Save</strong> in the top of the page</li>
+</ol>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<p>The following illustrations show the template mapping in Data integration.</p>
+<h3 id="work-orders-to-sales-orders-field-service-to-supply-chain-management-workorderheader">Work orders to Sales orders (Field Service to Supply Chain Management): WorkOrderHeader</h3>
+<p>Filter:
+(msdyn_systemstatus ne 690970005) and (msdyn_systemstatus ne 690970000) and (msdynce_hasexternallymaintainedproductsonly eq true)</p>
+<p><a href="./media/FSWorkOrder1.png"><img src="./media/FSWorkOrder1.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="work-orders-to-sales-orders-field-service-to-supply-chain-management-workorderservicelineestimate">Work orders to Sales orders (Field Service to Supply Chain Management): WorkOrderServiceLineEstimate</h3>
+<p>Filter:
+(msdynce_headersystemstatus ne 690970005) and (msdynce_headersystemstatus ne 690970000) and (msdynce_orderhasexternalmaintainedproductsonly eq true) and (msdyn_linestatus eq 690970000) and (msdynce_headersystemstatus ne 690970004)</p>
+<p><a href="./media/FSWorkOrder2.png"><img src="./media/FSWorkOrder2.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="work-orders-to-sales-orders-field-service-to-supply-chain-management-workorderservicelineused">Work orders to Sales orders (Field Service to Supply Chain Management): WorkOrderServiceLineUsed</h3>
+<p>Filter:
+(msdynce_headersystemstatus ne 690970005) and (msdynce_headersystemstatus ne 690970000) and (msdynce_orderhasexternalmaintainedproductsonly eq true) and ((msdyn_linestatus eq 690970001) or (msdynce_headersystemstatus eq 690970004))</p>
+<p><a href="./media/FSWorkOrder3.png"><img src="./media/FSWorkOrder3.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="work-orders-to-sales-orders-field-service-to-supply-chain-management-workorderproductlineestimate">Work orders to Sales orders (Field Service to Supply Chain Management): WorkOrderProductLineEstimate</h3>
+<p>Filter:
+(msdynce_headersystemstatus ne 690970005) and (msdynce_headersystemstatus ne 690970000) and (msdynce_orderhasexternalmaintainedproductsonly eq true) and (msdyn_linestatus eq 690970000) and (msdynce_headersystemstatus ne 690970004) and (msdyn_allocated eq true)</p>
+<p><a href="./media/FSWorkOrder4.png"><img src="./media/FSWorkOrder4.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="work-orders-to-sales-orders-field-service-to-supply-chain-management-workorderproductlineused">Work orders to Sales orders (Field Service to Supply Chain Management): WorkOrderProductLineUsed</h3>
+<p>Filter:
+(msdynce_headersystemstatus ne 690970005) and (msdynce_headersystemstatus ne 690970000) and (msdynce_orderhasexternalmaintainedproductsonly eq true) and ((msdyn_linestatus eq 690970001) or (msdynce_headersystemstatus eq 690970004) or (msdyn_allocated ne true))</p>
+<p><a href="./media/FSWorkOrder5.png"><img src="./media/FSWorkOrder5.png" alt="Template mapping in Data integration"></a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

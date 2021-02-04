@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Guidance for dual-write setup | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Guidance for dual-write setup | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../../index.html">
+                <img id="logo" class="svg" src="../../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="guidance-for-dual-write-setup">Guidance for dual-write setup</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Some or all of the functionality noted in this topic is available as part of a preview release. The content and the functionality are subject to change. For more information about preview releases, see <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/public-preview-releases">Service update availability</a>.</p>
+</div>
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>You can set up a dual-write connection between a Finance and Operations environment and a Dataverse environment.</p>
+<ul>
+<li>A <strong>Finance and Operations environment</strong> provides the underlying platform for <strong>Finance and Operations apps</strong> (for example, Microsoft Dynamics 365 Finance, Dynamics 365 Supply Chain Management, Dynamics 365 Commerce, and Dynamics 365 Human Resources).</li>
+<li>A <strong>Dataverse environment</strong> provides the underlying platform for <strong>customer engagement apps</strong> (Dynamics 365 Sales, Dynamics 365 Customer Service, Dynamics 365 column Service, Dynamics 365 Marketing, and Dynamics 365 Project Service Automation).</li>
+</ul>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The Human Resources module in Dynamics 365 Finance supports dual-write connections, but the Dynamics 365 Human Resources app doesn't.</p>
+</div>
+<p>The setup mechanism varies, depending on your subscription and the environment:</p>
+<ul>
+<li>For new instances of Finance and Operations apps, the setup of a dual-write connection begins in Microsoft Dynamics Lifecycle Services (LCS). If you have a license for Microsoft Power Platform, you will get a new Dataverse environment if your tenant doesn't have one.</li>
+<li>For existing instances Finance and Operations apps, the setup of a dual-write connection begins in the Finance and Operations environment.</li>
+</ul>
+<p>Before you start dual-write on an entity, you can run an initial synchronization to handle existing data on both sides: Finance and Operations apps and customer engagement apps. You can skip the initial synchronization if you don't have to sync data between the two environments.</p>
+<p>An initial synchronization lets you copy existing data from one app to another bidirectionally. There are several setup scenarios, depending on the environments that you already have and the type of data in them.</p>
+<p>The following setup scenarios are supported:</p>
+<ul>
+<li><a href="#new-new">A new Finance and Operations app instance and a new customer engagement app instance</a></li>
+<li><a href="#new-existing">A new Finance and Operations app instance and an existing customer engagement app instance</a></li>
+<li><a href="#new-data-new">A new Finance and Operations app instance that has data and a new customer engagement app instance</a></li>
+<li><a href="#new-data-existing">A new Finance and Operations app instance that has data and an existing customer engagement app instance</a></li>
+<li><a href="#existing-new">An existing Finance and Operations app instance and a new customer engagement app instance</a></li>
+<li><a href="#existing-existing">An existing Finance and Operations app instance and an existing customer engagement app instance</a></li>
+</ul>
+<h2 id="new-new">A new Finance and Operations app instance and a new customer engagement app instance</h2>
+<p>To set up a dual-write connection between a new instance of a Finance and Operations app that has no data and a new instance of a customer engagement app, follow the steps in <a href="lcs-setup.html">Dual-write setup from Lifecycle Services</a>. When the connection setup is completed, the following actions automatically occur:</p>
+<ul>
+<li>A new, empty Finance and Operations environment is provisioned.</li>
+<li>A new, empty instance of a customer engagement app is provisioned, where the CRM prime solution is installed.</li>
+<li>A dual-write connection is established for DAT company data.</li>
+<li>Table maps are enabled for live synchronization.</li>
+</ul>
+<p>Both environments are then ready for live data synchronization.</p>
+<h2 id="new-existing">A new Finance and Operations app instance and an existing customer engagement app instance</h2>
+<p>To set up a dual-write connection between a new instance of a Finance and Operations app that has no data and an existing instance of a customer engagement app, follow the steps in <a href="lcs-setup.html">Dual-write setup from Lifecycle Services</a>. When the connection setup is completed, the following actions automatically occur:</p>
+<ul>
+<li>A new, empty Finance and Operations environment is provisioned.</li>
+<li>A dual-write connection is established for DAT company data.</li>
+<li>Table maps are enabled for live synchronization.</li>
+</ul>
+<p>Both environments are then ready for live data synchronization.</p>
+<p>To sync the existing Dataverse data to the Finance and Operations app, follow these steps.</p>
+<ol>
+<li>Create a new company in the Finance and Operations app.</li>
+<li>Add the company to the dual-write connection setup.</li>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/bootstrap-company-data">Bootstrap (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> the Dataverse data by using a three-letter International Organization for Standardization (ISO) company code.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>For links to an example and an alternative approach, see the <a href="#example">Example</a> section later in this topic.</p>
+<h2 id="new-data-new">A new Finance and Operations app instance that has data and a new customer engagement app instance</h2>
+<p>To set up a dual-write connection between a new instance of a Finance and Operations app that has data and a new instance of a customer engagement app, follow the steps in the <a href="#new-new">A new Finance and Operations app instance and a new customer engagement app instance</a> section earlier in this topic. When the connection setup is completed, if you want to sync the data to the customer engagement app, follow these steps.</p>
+<ol>
+<li>Open the Finance and Operations app from the LCS page, sign in, and then go to <strong>Data Management &gt; Dual-write</strong>.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>For links to an example and an alternative approach, see the <a href="#example">Example</a> section.</p>
+<h2 id="new-data-existing">A new Finance and Operations app instance that has data and an existing customer engagement app instance</h2>
+<p>To set up a dual-write connection between a new instance of a Finance and Operations app that has data and an existing instance of a customer engagement app, follow the steps in the <a href="#new-existing">A new Finance and Operations app instance and an existing customer engagement app instance</a> section earlier in this topic. When the connection setup is completed, if you want to sync the data to the customer engagement app, follow these steps.</p>
+<ol>
+<li>Open the Finance and Operations app from the LCS page, sign in, and then go to <strong>Data Management &gt; Dual-write</strong>.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>To sync the existing Dataverse data to the Finance and Operations app, follow these steps.</p>
+<ol>
+<li>Create a new company in the Finance and Operations app.</li>
+<li>Add the company to the dual-write connection setup.</li>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/bootstrap-company-data">Bootstrap (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> the Dataverse data by using a three-letter ISO company code.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>For links to an example and an alternative approach, see the <a href="#example">Example</a> section.</p>
+<h2 id="existing-new">An existing Finance and Operations app instance and a new customer engagement app instance</h2>
+<p>The setup of a dual-write connection between an existing instance of a Finance and Operations app and a new instance of a customer engagement app occurs in the Finance and Operation environment.</p>
+<ol>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-dual-write">Set up the connection from the Finance and Operations app (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>For links to an example and an alternative approach, see the <a href="#example">Example</a> section.</p>
+<h2 id="existing-existing">An existing Finance and Operations app instance and an existing customer engagement app instance</h2>
+<p>The setup of a dual-write connection between an existing instance of a Finance and Operations app and an existing instance of a customer engagement app occurs in the Finance and Operation environment.</p>
+<ol>
+<li><a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-dual-write">Set up the connection from the Finance and Operations app (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</li>
+<li>To sync the existing Dataverse data to the Finance and Operations app, [bootstrap (This is an external linThis link was changed due to HTMLfromRepoGenerator)](bootstrap (This is an external linThis link was changed due to HTMLfromRepoGenerator)-company-data.md) the Dataverse data by using a three-letter ISO company code.</li>
+<li>Run the <strong>Initial sync</strong> functionality for the tables that you want to sync data for.</li>
+</ol>
+<p>For links to an example and an alternative approach, see the <a href="#example">Example</a> section.</p>
+<h2 id="example">Example</h2>
+<p>For an example, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/enable-entity-map">Enabling the Customers V3—Contacts table map (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a></p>
+<p>For an alternative approach that is based on data volumes in each entity that must run an initial synchronization, see <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/dual-write/initial-sync-guidance">Considerations for initial synchronization (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../../styles/main.js"></script>
+  </body>
+</html>

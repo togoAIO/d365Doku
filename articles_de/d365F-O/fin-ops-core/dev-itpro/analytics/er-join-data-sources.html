@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Verwenden Sie JOIN-Datenquellen in ER-Modellzuordnungen, um Daten aus mehreren Anwendungstabellen abzurufen </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Verwenden Sie JOIN-Datenquellen in ER-Modellzuordnungen, um Daten aus mehreren Anwendungstabellen abzurufen ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird erl&#228;utert, wie Sie JOIN-Typ-Datenquellen in der Elektronischen Berichterstellung (Electronic Reporting/ER) verwenden k&#246;nnen.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="ms.search.form" content="ERModelMappingDesigner, EROperationDesigner">
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="use-join-data-sources-to-get-data-from-multiple-application-tables-in-electronic-reporting-er-model-mappings">Verwenden Sie JOIN-Datenquellen in ER-Modellzuordnungen, um Daten aus mehreren Anwendungstabellen abzurufen</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>Beim Konfigurieren von ER-Modellzuordnungen oder -formaten können Sie erforderliche Datenquellen vom Typ <strong>Join</strong> <a href="#review">hinzufügen</a>. Zur Entwurfszeit wird eine <strong>Join</strong>-Datenquelle als Satz mehrerer Datenquellen konfiguriert, von denen jede eine Liste der Datensätze zurückgibt. Für jede Datenquelle mit Ausnahme der ersten müssen die erforderlichen Bedingungen definiert werden, um Datensätze der aktuellen und früheren Datenquellen zu verknüpfen. Zur Laufzeit gibt eine konfigurierte Datenquelle vom Typ <strong>Join</strong> eine einzelne verknüpfte Liste von Datensätzen mit Feldern von Datensätzen von geschachtelten Datenquellen <a href="#executeERformat">zurück</a>.</p>
+<p>Die folgenden Join-Typen werden derzeit unterstützt:</p>
+<ul>
+<li>(Linker) Außen-Join:
+<ul>
+<li>Join aller Datensätze der ersten (am weitesten links stehenden) Datenquelle und dann alle passenden in Übereinstimmung mit konfigurierten Bedingungsdatensätzen der zweiten (äußersten rechten) Datenquelle.</li>
+</ul>
+</li>
+<li>(Rechter) Innen-Join:
+<ul>
+<li>Join nur von Datensätzen der ersten (am weitesten links stehenden) Datenquelle und nur von Datensätzen der zweiten (äußersten rechten) Datenquelle, die zueinander passen und in Übereinstimmung mit konfigurierten Bedingungen.</li>
+</ul>
+</li>
+</ul>
+<p>In der konfigurierten <strong>Join</strong>-Datenquelle, wenn alle Datenquellen vom Typ <strong>Table records</strong> sind, kann die Ausführung der Join-Datenquelle über eine einzelne SQL-Anweisung <a href="#analyze">auf Datenbankebene durchgeführt</a> werden. Diese Anweisung verringert die Anzahl von Datenbankaufrufen, was die Modellzuordnungsleistung verbessert. Andernfalls erfolgt die Ausführung der <strong>Join data</strong>-Quelle nur im Arbeitsspeicher.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Verwendung der Funktion <strong>VALUEIN</strong> in ER-Ausdrücken, die Bedingungen zum Verknüpfen von Datensätzen in Datenquellen vom Join-Typ angeben, wird noch nicht unterstützt. Besuchen Sie die Seite <a href="general-electronic-reporting-formula-designer.html">Formeldesigner in der elektronischen Berichterstellung</a> für weitere Details zu dieser Funktion.</p>
+</div>
+<p>Weitere Informationen über diese Funktion erhalten Sie, wenn Sie das Beispiel in diesem Thema abschließen.</p>
+<h2 id="example-use-join-data-sources-in-er-model-mappings">Beispiel: Verwendung von JOIN-Datenquellen in ER-Modellzuordnungen</h2>
+<p>In den folgenden Schritten wird erklärt, wie der Systemadministrator oder der ER-Entwickler eine ER-Modellzuordnung konfigurieren kann, um Daten aus mehreren Anwendungstabellen gleichzeitig abzurufen, indem Datenquellen des Typs <strong>Join</strong> verwendet werden, um die Datenzugriffsleistung zu verbessern. Diese Schritte können für beliebige Unternehmen von Dynamics 365 Finance oder in den Regulatory Configuration Services (RCS) ausgeführt werden.</p>
+<h3 id="prerequisites">Voraussetzungen</h3>
+<p>Um die Beispiele in diesem Thema durchzuführen, müssen Sie Zugriff auf eines der Folgenden haben, abhängig von dem Dienst, der verwendet wird, um diese Schritte durchzuführen:</p>
+<p><strong>Zugriff auf Finance für eine der folgenden Rollen:</strong></p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+<p><strong>Zugriff auf RCS für eine der folgenden Rollen:</strong></p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+<p>Sie müssen außerdem zunächst die Schritte unter der Prozedur <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Konfigurationsanbieter erstellen und als aktiv markieren</a> durchführen.</p>
+<p>Vorab müssen Sie auch die folgenden ER-Beispiel-Konfigurationsdateien vom <a href="https://go.microsoft.com/fwlink/?linkid=000000">Microsoft Download Center</a> herunterladen und lokal speichern:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Inhaltsbeschreibung</strong></th>
+<th><strong>Dateiname</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ER-Datenmodell</strong>-Beispielkonfigurationsdatei, die als Datenquelle für die Beispiele verwendet wird.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Model to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td><strong>ER-Datenmodellzuordnung</strong>-Beispielkonfigurationsdatei, die das ER-Datenmodell für die Beispiele implementiert.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Mapping to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td><strong>ER-Format</strong>-Beispielkonfigurationsdatei. Diese Datei beschreibt die Daten zum Auffüllen der ER-Formatkomponente für die Beispiele.</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Format to learn JOIN data sources.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="activate-a-configurations-provider">Aktivieren eines Konfigurationsanbieters</h3>
+<ol>
+<li><p>Greifen Sie entweder auf Finance oder RCS in der ersten Sitzung des Webbrowsers zu.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung  &gt;Arbeitsbereiche &gt;  Elektronische Berichterstellung</strong>.</p>
+</li>
+<li><p>Überprüfen Sie auf der Seite <strong>Lokalisierungskonfigurationen</strong> im Abschnitt <strong>Konfigurationsanbieter</strong>, ob der Konfigurationsanbieter für das Beispielunternehmen <a href="http://www.litware.com">Litware, Inc.</a> aufgeführt und als <strong>Aktiv</strong> markiert ist. Wenn Sie diesen Konfigurationsanbieter nicht sehen, müssen Sie zunächst die Schritte in der Prozedur <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Konfigurationsanbieter erstellen und als aktiv markieren</a> befolgen.</p>
+<p><img src="media/GER-JoinDS-ActiveProvider.PNG" alt="Elektronische Berichterstellung – Arbeitsbereich"></p>
+</li>
+</ol>
+<h3 id="import-sample-er-configuration-files">ER-Beispielkonfigurationsdateien importieren</h3>
+<ol>
+<li><p>Wählen Sie <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Importieren Sie die ER-Datenmodellkonfigurationsdatei.</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die <strong>Model to learn JOIN data sources.version.1.1.xml</strong>-Datei zu suchen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Importieren Sie die Konfigurationsdatei für die EB-Modellzuordnung.</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die <strong>Mapping to learn JOIN data sources.version.1.1.xml</strong>-Datei zu suchen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Importieren Sie die ER-Formatkonfigurationsdatei.</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die <strong>Format to learn JOIN data sources.version.1.1.xml</strong>-Datei zu suchen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>In der Konfigurationsstruktur erweitern Sie das Element <strong>Model to learn JOIN data sources</strong> sowie weitere Modellelemente (falls verfügbar).</p>
+</li>
+<li><p>Achten Sie auf die Liste der ER-Konfigurationen in der Baumstruktur sowie die Versionsdetails auf der <strong>Versionen</strong>-Schnellregisterkarte – sie werden als Quelle der Daten für den Beispielbericht verwendet.</p>
+<p><img src="media/GER-JoinDS-ConfigurationsTree.PNG" alt="Elektronische Berichtskonfigurationen – Seite"></p>
+</li>
+</ol>
+<h3 id="turn-on-execution-trace-options">Aktivieren der Ausführungsablaufverfolgungsoptionen</h3>
+<ol>
+<li><p>Wählen Sie <strong>KONFIGURATIONEN</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Benutzerparameter</strong> aus.</p>
+</li>
+<li><p>Legen Sie die Ausführungsablaufverfolgungsparameter wie im Screenshot unten fest.</p>
+<p><img src="media/GER-JoinDS-Parameters.PNG" alt="Benutzerparameterseite der elektronischen Berichterstellung"></p>
+<p>Wenn diese Parameter aktiviert sind, wird für jede Ausführung der importierten ER-Formatdatei die Ausführungsablaufverfolgung generiert. Mithilfe der Details der generierten Ausführungsnachverfolgung können Sie die Ausführung der EB-Format- und EB-Modellzuordnungskomponenten analysieren. Besuchen Sie die <a href="trace-execution-er-troubleshoot-perf.html">Ausführung des EB-Formats nachverfolgen, um Leistungsprobleme zu behandeln</a>-Seite für weitere Informationen zur ER-Ausführungsablaufverfolgungsfunktion.</p>
+</li>
+</ol>
+<h3 id="review-er-model-mapping-part-1">Überprüfen der ER-Modellzuordnung (Teil 1)</h3>
+<p>Überprüfen Sie die Einstellungen der EB-Modellzuordnungskomponente. Die Komponente wird konfiguriert, um auf Informationen zu Versionen von ER-Konfigurationen, Details von Konfigurationen und Konfigurationsanbieter zuzugreifen, ohne Datenquellen des Typs <strong>Join</strong> zu verwenden.</p>
+<ol>
+<li><p>Wählen Sie die Konfiguration <strong>Mapping to learn JOIN data sources</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus, um die Liste der Zuordnungen zu öffnen.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus, um die Zuordnungsdetails zu prüfen.</p>
+</li>
+<li><p>Wählen Sie <strong>Details anzeigen</strong>.</p>
+</li>
+<li><p>In der Konfigurationsstruktur erweitern Sie die <strong>Set1</strong>- und <strong>Set1.Details</strong>-Datenmodellelemente:</p>
+<ol>
+<li>Die Bindung <strong>Details: Record list = Versions</strong> gibt an, dass das <strong>Set1.Details</strong>-Element an die Datenquelle <strong>Versionen</strong> gebunden ist, die Datensätze der Tabelle <strong>ERSolutionVersionTable</strong> zurückgibt. Jeder Datensatz dieser Tabelle stellt eine einzelne Version einer ER-Konfiguration dar. Der Inhalt dieser Tabelle wird in der <strong>Versionen</strong>-Schnellregisterkarte auf der Seite <strong>Varianten</strong> angezeigt.</li>
+<li>Die Bindung <strong>ConfigurationVersion: String = @.PublicVersionNumber</strong> bedeutet, dass der Wert der öffentlichen Version der jeweiligen ER-Konfigurationsversion aus dem Feld <strong>PublicVersionNumber</strong> der <strong>ERSolutionVersionTable</strong>-Tabelle übernommen und dem <strong>ConfigurationVersion</strong>-Element hinzugefügt wird.</li>
+<li>Die Bindung <strong>ConfigurationTitle: String = @.'&gt;Relations'.Solution.Name</strong> gibt an, dass der Name einer ER-Konfiguration aus dem Feld <strong>Name</strong> der <strong>ERSolutionTable</strong>-Tabelle übernommen wird, durch Bewertung über die Viele-zu-Eins-Beziehung (<strong>'&gt;Relations'</strong>) zwischen den Tabellen <strong>ERSolutionVersionTable</strong> und <strong>ERSolutionTable</strong>. Die Namen von ER-Konfigurationen der aktuellen Anwendungsinstanz werden in der Konfigurationsstruktur auf der Seite <strong>Varianten</strong> angezeigt.</li>
+<li>Die Bindung <strong>@.'&gt;Relations'.Solution.'&gt;Relations'.SolutionVendor.Name</strong> bedeutet, dass der Name des Konfigurationsanbieters, der die aktuelle Konfiguration besitzt, aus dem Feld <strong>Name</strong> der Tabelle <strong>ERVendorTable</strong> übernommen wird, durch Bewertung über die Viele-zu-Eins-Beziehung zwischen den Tabellen <strong>ERSolutionTable</strong> und <strong>ERVendorTable</strong>. Die Namen von ER-Konfigurationsanbietern werden in der Konfigurationsstruktur auf der Seite <strong>Varianten</strong> der Seitenkopfzeile für die jeweilige Konfiguration angezeigt. Die gesamte Liste der ER-Konfigurationsanbieter kann auf der <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurationsanbieter</strong>-Tabellenseite gefunden werden.</li>
+</ol>
+<p><img src="media/GER-JoinDS-Set1Review.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+</li>
+<li><p>In der Konfigurationsstruktur erweitern Sie das <strong>Set1.Summary</strong>-Datenmodellelement:</p>
+<ol>
+<li>Die Bindung <strong>VersionsNumber: Integer = VersionsSummary.aggregated.VersionsNumber</strong> gibt an, dass das <strong>Set1.Summary.VersionsNumber</strong>-Element an das <strong>VersionsNumber</strong>-Aggregationsfeld der <strong>VersionsSummary</strong>-Datenquelle des <strong>GroupBy</strong>-Typs gebunden ist, der konfiguriert wurde, um die Anzahl der Datensätze der <strong>ERSolutionVersionTable</strong>-Tabelle über die <strong>Versionen</strong>-Datenquelle zurückzugeben.</li>
+</ol>
+<p><img src="media/GER-JoinDS-Set1GroupByReview.PNG" alt="GROUPBY-Datenquellenparameter – Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+</ol>
+<h3 id="review-er-model-mapping-part-2"><a name="review"></a> Überprüfen der ER-Modellzuordnung (Teil 2)</h3>
+<p>Überprüfen Sie die Einstellungen der EB-Modellzuordnungskomponente. Die Komponente wird konfiguriert, um auf Informationen zu Versionen von ER-Konfigurationen, Details von Konfigurationen und Konfigurationsanbieter zuzugreifen, unter Verwendung einer Datenquelle des Typs <strong>Join</strong>.</p>
+<ol>
+<li><p>In der Konfigurationsstruktur erweitern Sie die <strong>Set2</strong>- und <strong>Set2.Details</strong>-Datenmodellelemente. Die Bindung <strong>Details: Record list = Details</strong> gibt an, dass das Element <strong>Set2.Details</strong> an die <strong>Details</strong>-Datenquelle gebunden ist, die als Datenquelle des Typs <strong>Join</strong> konfiguriert ist.</p>
+<p><img src="media/GER-JoinDS-Set2Review.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+<p>Die <strong>Join</strong>-Datenquelle kann hinzugefügt werden, indem die Datenquelle <strong>Functions\Join</strong> ausgewählt wird:</p>
+<p><img src="media/GER-JoinDS-AddJoinDS.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+</li>
+<li><p>Wählen Sie die <strong>Details</strong>-Datenquelle aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> im Bereich <strong>Datenquellen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Join bearbeiten</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Details anzeigen</strong>.</p>
+<p><img src="media/GER-JoinDS-JoinDSEditor.PNG" alt="JOIN-Datenquellenparameter – Seite"></p>
+<p>Diese Seite wird verwendet, um die erforderliche Datenquelle des <strong>Join</strong>-Typs zu entwerfen. Zur Laufzeit erstellt diese Datenquelle eine einzelne verknüpfte Liste von Datensätzen der Datenquellen im Raster <strong>Verknüpfte Liste</strong>. Die Verknüpfung von Datensätzen startet aus der Datenquelle <strong>ConfigurationProviders</strong>, die im Raster als Erstes vorhanden ist (die <strong>Typ</strong>-Spalte ist dafür leer). Die Datensätze jeder anderen Datenquelle werden anschließend mit Datensätzen der übergeordneten Datenquelle basierend auf deren Reihenfolge in diesem Raster verknüpft. Jede verknüpfende Datenquelle muss als Datenquelle konfiguriert werden, die unter einer Zieldatenquelle geschachtelt wird (die <code>1Versions</code>-Datenquelle wird unter <code>1Configurations</code> geschachtelt; die <code>1Configurations</code>-Datenquelle wird unter <strong>ConfigurationProviders</strong> geschachtelt). Jede konfigurierte Datenquelle muss die Bedingungen für die Verknüpfung enthalten. In der Datenquelle für diesen bestimmte <strong>Verknüpfung</strong> werden die folgenden Verknüpfungen definiert:</p>
+<ul>
+<li>Jeder Datensatz der Datenquelle <strong>ConfigurationProviders</strong> (bezogen auf die Tabelle <strong>ERVendorTable</strong>) wird nur mit Datensätzen der <strong>1Configurations</strong>-Datenquelle (auf die in der <strong>ERSolutionTable</strong>-Tabelle verwiesen wird) mit dem gleichen Wert in den Feldern <strong>SolutionVendor</strong> und <strong>RecId</strong> verknüpft. Der Typ <strong>Innen-Join</strong> wird für diese Verknüpfung verwendet, wie auch die folgenden Bedingungen für übereinstimmende Datensätze:</li>
+</ul>
+<p>FILTER (Configurations, Configurations.SolutionVendor = ConfigurationProviders.RecId)</p>
+<ul>
+<li>Jeder Datensatz der Datenquelle <strong>1Configurations</strong> (bezogen auf die Tabelle <strong>ERSolutionTable</strong>) wird nur mit Datensätzen der <strong>1Versions</strong>-Datenquelle (bezogen auf die <strong>ERSolutionVersionTable</strong>-Tabelle) mit dem gleichen Wert in den Feldern <strong>Solution</strong> und <strong>RecId</strong> verknüpft. Der Typ <strong>Innen-Join</strong> wird für diese Verknüpfung verwendet, wie auch die folgenden Bedingungen für übereinstimmende Datensätze:</li>
+</ul>
+<p>FILTER (ConfigurationVersions, ConfigurationVersions.Solution = ConfigurationProviders.'1Configurations'.RecId)</p>
+<ul>
+<li>Die <strong>Ausführen</strong>-Option wird als <strong>Abfrage</strong> konfiguriert, was bedeutet, dass diese Verknüpfungsdatenquelle zur Laufzeit auf Datenbankebene als direkter SQL-Aufruf ausgeführt wird.</li>
+</ul>
+<p>Zum Verknüpfen von Datensätzen der Datenquellen, die Anwendungstabellen darstellen, können Sie Verknüpfungsbedingungen angeben, indem Sie Paare von Feldern verwenden, die nicht denen entsprechen, die vorhandene in AOT-Relationen zwischen diesen Tabellen beschreiben. Dieser Typ der Verknüpfung kann so konfiguriert werden, dass er auch auf Datenbankebene ausgeführt wird.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+<li><p>Wählen Sie <strong>Abbrechen</strong> aus.</p>
+</li>
+<li><p>In der Konfigurationsstruktur erweitern Sie das <strong>Set2.Summary</strong>-Datenmodellelement:</p>
+<ul>
+<li>Die Bindung <strong>VersionsNumber: Integer = DetailsSummary.aggregated.VersionsNumber</strong> gibt an, dass das <strong>Set2.Summary.VersionsNumber</strong>-Element an das <strong>VersionsNumber</strong>-Aggregationsfeld der <strong>DetailsSummary</strong>-Datenquelle des <strong>GroupBy</strong>-Typs gebunden ist, der konfiguriert wurde, um die Anzahl der verknüpften Datensätze der <strong>Details</strong>-Datenquelle des <strong>Join</strong>-Typs zurückzugeben.</li>
+<li>Die <strong>Ausführen</strong>-Standortoption ist als <strong>Abfrage</strong> konfiguriert, was bedeutet, dass diese <strong>GroupBy</strong>-Datenquelle zur Laufzeit als direkter SQL-Aufruf auf Datenbankebene ausgeführt wird. Dieses Verhalten ist möglich, da die Basisdatenquelle <strong>Details</strong> des Typs <strong>Join</strong> so konfiguriert ist, dass sie auf der Datenbankebene ausgeführt wird.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2GroupByReview.PNG" alt="GROUPBY-Datenquellenparameter – Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+<li><p>Wählen Sie <strong>Abbrechen</strong> aus.</p>
+</li>
+</ol>
+<h3 id="execute-er-format"><a name="executeERformat"></a> ER-Format ausführen</h3>
+<ol>
+<li><p>Rufen Sie Finance oder RCS in der zweiten Sitzung des Webbrowsers mit den gleichen Anmeldeinformationen und dem gleichen Unternehmen wie in der ersten Sitzung auf.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Organisationsverwaltung &gt; Elektronische Berichterstellung &gt; Konfigurationen</strong>.</p>
+</li>
+<li><p>Erweitern Sie die Konfiguration <strong>Model to learn JOIN data sources</strong> aus.</p>
+</li>
+<li><p>Wählen Sie die Konfiguration <strong>Format to learn JOIN data sources</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Details anzeigen</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Zuordnung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Erweitern/Reduzieren</strong> aus.</p>
+<p>Dieses Format wurde entwickelt, um eine generierte Textdatei mit einer neuen Position für jede Version einer EB-Konfiguration (<strong>Version</strong>-Nummernkreis) aufzufüllen. Jede generierte Position enthält den Namen eines Konfigurationsanbieters, der die aktuelle Konfiguration besitzt, den Namen der Konfiguration und die Version der Konfiguration, die von einem Semikolon getrennt wird. Die abschließende Position der generierten Datei enthält die Anzahl der erkannten Versionen von ER-Konfigurationen (<strong>Zusammenfassung</strong>-Nummernkreis).</p>
+<p><img src="media/GER-JoinDS-FormatReview.PNG" alt="ER-Formatdesigner – Seite"></p>
+<p>Die <strong>Daten</strong>- und <strong>Zusammenfassung</strong>-Datenquellen werden verwendet, um Konfigurationsversionsdetails für die generierte Datei aufzufüllen:</p>
+<ul>
+<li>Die Informationen im <strong>Set1</strong>-Datenmodell werden verwendet, wenn Sie <strong>Nein</strong> für die Datenquelle <strong>Auswahl</strong> zur Laufzeit auf der Benutzerdialogfeldseite beim Ausführen des ER-Formats auswählen.</li>
+<li>Die Informationen im <strong>Set2</strong>-Datenmodell werden verwendet, wenn Sie <strong>Ja</strong> für die Datenquelle <strong>Auswahl</strong> zur Laufzeit auf der Benutzerdialogfeldseite auswählen.</li>
+</ul>
+<p><img src="media/GER-JoinDS-FormatMappingReview.PNG" alt="ER-Formatdesigner – Seite"></p>
+</li>
+<li><p>Wählen Sie <strong>Ausführen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Dialogfeldseite <strong>Nein</strong> im Feld <strong>JOIN-Datenquelle verwenden</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Überprüfen Sie die generierte Datei.</p>
+<p><img src="media/GER-JoinDS-Set1Run.PNG" alt="ER-Benutzerdialogfeld – Seite"></p>
+</li>
+</ol>
+<h4 id="analyze-er-format-execution-trace">Analysieren der ER-Formatausführungsablaufverfolgung</h4>
+<ol>
+<li><p>In der ersten Sitzung von Finance oder RCS wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Raster <strong>Leistungsnachverfolgung</strong> den obersten Datensatz der letzten Ausführungsablaufverfolgung eines ER-Formats aus, das die aktuelle Modellzuordnungskomponente verwendet hat.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+<p>Die Ausführungsstatistiken informieren Sie über duplizierte Aufrufe der Anwendungstabellen:</p>
+<ul>
+<li><strong>ERSolutionTable</strong> wurde so oft aufgerufen wie Konfigurationsversionsdatensätze in der Tabelle <strong>ERSolutionVersionTable</strong> vorhanden sind, während die Anzahl solcher Aufrufe zur Leistungsverbesserung verringert werden konnte.</li>
+<li><strong>ERVendorTable</strong> wurde zweimal aufgerufen für jeden Konfigurationsversionsdatensatz, der in der Tabelle <strong>ERSolutionVersionTable</strong> ermittelt wurde, während die Anzahl solcher Aufrufe ebenfalls verringert werden konnte.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set1Run2.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+</ol>
+<h3 id="execute-er-format">ER-Format ausführen</h3>
+<ol>
+<li><p>Wechseln Sie zu der Webbrowserregisterkarte mit der zweiten der Sitzung von Finance oder RCS.</p>
+</li>
+<li><p>Wählen Sie <strong>Ausführen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Dialogfeldseite <strong>Ja</strong> im Feld <strong>JOIN-Datenquelle verwenden</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Überprüfen Sie die generierte Datei.</p>
+<p><img src="media/GER-JoinDS-Set2Run.PNG" alt="ER-Benutzerdialogfeld – Seite"></p>
+</li>
+</ol>
+<h4 id="analyze-er-format-execution-trace"><a name="analyze"></a> Analysieren der ER-Formatausführungsablaufverfolgung</h4>
+<ol>
+<li><p>In der ersten Sitzung von Finance oder RCS wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Leistungsnachverfolgung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Raster <strong>Leistungsnachverfolgung</strong> den obersten Datensatz der letzten Ausführungsablaufverfolgung eines ER-Formats aus, das die aktuelle Modellzuordnungskomponente verwendet hat.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+<p>Die Statistik informiert Sie über Folgendes:</p>
+<ul>
+<li>Die Anwendungsdatenbank wurde einmal aufgerufen, um Datensätze von <strong>ERVendorTable</strong>, <strong>ERSolutionTable</strong> und <strong>ERSolutionVersionTable</strong> abzurufen, um auf Pflichtfelder zuzugreifen.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2Run2.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+<ul>
+<li>Die Anwendungsdatenbank wurde einmal aufgerufen, um die Anzahl von Konfigurationsversionen zu berechnen, indem Verknüpfungen verwendet wurden, die in der <strong>Details</strong>-Datenquelle konfiguriert wurden.</li>
+</ul>
+<p><img src="media/GER-JoinDS-Set2Run3.PNG" alt="ER-Modellzuordnungsdesigner – Seite"></p>
+</li>
+</ol>
+<h2 id="limitations">Einschränkungen</h2>
+<p>Wie Sie dem Beispiel in diesem Thema entnehmen können, kann die Datenquelle <strong>VERKNÜPFEN</strong> aus mehreren Datenquellen erstellt werden, die die einzelnen Datasets der Datensätze beschreiben, die schließlich verknüpft werden müssen. Sie können diese Datenquellen mithilfe der integrierten EB-<a href="er-functions-list-filter.html">FILTER</a>-Funktion konfigurieren. Wenn Sie die Datenquelle so konfigurieren, dass sie über die Datenquelle <strong>VERKNÜPFEN</strong> hinaus aufgerufen wird, können Sie die Unternehmensbereiche als Teil der Bedingung für die Datenauswahl verwenden. Die anfängliche Umsetzung der <strong>VERKNÜPFEN</strong>-Datenquelle unterstützt keine Datenquellen dieses Typs. Zum Beispiel, wenn Sie eine <a href="er-functions-list-filter.html">FILTER</a>-basierte Datenquelle im Rahmen der Ausführung einer <strong>VERKNÜPFEN</strong>-Datenquelle aufrufen, wenn die aufgerufene Datenquelle Unternehmensbereiche enthält als Teil der Bedingung für die Datenauswahl, tritt eine Ausnahme auf.</p>
+<p>In Microsoft Dynamics 365 Finance Version 10.0.12 (August 2020) können Sie Unternehmensbereiche als Teil der Bedingung für die Datenauswahl in <a href="er-functions-list-filter.html">FILTER</a>-basierten Datenquellen verwenden, die im Rahmen der Ausführung einer <strong>VERKNÜPFEN</strong>-Datenquelle aufgerufen werden. Wegen der Einschränkungen der Anwendung <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/dev-ref/xpp-library-objects">Abfrage (This is an external link)</a>-Generator werden die Unternehmensbereiche nur für die erste Datenquelle einer <strong>VERKNÜPFEN</strong>-Datenquelle unterstützt.</p>
+<h3 id="example">Beispiel</h3>
+<p>Beispielsweise müssen Sie die Anwendungsdatenbank einmal aufrufen, um die Liste der Außenhandelstransaktionen mehrerer Unternehmen und die Details des Lagerartikels abzurufen, auf den in diesen Transaktionen Bezug genommen wird.</p>
+<p>In diesem Fall konfigurieren Sie die folgenden Artefakte in Ihrer EB-Modellzuordnung:</p>
+<ul>
+<li><strong>Intrastat</strong>-Stammdatenquelle, die die <strong>Intrastat</strong>-Tabelle darstellt.</li>
+<li><strong>Elemente</strong>-Stammdatenquelle, die die <strong>InventTable</strong>-Tabelle darstellt.</li>
+<li><strong>Unternehmen</strong>-Stammdatenquelle, die die Liste der Unternehmen zurückgibt (<strong>DEMF</strong> und <strong>GBSI</strong> in diesem Beispiel), wo auf Transaktionen zugegriffen werden muss. Der Unternehmenscode ist verfügbar aus dem Feld <strong>Companies.Code</strong>.</li>
+<li><strong>X1</strong>-Stammdatenquelle mit dem Ausdruck <code>FILTER (Intrastat, VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code))</code>. Als Teil der Bedingung für die Datenauswahl enthält dieser Ausdruck die Definition von Unternehmensbereichen <code>VALUEIN(Intrastat.dataAreaId, Companies, Companies.Code)</code>.</li>
+<li><strong>X2</strong>-Datenquelle als verschachteltes Element der <strong>X1</strong>-Datenquelle. Es enthält den Ausdruck <code>FILTER (Items, Items.ItemId = X1.ItemId)</code>.</li>
+</ul>
+<p>Schließlich können Sie eine <strong>VERKNÜPFEN</strong>-Datenquelle konfigurieren, bei der <strong>X1</strong> die erste Datenquelle und <strong>X2</strong> die zweite Datenquelle ist. Sie können <strong>Abfrage</strong> als <strong>Ausführen</strong>-Option angeben, um zu erzwingen, dass EB diese Datenquelle auf Datenbankebene als direkten SQL-Aufruf ausführt.</p>
+<p>Wenn die konfigurierte Datenquelle ausgeführt wird, während die EB-Ausführung <a href="trace-execution-er-troubleshoot-perf.html">nachverfolgt</a> wird, wird die folgende Anweisung im EB-Modellzuordnungs-Designer als Teil der EB-Leistungsnachverfolgung angezeigt.</p>
+<p><code>SELECT ... FROM INTRASTAT T1 CROSS JOIN INVENTTABLE T2 WHERE ((T1.PARTITION=?) AND (T1.DATAAREAID IN (N'DEMF',N'GBSI') )) AND ((T2.PARTITION=?) AND (T2.ITEMID=T1.ITEMID AND (T2.DATAAREAID = T1.DATAAREAID) AND (T2.PARTITION = T1.PARTITION))) ORDER BY T1.DISPATCHID,T1.SEQNUM</code></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Ein Fehler tritt auf, wenn Sie eine <strong>VERKNÜPFEN</strong>-Datenquelle ausführen, die so konfiguriert wurde, dass sie Datenauswahlbedingungen enthält, die Unternehmensbereiche für zusätzliche Datenquellen der ausgeführten <strong>VERKNÜPFEN</strong>-Datenquelle haben.</p>
+</div>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="general-electronic-reporting-formula-designer.html">Formeldesigner in der elektronischen Berichterstellung</a></p>
+<p><a href="trace-execution-er-troubleshoot-perf.html">Ausführung des EB-Formats nachverfolgen, um Leistungsprobleme zu behandeln</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-join-data-sources.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

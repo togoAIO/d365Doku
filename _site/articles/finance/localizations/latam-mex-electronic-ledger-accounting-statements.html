@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Electronic ledger accounting statements | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Electronic ledger accounting statements | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="electronic-ledger-accounting-statements">Electronic ledger accounting statements</h1>
+
+
+<p>This article explains how to set up and generate the general ledger XML files that all companies in Mexico are required to report to the Mexican tax authorities (SAT) on a monthly basis.</p>
+<p>All companies in Mexico are required to report ledger accounting statements to the Mexican tax authorities (Servicio de Administración Tributaria [SAT]) every month. Annex 24 of Miscellaneous Tax Resolution requires that you submit general ledger XML files. You can generate the following XML files per company:</p>
+<ul>
+<li>Chart of account</li>
+<li>Monthly Trial Balance</li>
+<li>Journal transactions, together with the related subledger transactions (Comprobante Fiscal Digital a través de Internet [CFDI], Comprobante Fiscal Digital [CFD], and other operations)</li>
+<li>Auxiliary ledger account</li>
+</ul>
+<p>This functionality is available only when the country/region of the company is defined as MEX.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The following process lists the prerequisites that must be in place before you start to generate the XML files that SAT requires. Parameters determine how the data will be exposed in the XML files, and all of them are required. Missing parameters can cause inconsistencies or incorrect validations in the government validation tool.</p>
+<ol>
+<li>Set up main account parameters.</li>
+<li>Set up a Parent_Account to identify the level of account.</li>
+<li>Set up total accounts in all levels.</li>
+<li>Set up SAT account group.</li>
+<li>Create consolidation account group for SAT.</li>
+<li>Assign main account to SAT group and level accounts.</li>
+<li>Set up Method of payments and Bank accounts.</li>
+<li>Assign SAT method of payments.</li>
+<li>Assign SAT bank code in routing number field.</li>
+</ol>
+<h3 id="chart-of-accounts">Chart of accounts</h3>
+<p>Per government requirements, the Chart of account XML file must include specific information that you must configure in advance to prevent inconsistencies when the XML file is generated and validated. Set the following parameters to configure this information:</p>
+<ul>
+<li><strong>Parent main account:</strong> The <strong>&lt;SubCtaDe&gt;</strong> tag in the XML file is used to specify the account of the previous level. In this case, we use a <strong>Parent account</strong> country/region field in the configuration of the chart of accounts.</li>
+<li><strong>Account level:</strong> The <strong>&lt;Nivel&gt;</strong> tag in the XML file is used to specify the level of the government account group. We localized the functionality of the <strong>Consolidation account group</strong> field under <strong>Additional consolidation accounts</strong> to specify the level of the government account group.</li>
+<li><strong>Debit and Credit indicator:</strong> The <strong>&lt;Natur&gt;</strong> tag in the XML file is used to specify the debit and credit indicator of the main account. The following rules have been defined:
+<ul>
+<li><strong>D-Debit</strong>
+<ul>
+<li>Main Account type = Cost, Asset</li>
+<li>Main Account type:  If Profit &amp; Loss and DB/CR proposal = Debit</li>
+<li>Main Account type: If Balance and DB/CR proposal = Debit</li>
+<li>Main Account type: If Profit &amp; Loss and DB/CR proposal = Blank</li>
+<li>Main Account type: If Balance and DB/CR proposal = Blank</li>
+</ul>
+</li>
+<li><strong>A-Credit</strong>
+<ul>
+<li>Account type : Revenue, Liability</li>
+<li>Account type AX: If Profit &amp; Loss and DB/CR proposal = Credit</li>
+<li>Account type AX: If Balance and DB/CR proposal = Credit</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Totals amount in all levels:</strong> Configure the <strong>Totals</strong> value in the chart of accounts to enable generation of a Monthly Trial Balance XML file that includes the related totals amounts in all levels of the hierarchy.</li>
+</ul>
+<h3 id="sat-account-group">SAT account group</h3>
+<p>The Chart of account XML file includes a <strong>&lt;CodAgrup&gt;</strong> tag that is used to specify the related government account group for the reported account. The government has published a table on the government portal. To meet this requirement, you must use the Consolidation account groups functionality, which lets you configure the mapping between your company chart of account and the government account group. Then, when you generate the report, you will be asked to indicate which consolidated account group is used to specify the government grouping.</p>
+<h3 id="payment-methods">Payment methods</h3>
+<p>In specific situations, the government might request that you deliver a Journal transaction XML file that details all accounting transactions and the document that originated them. When these transactions are related to vendors payments, you must specify the type of payment in the <strong>&lt;OtrMetododePago&gt;</strong> node and the <strong>&lt;MetPagPol&gt;</strong> attribute by using a specific table that is published by the government. Click <strong>Accounts payable</strong> &gt; <strong>Payment setup</strong> &gt; <strong>Methods of payment</strong>, and assign the SAT payment method to the company's method of payment.</p>
+<h3 id="bank-transactions">Bank transactions</h3>
+<p>The Journal transaction XML file must include all bank transfer transactions that are posted to the general ledger where some additional information is required in a specific node <strong>&lt;Transferencias&gt;</strong> and their attributes <strong>&lt;BancoOriNal&gt;</strong> and <strong>&lt;BancoDestNal&gt;</strong> is required to inform the government bank code. Click <strong>Cash and bank management</strong> &gt; <strong>Bank accounts</strong>, and use the <strong>Routing number</strong> field to set up this information.</p>
+<h3 id="invoice-identification">Invoice identification</h3>
+<p>The Journal transaction XML file also requires that you identify the invoice number when an invoice is issued and received. Per Mexican legislation, this invoice number can be represented in various ways, depending on how the invoice was delivered:</p>
+<ul>
+<li>Regular invoice (non-electronic). You must include the <strong>Series</strong> and <strong>Invoice number</strong>.</li>
+<li>CFD: You must include the <strong>UUID</strong> of an electronic invoice CFD.</li>
+<li>CFDI:  You must include the <strong>UUID</strong> of an electronic invoice CFD.</li>
+</ul>
+<p>Users can now include this information in transactions that are generated from the following areas:</p>
+<ul>
+<li>Purchase invoice</li>
+<li>Vendor invoice (non–purchase order)</li>
+<li>Invoice register</li>
+<li>Invoice journal</li>
+<li>Invoice approval</li>
+<li>Invoice pool</li>
+</ul>
+<h3 id="electronic-reporting">Electronic reporting</h3>
+<p>This feature is based on Electronic reporting configuration (ER), where each XML file format is defined by using the model and format designer for electronic reporting.</p>
+<p>You need to download the following latest versions of the ER configurations models and formats from <strong>LCS shared asset library</strong></p>
+<ol>
+<li>Electronic ledger accounting model MX</li>
+<li>Auxiliary Ledger XML MX (format)</li>
+<li>Chart of Account XML MX (format)</li>
+<li>Journal XML MX (format)</li>
+<li>Trial Balance XML MX (format)</li>
+</ol>
+<p>Next, you need to import the above files in Dynamics 365 Finance.</p>
+<ol>
+<li><strong>Organization administration &gt; Electronic Reporting &gt; Configurations</strong></li>
+<li><strong>Exchange &gt; Load from XML file</strong> and <strong>OK</strong> to confirm. You need to repeat this action for each XML file.</li>
+</ol>
+<p>After the repository is updated in your environment with the recently files loaded, you must identify these formats in the general ledger parameters. Click <strong>General ledger</strong> &gt; <strong>Ledger setup</strong> &gt; <strong>General ledger parameters</strong>, and then, in the <strong>Electronic reporting mapping</strong> field group, select the format to use to generate the XML files.</p>
+<h2 id="generate-electronic-ledger-accounting-files">Generate electronic ledger accounting files</h2>
+<p>Click <strong>General ledger</strong> &gt; <strong>Inquire and reports</strong> &gt; <strong>Ledger reports</strong> &gt; <strong>Electronic ledger accounting statement</strong> to generate the required XML files and download them to your environment. The following table describes the parameters that you must set.</p>
+<table>
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>SAT consolidation account group</strong></td>
+<td>Select the consolidation account group that you previously configured to identify the SAT account group.</td>
+</tr>
+<tr class="even">
+<td><strong>Period</strong></td>
+<td>Select the period for the report. The selected date will include all general ledger transactions for the selected month.</td>
+</tr>
+<tr class="odd">
+<td><strong>Closing transactions</strong></td>
+<td>This slider indicates if the closing transactions should be included as transactions in the Monthly Trial Balance XML file. Switch this slider to <strong>No</strong> to exclude closing transactions from the Monthly Trial balance XML file.</td>
+</tr>
+<tr class="even">
+<td><strong>Trial Balance</strong></td>
+<td>Select this check box to generate the Chart of account and Monthly Trial Balance XML files for the specified period.</td>
+</tr>
+<tr class="odd">
+<td><strong>Delivery type</strong></td>
+<td>Specify the type of delivery:
+<ul>
+<li>Normal</li>
+<li>Complementary</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><strong>Update date</strong></td>
+<td>Specify the updated date of a complementary delivery.</td>
+</tr>
+<tr class="odd">
+<td><strong>Ledger entries</strong></td>
+<td>This slider indicates if the Journal transaction XML file is generated for the specified period.</td>
+</tr>
+<tr class="even">
+<td><strong>Auxiliary ledger</strong></td>
+<td>This slider indicates if the Auxiliary ledger XML file is generated for the specified period.</td>
+</tr>
+<tr class="odd">
+<td><strong>Request type</strong></td>
+<td>Select this option to identify the type of request when the <strong>Ledger entries</strong> or <strong>Auxiliary ledger</strong> slider is set to <strong>Yes</strong>.</td>
+</tr>
+<tr class="even">
+<td><strong>Order number</strong></td>
+<td>Enter the order number that was assigned by the government tax authority, if the request type is <strong>Control</strong> or <strong>Compulsive control</strong>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Process Number</strong></td>
+<td>Enter the process number that was assigned by the government tax authority, if the request type is <strong>Return</strong> or <strong>Compensation</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="produce-mexican-electronic-ledger-accounting-report-mx-00020">Produce Mexican electronic ledger accounting report (MX-00020)</h2>
+<p>This task walks through all necessary steps to configure the generation of electronic ledger accounting XML files by using the Electronic Reporting tool. You need to download the higher version of ER model and configurations from LCS shared library-GER configurations.</p>
+<ul>
+<li>Model: Electromic ledger accounting model MX</li>
+<li>Format file: Chart of account XML(MX)</li>
+<li>Format file: Trial Balance XML (MX). Monthly Trial Balance</li>
+<li>Format file : Journals XML (MX). Journal transactions, together with the related subledger transactions (Comprobante Fiscal Digital a través de Internet [CFDI], Comprobante Fiscal Digital [CFD], and other operations)</li>
+<li>Format file: Auxiliary ledger XML (MX)</li>
+</ul>
+<h3 id="import-a-configuration-including-xml-formats">Import a configuration including XML formats</h3>
+<ol>
+<li>Go to Organization administration &gt; Workspaces &gt; Electronic reporting.</li>
+<li>In the Configuration providers list, click Set active on the Microsoft provider box.
+<ul>
+<li>If the Microsoft provider is already the active provider, you can skip this step.</li>
+</ul>
+</li>
+<li>Click Reporting configurations</li>
+<li>Click Exchange and select the option Load from XML file</li>
+<li>Select and browse the XML model file previously downloaded from LCS and then click OK to confirm</li>
+<li>Repeat the steps 4 and 5 to import the rest of XML file formats
+<ul>
+<li>You will be able to see one (1) model and the four (4) XML formats that you previously imported.</li>
+</ul>
+</li>
+</ol>
+<h3 id="configure-general-ledger-parameters-for-electronic-reporting-mapping">Configure general ledger parameters for electronic reporting mapping</h3>
+<ol>
+<li>Go to General ledger &gt; Ledger setup &gt; General ledger parameters.</li>
+<li>In the Trial balance field, click the drop-down button to open the lookup.</li>
+<li>In the list, select the Trial Balance XML format</li>
+<li>In the list, click the link in the selected row.</li>
+<li>In the Auxiliary ledger field, click the drop-down button to open the lookup.</li>
+<li>In the list, selecy the Auxiliary ledger XML format</li>
+<li>In the Ledger entries field, click the drop-down button to open the lookup.</li>
+<li>In the list, select the Journal XML format</li>
+<li>In the list, click the link in the selected row.</li>
+<li>In the Chart of accounts field, click the drop-down button to open the lookup.</li>
+<li>In the list, select the Chart of Account XML format.</li>
+<li>Click Save.</li>
+</ol>
+<h3 id="generate-xml-files">Generate XML files</h3>
+<ol>
+<li>Go to General ledger &gt; Inquiries and reports &gt; Ledger reports &gt; Electronic ledger accounting statement.</li>
+<li>In the SAT consolidation account group field, click the drop-down button to open the lookup.</li>
+<li>In the list, find and select the desired record.</li>
+<li>In the list, click the link in the selected row.</li>
+<li>In the Period field, enter a date.</li>
+<li>Check or uncheck the Trial Balance opcion
+<ul>
+<li>This option generates the Chart of Account and Trial Balance XML files.</li>
+</ul>
+</li>
+<li>Select or clear the Ledger entries check box.</li>
+<li>Select or clear the Auxiliary ledger check box.</li>
+<li>In the Request type field, select an option.</li>
+<li>In the Order number field, type a value.</li>
+<li>Click OK.</li>
+</ol>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="latam-mex-cfdi-3-3.html">CFDI layout version 3.3</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

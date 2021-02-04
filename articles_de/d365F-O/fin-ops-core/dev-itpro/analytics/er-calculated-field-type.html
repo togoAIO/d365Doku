@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unterst&#252;tzen parametrisierter Aufrufe von ER-Datenquellen des Typs &#8222;Berechnetes Feld&#8220; </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Unterst&#252;tzen parametrisierter Aufrufe von ER-Datenquellen des Typs &#8222;Berechnetes Feld&#8220; ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieses Thema enth&#228;lt Informationen zum Verwenden des Typs &#8222;Berechnetes Feld&#8220; f&#252;r ER-Datenquellen.">
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations, CrossApp, ShowInHelp">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="support-parameterized-calls-of-er-data-sources-of-the-calculated-field-type">Unterstützen parametrisierter Aufrufe von ER-Datenquellen des Typs „Berechnetes Feld“</h1>
+
+[!include[banner](../includes/banner.md)]
+<p>In diesem Thema wird erläutert, wie Sie eine Datenquelle für die elektronische Berichterstellung (Electronic Reporting, ER) mithilfe des Typs <strong>Berechnetes Feld</strong> entwerfen können. Diese Datenquelle enthält ggf. einen ER-Ausdruck, der bei Ausführung durch die Werte der Parameterargumente gesteuert werden kann, die in einer Bindung konfiguriert sind, die diese Datenquelle aufruft. Wenn Sie parametrisierte Aufrufe einer solchen Datenquelle konfigurieren, können Sie eine einzelne Datenquelle in vielen Bindungen wiederverwenden, wodurch die Gesamtanzahl der Datenquellen verringert wird, die in ER-Modellzuordnungen oder in ER-Formaten konfiguriert werden müssen. Außerdem wird die konfigurierte ER-Komponente vereinfacht, wodurch sich die Instandhaltungskosten sowie die Kosten für die Verwendung durch andere Verbraucher verringern.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<p>Um die Beispiele in diesem Thema abzuschließen, müssen Sie den folgenden Zugriff haben:</p>
+<ul>
+<li><p>Zugreifen auf eine dieser Rollen:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+<li><p>Zugriff auf die Regulatory Configuration Services (RCS), die für denselben Mandanten wie Finance and Operations bereitgestellt wurden, für eine der folgenden Rollen:</p>
+<ul>
+<li>Entwickler für elektronische Berichterstellung</li>
+<li>Funktionaler Berater für elektronische Berichterstellung</li>
+<li>Systemadministrator</li>
+</ul>
+</li>
+</ul>
+<p>Sie müssen auch die folgenden Dateien herunterladen und lokal speichern.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Inhalt</strong></th>
+<th><strong>Dateiname</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beispiel-EB-Datenmodell-Konfiguration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Model to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr>
+<td>Beispiel-EB-Metadatenkonfiguration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Metadata to learn parameterized calls.version.1.xml</a></td>
+</tr>
+<tr>
+<td>Beispiel-EB-Modellzuordnungskonfiguration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Mapping to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+<tr>
+<td>Beispiel-EB-Formatkonfiguration</td>
+<td><a href="https://mbs.microsoft.com/customersource/global/AX/downloads/hot-fixes/365optelecrepeg">Format to learn parameterized calls.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sign-in-to-your-rcs-instance">Anmelden bei Ihrer RCS-Instanz</h2>
+<p>In diesem Beispiel erstellen Sie eine Konfiguration für die Musterfirma Litware, Inc. Zunächst müssen Sie im RCS die Schritte in der Prozedur <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Konfigurationsanbieter anlegen durchführen und als aktiv markieren</a>:</p>
+<ol>
+<li><p>Wählen Sie im Standard-Dashboard <strong>Elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Importieren Sie die heruntergeladenen Konfigurationen in der folgenden Reihenfolge in RCS: Datenmodell, Metadaten, Modellzuordnung, Format. Führen Sie die folgenden Schritte für jede ER-Konfiguration aus:</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> und dann die erforderliche EB-Konfiguration im XML-Format aus.</li>
+<li>Wählen Sie <strong>OK</strong> aus.</li>
+</ol>
+</li>
+</ol>
+<h2 id="review-the-provided-er-solution">Überprüfen der bereitgestellten ER-Lösung</h2>
+<h3 id="review-model-mapping">Überprüfen der Modellzuordnung</h3>
+<ol>
+<li><p>Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong>Modell zum Ermitteln parametrisierter Aufrufe</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Zuordnung zum Ermitteln parametrisierter Aufrufe</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus.</p>
+<p>Diese ER-Modellzuordnung ist für die folgenden Aktionen vorgesehen:</p>
+<ul>
+<li><p>Holen Sie sich die Liste der Steuercodes (<strong>Steuern</strong> Datenquelle), die sich in der Tabelle <strong>Steuertabelle</strong> befinden.</p>
+</li>
+<li><p>Holen Sie sich die Liste der Steuertransaktionen (<strong>Trans</strong> Datenquelle), die sich in der Tabelle <strong>TaxTrans</strong> befinden:</p>
+<ul>
+<li><p>Gruppieren Sie die Liste der abgerufenen Transaktionen (<strong>GR</strong>-Datenquelle) nach Steuercode.</p>
+</li>
+<li><p>Berechnen Sie für gruppierte Transaktionen nach aggregierten Werten pro Steuercode:</p>
+<ul>
+<li>Summe der Steuerbasiswerte</li>
+<li>Summe der Steuerwerte</li>
+<li>Mindestwert des angewendeten Steuersatzes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Die Modellzuordnung in dieser Konfiguration implementiert das Basisdatenmodell für alle EB-Formate, für die dieses Modell erstellt und in Finance and Operations ausgeführt werden. Demzufolge wird der Inhalt der <strong>Steuer</strong>- und <strong>GR</strong>-Datenquellen für ER-Formate wie abstrakte Datenquellen bereitgestellt.</p>
+<p><img src="media/er-calculated-field-type-01.png" alt="Seite „Modellzuordnungsdesigner“ mit Steuer- und GR-Datenquellen"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnungsdesigner</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Modellzuordnung</strong>.</p>
+</li>
+</ol>
+<h3 id="review-format">Überprüfen des Formats</h3>
+<ol>
+<li><p>Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong>Modell zum Ermitteln parametrisierter Aufrufe</strong>.</p>
+</li>
+<li><p>Wählen Sie <strong>Format zum Ermitteln parametrisierter Anrufe</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Designer</strong> aus. Dieses ER-Format ist für die folgenden Aktionen vorgesehen:</p>
+<ul>
+<li>Generieren Sie einen Steuerauszug im XML-Format.</li>
+<li>Stellen Sie die folgenden Besteuerungsstufen im Steuerauszug dar: „Regulär“, „Reduziert“ und „Keine“.</li>
+<li>Stellen Sie mehrere Details für jedes Besteuerungsniveau dar, die jeweils eine andere Anzahl von Details auf jeder Stufe aufweisen.</li>
+</ul>
+<p><img src="media/er-calculated-field-type-02.png" alt="Formatdesignerseite"></p>
+</li>
+<li><p>Wählen Sie <strong>Zuordnung</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie die Elemente <strong>Modell</strong>, <strong>Daten,</strong> und <strong>Zusammenfassung</strong>.</p>
+<p>Das berechnete Feld <strong>Model.Data.Summary.Level</strong> enthält den Ausdruck, der den Code des Besteuerungsniveaus (<strong>Regulär</strong>, <strong>Reduziert</strong>, <strong>Kein,</strong> oder <strong>Sonstige</strong>) als Textwert für jeden Steuercode zurückgibt, der zur Laufzeit aus der Datenquelle <strong>Model.Data.Summary</strong> abgerufen werden kann.</p>
+<p><img src="media/er-calculated-field-type-03.png" alt="Seite „Formatdesigner“ mit Details des Datenmodells „Modell zum Lernern parametrisierter Aufrufe“"></p>
+</li>
+<li><p>Erweitern Sie das Element <strong>Modell</strong>.<strong>Data2</strong>.</p>
+</li>
+<li><p>Erweitern Sie das Element <strong>Modell</strong>.<strong>Data2.Summary2</strong>.</p>
+<p>Die Datenquelle <strong>Modell</strong>.<strong>Data2.Summary2</strong> ist zum Gruppieren der Transaktionsdetails der Datenquelle <strong>Model.Data.Summary</strong> nach Besteuerungsniveau (die vom berechneten Feld <strong>Model.Data.Summary.Level</strong> zurückgegeben werden) und zum Berechnen der Aggregationen konfiguriert.</p>
+<p><img src="media/er-calculated-field-type-04.png" alt="Die Seite „Formatdesigner“ mit Details der Datenquelle „Model.Data2.Summary2“"></p>
+</li>
+<li><p>Überprüfen Sie die berechneten Felder <strong>Model</strong>.<strong>Data2.Level1</strong>, <strong>Model</strong>.<strong>Data2.Level2</strong> und <strong>Model</strong>.<strong>Data2.Level3.</strong> Diese berechneten Felder werden verwendet, um die Datensatzliste <strong>Model</strong>.<strong>Data2.Summary2</strong> zu filtern und nur Datensätze zurückzugeben, die ein bestimmtes Besteuerungsniveau darstellen.</p>
+</li>
+<li><p>Seite <strong>Format-Designer</strong> schließen.</p>
+</li>
+</ol>
+<h2 id="create-a-derived-format">Erstellen eines abgeleiteten Formats</h2>
+<p>Sie können das bereitgestellte Format verbessern, indem Sie ein berechnetes Feld hinzufügen, um das erforderliche Besteuerungsniveau zu filtern, anstatt die vorhandenen drei Felder zu verwenden: <strong>Modell</strong>.<strong>Data2.Level1</strong>, <strong>Modell</strong>.<strong>Data2.Level2</strong> und <strong>Modell</strong>.<strong>Data2.Level3</strong>. Das erforderliche Besteuerungsniveau kann an dem Ort festgelegt werden, an dieses neue berechnete Feld aufgerufen wird.</p>
+<ol>
+<li>Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong>Modell zum Ermitteln parametrisierter Aufrufe</strong>.</li>
+<li>Wählen Sie <strong>Format zum Ermitteln parametrisierter Anrufe</strong> aus.</li>
+<li>Wählen Sie <strong>Konfiguration erstellen</strong>.</li>
+<li>Wählen Sie <strong>Von Name ableiten: Formatieren zum Ermitteln parametrisierter Aufrufe, Microsoft</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> den Text <strong>Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> ein.</li>
+<li>Wählen Sie <strong>Konfiguration erstellen</strong> aus.</li>
+</ol>
+<h2 id="configure-a-parameterized-calculated-field-that-returns-a-list-of-records">Konfigurieren eines parametrisierten berechneten Felds, das eine Liste der Datensätze zurückgibt</h2>
+<h3 id="start-adding-a-new-calculated-field">Hinzufügen eines neuen berechneten Felds</h3>
+<ol>
+<li>Wählen Sie <strong>Designer</strong> aus.</li>
+<li>Wählen Sie <strong>Erweitern/Reduzieren</strong> aus, um alle Formatelemente zu erweitern.</li>
+<li>Wählen Sie <strong>Zuordnung</strong> aus.</li>
+<li>Erweitern Sie das Element <strong>Model</strong>.</li>
+<li>Wählen Sie das Element <strong>Modell.Data2</strong> aus.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus.</li>
+<li>Wählen Sie das Feld <strong>Funktionen\Berechnet</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>Ebenen</strong> ein.</li>
+<li>Wählen Sie <strong>Formel bearbeiten</strong> aus.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field">Definieren eines Parameters für das Hinzufügen eines berechneten Felds</h3>
+<ol>
+<li><p>Wählen Sie <strong>Parameter</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Name</strong> <strong>Besteuerungsniveau</strong> ein.</p>
+</li>
+<li><p>Wählen Sie im Feld <strong>Typ</strong> <strong>Zeichenfolge</strong> aus.</p>
+<p>Es können nur primitive Datentypen verwendet werden, um das Argument des Parametertyps anzugeben. Daher können die Typen <strong>Datensatzliste</strong>, <strong>Datensatz</strong> und <strong>Enumeration</strong> nicht für diesen Zweck verwendet werden.</p>
+<p>Für ein einzelnes berechnetes Feld können maximal 8 Parameter angegeben werden.</p>
+<p><img src="media/er-calculated-field-type-05.png" alt="Liste der Parameterdatenquellen"></p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+</ol>
+<p>Durch das Hinzufügen dieses Parameters legen Sie die Bedingung fest, die vorliegen muss, um dieses berechnete Feld aufzurufen. Wenn Sie dieses berechnete Feld aufrufen, müssen Sie das Argument des Paramaters <strong>Besteuerungsniveau</strong> als Wert mit dem Format <strong>Zeichenfolge</strong> angeben.</p>
+<p>Stellen Sie sicher, dass Sie Parameter nur für die berechneten Felder definieren, die sich in einem Container (<strong>Datensatzliste</strong>, <strong>Datensatz</strong> oder <strong>Container</strong>) befinden.</p>
+<p>Der konfigurierte Parameter ist in der Liste der Datenquellen für dieses berechnete Feld verfügbar. Sie können dem konfigurierten Ausdruck den Parameter hinzuzufügen, indem Sie <strong>Datenquelle hinzufügen</strong> auswählen.</p>
+<p><img src="media/er-calculated-field-type-06.png" alt="Datenquellenfelder"></p>
+<h3 id="define-an-expression-for-adding-a-calculated-field">Definieren eines Ausdrucks für das Hinzufügen eines berechneten Felds</h3>
+<ol>
+<li><p>Geben Sie im Feld <strong>Formel</strong> Folgendes ein:</p>
+<p><strong>WHERE(@.Summary2, @.Summary2.grouped.Level =</strong></p>
+</li>
+<li><p>Wählen Sie den Parameter <strong>Besteuerungsniveau</strong> in der Liste der Datenquellen aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Datenquelle hinzufügen</strong> aus:</p>
+</li>
+<li><p>Stellen Sie den Ausdruck im Feld <strong>Formel</strong> folgendermaßen fertig:</p>
+<p><strong>WHERE(@.Summary2, @.Summary2.grouped.Level = 'Taxation Level')</strong></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong>.</p>
+<p><img src="media/er-calculated-field-type-07.png" alt="Informationen zu Datenquellenfeldern"></p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Formeldesigner</strong>.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field">Abschließen des Hinzufügens eines neuen berechneten Felds</h3>
+<ul>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ul>
+<p>Für das konfigurierte, parametrisierte berechnete Feld <strong>Ebenen</strong> auf der Seite <strong>Formatdesigner</strong> ist ein Argument vom Typ <strong>Zeichenfolge</strong> erforderlich.</p>
+<p><img src="media/er-calculated-field-type-08.png" alt="Erweiterte Liste der Ebenen des berechneten Felds"></p>
+<h3 id="use-the-configured-calculated-field-for-binding-format-elements">Verwenden Sie das berechnete Feld für konfigurierte verbindliche Formatelemente</h3>
+<ol>
+<li><p>Wählen Sie <strong>Model.Data2.Levels</strong> aus, um das konfigurierte berechnete Feld auszuwählen.</p>
+</li>
+<li><p>Wählen Sie das Formatelement <strong>Statement.Taxation.Regular</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong>Level1</strong> durch die neue Datenquelle <strong>Ebenen</strong> in allen geschachtelten Formatelementen des ausgewählten Formatelements zu bestätigen.</p>
+<p>Die angewendete Bindung wurde als Aufruf des parametrisierten berechneten Felds erstellt. Standardmäßig wird der Name des gebundenen Formatelements als Argument für das parametrisierte berechnete Feld unter den folgenden Bedingungen erstellt:</p>
+<ul>
+<li>Das berechnete Feld ist für die Verwendung eines einzelnen Parameters konfiguriert.</li>
+<li>Der Datentyp dieses Parameters ist als <strong>Zeichenfolge</strong> definiert.</li>
+</ul>
+<p>Wenn der Name des gebundenen Formatelements leer ist, wird der Datenquellenname dieses Elements in der angewendeten Bindung verwendet.</p>
+</li>
+<li><p>Wählen Sie das Formatelement <strong>Statement.Taxation.Reduced</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong>Level2</strong> durch die neue Datenquelle <strong>Ebenen</strong> in allen geschachtelten Formatelementen unter dem ausgewählten Formatelement zu bestätigen.</p>
+</li>
+<li><p>Wählen Sie das Formatelement <strong>Statement.Taxation.None</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bindung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Ja</strong> aus, um die Ersetzung der derzeit verwendeten Datenquelle <strong>Level3</strong> durch die neue Datenquelle <strong>Ebenen</strong> in allen geschachtelten Formatelementen unter dem ausgewählten Formatelement zu bestätigen.</p>
+</li>
+</ol>
+<p>Wenn Sie das Argument des parametrisierten berechneten Felds für das XML-Element angeben, das das Besteuerungsniveau darstellt (z. B. <strong>Model.Data2.Levels(&quot;Reduced&quot;)</strong> als Textwert), müssen Sie diesen Schritt nicht für die geschachtelten XML-Attribute ausführen. Deren Bindungen übernehmen den Wert des auf der übergeordneten Ebene zugeordneten Arguments (<strong>Model.Data2.Levels.aggregated.Base</strong>, nicht <strong>Model.Data2.Levels(&quot;Reduced&quot;).aggregated.Base</strong>).</p>
+<p>Wiederkehrende Aufrufe von parametrisierten berechneten Feldern werden nicht unterstützt.</p>
+<p>Sie können <strong>Formel bearbeiten</strong> auswählen und das standardmäßig übernommene Argument des parametrisierten berechneten Felds in der ausgewählten Bindung ändern. Wenn dieses Argument nicht vorhanden ist, kann dies zu Fehlern während der Laufzeit kommen. Benutzer werden über solch eine Situation informiert, wenn das aktuelle Format überprüft wird.</p>
+<p><img src="media/er-calculated-field-type-10.png" alt="Benachrichtigung zu Überprüfungswarnungen"></p>
+<h2 id="configure-a-parameterized-calculated-field-to-return-a-record">Konfigurieren eines parametrisierten berechneten Felds für die Rückgabe eines Datensatzes</h2>
+<p>Wenn ein parametrisiertes berechnetes Feld einen Datensatz zurückgibt, müssen Sie die Bindung einzelner Felder dieses Datensatzes zu Formatelementen unterstützen. In solchen Fällen ist keine übergeordnete Bindung vorhanden, die den Wert eines Arguments zum Aufrufen eines parametrisierten berechneten Felds enthält. Dieser Wert muss in der Bindung des Felds einen einzelnen Datensatz definiert werden.</p>
+<h3 id="start-adding-a-new-calculated-field">Hinzufügen eines neuen berechneten Felds</h3>
+<ol>
+<li>Wählen Sie das Element <strong>Modell.Data2</strong> aus.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus.</li>
+<li>Wählen Sie das Feld <strong>Funktionen\Berechnet</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> die Bezeichnung <strong>LevelRecord</strong> ein.</li>
+<li>Wählen Sie <strong>Formel bearbeiten</strong> aus.</li>
+</ol>
+<h3 id="define-a-parameter-for-adding-a-calculated-field">Definieren eines Parameters für das Hinzufügen eines berechneten Felds</h3>
+<ol>
+<li>Wählen Sie <strong>Parameter</strong> aus.</li>
+<li>Wählen Sie <strong>Neu</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Name</strong> <strong>Besteuerungsniveau</strong> ein.</li>
+<li>Wählen Sie im Feld <strong>Typ</strong> <strong>Zeichenfolge</strong> aus.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+<h3 id="define-an-expression-for-adding-a-calculated-field">Definieren eines Ausdrucks für das Hinzufügen eines berechneten Felds</h3>
+<ol>
+<li><p>Geben Sie im Feld <strong>Formel</strong> Folgendes ein:</p>
+<p><strong>FIRSTORNULL(@.Levels(</strong></p>
+</li>
+<li><p>Wählen Sie den Parameter <strong>Taxation Level</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Datenquelle hinzufügen</strong> aus:</p>
+</li>
+<li><p>Hängen Sie im Feld <strong>Formel</strong> <strong>'Taxation Level'))</strong> an die Eingabe in Schritt 1 an, um den Ausdruck abzuschließen:</p>
+<p><strong>FIRSTORNULL(@.Levels('Taxation Level'))</strong></p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong>.</p>
+</li>
+<li><p>Schließen Sie die Seite <strong>Formeldesigner</strong>.</p>
+</li>
+</ol>
+<h3 id="finish-adding-a-new-calculated-field">Abschließen des Hinzufügens eines neuen berechneten Felds</h3>
+<ul>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ul>
+<h3 id="use-the-configured-calculated-field-to-bind-format-elements">Verwenden des konfigurierten berechneten Felds zum Binden von Formatelementen</h3>
+<ol>
+<li>Erweitern Sie <strong>Model.Data2.LevelRecord</strong>, um das konfigurierte berechnete Feld auszuwählen.</li>
+<li>Erweitern Sie den Container <strong>Model.Data2.LevelRecord.aggregated</strong> des konfigurierten berechneten Felds.</li>
+<li>Wählen Sie das Feld <strong>Model.Data2.LevelRecord.aggregated.Base</strong> aus.</li>
+<li>Wählen Sie das Formatelement <strong>Statement.Taxation.None</strong> aus.</li>
+<li>Wählen Sie <strong>Bindung aufheben</strong> aus.</li>
+<li>Wählen Sie das Formatelement <strong>Statement.Taxation.None.Base</strong> aus.</li>
+<li>Wählen Sie <strong>Bindung</strong> aus.</li>
+<li>Wählen Sie <strong>Formel bearbeiten</strong> aus.</li>
+<li>Ändern Sie den Ausdruck in <strong>Model.Data2.LevelRecord(&quot;None&quot;).aggregated.Base</strong>.</li>
+</ol>
+<p><img src="media/er-calculated-field-type-11.png" alt="Aktualisierter Ausdruck"></p>
+<h2 id="remove-calculated-fields-that-are-not-used">Entfernen von berechneten Feldern, die nicht verwendet werden</h2>
+<ol>
+<li>Wählen Sie <strong>Model.Data2.Level1</strong> aus.</li>
+<li>Wählen Sei <strong>Löschen</strong>.</li>
+<li>Wählen Sie <strong>Model.Data2.Level2</strong> aus.</li>
+<li>Wählen Sei <strong>Löschen</strong>.</li>
+<li>Wählen Sie <strong>Model.Data2.Level3</strong> aus.</li>
+<li>Wählen Sei <strong>Löschen</strong>.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Sie haben dasselbe berechnete Feld <strong>Model.Data2.Levels</strong> mehrmals in Formatbindungen verwendet. Es ist viel einfacher, ein einzelnes berechnetes Feld zu verwenden und beizubehalten, anstatt diesen Schritt für mehrere ähnliche Felder auszuführen.</p>
+</div>
+<ol start="8">
+<li>Seite <strong>Format-Designer</strong> schließen.</li>
+</ol>
+<h2 id="complete-adjusted-version-of-a-derived-format">Abschließen der angepassten Version eines abgeleiteten Formats</h2>
+<ol>
+<li>Wählen Sie im Inforegister <strong>Versions</strong> <strong>Status ändern</strong> aus.</li>
+<li>Wählen Sie <strong>Abgeschlossen</strong> aus.</li>
+</ol>
+<h2 id="export-completed-version-of-a-derived-format">Exportieren der abgeschlossenen Version eines abgeleiteten Formats</h2>
+<ol>
+<li>Wählen Sie in der Konfigurationsstruktur <strong>Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> aus.</li>
+<li>Wählen Sie im Inforegister <strong>Versionen</strong> die abgeschlossene Version 1.1.1 aus.</li>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Als XML-Datei exportieren</strong> aus.</li>
+<li>Speichern Sie die lokal heruntergeladene Konfiguration im XML-Format.</li>
+</ol>
+<h2 id="test-er-formats">Testen von ER-Formaten</h2>
+<p>Sie können die anfänglichen und verbesserten ER-Formate ausführen, um sicherzustellen, dass parametrisierte berechnete Felder, die konfiguriert sind, ordnungsgemäß funktionieren.</p>
+<h3 id="import-er-configurations">ER Konfigurationen importieren</h3>
+<p>Sie können überprüfte Konfigurationen aus RCS importieren, indem Sie das ER-Repository des Typs <strong>RCS</strong> verwenden. Wenn Sie die Schritte im Thema <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/analytics/rcs-download-configurations">Importieren von elektronischen Berichtskonfigurationen (ER-Konfigurationen) aus Regulatory Configuration Services (RCS) (This is an external link)</a> bereits durchgeführt haben, verwenden Sie das konfigurierte ER-Repository, um die zuvor in diesem Thema beschriebenen Konfigurationen in Ihre Umgebung zu importieren. Andernfalls führen Sie die folgenden Schritte aus:</p>
+<ol>
+<li><p>Wählen Sie das Unternehmen <strong>DEMF</strong> und im Standard-Dashboard die Option <strong>Elektronische Berichterstellung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Berichterstellungskonfigurationen</strong> aus.</p>
+</li>
+<li><p>Importieren Sie die Konfigurationen aus dem Microsoft Download Center in der folgenden Reihenfolge: Datenmodell, Modellzuordnung, Format. Führen Sie die folgenden Schritte für jede ER-Konfiguration aus:</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die erforderliche EB-Konfiguration im XML-Format auszuwählen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Importieren Sie die aus RCS exportierte abgeschlossene Version 1.1.1 des Formats <strong>Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong>:</p>
+<ol>
+<li>Wählen Sie <strong>Wechselkurs</strong> aus.</li>
+<li>Wählen Sie <strong>Aus XML-Datei laden</strong> aus.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, um die lokal gespeicherte Datei <strong>Format zum Ermitteln parametrisierter Anrufe (benutzerdefiniert)</strong> im XML-Format auszuwählen.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="run-er-formats">Ausführen von ER-Formaten</h3>
+<ol>
+<li>Erweitern Sie in der Konfigurationsstruktur den Inhalt des Elements <strong>Modell zum Ermitteln parametrisierter Aufrufe</strong>.</li>
+<li>Wählen Sie <strong>Format zum Ermitteln parametrisierter Anrufe</strong> aus.</li>
+<li>Wählen Sie im oberen Menüband <strong>Ausführen</strong> aus.</li>
+<li>Speichern Sie das lokal generierte Ergebnis.</li>
+<li>Wählen Sie das Element <strong>Format zum Ermitteln parametrisierter Aufrufe (benutzerdefiniert)</strong> aus.</li>
+<li>Wählen Sie im oberen Menüband <strong>Ausführen</strong> aus.</li>
+<li>Speichern Sie das generierte Ergebnis lokal.</li>
+<li>Vergleichen Sie den Inhalt der generierten Ergebnisse.</li>
+</ol>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="general-electronic-reporting-formula-designer.html">Formeldesigner in der elektronischen Berichterstellung (EB)</a></li>
+<li><a href="er-calculated-field-ds-performance.html">Verbessern Sie die Leistung von EB-Lösungen, indem Sie parametrisierte CALCULATED FIELD-Datenquellen hinzufügen</a></li>
+</ul>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/fin-ops-core/dev-itpro/analytics/er-calculated-field-type.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

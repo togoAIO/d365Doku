@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Budgeting overview | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Budgeting overview | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="budgeting-overview">Budgeting overview</h1>
+
+
+<p>Almost every company that uses Financials functionality in Microsoft Dynamics 365 Finance will have to be able to create reports of budget vs. actuals. This article explains the minimum configuration that is required in order to create budgets in Finance and Operations or load them from a third-party program.</p>
+<h2 id="overview">Overview</h2>
+<p>The approved budget for a legal entity is maintained in a document that is known as a <em>budget register entry</em>. The lines in a budget register entry document are known as <em>budget account</em> entries, and contain financial dimension information, dates, and the amounts of the approved budget. The budget register entry document is integrated with basic financial reports and inquiry pages where ledger actual amounts are compared to budget amounts.</p>
+<p>There are multiple methods for creating budget register entries:</p>
+<ul>
+<li>Manually enter the document information on the <strong>Budget register entries</strong> page.</li>
+<li>Use the Microsoft Excel template that you can open by clicking the <strong>Open in Excel</strong> button on the <strong>Budget register entries</strong> page.</li>
+<li>Use the <strong>Budget Account Entries</strong> data entity in Data management to import budget register entries. You should consider using this method and turning on the <strong>Set based</strong> **processing **parameter when you must import many budget account entries into the system.</li>
+<li>If the company uses Budget planning functionality to prepare budget data, you can use the <strong>Generate budget register entry</strong> periodic process.</li>
+</ul>
+<p>The budget register entry is considered completed when the budget balances have been updated. On the <strong>Budget register entries</strong> page, click <strong>Update budget balances</strong> for a selected budget register entry or multiple entries. After you update the budget balances, the status of the budget register entry changes to <strong>Completed</strong>. Completed budget register entry can't be re-opened for edits. Therefore, if the budget data must be adjusted, you must create a new budget register entry instead of correcting data in the completed budget register entry.</p>
+<h2 id="configuration">Configuration</h2>
+<p>When you configure budgeting, start on the <strong>Budgeting parameters</strong> page. On this page, you must define the budget journal, the number sequence for budget register entries, and the default behavior in the workspaces.</p>
+<p>Next, if there are policies that govern the approval of budget register entries, based on budget type (for example, transfers or revisions), you must create budget register entry workflows on the <strong>Budgeting workflows</strong> page. If there are scenarios where transfers might be allowed without workflow approval, you can define budget transfer rules to support those scenarios.</p>
+<p>On the <strong>Budgeting dimensions</strong> page, you must select the financial dimensions that are used for budgeting, based on the dimensions that are used in the chart of accounts. You can select all financial dimensions or a subset of them for budgeting.</p>
+<p>Define a *budget model *that corresponds to all or some of the budgets. You can use a single budget model for all budget register entries. Alternatively, you can create separate models that are based on the budget type, the geographical location, or some other way that a budget can be classified.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If budget control is used, you can associate only one budget model with a specific budget cycle time span.</p>
+</div>
+<p>Create <em>budget codes</em> that identify the type of budget transactions to record and any related workflow. Budget codes can support the following budget types:</p>
+<ul>
+<li>Original budget</li>
+<li>Transfer</li>
+<li>Revision</li>
+<li>Encumbrance</li>
+<li>Pre-encumbrance</li>
+<li>Carry-forward budget</li>
+</ul>
+<p>Budget codes let you have an audit trail of approved budget modifications throughout the course of the budget cycle. If a workflow is associated with a budget code, the workflow will be enabled for all budget register entries that use that budget code, and workflow steps must be completed before the budget register entry can reach the <strong>Completed</strong> stage.</p>
+<p>You can also optionally set up <em>budget transfer rules</em>. To use budget transfer rules, select <strong>Use rules for budget transfers</strong> on the <strong>Budget parameters</strong> page. When budget transfer rules are used, if a user creates a document by using a budget code of the <strong>Transfer</strong> type, budget balances won't be updated if the budget transfer rules are violated. For example, you can allow budget transfer documents where the expense budget is transferred between the main accounts for the Sales and Marketing department, but can prohibit budget from being transferred from or to that department unless workflow approval has been granted for that type of budget account entry.</p>
+<p>Functionality that was introduced in Microsoft Dynamics 365 Finance version 10.0.7 (January 2020) added capability and flexibility for budget register entries. To enable these enhancements, go to the <strong>Feature management</strong> workspace and select <strong>Budget register entries for quantity only</strong> and/or <strong>Budget register entries defaulting of amount type</strong>.</p>
+<p>The <strong>Budget register entries for quantity</strong> only feature lets you post a budget register entry with quantity-only amounts. For example, you could post a budget entry with a quantity of 32 and a price of zero, which results in an amount of zero. You can then use this quantity within the context of a financial report to determine a price per quantity. Note that no inquiries or reports were updated as part of this feature; the feature just enables you to post an amount of zero.</p>
+<p>The <strong>Budget register entries defaulting of amount type</strong> feature allows the default amount type within a budget register entry to be an amount type other than expense. The budget register entry line now will default to expense when the main account type is expense; will default to revenue when the main account type is expense; and will default to expense for all other account types.</p>
+<h2 id="using-workspaces-and-inquiry-pages-to-track-budget-vs-actuals">Using workspaces and inquiry pages to track budget vs. actuals</h2>
+<p>The budget manager can review the current state of a budget in the <strong>Ledger budgets and forecasts</strong> workspace. The <strong>Expense over budget</strong> and <strong>Revenue under budget</strong> tabs provide a quick view of the financial dimension combinations where budget targets aren't being met or are approaching the threshold. You can personalize the budget threshold percentage and financial dimension sets that are used on those tabs by clicking <strong>Configure my workspace</strong>. You can click <strong>Unit managers</strong> to see the workers who are responsible for specific financial dimension combinations that are selected on those tabs. For example, if you see that the expense budget of the Operations department is going over the budget threshold, you can easily find and contact the Operations department manager to discuss the issue.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <strong>Department manager</strong> field on the <strong>Organization Units</strong> page determines which managers support specific financial dimension combinations. Click <strong>See more</strong> at the bottom of the tab to open the <strong>Budget vs actuals</strong> inquiry page for more details about budget amounts versus actual amounts.</p>
+</div>
+<p>The <strong>Actual vs budget</strong> inquiry page lets you drill into the details of the budget versus actual amounts. Select a line on the inquiry page, and then click <strong>Period balances</strong> to see budget and actual amounts spread across fiscal periods. The <strong>Budget account entries</strong> page provides drill-through to the details of the budget amount in budget register entries. The <strong>General journal entries</strong> page opens the ledger transactions that are included in the calculated <strong>Actuals</strong> amount.</p>
+<p>A company that is using Budget planning functionality can create and use <em>budget forecasts</em> in the <strong>Ledger budgets and forecasts</strong> workspace.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

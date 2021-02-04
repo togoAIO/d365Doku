@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Inventory Visibility Add-In | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Inventory Visibility Add-In | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="inventory-visibility-add-in">Inventory Visibility Add-in</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Die hier aufgeführten Funktion sind alle oder teilweise im Rahmen einer Vorschauversion verfügbar. Inhalt und Funktionsweise unterliegen Änderungen. Weitere Informationen zu Vorschauversionen finden Sie in den <a href="https://docs.microsoft.com/dynamics365/unified-operations/fin-and-ops/get-started/one-version">FAQ zu Dienstupdates für One Version</a>.</p>
+</div>
+
+<p>Das Inventory Visibility Add-in ist ein unabhängiger und hoch skalierbarer Microservice, der die Verfolgung von Beständen in Echtzeit ermöglicht und so eine globale Sicht auf den Bestand bietet.</p>
+<p>Alle Informationen, die sich auf den Bestand beziehen, werden durch Low-Level-SQL-Integration nahezu in Echtzeit an den Dienst exportiert. Externe Systeme greifen über RESTful APIs auf den Dienst zu, um Bestandsinformationen über festgelegte Dimensionen abzufragen und so eine Liste der verfügbaren Bestandspositionen zu erhalten.</p>
+<p>Inventory Visibility ist ein Microservice, der auf der Common Data Service aufbaut, d.h. Sie können ihn mit der Power Apps erweitern und mit der Power BI kundenspezifische Funktionen bereitstellen, um Ihre Geschäftsanforderungen zu erfüllen. Es ist auch möglich, den Index zu erweitern, um Bestandsabfragen durchzuführen.</p>
+<p>Inventory Visibility bietet Konfigurationsoptionen, mit denen es sich in mehrere Drittsysteme integrieren lässt. Es unterstützt die standardisierte Dimension des Bestands, benutzerdefinierte Erweiterbarkeit und standardisierte, konfigurierbare berechnete Mengen.</p>
+<p>In diesem Thema wird beschrieben, wie Sie das Inventory Visibility Add-In für Dynamics 365 Supply Chain Management installieren und konfigurieren und wie Sie seine Anwendungsprogrammierschnittstelle (API) verwenden.</p>
+<h2 id="install-the-inventory-visibility-add-in">Installieren Sie das Inventory Visibility Add-In</h2>
+<p>Sie müssen das Inventory Visibility Add-In über Microsoft Dynamics Lifecycle Services (LCS) installieren. LCS ist ein Portal für die Zusammenarbeit, das eine Umgebung und eine Reihe von regelmäßig aktualisierten Diensten bereitstellt, die Sie bei der Verwaltung des Lebenszyklus Ihrer Dynamics 365 Finance and Operations-Apps unterstützen.</p>
+<p>Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/lifecycle-services/lcs">Ressourcen für Lifecycle Services</a>.</p>
+<h3 id="prerequisites">Voraussetzungen</h3>
+<p>Bevor Sie das Inventory Visibility Add-In installieren, müssen Sie Folgendes tun:</p>
+<ul>
+<li>Besorgen Sie sich ein LCS-Implementierungsprojekt mit mindestens einer bereitgestellten Umgebung.</li>
+<li>Erzeugen Sie die Beta-Schlüssel für Ihr Angebot in LCS.</li>
+<li>Aktivieren Sie die Betaschlüssel für Ihr Angebot für Ihren Benutzer in LCS.</li>
+<li>Wenden Sie sich an das Microsoft Inventory Visibility-Produktteam und geben Sie eine Umgebungs-ID an, in der Sie das Inventory Visibility-Add-In bereitstellen möchten.</li>
+</ul>
+<p>Wenn Sie Fragen zu diesen Voraussetzungen haben, wenden Sie sich bitte an das Inventory Visibility-Produktteam.</p>
+<h3 id="install-the-add-in"><a name="install-add-in"></a>Installieren des Add-Ins</h3>
+<p>Um das Inventory Visibility Add-In zu installieren, gehen Sie wie folgt vor:</p>
+<ol>
+<li><p>Melden Sie sich am <a href="https://lcs.dynamics.com/Logon/Index">Lifecycle Services (LCS)</a> Portal an.</p>
+</li>
+<li><p>Wählen Sie auf der Startseite das Projekt aus, in dem Ihre Umgebung bereitgestellt ist.</p>
+</li>
+<li><p>Wählen Sie auf der Projektseite die Umgebung aus, in der Sie das Add-In installieren möchten.</p>
+</li>
+<li><p>Scrollen Sie auf der Seite der Umgebung nach unten, bis Sie den Abschnitt <strong>Umgebungs-Add-Ins</strong> sehen. Wenn der Abschnitt nicht sichtbar ist, stellen Sie sicher, dass die vorausgesetzten Beta-Schlüssel vollständig verarbeitet wurden.</p>
+</li>
+<li><p>Wählen Sie im Abschnitt <strong>Umgebungs-Add-Ins</strong> die Option <strong>Ein neues Add-In installieren</strong>.
+<img src="media/inventory-visibility-environment.png" alt="Die Umgebungsseite in LCS" title="Die Seite „Umgebung“ in LCS"></p>
+</li>
+<li><p>Wählen Sie den Link <strong>Ein neues Add-In installieren</strong>. Es öffnet sich eine Liste der verfügbaren Add-Ins.</p>
+</li>
+<li><p>Wählen Sie <strong>Bestandsdienst</strong> aus der Liste. (Beachten Sie, dass dies jetzt möglicherweise als <strong>Add-In Inventory Visibility für Dynamics 365 Supply Chain Management</strong> aufgeführt wird).</p>
+</li>
+<li><p>Geben Sie Werte für die folgenden Felder für Ihre Umgebung ein:</p>
+<ul>
+<li><strong>AAD-Anwendungs-ID</strong></li>
+<li><strong>AAD-Mandanten-ID</strong></li>
+</ul>
+<p><img src="media/inventory-visibility-setup.png" alt="Einrichtungsseite hinzufügen" title="Seite zum Einrichten des Add-Ins"></p>
+</li>
+<li><p>Stimmen Sie den Bedingungen zu, indem Sie das Kontrollkästchen <strong>Bedingungen und Konditionen</strong> aktivieren.</p>
+</li>
+<li><p>Wählen Sie <strong>Installieren</strong>. Der Status des Add-Ins wird als <strong>Installation</strong> angezeigt. Wenn es fertig ist, aktualisieren Sie die Seite, um den Status auf <strong>Installiert</strong> zu ändern.</p>
+</li>
+</ol>
+<h3 id="get-a-security-service-token">Abrufen eines Sicherheitsdienst-Tokens</h3>
+<p>Um ein Sicherheitsdienst-Token zu erhalten, gehen Sie wie folgt vor:</p>
+<ol>
+<li><p>Holen Sie sich Ihre <code>aadToken</code> und rufen Sie den Endpunkt: <a href="https://securityservice.operations365.dynamics.com/token">https://securityservice.operations365.dynamics.com/token</a> auf.</p>
+</li>
+<li><p>Ersetzen Sie die <code>client_assertion</code> im Body durch Ihre <code>aadToken</code>.</p>
+</li>
+<li><p>Ersetzen Sie den Kontext im Body durch die Umgebung, in der Sie das Add-In bereitstellen wollen.</p>
+</li>
+<li><p>Ersetzen Sie den Bereich im Body durch den folgenden:</p>
+<ul>
+<li>Bereich für MCK - „https://inventoryservice.operations365.dynamics.cn/.default“<br>
+(Die Anwendungs-ID Azure Active Directory und die Mandant-ID für MCK finden Sie in <code>appsettings.mck.json</code>.)</li>
+<li>Geltungsbereich für PROD - „https://inventoryservice.operations365.dynamics.com/.default“<br>
+(Die Azure Active Directory Anwendungs-ID und Mandanten-ID für PROD finden Sie in <code>appsettings.prod.json</code>.)</li>
+</ul>
+<p>Das Ergebnis sollte dem folgenden Beispiel ähneln.</p>
+<pre><code class="lang-json">{
+    &quot;grant_type&quot;: &quot;client_credentials&quot;,
+    &quot;client_assertion_type&quot;:&quot;aad_app&quot;,
+    &quot;client_assertion&quot;: &quot;{**Your_AADToken**}&quot;,
+    &quot;scope&quot;:&quot;**https://inventoryservice.operations365.dynamics.com/.default**&quot;,
+    &quot;context&quot;: &quot;**5dbf6cc8-255e-4de2-8a25-2101cd5649b4**&quot;,
+    &quot;context_type&quot;: &quot;finops-env&quot;
+}
+</code></pre>
+</li>
+<li><p>Sie werden eine <code>access_token</code> als Antwort erhalten. Diese benötigen Sie als Inhaber-Token, um die Inventory Visibility API aufzurufen. Hier ist ein Beispiel.</p>
+<pre><code class="lang-json">{
+    &quot;access_token&quot;: &quot;{Returned_Token}&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;,
+    &quot;expires_in&quot;: 1200
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="uninstall-the-add-in">Add-In deinstallieren</h3>
+<p>Um das Add-In zu deinstallieren, wählen Sie <strong>Deinstallieren</strong>. Aktualisieren Sie LCS und das Inventory Visibility Add-in wird entfernt. Der Deinstallationsprozess entfernt die Registrierung des Add-Ins und startet außerdem einen Job zum Bereinigen aller im Dienst gespeicherten Geschäftsdaten.</p>
+<h2 id="inventory-visibility-add-in-public-api">Öffentliches API des Inventory Visibility Add-Ins</h2>
+<p>Die öffentliche REST-API des Inventory Visibility Add-Ins bietet mehrere spezifische Endpunkte für die Integration. Sie unterstützt drei Hauptinteraktionstypen:</p>
+<ul>
+<li>Buchen von Bestandsänderungen an das Add-In aus einem externen System.</li>
+<li>Abfrage von aktuellen Bestandsmengen aus einem externen System.</li>
+<li>Automatische Synchronisation mit dem Supply Chain Management-Bestand.</li>
+</ul>
+<p>Die automatische Synchronisation ist nicht Teil der öffentlichen API, sondern wird für Umgebungen, die das Inventory Visibility Add-in aktiviert haben, im Hintergrund ausgeführt.</p>
+<h3 id="authentication">Authentifizierung</h3>
+<p>Das Plattform-Sicherheits-Token wird verwendet, um das Inventory Visibility Add-in aufzurufen, daher müssen Sie ein Azure Active Directory-Token mit Ihrer Azure Active Directory-Anwendung erzeugen.</p>
+<p>Weitere Informationen darüber, wie Sie das Sicherheitstoken erhalten, finden Sie unter <a href="#install-add-in">Installieren des Inventory Visibility Add-Ins</a>.</p>
+<h3 id="configure-the-inventory-visibility-api">Konfigurieren Sie die Inventory Visibility API</h3>
+<p>Bevor Sie den Dienst verwenden, müssen Sie die in den folgenden Unterabschnitten beschriebenen Konfigurationen durchführen. Die Konfiguration kann je nach den Details Ihrer Umgebung variieren. Sie besteht im Wesentlichen aus vier Teilen:</p>
+<ul>
+<li><a href="#partitioning">Partitionierung</a></li>
+<li><a href="#dimension-configurations">Dimensions-Konfigurationen</a></li>
+<li><a href="#indexing">Indizierung</a></li>
+<li><a href="#custom-measurement">Benutzerdefinierte Messung</a></li>
+</ul>
+<h4 id="partitioning">Partitionierung</h4>
+<p>Die Partitionierung kann die Leistung der Inventory Visibility API erheblich beeinflussen. Es ist eine gute Idee, ein Schema zu definieren, das kleine Gruppierungen von Daten zulässt und trotzdem sinnvolle Datenabfragen ermöglicht.</p>
+<p>Die <code>organizationId</code> (<code>dataAreaId</code> im Supply Chain Management) wird immer Teil der Partitionierung sein, und standardmäßig ist Inventory Visibility so festgelegt, dass es nach Dimensionen wie <em>Standort + Lagerplatz</em> partitioniert. Das bedeutet, dass der Dienst immer mit diesen in den Filtern definierten Dimensionen abgefragt werden muss.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p><em>Standort</em> und <em>Lagerplatz</em> sind zwei allgemeine Standarddimensionen in Inventory Visibility. Im Supply Chain Management heißen diese Dimensionen <em>Standort</em> (<code>InventSiteId</code>) und <em>Lagerort</em> (<code>InventLocationId</code>)</p>
+</div>
+<h3 id="dimension-configurations">Konfigurationen der Dimensionen</h3>
+<p>Inventory Visibility stellt eine Liste allgemeiner Standarddimensionen zur Verfügung, um die Integration mehrerer Quellsysteme zu ermöglichen.</p>
+<p>In der folgenden Tabelle sind die Bestandsdimensionen aufgeführt, die als Standarddimensionen in Inventory Visibility verwendet werden.</p>
+<table>
+<thead>
+<tr>
+<th>Dimensionstyp</th>
+<th>Dimensionsname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Produkt</td>
+<td><code>ColorId</code></td>
+</tr>
+<tr>
+<td>Produkt</td>
+<td><code>SizeId</code></td>
+</tr>
+<tr>
+<td>Produkt</td>
+<td><code>StyleId</code></td>
+</tr>
+<tr>
+<td>Produkt</td>
+<td><code>ConfigId</code></td>
+</tr>
+<tr>
+<td>Nachverfolgung</td>
+<td><code>BatchId</code></td>
+</tr>
+<tr>
+<td>Nachverfolgung</td>
+<td><code>SerialId</code></td>
+</tr>
+<tr>
+<td>Ziel</td>
+<td><code>LocationId</code></td>
+</tr>
+<tr>
+<td>Ziel</td>
+<td><code>SiteId</code></td>
+</tr>
+<tr>
+<td>Bestand Status</td>
+<td><code>StatusId</code></td>
+</tr>
+<tr>
+<td>Lagerspezifisch</td>
+<td><code>WMSLocationId</code></td>
+</tr>
+<tr>
+<td>Lagerspezifisch</td>
+<td><code>WMSPalletId</code></td>
+</tr>
+<tr>
+<td>Lagerort-spezifisch</td>
+<td><code>LicensePlateId</code></td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Der in der vorherigen Tabelle aufgeführte Dimensionstyp dient nur als Referenz. Sie müssen den Dimensionstyp nicht in Inventory Visibility definieren.</p>
+</div>
+<p>Wenn eine benutzerdefinierte Dimension existiert und zu einem Standardwert fließen muss, wenn sie von Inventory Visibility konsumiert wird, können Sie den Namen <strong>Benutzerdefinierte Dimension</strong> in Inventory Visibility konfigurieren.</p>
+<p>Externe Systeme greifen auf Inventory Visibility über RESTful-APIs zu, mit denen Bestandsinformationen über festgelegte Dimensionen abgefragt werden können. Für die Integration können Sie in Inventory Visibility die <em>Externe Kanaldatenquelle</em> und die Quelldimension zu den <em>Zieldimensionen</em> konfigurieren.</p>
+<p>Die Zieldimensionen sollten eine der folgenden sein:</p>
+<ul>
+<li>Standarddimensionen in Inventory Visibility</li>
+<li>Benutzerdefinierte Dimensionen</li>
+</ul>
+<p>Der Zweck der Dimensionskonfiguration ist es, die Multisystem-Integration für die Abfrage auf Dimensionen und das Buchungsereignis mit Dimensionen zu standardisieren.</p>
+<h4 id="indexing">Indizierung</h4>
+<p>In den meisten Fällen wird die Bestandsabfrage nicht nur auf der höchsten „Gesamt“-Ebene erfolgen, sondern Sie möchten die Ergebnisse möglicherweise auf der Basis der Bestandsdimensionen aggregiert sehen.</p>
+<p>Inventory Visibility bietet Flexibilität, indem es Ihnen erlaubt, die Indizes festzulegen, die auf der Dimension oder der Kombination der Dimensionen basieren.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Derzeit können Sie nur Indizes bis maximal fünf konfigurieren. Sie müssen vor der Implementierung sorgfältig abwägen, welche Dimension oder Dimensionskombination Sie verwenden wollen, um sicherzustellen, dass sie Ihren geschäftlichen Anforderungen entspricht. Wenn Sie z. B. Produkte wie folgt abfragen wollen:</p>
+</div>
+<ul>
+<li>Abfrage des aggregierten Produktbestandes nach den Dimensionen <em>Farbe</em> und <em>Größe</em>.</li>
+<li>In manchen Fällen wollen Sie nur das Produkt insgesamt abfragen.</li>
+</ul>
+<p>Dann würden Sie zwei Indizes wie folgt definieren:</p>
+<ul>
+<li><code>[&quot;ColorId&quot;, &quot;SizeId&quot;]</code></li>
+<li><code>[]</code></li>
+</ul>
+<p>Die leere Klammer wird auf Basis der Produkt-ID innerhalb der Partition aggregiert.</p>
+<p>Die Indizierung definiert, wie Sie Ihre Ergebnisse basierend auf der Abfrageeinstellung <code>groupBy</code> gruppieren können. Wenn Sie in diesem Fall keine <code>groupBy</code>-Werte definieren, erhalten Sie Summen nach <code>productid</code>. Wenn Sie dagegen <code>groupBy</code> als <code>groupBy=ColorId&amp;groupBy=SizeId</code> definieren, erhalten Sie mehrere Zeilen zurück, basierend auf den verschiedenen Farb- und Größenkombinationen im System.</p>
+<p>Sie können Ihre Abfragekriterien in den Abfragekörper einlagern.</p>
+<p>Hier ist eine Beispielabfrage für das Produkt mit Farb- und Größenkombination.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;LocationId&quot;: [&quot;21&quot;],
+        &quot;SiteId&quot;: [&quot;2&quot;],
+        &quot;ColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;SizeId&quot;,
+        &quot;ColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="custom-measurement">Benutzerdefinierte Messung</h4>
+<p>Die voreingestellten Messungen sind mit dem Supply Chain Management verknüpft, aber Sie möchten vielleicht eine Menge haben, die sich aus einer Kombination der voreingestellten Kennzahlen zusammensetzt. Dazu können Sie eine Konfiguration von benutzerdefinierten Mengen haben, die zur Ausgabe der Bestandsabfragen hinzugefügt werden.</p>
+<p>Die Funktionalität erlaubt es Ihnen einfach, eine Reihe von Kennzahlen festzulegen, die addiert werden, und/oder eine Reihe von Kennzahlen, die subtrahiert werden, um die benutzerdefinierte Messung zu bilden.</p>
+<p>Mit der folgenden Abfragebedingung konfigurieren Sie zum Beispiel die benutzerdefinierte Messung als <code>MyCustomAvailableforReservation</code>, die vom Verbrauchssystem verbraucht werden soll.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            }
+        }
+    }
+]
+
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Verbrauchs-System</th>
+<th>Berechnete Kennzahlen</th>
+<th>Datenquelle</th>
+<th>Modifikator</th>
+<th>Modifikator Berechnungsart</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>availphysical</code></td>
+<td>Hinzufügung</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>orderedintotal</code></td>
+<td>Hinzufügung</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>fno</code></td>
+<td><code>orderedreserved</code></td>
+<td>Subtrahieren</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>mypos</code></td>
+<td><code>inbound</code></td>
+<td>Hinzufügung</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>mypos</code></td>
+<td><code>outbound</code></td>
+<td>Subtrahieren</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>received</code></td>
+<td>Hinzufügung</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>scheduled</code></td>
+<td>Hinzufügung</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>issued</code></td>
+<td>Subtrahieren</td>
+</tr>
+<tr>
+<td><code>CustomChannel</code></td>
+<td><code>MyCustomAvailableforReservation</code></td>
+<td><code>exterchannel</code></td>
+<td><code>reserved</code></td>
+<td>Subtrahieren</td>
+</tr>
+</tbody>
+</table>
+<p>Damit wird die Abfrage auf die benutzerdefinierte Messung Menge die folgende Ausgabe zurückgeben.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            },
+            &quot;CustomChannel&quot;: {
+                &quot;MyCustomAvailableforReservation&quot;: 220.0
+            }
+        }
+    }
+]
+</code></pre>
+<p>Die Ausgabe <code>MyCustomAvailableforReservation</code> basiert auf der Berechnungseinstellung in den benutzerdefinierten Messungen als:<br>
+<em>100 + 50 + 80 + 90 + 30 – 10 – 20 – 60 – 40 = 220</em></p>
+<h3 id="posting-on-hand-changes">Verbuchung von Vorratsänderungen</h3>
+<p>Die genaue URL, unter der das Ereignis gepostet wird, hängt von Ihrer geografischen Region ab. Sie wird die Form haben:</p>
+<p><code>https://{serviceURL}/api/environment/{environmentId}/onhand</code></p>
+<p>Wenn Sie authentifiziert sind, kann diese URL zusammen mit der HTTP-Methode <code>POST</code> verwendet werden, um Ereignisse zu senden, die von Hand geändert werden.</p>
+<p>Für die Kommunikation mit Dynamics 365-Diensten über HTTP-Anfragen wird ein spezieller Header verwendet, der die Umgebungs-ID der Supply Chain Management-Instanz angibt, mit der die Daten verknüpft sind. Beispiel:</p>
+<p><code>x-ms-environment-id: 2db79622-f97a-4d64-9844-d12efed41796</code></p>
+<h4 id="posting-on-hand-changes-query-example-1">Buchen von On-Hand-Änderungen Abfragebeispiel 1</h4>
+<p>Dieses Beispiel zeigt ein Szenario, in dem Sie die Konfiguration der Dimension in Power Apps festlegen werden.</p>
+<p>Verwenden Sie die folgende Abfrage, um die Zuordnung der Dimension in Power Apps zu konfigurieren:</p>
+<pre><code class="lang-json">{
+    &quot;PosSizeId&quot;: &quot;SizeId&quot;,
+    &quot;PosColorId&quot;: &quot;ColorId&quot;,
+    &quot;PosSiteId&quot;: &quot;SiteId&quot;,
+    &quot;PosLocationId&quot;: &quot;LocationId&quot;
+}
+</code></pre>
+<p>Jetzt können Sie die <code>dimensionDataSource</code> angeben und benutzerdefinierte Dimensionen in Ihren Abfragen verwenden. Das System wird die benutzerdefinierten Dimensionen automatisch in Basisdimensionen umwandeln.</p>
+<pre><code class="lang-json">{
+    &quot;id&quot;: &quot;demo-test-00007&quot;,
+    &quot;organizationId&quot;: &quot;usmf&quot;,
+    &quot;productId&quot;: &quot;MyProduct&quot;,
+    &quot;quantities&quot;: {
+        &quot;pos&quot;: {
+            &quot;Outbound&quot;: 1
+        }
+    },
+    &quot;dimensionDataSource&quot;: &quot;pos&quot;,
+    &quot;dimensions&quot;: {
+        &quot;PosSizeId&quot;: &quot;Large&quot;,
+        &quot;PosColorId&quot;: &quot;Red&quot;,
+        &quot;PosSiteId&quot;: &quot;2&quot;,
+        &quot;PosLocationId&quot;: &quot;21&quot;
+    }
+}
+</code></pre>
+<h4 id="posting-on-hand-changes-query-example-2">Buchen von Bestandsänderungen Abfragebeispiel 2</h4>
+<p>Dieses Beispiel zeigt ein Szenario, in dem keine Zuordnungen für die Dimensionskonfiguration in Power Apps festgelegt sind, sodass die Buchung auch die Basisdimensionen verwenden soll. Alle Dimensionen müssen Basisdimensionen sein, wenn das Feld <code>dimensionDataSource</code> null, leer oder ein Leerzeichen ist.</p>
+<pre><code class="lang-json">{
+    &quot;id&quot;: &quot;demo-test-00007&quot;,
+    &quot;organizationId&quot;: &quot;usmf&quot;,
+    &quot;productId&quot;: &quot;MyProduct&quot;,
+    &quot;quantities&quot;: {
+        &quot;pos&quot;: {
+            &quot;Outbound&quot;: 1
+        }
+    },
+    &quot;dimensions&quot;: {
+        &quot;SizeId&quot;: &quot;Large&quot;,
+        &quot;ColorId&quot;: &quot;Red&quot;,
+        &quot;SiteId&quot;: &quot;2&quot;,
+        &quot;LocationId&quot;: &quot;21&quot;
+    }
+}
+</code></pre>
+<h4 id="json-document-field-properties">JSON-Dokument-Feldeigenschaften</h4>
+<p>Die Felder aus den zuvor angegebenen JSON-Abfragebeispielen haben die in der folgenden Tabelle aufgeführten Eigenschaften.</p>
+<table>
+<thead>
+<tr>
+<th>Feldkennung</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>Eine eindeutige ID für das spezifische Änderungsereignis. Diese ID wird verwendet, um sicherzustellen, dass, wenn die Kommunikation mit dem Dienst während der Buchung fehlschlägt, ein erneutes Einreichen des Ereignisses nicht dazu führt, dass dasselbe Ereignis im System doppelt gezählt wird.</td>
+</tr>
+<tr>
+<td><code>organizationId</code></td>
+<td>Die Kennung der Organisation, die mit dem Ereignis verknüpft ist. Dies entspricht der Zuordnung zu Supply Chain Management-Organisationen oder Datenbereichs-IDs.</td>
+</tr>
+<tr>
+<td><code>productId</code></td>
+<td>Die Kennung des betreffenden Produkts.</td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td>Die Menge, um die der Lagerbestand geändert werden muss. Wenn z.B. 10 neue Bagels in ein Regal gestellt wurden, wäre dieser Wert 10. Wenn dann 3 Bagels aus dem Regal entfernt oder verkauft würden, wäre dieser Wert -3.</td>
+</tr>
+<tr>
+<td><code>dimensionDataSource</code></td>
+<td>Die Datenquelle der Dimensionen, die im Umbuchungsereignis und in der Abfrage verwendet werden. Wenn Sie die Datenquelle angeben, können Sie die benutzerdefinierten Dimensionen aus der angegebenen Datenquelle verwenden. Mit der Dimensionskonfiguration kann Inventory Visibility die benutzerdefinierten Dimensionen den allgemeinen Standarddimensionen zuordnen. Wenn die <code>dimensionDataSource</code> nicht angegeben wird, können Sie nur die allgemeinen Standarddimensionen in Ihren Abfragen verwenden.</td>
+</tr>
+<tr>
+<td><code>dimensions</code></td>
+<td>Eine dynamische Tasche mit Schlüssel/Wertpaaren. Diese werden einigen der Dimensionen im Supply Chain Management zugeordnet, aber Sie können auch benutzerdefinierte Dimensionen hinzufügen (wie <em>Quelle</em>), die angeben, ob das Ereignis aus dem Supply Chain Management oder einem externen System stammt.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="querying-current-on-hand">Abfrage des aktuellen Lagerbestands</h3>
+<p>Der Endpunkt für die Abfrage des aktuellen Lagerbestands wird eine ähnliche URL haben:</p>
+<p><code>https://{serviceURL}/api/environment/{environmentId}/onhand/indexquery</code></p>
+<p>Er wird mit der HTTP-Methode <code>POST</code> abgefragt.</p>
+<h4 id="current-on-hand-query-example-1">Abfrage des aktuellen Lagerbestands Beispiel 1</h4>
+<p>Dieses Beispiel zeigt ein Szenario, bei dem Sie die Konfiguration der Dimension in Power Apps bereits abgeschlossen haben.</p>
+<p>Verwenden Sie die folgende Abfrage, um die Zuordnung der Dimension in Power Apps zu konfigurieren:</p>
+<pre><code class="lang-json">{
+    &quot;PosSizeId&quot;: &quot;SizeId&quot;,
+    &quot;PosColorId&quot;: &quot;ColorId&quot;,
+    &quot;PosSiteId&quot;: &quot;SiteId&quot;,
+    &quot;PosLocationId&quot;: &quot;LocationId&quot;
+}
+</code></pre>
+<p>Jetzt können Sie die <code>dimensionDataSource</code> angeben und benutzerdefinierte Dimensionen in Ihren Abfragen verwenden. Das System wird die benutzerdefinierten Dimensionen automatisch in Basisdimensionen umwandeln. Sie können die <code>DimensionDataSource</code> in <code>filters</code> angeben und benutzerdefinierte Dimensionen sowohl in <code>filters</code> als auch in <code>groupByValues</code> angeben. Das System wird die benutzerdefinierten Dimensionen automatisch in Basisdimensionen umwandeln.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;DimensionDataSource&quot;: [&quot;Pos&quot;],
+        &quot;PosLocationId&quot;: [&quot;21&quot;],
+        &quot;PosSiteId&quot;: [&quot;2&quot;],
+        &quot;PosColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;PosSizeId&quot;,
+        &quot;PosColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="current-on-hand-query-example-2">Aktuelle Bestandsabfrage Beispiel 2</h4>
+<p>Dieses Beispiel zeigt ein Szenario, in dem keine Zuordnungen für die Dimensionskonfiguration in Power Apps festgelegt sind, sodass die Buchung auch die Basisdimensionen verwenden soll. Alle Dimensionen müssen Basisdimensionen sein, wenn das Feld <code>dimensionDataSource</code> unter <code>filters</code> null, leer oder ein Leerzeichen ist.</p>
+<pre><code class="lang-json">{
+    &quot;filters&quot;: {
+        &quot;OrganizationId&quot;: [&quot;usmf&quot;],
+        &quot;ProductId&quot;: [&quot;MyProduct&quot;],
+        &quot;LocationId&quot;: [&quot;21&quot;],
+        &quot;SiteId&quot;: [&quot;2&quot;],
+        &quot;ColorId&quot;: [&quot;Red&quot;]
+    },
+    &quot;groupByValues&quot;: [
+        &quot;SizeId&quot;,
+        &quot;ColorId&quot;
+    ],
+    &quot;returnNegative&quot;: true
+}
+</code></pre>
+<h4 id="example-return-result">Beispiel Rückgabeergebnis</h4>
+<p>Die in den vorherigen Beispielen gezeigten Abfragen könnten ein Ergebnis wie dieses zurückgeben.</p>
+<pre><code class="lang-json">[
+    {
+        &quot;productId&quot;: &quot;MyProduct&quot;,
+        &quot;dimensions&quot;: {
+            &quot;colorid&quot;: &quot;Red&quot;
+        },
+        &quot;quantities&quot;: {
+            &quot;mypos&quot;: {
+                &quot;outbound&quot;: 20.0,
+                &quot;inbound&quot;: 80.0
+            },
+            &quot;fno&quot;: {
+                &quot;availphysical&quot;: 100.0,
+                &quot;orderedintotal&quot;: 50.0,
+                &quot;orderedreserved&quot;: 10.0
+            },
+            &quot;exterchannel&quot;: {
+                &quot;received&quot;: 90.0,
+                &quot;scheduled&quot;: 30.0,
+                &quot;issued&quot;: 60.0,
+                &quot;reserved&quot;: 40.0
+            },
+            &quot;CustomChannel&quot;: {
+                &quot;MyCustomAvailableforReservation&quot;: 220.0
+            }
+        }
+    }
+]
+</code></pre>
+<p>Beachten Sie, dass die Mengen-Felder als ein Wörterbuch von Kennzahlen und ihren zugehörigen Werten strukturiert sind.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

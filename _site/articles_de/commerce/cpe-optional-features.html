@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Optionale Funktionen f&#252;r eine Dynamics 365 Commerce-Auswertungsumgebung konfigurieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Optionale Funktionen f&#252;r eine Dynamics 365 Commerce-Auswertungsumgebung konfigurieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-optional-features-for-a-dynamics-365-commerce-evaluation-environment">Optionale Funktionen für eine Dynamics 365 Commerce-Auswertungsumgebung konfigurieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema wird erläutert, wie optionale Funktionen für eine Microsoft Dynamics 365 Commerce-Auswertungsumgebung konfiguriert werden.</p>
+<h2 id="prerequisites">Voraussetzungen</h2>
+<p>Wenn Sie die Transaktions-E-Mail-Funktionen bewerten möchten, müssen die folgenden Voraussetzungen erfüllt sein:</p>
+<ul>
+<li>Ihnen steht ein E-Mail-Server (Simple Mail Transfer Protocol [SMTP]-Server) zur Verfügung, der über das Microsoft Azure-Abonnement verwendet werden kann, auf dem Sie die Auswertungsumgebung bereitgestellt haben.</li>
+<li>Sie verfügen über den vollqualifizierten Domänennamen (FQDN)/die vollqualifizierte IP-Adresse, die SMTP-Portnummer und die Authentifizierungsdetails des Servers.</li>
+</ul>
+<h2 id="configure-the-image-back-end">Konfigurieren Sie das Image-Backend</h2>
+<h3 id="find-your-media-base-url">Auffinden Ihrer medienbasierten URL</h3>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Bevor Sie diesen Vorgang abschließen können, müssen Sie die Schritte in <a href="cpe-post-provisioning.html#set-up-your-site-in-commerce">Richten Sie Ihre Site in Commerce ein</a> abschließen.</p>
+</div>
+<ol>
+<li><p>Melden Sie sich beim Commerce-Website-Generator mit der URL an, die Sie bei der Initialisierung von E-Commerce während der Bereitstellung notiert haben (siehe <a href="provisioning-guide.html#initialize-e-commerce">E-Commerce initialisieren</a>).</p>
+</li>
+<li><p>Öffnen Sie die Site <strong>Fabrikam</strong>.</p>
+</li>
+<li><p>Wählen Sie im linken Menü <strong>Medienbibliothek</strong> aus.</p>
+</li>
+<li><p>Wählen Sie ein einzelnes Image-Medienobjekt aus.</p>
+</li>
+<li><p>Suchen Sie im Eigenschafteninspektor rechts die Eigenschaft <strong>Öffentliche URL</strong>. Der Wert ist eine URL. Hier ist ein Beispiel:</p>
+<p><code>https://images-us-sb.cms.commerce.dynamics.com/cms/api/fabrikam/imageFileData/MA1nQC</code>.</p>
+</li>
+<li><p>Ersetzen Sie den letzten Bezeichner in der URL (<strong>MA1nQC</strong> im vorherigen Beispiel) durch die Zeichenfolge <strong>search?fileName=</strong>. So sieht die Beispiel-URL nach dieser Änderung aus:</p>
+<p><code>https://images-us-sb.cms.commerce.dynamics.com/cms/api/fabrikam/imageFileData/search?fileName=</code></p>
+<p>Diese URL ist Ihre Mediendatenbank-URL. Machen Sie sich eine Notiz davon.</p>
+</li>
+</ol>
+<h3 id="update-the-media-base-url">Aktualisieren der medienbasierten URL</h3>
+<ol>
+<li>Melden Sie sich bei der Commerce-Zentralverwaltung an.</li>
+<li>Verwenden Sie das Menü auf der linken Seite, um zu <strong>Module &gt; Retail and Commerce &gt; Kanaleinrichtung &gt; Kanalprofile</strong> zu gehen.</li>
+<li>Wählen Sie <strong>Bearbeiten</strong> aus.</li>
+<li>Ersetzen Sie unter <strong>Profileigenschaften</strong> den Wert für die Eigenschaft <strong>Media Server-Basis-URL</strong> durch die medienbasierte URL, die Sie zuvor erstellt haben.</li>
+<li>Wählen Sie den Kanal mit der Bezeichnung <strong>scXXXXXXXXX</strong> aus.</li>
+<li>Wählen Sie unter <strong>Profileigenschaften</strong> die Option <strong>Hinzufügen</strong> aus.</li>
+<li>Wählen Sie für die hinzugefügte Eigenschaft <strong>Media Server-Basis-URL</strong> als Eigenschaftsschlüssel aus. Geben Sie als Eigenschaftswert die zuvor erstellte Media Base-URL ein.</li>
+<li>Wählen Sie <strong>Speichern</strong> aus.</li>
+</ol>
+<h2 id="configure-and-test-the-email-server">Den E-Mail-Server konfigurieren und testen</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Der SMTP-Server oder E-Mail-Dienst, den Sie hier eingeben, muss über das Azure-Abonnement zugänglich sein muss, das Sie für die Umgebung verwenden.</p>
+</div>
+<ol>
+<li>Melden Sie sich bei der Commerce-Zentralverwaltung an.</li>
+<li>Verwenden Sie das Menü links, um zu <strong>Module &gt; Retail und Commerce &gt; Zentralverwaltungs-Setup &gt; Parameter &gt; E-Mail-Parameter</strong> zu wechseln.</li>
+<li>Geben Sie auf der Registerkarte <strong>SMTP-Einstellungen</strong> im Feld <strong>Name des SMTP-Servers</strong> den vollständig qualifizierten Namen (FQDN) oder die IP-Adresse Ihres SMTP-Servers oder E-Mail-Dienstes an.</li>
+<li>Geben Sie im Feld <strong>SMTP-Portnummer</strong> die Portnummer ein. (Wenn Sie Secure Sockets Layer [SSL] nicht verwenden, lautet die Standardportnummer <strong>25</strong>.)</li>
+<li>Wenn eine Authentifizierung erforderlich ist, geben Sie Werte in das Feld <strong>Benutzername</strong> und <strong>Kennwort</strong> ein.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+<li>Wählen Sie <strong>Aktualisieren</strong> aus.</li>
+<li>Wählen Sie auf der Registerkarte <strong>Test-E-mail</strong> im Feld <strong>E-Mail-Anbieter</strong> die Option <strong>SMTP</strong> aus.</li>
+<li>Geben Sie im Feld <strong>Senden an</strong> die E-Mail-Adresse ein, an die die Test-E-Mail gesendet werden soll.</li>
+<li>Wählen Sie <strong>Test-E-Mail senden</strong> aus.</li>
+</ol>
+<h2 id="configure-email-templates">Konfigurieren der E-Mail-Vorlagen</h2>
+<p>Für jedes Transaktionsereignis, für das Sie E-Mails senden möchten, müssen Sie die E-Mail-Vorlage mit einer gültigen Absender-E-Mail-Adresse aktualisieren.</p>
+<ol>
+<li><p>Melden Sie sich bei der Commerce-Zentralverwaltung an.</p>
+</li>
+<li><p>Verwenden Sie das Menü links, um zu <strong>Module &gt; Retail und Commerce &gt; Zentralverwaltungs-Setup &gt; Parameter &gt; Organisations-E-Mail-Vorlagen</strong> zu wechseln.</p>
+</li>
+<li><p>Wählen Sie <strong>Liste anzeigen</strong> aus.</p>
+</li>
+<li><p>Führen Sie für jede Vorlage in der Liste die folgenden Schritte aus:</p>
+<ol>
+<li>Geben Sie im Feld <strong>E-Mail des Absenders</strong> die E-Mail-Adresse des Absenders ein.</li>
+<li>Optional: Geben Sie im Feld <strong>Absendername</strong> den Namen ein, der als Absendername verwendet werden soll.</li>
+</ol>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong>.</p>
+</li>
+</ol>
+<h2 id="customize-email-templates">E-Mail-Vorlagen anpassen</h2>
+<p>Möglicherweise möchten Sie die E-Mail-Vorlagen so anpassen, dass sie unterschiedliche Bilder verwenden. Oder Sie möchten die Links in den Vorlagen aktualisieren, damit sie in Ihre Auswertungsumgebung gelangen. In dieser Prozedur wird erläutert, wie Sie die Standardvorlagen herunterladen, anpassen und die Vorlagen im System aktualisieren.</p>
+<ol>
+<li><p>Laden Sie über einen Webbrowser die <a href="https://download.microsoft.com/download/d/7/b/d7b6c4d4-fe09-4922-9551-46bbb29d202d/Commerce.Preview.Default.Email.Templates.zip">Microsoft Dynamics 365 Commerce--Auswertungsstandard-E-Mail-Vorlagen-ZIP-Datei</a> auf Ihren lokalen Computer herunter. Diese Datei enthält die folgenden HTML-Dokumente:</p>
+<ul>
+<li>Auftragsbestätigungsvorlage</li>
+<li>Geschenkkartenvorlage ausstellen</li>
+<li>Neue Auftragsvorlage</li>
+<li>Verpackungsvorlage</li>
+<li>Entnahmevorlage</li>
+</ul>
+</li>
+<li><p>Passen Sie die Vorlagen mit einem Text- oder HTML-Editor an. Schauen Sie sich die Lister der <a href="#supported-tokens-in-the-email-template">unterstützten Token</a> später in diesem Thema an.</p>
+</li>
+<li><p>Melden Sie sich bei Commerce an.</p>
+</li>
+<li><p>Navigieren Sie über das Menü links zu <strong>Module &gt; Organizationsverwaltung &gt; Einstellungen &gt; Organisations-E-Mail-Vorlagen</strong>.</p>
+</li>
+<li><p>Erweitern Sie die Liste auf der linken Seite, um alle Vorlagen anzuzeigen.</p>
+</li>
+<li><p>Gehen Sie für jede Vorlage, die Sie anpassen möchten, folgendermaßen vor:</p>
+<ol>
+<li>Wählen Sie die Vorlage in der Liste aus.</li>
+<li>Wählen Sie unter <strong>Inhalt der E-Mail-Nachricht</strong> die entsprechende Sprachversion in der Liste aus. (Die Standardsprache lautet <strong>en-us</strong>.)</li>
+<li>Wählen Sie uner <strong>Inhalt der E-Mail-Nachricht</strong> die Option <strong>Bearbeiten</strong> aus. Der Bereich <strong>E-Mail-Vorlage hochladen</strong> wird angezeigt.</li>
+<li>Wählen Sie <strong>Durchsuchen</strong> aus, und finden Sie die HTML-Datei mit dem angepassten Inhalt.</li>
+<li>Wählen Sie <strong>Hochladen</strong> aus. Die Vorlage wird in das System hochgeladen und eine Vorschau wird angezeigt.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+<li>Optional: Passen Sie die Eigenschaft <strong>Betreff</strong> der Vorlage an.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="supported-tokens-in-the-email-template">Unterstützte Token in der E-Mail-Vorlage</h3>
+<p>Diese Token werden beim Rendern per E-Mail durch die tatsächlichen Werte ersetzt, die für den Debitor und die Debitorenbestellung gelten.</p>
+<h4 id="sales-order">Auftrag</h4>
+<p>Die folgenden Token gelten für den gesamten Auftrag.</p>
+<table>
+<thead>
+<tr>
+<th>Name des Token</th>
+<th>Token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auftragsnummer</td>
+<td>%salesid%</td>
+</tr>
+<tr>
+<td>Debitorenname</td>
+<td>%customername%</td>
+</tr>
+<tr>
+<td>Lieferadresse</td>
+<td>%deliveryaddress%</td>
+</tr>
+<tr>
+<td>Rechnungsadresse</td>
+<td>%customeraddress%</td>
+</tr>
+<tr>
+<td>Spätestens</td>
+<td>%shipdate%</td>
+</tr>
+<tr>
+<td>Liefermodus</td>
+<td>%modeofdelivery%</td>
+</tr>
+<tr>
+<td>Skonto</td>
+<td>%discount%</td>
+</tr>
+<tr>
+<td>Mehrwertsteuer</td>
+<td>%tax%</td>
+</tr>
+<tr>
+<td>Bestellung gesamt</td>
+<td>%total%</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sales-line">Verkaufsposition</h4>
+<p>Die folgenden Token werden durch Werte für jedes Produkt im Auftrag ersetzt.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Setzen Sie den Token <strong>Produktliste – Start</strong> an den Anfang des HTML-Blocks, der für jedes Produkt wiederholt wird, und den Token <strong>Produktliste – Ende</strong> an das Ende des Blocks.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Name des Token</th>
+<th>Token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Produktliste - Start</td>
+<td>&lt;!--%tablebegin.salesline% --&gt;</td>
+</tr>
+<tr>
+<td>Produktliste - Ende</td>
+<td>&lt;!--%tableend.salesline%--&gt;</td>
+</tr>
+<tr>
+<td>Produktname</td>
+<td>%lineproductname%</td>
+</tr>
+<tr>
+<td>Beschreibung</td>
+<td>%lineproductdescription%</td>
+</tr>
+<tr>
+<td>Leistung</td>
+<td>%linequantity%</td>
+</tr>
+<tr>
+<td>Preiseinheit der Position</td>
+<td>%lineprice% (prüfen)</td>
+</tr>
+<tr>
+<td>Positionsartikel gesamt</td>
+<td>%linenetamount%</td>
+</tr>
+<tr>
+<td>Positionsrabatt</td>
+<td>%linediscount%</td>
+</tr>
+<tr>
+<td>Versanddatum</td>
+<td>%lineshipdate%</td>
+</tr>
+<tr>
+<td>Beschaffungsmethode</td>
+<td>%linedeliverymode%</td>
+</tr>
+<tr>
+<td>Lieferadresse</td>
+<td>%linedeliveryaddress%</td>
+</tr>
+<tr>
+<td>Verkaufseinheit der Position</td>
+<td>%lineunit%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="cpe-overview.html">Dynamics 365 Commerce-Auswertungsumgebung – Übersicht</a></p>
+<p><a href="provisioning-guide.html">Bereitstellen einer Dynamics 365 Commerce-Auswertungsumgebung</a></p>
+<p><a href="cpe-post-provisioning.html">Konfigurieren einer Dynamics 365 Commerce-Auswertungsumgebung</a></p>
+<p><a href="cpe-bopis.html">BOPIS in einer Dynamics 365 Commerce-Auswertungsumgebung konfigurieren</a></p>
+<p><a href="cpe-faq.html">Dynamics 365 Commerce-Auswertungsumgebung – FAQ</a></p>
+<p><a href="https://docs.microsoft.com/dynamics365/unified-operations/dev-itpro/lifecycle-services/lcs-user-guide">Microsoft Lifecycle Services (LCS)</a></p>
+<p><a href="https://docs.microsoft.com/business-applications-release-notes/october18/dynamics365-retail/retail-cloud-scale-unit">Retail Cloud Scale Unit (RCSU)</a></p>
+<p><a href="https://azure.microsoft.com/features/azure-portal">Microsoft Azure-Portal</a></p>
+<p><a href="https://aka.ms/Dynamics365CommerceWebsite">Dynamics 365 Commerce-Website</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

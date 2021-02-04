@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronize agreement invoices in Field Service to free text invoices in Supply Chain Management | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronize agreement invoices in Field Service to free text invoices in Supply Chain Management | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="synchronize-agreement-invoices-in-field-service-to-free-text-invoices-in-supply-chain-management">Synchronize agreement invoices in Field Service to free text invoices in Supply Chain Management</h1>
+
+[!include[rename-banner](~/includes/cc-data-platform-banner.md)]
+<p>This topic discusses the templates and underlying tasks that are used to synchronize agreement invoices in Dynamics 365 Field Service to free text invoices in Dynamics 365 Supply Chain Management.</p>
+<h2 id="templates-and-tasks">Templates and tasks</h2>
+<p>The following template and underlying tasks are used to run synchronization of agreement invoices from Field Service to free text invoices in Supply Chain Management.</p>
+<p><strong>Name of the template in Data integration</strong></p>
+<ul>
+<li>Agreement invoices (Field Service to Supply Chain Management)</li>
+</ul>
+<p><strong>Names of the tasks in the Data integration project</strong></p>
+<ul>
+<li>Invoice headers</li>
+<li>Invoice lines</li>
+</ul>
+<p>The following synchronization is required before synchronization of agreement invoices can occur:</p>
+<ul>
+<li>Accounts (Sales to Supply Chain Management) – Direct</li>
+</ul>
+<h2 id="entity-set">Entity set</h2>
+<table>
+<thead>
+<tr>
+<th>Field Service</th>
+<th>Supply Chain Management</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>invoices</td>
+<td>Dataverse customer free text invoice headers</td>
+</tr>
+<tr>
+<td>invoicedetails</td>
+<td>Dataverse customer free text invoice lines</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entity flow</h2>
+<p>Invoices that are created from an agreement in Field Service can be synchronized to Supply Chain Management via a Microsoft Dataverse Data integration project. Updates to these invoices will be synchronized to the free text invoices in Supply Chain Management if the accounting status of the free text invoices is <strong>In process</strong>. After the free text invoices are posted in Supply Chain Management, and the accounting status is updated to <strong>Completed</strong>, you can no longer synchronize updates from Field Service.</p>
+<h2 id="field-service-crm-solution">Field Service CRM solution</h2>
+<p>The <strong>Has Lines With Agreement Origin</strong> column has been added to the <strong>Invoice</strong> table. This column helps guarantee that only invoices that are created from an agreement are synchronized. The value is <strong>true</strong> if the invoice contains at least one invoice line that originates from an agreement.</p>
+<p>The <strong>Has Agreement Origin</strong> column has been added to the <strong>Invoice Line</strong> table. This column helps guarantee that only invoice lines that are created from an agreement are synchronized. The value is <strong>true</strong> if the invoice line originates from an agreement.</p>
+<p><strong>Invoice date</strong> is a mandatory field in Supply Chain Management. Therefore, the column must have a value in Field Service before synchronization occurs. To meet this requirement, the following logic is added:</p>
+<ul>
+<li>If the <strong>Invoice Date</strong> column is blank on the <strong>Invoice</strong> table (that is, if it has no value), it's set to the current date when an invoice line that originates from an agreement is added.</li>
+<li>The user can change the <strong>Invoice Date</strong> column. However, when the user tries to save an invoice that originates from an agreement, he or she receives a business process error if the <strong>Invoice Date</strong> column is blank on the invoice.</li>
+</ul>
+<h2 id="prerequisites-and-mapping-setup">Prerequisites and mapping setup</h2>
+<h3 id="in-supply-chain-management">In Supply Chain Management</h3>
+<p>An invoice origin must be set up for the integration, to distinguish the free text invoices in Supply Chain Management that are created from agreement invoices in Field Service. When an invoice has an invoice origin of the <strong>Agreement invoice integration</strong> type, the <strong>External invoice number</strong> field is shown on the <strong>Sales invoice</strong> header.</p>
+<p>Besides appearing on the invoice header, the <strong>External invoice number</strong> information can be used to help guarantee that invoices that are created from Field Service agreement invoices are filtered out during invoice synchronization from Supply Chain Management to Field Service.</p>
+<ol>
+<li>Go to <strong>Accounts receivable</strong> &gt; <strong>Setup</strong> &gt; <strong>Invoice origin codes</strong>.</li>
+<li>Select <strong>New</strong> to create a new invoice origin.</li>
+<li>In the <strong>Invoice origin</strong> field, enter a name for the invoice origin, such as <strong>FS</strong>.</li>
+<li>In the <strong>Description</strong> field, enter a description, such as <strong>Field Service Agreement Invoice</strong>.</li>
+<li>Select the <strong>Origin type assignment</strong> check box.</li>
+<li>Set the <strong>Invoice origin type</strong> field to <strong>Agreement invoice integration</strong>.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<h3 id="in-the-data-integration-project">In the Data Integration project</h3>
+<p>Task: <strong>Invoice lines</strong></p>
+<p>Make sure that the default value for the Supply Chain Management field <strong>Main Account Display Value</strong> is updated to match the desired value.</p>
+<p>The default template value is <strong>401100</strong>.</p>
+<h2 id="template-mapping-in-data-integration">Template mapping in Data integration</h2>
+<p>The following illustrations show the template mapping in Data integration.</p>
+<h3 id="agreement-invoices-field-service-to-supply-chain-management-invoice-headers">Agreement invoices (Field Service to Supply Chain Management): Invoice headers</h3>
+<p><a href="./media/FSFreeTextInvoice1.png"><img src="./media/FSFreeTextInvoice1.png" alt="Template mapping in Data integration"></a></p>
+<h3 id="agreement-invoices-field-service-to-supply-chain-management-invoice-lines">Agreement invoices (Field Service to Supply Chain Management): Invoice lines</h3>
+<p><a href="./media/FSFreeTextInvoice2.png"><img src="./media/FSFreeTextInvoice2.png" alt="Template mapping in Data integration"></a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

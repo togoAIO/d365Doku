@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Synchronisieren von Auftr&#228;gen direkt zwischen Sales und Supply Chain Management </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Synchronisieren von Auftr&#228;gen direkt zwischen Sales und Supply Chain Management ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Das Thema erkl&#228;rt die Vorlagen und die zugrunde liegenden Aufgaben, die verwendet werden, um die Synchronisierung von Autr&#228;gen direkt aus Dynamics 365 Sales mit Dynamics 365 Supply Chain Management auszuf&#252;hren.">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="../../fin-ops-core/dev-itpro/toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Core, Operations">
+    <meta name="ms.search.region" content="global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="synchronization-of-sales-orders-directly-between-sales-and-supply-chain-management">Synchronisieren von Aufträgen direkt zwischen Sales und Supply Chain Management</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Das Thema erklärt die Vorlagen und die zugrunde liegenden Aufgaben, die verwendet werden, um die Synchronisierung von Auträgen direkt aus Dynamics 365 Sales mit Dynamics 365 Supply Chain Management auszuführen.</p>
+<h2 id="data-flow-in-prospect-to-cash">Datenfluss in Interessent nach Bargeld</h2>
+<p>Die Lösung Interessent nach Bargeld verwendet die Datenenintegrationsfunktion, um Daten über Instanzen von Supply Chain Management und Sales hinweg zu synchronisieren. Die „Interessent zu Bargeld“-Vorlagen, die über die Datenintegrationsfunktion verfügbar sind, ermöglichen den Fluss von Konten, Kontakten, Produkten, Verkaufsangeboten, Aufträgen und Verkaufsrechnungen zwischen Supply Chain Management und Sales. Die folgende Abbildung zeigt, wie Daten zwischen Supply Chain Management und Sales synchronisiert werden.</p>
+<p><a href="media/prospect-to-cash-data-flow.png"><img src="media/prospect-to-cash-data-flow.png" alt="Datenfluss in Interessent nach Bargeld"></a></p>
+<h2 id="templates-and-tasks">Vorlagen und Aufgaben</h2>
+<p>Um auf die verfügbaren Vorlagen zuzugreifen, öffnen Sie <a href="https://preview.admin.powerapps.com/dataintegration">Power Apps-Administrator-Center</a>. Wählen Sie <strong>Projekte</strong>, und dann auf, in der oberen rechten Ecke, wählen Sie <strong>Neues Projekt</strong>, um öffentliche Vorlagen auszuwählen.</p>
+<p>Die folgenden Vorlagen und zugrunde liegenden Aufgaben werden verwendet, um Auftragskopfzeilen und -positionen direkt zwischen Finance and Operations und Supply Chain Management zu synchronisieren:</p>
+<ul>
+<li><p><strong>Name der Vorlagen in der Datenintegration:</strong></p>
+<ul>
+<li>Aufträge (Sales zu Supply Chain Management) – Direkt</li>
+<li>Aufträge (Supply Chain Management zu Sales) – Direkt</li>
+</ul>
+</li>
+<li><p><strong>Namen der Aufgaben im Datenintegrationsprojekt:</strong></p>
+<ul>
+<li>OrderHeader</li>
+<li>OrderLine</li>
+</ul>
+</li>
+</ul>
+<p>Die folgenden Synchronisierungsaufgaben sind erforderlich, bevor die Synchronisierung von Rechnungskopfzeilen und -positionen erfolgen kann:</p>
+<ul>
+<li>Produkte (Supply Chain Management zu Sales) – Direkt</li>
+<li>Konten (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+<li>Kontakte zu Kunden (Sales zu Supply Chain Management) – Direkt (falls verwendet)</li>
+</ul>
+<h2 id="entity-set">Entitätssatz</h2>
+<table>
+<thead>
+<tr>
+<th>Lieferkettenverwaltung</th>
+<th>Verk.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auftragskopfzeilen CDS</td>
+<td>SalesOrders</td>
+</tr>
+<tr>
+<td>CDS-Auftragspositionen</td>
+<td>SalesOrderDetails</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entity-flow">Entitätsfluss</h2>
+<p>Aufträge werden in Sales erstellt und mit Supply Chain Management synchronisiert, wenn die <strong>Projekt ausführen</strong> für ein Projekt auf Basis der Vorlage <strong>Aufträge (Sales zu Supply Chain Management) - Direkt</strong> ausgelöst wird. Sie können Aufträge aus Sales aktivieren und synchronisieren, wenn alle <strong>Auftrag (Produkte)</strong> aus Produkten bestehen, die außerhalb verwaltet werden. Daher kann es keine nicht-beschreibbare Produkte geben. Nachdem der Auftrag aktiviert ist, wird der Auftrag in der Benutzeroberfläche (UI) schreibgeschützt. Zu diesem Zeitpunkt werden Aktualisierungen von Supply Chain Management vorgenommen. Nachdem ein Auftrag den Status <strong>Bestätigt</strong> besitzt, wird die <strong>Aufträge (Supply Chain Management zu Sales) - Direkt</strong> Vorlage verwendet, um alle Aktualisierungen oder den Erfüllungsstatus von Supply Chain Management mit Sales zu synchronisieren.</p>
+<p>Sie müssen keine Aufträge in Sales erstellen. Sie können neue Aufträge im Bereich Supply Chain Management stattdessen erstellen. Nachdem ein Auftrag den Status <strong>Bestätigt</strong> besitzt, wird er mit Sales synchronisiert, wie im vorherigen Absatz beschrieben.</p>
+<p>In Supply Chain Management helfen Filter in der Vorlage, sicherzustellen, dass nur relevante Aufträge in die Synchronisierung einfließen:</p>
+<ul>
+<li>Sowohl der Bestellungskunde als auch der Rechnungsdebitor auf dem Auftrag, der aus Sales stammt, werden in die Synchronisierung einbezogen. In Supply Chain Management werden die Felder <strong>OrderingCustomerIsExternallyMaintained</strong> und <strong>InvoiceCustomerIsExternallyMaintained</strong> verwendet, um Aufträge aus den Datenentitäten zu filtern.</li>
+<li>Der Auftrag in Supply Chain Management muss bestätigt werden. Nur bestätigte Aufträge oder Aufträge mit fortgeschrittenem Verarbeitungsstatus (beispielsweise <strong>Versendet</strong> oder <strong>Fakturiert</strong>) werden mit Sales synchronisiert.</li>
+<li>Nach dem Erstellen oder Ändern eines Auftrags, muss der Stapelverarbeitungsauftrag <strong>Verkaufssummen berechnen</strong> aus Supply Chain Management ausgeführt werden. Nur Aufträge, bei denen Auftragssummen berechnet wurden, werden mit Sales synchronisiert.</li>
+</ul>
+<h2 id="freight-tax">Frachtsteuer</h2>
+<p>Sales unterstützt keine Steuer auf Kopfzeilenebene, da Steuer auf Positionsebene gespeichert wird. Um Steuer auf Kopfebene von der Supply Chain Management zu erhalten, wie Steuer auf Fracht zu unterstützen, synchronisiert das System Steuer mit Sales als eine Einfügungsprodukt namens <strong>Frachtsteuer</strong> und dies hat den Steuerbetrag aus Supply Chain Management. Auf diese Weise kann die Standardkostenkalkulation in Sales verwendet werden, um Summen zu berechnen, wenn es Steuer auf Kopfebene von Supply Chain Management gibt.</p>
+<h2 id="discount-calculation-and-rounding">Anwendung und Rundung von Rabatten.</h2>
+<p>Das Rabattberechnungsmodell in Sales unterscheidet sich insofern vom Modell im Bereich Supply Chain Management. In Supply Chain Management kann der endgültige Rabattbetrag in einer Sales-Position die Ergebnisse einer Kombination von Rabattbeträgen und von Rabattprozentsätzen sein. Bei der abschließenden Rabattbetrag durch die Menge für die Position geteilt wird, kann möglicherweise das Runden auftreten. Allerdings wird diese Rundung nicht berücksichtigt, wenn ein Pro Einheit-Rabattbetrag, der gerundet werden soll, mit Sales synchronisiert wird. Um den gesamten Rabattbetrag in einer Verkaufsposition in Supply Chain Management ordnungsgemäß zu synchronisieren, muss der Gesamtbetrag mit Sales synchronisiert werden, ohne nach Positionsmenge aufgeteilt werden. Daher müssen Sie <strong>Rabattberechnungsmethode</strong> als <strong>Positionsartikel</strong> in Sales festlegen.</p>
+<p>Wenn eine Auftragsposition von Sales zu Supply Chain Management synchronisiert wird, wird der vollständige Betrag für den Positionsrabatt verwendet. Da Supply Chain Management kein Feld hat, das den Rabattbetrag für vollständigen eine Position speichern kann, wird der Betrag durch die Menge dividiert und gespeichert im Feld <strong>Positionsrabatt</strong>. Jede Rundung, die für diese Periode vorkommt, wird im Feld <strong>Sales - Belastungen</strong> auf der Verkaufsposition gespeichert.</p>
+<h3 id="example">Beispiel</h3>
+<p><strong>Synchronisierung von Sales zu Supply Chain Management</strong></p>
+<ul>
+<li><strong>Sales:</strong> = Menge = 3, Pro-Positionsrabatt = $10.00</li>
+<li><strong>Supply Chain Management:</strong> Menge = 3, Positionsrabattbetrag = $3,33, Verkaufszuschlag = -$0,01</li>
+</ul>
+<p><strong>Synchronisierung von Supply Chain Management zu Sales</strong></p>
+<ul>
+<li><strong>Supply Chain Management:</strong> Menge = 3, Positionsrabattbetrag = $3,33, Verkaufszuschlag = -$0,01</li>
+<li><strong>Sales:</strong> = Menge = 3, Pro-Positionsrabatt = (3 × $3.33) + $0.01 = $10.00</li>
+</ul>
+<h2 id="prospect-to-cash-solution-for-sales">Prospect to Cash-Lösung für Sales</h2>
+<p>Neue Felder wurden der Entität <strong>Auftrag</strong> hinzugefügt und auf der Seite angezeigt:</p>
+<ul>
+<li><p><strong>Wird extern verwaltet</strong> – Auf <strong>Ja</strong> setzen, wenn der Auftrag aus Supply Chain Management stammt.</p>
+</li>
+<li><p><strong>Verarbeitungsstatus</strong> – Wird verwendet, um den Verarbeitungsstatus des Auftrags in Supply Chain Management anzuzeigen. Folgende Werte sind verfügbar:</p>
+<ul>
+<li><strong>Entwurf</strong> – Der anfängliche Status, wenn der erstmals Auftrag in Sales erstellt wird. In Sales können nur Aufträge mit diesem Bearbeitungsstatus bearbeitet werden.</li>
+<li><strong>Aktiv</strong> – Der Status wird nach dem Auftrag in Sales mithilfe der Schaltfläche <strong>Aktivieren</strong> in Sales aktiviert.</li>
+<li><strong>Bestätigt</strong></li>
+<li><strong>Lieferschein</strong></li>
+<li><strong>Fakturiert</strong></li>
+<li><strong>Entnommen</strong></li>
+<li><strong>Teilweise kommissioniert</strong></li>
+<li><strong>Teilweise verpackt</strong></li>
+<li><strong>Versendet</strong></li>
+<li><strong>Teilweise geliefert</strong></li>
+<li><strong>Teilweise fakturiert</strong></li>
+<li><strong>Storniert</strong></li>
+</ul>
+</li>
+</ul>
+<p>Das Feld <strong>Verfügt nur über extern verwaltete Produkte</strong> ist der Entität „Angebot” hinzugefügt worden, um stets nachzuverfolgen, ob das Verkaufsangebot vollständig aus extern verwalteten Produkten besteht. Wenn ein Verkaufsauftrag nur aus extern verwalteten Produkten besteht, werden die Produkte in Supply Chain Management verwaltet. Mit diesem Verhalten wird sichergestellt, dass Sie nicht aktivieren und versuchen, Verkaufsangebotspositionen mit Produkten zu synchronisieren, die in Supply Chain Management unbekannt sind.</p>
+<p>Bei extern verwalteten Aufträgen, werden die Schaltflächen <strong>Rechnung erstellen</strong>, <strong>Auftrag stornieren</strong>, <strong>Neu berechnen</strong> und die für <strong>Produkte abrufen</strong> und <strong>Adresse suchen</strong> auf der Seite <strong>Auftrag</strong> ausgeblendet, da Rechnungen in Supply Chain Management erstellt und mit Sales synchronisiert werden. Die Seite „Auftrag“ kann nicht geändert werden, da Auftragsinformationen über Supply Chain Management synchronisiert werden.</p>
+<p>Der Auftragsstatus bleibt <strong>Aktiv</strong>, um sicherstellen, dass Änderungen aus Supply Chain Management in Sales in den Auftrag einfließen. Dies wird gesteuert, indem Sie den standardmäßigen <strong>Statecode [Status]</strong> Wert auf <strong>Aktiv</strong> setzen.</p>
+<h2 id="preconditions-and-mapping-setup">Voraussetzungen und Einrichtung der Zuordnung</h2>
+<p>Vor dem Synchronisieren von Aufträgen müssen die Systeme mit den folgenden Einstellungen synchronisiert werden:</p>
+<h3 id="setup-in-sales">Einrichtung in Sales</h3>
+<ul>
+<li><p>Stellen Sie sicher, dass Berechtigungen für das Team, zu dem der Benutzer (aus Ihren Verbindungseinstellungen in Sales) zugewiesen ist, vorhanden sind. Werden Demodaten verwendet, hat in der Regel der Benutzer einen Administratorzugriff aber nicht das Team. Wenn dieses Team nicht Administratorzugriff hat, wenn Sie das Projekt vom Datenintegrator ausführen, erhalten Sie eine Fehlermeldung, die angibt, dass das Hauptteam fehlt.</p>
+<p>Wählen Sie unter <strong>Einstellungen</strong> &gt; <strong>Sicherheit</strong> &gt; <strong>Teams</strong> das relevante Team aus, klicken Sie auf die Option für <strong>Rollen verwalten</strong>, und wählen Sie eine Rolle mit den benötigten Berechtigungen aus, beispielsweise <strong>Systemadministrator</strong>.</p>
+</li>
+<li><p>Um die korrekte Berechnung von Rabatten in Sales und Supply Chain Management sicherzustellen, muss <strong>Rabattberechnungsmethode</strong> auf <strong>Positionsartikel</strong> festgelegt werden.</p>
+</li>
+<li><p>Gehen Sie zu &gt; Sie <strong>Einstellungen</strong> <strong>Verwaltung</strong> &gt; <strong>Systemeinstellungen</strong> &gt; <strong>Sales</strong> zu öffnen, und überprüfen Sie, ob die folgenden Einstellungen verwendet werden:</p>
+<ul>
+<li>Die Option <strong>Systempreisberechnungssystem verwenden</strong> wird auf <strong>Ja</strong> festgelegt.</li>
+<li>Das Feld <strong>Rabattberechnungsmethode</strong> wird auf <strong>Positionsartikel</strong> festgelegt.</li>
+</ul>
+</li>
+</ul>
+<h3 id="setup-in-supply-chain-management">Einrichtung in Supply Chain Management</h3>
+<ul>
+<li>Gehen Sie zu &gt; <strong>Vertrieb und Marketing</strong> <strong>Periodische Aufgaben</strong> &gt; <strong>Berechnen Sie wünschenswert</strong>, und richten Sie sie, dass sie als Stapelverarbeitungslauf ausgeführt wird. Legen sie Option <strong>Berechnen Sie Summen für Aufträge</strong> auf <strong>Ja</strong> fest. Diese Einstellung ist wichtig, da nur Aufträge, bei denen Auftragssummen berechnet wurden, werden mit Sales synchronisiert. Die Häufigkeit des Stapelverarbeitungsauftrags sollte sich an der Häufigkeit der Auftragssynchronisierung orientieren.</li>
+</ul>
+<p>Wenn Sie auch Arbeitsauftragsintegration verwenden, müssen Sie die Auftragsgrundlage einrichten. Die Auftragsgrundlage wird verwendet, um zwischen Aufträgen in Supply Chain Management zu unterscheiden, die aus Arbeitsaufträgen in Field Service erstellt wurden. Wenn ein Auftrag eine Auftragsgrundlage des Typs <strong>Arbeitsauftragsintegration</strong> hat, wird das Feld <strong>Externer Arbeitsauftragsstatus</strong> im Auftragskopf angezeigt. Darüber hinaus wird durch die Auftragsgrundlage sichergestellt, dass Aufträge, die aus Arbeitsaufträgen in Field Service erstellt wurden, während der Auftragssynchronisierung von Supply Chain Management mit Field Service herausgefiltert werden.</p>
+<ol>
+<li>Wechseln Sie zu <strong>Vertrieb und Marketing</strong> &gt; <strong>Setup</strong> &gt; <strong>Aufträge</strong> &gt; <strong>Auftragsgrundlage</strong>.</li>
+<li>Wählen Sie <strong>Neu</strong> aus, um einen neuen Auftragsgrundlage zu erstellen.</li>
+<li>Geben Sie im Feld <strong>Auftragsgrundlage</strong> einen Namen für den Auftragsgrundlage ein, wie beispielsweise <strong>SalesOrder</strong>.</li>
+<li>Geben Sie im Feld <strong>Beschreibung</strong> eine Beschreibung ein, wie beispielsweise <strong>Auftrag aus Verkauf</strong>.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Ursprungstypzuweisung</strong>.</li>
+<li>Legen Sie das Feld <strong>Auftragsgrundlagentyp</strong> auf <strong>Auftragsintegration</strong> fest.</li>
+<li>Wählen Sie <strong>Speichern</strong>.</li>
+</ol>
+<h3 id="setup-in-the-sales-orders-sales-to-supply-chain-management---direct-data-integration-project">Einstellungen in Aufträgen (Sales zu Supply Chain Management) - direktes Datenenintegrationsprojekt</h3>
+<ul>
+<li><p>Vergewissern Sie sich, dass die erforderliche Zuordnung für <strong>Shipto_Land</strong> zu <strong>DeliveryAddressCountryRegionISOCode</strong> vorhanden ist. Sie können Leer als Standardwert in der Wertzuordnung festlegen, um für Zahlungen nationaler Aufträge kein Land eingeben zu müssen. Lassen Sie einfach die linke Seite leer, und legen die rechte Seite auf das gewünschte Land oder die Region fest.</p>
+<p>Der Vorlagenwert ist eine Wertzuordnung, in der verschiedene Länder/Regionen zugeordnet sind, und wo ein leerer Wert dem Wert USA entspricht.</p>
+</li>
+</ul>
+<h3 id="setup-in-the-sales-orders-supply-chain-management-to-sales---direct-data-integration-project">Einstellungen in Aufträgen (Supply Chain Management zu Sales) - direktes Datenenintegrationsprojekt</h3>
+<h4 id="salesheader-task">SalesHeader-Aufgabe</h4>
+<ul>
+<li><p>Preisliste ist erforderlich, um Aufträge in Sales zu erstellen. Aktualisieren Sie die Wertzuordnung für <strong>pricelevelid.name [Price List Name]</strong> auf die Preisliste, die in Sales pro Währung verwendet wird. Sie können die Standardpreisliste für eine einzelne Währung verwenden. Alternativ können Sie, wenn Sie Preislisten in mehreren Währungen haben, eine Zuordnung verwenden.</p>
+<p>Der Standardvorlagewert für <strong>pricelevelid.name [Price List Name]</strong> ist <strong>CRM Service USA (Beispiel)</strong>.</p>
+</li>
+</ul>
+<h4 id="salesline-task">SalesLine-Aufgabe</h4>
+<ul>
+<li><p>Stellen Sie sicher, dass die erforderliche Wertzuordnung für <strong>SalesUnitSymbol</strong> in Supply Chain Management vorhanden ist.</p>
+</li>
+<li><p>Überprüfen Sie, dass die obligatorischen Einheiten in Sales definiert sind.</p>
+<p>Ein Vorlagenwert, eine der Wertzuordnung ist, wird für <strong>SalesUnitSymbol</strong> definiert <strong>oumid.name</strong></p>
+</li>
+</ul>
+<h2 id="template-mapping-in-data-integration">Vorlagenzuordnung in Datenintegration</h2>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Felder <strong>Zahlungsbedingungen</strong>, <strong>Frachtkonditionen</strong>, <strong>Lieferbedingungen</strong>, <strong>Liefermethode</strong> und <strong>Liefermodus</strong> sind nicht Teil der Standardzuordnungen. Um diese Feldern zuzuordnen, müssen Sie eine Wertzuordnung einrichten, die spezifisch für die Daten in den Organisationen ist, zwischen denen die Entität synchronisiert wird.</p>
+</div>
+<p>Die folgenden Abbildungen zeigen ein Beispiel für eine Vorlagenzuordnung in Datenintegration.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Zuordnung zeigt, welche Feldinformationen von Sales zu Supply Chain Management synchronisiert werden oder von Supply Chain Management zu Sales.</p>
+</div>
+<h3 id="sales-orders-supply-chain-management-to-sales---direct-orderheader">Aufträge (Supply Chain Management zu Sales) – Direkt: OrderHeader</h3>
+<p><a href="media/sales-order-direct-template-mapping-data-integrator-1.png"><img src="media/sales-order-direct-template-mapping-data-integrator-1.png" alt="Vorlagenzuordnung in Datenintegration"></a></p>
+<h3 id="sales-orders-supply-chain-management-to-sales---direct-orderline">Aufträge (Supply Chain Management zu Sales) – Direkt: OrderLine</h3>
+<p><a href="media/sales-order-direct-template-mapping-data-integrator-2.png"><img src="media/sales-order-direct-template-mapping-data-integrator-2.png" alt="Vorlagenzuordnung in Datenintegration"></a></p>
+<h3 id="sales-orders-sales-to-supply-chain-management---direct-orderheader">Aufträge (Sales zu Supply Chain Management) – Direkt: OrderHeader</h3>
+<p><a href="media/sales-order-direct-template-mapping-data-integrator-3.png"><img src="media/sales-order-direct-template-mapping-data-integrator-3.png" alt="Vorlagenzuordnung in Datenintegration"></a></p>
+<h3 id="sales-orders-sales-to-supply-chain-management---direct-orderline">Aufträge (Sales zu Supply Chain Management) – Direkt: OrderLine</h3>
+<p><a href="media/sales-order-direct-template-mapping-data-integrator-4.png"><img src="media/sales-order-direct-template-mapping-data-integrator-4.png" alt="Vorlagenzuordnung in Datenintegration"></a></p>
+<h2 id="related-topics">Verwandte Themen</h2>
+<p><a href="prospect-to-cash.html">Interessent zu Bargeld</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/supply-chain/sales-marketing/sales-order-template-mapping-direct-two-ways.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

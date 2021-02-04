@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Defer the execution of XML elements in ER formats | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Defer the execution of XML elements in ER formats | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="defer-the-execution-of-xml-elements-in-er-formats">Defer the execution of XML elements in ER formats</h1>
+
+<h2 id="overview">Overview</h2>
+<p>You can use the Operations designer of the <a href="general-electronic-reporting.html">Electronic reporting (ER)</a> framework to <a href="tasks/er-format-configuration-2016-11.html">configure</a> the <a href="general-electronic-reporting.html#FormatComponentOutbound">format component</a> of an ER solution that is used to generate outbound documents in XML format. The hierarchical structure of the configured format component consists of format elements of various types. These format elements are used to fill generated documents with the required information at runtime. By default, when you run an ER format, the format elements are run in the same order as they are presented in the format hierarchy: one by one, from top to bottom. However, at design time, you can change the execution order for any XML elements of the configured format component.</p>
+<p>By turning on the <a name="DeferredXmlElementExecution"></a><strong>Deferred execution</strong> option for an XML element in the configured format, you can defer (postpone) the execution of that element. In this case, the element isn't run until all other elements of its parent have been run.</p>
+<p>To learn more about this feature, complete the example in this topic.</p>
+<h2 id="limitations">Limitations</h2>
+<p>The <strong>Deferred execution</strong> option is supported only for XML elements that are configured for an ER format that is used to generate <strong>outbound</strong> documents in XML format.</p>
+<p>The <strong>Deferred execution</strong> option is supported only for XML elements that reside in only one other XML element. Therefore, it isn't applicable to XML elements that reside in other types of format elements (for example, in an <strong>XML sequence</strong> element).</p>
+<p>The <strong>Deferred execution</strong> option isn't supported for XML elements that reside in the <strong>Common\File</strong> format element when the <strong>Split file</strong> option is set to <strong>Yes</strong>. For more information about how to split XML files, see <a href="er-split-files.html">Split generated XML files based on file size and content quantity</a>.</p>
+<h2 id="Example">Example: Defer the execution of an XML element in an ER format</h2>
+<p>The following steps explain how a user in the System administrator or Electronic reporting functional consultant <a href="https://docs.microsoft.com/dynamics365/fin-ops-core/dev-itpro/sysadmin/tasks/assign-users-security-roles">role</a> can configure an ER format that contains an XML element where the order of execution differs from the order in the format hierarchy.</p>
+<p>These steps can be performed in the <strong>USMF</strong> company in Microsoft Dynamics 365 Finance.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>To complete this example, you must have access to the <strong>USMF</strong> company in Finance for one of the following roles:</p>
+<ul>
+<li>Electronic reporting functional consultant</li>
+<li>System administrator</li>
+</ul>
+<p>If you haven't yet completed the example in the <a href="er-defer-sequence-element.html#Example">Defer the execution of sequence elements in ER formats</a> topic, download the following <a href="general-electronic-reporting.html#Configuration">configurations</a> of the sample ER solution.</p>
+<table>
+<thead>
+<tr>
+<th>Content description</th>
+<th>File name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ER data model configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Model to learn deferred elements.version.1.xml</a></td>
+</tr>
+<tr>
+<td>ER model mapping configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Mapping to learn deferred elements.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<p>Before you begin, you must also download and save the following configuration of the sample ER solution to your local computer.</p>
+<table>
+<thead>
+<tr>
+<th>Content description</th>
+<th>File name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ER format configuration</td>
+<td><a href="https://mbs.microsoft.com/customersource/Global/AX/downloads/hot-fixes/365optelecrepeg">Format to learn deferred XML elements.version.1.1.xml</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="import-the-sample-er-configurations">Import the sample ER configurations</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, if the <strong>Model to learn deferred elements</strong> configuration isn't available in the configuration tree, import the ER data model configuration:</p>
+<ol>
+<li>Select <strong>Exchange</strong>, and then select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, find and select the <strong>Model to learn deferred elements.1.xml</strong> file, and then select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>If the <strong>Mapping to learn deferred elements</strong> configuration isn't available in the configuration tree, import the ER model mapping configuration:</p>
+<ol>
+<li>Select <strong>Exchange</strong>, and then select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, find and select the <strong>Mapping to learn deferred elements.1.1.xml</strong> file, and then select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>Import the ER format configuration:</p>
+<ol>
+<li>Select <strong>Exchange</strong>, and then select <strong>Load from XML file</strong>.</li>
+<li>Select <strong>Browse</strong>, find and select the <strong>Format to learn deferred XML elements.1.1.xml</strong> file, and then select <strong>OK</strong>.</li>
+</ol>
+</li>
+<li><p>In the configuration tree, expand <strong>Model to learn deferred elements</strong>.</p>
+</li>
+<li><p>Review the list of imported ER configurations in the configuration tree.</p>
+<p><img src="./media/ER-DeferredXml-Configurations.png" alt="Imported ER configurations on the Configurations page"></p>
+</li>
+</ol>
+<h3 id="activate-a-configuration-provider">Activate a configuration provider</h3>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>On the <strong>Localization configurations</strong> page, in the <strong>Configuration providers</strong> section, make sure that the <a href="general-electronic-reporting.html#Provider">configuration provider</a> for the Litware, Inc. (<code>http://www.litware.com</code>) sample company is listed, and that it's marked as active. If this configuration provider isn't listed, or if it isn't marked as active, follow the steps in the <a href="tasks/er-configuration-provider-mark-it-active-2016-11.html">Create a configuration provider and mark it as active</a> topic.</p>
+<p><img src="./media/ER-DeferredXml-ElectronicReportingWorkspace.png" alt="Litware, Inc. sample company on the Localization configurations page"></p>
+</li>
+</ol>
+<h3 id="review-the-imported-model-mapping">Review the imported model mapping</h3>
+<p>Review the settings of the ER model mapping component that is configured to access tax transactions and expose accessed data on request.</p>
+<ol>
+<li><p>Go to <strong>Organization administration</strong> &gt; <strong>Workspaces</strong> &gt; <strong>Electronic reporting</strong>.</p>
+</li>
+<li><p>Select <strong>Reporting configurations</strong>.</p>
+</li>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, expand <strong>Model to learn deferred elements</strong>.</p>
+</li>
+<li><p>Select the <strong>Mapping to learn deferred elements</strong> configuration.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to open the list of mappings.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to review the mapping details.</p>
+</li>
+<li><p>Select <strong>Show details</strong>.</p>
+</li>
+<li><p>Review the data sources that are configured to access tax transactions:</p>
+<ul>
+<li><p>The <strong>Transactions</strong> data source of the <em>Table record</em> type is configured to access records of the <strong>TaxTrans</strong> application table.</p>
+</li>
+<li><p>The <strong>Vouchers</strong> data source of the <em>Calculated field</em> type is configured to return the required voucher codes (<strong>INV-10000349</strong> and <strong>INV-10000350</strong>) as a list of records.</p>
+</li>
+<li><p>The <strong>Filtered</strong> data source of the <em>Calculated field</em> type is configured to select, from the <strong>Transactions</strong> data source, only tax transactions of the required vouchers.</p>
+</li>
+<li><p>The <strong>$TaxAmount</strong> field of the <em>Calculated field</em> type is added for the <strong>Filtered</strong> data source to expose the tax value that has the opposite sign.</p>
+</li>
+<li><p>The <strong>Grouped</strong> data source of the <em>Group By</em> type is configured to group filtered tax transactions of the <strong>Filtered</strong> data source.</p>
+</li>
+<li><p>The <strong>TotalSum</strong> aggregation field of the <strong>Grouped</strong> data source is configured to summarize values of the <strong>$TaxAmount</strong> field of the <strong>Filtered</strong> data source for all filtered tax transactions of that data source.</p>
+<p><img src="./media/ER-DeferredXml-GroupByParameters.png" alt="TotalSum aggregation field on the Edit 'GroupBy' parameters page"></p>
+</li>
+</ul>
+</li>
+<li><p>Review how the configured data sources are bound to the data model, and how they expose accessed data to make it available in an ER format:</p>
+<ul>
+<li>The <strong>Filtered</strong> data source is bound to the <strong>Data.List</strong> field of the data model.</li>
+<li>The <strong>$TaxAmount</strong> field of the <strong>Filtered</strong> data source is bound to the <strong>Data.List.Value</strong> field of the data model.</li>
+<li>The <strong>TotalSum</strong> field of the <strong>Grouped</strong> data source is bound to the <strong>Data.Summary.Total</strong> field of the data model.</li>
+</ul>
+<p><img src="./media/ER-DeferredXml-ModelMapping.png" alt="Model mapping designer page"></p>
+</li>
+<li><p>Close the <strong>Model mapping designer</strong> and <strong>Model mappings</strong> pages.</p>
+</li>
+</ol>
+<h3 id="review-the-imported-format">Review the imported format</h3>
+<ol>
+<li><p>On the <strong>Configurations</strong> page, in the configuration tree, select the <strong>Format to learn deferred XML elements</strong> configuration.</p>
+</li>
+<li><p>Select <strong>Designer</strong> to review the format details.</p>
+</li>
+<li><p>Select <strong>Show details</strong>.</p>
+</li>
+<li><p>Review the settings of the ER format components that are configured to generate an outbound document in XML format that includes details of the tax transactions:</p>
+<ul>
+<li>The <strong>Report\Message</strong> XML element is configured to fill the outbound document with a single node that includes the nested XML elements (<strong>Header</strong>, <strong>Record</strong>, and <strong>Summary</strong>).</li>
+<li>The <strong>Report\Message\Header</strong> XML element is configured to fill the outbound document with a single header node that shows the date and time when the processing starts.</li>
+<li>The <strong>Report \Message\Record</strong> XML element is configured to fill the outbound document with a single record node that shows the details of a single tax transaction.</li>
+<li>The <strong>Report\Message\Summary</strong> XML element is configured to fill the outbound document with a single summary node that includes the sum of the tax values from the processed tax transactions.</li>
+</ul>
+<p><img src="./media/ER-DeferredXml-Format.png" alt="Message XML element and nested XML elements on the Format designer page"></p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, review the following details:</p>
+<ul>
+<li>The <strong>Report\Message\Header</strong> element doesn't have to be bound to a source to generate a single node in an outbound document.</li>
+<li>The <strong>ExecutionDateTime</strong> attribute generates the date and time (including milliseconds) when the header node is added.</li>
+<li>The <strong>Report\Message\Record</strong> element is bound to the <strong>model.Data.List</strong> list to generate a single record node for every record from the bound list.</li>
+<li>The <strong>TaxAmount</strong> attribute is bound to <strong>model.Data.List.Value</strong> (which is shown as <strong>@.Value</strong> in the relative path view) to generate the tax value of the current tax transaction.</li>
+<li>The <strong>RunningTotal</strong> attribute is a placeholder for the running total of the tax values. Currently, this attribute has no output, because neither a binding nor a default value is configured for it.</li>
+<li>The <strong>ExecutionDateTime</strong> attribute generates the date and time (including milliseconds) when the current transaction is processed in this report.</li>
+<li>The <strong>Report\Message\Summary</strong> element doesn't have to be bound to a data source to generate a single node in an outbound document.</li>
+<li>The <strong>TotalTaxAmount</strong> attribute is bound to <strong>model.Data.Summary.Total</strong> to generate the sum of the tax values of the processed tax transactions.</li>
+<li>The <strong>ExecutionDateTime</strong> attribute generates the date and time (including milliseconds) when the summary node is added.</li>
+</ul>
+<p><img src="./media/ER-DeferredXml-Format2.png" alt="Mapping tab on the Format designer page"></p>
+</li>
+</ol>
+<h3 id="run-the-imported-format">Run the imported format</h3>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, select <strong>Run</strong>.</p>
+</li>
+<li><p>Download the file that the web browser offers, and open it for review.</p>
+<p><img src="./media/ER-DeferredXml-Run.png" alt="Downloaded file"></p>
+</li>
+</ol>
+<p>Notice that the summary node presents the sum of the tax values for the processed transactions. Because the format is configured to use the <strong>model.Data.Summary.Total</strong> binding to return this sum, the sum is calculated by calling the <strong>TotalSum</strong> aggregation of the <strong>Grouped</strong> data source of the <em>GroupBy</em> type in the model mapping. To calculate this aggregation, the model mapping iterates over all transactions that have been selected in the <strong>Filtered</strong> data source. By comparing the execution times of the summary node and the last record node, you can determine that calculation of the sum took 12 milliseconds (ms). By comparing the execution times of the first and last record nodes, you can determine that generation of all record nodes took 9 ms. Therefore, a total of 21 ms was required.</p>
+<h3 id="modify-the-format-so-that-the-calculation-is-based-on-generated-output">Modify the format so that the calculation is based on generated output</h3>
+<p>If the volume of transaction is much larger than the volume in the current example, the calculation time might increase and cause performance issues. By changing the setting of the format, you can help prevent these performance issues. Because you access tax values to include them in the generated report, you can reuse this information to calculate tax values. For more information, see <a href="tasks/er-format-counting-summing-1.html">Configure format to do counting and summing</a>.</p>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Format</strong> tab, select the <strong>Report</strong> file element in the format tree.</p>
+</li>
+<li><p>Set the <strong>Collect output details</strong> option to <strong>Yes</strong>. You can now configure this format by using the content of a generated report as a data source that can be accessed by using the built-in ER functions in the <a href="er-functions-category-data-collection.html">Data collection</a> category.</p>
+</li>
+<li><p>On the <strong>Mapping</strong> tab, select the <strong>Report\Message\Record</strong> XML element.</p>
+</li>
+<li><p>Configure the <strong>Collected data key name</strong> expression as <code>WsColumn</code>.</p>
+</li>
+<li><p>Configure the <strong>Collected data key value</strong> expression as <code>WsRow</code>.</p>
+<p><img src="./media/ER-DeferredXml-Format3.png" alt="Record XML element on the Format designer page"></p>
+</li>
+<li><p>Select the <strong>Report\Message\Record\TaxAmount</strong> attribute.</p>
+</li>
+<li><p>Configure the <strong>Collected data key name</strong> expression as <code>SummingAmountKey</code>.</p>
+<p><img src="./media/ER-DeferredXml-Format4.png" alt="TaxAmount attribute on the Format designer page"></p>
+<p>You can consider this setting the fulfillment of a virtual worksheet, where the value of cell A1 is appended with the value of the tax amount from every processed tax transaction.</p>
+</li>
+<li><p>Select the <strong>Report\Message\Record\RunningTotal</strong> attribute, and then select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>Configure the <code>SUMIF(SummingAmountKey, WsColumn, WsRow)</code> expression by using the built-in <a href="er-functions-datacollection-sumif.html">SUMIF</a> ER function, and then select <strong>Save</strong>.</p>
+<p><img src="./media/ER-DeferredXml-FormulaDesigner.png" alt="SUMIF expression"></p>
+</li>
+<li><p>Close the <strong>Formula designer</strong> page.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and then select <strong>Run</strong>.</p>
+</li>
+<li><p>Download and review the file that the web browser offers.</p>
+<p><img src="./media/ER-DeferredXml-Run1.png" alt="Downloaded file"></p>
+<p>The last record node contains the running total of tax values that is calculated for all processed transactions by using the generated output as a data source. This data source starts from the beginning of the report and continues through the last tax transaction. The summary node contains the sum of the tax values for all processed transactions that are calculated in the model mapping by using the data source of the <em>GroupBy</em> type. Notice that these values are equal. Therefore, the output-based summing can be used instead of <strong>GroupBy</strong>. By comparing the execution times of the first record node and the summary node, you can determine that generation of all the record nodes and summing took 11 ms. Therefore, as far as the generation of record nodes and the summing of tax values are concerned, the modified format is approximately two times faster than the original format.</p>
+</li>
+<li><p>Select the <strong>Report\Message\Summary\TotalTaxAmount</strong> attribute, and then select <strong>Edit formula</strong>.</p>
+</li>
+<li><p>Enter the <code>SUMIF(SummingAmountKey, WsColumn, WsRow)</code> expression instead of the existing expression.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and then select <strong>Run</strong>.</p>
+</li>
+<li><p>Download and review the file that the web browser offers.</p>
+<p><img src="./media/ER-DeferredXml-Run2.png" alt="Downloaded file"></p>
+<p>Notice that the running total of tax values in the last record node now equals the sum in the summary node.</p>
+</li>
+</ol>
+<h3 id="put-values-of-output-based-summing-in-the-report-header">Put values of output-based summing in the report header</h3>
+<p>If, for example, you must present the sum of tax values in the header of your report, you can modify your format.</p>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Format</strong> tab, select the <strong>Report\Message\Summary</strong> XML element.</p>
+</li>
+<li><p>Select <strong>Move up</strong>.</p>
+</li>
+<li><p>Select <strong>Save</strong>, and then select <strong>Run</strong>.</p>
+</li>
+<li><p>Download and review the file that the web browser offers.</p>
+<p><img src="./media/ER-DeferredXml-Run3.png" alt="Downloaded file"></p>
+<p>Notice that the sum of tax values in the summary node now equals 0 (zero), because this sum is now calculated based on the generated output. When the first record node is generated, the generated output doesn't yet contain record nodes that have transaction details. You can configure this format to defer the execution of the <strong>Report\Message\Summary</strong> element until the <strong>Report\Message\Record</strong> element has been run for all tax transactions.</p>
+</li>
+</ol>
+<h3 id="defer-the-execution-of-the-summary-xml-element-so-that-the-calculated-total-is-used">Defer the execution of the summary XML element so that the calculated total is used</h3>
+<ol>
+<li><p>On the <strong>Format designer</strong> page, on the <strong>Format</strong> tab, select the <strong>Report\Message\Summary</strong> XML element.</p>
+</li>
+<li><p>Set the <strong>Deferred execution</strong> option to <strong>Yes</strong>.</p>
+<p><img src="./media/ER-DeferredXml-Format5.png" alt="Deferred execution option of the Summary XML element on the Format designer page"></p>
+</li>
+<li><p>Select <strong>Save</strong>, and then select <strong>Run</strong>.</p>
+</li>
+<li><p>Download and review the file that the web browser offers.</p>
+<p><img src="./media/ER-DeferredXml-Run4.png" alt="Downloaded file"></p>
+<p>The <strong>Report\Message\Summary</strong> element is now run only after all other items that are nested under its parent element, <strong>Report\Message</strong>, have been run. Therefore, it's run after the <strong>Report\Message\Record</strong> element has been run for all tax transactions of the <strong>model.Data.List</strong> data source. The execution times of the first and last record nodes, and of the header and summary nodes, reveal this fact.</p>
+</li>
+</ol>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="tasks/er-format-counting-summing-1.html">Configure format to do counting and summing</a></li>
+<li><a href="trace-execution-er-troubleshoot-perf.html">Trace execution of ER format to troubleshoot performance issues</a></li>
+<li><a href="er-defer-sequence-element.html#Example">Defer the execution of sequence elements in ER formats</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

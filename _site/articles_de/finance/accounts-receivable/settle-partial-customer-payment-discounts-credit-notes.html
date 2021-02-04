@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Eine teilweise Debitorenzahlung, bei der Rechnungsrabatte auf Debitorengutschriften vorhanden sind, ausgleichen | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Eine teilweise Debitorenzahlung, bei der Rechnungsrabatte auf Debitorengutschriften vorhanden sind, ausgleichen | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="settle-a-partial-customer-payment-that-has-discounts-on-credit-notes">Eine teilweise Debitorenzahlung, bei der Rechnungsrabatte auf Debitorengutschriften vorhanden sind, ausgleichen</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Dieser Artikel führt Sie durch ein Szenario, in dem ein Skonto in eine Gutschrift übernommen wird, wenn die Originalrechnung auch ein Skonto beinhaltet.</p>
+<p>Fabrikam ermöglicht Debitoren, Skonti auf Teilzahlungen und auf Gutschriften. Ein Skonto kann für eine Gutschrift in Anspruch genommen werden, wenn die Gutschrift für eine Rechnung ausgegeben wird, für die der Debitor ein Skonto angenommen hat. Anstatt einen Habenbetrag für den Gesamtbetrag bereitzustellen, können Sie den Saldo des Debitors für einen Betrag gutschreiben, der das Skontoprozent des Debitors ausschließt. Die Ausgleichsparameter sind auf der Seite <strong>Debitorenkontenparameter</strong> Seite verfügbar.</p>
+<h2 id="invoice-and-credit-note">Rechnung und Gutschrift</h2>
+<p>Debitor 4035 enthält eine Rechnung über 1.000,00 und eine Gutschrift für 100,00. Jedes Dokument hat einen 1-Prozent-Rabatt, wenn es in 14 Tagen beglichen wird. Auf der Seite <strong>Debitorenbuchungen</strong> können Sie diese Information anzeigen.</p>
+<table>
+<thead>
+<tr>
+<th>Beleg</th>
+<th>Transaktionstyp</th>
+<th>Datum</th>
+<th>Rechnung</th>
+<th>Geschuldeter Betrag in Buchungswährung</th>
+<th>Gutschriftsbetrag in Buchungswährung</th>
+<th>Gesamtbetrag</th>
+<th>Währung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FTI-10050</td>
+<td>Rechnung</td>
+<td>6/28/2015</td>
+<td>10050</td>
+<td>1.000,00</td>
+<td></td>
+<td>1.000,00</td>
+<td>USD</td>
+</tr>
+<tr>
+<td>CCRN-10050</td>
+<td>Gutschrift</td>
+<td>6/28/2015</td>
+<td>CR-10050</td>
+<td></td>
+<td>100,00</td>
+<td>-100,00</td>
+<td>USD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="settle-a-credit-note-with-an-invoice">Eine Gutschrift mit einer Rechnung ausgleichen</h2>
+<p>Über die Seite <strong>Debitorenbuchungen</strong> öffnen Sie die Seite <strong>Bankbuchungen</strong>. Sie kann die Seite <strong>Buchungen ausgleichen</strong> verwendet werden, um die Rechnung und Gutschrift auszugleichen. Als Teil des Ausgleichsprozesses zeigt er die Skontodatumsangaben der Beträge an. Er markiert die zwei Dokumente und klickt anschließend auf <strong>Buchen</strong>, um die Buchungen auszugleichen. Es gibt einen Rabatt von -1,00 in der Gutschrift, da Fabrikam Rabatte für Gutschriften zulässt.</p>
+<table>
+<thead>
+<tr>
+<th>Markieren</th>
+<th>Skonto verwenden</th>
+<th>Beleg</th>
+<th>Konto</th>
+<th>Datum</th>
+<th>Fälligkeitsdatum</th>
+<th>Rechnung</th>
+<th>Betrag in Buchungswährung</th>
+<th>Währung</th>
+<th>Auszugleichender Betrag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ausgewählt</td>
+<td>Normal</td>
+<td>FTI-10050</td>
+<td>4035</td>
+<td>6/28/2015</td>
+<td>7/28/2015</td>
+<td>10050</td>
+<td>1.000,00</td>
+<td>USD</td>
+<td>990,00</td>
+</tr>
+<tr>
+<td>Ausgewählt</td>
+<td>Normal</td>
+<td>CCRN-10050</td>
+<td>4035</td>
+<td>6/28/2015</td>
+<td>7/28/2015</td>
+<td>CR-10050</td>
+<td>-100,00</td>
+<td>USD</td>
+<td>-99,00</td>
+</tr>
+</tbody>
+</table>
+<p>Rabattinformationen werden am unteren Rand der Seite <strong>Buchungen ausgleichen</strong> angezeigt.</p>
+<ul>
+<li><strong>Skontodatum</strong>: 7.12.2015</li>
+<li><strong>Skontobetrag</strong>: -1.00</li>
+<li><strong>Skonto verwenden</strong>: Normal</li>
+<li><strong>Verwendetes Skonto</strong>: 0.00</li>
+<li><strong>Zu verwendender Skontobetrag</strong>: -1.00</li>
+</ul>
+<p>Der Ausgleich ist 100,00 und umfasst eine Zahlung von 99,00 und einen Rabatt von 1,00.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

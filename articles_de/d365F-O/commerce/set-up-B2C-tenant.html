@@ -1,0 +1,458 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Einen B2C Mandanten in Commerce einrichten </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Einen B2C Mandanten in Commerce einrichten ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="In diesem Thema wird beschrieben, wie Sie Ihren Azure Active Directory (Azure AD) Business-to-Consumer-Mandanten (B2C) f&#252;r die Authentifizierung von Benutzerseiten in Dynamics 365 Commerce einrichten.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="TOC.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    
+    <meta name="ms.search.region" content="Global">
+    <meta name="ms.search.industry" content="retail">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="set-up-a-b2c-tenant-in-commerce">Einen B2C Mandanten in Commerce einrichten</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 Retail ist jetzt Dynamics 365 Commerce und bietet umfassende Handelsfunktionen für alle Kanäle – von E-Commerce über Shops bis hin zu Callcentern. Weitere Informationen zu diesen Änderungen finden Sie unter <a href="https://dynamics.microsoft.com/commerce/overview/">Microsoft Dynamics 365 Commerce</a>.</p>
+</div>
+
+<p>In diesem Thema wird beschrieben, wie Sie Ihren Azure Active Directory (Azure AD) Business-to-Consumer-Mandanten (B2C) für die Authentifizierung von Benutzerseiten in Dynamics 365 Commerce einrichten.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Dynamics 365 Commerce Verwendet Azure AD B2C zur Unterstützung von Benutzeranmeldeinformationen und Authentifizierungsabläufen. Ein Benutzer kann sich über diese Flows anmelden, sich anmelden und sein Kennwort zurücksetzen. Azure AD B2C speichert vertrauliche Benutzerauthentifizierungsinformationen wie Benutzername und Kennwort. Der Benutzerdatensatz im B2C-Mandanten speichert entweder einen lokalen B2C-Kontodatensatz oder einen B2C-Datensatz für Anbieter sozialer Identität. Diese B2C-Datensätze werden mit dem Kundendatensatz in der Commerce-Umgebung verknüpft.</p>
+<h2 id="create-or-link-to-an-existing-aad-b2c-tenant-in-the-azure-portal">Erstellen oder Verknüpfen eines vorhandenen AAD B2C-Mandanten im Azure-Portal</h2>
+<ol>
+<li><p>Melden Sie sich beim <a href="https://portal.azure.com/">Azure-Portal</a> an.</p>
+</li>
+<li><p>Wählen Sie im Azure-Portalmenü die Option aus <strong>Erstellen Sie eine Ressource</strong>. Stellen Sie sicher, dass Sie das Abonnement und das Verzeichnis verwenden, die mit Ihrer Commerce-Umgebung verbunden werden.</p>
+<p><img src="media/B2CImage_1.png" alt="Erstellen Sie eine Ressource in Azure Portal"></p>
+</li>
+<li><p>Gehe zu <strong>Identität &gt; Azure Active Directory B2C</strong>.</p>
+</li>
+<li><p>Einmal auf der Seite <strong>Erstellen Sie einen neuen B2C-Mandanten oder einen Link zu einem vorhandenen Mandanten</strong> verwenden Sie auf der folgenden Seite eine der folgenden Optionen, die den Anforderungen Ihres Unternehmens am besten entspricht:</p>
+<ul>
+<li><strong>Erstellen Sie einen neuen Azure AD B2C Mandanten</strong>: Verwenden Sie diese Option, um einen neuen AAD B2C-Mandanten zu erstellen.
+<ol>
+<li>Wählen Sie <strong>Neuen Azure AD B2C Mandant erstellen</strong>.</li>
+<li>Unter <strong>Name der Organisation</strong> geben Sie den Namen der Organisation ein.</li>
+<li>Unter <strong>Anfänglicher Domainname</strong> geben Sie den ursprünglichen Domainnamen ein.</li>
+<li>Für <strong>Land oder Region</strong> wählen Sie das Land oder die Region aus.</li>
+<li>Wählen Sie <strong>Erstellen</strong>, um den Mieter zu erstellen.</li>
+</ol>
+</li>
+</ul>
+<p><img src="media/B2CImage_2.png" alt="Einen neuen Azure AD Mandant erstellen"></p>
+<ul>
+<li><strong>Um einen vorhandenen Azure AD B2C-Mandant für das Azure-Abonnement</strong> zu verknüpfen: Verwenden Sie diese Option, wenn Sie bereits einen Azure AD B2C-Mandant haben, zu dem Sie einen Link erstellen möchten.
+<ol>
+<li>Wählen Sie <strong>Einen vorhandenen Azure AD B2C-Mandant für das Azure-Abonnement</strong> verknüpfen.</li>
+<li>Für <strong>Azure AD B2C Mandant</strong> wählen Sie den entsprechenden B2C-Mandanten aus. Wenn im Auswahlfeld die Meldung Keine berechtigten B2C-Mandanten gefunden angezeigt wird, haben Sie keinen vorhandenen berechtigten B2C-Mandanten und müssen einen neuen erstellen.</li>
+<li>Für <strong>Ressourcengruppe</strong> wählen Sie <strong>Neu erstellen</strong>. Geben Sie einen <strong>Namen</strong> für die Ressourcengruppe ein, die den Mandanten enthalten soll, und wählen Sie die Option <strong>Standort der Ressourcengruppe</strong> und dann <strong>Erstellen</strong>.</li>
+</ol>
+</li>
+</ul>
+<p><img src="media/B2CImage_3.png" alt="Verbinden Sie einen Azure AD B2C-Mandant für das Azure-Abonnement"></p>
+</li>
+<li><p>Sobald das Neue Azure AD B2C-Verzeichnis erstellt wird (dies kann einige Momente dauern), wird im Dashboard ein Link zum neuen Verzeichnis angezeigt. Über diesen Link gelangen Sie zur Seite Willkommen bei Azure Active Directory B2C.</p>
+<p><img src="media/B2CImage_4.png" alt="Link zum neuen AAD-Verzeichnis"></p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie mehrere Abonnements in Ihrem Azure-Konto haben oder den B2C-Mandanten ohne Verknüpfung mit einem aktiven Abonnement eingerichtet haben, wird eine Anzeige <strong>Fehlerbehebung</strong> Sie darauf hinweisen, den Mandant mit einem Abonnement zu verknüpfen. Wählen Sie die Meldung zur Fehlerbehebung aus und befolgen Sie die Anweisungen, um das Abonnementproblem zu beheben.</p>
+</div>
+<p>Das folgende Bild zeigt ein Beispiel für eine Anzeige Azure AD B2C <strong>Fehlerbehebung</strong>.</p>
+<p><img src="media/B2CImage_5.png" alt="Warnung: Das angezeigte Verzeichnis hat kein aktives Abonnement"></p>
+<h2 id="create-the-b2c-application">B2C Anwendungen erstellen</h2>
+<p>Sobald der B2C-Mandant erstellt wurde, erstellen Sie eine B2C-Anwendung innerhalb des Mandanten, um mit den Commerce-Aktionen zu interagieren.</p>
+<p>Führen Sie folgende Schritte aus, um eine B2C-Anwendung zu erstellen.</p>
+<ol>
+<li>Wählen Sie im Azure-Portal <strong>Anwendungen (Vorgänger)</strong> und dann <strong>Hinzufügen</strong> aus.</li>
+<li>Unter <strong>Name</strong> geben Sie den Namen der gewünschten AAD B2C-Anwendung ein.</li>
+<li>Unter <strong>Web App/Web API</strong> für <strong>Web-App/Web-API einschließen</strong>, wählen Sie <strong>Ja</strong>.</li>
+<li>Für <strong>Impliziten Fluss zulassen</strong>, wählen Sie <strong>Ja</strong> (der Standardwert).</li>
+<li>Unter <strong>Antwort-URL</strong> geben Sie Ihre dedizierten Antwort-URLs ein. Gehen Sie zu <a href="#reply-urls">Antwort-URLs</a> unten für Informationen zu Antwort-URLs und deren Formatierung.</li>
+<li>Für <strong>Native Client einschließen</strong>, wählen Sie <strong>Nein</strong> (der Standardwert).</li>
+<li>Wählen Sie <strong>Erstellen</strong> aus.</li>
+</ol>
+<h3 id="reply-urls">Antwort-URLs</h3>
+<p>Antwort-URLs sind wichtig, da sie eine Zulassungsliste der zurückgegebenen Domains bereitstellen, wenn Ihre Website Azure AD B2C zur Authentifizierung eines Benutzers aufruft. Dies ermöglicht die Rückkehr des authentifizierten Benutzers zur Domäne, bei der er sich anmeldet (Ihre Website-Domäne).</p>
+<p>Im Feld <strong>Antwort-URL</strong> auf dem Bildschirm <strong>Azure AD B2C – Anwendungen &gt; Neue Anwendung</strong> müssen Sie separate Zeilen für Ihre Site-Domain und (sobald Ihre Umgebung bereitgestellt ist) die von Commerce generierte URL hinzufügen. Diese URLs müssen immer ein gültiges URL-Format verwenden und dürfen nur Basis-URLs sein (keine nachgestellten Schrägstriche oder Pfade). Die Zeichenfolge <code>/_msdyn365/authresp</code> muss dann wie in den folgenden Beispielen an die Basis-URLs angehängt werden.</p>
+<ul>
+<li><code>https://www.fabrikam.com/_msdyn365/authresp</code> (Die Domäne sollte vollständig mit der E-Commerce-Domäne übereinstimmen. Wenn Sie mehrere Domänen haben, müssen Sie diese URL für jede Domäne hinzufügen.)</li>
+<li><code>https://fabrikam-prod.commerce.dynamics.com/_msdyn365/authresp</code></li>
+</ul>
+<h2 id="create-user-flow-policies">Benutzerflussrichtlinien erstellen</h2>
+<p>Benutzerflüsse sind die Richtlinien die Azure AD B2C verwendet, um eine sichere Anmeldung bereitzustellen, sich anzumelden, das Profil zu bearbeiten und für die Benutzererfahrung für vergessene Kennwörter. Dynamics 365 Commerce verwendet diesen Fluss, um die Richtlinienaktionen für die Interaktion mit dem Azure AD B2C-Mandant auszuführen. Wenn ein Benutzer mit diesen Richtlinien interagiert, werden sie an den Azure AD B2C-Mandant weitergeleitet, um die Aktionen auszuführen.</p>
+<p>Azure AD B2C bietet drei grundlegende Benutzerflusstypen:</p>
+<ul>
+<li>Registrieren Sie sich und melden Sie sich an</li>
+<li>Profilbearbeitung</li>
+<li>Kennwort zurücksetzen</li>
+</ul>
+<p>Sie können die Standardbenutzerflüsse verwenden, die von Azure AD bereitgestellt werden, die eine Seite anzeigen, die von AAD B2C gehostete wird. Alternativ können Sie eine HTML-Seite erstellen, um das Erscheinungsbild dieser Benutzerflusserfahrungen zu steuern.</p>
+<p>So passen Sie die Benutzerrichtlinienseiten an für Dynamics 365 Commerce, gehen Sie zu <a href="custom-pages-user-logins.html">Richten Sie benutzerdefinierte Seiten für Benutzeranmeldungen ein</a>. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/azure/active-directory-b2c/tutorial-customize-ui">Passen Sie die Benutzeroberfläche für Benutzererfahrungen an in Azure Active Directory B2C</a>.</p>
+<h3 id="create-a-sign-up-and-sign-in-user-flow-policy">Erstellen Sie eine Registrierungs und Anmelde-Benutzerflussrichtlinie</h3>
+<p>Um eine Registrierungs- und Anmeldebenutzerflussrichtlinie zu erstellen, führen Sie die folgenden Schritte aus.</p>
+<ol>
+<li><p>Wählen Sie im Azure-Portal die Option <strong>Benutzerflüsse (Richtlinien)</strong> im linken Navigationsbereich.</p>
+</li>
+<li><p>Auf der Seite <strong>Azure AD B2C – Benutzerfluss (Richtlinien)</strong> wählen Sie <strong>Neuer Benutzerfluss</strong>.</p>
+</li>
+<li><p>Auf der Registerkarte <strong>Empfohlen</strong> wählen Sie <strong>Registrieren und anmelden</strong>.</p>
+</li>
+<li><p>Geben Sie unter <strong>Name</strong> einen Richtliniennamen ein. Dieser Name wird anschließend mit einem vom Portal zugewiesenen Präfix angezeigt (z. B. B2C_1_).</p>
+</li>
+<li><p>Unter <strong>Identitätsanbieter</strong> wählen Sie das entsprechende Kontrollkästchen.</p>
+</li>
+<li><p>Unter <strong>Multifaktor-Authentifizierung</strong> wählen Sie die für Ihr Unternehmen geeignete Auswahl.</p>
+</li>
+<li><p>Unter <strong>Benutzerattribute und Ansprüche</strong> wählen Sie Optionen aus, um Attribute zu sammeln oder Ansprüche zurückzugeben. Für den Handel sind die folgenden Standardoptionen erforderlich:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Attribute sammeln</strong></th>
+<th><strong>Rückgabeanspruch</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E-Mail-Adresse</td>
+<td>E-Mail-Adressen</td>
+</tr>
+<tr>
+<td>Vorname</td>
+<td>Vorname</td>
+</tr>
+<tr>
+<td></td>
+<td>Identitätsanbieter</td>
+</tr>
+<tr>
+<td>Nachname</td>
+<td>Nachname</td>
+</tr>
+<tr>
+<td></td>
+<td>Objekt-ID des Benutzers</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Wählen Sie <strong>Erstellen</strong> aus.</p>
+</li>
+</ol>
+<p>Das folgende Bild ist ein Beispiel für die Azure AD B2C-Registrierung und Anmeldung des Benutzerflusses.</p>
+<p><img src="media/B2CImage_11.png" alt="Konfigurieren der Richtlinieneinstellungen für Registrieren und Anmelden"></p>
+<p>Das folgende Bild zeigt die Option <strong>Führen Sie den Benutzerfluss aus</strong> in der Azure AD B2C-Anmeldung und Anmeldung des Benutzerflusses.</p>
+<p><img src="media/B2CImage_23.png" alt="Führen Sie die Benutzerflussoption im Richtlinienfluss aus"></p>
+<h3 id="create-a-profile-editing-user-flow-policy">Erstellen Sie eine Benutzerflussrichtlinie zur Profilbearbeitung</h3>
+<p>Um eine Profilbearbeitungs-Benutzerflussrichtlinie zu erstellen, führen Sie die folgenden Schritte aus.</p>
+<ol>
+<li>Wählen Sie im Azure-Portal die Option <strong>Benutzerflüsse (Richtlinien)</strong> im linken Navigationsbereich.</li>
+<li>Auf der Seite <strong>Azure AD B2C – Benutzerfluss (Richtlinien)</strong> wählen Sie <strong>Neuer Benutzerfluss</strong>.</li>
+<li>Auf der Registerkarte <strong>Empfohlen</strong> wählen Sie <strong>Profilbearbeitung</strong>.</li>
+<li>Unter <strong>Name</strong> geben Sie den Benutzerfluss für die Profilbearbeitung ein. Dieser Name wird anschließend mit einem vom Portal zugewiesenen Präfix angezeigt (z. B. B2C_1_).</li>
+<li>Unter <strong>Identitätsanbieter</strong> wählen <strong>Lokale Kontoanmeldung</strong>.</li>
+<li>Wählen Sie unter <strong>Benutzerattribute</strong> eines der folgenden Kontrollkästchen aus:
+<ul>
+<li><strong>E-Mailadressen</strong> (<strong>Rückgabeanspruch</strong> nur)</li>
+<li><strong>Vorname</strong> (<strong>Attribut sammeln</strong> und <strong>Rückgabeanspruch</strong>)</li>
+<li><strong>Identitätsanbieter</strong> (<strong>Rückgabeanspruch</strong> nur)</li>
+<li><strong>Nachname</strong> (<strong>Attribut sammeln</strong> und <strong>Rückgabeanspruch</strong>)</li>
+<li><strong>Objekt-ID des Benutzers</strong> (<strong>Rückgabeanspruch</strong> nur)</li>
+</ul>
+</li>
+<li>Wählen Sie <strong>Erstellen</strong> aus.</li>
+</ol>
+<p>Das folgende Bild zeigt ein Beispiel für den Azure AD B2C Profilbearbeitungs-Benutzerfluss.</p>
+<p><img src="media/B2CImage_12.png" alt="Erstellen Sie eine Benutzerfluss zur Profilbearbeitung"></p>
+<h3 id="create-a-password-reset-user-flow-policy">Erstellen Sie eine Benutzerflussrichtlinie zur Kennwortzurücksetzung</h3>
+<p>Um eine Kennwortzurücksetzungs-Benutzerflussrichtlinie zu erstellen, führen Sie die folgenden Schritte aus.</p>
+<ol>
+<li>Wählen Sie im Azure-Portal die Option <strong>Benutzerflüsse (Richtlinien)</strong> im linken Navigationsbereich.</li>
+<li>Auf der Seite <strong>Azure AD B2C – Benutzerfluss (Richtlinien)</strong> wählen Sie <strong>Neuer Benutzerfluss</strong>.</li>
+<li>Auf der Registerkarte <strong>Empfohlen</strong> wählen Sie <strong>Kennwort zurücksetzen</strong>.</li>
+<li>Unter <strong>Name</strong> geben Sie einen Namen für den Benutzerfluss zum Zurücksetzen des Kennworts ein.</li>
+<li>Im Abschnitt <strong>Identitätsanbieter</strong> wählen Sie <strong>Kennwort zurücksetzen mithilfe der E-Mail-Adresse</strong> aus.</li>
+<li>Wählen Sie <strong>Erstellen</strong> aus.</li>
+<li>Wählen Sie unter <strong>Anwendungsanspruch</strong> eines der folgenden Kontrollkästchen aus:
+<ul>
+<li><strong>E-Mail-Adressen</strong></li>
+<li><strong>Vorname</strong></li>
+<li><strong>Nachname</strong></li>
+<li><strong>Objekt-ID des Benutzers</strong></li>
+</ul>
+</li>
+<li>Wählen Sie <strong>Erstellen</strong> aus.</li>
+</ol>
+<p>Das folgende Bild zeigt, wo <strong>Kennwort mit E-Mail-Adresse zurücksetzen</strong> im Azure AD Benutzerfluss zum Zurücksetzen des B2C-Passworts eingestellt werden muss.</p>
+<p><img src="media/B2CImage_13.png" alt="Legen Sie in der Richtlinie zum Zurücksetzen des Kennworts Kennwort mit E-Mail-Adresse zurücksetzen fest"></p>
+<h2 id="add-social-identity-providers-optional">Anbieter sozialer Identität hinzufügen (optional)</h2>
+<p>Mit Anbietern sozialer Identität können Benutzer ihre sozialen Konten zur Authentifizierung verwenden. Das Hinzufügen der Authentifizierung des Anbieters sozialer Identität ist in Dynamics 365 Commerce optional.</p>
+<p>Wenn die Anbieterauthentifizierung der sozialen Identität nicht hinzugefügt wird, ist die Standardeinstellung Azure AD B2C-Profile das Hauptprofil für Ihre Benutzerbasis. Benutzer wählen ihren eigenen Benutzernamen (ihre bevorzugte E-Mail-Adresse) und legen ein Passwort fest. Azure AD B2C authentifiziert Benutzer direkt.</p>
+<p>Wenn die Authentifizierung eines Anbieters für soziale Identität hinzugefügt wird und ein Benutzer einen der angebotenen Anbieter für soziale Identität auswählt, wird weiterhin eine Entität in der Liste Azure AD B2C-Mandant erstellt. Azure AD B2C authentifiziert dann die Anmeldeinformationen des Benutzers beim Anbieter der sozialen Identität.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Durch die Anmeldung des Identitätsanbieters wird ein Datensatz im B2C-Mandanten erstellt, jedoch in einem anderen Format als bei lokalen Konten, da die Referenz des externen Anbieters für soziale Identität zur Authentifizierung aufgerufen wird. Der Benutzer kann bei allen Anbietern sozialer Identitäten dieselbe E-Mail-Adresse verwenden. Dies bedeutet, dass der für die Authentifizierung verwendete E-Mail-Benutzername möglicherweise nicht für den Mandanten eindeutig ist. Azure AD B2C erzwingt nur, dass Benutzer auf lokalen B2C-Konten eine eindeutige E-Mail-Adresse haben.</p>
+</div>
+<p>Bevor Sie einen Anbieter für soziale Identität zur Authentifizierung hinzufügen können, müssen Sie zum Portal des Identitätsanbieters gehen und eine Anwendung für Identitätsanbieter einrichten, wie in der Anleitung Azure AD B2C-Dokumentation beschrieben. Eine Liste der Links zur Dokumentation finden Sie unten.</p>
+<ul>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-amzn-app">Amazon</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-oidc-azure-active-directory">Azure AD (Einzelmieter)</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-msa-app">Microsoft-Konto</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-fb-app">Facebook</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-github-app">GitHub</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-goog-app">Google</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-li-app">LinkedIn</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-oidc-idp">OpenID Connect</a></li>
+<li><a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-setup-twitter-app">Twitter</a></li>
+</ul>
+<h3 id="add-and-set-up-a-social-identity-provider">Fügen Sie einen Anbieter für soziale Identität hinzu und richten Sie ihn ein</h3>
+<p>Führen Sie die folgenden Schritte aus, um einen Anbieter für soziale Identität hinzuzufügen und einzurichten.</p>
+<ol>
+<li>Navigieren Sie im Azure-Portal zu <strong>Identitätsanbieter</strong>.</li>
+<li>Wählen Sie <strong>Hinzufügen</strong> aus. Der Bildschirm <strong>Identitätsanbieter hinzufügen</strong> wird angezeigt.</li>
+<li>Unter <strong>Name</strong> geben Sie den Namen ein, der den Benutzern auf Ihrem Anmeldebildschirm angezeigt werden soll.</li>
+<li>Unter <strong>Typ des Identitätsanbieters</strong> wählen Sie einen Identitätsanbieter aus der Liste aus.</li>
+<li>Wählen Sie <strong>OK</strong>.</li>
+<li>Wählen Sie <strong>Richten Sie diesen Identitätsanbieter ein</strong>, um auf den Bildschirm <strong>Richten Sie den Anbieter für soziale Identität ein</strong> zuzugreifen.</li>
+<li>Unter <strong>Kunden ID</strong> geben Sie die Client-ID ein, die Sie im Setup der Identitätsanbieteranwendung erhalten haben.</li>
+<li>Unter <strong>Geheimer Clientschlüssel</strong> geben Sie den geheimen Clientschlüssel ein, den Sie im Setup der Identitätsanbieteranwendung erhalten haben.</li>
+<li>Benutzerfluss für Anmelderichtlinien hinzufügen:</li>
+<li>Gehe zu <strong>Azure AD B2C – Benutzerflüsse (Richtlinien) &gt; {Ihre Anmeldungsrichtlinie} &gt; Identitätsanbieter</strong>.</li>
+<li>Wählen Sie jeden Identitätsanbieter aus, den Sie für Ihr Konto eingerichtet haben, um die Benutzerflussrichtlinie zum Anmelden/Registrieren anzuhängen. Um diese zu testen, wählen Sie <strong>Führen Sie den Benutzerfluss aus</strong> für jeden Identitätsanbieter. Auf einer neuen Registerkarte wird die Anmeldeseite mit dem Auswahlfeld für den neuen Identitätsanbieter angezeigt.</li>
+</ol>
+<p>Das folgende Bild zeigt Beispiele für die Bildschirme <strong>Identitätsanbieter hinzufügen</strong> und <strong>Richten Sie den Anbieter für soziale Identität ein</strong> in Azure AD B2C.</p>
+<p><img src="media/B2CImage_14.png" alt="Hinzufügen eines Anbieters für soziale Identität zu Ihrer Anwendung"></p>
+<p>Das folgende Bild zeigt ein Beispiel für die Auswahl von Identitätsanbietern auf der Seite Azure AD B2C <strong>Identitätsanbieter</strong>.</p>
+<p><img src="media/B2CImage_16.png" alt="Wählen Sie jeden Anbieter für soziale Identität aus, der für Ihre Richtlinie aktiviert werden soll"></p>
+<p>Das folgende Bild zeigt ein Beispiel für einen Standard-Anmeldebildschirm mit einer Anmeldeschaltfläche für Anbieter sozialer Identität.</p>
+<p><img src="media/B2CImage_17.png" alt="Beispiel für einen Standard-Anmeldebildschirm mit angezeigter Anmeldeschaltfläche des Social Identity Providers"></p>
+<h2 id="update-commerce-headquarters-with-the-new-azure-ad-b2c-information">Aktualisieren Sie die Commerce-Zentrale mit den neuen Azure AD B2C-Informationen</h2>
+<p>Sobald die Azure AD B2C-Bereitstellungsschritte oben abgeschlossen ist, muss die Azure AD B2C-Anwendung muss in Ihrer Dynamics 365 Commerce Umgebung registriert werden.</p>
+<p>Um den Hauptsitz mit den neuen Azure AD B2C Informationen zu aktualisieren, befolgen Sie diese Schritte.</p>
+<ol>
+<li>Gehen Sie im Handel zu <strong>Gemeinsame Commerce-Parameter</strong> und wählen Sie <strong>Identitätsanbieter</strong> im linken Menü.</li>
+<li>Unter <strong>Identitätsanbieter</strong> gehe Sie wie folgt vor:
+<ol>
+<li>Im Kästchen <strong>Aussteller</strong> geben Sie im Feld die URL des Identitätsanbieters ein. Informationen zum Auffinden Ihrer Aussteller-URL finden Sie unter <a href="#obtain-issuer-url">Erhalten Sie die Emittenten-URL</a> unten.</li>
+<li>Geben Sie im Feld <strong>Name</strong> einen Namen für den Herausgeberdatensatz ein.</li>
+<li>Im Feld <strong>Art</strong> geben Sie <strong>Azure AD B2C (id_Token)</strong> ein.</li>
+</ol>
+</li>
+<li>Unter <strong>Ausgewählte Parteien</strong> gehen Sie bei ausgewähltem oben genannten Element des B2C-Identitätsanbieters wie folgt vor:
+<ol>
+<li>In dem Kästchen <strong>Kunden ID</strong> geben Sie im Feld Ihre B2C-Anwendungs-ID ein. Sie finden dies im Feld <strong>Anwendungs-ID</strong> der Eigenschaftenseite Ihrer B2C-Anwendung.</li>
+<li>In dem Kästchen <strong>Art</strong> geben Sie <strong>öffentlich</strong> ein.</li>
+<li>In dem Kästchen <strong>Benutzertyp</strong> geben Sie <strong>benutzerdefiniert</strong> ein.</li>
+</ol>
+</li>
+<li>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</li>
+<li>Suchen Sie im Commerce-Suchfeld nach <strong>Verteilungsplan</strong></li>
+<li>Im linken Navigationsmenü auf der Seite <strong>Verteilungspläne</strong> wählen Sie <strong>1110 globale Konfiguration</strong>.</li>
+<li>Wählen Sie im Aktivitätsbereich <strong>Jetzt ausführen</strong>.</li>
+</ol>
+<h3 id="obtain-issuer-url">Erhalten Sie die Emittenten-URL</h3>
+<p>Führen Sie die folgenden Schritte aus, um die Aussteller-URL Ihres Identitätsanbieters zu erhalten.</p>
+<ol>
+<li>Erstellen Sie mit Ihrem B2C-Mandanten und Ihrer Richtlinie eine URL für Metadatenadressen im folgenden Format: <code>https://&lt;B2CTENANTNAME&gt;.b2clogin.com/&lt;B2CTENANTNAME&gt;.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=&lt;B2CSIGN-INPOLICY&gt;</code>
+<ul>
+<li>Beispiel: <code>https://d365plc.b2clogin.com/d365plc.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_signinup</code>.</li>
+</ul>
+</li>
+<li>Geben Sie die URL der Metadatenadresse in eine Adressleiste des Browsers ein.</li>
+<li>Kopieren Sie in den Metadaten die Aussteller-URL des Identitätsanbieters (den Wert für <strong>Aussteller</strong>).
+<ul>
+<li>Beispiel: <code>https://login.fabrikam.com/073405c3-0113-4f43-b5e2-df01266e24ae/v2.0/</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="configure-your-b2c-tenant-in-commerce-site-builder">Konfigurieren Sie Ihren B2C-Mandanten im Commerce Site Builder</h2>
+<p>Einmal eingerichtet für Ihr Azure AD ist Ihr B2C-Mandant abgeschlossen. Sie müssen den B2C-Mandanten im Commerce Site Builder konfigurieren. Zu den Konfigurationsschritten gehören das Sammeln von B2C-Anwendungsinformationen aus dem Azure-Portal, das Eingeben dieser B2C-Anwendungsinformationen in den Site Builder und das Zuordnen der B2C-Anwendung zu Ihrer Site und Ihrem Kanal.</p>
+<h3 id="collect-the-required-application-information">Sammeln Sie die erforderlichen Anwendungsinformationen</h3>
+<p>Führen Sie die folgenden Schritte aus, um die erforderlichen Anwendungsinformationen zu erfassen.</p>
+<ol>
+<li>Gehen Sie im Azure-Portal zu <strong>Start &gt; Azure AD B2C – Anwendungen</strong>.</li>
+<li>Wählen Sie Ihre Anwendung aus und wählen Sie dann im linken Navigationsbereich <strong>Eigenschaften</strong>, um die Anwendungsdetails zu erhalten.</li>
+<li>Von dem Feld <strong>Anwendungs-ID</strong> sammeln Sie die Anwendungs-ID der B2C-Anwendung, die in Ihrem B2C-Mandanten erstellt wurde. Dies wird später als <strong>Client-GUID</strong> im Site Builder eingegeben.</li>
+<li>Unter <strong>Antwort-URL</strong> sammeln Sie die Antwort-URL.</li>
+<li>Gehe Sie zu <strong>Start &gt; Azure AD B2C – Benutzerströme (Richtlinien)</strong> und sammeln Sie dann die Namen der einzelnen Benutzerflussrichtlinien.</li>
+</ol>
+<p>Das folgende Bild zeigt ein Beispiel für die <strong>Azure AD B2C – Anwendungen</strong> Seite.</p>
+<p><img src="media/B2CImage_19.png" alt="Navigieren Sie in Ihrem Mandanten zur B2C-Anwendung"></p>
+<p>Das folgende Bild zeigt ein Beispiel für eine Anwendungsseite <strong>Eigenschaften</strong> in Azure AD B2C.</p>
+<p><img src="media/B2CImage_21.png" alt="Kopieren Sie die Anwendungs-ID aus den Eigenschaften der B2C-Anwendung"></p>
+<p>Das folgende Bild zeigt ein Beispiel für Benutzerflussrichtlinien auf der Seite <strong>Azure AD B2C – Benutzerströme (Richtlinien)</strong>.</p>
+<p><img src="media/B2CImage_22.png" alt="Sammeln Sie die Namen jedes B2C-Richtlinienflusses"></p>
+<h3 id="enter-your-aad-b2c-tenant-application-information-into-commerce">Geben Sie Ihre AAD B2C-Mandantenanwendungsinformationen in Commerce ein</h3>
+<p>Sie müssen Details der eingeben Azure AD B2C-Mandant in Commerce Site Builder einbinden, bevor der B2C-Mandant Ihren Sites zugeordnet wird.</p>
+<p>Führen Sie die folgenden Schritte aus, um Commerce Ihre AAD B2C-Mandantenanwendungsinformationen hinzuzufügen.</p>
+<ol>
+<li><p>Melden Sie sich als Administrator bei Commerce Site Builder für Ihre Umgebung an.</p>
+</li>
+<li><p>Wählen Sie im linken Navigationsbereich <strong>Mandant-Einstellungen</strong>  aus, um den Bereich zu erweitern.</p>
+</li>
+<li><p>Wählen Sie unter <strong>Mandanteneinstellungen</strong> die Option <strong>B2C Einstellungen</strong> aus.</p>
+</li>
+<li><p>Im Hauptfenster neben <strong>B2C-Anwendungen</strong> wählen Sie <strong>Verwalten</strong>. (Wenn Ihr Mandant in der Liste der B2C-Anwendungen angezeigt wird, wurde er bereits von einem Administrator hinzugefügt. Stellen Sie sicher, dass die Elemente in Schritt 6 unten mit Ihrer B2C-Anwendung übereinstimmen.)</p>
+</li>
+<li><p>Wählen Sie <strong>B2C Bewerbung hinzufügen</strong> aus.</p>
+</li>
+<li><p>Geben Sie die folgenden erforderlichen Elemente in das angezeigte Formular ein und verwenden Sie dabei die Werte Ihres B2C-Mandanten und Ihrer Anwendung. Nicht erforderliche Felder (solche ohne Sternchen) können leer gelassen werden.</p>
+<ul>
+<li><strong>Anwendungsname</strong>: Der Name für Ihre B2C-Anwendung, z. B. Fabrikam B2C.</li>
+<li><strong>Name des Mandanten</strong>: Der Name Ihres B2C-Mandanten (verwenden Sie beispielsweise „fabrikam“, wenn die Domain für den B2C-Mandanten als „fabrikam.onmicrosoft.com“ angezeigt wird).</li>
+<li><strong>Kennwor vergessen Richtlinien-ID</strong>: Die ID der Benutzerflussrichtlinie für vergessenes Kennwort, z.B. B2C_1_PasswordReset.</li>
+<li><strong>Anmeldung Anmelderichtlinien-ID</strong>: Die ID der Anmelde- und Anmelde-Benutzerflussrichtlinie, z. B. B2C_1_signup_signin.</li>
+<li><strong>Client-GUID</strong>: Die B2C-Anwendungs-ID, zum Beispiel „22290eb2-c52e-42e9-8b35-a2b0a3bcb9e6“.</li>
+<li><strong>Profilrichtlinien-ID bearbeiten</strong> : Die Benutzerflussrichtlinien-ID für die Profilbearbeitung, z. B. B2C_1A_ProfileEdit.</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>. Sie sollten nun den Namen Ihrer B2C-Anwendung in der Liste sehen.</p>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, um die Änderungen zu speichern.</p>
+</li>
+</ol>
+<h3 id="associate-the-b2c-application-to-your-site-and-channel">Verknüpfen Sie die B2C-Anwendung mit Ihrer Site und Ihrem Kanal</h3>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Wenn Ihre Site bereits einer B2C-Anwendung zugeordnet ist, werden durch den Wechsel zu einer anderen B2C-Anwendung die aktuellen Referenzen entfernt, die für Benutzer eingerichtet wurden, die bereits in dieser Umgebung angemeldet sind. Bei einer Änderung stehen den Benutzern keine Anmeldeinformationen zur Verfügung, die der aktuell zugewiesenen B2C-Anwendung zugeordnet sind.</p>
+<p>Aktualisieren Sie die B2C-Anwendung nur, wenn Sie die B2C-Anwendung des Kanals zum ersten Mal einrichten oder wenn Sie beabsichtigen, Benutzer mit der neuen B2C-Anwendung erneut mit neuen Anmeldeinformationen für diesen Kanal anzumelden. Seien Sie vorsichtig, wenn Sie Kanäle der B2C-Anwendungen zuordnen, und benennen Sie Anwendungen eindeutig. Wenn in den folgenden Schritten kein Kanal einer B2C-Anwendung zugeordnet ist, werden Benutzer, die sich bei diesem Kanal für Ihre Site anmelden, in die B2C-Anwendung eingegeben, die als <strong>Standard</strong> in <strong>Mandanteneinstellungen &gt; B2C-Einstellungen</strong> der Liste B2C-Anwendungen angezeigt wird.</p>
+</div>
+<p>Um die B2C-Anwendung Ihrer Site und Ihrem Kanal zuzuweisen, folgen Sie diesen Schritten.</p>
+<ol>
+<li>Navigieren Sie im Commerce Site Builder zu Ihrer Site.</li>
+<li>Wählen Sie im linken Navigationsbereich <strong>Site-Einstellungen</strong> aus, um den Bereich zu erweitern.</li>
+<li>Unten <strong>Seiteneinstellungen</strong>, wählen Sie <strong>Kanäle</strong>.</li>
+<li>Im Hauptfenster unter <strong>Kanäle</strong> wählen Sie Ihren Kanal.</li>
+<li>Wählen Sie im Bereich Kanaleigenschaften rechts Ihren B2C-Anwendungsnamen aus dem Dropdown-Menü <strong>Wählen Sie B2C-Anwendung</strong>.</li>
+<li>Wählen Sie <strong>Schließen</strong> und dann <strong>Speichern und veröffentlichen</strong>.</li>
+</ol>
+<h2 id="additional-b2c-information">Weitere B2C Informationen</h2>
+<h3 id="customer-migration">Kundenmigration</h3>
+<p>Wenn Sie in Betracht ziehen, Kundendatensätze von einer früheren Plattform für Identitätsanbieter zu migrieren, arbeiten Sie bitte mit dem Dynamics 365 Commerce Team, um Ihre Kundenmigrationsanforderungen zu überprüfen.</p>
+<p>Für weitere Azure AD B2C-Dokumentation zur Kundenmigration siehe <a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-user-migration">Migrieren Sie Benutzer zu Azure Active Directory B2C</a>.</p>
+<h3 id="custom-policies">Benutzerdefinierte Richtlinien</h3>
+<p>Weitere Informationen zum Anpassen finden Sie unter Azure AD B2C-Interaktionen und Richtlinienflüsse, die über das hinausgehen, was B2C-Standardrichtlinien bieten, siehe <a href="https://docs.microsoft.com/azure/active-directory-b2c/active-directory-b2c-overview-custom">Benutzerdefinierte Richtlinien in Azure Active Directory B2C</a>.</p>
+<h3 id="secondary-admin">Sekundäradministrator</h3>
+<p>Ein optionales sekundäres Administratorkonto kann im Abschnitt <strong>Benutzer</strong> Ihres B2C-Mandanten hinzugefügt werden. Dies kann ein direktes Konto oder ein allgemeines Konto sein. Wenn Sie ein Konto für mehrere Teamressourcen freigeben müssen, kann auch ein gemeinsames Konto erstellt werden. Aufgrund der Empfindlichkeit der gespeicherten Daten in Azure AD B2C, sollte ein gemeinsames Konto gemäß den Sicherheitspraktiken Ihres Unternehmens genau überwacht werden.</p>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<p><a href="configure-your-domain-name.html">Domänennamen konfigurieren</a></p>
+<p><a href="deploy-ecommerce-site.html">Neuen E-Commerce-Mandanten bereitstellen</a></p>
+<p><a href="create-ecommerce-site.html">E-Commerce-Website erstellen</a></p>
+<p><a href="associate-site-online-store.html">Zuordnen einer Dynamics 365 Commerce-Website zu einem Onlinekanal</a></p>
+<p><a href="manage-robots-txt-files.html">Robots.txt-Dateien verwalten</a></p>
+<p><a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/commerce/upload-bulk-redirects">Upload-URL bewirkt Massenumleitung (This is an external link)</a>Eine Dynamics 365 Commerce-Website einem Online-Kanal zuordnen</p>
+<p><a href="custom-pages-user-logins.html">Einrichten angepasster Seiten für die Benutzeranmeldungen</a></p>
+<p><a href="configure-multi-B2C-tenants.html">Mehrere B2C-Mandanten in einer Commerce-Umgebung konfigurieren</a></p>
+<p><a href="add-cdn-support.html">Hinzufügen von Unterstützung für ein Content Delivery Network (CDN)</a></p>
+<p><a href="enable-store-detection.html">Standortbasierte Shop-Erkennung aktivieren</a></p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/commerce/set-up-B2C-tenant.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

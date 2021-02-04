@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot GTE | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot GTE | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshoot-gte">Troubleshoot GTE</h1>
+
+
+<p>The tax engine is a highly configurable engine that handles tax applicability, calculation, posting, and settlement. This topic lists issues that users typically encounter while they use the tax engine, and it explains how to fix those issues.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The tax engine functionality is available only for legal entities that have their primary address in India.</p>
+</div>
+<p>For a quick overview of the tax engine, watch <a href="https://www.youtube.com/watch?v=jAFpEBOtNWI&amp;feature=youtu.be">Tax engine overview (YouTube video)</a>.</p>
+<h2 id="debug-mode">Debug mode</h2>
+<p>Familiarity with the tax engine's debug mode can help you to identify the root causes of issues that are related to the tax engine.</p>
+<p>To turn on debug mode, add <strong>&amp;debug=vs%2CconfirmExit&amp;</strong> to the end of the URL for Microsoft Dynamics 365 Finance.</p>
+<p><img src="media/GTE-debug-mode.png" alt="Turning on debug mode"></p>
+<p>After debug mode is turned on, when you open the tax document, the system generates a dump file that contains runtime details.</p>
+<p><img src="media/GTE-debug-mode-download-file.png" alt="Dump tax engine runtime information"></p>
+<p>The structure of the dump file is shown here. The <strong>Data model mapping mismatch</strong> section is available only if the <strong>Check model mapping discrepancies</strong> option is set to <strong>Yes</strong>.</p>
+<pre><code>======Tax engine calculation parameter======
+...
+===========Taxable document JSON===========
+...
+=====Tax engine runtime posting profiles=====
+...
+========Data model mapping mismatch========
+Unmatched data provider fields
+...
+Unmatched taxable document fields
+...
+
+=====Tax engine runtime posting profiles=====
+Header - TaxDocLine: TableId=6791 RecId=68719507754:
+Line - TaxDocLine: TableId=13307 RecId=68719685245:
+Path of the tax component 1:
+-&quot;Posting profile 1 description(Hit)&quot;
+-&quot;Posting profile 2 description&quot;
+...
+Path of the tax component 2:
+-&quot;Posting profile 1 description(Hit)&quot;
+-&quot;Posting profile 2 description&quot;
+...
+Line - TaxDocLine: TableId=13307 RecId=68719685245:
+...
+</code></pre>
+<h2 id="possible-issues">Possible issues</h2>
+<h3 id="imbalanced-voucher-with-gst">Imbalanced voucher with GST</h3>
+<p>This issue can occur after you extend the GST configuration by adding or modifying the posting profile.</p>
+<p>In the current design, each tax component has a set of posting profiles to handle all possible tax postings. At runtime, the tax engine picks up the first matched posting profile.</p>
+<p><img src="media/GST-posting-profiles.png" alt="GST posting profiles"></p>
+<p>Sometimes, if you add or modify posting profiles without carefully handling the condition of each, unexpected posting profiles might be picked up at runtime.</p>
+<p>When debug mode is turned on, you can find the selected posting profiles in the <strong>Tax engine runtime posting profiles</strong> section of the dump file.</p>
+<h3 id="incorrect-tax-ratetax-component">Incorrect tax rate/tax component</h3>
+<p>To work correctly, the tax engine relies on input from taxable documents, such as sales and purchase invoices. If you extend the configuration by adding new fields, fields might be incorrectly mapped, or the writing to the data provider might be incorrect. To identify the issue, set the <strong>Check model mapping discrepancies</strong> option to <strong>Yes</strong>. You can view an additional section to show the discrepancies.</p>
+<p><img src="media/GTE-model-mapping-deprepancies.png" alt="Check model mapping discrepancies option"></p>
+<h3 id="incorrect-tax-component">Incorrect tax component</h3>
+<p>If you don't see the expected tax components, the transaction can't satisfy the [applicability (This is an external linThis link was changed due to HTMLfromRepoGenerator)](../general-ledger/tax-engine-applicability (This is an external linThis link was changed due to HTMLfromRepoGenerator).md) rules of the tax component or the tax type. If you extended the configuration, verify that there are no discrepancies, and then compare the field value in the <strong>Taxable document JSON</strong> section of the dump file with the applicability rules of the tax component.</p>
+<h3 id="incorrect-tax-rate">Incorrect tax rate</h3>
+<p>If you don't see the expected tax rate, check the field values that are used in the <a href="apac-ind-GST-set-up-rate-percentage-tables.html">tax setup</a>, and compare them with the field value in the <strong>Taxable document JSON</strong> section of the dump file.</p>
+<h2 id="you-cant-post-the-voucher-with-gst">You can't post the voucher with GST</h2>
+<p>You might receive an error message that resembles the following message:</p>
+<p><em>Unable to find ## in the setoff hierarchy ## version ##, please check and try again.</em></p>
+<p>Typically, this error occurs because the configuration was extended by adding a new tax component or modifying the credit pool.</p>
+<p>To work around this issue, follow these steps.</p>
+<ol>
+<li><p>Add a newer version to the current sales tax hierarchies, select <strong>Synchronize</strong>, and then activate the new version.</p>
+<p><img src="media/IND-GST-add-new-hierarchy.png" alt="Add a new version of the sales tax hierarchies"></p>
+</li>
+<li><p>On the <strong>Maintain setoff hierarchy profiles</strong> page, make the new version available by following the steps in <a href="apac-ind-GST-set-up-activate-tax-hierarchy-tree.html">Set up a sales tax hierarchy</a>.</p>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

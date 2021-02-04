@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Authentifizierung </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Authentifizierung ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="description" content="Dieser Artikel enth&#228;lt eine &#220;bersicht &#252;ber die Authentifizierung bei der Daten-Anwendungsprogrammierschnittstelle (API) von Microsoft Dynamics 365 Human Resources.">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="toc.html">
+    <meta name="searchOption" content="noindex">
+    
+    
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    
+    <meta name="ms.search.scope" content="Human Resources">
+    <meta name="ms.search.region" content="Global">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="row">
+          <div class="col-sm-12">
+            
+<div class="sidenav hide-when-search"> 
+  <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+  <div class="sidetoggle collapse" id="sidetoggle">
+    <div id="sidetoc"></div>
+  </div>
+</div>
+            <div class="row toc-offset">
+              
+              <div class="col-sm-12 col-md-9">
+                <article class="article" id="_content" data-uid="">
+<h1 id="authentication">Authentifizierung</h1>
+
+<p>Dieser Artikel enthält eine Übersicht über die Authentifizierung bei der Daten-Anwendungsprogrammierschnittstelle (API) von Microsoft Dynamics 365 Human Resources.</p>
+<h2 id="overview">Übersicht</h2>
+<p>Die Daten-API für Human Resources ist eine OData-Implementierung. Weitere Informationen finden Sie unter <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/odata">Open Data Protocol (OData) (This is an external link)</a>.</p>
+<p>Ihre Anwendung muss sich als autorisierter Aufrufer authentifizieren, bevor die API Anforderungen von Ihrer Anwendung bearbeiten kann.</p>
+<h2 id="fundamentals">Grundlagen</h2>
+<p>Zum Aufrufen der Daten-API muss Ihre Anwendung ein Zugriffstoken von der Microsoft Identity Platform erwerben. Das Zugriffstoken enthält Informationen zu Ihrer Anwendung und die Berechtigung, Ressourcen in Human Resources aufzurufen.</p>
+<h3 id="access-token">Zugriffstoken</h3>
+<p>Von der Microsoft Identity Platform ausgegebene Zugriffstoken sind Base64-codierte JSON-Web-Token (JWTs) (JavaScript Object Notation). Sie enthalten Informationen (Ansprüche), die die Daten-API (und andere von der Microsoft Identity Platform gesicherte Web-APIs) verwenden, um den Aufrufer zu validieren und sicherzustellen, dass der Aufrufer über die entsprechenden Berechtigungen zum Ausführen des von ihm angeforderten Vorgangs verfügt. Während eines Anrufs können Sie Zugriffstoken als undurchsichtig behandeln. Sie sollten Zugriffstoken immer über einen sicheren Kanal übertragen, z. B. über TLS (Transport Layer Security) und HTTPS (Hypertext Transfer Protocol Secure).</p>
+<p>Hier ist ein Beispiel für ein Zugriffstoken, das von der Microsoft Identity Platform ausgegeben wird.</p>
+<pre><code class="lang-jwt">EwAoA8l6BAAU7p9QDpi/D7xJLwsTgCg3TskyTaQAAXu71AU9f4aS4rOK5xoO/SU5HZKSXtCsDe0Pj7uSc5Ug008qTI+a9M1tBeKoTs7tHzhJNSKgk7pm5e8d3oGWXX5shyOG3cKSqgfwuNDnmmPDNDivwmi9kmKqWIC9OQRf8InpYXH7NdUYNwN+jljffvNTewdZz42VPrvqoMH7hSxiG7A1h8leOv4F3Ek/oeJX6U8nnL9nJ5pHLVuPWD0aNnTPTJD8Y4oQTp5zLhDIIfaJCaGcQperULVF7K6yX8MhHxIBwek418rKIp11om0SWBXOYSGOM0rNNN59qNiKwLNK+MPUf7ObcRBN5I5vg8jB7IMoz66jrNmT2uiWCyI8MmYDZgAACPoaZ9REyqke+AE1/x1ZX0w7OamUexKF8YGZiw+cDpT/BP1GsONnwI4a8M7HsBtDgZPRd6/Hfqlq3HE2xLuhYX8bAc1MUr0gP9KuH6HDQNlIV4KaRZWxyRo1wmKHOF5G5wTHrtxg8tnXylMc1PKOtaXIU4JJZ1l4x/7FwhPmg9M86PBPWr5zwUj2CVXC7wWlL/6M89Mlh8yXESMO3AIuAmEMKjqauPrgi9hAdI2oqnLZWCRL9gcHBida1y0DTXQhcwMv1ORrk65VFHtVgYAegrxu3NDoJiDyVaPZxDwTYRGjPII3va8GALAMVy5xou2ikzRvJjW7Gm3XoaqJCTCExN4m5i/Dqc81Gr4uT7OaeypYTUjnwCh7aMhsOTDJehefzjXhlkn//2eik+NivKx/BTJBEdT6MR97Wh/ns/VcK7QTmbjwbU2cwLngT7Ylq+uzhx54R9JMaSLhnw+/nIrcVkG77Hi3neShKeZmnl5DC9PuwIbtNvVge3Q+V0ws2zsL3z7ndz4tTMYFdvR/XbrnbEErTDLWrV6Lc3JHQMs0bYUyTBg5dThwCiuZ1evaT6BlMMLuSCVxdBGzXTBcvGwihFzZbyNoX+52DS5x+RbIEvd6KWOpQ6Ni+1GAawHDdNUiQTQFXRxLSHfc9fh7hE4qcD7PqHGsykYj7A0XqHCjbKKgWSkcAg==
+</code></pre>
+<p>Um die Daten-API aufzurufen, hängen Sie das Zugriffstoken als Bearer-Token an den Autorisierungsheader in Ihrer HTTP-Anforderung an. Hier ist ein Beispiel.</p>
+<pre><code class="lang-HTTP">HTTP/1.1
+Authorization: Bearer EwAoA8l6BAAU ... 7PqHGsykYj7A0XqHCjbKKgWSkcAg==
+Host: https://{cluster}.hr.talent.dynamics.com
+GET https://{cluster}.hr.talent.dynamics.com/namespaces/{namespace_guid}/data/JobTypes
+</code></pre>
+<h2 id="register-a-new-application-by-using-the-azure-portal">Eine neue Anwendung im Azure-Portal registrieren</h2>
+<ol>
+<li><p>Melden Sie sich mit einem Geschäfts- oder Schulkonto oder mit einem persönlichen Microsoft-Konto beim <a href="https://portal.azure.com">Microsoft Azure-Portal</a> an.</p>
+</li>
+<li><p>Wenn Sie mit Ihrem Konto auf mehrere Mandanten zugreifen können, wählen Sie Ihr Konto in der oberen rechten Ecke aus und stellen Sie Ihre Portalsitzung auf den gewünschten Mandanten im Azure Active Directory (Azure AD) ein.</p>
+</li>
+<li><p>Wählen Sie zuerst im linken Bereich den <strong>Azure Active Directory</strong>-Dienst aus und wählen Sie dann <strong>App-Registrierungen &gt; Neue Registrierung</strong> aus.</p>
+</li>
+<li><p>Wenn die Seite <strong>Registrieren einer Anwendung</strong> angezeigt wird, geben Sie die Registrierungsinformationen Ihrer Anwendung ein:</p>
+<ul>
+<li><p><strong>Name</strong>: Geben Sie einen aussagekräftigen Anwendungsnamen ein, der den Benutzern der App angezeigt wird.</p>
+</li>
+<li><p><strong>Unterstützte Kontotypen</strong>: Wählen Sie die Kontotypen aus, die Ihre App unterstützen soll.</p>
+<table>
+<thead>
+<tr>
+<th>Unterstützte Kontenarten</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Konten nur in diesem Organisationsverzeichnis</td>
+<td>Wählen Sie diese Option aus, wenn Sie eine Branchen-App erstellen. Diese Option ist nur verfügbar, wenn Sie die App in einem Verzeichnis registrieren.<p>Diese Option ist <strong>Azure AD nur Einzelmandant</strong> zugeordnet.</p><p>Diese Option ist die Standardoption, sofern Sie die App nicht außerhalb eines Verzeichnisses registrieren. In diesem Fall ist die Standardoption <strong>Azure AD mehrinstanzenfähige und persönliche Microsoft-Konten</strong>.</p></td>
+</tr>
+<tr>
+<td>Konten nur jedem Organisationsverzeichnis</td>
+<td>Wählen Sie diese Option aus, um alle Geschäfts- und Ausbildungskunden anzusprechen.<p>Diese Option ist <strong>Azure AD nur mehrinstanzenfähig</strong> zugeordnet.</p><p>Wenn Sie die App als <strong>Azure AD nur Einzelmandant</strong> registriert haben, können Sie das Blade <strong>Authentifizierung</strong> verwenden, um ein Update auf <strong>Azure AD nur mehrinstanzenfähig</strong> durchzuführen und dann wieder zurück zu <strong>Azure AD nur Einzelmandant</strong> zu wechseln.</p></td>
+</tr>
+<tr>
+<td>Konten in einem beliebigen Organisationsverzeichnis und persönliche Microsoft-Konten</td>
+<td>Wählen Sie diese Option aus, um die meisten Kunden anzusprechen.<p>Diese Option ist <strong>Azure AD mehrinstanzenfähige und persönliche Microsoft-Konten</strong> zugeordnet.</p><p>Wenn Sie die App als <strong>Azure AD mehrinstanzenfähige und persönliche Microsoft-Konten</strong> registriert haben, können Sie diese Einstellung über die Benutzeroberfläche nicht ändern. Stattdessen müssen Sie den Anwendungsmanifest-Editor verwenden, um die unterstützten Kontotypen zu ändern.</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><strong>Umleitungs-URI (optional)</strong>  – Wählen Sie den App-Typ aus, den Sie erstellen: <strong>Internet</strong> oder <strong>Öffentlicher Client (Mobil und Desktop)</strong>. Geben Sie dann den Umleitungs-URI (oder die Antwort-URL) für die App ein.</p>
+<ul>
+<li>Geben Sie für Internetanwendungen die Basis-URL der App an. Beispielsweise könnte <code>http://localhost:31544</code> die URL für eine Internetanwendung sein, die auf Ihrem lokalen Computer ausgeführt wird. Benutzer verwenden diese URL, um sich bei einer Webclient-App anzumelden.</li>
+<li>Geben Sie für öffentliche Client-Apps den URI an, den Azure AD verwendet, um Tokenantworten zurückzugeben. Geben Sie einen für Ihre App spezifischen Wert ein, z. B. <code>myapp://auth</code>.</li>
+</ul>
+<p>Spezielle Beispiele für Internetanwendungen oder native Apps finden Sie in den Schnellstarts unter <a href="https://docs.microsoft.com/azure/active-directory/develop/#quickstarts">Microsoft Identity Platform (früher Azure Active Directory für Entwickler)</a>.</p>
+</li>
+</ul>
+</li>
+<li><p>Wählen Sie unter <strong>API-Berechtigungen</strong> die Option <strong>Ein Berechtigung hinzufügen</strong> aus. Suchen Sie dann auf der Registerkarte <strong>Von meiner Organisation verwendete APIs</strong> nach <strong>Dynamics 365 Human Resources</strong> und fügen Sie Ihrer App die Berechtigung <strong>benutzer_identitätswechsel</strong> hinzu. Die Anwendungs-ID für die Personalverteilung lautet f9be0c49-aa22-4ec6-911a-c5da515226ff. Verwenden Sie diese ID, um sicherzustellen, dass Sie die richtige Anwendung ausgewählt haben.</p>
+</li>
+<li><p>Wählen Sie <strong>Registrieren</strong> aus.</p>
+<p><a href="media/api-new-app-registration-expanded.png#lightbox"><img src="media/api-new-app-registration-expanded.png" alt="Registrieren einer neuen App im Azure-Portal"></a></p>
+</li>
+</ol>
+<p>Azure AD weist Ihrer App eine eindeutige Anwendungs-ID (Client-ID) zu und führt Sie zur Seite <strong>Übersicht</strong> für Ihre App. Um Ihrer App weitere Funktionen hinzuzufügen, können Sie andere Konfigurationsoptionen auswählen, z. B. Optionen für das Branding sowie für Zertifikate und Geheimnisse.</p>
+<h2 id="retrieving-an-access-token">Ein Zugriffstoken abrufen</h2>
+<p>Wie Sie ein Zugriffstoken zum Aufrufen der Daten-API für Human Resources abrufen, hängt von den Technologien ab, die Sie zum Entwickeln Ihrer Clientanwendung verwenden. Mögliche Beispiele sind die <a href="https://docs.microsoft.com/de-de/dynamics365/supply-chain/fin-ops-core/dev-itpro/data-entities/third-party-service-test">Durchführung von Tests mit einem Drittanbieter-Hilfsprogramm (This is an external link)</a> (z. B. Postman), die Entwicklung von C#-Konsolenanwendungen oder -Webdiensten oder die Erstellung eines JavaScript/TypeScript-Clients.</p>
+<p>Beispiel für eine C#-Clientanwendung:</p>
+<pre><code class="lang-C#">using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+// requires appropriate NuGet package references in the project
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+
+namespace TalentODataPoC
+{
+    class Program
+    {
+        // prereq: This client app must be registered in Azure Active Directory. The app must be
+        // registered as requiring permission to the Dynamics 365 for Talent API (with the Dynamics
+        // HCM Workload delegated permission).
+        static string clientId = &quot;4fc703ef-672c-4e2c-813f-2f9d29d726db&quot;; // This value should be obtained from AAD and must match your registered app
+        static string talentNamespaceUri = &quot;&quot;;
+
+        public static async Task CallTalentODataService()
+        {
+            // authority URI
+            UriBuilder uri = new UriBuilder(&quot;https://login.microsoftonline.com/common&quot;);
+            AuthenticationContext authenticationContext = new AuthenticationContext(uri.ToString());
+
+            // request token for the resource we want to access (Human Resources). This will authenticate
+            // the user and return an access token containing claims for the authenticated user.
+            var authResult = await authenticationContext.AcquireTokenAsync(
+                &quot;http://hr.talent.dynamics.com&quot;, /*Talent app id or resource URI*/
+                clientId, /*registered client app id*/
+                new Uri(&quot;https://localhost&quot;), /*redirect URI, as registered in your AAD app*/
+                new PlatformParameters(PromptBehavior.SelectAccount));
+
+            // create the authorization header, which needs to be passed in the Header of the HTTP Requests to Talent
+            string authHeader = authResult.CreateAuthorizationHeader();
+
+            // HINT: paste the JWT into https://jwt.ms to decode and view it
+            Console.Write(&quot;authHeader: &quot;);
+            Console.WriteLine(authHeader);
+            Console.WriteLine();
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add(&quot;Authorization&quot;, authHeader);
+
+            string s;
+
+            Console.Write(&quot;Talent Namespace URI: &quot;);
+            Console.WriteLine(talentNamespaceUri);
+            Console.WriteLine();
+
+            // call the OData service to get JobType data from Talent
+            var resultOdata = await client.GetAsync(talentNamespaceUri + &quot;data/JobTypes&quot;);
+            s = await resultOdata.Content.ReadAsStringAsync();
+            Console.WriteLine(s);
+            Console.WriteLine();
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine();
+
+            // if the user passes in a single parameter, assume it is the namespaceUri for Talent
+            if (args.Length == 1)
+            {
+                talentNamespaceUri = args[0];
+            } else if (args.Length == 0)
+            {
+                Console.WriteLine(&quot;Enter Talent URL including namespace.&quot;);
+                Console.WriteLine(&quot;Example: https://aos-rts-sf-21454f9d830-prod-westus2.hr.talent.dynamics.com/namespaces/2328af1a-2d45-4c6a-99e3-12a4c3867dcf/&quot;);
+                Console.Write(&quot;&gt; &quot;);
+                talentNamespaceUri = Console.ReadLine();
+                if (!talentNamespaceUri.EndsWith(&quot;/&quot;))
+                {
+                    talentNamespaceUri = talentNamespaceUri + &quot;/&quot;;
+                }
+            } else
+            {
+                Console.WriteLine(&quot;Unexpected Arguments&quot;);
+                System.Environment.Exit(1);
+            }
+
+            Task t = Program.CallTalentODataService();
+            t.Wait();
+        }
+    }
+}
+</code></pre>
+<p>Nachdem Sie ein Zugriffstoken abgerufen haben, übergeben Sie das Token im Autorisierungsheader wie oben beschrieben bei jeder an die Daten-API gesendeten Anforderung als Bearer-Token.</p>
+</article>
+              </div>
+              
+<div class="hidden-sm col-md-3" role="complementary">
+  <div class="sideaffix">
+    <div class="contribution">
+      <ul class="nav">
+        <li>
+          <a href="https://github.com/MicrosoftDocs/Dynamics-365-Operations.de-de/blob/live/articles/human-resources/hr-developer-api-authentication.md/#L1" class="contribution-link">Improve this Doc</a>
+        </li>
+      </ul>
+    </div>
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+    <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+    </nav>
+  </div>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright � 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

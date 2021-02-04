@@ -1,0 +1,529 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Richtlinien zur Lieferungskonsolidierung konfigurieren | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Richtlinien zur Lieferungskonsolidierung konfigurieren | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-shipment-consolidation-policies">Richtlinien zur Lieferungskonsolidierung konfigurieren</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>Der Lieferungskonsolidierungsprozess, der Richtlinien zur Lieferungskonsolidierung verwendet, ermöglicht eine automatisierte Lieferungskonsolidierung während der automatisierten und manuellen Freigabe an das Lager. Nachdem Sie diese Funktion aktiviert haben, müssen Sie Ihre anfänglichen Richtlinien konfigurieren. Wenn keine Richtlinien konfiguriert sind, generiert jede Verkaufslinie eine separate Lieferung mit einer einzelnen Ladelinie.</p>
+<p>Die in diesem Thema vorgestellten Szenarien zeigen, wie Standard- und benutzerdefinierte Versandkonsolidierungsrichtlinien eingerichtet werden.</p>
+<h2 id="turn-on-the-shipment-consolidation-policies-feature">Richtlinienfunktion zur Lieferungskonsolidierung aktivieren</h2>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Im <a href="#scenario-1">ersten Szenario</a> dieses Themas wird zunächst ein Lager eingerichtet, sodass die frühere Funktion zur Lieferungskonsolidierung verwendet wird. Anschließend stellen Sie Richtlinien zur Lieferungskonsolidierung zur Verfügung. Auf diese Weise können Sie erfahren, wie das Upgradeszenario funktioniert. Wenn Sie vorhaben, eine Demodatenumgebung zu verwenden, um das erste Szenario zu durchlaufen, aktivieren Sie die Funktion nicht, bevor Sie das Szenario ausführen.</p>
+</div>
+<p>Bevor Sie die Funktion <em>Richtlinien zur Lieferungskonsolidierung</em> verwenden können, müssen Sie sie in Ihrem System aktivieren. Administratoren können mit den Einstellungen <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> den Status der Funktion überprüfen und sie aktivieren. Im Arbeitsbereich <strong>Funktionsverwaltung</strong> ist die Funktion wie folgt aufgeführt:</p>
+<ul>
+<li><strong>Module:</strong> <em>Lagerortverwaltung</em></li>
+<li><strong>Funktionsname:</strong> <em>Lieferung konsolidieren</em></li>
+</ul>
+<h2 id="make-demo-data-available">Demodaten zur Verfügung stellen</h2>
+<p>Jedes Szenario in diesem Thema verweist auf Werte und Datensätze, die in den für Microsoft Dynamics 365 Supply Chain Management bereitgestellten Standarddemodaten enthalten sind. Wenn Sie die hier angegebenen Werte während der Übungen verwenden möchten, müssen Sie in einer Umgebung arbeiten, in der die Demodaten installiert sind, und die juristische Person auf <strong>USMF</strong> festlegen, bevor Sie beginnen.</p>
+<h2 id="scenario-1-configure-default-shipment-consolidation-policies"><a name="scenario-1"></a>Szenario 1: Standardrichtlinien zur Lieferungskonsolidierung konfigurieren</h2>
+<p>Es gibt zwei Situationen, in denen Sie die Mindestanzahl von Standardrichtlinien konfigurieren müssen, nachdem Sie die Funktion <em>Richtlinien zur Lieferungskonsolidierung</em> aktiviert haben:</p>
+<ul>
+<li>Sie aktualisieren eine Umgebung, die bereits Daten enthält.</li>
+<li>Sie richten eine völlig neue Umgebung ein.</li>
+</ul>
+<h3 id="upgrade-an-environment-where-warehouses-are-already-configured-for-cross-order-consolidation">Aktualisieren Sie eine Umgebung, in der Lager bereits für die auftragsübergreifende Konsolidierung konfiguriert sind</h3>
+<p>Wenn Sie diesen Vorgang starten, sollte die Funktion <em>Richtlinien zur Lieferungskonsolidierung</em> deaktiviert werden, um eine Umgebung zu simulieren, in der die grundlegende Funktion zur konsolidierungsübergreifenden Konsolidierung bereits verwendet wurde. Anschließend aktivieren Sie die Funktion mithilfe der Funktionsverwaltung, um zu erfahren, wie Sie nach dem Upgrade Richtlinien für die Lieferungskonsolidierung einrichten.</p>
+<p>Befolgen Sie diese Schritte, um Standardrichtlinien für die Lieferungskonsolidierung in einer Umgebung einzurichten, in der Lager bereits für die auftragsübergreifende Konsolidierung konfiguriert wurden.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Lagerort &gt; Lagerorte</strong>.</p>
+</li>
+<li><p>Suchen und öffnen Sie in der Liste den gewünschten Lagerdatensatz (z. B. Lager <em>24</em> in den <strong>USMF</strong>-Demodaten).</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Bearbeiten</strong> aus.</p>
+</li>
+<li><p>Legen Sie auf dem Inforegister <strong>Lagerort</strong> die Option <strong>Lieferung bei Freigabe an Lagerort konsolidieren</strong> auf <em>Ja</em> fest.</p>
+</li>
+<li><p>Wiederholen Sie die Schritte 2 bis 4 für alle anderen Lager, in denen eine Konsolidierung erforderlich ist.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+<li><p>Verwenden Sie die <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a>, um <em>Richtlinien zur Lieferungskonsolidierung</em> zu aktivieren. Im Arbeitsbereich <strong>Funktionsverwaltung</strong> heißt die Funktion <em>Lieferung konsolidieren</em>.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>. Möglicherweise müssen Sie Ihren Browser aktualisieren, um den neuen Menüpunkt <strong>Richtlinien zur Lieferungskonsolidierung</strong> nach dem Einschalten der Funktion zu sehen.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Standardeinstellungen erstellen</strong> aus, um die folgenden Richtlinien zu erstellen:</p>
+<ul>
+<li>Eine <strong>CrossOrder</strong>-Richtlinie für den Richtlinientyp <em>Aufträge</em> (vorausgesetzt, Sie haben mindestens einen Lagerort, der für die Verwendung der früheren Konsolidierungsfunktion eingerichtet ist)</li>
+<li>Eine <strong>Standard</strong>-Richtlinie für den Richtlinientyp <em>Aufträge</em></li>
+<li>Eine <strong>Standard</strong>-Richtlinie für den Richtlinientyp <em>Umlagerungsabgang</em></li>
+<li>Eine <strong>CrossOrder</strong>-Richtlinie für den Richtlinientyp <em>Umlagerungsabgang</em> (vorausgesetzt, Sie haben mindestens einen Lagerort, der für die Verwendung der früheren Konsolidierungsfunktion eingerichtet ist)</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<ul>
+<li>Beide <strong>CrossOrder</strong>-Richtlinien berücksichtigen denselben Satz von Feldern wie die frühere Logik, mit Ausnahme des Felds für die Bestellnummer. (In diesem Feld werden Linien zu Lieferungen zusammengefasst, basierend auf Faktoren wie Lager, Transportart und Adresse.)</li>
+<li>Beide <strong>Standard</strong>-Richtlinien berücksichtigen denselben Satz von Feldern wie die frühere Logik, einschließlich des Felds für die Bestellnummer. (In diesem Feld werden Linien zu Lieferungen zusammengefasst, basierend auf Faktoren wie Auftragsnummer, Lager, Transportart und Adresse.)</li>
+</ul>
+</div>
+</li>
+<li><p>Wählen Sie die <strong>CrossOrder</strong>-Richtlinie für den Richtlinientyp <em>Aufträge</em>, und wählen Sie dann im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Beachten Sie im Dialogfeld des Abfrage-Editors, dass Lager, bei denen die Option <strong>Lieferung bei Freigabe an Lagerort konsolidieren</strong> auf <em>Ja</em> gesetzt ist, aufgelistet sind. Daher sind sie in der Abfrage enthalten.</p>
+</li>
+</ol>
+<h3 id="create-default-policies-for-a-new-environment">Erstellen Sie Standardrichtlinien für eine neue Umgebung</h3>
+<p>Befolgen Sie diese Schritte, um Standardrichtlinien für die Lieferungskonsolidierung in einer brandneuen Umgebung einzurichten.</p>
+<ol>
+<li><p>Verwenden Sie die <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a>, um <em>Richtlinien zur Lieferungskonsolidierung</em> zu aktivieren, wenn es noch nicht aktiviert wurde. Im Arbeitsbereich <strong>Funktionsverwaltung</strong> heißt die Funktion <em>Lieferung konsolidieren</em>.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Standardeinstellungen erstellen</strong> aus, um die folgenden Richtlinien zu erstellen:</p>
+<ul>
+<li>Eine <strong>Standard</strong>-Richtlinie für den Richtlinientyp <em>Aufträge</em></li>
+<li>Eine <strong>Standard</strong>-Richtlinie für den Richtlinientyp <em>Umlagerungsabgang</em></li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Beide <strong>Standard</strong>-Richtlinien berücksichtigen denselben Satz von Feldern wie die frühere Logik, einschließlich des Felds für die Bestellnummer. (In diesem Feld werden Linien zu Lieferungen zusammengefasst, basierend auf Faktoren wie Auftragsnummer, Lager, Transportart und Adresse.)</p>
+</div>
+</li>
+</ol>
+<h2 id="scenario-2-configure-custom-shipment-consolidation-policies">Szenario 2: Benutzerdefinierte Richtlinien zur Lieferungskonsolidierung konfigurieren</h2>
+<p>In diesem Szenario wird gezeigt, wie benutzerdefinierte Lieferungskonsolidierungsrichtlinien eingerichtet werden. Benutzerdefinierte Richtlinien können komplexe Geschäftsanforderungen unterstützen, bei denen die Lieferungskonsolidierung von mehreren Bedingungen abhängt. Für jede Beispielrichtlinie später in diesem Szenario ist eine kurze Beschreibung des Geschäftsfalls enthalten. Diese Beispielrichtlinien sollten in einer Reihenfolge eingerichtet werden, die eine pyramidenartige Auswertung der Abfragen gewährleistet. (Mit anderen Worten, die Richtlinien mit den meisten Bedingungen sollten als mit der höchsten Priorität bewertet werden.)</p>
+<h3 id="turn-on-the-feature-and-prepare-master-data-for-this-scenario">Aktivieren Sie die Funktion und bereiten Sie Stammdaten für dieses Szenario vor</h3>
+<p>Bevor Sie die Übungen in diesem Szenario ausführen können, müssen Sie die Funktion aktivieren und die Stammdaten vorbereiten, die für die Filterung erforderlich sind, wie in den folgenden Unterabschnitten beschrieben. (Diese Voraussetzungen gelten auch für die in <a href="#example-scenarios">Beispielszenarien für die Verwendung von Richtlinien zur Lieferungskonsolidierung</a> aufgeführten Szenarien.)</p>
+<h4 id="turn-on-the-feature-and-create-the-default-policies">Aktivieren Sie die Funktion und erstellen Sie die Standardrichtlinien</h4>
+<p>Verwenden Sie die Funktionsverwaltung, um die Funktion zu aktivieren, falls Sie sie noch nicht aktiviert haben, und erstellen Sie die Standardkonsolidierungsrichtlinien, die in <a href="#scenario-1">Szenario 1</a> beschrieben sind.</p>
+<h4 id="create-two-new-product-filter-codes">Erstellen Sie zwei neue Produktfiltercodes</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt;Produktfilter &gt; Produktfilter</strong> und fügen Sie zwei Produktfilter hinzu:</p>
+<ul>
+<li><p>Produktfilter 1:</p>
+<ul>
+<li><strong>Filtercode:</strong> <em>Brennbar</em></li>
+<li><strong>Filtertitel:</strong> <em>Code 4</em></li>
+</ul>
+</li>
+<li><p>Produktfilter 2:</p>
+<ul>
+<li><strong>Filtercode:</strong> <em>Explosiv</em></li>
+<li><strong>Filtertitel:</strong> <em>Code 4</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Wechseln Sie zu <strong>Produktinformationsverwaltung &gt; Produkte &gt; Freigegebene Produkte</strong>.</p>
+</li>
+<li><p>Öffnen Sie das Produkt mit Artikelnummer <em>M9200</em>. (Das von Ihnen ausgewählte Produkt muss für erweiterte [WMS]-Lagerortprozesse aktiviert sein, und dieses Produkt ist für WMS-Prozesse in den <strong>USMF</strong>-Demodaten voraktiviert.)</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Lagerort</strong> legen Sie das Feld <strong>Code 4</strong> auf <em>Brennbar</em> fest.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+<li><p>Öffnen Sie das Produkt mit Artikelnummer <em>M9201</em>. (Dieses Produkt ist auch für WMS-Prozesse in den <strong>USMF</strong>-Demodaten voraktiviert.)</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Lagerort</strong> legen Sie das Feld <strong>Code 4</strong> auf <em>Explosiv</em> fest.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+</ol>
+<h4 id="create-a-new-transportation-mode-of-delivery">Neuen Transportmodus zur Lieferung erstellen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Transportverwaltung &gt; Einstellungen &gt; Spediteure &gt; Modus</strong>.</p>
+</li>
+<li><p>Erstellen Sie einen Transportmodus, der in Konsolidierungsabfragen verwendet wird, und benennen Sie ihn <em>Airways</em>.</p>
+</li>
+<li><p>Wechseln Sie zu <strong>Transportverwaltung &gt; Einstellungen &gt; Spediteure &gt; Spediteure</strong>.</p>
+</li>
+<li><p>Erstellen Sie einen Spediteur mit den folgenden Einstellungen:</p>
+<ul>
+<li><strong>Spediteur:</strong> <em>Airways</em></li>
+<li><strong>Name:</strong> <em>Airways</em></li>
+<li><strong>Modus:</strong> <em>Airways</em></li>
+</ul>
+</li>
+<li><p>Fügen Sie auf dem Inforegister <strong>Services</strong> für den neuen Spediteur eine Zeile mit den folgenden Einstellungen hinzu:</p>
+<ul>
+<li><strong>Spediteur:</strong> <em>Air</em></li>
+<li><strong>Transportmethode:</strong> <em>Air</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Wenn Sie den neuen Spediteur speichern, wird das Feld <strong>Lieferart</strong> für die neue Position im Raster <strong>Services</strong> automatisch auf <em>Airwa-Air</em> gesetzt. Wenn Sie die Lieferart <em>Airwa-Air</em> für einen Kundenauftrag verwenden, wird der Transportmodus <em>Airways</em> für verwandte Lieferungen verwendet.</p>
+</div>
+</li>
+</ol>
+<h4 id="create-an-order-pool">Arbeitsauftragspool anlegen</h4>
+<ol>
+<li><p>Wechseln Sie zu <strong>Vertrieb und Marketing &gt; Einstellungen &gt; Aufträge &gt; Auftragspools</strong>.</p>
+</li>
+<li><p>Erstellen Sie einen Auftragspool, der für die Konsolidierungsabfrage verwendet wird. Dieser Auftragspool sollte folgende Einstellungen haben:</p>
+<ul>
+<li><strong>Pool:</strong> Geben Sie eine Ganzzahl ein, die noch von keinem anderen Pool verwendet wird.</li>
+<li><strong>Name:</strong> <em>ShipCons</em></li>
+</ul>
+</li>
+<li><p>Wechseln Sie zu <strong>Vertrieb und Marketing &gt; Debitoren &gt; Alle Debitoren</strong>.</p>
+</li>
+<li><p>Öffnen Sie den Kunden mit der Kontonummer <em>US-003</em>.</p>
+</li>
+<li><p>Auf dem Inforegister <strong>Auftragsstandardabschnitt</strong> stellen Sie das Feld <strong>Auftragspool</strong> auf den soeben erstellten Auftragspool ein.</p>
+</li>
+<li><p>Schließen Sie die Seite und wiederholen Sie die Schritte 4 und 5 für den Kunden mit der Kontonummer <em>US-004</em>.</p>
+</li>
+</ol>
+<h3 id="create-example-policy-1">Beispielrichtlinie 1 erstellen</h3>
+<p>In diesem Beispiel erstellen Sie eine <em>Kunde+Modus</em>-Richtlinie, die für den folgenden Geschäftsfall verwendet werden kann:</p>
+<ul>
+<li>Die Richtlinie fragt ein bestimmtes Kundenkonto (<em>US-001</em>) und eine bestimmte Lieferart (<em>Airwa-Air</em>) ab.</li>
+<li>Die Konsolidierung mit offenen Lieferungen ist deaktiviert.</li>
+<li>Die Konsolidierung erfolgt pro Auftrags-ID. (Mit anderen Worten, es werden separate Lieferungen pro Bestellung, Lager usw. gesendet.)</li>
+</ul>
+<p>Führen Sie die folgenden Schritte aus, um die Versandkonsolidierungsrichtlinie für diesen Geschäftsfall zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Neu</strong> aus, um eine Richtlinie mit den folgenden Einstellungen zu erstellen:</p>
+<ul>
+<li><strong>Richtlinienname:</strong> <em>CustomerMode</em></li>
+<li><strong>Richtlinienbeschreibung:</strong> <em>Kundenkonto und Lieferart</em></li>
+</ul>
+</li>
+<li><p>Lassen Sie die <strong>Konsolidierung mit offenen Lieferungen</strong>-Option auf <em>Nein</em> gesetzt.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Konsolidierungsfelder</strong> in der Liste <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Lieferart</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Suchen Sie im Abfrageeditor-Dialogfeld auf der Registerkarte <strong>Bereich</strong> im Raster die Zeile, in der das Feld <strong>Feld</strong> auf <em>Kundenkonto</em> gesetzt ist, und stellen Sie das Feld <strong>Kriterien</strong> für diese Zeile auf <em>US-001</em> ein.</p>
+</li>
+<li><p>Wählen Sie <strong>Hinzufügen</strong> aus, um eine Zeile mit den folgenden Einstellungen zum Raster hinzuzufügen:</p>
+<ul>
+<li><strong>Tabelle:</strong> <em>Auftragspositionen</em></li>
+<li><strong>Abgeleitete Tabelle:</strong> <em>Auftragspositionen</em></li>
+<li><strong>Feld:</strong> <em>Lieferart</em></li>
+<li><strong>Kriterien:</strong> <em>Airwa-Air</em></li>
+</ul>
+</li>
+<li><p>Klicken Sie auf <strong>OK</strong>, um das Dialogfeld zu schließen.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Für diesen Business Case sind Bestellpositionen für den Kunden <em>US-001</em>, die die Lieferart <em>Airwa-Air</em> verwenden, nicht über Bestellungen hinweg konsolidiert. Diese Richtlinie soll zuerst in einer Sequenz verwendet werden, wenn Lieferungen für alle anderen Lieferarten für diesen Kunden konsolidiert werden.</p>
+</div>
+<h3 id="create-example-policy-2">Beispielrichtlinie 2 erstellen</h3>
+<p>In diesem Beispiel erstellen Sie eine <em>Gefahrengut</em>-Richtlinie, die für den folgenden Geschäftsfall verwendet werden kann:</p>
+<ul>
+<li>Die Richtlinie fragt einen bestimmten Filtercode (<em>Gefahrengut</em>) und eine bestimmte Lieferart (<em>Airwa-Air</em>) ab.</li>
+<li>Die Konsolidierung mit offenen Lieferungen ist aktiviert.</li>
+<li>Die Konsolidierung erfolgt auftragsübergreifend. (Mit anderen Worten: es werden separate Lieferungen pro Konto, Lager usw. ausgeführt, jedoch nur innerhalb der in der Abfrage angegebenen Artikelgruppe.)</li>
+</ul>
+<p>Führen Sie die folgenden Schritte aus, um die Versandkonsolidierungsrichtlinie für diesen Geschäftsfall zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Neu</strong> aus, um eine Richtlinie mit den folgenden Einstellungen zu erstellen:</p>
+<ul>
+<li><strong>Richtlinienname:</strong> <em>Artikeltyp</em></li>
+<li><strong>Richtlinienbeschreibung:</strong> <em>Konsolidieren Sie den gleichen Artikeltyp über Bestellungen hinweg</em></li>
+</ul>
+</li>
+<li><p>Legen Sie die <strong>Konsolidierung mit offenen Lieferungen</strong>-Option auf <em>Ja</em> fest.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Konsolidierungsfelder</strong> in der Liste <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Lieferart</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Erweitern Sie im Abfrageeditor-Dialogfeld auf der <strong>Verknüpfungen</strong>-Registerkarte in der Baumstruktur <strong>Tabellen &gt; Ladungsdetails</strong>.</p>
+</li>
+<li><p><strong>Tabellen-Join hinzufügen</strong> auswählen.</p>
+</li>
+<li><p>Suchen Sie im angezeigten Beziehungsraster die Zeile, in der das Feld <strong>Beziehung</strong> auf <em>Lagerartikelnummer (Artikelnummer)</em> gesetzt ist und wählen Sie dann <strong>Auswählen</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der Registerkarte <strong>Bereich</strong> <strong>Hinzufügen</strong> aus, um eine Zeile mit den folgenden Einstellungen zum Raster hinzuzufügen:</p>
+<ul>
+<li><strong>Tabelle:</strong> <em>Lagerartikelnummer</em></li>
+<li><strong>Abgeleitete Tabelle:</strong> <em>Lagerartikelnummer</em></li>
+<li><strong>Feld:</strong> <em>Code 4</em></li>
+<li><strong>Kriterien:</strong> <em>Brennbar</em></li>
+</ul>
+</li>
+<li><p>Klicken Sie auf <strong>OK</strong>, um das Dialogfeld zu schließen.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Für diesen Geschäftsfall werden alle Auftragspositionen, in denen Artikel einen bestimmten Filtercode haben (d. h., den Filtercode, in dem das <strong>Code 4</strong>-Feld auf <em>Brennbar</em> gesetzt ist), über Aufträge hinweg mit anderen Artikeln des gleichen Typs konsolidiert. Wenn für dasselbe Konto, dasselbe Lager und dieselbe Artikelgruppe eine offene Lieferung vorhanden ist, werden die neuen Zeilen daran angehängt.</p>
+</div>
+<h3 id="create-example-policy-3">Beispielrichtlinie 3 erstellen</h3>
+<p>In diesem Beispiel erstellen Sie eine <em>Kundenanforderungen</em>-Richtlinie, die für den folgenden Geschäftsfall verwendet werden kann:</p>
+<ul>
+<li>Die Richtlinie fragt nach einem bestimmten Kundenkonto.</li>
+<li>Die Konsolidierung mit offenen Lieferungen ist aktiviert.</li>
+<li>Die Konsolidierung erfolgt auftragsübergreifend, basiert jedoch auf Kundenanforderungen. (Mit anderen Worten: mehrere Bestellungen werden basierend auf derselben Kundenanforderungsnummer und demselben Lager in Lieferungen zusammengefasst.)</li>
+</ul>
+<p>Führen Sie die folgenden Schritte aus, um die Versandkonsolidierungsrichtlinie für diesen Geschäftsfall zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Neu</strong> aus, um eine Richtlinie mit den folgenden Einstellungen zu erstellen:</p>
+<ul>
+<li><strong>Richtlinienname:</strong> <em>CustomerOrderNo</em></li>
+<li><strong>Richtlinienbeschreibung:</strong> <em>Konsolidieren Sie die Positionen basierend auf der Kundenbestellung</em></li>
+</ul>
+</li>
+<li><p>Legen Sie die <strong>Konsolidierung mit offenen Lieferungen</strong>-Option auf <em>Ja</em> fest.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Konsolidierungsfelder</strong> in der Liste <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Debitorenmaterialanforderung</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie in der Liste <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Lieferart</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Suchen Sie im Abfrageeditor-Dialogfeld auf der Registerkarte <strong>Bereich</strong> die Zeile, in der das Feld <strong>Feld</strong> auf <em>Kundenkonto</em> gesetzt ist, und stellen Sie das Feld <strong>Kriterien</strong> für diese Zeile auf <em>US-001</em> ein.</p>
+</li>
+<li><p>Klicken Sie auf <strong>OK</strong>, um das Dialogfeld zu schließen.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In diesem Geschäftsfall werden alle Auftragspositionen, in denen Kundenaufträge dieselbe Kundenanforderungsnummer haben, unabhängig von der Kundenauftragsnummer zu einer Lieferung zusammengefasst. (Die Kundenanforderungsnummer wird als Bestellungsnummer, [PO]-Nummer, des Kunden verwendet.) Wenn für dasselbe Konto, dasselbe Lager und dieselbe Kundenanforderung eine offene Lieferung vorhanden ist, werden die neuen Zeilen daran angehängt. Diese Richtlinie kann verwendet werden, wenn der Kunde mehrmals am Tag zusätzliche Bestellpositionen mit derselben Bestellnummer sendet und möchte, dass alle Positionen in einer Lieferung zusammengefasst werden. (Mit anderen Worten, es gibt einen Frachtbrief und einen Packzettel.)</p>
+</div>
+<h3 id="create-example-policy-4">Beispielrichtlinie 4 erstellen</h3>
+<p>In diesem Beispiel erstellen Sie eine <em>Kunden, die Konsolidierung zulassen</em>-Richtlinie, die für den folgenden Geschäftsfall verwendet werden kann:</p>
+<ul>
+<li><p>Die Richtlinie fragt nach einem bestimmten Auftragspool, um Kunden zu identifizieren, die konsolidierte Lieferungen annehmen.</p>
+</li>
+<li><p>Die Konsolidierung mit offenen Lieferungen ist deaktiviert.</p>
+</li>
+<li><p>Die Konsolidierung erfolgt über Aufträge hinweg unter Verwendung der Felder, die in der Standard-CrossOrder-Richtlinie ausgewählt sind (um das frühere Kontrollkästchen <strong>Lieferung bei Freigabe am Lagerort konsolidieren</strong> zu replizieren).</p>
+</li>
+<li><p>Sie können die Regel für einen Kundenauftrag überschreiben, indem Sie einen anderen Auftragspool auswählen.</p>
+</li>
+</ul>
+<p>Führen Sie die folgenden Schritte aus, um die Versandkonsolidierungsrichtlinie für diesen Geschäftsfall zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Neu</strong> aus, um eine Richtlinie mit den folgenden Einstellungen zu erstellen:</p>
+<ul>
+<li><strong>Richtlinienname:</strong> <em>Auftragspool</em></li>
+<li><strong>Richtlinienbeschreibung:</strong> <em>Konsolidierung über Aufträge hinweg basierend auf dem Auftragspool</em></li>
+</ul>
+</li>
+<li><p>Lassen Sie die <strong>Konsolidierung mit offenen Lieferungen</strong>-Option auf <em>Nein</em> gesetzt.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Konsolidierungsfelder</strong> in der Liste <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Lieferart</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Abfrageeditor-Dialogfeld auf der Registerkarte <strong>Bereich</strong> <strong>Hinzufügen</strong> aus, um eine Zeile mit den folgenden Einstellungen zum Raster hinzuzufügen:</p>
+<ul>
+<li><strong>Tabelle:</strong> <em>Aufträge</em></li>
+<li><strong>Abgeleitete Tabelle:</strong> <em>Aufträge</em></li>
+<li><strong>Feld:</strong> <em>Pool</em></li>
+<li><strong>Kriterien:</strong> <em>ShipCons</em></li>
+</ul>
+</li>
+<li><p>Klicken Sie auf <strong>OK</strong>, um das Dialogfeld zu schließen.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>In diesem Geschäftsfall werden alle Auftragspositionen, in denen Kundenaufträge zum selben Auftragspool gehören, zu einer Lieferung über Kundenaufträge hinweg für dasselbe Konto, dasselbe Lager und dieselbe Transportart zusammengefasst. Anstelle des Auftragspools können Sie ein beliebiges anderes Feld verwenden, um eine Kundengruppe zu unterscheiden und standardmäßig den Kundenauftragskopf zu verwenden. Sie können diesen Ansatz verwenden, wenn der Kunde und nicht das Lager den Konsolidierungsbedarf erhöht. (In der früheren Konsolidierungslogik hat das Lager den Konsolidierungsbedarf erhöht.)</p>
+</div>
+<h3 id="create-example-policy-5">Beispielrichtlinie 5 erstellen</h3>
+<p>In diesem Beispiel erstellen Sie eine <em>Lagerorte, die Konsolidierung zulassen</em>-Richtlinie, die für den folgenden Geschäftsfall verwendet werden kann:</p>
+<ul>
+<li>Die Richtlinie fragt nach einem bestimmten Auftragspool, um Lagerorte zu identifizieren, die Lieferungen konsolidieren.</li>
+<li>Die Konsolidierung mit offenen Lieferungen ist deaktiviert.</li>
+<li>Die Konsolidierung erfolgt über Aufträge hinweg unter Verwendung der Felder, die in der Standard-CrossOrder-Richtlinie ausgewählt sind (um das frühere Kontrollkästchen <strong>Lieferung bei Freigabe am Lagerort konsolidieren</strong> zu replizieren).</li>
+</ul>
+<p>In der Regel kann dieser Geschäftsfall mithilfe der von Ihnen erstellten Standardrichtlinie aus <a href="#scenario-1">Szenario 1</a> behoben werden. Sie können ähnliche Richtlinien jedoch auch manuell erstellen, indem Sie die folgenden Schritte ausführen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Neu</strong> aus, um eine Richtlinie mit den folgenden Einstellungen zu erstellen:</p>
+<ul>
+<li><strong>Richtlinienname:</strong> <em>Auftragsübergreifend</em></li>
+<li><strong>Richtlinienbeschreibung:</strong> <em>Auftragsübergreifende Konsolidierung für bestimmte Lagerorte</em></li>
+</ul>
+</li>
+<li><p>Lassen Sie die <strong>Konsolidierung mit offenen Lieferungen</strong>-Option auf <em>Nein</em> gesetzt.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Speichern</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf dem Inforegister <strong>Konsolidierungsfelder</strong> im Feld <strong>Verbleibende Felder</strong> die Zeile aus, in der das Feld <strong>Feldname</strong> auf <em>Lieferart</em> gesetzt ist.</p>
+</li>
+<li><p>Schaltfläche <strong>Hinzufügen</strong> auswählen <img src="media/forward-button.png" alt="Pfeil nach rechts">, um das Feld in die Liste <strong>Ausgewählte Felder</strong> zu verschieben.</p>
+</li>
+<li><p>Wählen Sie im Aktionsbereich <strong>Abfrage bearbeiten</strong> aus.</p>
+</li>
+<li><p>Suchen Sie im Abfrageeditor-Dialogfeld auf der Registerkarte <strong>Bereich</strong> die Zeile, in der das Feld <strong>Feld</strong> auf <em>Lagerorte</em> gesetzt ist, und stellen Sie das Feld <strong>Kriterien</strong> für diese Zeile auf <em>61, 63</em> ein.</p>
+</li>
+<li><p>Klicken Sie auf <strong>OK</strong>, um das Dialogfeld zu schließen.</p>
+</li>
+</ol>
+<h3 id="set-the-order">Legen Sie die Reihenfolge fest</h3>
+<p>Nachdem Sie alle Ihre Richtlinien erstellt haben, müssen Sie die Reihenfolge festlegen, in der sie angewendet werden. Befolgen Sie diese Schritte, um einen pyramidenähnlichen Ansatz zu verwenden, bei dem die Richtlinien mit den meisten Bedingungen als mit der höchsten Priorität bewertet werden.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Für Lagerort freigeben &gt; Richtlinien zur Lieferungskonsolidierung</strong>.</p>
+</li>
+<li><p>Stellen Sie das Feld <strong>Richtlinientyp</strong> auf <em>Aufträge</em> ein.</p>
+</li>
+<li><p>Wählen Sie jede Richtlinie aus, die in der linken Spalte aufgeführt ist, und verwenden Sie dann die <strong>Nach oben</strong>- und <strong>Nach unten</strong>-Schaltflächen im Aktionsbereich, um die Richtlinien in der folgenden Reihenfolge anzuordnen:</p>
+<ol>
+<li>CustomerMode</li>
+<li>Artikeltyp</li>
+<li>CustomerOrderNo</li>
+<li>Auftragspool</li>
+<li>Auftragsübergreifend</li>
+<li>Standard</li>
+</ol>
+</li>
+</ol>
+<h2 id="example-scenarios-of-how-to-use-shipment-consolidation-policies"><a name="example-scenarios"></a> Beispielszenarien für die Verwendung von Richtlinien zur Lieferungskonsolidierung</h2>
+<p>Die folgenden Szenarien veranschaulichen, wie Sie die Versandkonsolidierungsrichtlinien verwenden können, die Sie beim Lesen dieses Themas erstellt haben. Jedes Szenarion führt Sie durch einen Lieferungskonsolidierungsprozess, der Lieferungskonsolidierungsrichtlinien bei automatisierter oder manueller Freigabe an das Lager verwendet:</p>
+<ul>
+<li>Szenario 1: <a href="consolidate-shipments-automatic.html">Lieferungen mithilfe der automatischen Auftragsfreigabe konsolidieren, wenn sie im Lager freigegeben werden</a></li>
+<li>Szenario 2: <a href="consolidate-shipments-release-to-warehouse-override.html">Lieferungen konsolidieren, wenn die Richtlinie zur Lieferungskonsolidierung auf der Seite „Freigabe an Lager“ überschrieben wird</a></li>
+<li>Szenario 3: <a href="consolidate-shipments-load-planning-workbench.html">Lieferungen mithilfe von „An Lager freigeben“ von der Ladungsplanungs-Workbench aus konsolidieren</a></li>
+<li>Szenario 4: <a href="consolidate-shipments-manual-workbench.html">Lieferungen mithilfe der Workbench zur Lieferungskonsolidierung konsolidieren</a></li>
+<li>Szenario 5: <a href="consolidate-shipments-manual-form.html">Lieferungen manuell auf der Seite zur Lieferungskonsolidierung konsolidieren</a></li>
+</ul>
+<h2 id="additional-resources">Zusätzliche Ressourcen</h2>
+<ul>
+<li><a href="about-shipment-consolidation-policies.html">Lieferungskonsolidierungsrichtlinien</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

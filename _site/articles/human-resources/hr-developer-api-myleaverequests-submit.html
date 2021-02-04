@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Submit a leave request to workflow | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Submit a leave request to workflow | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="submit-a-leave-request-to-workflow">Submit a leave request to workflow</h1>
+
+<p>In Microsoft Dynamics 365 Human Resources, you can use the MyLeaveRequests submit() application programming interface (API) to submit a leave request to workflow. This API is exposed as an action on the MyLeaveRequests OData entity.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>The leave request must be saved in the database and must be retrievable through the MyLeaveRequests entity.</p>
+<h2 id="permissions">Permissions</h2>
+<p>One of the following permissions is required to call this API. For more information about permissions and how to select them, see <a href="hr-developer-api-authentication.html">Authentication</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Permission type</th>
+<th>Permissions (from least privileged to most privileged)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delegated (work or school account)</td>
+<td>user_impersonation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="https-request">HTTPS request</h2>
+<!-- { "blockType": "ignored" } -->
+<pre><code class="lang-HTTP">POST https://{cluster}.hr.talent.dynamics.com/namespaces/{namespace_guid}/data/MyLeaveRequests(RequestId='{requestId}', LeaveType='{leaveType}', LeaveDate={leaveDate}, dataAreaId={dataArea})/Microsoft.Dynamics.DataEntities.submit?cross-company=true
+</code></pre>
+<p>The request conforms to OData standards. The {requestId}, {leaveType}, {leaveDate}, and {dataArea} parameters refer to the fields that make up the composite natural key for the MyLeaveRequests entity.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>While the fields for the MyLeaveRequests entity refer to an individual line in the leave request, calling the submit API will submit the entire leave request (all lines) to workflow.</p>
+</div>
+<h3 id="request-headers">Request headers</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td>Bearer {token} (required)</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>application/json</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>Don't supply a request body for this method.</p>
+<h3 id="response">Response</h3>
+<p>A successful response is always a <strong>204 No Content</strong> response.</p>
+<p>Unauthorized callers will receive a <strong>401 Unauthorized</strong> or a <strong>403 Forbidden</strong> response.</p>
+<p>If submission is unsuccessful (because of validation, for example), the response will be a <strong>500 Server Error</strong>, and the response body will include a JSON object with further details.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-http">POST https://aos-rts-sf-550e5c091f6-prod-westus2.hr.talent.dynamics.com/namespaces/b2eb8003-334f-4a84-ab63-edbe23569090/data/MyLeaveRequests(RequestId='USMF-000065', LeaveType='Vacation', LeaveDate=2019-10-04T12:00:00Z, dataAreaId='USMF')/Microsoft.Dynamics.DataEntities.submit
+</code></pre>
+<pre><code class="lang-json">{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;&quot;,
+    &quot;message&quot;: &quot;An error has occurred.&quot;,
+    &quot;innererror&quot;: {
+      &quot;message&quot;: &quot;Exception occurred while executing action submit on Entity MyLeaveRequest: The request would put the 'Vacation' balance below the allowed minimum balance on 9/10/2019.&quot;,
+      &quot;type&quot;: &quot;System.InvalidOperationException&quot;,
+      &quot;stacktrace&quot;: &quot;   at Microsoft.Dynamics.Platform.Integration.Services.OData.Action.ActionInvokable.Invoke()   at Microsoft.Dynamics.Platform.Integration.Services.OData.Update.UpdateProcessor.ActionInvocation(ChangeOperationContext context, ActionInvokable action)   at Microsoft.Dynamics.Platform.Integration.Services.OData.Update.UpdateManager.&lt;&gt;c__DisplayClass13_0.&lt;ScheduleInvokable&gt;b__0(ChangeOperationContext context)   at Microsoft.Dynamics.Platform.Integration.Services.OData.Update.ChangeInfo.ExecuteActionsInCompanyContext(IEnumerable`1 actionList, ChangeOperationContext operationContext)\r\n   at Microsoft.Dynamics.Platform.Integration.Services.OData.Update.ChangeInfo.ExecuteActions(ChangeOperationContext context)   at Microsoft.Dynamics.Platform.Integration.Services.OData.Update.UpdateManager.SaveChanges()   at Microsoft.Dynamics.Platform.Integration.Services.OData.AxODataDelegatingHandler.&lt;SaveChangesAsync&gt;d__3.MoveNext()&quot;
+    }
+  }
+}
+</code></pre>
+<h2 id="validation-and-error-messages">Validation and error messages</h2>
+<p>As part of the call to the submit API, Human Resources performs business logic validation before submission, which ensures the leave request is in a valid state for submission. The possible error messages you may receive in the response if validations fail are:</p>
+<ul>
+<li>The request would put the '{LeaveTypeId}' balance below the allowed minimum balance on {date}.</li>
+<li>Time off request in Completed state cannot be submitted.</li>
+<li>Unable to submit or save request as no changes have been made. Add or update the amount or the leave type and try again.</li>
+<li>The time off request entered contains one or more days with the same date and leave type as an existing pending request. Please recall the existing request to make changes.</li>
+<li>Reason code '{ReasonCodeId}' doesn't apply to any of the leave types in the request.</li>
+<li>Leave type '{LeaveTypeId}' requires a reason code. Select the appropriate type and reason code.</li>
+<li>The time off was not submitted successfully. The time off has been saved as a draft request.</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="hr-developer-api-myleaverequests-overview.html">MyLeaveRequests overview</a></li>
+<li><a href="hr-developer-api-authentication.html">Authentication</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

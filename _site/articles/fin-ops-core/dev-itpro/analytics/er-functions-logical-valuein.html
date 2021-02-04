@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>VALUEIN ER function | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="VALUEIN ER function | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../commerce/TOC.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../../index.html">
+                <img id="logo" class="svg" src="../../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="valuein-er-function">VALUEIN ER function</h1>
+
+
+<p>The <code>VALUEIN</code> function determines whether the specified input matches any value of a specified item in the specified list. It returns a <em>Boolean</em> value of <strong>TRUE</strong> if the specified input matches the result of running the specified expression for at least one record of the specified list. Otherwise, it returns a <em>Boolean</em> value of <strong>FALSE</strong>.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code class="lang-vb">VALUEIN (input, list, list item expression)
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<p><code>input</code>: <em>Field</em></p>
+<p>The valid path of an item of a data source of the <em>Record list</em> type. The value of this item will be matched.</p>
+<p><code>list</code>: <em>Record list</em></p>
+<p>The valid path of a data source of the <em>Record list</em> data type.</p>
+<p><code>list item expression</code>: <em>Boolean</em></p>
+<p>A valid conditional expression that either points to or contains a single field of the specified list that should be used for the matching.</p>
+<h2 id="return-values">Return values</h2>
+<p><em>Boolean</em></p>
+<p>The resulting <em>Boolean</em> value.</p>
+<h2 id="usage-notes">Usage notes</h2>
+<p>In general, the <code>VALUEIN</code> function is translated to a set of <strong>OR</strong> conditions. If the list of <strong>OR</strong> conditions is large and the maximum total length of an SQL statement might be exceeded, consider using the <a href="er-functions-logical-valueinlarge.html"><code>VALUEINLARGE</code></a> function.</p>
+<pre><code class="lang-vb">(input = list.item1.value) OR (input = list.item2.value) OR …
+</code></pre>
+<p>In some cases, it can be translated to a database SQL statement by using the <code>EXISTS JOIN</code> operator.</p>
+<h2 id="example-1">Example 1</h2>
+<p>In your model mapping, you define the <strong>List</strong> data source of the <em>Calculated field</em> type. This data source contains the expression <code>SPLIT (&quot;a,b,c&quot;, &quot;,&quot;)</code>.</p>
+<p>When a data source is called, if it has been configured as the <code>VALUEIN (&quot;B&quot;, List, List.Value)</code> expression, it returns <strong>TRUE</strong>. In this case, the <code>VALUEIN</code> function is translated to the following set of conditions: <code>((&quot;B&quot; = &quot;a&quot;) or (&quot;B&quot; = &quot;b&quot;) or (&quot;B&quot; = &quot;c&quot;))</code>, where <code>(&quot;B&quot; = &quot;b&quot;)</code> equals <strong>TRUE</strong>.</p>
+<p>When a data source is called, if it has been configured as the <code>VALUEIN (&quot;B&quot;, List, LEFT(List.Value, 0))</code> expression, it returns <strong>FALSE</strong>. In this case, the <code>VALUEIN</code> function is translated to the following condition: <code>(&quot;B&quot; = &quot;&quot;)</code>, which doesn't equal <strong>TRUE</strong>.</p>
+<p>The upper limit for the number of characters in the text of such a condition is 32,768 characters. Therefore, you should not create data sources that might exceed this limit at runtime. If the limit is exceeded, the application stops running, and an exception is thrown. For example, this situation can occur if the data source is configured as <code>WHERE (List1, VALUEIN (List1.ID, List2, List2.ID)</code>, and the <strong>List1</strong> and <strong>List2</strong> lists contain a large volume of records.</p>
+<p>In some cases, the <code>VALUEIN</code> function is translated to a database statement by using the <code>EXISTS JOIN</code> operator. This behavior occurs when the <a href="er-functions-list-filter.html"><code>FILTER</code></a> function is used and the following conditions are met:</p>
+<ul>
+<li>The <strong>ASK FOR QUERY</strong> option is turned off for the data source of the <code>VALUEIN</code> function that refers to the list of records. No additional conditions will be applied to this data source at runtime.</li>
+<li>No nested expressions are configured for the data source of the <code>VALUEIN</code> function that refers to the list of records.</li>
+<li>A list item of the <code>VALUEIN</code> function refers to a field of the specified data source, not to an expression or method of that data source.</li>
+</ul>
+<p>Consider using this option instead of the <a href="er-functions-list-where.html"><code>WHERE</code></a> function that is described earlier in this example.</p>
+<h2 id="example-2">Example 2</h2>
+<p>You define the following data sources in your model mapping:</p>
+<ul>
+<li>The <strong>In</strong> data source of the <em>Table records</em> type. This data source refers to the Intrastat table.</li>
+<li>The <strong>Port</strong> data source of the <em>Table records</em> type. This data source refers to the IntrastatPort table.</li>
+</ul>
+<p>When a data source is called that has been configured as the <code>FILTER (In, VALUEIN(In.Port, Port, Port.PortId)</code> expression, the following SQL statement is generated to return filtered records of the Intrastat table.</p>
+<pre><code class="lang-vb">select … from Intrastat
+exists join TableId from IntrastatPort
+where IntrastatPort.PortId = Intrastat.Port
+</code></pre>
+<p>For <strong>dataAreaId</strong> fields, the final SQL statement is generated by the using <code>IN</code> operator.</p>
+<h2 id="example-3">Example 3</h2>
+<p>You define the following data sources in your model mapping:</p>
+<ul>
+<li>The <strong>Le</strong> data source of the <em>Calculated field</em> type. This data source contains the expression <code>SPLIT (&quot;DEMF,GBSI,USMF&quot;, &quot;,&quot;)</code>.</li>
+<li>The <strong>In</strong> data source of the <em>Table records</em> type. This data source refers to the Intrastat table, and the <strong>Cross-company</strong> option is turned on for it.</li>
+</ul>
+<p>When a data source is called that has been configured as the <code>FILTER (In, VALUEIN (In.dataAreaId, Le, Le.Value)</code> expression, the final SQL statement contains the following condition.</p>
+<pre><code class="lang-vb">Intrastat.dataAreaId IN ('DEMF', 'GBSI', 'USMF')
+</code></pre>
+<h2 id="additional-resources">Additional resources</h2>
+<p><a href="er-functions-category-logical.html">Logical functions</a></p>
+<p><a href="er-functions-logical-valueinlarge.html">VALUEINLARGE functions</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../../styles/main.js"></script>
+  </body>
+</html>

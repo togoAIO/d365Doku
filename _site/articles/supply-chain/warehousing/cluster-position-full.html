@@ -1,0 +1,418 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cluster position full | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Cluster position full | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cluster-position-full">Cluster position full</h1>
+
+
+<p>The <em>Cluster position full</em> feature offers an alternative to more rigid enforcement of work break rules when cluster picking is used, because it enables a larger margin of error in the volumetric constraints of containers or totes. In a common scenario, not all items on a work order fit into a selected container. Warehouse workers who are cluster picking have few options in this scenario: they must either change to a larger container size or work with their supervisor to come up with a different solution.</p>
+<p>This feature introduces the ability to run the <strong>Full</strong> button on one of the work units in a cluster. In older versions, this option was available only for regular order picking, not for cluster picking. However, this feature differs from the standard <strong>Full</strong> button in that it cancels the remaining work. It doesn't suggest that the user add another bin to the same cluster, and it doesn't automatically create new work.</p>
+<h2 id="turn-on-the-cluster-position-full-feature">Turn on the Cluster position full feature</h2>
+<p>Before you can use this feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">feature management</a> settings to check the status of the feature and turn it on. In the <strong>Feature management</strong> workspace, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Cluster position full</em></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>This section provides guidelines, and an example that shows how to set up and use the <em>Cluster position full</em> feature.</p>
+<h3 id="make-sample-data-available">Make sample data available</h3>
+<p>To work through the <a href="#example-scenario">example scenario</a> by using the sample records and values that are specified here, you must be on a system where the standard <a href="https://docs.wika.com/en-us/dynamics365/supply-chain/fin-ops-core/dev-itpro/deployment/deploy-demo-environment">demo data (This is an external linThis link was changed due to HTMLfromRepoGenerator)</a> is installed. Additionally, you must select the <strong>USMF</strong> legal entity before you begin.</p>
+<p>You can also use the example scenario as guidance for working with this feature on a production system. However, in that case, you must substitute your own values for the settings that are described here.</p>
+<h3 id="cluster-profiles">Cluster profiles</h3>
+<p>You must specify whether cluster IDs are automatically generated, how many positions are used, when clusters are broken, and how the picking work is sequenced and verified.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Cluster profiles</strong>.</p>
+</li>
+<li><p>In the list pane, select the <strong>Create Cluster</strong> record.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, verify the following values:</p>
+<ul>
+<li><strong>Generate cluster ID:</strong> <em>Yes</em></li>
+<li><strong>Activate positions:</strong> <em>Yes</em></li>
+<li><strong>Number of positions:</strong> <em>2</em></li>
+<li><strong>Position name:</strong> <em>Numeric</em></li>
+<li><strong>Break cluster at:</strong> <em>Put</em></li>
+<li><strong>Sort verification type:</strong> <em>Position scan</em></li>
+</ul>
+</li>
+<li><p>In the <strong>Cluster sorting</strong> FastTab. The grid should be blank (that is, it should contain no lines).</p>
+</li>
+</ol>
+<h3 id="work-templates">Work templates</h3>
+<p>You must define how the picking work for cluster picking is created.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>At the top of the page, set the <strong>Work order type</strong> field to <em>Sales orders</em>.</p>
+</li>
+<li><p>Make sure that the following work templates from the demo data are listed. If they aren't available, you won't be able to complete the scenario.</p>
+<ul>
+<li>61 SO Stage</li>
+<li>61 SO Cluster pick</li>
+</ul>
+</li>
+</ol>
+<h3 id="location-directives">Location directives</h3>
+<p>You must specify where items are picked from and where they are put.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the list header, set the <strong>Work order type</strong> field to <em>Sales orders</em>.</p>
+</li>
+<li><p>Make sure that the following sales order directives from the demo data are listed. If they aren't available, you won't be able to complete the scenario.</p>
+<ul>
+<li>61 Cluster pick</li>
+<li>61 SO Pick order</li>
+</ul>
+</li>
+</ol>
+<h3 id="mobile-device-menu-items">Mobile device menu items</h3>
+<p>You must configure a mobile device menu item to use existing work that is directed by cluster picking. In the mobile device menu item for cluster picking, the <strong>Allow splitting of work</strong> parameter must be turned on, and the <em>SO Pick</em> work class must be added.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>In the list pane, select the <strong>Cluster Pick Create</strong> record.</p>
+</li>
+<li><p>Select <strong>Edit</strong> in the Action pane.</p>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Directed by:</strong> <em>Cluster picking</em></li>
+<li><strong>Generate license plate:</strong> <em>Yes</em></li>
+<li><strong>Allow splitting of work:</strong> <em>Yes</em></li>
+<li><strong>Cluster profile ID:</strong> <em>Create Cluster</em></li>
+</ul>
+<p>Accept the default values for all other fields.</p>
+</li>
+<li><p>On the <strong>Work classes</strong> FastTab, add the following two lines, as required:</p>
+<ul>
+<li><p>Line 1 (usually present in demo data):</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>Sales</em></li>
+<li><strong>Work order type:</strong> <em>Sales orders</em></li>
+</ul>
+</li>
+<li><p>Line 2 (probably not present in demo data):</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>SO Pick</em></li>
+<li><strong>Work order type:</strong> <em>Sales orders</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Go to <strong>Work confirmation setup</strong> in the Action pane.</p>
+</li>
+<li><p>Select <strong>Edit</strong>.</p>
+</li>
+<li><p>Enter the following values on the line in grid.</p>
+<ul>
+<li><strong>Work type</strong> - <em>Pick</em></li>
+<li><strong>Product confirmation</strong> - <em>Select the check box</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> in the Action pane and close the page.</p>
+</li>
+</ol>
+<h2 id="create-picking-work">Create picking work</h2>
+<p>Before you can start cluster picking, you must create some outbound work. The cluster profile that you created earlier specifies two cluster positions. Therefore, at least two work IDs must be created for sales order picking. For this scenario, transactions will occur in warehouse <em>61</em>, and they will use items <em>L0101</em> and <em>T0100</em>. The demo data should have enough on-hand inventory of these items. Make sure that you have enough inventory to complete the transactions.</p>
+<h3 id="create-sales-order-1">Create sales order 1</h3>
+<ol>
+<li><p>Go to <strong>Sales and Marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create sales order 1.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-010</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The new sales order is opened. On the <strong>Sales order lines</strong> FastTab, add a line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>5</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, set the <strong>Confirmed ship date</strong> field to today's date.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, add a second line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>L0101</em></li>
+<li><strong>Quantity:</strong> <em>20</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, set the <strong>Confirmed ship date</strong> field to today's date.</p>
+</li>
+<li><p>For each line that you just added, follow these steps to reserve inventory:</p>
+<ol>
+<li>Select the line to reserve.</li>
+<li>On the <strong>Sales order lines</strong> FastTab, select <strong>Inventory &gt; Reservation</strong>.</li>
+<li>On the <strong>Reservation</strong> page, on the Action Pane, select <strong>Reserve lot</strong> to reserve the inventory.</li>
+<li>Close the <strong>Reservation</strong> page.</li>
+</ol>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>When the release is completed, you receive informational messages that show the wave and load IDs that were created.</p>
+</li>
+</ol>
+<h3 id="create-sales-order-2">Create sales order 2</h3>
+<ol>
+<li><p>Go to <strong>Sales and Marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong> to create sales order 2.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-011</em></li>
+<li><strong>Warehouse:</strong> <em>61</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The new sales order is opened. On the <strong>Sales order lines</strong> FastTab, add a line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>L0101</em></li>
+<li><strong>Quantity:</strong> <em>20</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, set the <strong>Confirmed ship date</strong> field to today's date.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, add a second line that has the following settings:</p>
+<ul>
+<li><strong>Item number:</strong> <em>T0100</em></li>
+<li><strong>Quantity:</strong> <em>2</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, set the <strong>Confirmed ship date</strong> field to today's date.</p>
+</li>
+<li><p>For each line that you just added, follow these steps to reserve inventory:</p>
+<ol>
+<li>Select the line to reserve.</li>
+<li>On the <strong>Sales order lines</strong> FastTab, select <strong>Inventory &gt; Reservation</strong>.</li>
+<li>On the <strong>Reservation</strong> page, on the Action Pane, select <strong>Reserve lot</strong> to reserve the inventory.</li>
+<li>Close the <strong>Reservation</strong> page.</li>
+</ol>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, select <strong>Release to warehouse</strong>.</p>
+<p>When the release is completed, you receive informational messages that show the wave and load IDs that were created.</p>
+</li>
+</ol>
+<h3 id="get-work-ids-and-license-plate-numbers">Get work IDs and license plate numbers</h3>
+<p>Two work IDs should have been created, each of which has two pick lines. Follow these steps to find the work IDs and license plate assignments.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Work &gt; Work details</strong>.</p>
+</li>
+<li><p>In the <strong>Overview</strong> grid, search the <strong>Order number</strong> column for the two sales orders that you just created. For each sales order, make a note of the corresponding work ID.</p>
+</li>
+<li><p>Select the row for each sales order to show related information in the <strong>Lines</strong> grid. Make a note of the location that each item will be picked from.</p>
+</li>
+<li><p>Go to <strong>Inventory management &gt; Inquiries and reports &gt; On-hand list</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Dimensions</strong> to open the <strong>Dimension display</strong> dialog box.</p>
+</li>
+<li><p>Make sure that the <strong>License plate</strong>, <strong>Warehouse</strong>, and <strong>Item number</strong> check boxes are selected, and then select <strong>OK</strong>.</p>
+</li>
+<li><p>In the <strong>Filter</strong> pane, set the following filters:</p>
+<ul>
+<li><strong>Item number</strong> – <strong>is one of</strong> – <em>L0101</em> and <em>T100</em></li>
+<li><strong>Warehouse</strong> – <strong>begins with</strong> – <em>61</em></li>
+</ul>
+</li>
+<li><p>Make a note of the <strong>License plate</strong> values that are shown.</p>
+</li>
+</ol>
+<h2 id="example-scenario">Example scenario</h2>
+<h3 id="mobile-device-flow-execution--work-confirmation-setup-for-the-product">Mobile device flow execution – Work confirmation setup for the product</h3>
+<ol>
+<li><p>Sign in to the warehouse app as a user in warehouse <em>61</em>.</p>
+</li>
+<li><p>Go to <strong>Outbound &gt; Cluster pick create</strong>.</p>
+<p>The <strong>TASK: Assign work to Cluster</strong> page appears.</p>
+</li>
+<li><p>Enter the work ID for sales order 1 to assign it to cluster position 1.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>Enter the work ID for sales order 2 to assign it to cluster position 2.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+<p>The <strong>TASK: Cluster Pick Create: Pick</strong> page appears and shows <em>Item L0101 2 PL</em>.</p>
+</li>
+</ol>
+<p>Because the cluster profile set the number of positions to 2, the system automatically directs you to the first consolidate pick: two pallets (PL) of item <em>L0101</em>.</p>
+<p>At any time during the following steps, you can select the <strong>Details</strong> tab to view additional information about the task, such as the picking location.</p>
+<ol>
+<li><p>Set the <strong>ITEM</strong> field to <em>L0101</em>. This confirms the item number, which is required for this menu item (you configured this earlier by selecting <strong>Work confirmation setup</strong>  from the <strong>Mobile device menu item</strong> page when you created this menu item).</p>
+</li>
+<li><p>Enter the license plate number that is associated with the item in the location that is being picked. You will pick two pallets.</p>
+</li>
+<li><p>Set the <strong>LP</strong> field to <em>LP_PICK_01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+<p>The <strong>TASK: Sort: Cluster Pick Create</strong> page appears. Here, you will sort the two picked pallets into a pick position. This position might be a tote or container that is used to separate the picked inventory by sales order.</p>
+</li>
+<li><p>View the details that are shown for the item (<em>L0101</em>) and quantity (<em>20</em> ea) that will be sorted into position 1 (for sales order 1).</p>
+</li>
+<li><p>Set the <strong>POSITION NA</strong> field to <em>1</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>View the details that are shown for the item (<em>L0101</em>) and quantity (<em>20</em> ea) that will be sorted into position 2 (for sales order 2).</p>
+</li>
+<li><p>Set the <strong>POSITION NA</strong> field to <em>2</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+<p>The <strong>TASK: Cluster Pick Create: Pick</strong> page appears and shows <em>Item T0100 7 ea</em>.</p>
+</li>
+</ol>
+<p>In this scenario, position 1 can't accept the full quantity of items that must be picked to fulfill sales order 1. A position must be marked as full. In this scenario, you will do a partial pick of the second item. The second item will be partially picked for position 1, and new work will be created to pick the remaining quantity to fulfill the order.</p>
+<ol>
+<li><p>Select the Menu button (sometimes referred to as the hamburger or the hamburger button), and then select <strong>Position full</strong>.</p>
+</li>
+<li><p>Identify the position that is full, and select <em>1</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>Enter the pick quantity that can still be picked into position 1. The system can determine which item number is being picked.</p>
+</li>
+<li><p>Enter <em>2</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>Confirm the item number to complete the pick of the remaining item into position 2.</p>
+</li>
+<li><p>Set the <strong>ITEM</strong> field to <em>T0100</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>Enter the license plate that the item is being picked from by setting the <strong>LP</strong> field to <em>LPREPL04</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>View the details that are shown for the item (<em>T0100</em>) and quantity (<em>2</em> ea) that will be sorted into position 2 (for sales order 2).</p>
+</li>
+<li><p>Set the <strong>POSITION NA</strong> field to <em>2</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+</li>
+<li><p>View the details that are shown for the item (<em>T0100</em>) and quantity (<em>2</em> ea) that will be sorted into position 1 (for sales order 1).</p>
+</li>
+<li><p>Set the <strong>POSITION NA</strong> field to <em>1</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+<p>The <strong>TASK: Cluster Pick Create: Put</strong> page appears.</p>
+</li>
+</ol>
+<p>In this scenario, the cluster pick has been completed, and the user is directed to put away the picked items from position 1 and position 2 into staging location <em>STAGE01</em>.</p>
+<ol>
+<li><p>Review the information on the page. It shows that a total quantity of <em>44</em> will be put to the staging location.</p>
+</li>
+<li><p>Select <strong>OK</strong> (check mark symbol).</p>
+<p>You receive a &quot;Cluster Completed&quot; message.</p>
+</li>
+</ol>
+<p>You can now use the <strong>Sales Picking</strong> menu item to pick the remaining quantity. You can then use the <strong>Sales loading</strong> menu item to move the items from the staging location to the loading dock.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

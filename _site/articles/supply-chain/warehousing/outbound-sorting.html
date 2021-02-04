@@ -1,0 +1,923 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Outbound sorting | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Outbound sorting | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="outbound-sorting">Outbound sorting</h1>
+
+
+<p>This functionality makes it easier to handle small containers and helps warehouse workers better plan and organize pallet capacity in the truck. When you use outbound sorting, you can sort packed containers to the correct pallet after they have been at a packing station. You can also build a packing hierarchy.</p>
+<p>This functionality lets you build pallets from containers that are packed through the packing functionality. The container isn't sent to the final shipping location as it is in the original packing flow. Instead, workers can close the container and move it to a sort type location. They can then sort containers to positions, each of which has a license plate (LP). After the containers have been sorted, work can be created to send the whole LP to the final shipping dock or stage locations, based on location directives or your own requirements. Additionally, the action of closing of the sort position can immediately move the inventory to the final shipping location and pick it to the order.</p>
+<h2 id="turn-on-the-outbound-sorting-feature">Turn on the Outbound sorting feature</h2>
+<p>Before you can use the feature, it must be turned on in your system. Admins can use the <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Feature management</a> workspace to check the status of the feature and turn it on if it's required. There, the feature is listed in the following way:</p>
+<ul>
+<li><strong>Module:</strong> <em>Warehouse management</em></li>
+<li><strong>Feature name:</strong> <em>Outbound sorting</em></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>For this scenario, you must use standard <strong>USMF</strong> demo data and warehouse <em>62</em>. You must also complete the setup that is described in the following subsections.</p>
+<h3 id="set-up-a-wave-template">Set up a wave template</h3>
+<p>This setup automatically processes the wave and creates work when a line is released to the warehouse.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Waves &gt; Wave templates</strong>.</li>
+<li>In the template list, select <strong>Warehouse 62</strong>.</li>
+<li>On the <strong>General</strong> FastTab, make sure that the <strong>Process wave at release to warehouse</strong> option is set to <em>Yes</em>.</li>
+</ol>
+<h3 id="set-up-a-worker">Set up a worker</h3>
+<p>The packing station is considered a location. Warehouse workers who sign in at the packing station see and work on only shipments and containers that are planned at that specific packing location. A user who signs in to Microsoft Dynamics 365 must be set up as a worker in Warehouse management. If the user's name doesn't appear in the list of work users, use the following procedure to add it.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>These steps assume that the user already exists in the system and has been associated as an employee or worker in the <strong>Human Resources</strong> module.</p>
+</div>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Worker</strong>.</p>
+</li>
+<li><p>Select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Worker</strong> field, select the target user in the list of employees.</p>
+</li>
+<li><p>Select <strong>Select</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Users</strong> FastTab, select <strong>New</strong> to create a mobile device account, and set the following values for it:</p>
+<ul>
+<li><strong>User ID:</strong> Enter a unique ID.</li>
+<li><strong>User name:</strong> Enter a name for the ID.</li>
+<li><strong>Default warehouse:</strong> <em>62</em></li>
+<li><strong>Menu name:</strong> <em>Main</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+<li><p>The <strong>Set password</strong> dialog box appears, where you can create a simple password that the user can use to sign in to the mobile app. Set the following values:</p>
+<ul>
+<li><strong>Password:</strong> Enter a simple password.</li>
+<li><strong>Confirm password:</strong> Enter the same password again.</li>
+</ul>
+</li>
+<li><p>Select <strong>Set password</strong>.</p>
+<p>A notification in the Action Center informs you that the password has been set for the user that you created.</p>
+</li>
+</ol>
+<h3 id="create-a-location-type">Create a location type</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Location types</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a location type, and set the following values for it:</p>
+<ul>
+<li><strong>Location type:</strong> <em>SORT</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-warehouse-management-parameters">Set up Warehouse management parameters</h3>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse management parameters</strong>.</li>
+<li>On the <strong>General</strong> tab, on the <strong>Location types</strong> FastTab, set the <strong>Sorting location type</strong> field to <em>SORT</em>.</li>
+<li>On the Action Pane, select <strong>Save</strong>.</li>
+</ol>
+<h3 id="set-up-a-location-profile">Set up a location profile</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Location profiles</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Location profile ID:</strong> <em>Sorting</em></li>
+<li><strong>Name:</strong> <em>Sorting</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Location format:</strong> <em>ASRB</em> (Aisle-Rack-Shelf-Bin)</li>
+<li><strong>Location type:</strong> <em>SORT</em></li>
+<li><strong>Use license plate tracking:</strong> <em>Yes</em></li>
+<li><strong>Allow mixed items:</strong> <em>Yes</em> (When you set this option to <em>Yes</em>, the <strong>Allow mixed inventory batches</strong> option is automatically set to <em>Yes</em> and can't be changed independently.)</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-a-location">Set up a location</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Warehouse &gt; Locations</strong>.</p>
+</li>
+<li><p>In the header, clear the <strong>Generate check digits for location</strong> check box.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a location, and set the following values for it:</p>
+<ul>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Location:</strong> <em>SORT</em></li>
+<li><strong>Location profile ID:</strong> <em>SORTING</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-an-outbound-sorting-template">Set up an outbound sorting template</h3>
+<p>The outbound sorting template determines whether work is created out of the sort location, and whether sorting is done manually or automatically.</p>
+<p>For this scenario, you will create an outbound sorting template to build pallets after the packing station.</p>
+<ol>
+<li><p>Go to <strong>Warehouse Management &gt; Setup &gt; Packing &gt; Outbound sorting template</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header of the new template, set the following values:</p>
+<ul>
+<li><strong>Outbound sorting template ID:</strong> <em>AutoWork</em></li>
+<li><strong>Description:</strong> <em>Auto Work Creation</em></li>
+<li><strong>Outbound sorting template type:</strong> <em>Container</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Location:</strong> <em>SORT</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><p><strong>Sort verification:</strong> <em>Position scan</em></p>
+</li>
+<li><p><strong>Create work on position close:</strong> <em>Yes</em></p>
+<p>If this option is set to <em>Yes</em>, when the position is closed, work will be created to move inventory to the final shipping location. If it's set to <em>No</em>, inventory will immediately be picked to the order when the position is closed.</p>
+</li>
+<li><p><strong>Position assignment:</strong> <em>Automatic</em></p>
+<p>If this field is set to <em>Manual</em>, the user must always indicate which position the inventory should be sorted to. If it's set to <em>Automatic</em>, the system will automatically guide the inventory to a position whenever it can, based on the sort template breaks.</p>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Edit query</strong> button on the Action Pane available.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Edit Query</strong>.</p>
+</li>
+<li><p>In the query editor, on the <strong>Sorting</strong> tab, add a line that has the following values:</p>
+<ul>
+<li><p><strong>Table:</strong> <em>Shipments</em></p>
+</li>
+<li><p><strong>Derived table:</strong> <em>Shipments</em></p>
+</li>
+<li><p><strong>Field:</strong> <em>Carrier service</em></p>
+<p>When you select this value, you might receive the following message: &quot;Field Carrier service is not an index field. Do you want to add sorting on this?&quot; Select <strong>Yes</strong>.</p>
+</li>
+<li><p><strong>Search direction:</strong> <em>Ascending</em></p>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>You might receive the following message: &quot;Grouping will be reset, continue?&quot; Select <strong>Yes</strong>.</p>
+<p>The <strong>Outbound sorting template breaks</strong> button on the Action Pane becomes available.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Outbound sorting template breaks</strong>.</p>
+</li>
+<li><p>In the <strong>Outbound sorting criteria</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Reference table name:</strong> <em>Shipments</em></li>
+<li><strong>Reference field name:</strong> <em>Carrier service</em></li>
+<li><strong>Group by field:</strong> Select this check box to group shipments by carrier service.</li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to save your settings and close the dialog box.</p>
+</li>
+</ol>
+<h3 id="set-up-container-packing-policies">Set up container packing policies</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Containers &gt; Container packing policies</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header of the new policy, set the following values:</p>
+<ul>
+<li><strong>Container packing policy:</strong> <em>Sort</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Overview</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Default location for sorting:</strong> <em>SORT</em></li>
+<li><strong>Weight unit:</strong> <em>kg</em></li>
+<li><strong>Container closing policy:</strong> <em>Automatic release</em></li>
+<li><strong>Container release policy:</strong> <em>Assign container to outbound sorting position</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-packing-profiles">Set up packing profiles</h3>
+<p>Create a new packing profile that will be used together with the sorting functionality.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Packing &gt; Packing profiles</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a line, and set the following values for it:</p>
+<ul>
+<li><strong>Packing profile ID:</strong> <em>Sort</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+<li><strong>Container packing policy:</strong> <em>Sort</em></li>
+<li><strong>Container ID mode:</strong> <em>Auto</em></li>
+<li><strong>Container type:</strong> <em>Box-Large</em></li>
+<li><strong>Auto create container at container close:</strong> Cleared (= <em>No</em>)</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-work-classes">Set up work classes</h3>
+<p>Set up a work class that will be used together with sorting.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work classes</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a work class for sorting, and set the following values for it:</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>Sort</em></li>
+<li><strong>Description:</strong> <em>Sort</em></li>
+<li><strong>Work order type:</strong> <em>Sorted inventory picking</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-mobile-device-menu-items">Set up mobile device menu items</h3>
+<h4 id="set-up-a-new-pallet-menu-item">Set up a new pallet menu item</h4>
+<p>Create a mobile device menu item to build pallets during sorting.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Menu item name:</strong> <em>Pallet build</em></li>
+<li><strong>Title:</strong> <em>Pallet build</em></li>
+<li><strong>Mode:</strong> <em>Indirect</em></li>
+<li><strong>Use existing work:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the following values:</p>
+<ul>
+<li><p><strong>Activity code:</strong> <em>Outbound sorting</em></p>
+<p>When this field is set to <em>Outbound sorting</em>, the <strong>Outbound sorting template ID</strong> field is shown.</p>
+</li>
+<li><p><strong>Use process guide:</strong> <em>Yes</em></p>
+<p>When the <strong>Activity code</strong> field is set to <em>Outbound sorting</em>, this option is automatically set to <em>Yes</em>.</p>
+</li>
+<li><p><strong>Outbound sorting template ID:</strong> <em>AutoWork</em></p>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h4 id="set-up-a-new-loading-menu-item">Set up a new loading menu item</h4>
+<p>Next, create a menu item that lets users move the sorted inventory items to the shipping location.</p>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu items</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Menu item name:</strong> <em>Load from Sorting</em></li>
+<li><strong>Title:</strong> <em>Load from Sorting</em></li>
+<li><strong>Mode:</strong> <em>Work</em></li>
+<li><strong>Use existing work:</strong> <em>Yes</em></li>
+</ul>
+</li>
+<li><p>On the <strong>General</strong> FastTab, set the <strong>Directed by</strong> field to <em>User directed</em>.</p>
+</li>
+<li><p>On the <strong>Work classes</strong> FastTab, select <strong>New</strong>, and then set the following values:</p>
+<ul>
+<li><strong>Work class ID:</strong> <em>SORT</em></li>
+<li><strong>Work order type:</strong> <em>Sorted inventory picking</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h3 id="set-up-the-mobile-device-menu">Set up the mobile device menu</h3>
+<p>You must now add the new menu items to the mobile device menu.</p>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Setup &gt; Mobile device &gt; Mobile device menu</strong>.</li>
+<li>Select the <strong>Outbound</strong> menu.</li>
+<li>On the Action Pane, select <strong>Edit</strong>.</li>
+<li>In the <strong>Available menus and menu items</strong> column, find and select <strong>Pallet build</strong>.</li>
+<li>Select the right arrow button to move <strong>Pallet build</strong> to the <strong>Menu structure</strong> column.</li>
+<li>Use the up arrow and down arrow buttons to put the <strong>Pallet build</strong> menu item in the desired position on the mobile device menu.</li>
+<li>Select <strong>Save</strong>.</li>
+<li>Repeat this procedure to add the <strong>Load from Sorting</strong> menu item to the <strong>Outbound</strong> menu.</li>
+</ol>
+<h3 id="set-up-location-directives">Set up location directives</h3>
+<p><em>Location directives</em> are rules that help identify pick and put locations for inventory movement. You must now create a rule to manage the sorting work.</p>
+<h4 id="set-up-a-single-sku-directive">Set up a single-SKU directive</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the left pane, change the value of the <strong>Work order type</strong> field to <em>Sorted inventory picking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>Baydoor</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Location directives</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Multiple SKU:</strong> <em>No</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the toolbar on the <strong>Lines</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong>, and then set the following values on the new line. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>From:</strong> <em>0</em></li>
+<li><strong>To:</strong> <em>1,000,000</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the toolbar on the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>New</strong>, and then set the following values on the new line. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>Baydoor</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>Edit query</strong>.</p>
+</li>
+<li><p>In the query editor, on the <strong>Range</strong> tab, find the row where the <strong>Field</strong> field is set to <em>Location</em>. Set the <strong>Criteria</strong> field for this row to <em>Baydoor</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> to save your settings and close the query editor.</p>
+</li>
+</ol>
+<h4 id="set-up-a-multiple-sku-directive">Set up a multiple-SKU directive</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Location directives</strong>.</p>
+</li>
+<li><p>In the left pane, change the value of the <strong>Work order type</strong> field to <em>Sorted inventory picking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the header, set the following values:</p>
+<ul>
+<li><strong>Sequence:</strong> <em>2</em></li>
+<li><strong>Name:</strong> <em>Baydoor Multi</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Location directives</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Multiple SKU:</strong> <em>Yes</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the toolbar on the <strong>Lines</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Lines</strong> FastTab, select <strong>New</strong>, and then set the following values on the new line. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>From:</strong> <em>0</em></li>
+<li><strong>To:</strong> <em>1,000,000</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the toolbar on the <strong>Location Directive Actions</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>New</strong>, and then set the following values on the new line. Accept the default values for all the other fields.</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>Baydoor Multi</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+<li><p>On the <strong>Location Directive Actions</strong> FastTab, select <strong>Edit query</strong>.</p>
+</li>
+<li><p>In the query editor, on the <strong>Range</strong> tab, find the row where the <strong>Field</strong> field is set to <em>Location</em>. Set the <strong>Criteria</strong> field for this row to <em>Baydoor</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong> to save your settings and close the query editor.</p>
+</li>
+</ol>
+<h3 id="set-up-work-templates">Set up work templates</h3>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Setup &gt; Work &gt; Work templates</strong>.</p>
+</li>
+<li><p>Change the value of the <strong>Work order type</strong> field to <em>Sorted inventory picking</em>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong> to create a work template.</p>
+</li>
+<li><p>On the <strong>Overview</strong> tab, set the following values:</p>
+<ul>
+<li><strong>Sequence:</strong> <em>1</em></li>
+<li><strong>Work template:</strong> <em>Sort</em></li>
+<li><strong>Work template description:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong> to make the <strong>Work Template Details</strong> FastTab available.</p>
+</li>
+<li><p>On the <strong>Work Template Details</strong> FastTab, select <strong>New</strong> to add a line, and then set the following values for it:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Pick</em></li>
+<li><strong>Work class ID:</strong> <em>SORT</em></li>
+</ul>
+</li>
+<li><p>Select <strong>New</strong> again to add a second line, and then set the following values for it:</p>
+<ul>
+<li><strong>Work type:</strong> <em>Put</em></li>
+<li><strong>Work class ID:</strong> <em>SORT</em></li>
+</ul>
+</li>
+<li><p>Select <strong>Save</strong>.</p>
+</li>
+</ol>
+<h2 id="scenario">Scenario</h2>
+<p>This scenario simulates a situation where packed containers should automatically be sorted to different positions (pallets) after the packing station, depending on the shipping carrier service. After all items from the load are packed and sorted by address, the pallets will be moved to the bay door.</p>
+<h3 id="create-sales-orders-and-picking-work">Create sales orders and picking work</h3>
+<h4 id="create-sales-order-1">Create sales order 1</h4>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-005</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to close the dialog box.</p>
+<p>The new sales order is opened.</p>
+</li>
+<li><p>Switch to the <strong>Header</strong> view.</p>
+</li>
+<li><p>On the <strong>Delivery</strong> FastTab, in the <strong>Transportation</strong> section, set the following values:</p>
+<ul>
+<li><strong>Shipping carrier:</strong> <em>Air cargo</em></li>
+<li><strong>Carrier service:</strong> <em>Air</em></li>
+</ul>
+</li>
+<li><p>Switch to the <strong>Lines</strong> view.</p>
+</li>
+<li><p>If a new, empty line isn't automatically added to the grid on the <strong>Sales order lines</strong> FastTab, select <strong>Add line</strong> to add one.</p>
+</li>
+<li><p>On the new order line, set the following values:</p>
+<ul>
+<li><strong>Item number:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>2</em></li>
+</ul>
+</li>
+<li><p>While the new order line is still selected on the <strong>Sales order lines</strong> FastTab, on the <strong>Inventory</strong> menu above the grid, select <strong>Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong> to reserve the full quantity of the selected line in the warehouse.</p>
+</li>
+<li><p>Close the <strong>Reservation</strong> page to return to the sales order.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Actions</strong> group, select <strong>Release to warehouse</strong>.</p>
+</li>
+<li><p>You receive an informational message that shows the shipment and wave for this order. Make a note of the wave ID and shipment ID numbers.</p>
+</li>
+</ol>
+<h4 id="sales-order-2">Sales order 2</h4>
+<ol>
+<li><p>Go to <strong>Sales and marketing &gt; Sales orders &gt; All sales orders</strong>.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New</strong>.</p>
+</li>
+<li><p>In the <strong>Create sales order</strong> dialog box, set the following values:</p>
+<ul>
+<li><strong>Customer account:</strong> <em>US-006</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to close the dialog box.</p>
+</li>
+<li><p>The new sales order is opened. It should include a new, empty line in the grid on the <strong>Sales order lines</strong> FastTab. Set the following values on this order line:</p>
+<ul>
+<li><strong>Item:</strong> <em>A0001</em></li>
+<li><strong>Quantity:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, set the <strong>Mode of delivery</strong> field to <em>Flowe-STD</em>.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select <strong>Add line</strong>, and then set the following values on the second order line:</p>
+<ul>
+<li><strong>Item:</strong> <em>A0002</em></li>
+<li><strong>Quantity:</strong> <em>1</em></li>
+</ul>
+</li>
+<li><p>On the <strong>Line details</strong> FastTab, on the <strong>Delivery</strong> tab, change the value of the <strong>Mode of delivery</strong> field to <em>Air C-Air</em>.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select the first order line. Then, on the <strong>Inventory</strong> menu above the grid, select <strong>Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong> to reserve the full quantity of the selected line in the warehouse.</p>
+</li>
+<li><p>Close the <strong>Reservation</strong> page to return to the sales order.</p>
+</li>
+<li><p>On the <strong>Sales order lines</strong> FastTab, select the second order line. Then, on the <strong>Inventory</strong> menu above the grid, select <strong>Reservation</strong>.</p>
+</li>
+<li><p>On the <strong>Reservation</strong> page, select <strong>Reserve lot</strong> to reserve the full quantity of the selected line in the warehouse.</p>
+</li>
+<li><p>Close the <strong>Reservation</strong> page to return to the sales order.</p>
+</li>
+<li><p>On the Action Pane, on the <strong>Warehouse</strong> tab, in the <strong>Actions</strong> group, select <strong>Release to warehouse</strong>.</p>
+</li>
+<li><p>You receive an informational message that shows the shipment and wave for this order. Notice that two wave ID numbers and two shipment ID numbers have been created, one for each mode of delivery for the sales order lines.</p>
+</li>
+</ol>
+<h4 id="get-the-work-ids-from-the-work-details">Get the work IDs from the work details</h4>
+<ol>
+<li>Go to <strong>Warehouse management &gt; Work &gt; Work details</strong>.</li>
+<li>The page shows the work IDs that have been created from sales orders. Use the wave IDs and shipment IDs from the sales orders that you created to find the work ID for each wave and shipment. Make a note of those work IDs, because you will need them in the next steps. Notice that two work IDs were created for the second sales order. If different items are picked from different locations, separate word IDs are generated.</li>
+</ol>
+<h3 id="pick-items-for-the-sales-orders">Pick items for the sales orders</h3>
+<p>Complete the created work by using the mobile device to move the items to the pack station.</p>
+<ol>
+<li><p>On the mobile device, sign in to warehouse <em>62</em> by using the user ID that you created for this scenario (or the user ID of an existing demo data user).</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Sales Picking</strong>.</p>
+</li>
+<li><p>In the <strong>ID</strong> field, enter the work ID that was created for sales order 1.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the <strong>Sales orders - Pick</strong> page, enter a target LP that was created for sales order 1. Notice that the picking location (<em>bulk-001</em>), item (<em>A0001</em>), and quantity (<em>2 pcs</em>) are shown.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Review the information on the <strong>Sales orders - Put</strong> page. The <strong>Loc</strong> field should indicate that the picked items are going to the <em>Pack</em> location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>On the <strong>Scan a work ID / license plate ID</strong> page, you receive a &quot;Work Completed&quot; message, which indicates that the work ID from sales order 1 has been completed.</p>
+<p>You will now pick sales order 2.</p>
+</li>
+<li><p>In the <strong>ID</strong> field, enter the work ID that was created for sales order 2, where line 1 has item <em>A0001</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the <strong>Sales orders - Pick</strong> page, enter a target LP. Notice that the picking location (<em>bulk-001</em>), item (<em>A0001</em>), and quantity (<em>1 pcs</em>) are shown.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Review the information on the <strong>Sales orders - Put</strong> page. The <strong>Loc</strong> field should indicate that the picked items are going to the <em>Pack</em> location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>On the <strong>Scan a work ID / license plate ID</strong> page, you receive a &quot;Work Completed&quot; message. This message indicates that the work ID from line 1 of sales order 2 has been completed.</p>
+</li>
+<li><p>In the <strong>ID</strong> field, enter the work ID that was created for sales order 2, where line 2 has item <em>A0002</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>On the <strong>Sales orders - Pick</strong> page, enter a target LP. Notice that the picking location (<em>bulk-002</em>), item (<em>A0001</em>), and quantity (<em>1 pcs</em>) are shown.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Review the information on the <strong>Sales orders - Put</strong> page. The <strong>Loc</strong> field should indicate that the picked items are going to the <em>Pack</em> location.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>On the <strong>Scan a work ID / license plate ID</strong> page, you receive a &quot;Work Completed&quot; message. This message indicates that the work ID from line 2 of sales order 2 has been completed.</p>
+</li>
+</ol>
+<h3 id="pack-sales-orders-into-containers">Pack sales orders into containers</h3>
+<h4 id="pack-sales-order-1-into-containers">Pack sales order 1 into containers</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Packing and containerization &gt; Pack</strong>.</p>
+<p>The <strong>Select packing station</strong> dialog box appears. By default, the <strong>Worker</strong> field should be set to the name of the worker that you set up earlier.</p>
+</li>
+<li><p>Set the following values to view and work on shipments and containers that are planned at the specific packing location:</p>
+<ul>
+<li><strong>Site:</strong> <em>6</em></li>
+<li><strong>Warehouse:</strong> <em>62</em></li>
+<li><strong>Location:</strong> <em>Pack</em></li>
+<li><strong>Packing profile ID:</strong> <em>Sort</em></li>
+</ul>
+</li>
+<li><p>Select <strong>OK</strong> to close the dialog box.</p>
+</li>
+<li><p>On the <strong>Pack</strong> page, in the <strong>License plate or shipment</strong> field, enter the target LP for sales order 1. Then select the <strong>Tab</strong> or <strong>Enter</strong> key on your keyboard to move out of the field.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New container</strong>.</p>
+</li>
+<li><p>Accept all the default settings, and select <strong>OK</strong>. Make a note of the container ID.</p>
+</li>
+<li><p>On the <strong>Item packing</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Quantity:</strong> <em>1</em></li>
+<li><strong>Identifier:</strong> Item <em>A0001</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Close container</strong>.</p>
+</li>
+<li><p>In the <strong>Close container</strong> dialog box, select <strong>Get system weight</strong> to have the system update the <strong>Gross weight</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>. The container is moved to the <em>SORT</em> location and is ready for sorting.</p>
+</li>
+<li><p>Create a second container to add the second item from the LP for sales order 1 to a new container.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New container</strong>.</p>
+</li>
+<li><p>Accept all the default settings, and select <strong>OK</strong>. Make a note of the container ID.</p>
+</li>
+<li><p>On the <strong>Item packing</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Quantity:</strong> <em>1</em></li>
+<li><strong>Identifier:</strong> Item <em>A0001</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Close container</strong>.</p>
+</li>
+<li><p>In the <strong>Close container</strong> dialog box, select <strong>Get system weight</strong> to have the system update the <strong>Gross weight</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>. The container is moved to the <em>SORT</em> location and is ready for sorting.</p>
+</li>
+</ol>
+<h4 id="pack-sales-order-2-into-containers">Pack sales order 2 into containers</h4>
+<ol>
+<li><p>On the <strong>Pack</strong> page, in the <strong>License plate or shipment</strong> field, enter the target LP for line 1 of sales order 2. Then select the <strong>Tab</strong> or <strong>Enter</strong> key on your keyboard to move out of the field.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New container</strong>.</p>
+</li>
+<li><p>Accept all the default settings, and select <strong>OK</strong>. Make a note of the container ID.</p>
+</li>
+<li><p>On the <strong>Item packing</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Quantity:</strong> <em>1</em></li>
+<li><strong>Identifier:</strong> Item <em>A0001</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Close container</strong>.</p>
+</li>
+<li><p>In the <strong>Close container</strong> dialog box, select <strong>Get system weight</strong> to have the system update the <strong>Gross weight</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>. The container is moved to the <em>SORT</em> location and is ready for sorting.</p>
+</li>
+<li><p>In the <strong>License plate or shipment</strong> field, enter the target LP for line 2 of the sales order 2. Then select the <strong>Tab</strong> or <strong>Enter</strong> key on your keyboard to move out of the field.</p>
+</li>
+<li><p>On the Action Pane, select <strong>New container</strong>.</p>
+</li>
+<li><p>Accept all the default settings, and select <strong>OK</strong>. Make a note of the container ID.</p>
+</li>
+<li><p>On the <strong>Item packing</strong> FastTab, set the following values:</p>
+<ul>
+<li><strong>Quantity:</strong> <em>1</em></li>
+<li><strong>Identifier field:</strong> Item <em>A0002</em></li>
+</ul>
+</li>
+<li><p>On the Action Pane, select <strong>Close container</strong>.</p>
+</li>
+<li><p>In the <strong>Close container</strong> dialog box, select <strong>Get system weight</strong> to have the system update the <strong>Gross weight</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>. The container is moved to the <em>SORT</em> location and is ready for sorting.</p>
+</li>
+</ol>
+<p>To view the container details, go to <strong>Warehouse management &gt; Packing and containerization &gt; Containers</strong>, and search for the container IDs that were created during packing.</p>
+<h3 id="sort-the-containers">Sort the containers</h3>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>When you access the <strong>Pallet build</strong> menu item on the mobile app to do outbound sorting, you will see a button that is labeled <strong>Full</strong>. <em>Don't use the <strong>Full</strong> button to sort or close the position.</em></p>
+<p>The <strong>Full</strong> button is provided by default and can't be disabled or removed from the page. It isn't used for the <em>Outbound sorting</em> feature.</p>
+</div>
+<h4 id="sort-the-first-container">Sort the first container</h4>
+<ol>
+<li><p>On the mobile device, sign in to warehouse <em>62</em> by using the user ID that you created for this scenario (or the user ID of an existing demo data user).</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Pallet build</strong>.</p>
+</li>
+<li><p>In the <strong>LP/Con</strong> field, enter the first container ID that is associated with sales order 1.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Because no sort positions currently exist, you must specify one. In the <strong>Sort position ID</strong> field, enter <em>SP01</em>.</p>
+</li>
+<li><p>Because no LP is currently associated with sort position <em>SP01</em>, you must specify one. In the <strong>LP</strong> field, enter <em>PLP01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Because sort position validation is turned on, you must enter the sort position ID again. In the <strong>Sort Position ID</strong> field, enter <em>SP01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>You receive a &quot;Work completed&quot; message.</p>
+</li>
+</ol>
+<div class="TIP">
+<h5>Tip</h5>
+<p>To view the sort position and the LP in it, go to <strong>Warehouse management &gt; Packing and containerization &gt; Outbound sorting position assignments</strong>.</p>
+<p>The <strong>Outbound sorting position assignments</strong> page shows all the sort positions that are currently active. The <strong>Sort position transactions</strong> field shows the LP that is associated with each sort position, and the containers that are in the sort position. Notice that one sort position currently exists, and that the <strong>Sort position criteria</strong> FastTab shows a criterion of <strong>Shipment – Carrier service - Air</strong>.</p>
+</div>
+<h4 id="sort-the-remaining-containers">Sort the remaining containers</h4>
+<ol>
+<li><p>On the mobile device, sign in to warehouse <em>62</em> by using the user ID that you created for this scenario (or the user ID of an existing demo data user).</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Pallet build</strong>.</p>
+</li>
+<li><p>In the <strong>LP/Con</strong> field, enter the second container ID that is associated with sales order 1.</p>
+</li>
+<li><p>Select <strong>OK</strong>. Because the sorting template is set up to sort automatically, and a sort position that has matching criteria already exists, you're automatically directed to the correct sort position.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Confirm the sort position ID to indicate that the inventory is in the correct place. In the <strong>Sort Position ID</strong> field, enter <em>SP01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Work is completed on the second container from sales order 1. You will now sort the remaining containers from sales order 2.</p>
+</li>
+<li><p>In the <strong>LP/Con</strong> field, enter the container ID of the container from sales order 2 that holds item <em>A0001</em>. Because the carrier service differs, you're prompted to enter a new sort position and assign an LP to that position. Use sort position <em>SP02</em> and LP <em>PLP02</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Confirm the sort position by entering <em>SP02</em> in the <strong>Sort Position ID</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Work is completed on the container.</p>
+</li>
+<li><p>In the <strong>LP/Con</strong> field, enter the container ID for the remaining container from sales order 2 that holds item <em>A0002</em>. Because the carrier service is the same as the carrier service for sales order 1, the system shows the existing sort position that has matching criteria.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>Confirm the sort position by entering <em>SP01</em> in the <strong>Sort Position ID</strong> field.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Work is completed on the container.</p>
+</li>
+</ol>
+<h3 id="close-the-outbound-sorting-positions">Close the outbound sorting positions</h3>
+<p>When all inventory has been sorted, the position must be closed before work can be created. Sorted inventory picking work will be created to take the inventory to the bay door.</p>
+<h4 id="close-a-position-from-the-mobile-device">Close a position from the mobile device</h4>
+<ol>
+<li><p>On the mobile device, sign in to warehouse <em>62</em> by using the user ID that you created for this scenario (or the user ID of an existing demo data user).</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Pallet build</strong>.</p>
+</li>
+<li><p>In the <strong>LP/Con</strong> field, enter a container ID that was sorted to sort position <em>SP01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>You receive the following message: &quot;The container is already sorted to position SP01. Close the position?&quot; Select <strong>Close</strong>.</p>
+<p>Work is completed.</p>
+</li>
+</ol>
+<h4 id="close-a-position-from-outbound-sorting-position-assignments">Close a position from outbound sorting position assignments</h4>
+<ol>
+<li><p>Go to <strong>Warehouse management &gt; Packing and containerization &gt; Outbound sorting position assignments</strong>.</p>
+</li>
+<li><p>In the left column, select <strong>SP02</strong>. This outbound sorting position row is the one that you will close.</p>
+</li>
+<li><p>On the Action Pane, select <strong>Close position</strong>. The sorting position record is closed and is no longer shown.</p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>To show all closed position records, select the <strong>Show closed</strong> check box.</p>
+</div>
+</li>
+</ol>
+<h3 id="sorted-inventory-picking">Sorted inventory picking</h3>
+<p>You must complete the sorted inventory picking work. When it's completed, the inventory will be picked to the sales order. At that point, all other warehouse processes apply.</p>
+<ol>
+<li><p>On the mobile device, sign in to warehouse <em>62</em> by using the user ID that you created for this scenario (or the user ID of an existing demo data user).</p>
+</li>
+<li><p>On the main menu, select <strong>Outbound</strong>.</p>
+</li>
+<li><p>On the <strong>Outbound</strong> menu, select <strong>Load from Sorting</strong>.</p>
+</li>
+<li><p>Enter the target LP ID from the first sort position, <em>SP01</em>. Set the <strong>ID</strong> field to <em>PLP01</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The <strong>Sorted inventory picking: Pick</strong> page shows the pick work that must be done. Pick from the <em>SORT</em> location and target LP <em>PLP01</em>, which has multiple items and a quantity of <em>3</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The <strong>Sorted inventory picking: Put</strong> page shows the put work that must be done. Put to the <em>Baydoor</em> location and target LP <em>PLP01</em>, which has multiple items and a quantity of <em>3</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Work is completed.</p>
+</li>
+<li><p>Enter the target license plate ID from the second sort position, <em>SP02</em>. Set the <strong>ID</strong> field to <em>PLP02</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The <strong>Sorted inventory picking: Pick</strong> page shows the pick work that must be done. Pick from the <em>SORT</em> location and target LP <em>PLP02</em>, which has multiple items and a quantity of <em>1</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+</li>
+<li><p>The <strong>Sorted inventory picking: Put</strong> page shows the put work that must be done. Put to the <em>Baydoor</em> location and target LP <em>PLP02</em>, which has multiple items and a quantity of <em>1</em>.</p>
+</li>
+<li><p>Select <strong>OK</strong>.</p>
+<p>Work is completed.</p>
+</li>
+</ol>
+<p>From this point forward, all other warehouse processes apply.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

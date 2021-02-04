@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Geplantes Crossdocking | WIKA Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Geplantes Crossdocking | WIKA Documentation ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../../../microsoft-dynamics-crm-365-icon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="planned-cross-docking">Geplantes Crossdocking</h1>
+
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Dynamics 365 for Finance and Operations hat sich zu speziell entwickelten Anwendungen entwickelt, mit denen Sie bestimmte Geschäftsfunktionen verwalten können. Weitere Informationen zu diesen Änderungen finden Sie im <a href="https://go.microsoft.com/fwlink/?LinkId=866544">Dynamics 365-Lizenzierungshandbuch</a>.</p>
+</div>
+
+<p>In diesem Thema wird das erweiterte geplante Crossdocking beschrieben. Crossdocking ist ein Lagerortprozess, bei dem die für eine Bestellung erforderliche Lagerbestandsmenge direkt vom Eingang oder der Erstellung zum richtigen ausgehenden Dock oder Stagingbereich geleitet wird. Der gesamte verbleibende Lagerbestand aus der eingehenden Quelle wird durch den regulären Einlagerungsprozess an den richtigen Lagerort geleitet.</p>
+<p>Durch Crossdocking können Mitarbeiter eingehende Einlagerungen und ausgehende Kommissionierungen vom Lagerbestand überspringen, der bereits für eine ausgehende Bestellung markiert ist. Daher wird die Häufigkeit, mit der der Lagerbestand berührt wird, nach Möglichkeit minimiert. Da weniger Interaktion mit dem System besteht, wird außerdem die Zeit- und Platzersparnis im Lagerortfertigungsbereich erhöht.</p>
+<p>Bevor Crossdocking ausgeführt werden kann, muss der Benutzer eine neue Crossdocking-Vorlage konfigurieren, in der die Bezugsquelle und andere Anforderungen für das Crossdocking angegeben sind. Beim Erstellen der ausgehenden Bestellung muss die Position mit einer eingehenden Bestellung markiert werden, die denselben Artikel enthält.</p>
+<p>Zum Zeitpunkt des Eingangs eingehender Bestellungen erkennt das Crossdocking-Setup automatisch den Bedarf an Crossdocking und erstellt die Bewegungsarbeit für die erforderliche Menge basierend auf dem Setup der Lagerplatzrichtlinie.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Lagerbuchungen sind <strong>nicht</strong> unregistriert, wenn Crossdocking-Arbeiten abgebrochen werden, auch wenn die Einstellung für diese Funktion in den Lagerortverwaltungsparametern aktiviert ist.</p>
+</div>
+<h2 id="turn-on-the-planned-cross-docking-feature">Funktion für geplantes Crossdocking aktivieren</h2>
+<p>Bevor Sie das erweiterte geplante Crossdocking verwenden können, muss die Funktion in Ihrem System aktiviert sein. Administratoren können mit der Einstellung <a href="../../fin-ops-core/fin-ops/get-started/feature-management/feature-management-overview.html">Funktionsverwaltung</a> den Status der Funktion überprüfen und ggf. aktivieren. Dort wird die Funktion folgendermaßen aufgelistet:</p>
+<ul>
+<li><strong>Module:</strong> <em>Lagerortverwaltung</em></li>
+<li><strong>Funktionsname:</strong> <em>Geplantes Crossdocking</em></li>
+</ul>
+<h2 id="setup">Einstellung</h2>
+<h3 id="regenerate-load-posting-methods">Ladebuchungsmethoden erneut generieren</h3>
+<p>Das geplante Crossdocking wird als Ladebuchungsmethode implementiert. Nachdem Sie die Funktion aktiviert haben, müssen Sie die Methoden erneut generieren.</p>
+<ol>
+<li><p>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einrichtung &gt; Ladebuchungsmethoden</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Methoden erneut generieren</strong> aus.</p>
+<p>Wenn die Regeneration abgeschlossen ist, sollte eine Methode mit <strong>Methodenname</strong> im Wert von <em>planCrossDocking</em> angezeigt werden.</p>
+</li>
+<li><p>Schließen Sie die Seite.</p>
+</li>
+</ol>
+<h3 id="create-a-cross-docking-template">Crossdocking-Vorlage erstellen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einrichtung &gt; Arbeit &gt; Crossdocking-Vorlagen</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus, um eine Vorlage zu erstellen.</p>
+</li>
+<li><p>Legen Sie im Header die folgenden Werte fest:</p>
+<ul>
+<li><p><strong>Sequenz:</strong> <em>1</em></p>
+<p>Dieses Feld definiert die Reihenfolge, in der Vorlagen ausgewertet werden.</p>
+</li>
+<li><p><strong>Crossdocking-Vorlagen-ID:</strong> <em>51</em></p>
+</li>
+<li><p><strong>Beschreibung:</strong> <em>Lagerort 51</em></p>
+</li>
+<li><p><strong>Richtlinien zur Bedarfsfreigabe:</strong> <em>Vor dem Eingang der Lieferung</em></p>
+</li>
+<li><p><strong>Lagerort:</strong> <em>51</em></p>
+</li>
+</ul>
+</li>
+<li><p>Das Setup im Inforegister <strong>Planung</strong> steuert, wie die Vorlage funktioniert. Legen Sie die folgenden Werte fest:</p>
+<ul>
+<li><p><strong>Bedarfsanforderungen:</strong> <em>Keine</em></p>
+<p>Dieses Feld definiert die Anforderungen des Bedarfslagerbestands. Wenn der Bedarf vor der Freigabe mit der Lieferung verknüpft werden muss, wählen Sie <em>Markierung</em> aus. Wenn der Bedarf vor der Freigabe gegen die Lieferung reserviert werden muss, wählen Sie <em>Auftragsreservierung</em> aus.</p>
+</li>
+<li><p><strong>Lagerplatztyp:</strong> <em>Versandorte</em></p>
+<p>In diesem Feld wird definiert, ob für die Crossdocking-Arbeit die Staging-/Ladeorte aus der Sendung oder ob Lagerplatzrichtlinien verwendet werden sollen, um eigene Staging-/Ladeorte zu finden.</p>
+</li>
+<li><p><strong>Arbeitsvorlage:</strong> Lassen Sie dieses Feld leer.</p>
+<p>Dieses Feld definiert die Arbeitsvorlage, die beim Erstellen von Crossdocking-Arbeiten verwendet werden soll.</p>
+</li>
+<li><p><strong>Bei Eingang der Lieferung erneut validieren:</strong> <em>Nein</em></p>
+<p>Diese Option definiert, ob die Lieferung während des Eingangs erneut validiert werden soll. Wenn diese Option auf <em>Ja</em> festgelegt ist, werden sowohl das maximale Zeitfenster als auch der Ablauftagebereich überprüft.</p>
+</li>
+<li><p><strong>Zeitfenster validieren:</strong> <em>Ja</em></p>
+<p>Diese Option definiert, ob das maximale Zeitfenster ausgewertet werden soll, wenn eine Bezugsquelle ausgewählt wird. Wenn diese Option auf <em>Ja</em> festgelegt ist, werden die Felder verfügbar, die sich auf das maximale und minimale Zeitfenster beziehen.</p>
+</li>
+<li><p><strong>Maximales Zeitfenster:</strong> <em>5</em></p>
+<p>Dieses Feld definiert den maximalen Zeitraum, der zwischen Lieferungseingang und Bedarfsabgang zulässig ist.</p>
+</li>
+<li><p><strong>Maximale Zeitfenstereinheit:</strong> <em>Tage</em></p>
+</li>
+<li><p><strong>Minimales Zeitfenster:</strong> <em>0</em></p>
+<p>Dieses Feld definiert den minimalen Zeitraum, der zwischen Lieferungseingang und Bedarfsabgang zulässig ist.</p>
+</li>
+<li><p><strong>Minimale Zeitfenstereinheit:</strong> <em>Tage</em></p>
+</li>
+<li><p><strong>Ablauftagebereich:</strong> <em>0</em></p>
+<p><em>First Expiry First Out (FEFO)-Kriterien:</em> Dieses Feld definiert die maximale Anzahl von Tagen zwischen dem Ablaufdatum der ersten ablaufenden Charge, die sich derzeit im Lagerort befindet, und der Charge, die empfangen wird.</p>
+</li>
+</ul>
+</li>
+<li><p>Geben Sie im Inforegister <strong>Bezugsquellen</strong> die Liefertypen an, die für diese Vorlage gültig sind. Wählen Sie <strong>Neu</strong> aus, und legen Sie dann die folgenden Werte fest:</p>
+<ul>
+<li><strong>Sequenznummer:</strong> <em>1</em></li>
+<li><strong>Bezugsquelle:</strong> <em>Bestellung</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-work-class">Eine Arbeitsklasse erstellen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Arbeit &gt; Arbeitsklassen</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus, um eine Arbeitsklasse zu erstellen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte fest:</p>
+<ul>
+<li><strong>Arbeitsklassen-ID:</strong> <em>CrossDock</em></li>
+<li><strong>Beschreibung:</strong> <em>Crossdocking</em></li>
+<li><strong>Arbeitsauftragstyp:</strong> <em>Crossdocking</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-work-template">Erstellen einer Arbeitsvorlage</h3>
+<ol>
+<li><p>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Arbeit &gt; Arbeitsvorlagen</strong>.</p>
+</li>
+<li><p>Legen Sie im Feld <strong>Arbeitsauftragstyp</strong> <em>Crossdocking</em> fest.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus, um auf der Registerkarte <strong>Übersicht</strong> eine Position hinzuzufügen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte für die neue Position fest:</p>
+<ul>
+<li><strong>Sequenznummer:</strong> <em>1</em></li>
+<li><strong>Arbeitsvorlage:</strong> <em>51 Crossdocking</em></li>
+<li><strong>Arbeitsvorlagenbeschreibung:</strong> <em>51 Crossdocking</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, um das Inforegister <strong>Arbeitsvorlagendetails</strong> verfügbar zu machen.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Arbeitsvorlagendetails</strong> die Option <strong>Neu</strong> aus, um dem Raster eine Position hinzuzufügen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte für die neue Position fest:</p>
+<ul>
+<li><strong>Arbeitstyp:</strong> <em>Entnahme</em></li>
+<li><strong>Arbeitsklassen-ID:</strong> <em>CrossDock</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Neu</strong> aus, um eine weitere Position hinzuzufügen, und legen Sie die folgenden Werte fest:</p>
+<ul>
+<li><strong>Arbeitstyp:</strong> <em>Einlagern</em></li>
+<li><strong>Arbeitsklassen-ID:</strong> <em>CrossDock</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, und bestätigen Sie, dass das Kontrollkästchen <strong>Gültig</strong> für die Vorlage <em>51 Crossdocking</em> ausgewählt ist.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Die Arbeitsklassen-IDs für die Arbeitstypen <em>Entnehmen</em> und <em>Einlagern</em> müssen gleich sein.</p>
+</div>
+<h3 id="create-location-directives">Lagerplatzrichtlinien erstellen</h3>
+<ol>
+<li><p>Wechseln Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Lagerplatzrichtlinien</strong>.</p>
+</li>
+<li><p>Legen Sie im linken Bereich im Feld <strong>Arbeitsauftragstyp</strong> <em>Crossdocking</em> fest.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus, und legen Sie die folgenden Werte fest:</p>
+<ul>
+<li><strong>Sequenznummer:</strong> <em>1</em></li>
+<li><strong>Name:</strong> <em>51 Crossdocking einlagern</em></li>
+<li><strong>Arbeitstyp:</strong> <em>Einlagern</em></li>
+<li><strong>Standort:</strong> <em>5</em></li>
+<li><strong>Lagerort:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, um das Inforegister <strong>Positionen</strong> verfügbar zu machen.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Positionen</strong> die Option <strong>Neu</strong> aus, um dem Raster eine Position hinzuzufügen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte für die neue Position fest:</p>
+<ul>
+<li><strong>Von Menge:</strong> <em>1</em></li>
+<li><strong>Bis Menge:</strong> <em>1000000</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, um das Inforegister <strong>Lagerplatzrichtlinienaktivitäten</strong> verfügbar zu machen.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Lagerplatzrichtlinienaktivitäten</strong> die Option <strong>Neu</strong> aus, um dem Raster eine Position hinzuzufügen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte für die neue Position fest:</p>
+<ul>
+<li><strong>Name:</strong> <em>Ladebereichstor</em></li>
+<li><strong>Feste Standortnutzung:</strong> <em>Feste und nicht feste Lagerplätze</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus, um die Schaltfläche <strong>Abfrage bearbeiten</strong> in der Symbolleiste <strong>Lagerplatzrichtlinienaktivitäten</strong> verfügbar zu machen.</p>
+</li>
+<li><p>Wählen Sie <strong>Abfrage bearbeiten</strong> aus, um den Abfrageeditor zu öffnen.</p>
+</li>
+<li><p>Stellen Sie auf der Registerkarte <strong>Bereich</strong> sicher, dass die folgenden zwei Positionen konfiguriert sind:</p>
+<ul>
+<li><p>Position 1:</p>
+<ul>
+<li><strong>Tabelle:</strong> <em>Lagerorte</em></li>
+<li><strong>Abgeleitete Tabelle:</strong> <em>Lagerorte</em></li>
+<li><strong>Feld:</strong> <em>Lagerort</em></li>
+<li><strong>Kriterien:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Position 2:</p>
+<ul>
+<li><strong>Tabelle:</strong> <em>Lagerorte</em></li>
+<li><strong>Abgeleitete Tabelle:</strong> <em>Lagerorte</em></li>
+<li><strong>Feld:</strong> <em>Lagerplatz</em></li>
+<li><strong>Kriterien:</strong> <em>Ladebereichstor</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong> aus, um den Abfrageeditor zu schließen.</p>
+</li>
+</ol>
+<h3 id="create-a-mobile-device-menu-item">Erstellen eines Menüelements für ein mobiles Geräts</h3>
+<ol>
+<li><p>Gehen Sie zu <strong>Lagerortverwaltung &gt; Einstellungen &gt; Mobiles Gerät &gt; Menüoptionen für mobiles Gerät</strong>.</p>
+</li>
+<li><p>Wählen Sie in der Liste der Menüpunkte im linken Bereich die Option <strong>Kaufeinlagerung</strong> aus.</p>
+</li>
+<li><p>Wählen Sie <strong>Bearbeiten</strong> aus.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Arbeitsklassen</strong> die Option <strong>Neu</strong> aus, um dem Raster eine Position hinzuzufügen.</p>
+</li>
+<li><p>Legen Sie die folgenden Werte für die neue Position fest:</p>
+<ul>
+<li><strong>Arbeitsklassen-ID:</strong> <em>CrossDock</em></li>
+<li><strong>Arbeitsauftragstyp:</strong> <em>Crossdocking</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>Speichern</strong> aus.</p>
+</li>
+</ol>
+<h2 id="scenario">Szenario</h2>
+<h3 id="create-a-purchase-order">Eine Bestellung erstellen</h3>
+<p>Befolgen Sie diese Schritte, um eine Bestellung als Bezugsquelle zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Beschaffung &gt; Bestellungen &gt; Alle Bestellungen</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Legen Sie im Dialogfeld <strong>Bestellung erstellen</strong> die folgenden Werte fest:</p>
+<ul>
+<li><strong>Kreditorenkonto:</strong> <em>104</em></li>
+<li><strong>Lagerort:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong> aus, und notieren Sie sich die Bestellnummer.</p>
+</li>
+<li><p>Im Inforegister <strong>Bestellpositionen</strong> wird eine neue Position hinzugefügt. Legen Sie die folgenden Werte für diese Position fest:</p>
+<ul>
+<li><strong>Artikelnummer</strong> <em>A001</em></li>
+<li><strong>Menge</strong> <em>5</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-a-sales-order">Auftrag erstellen</h3>
+<p>Befolgen Sie diese Schritte, um einen Auftrag als Bedarfsquelle zu erstellen.</p>
+<ol>
+<li><p>Wechseln Sie zu <strong>Vertrieb und Marketing &gt; Aufträge &gt; Alle Aufträge</strong>.</p>
+</li>
+<li><p>Wählen Sie im Aktivitätsbereich <strong>Neu</strong> aus.</p>
+</li>
+<li><p>Legen Sie im Dialogfeld <strong>Auftrag erstellen</strong> die folgenden Werte fest:</p>
+<ul>
+<li><strong>Debitorenkonto:</strong> <em>US-002</em></li>
+<li><strong>Lagerort:</strong> <em>51</em></li>
+</ul>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Im Inforegister <strong>Auftragspositionen</strong> wird eine neue Position hinzugefügt. Legen Sie die folgenden Werte für diese Position fest:</p>
+<ul>
+<li><strong>Artikelnummer</strong> <em>A001</em></li>
+<li><strong>Menge</strong> <em>3</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-planned-cross-docking">Geplantes Crossdocking erstellen</h3>
+<p>Befolgen Sie diese Schritte, um das geplante Crossdocking aus dem Auftrag zu erstellen.</p>
+<ol>
+<li><p>Wählen Sie auf der Seite <strong>Auftragsdetails</strong> für den Auftrag, den Sie gerade erstellt haben, im Aktivitätsbereich auf der Registerkarte <strong>Lagerort</strong> in der Gruppe <strong>Aktivitäten</strong> die Option <strong>An Lager freigeben</strong> aus.</p>
+<p>Die Aktivität „An Lager freigeben“ erstellt eine Versand- und Ladeposition für die Auftragsposition und versucht, Lagerbestand zuzuordnen.</p>
+<p>Es wird eine Informationsnachricht angezeigt. Sie erhalten außerdem die folgende Warnmeldung: „Für Welle XXXX wurde keine Arbeit erstellt. Weitere Informationen finden Sie im Protokoll zum Arbeitserstellungsverlauf.“ Dieses Verhalten wird erwartet, da sich kein Lagerbestand im Lagerort befindet.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Auftragspositionen</strong> im Menü <strong>Lagerort</strong> die Option <strong>Lieferdetails</strong> aus.</p>
+<p>Die Seite <strong>Lieferdetails</strong> wird angezeigt und zeigt die Lieferung, die für den Auftrag erstellt wurde.</p>
+</li>
+<li><p>Überprüfen Sie, ob im Inforegister <strong>Ladungspositionen</strong> das Feld <strong>Geplante Crossdocking-Menge</strong> auf <em>3</em> festgelegt ist. Da im Lagerort kein Lagerbestand verfügbar war, aber innerhalb des in der Crossdocking-Vorlage definierten Zeitfensters eine gültige Bezugsquelle eintrifft, wurde die Crossdocking-Menge erstellt.</p>
+</li>
+<li><p>Wählen Sie im Inforegister <strong>Ladungspositionen</strong> die Option <strong>Geplantes Crossdocking</strong> aus, um die Details des erstellten Crossdocking anzuzeigen.</p>
+</li>
+</ol>
+<h2 id="process-the-cross-docking">Crossdocking verarbeiten</h2>
+<h3 id="purchase-order-receiving-on-the-warehousing-mobile-app">Bestelleingang mit der Warehouse Mobile App</h3>
+<p>Das System erhält die Menge von 5 aus der Bestellung an den Empfangsort und erstellt zwei Arbeiten.</p>
+<p>Die erste Arbeits-ID, die erstellt wird, hat einen <strong>Arbeitsauftragstyp</strong> im Wert von <em>Crossdocking</em> und ist mit dem Auftrag verknüpft. Sie hat eine Menge von 3 und wird zum endgültigen Versandort geleitet, damit sie sofort versendet werden kann.</p>
+<p>Die zweite Arbeits-ID, die erstellt wird, hat einen <strong>Arbeitsauftragstyp</strong> im Wert von <em>Bestellungen</em> und ist mit der Bestellung verknüpft. Sie hat die verbleibende Menge von 2, für die das Crossdocking nicht durchgeführt wurde und zur Einlagerung bestimmt ist.</p>
+<ol>
+<li><p>Melden Sie sich beim mobilen Gerät als ein Benutzer im Lagerort <em>51</em> an.</p>
+</li>
+<li><p>Gehen Sie zu <strong>Eingehend &gt; Kaufempfang</strong>.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>PONum</strong> Ihre Bestellnummer ein.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Menge</strong> den Wert <em>5</em> ein.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Legen Sie auf der nächsten Seite im Feld <strong>Artikel</strong> <em>A0001</em> fest.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Bestätigen Sie auf der nächsten Seite die Werte <strong>PONum</strong>, <strong>Artikel</strong> und <strong>Menge</strong>, indem Sie <strong>OK</strong> auswählen.</p>
+<p>Sie erhalten die Nachricht „Arbeit abgeschlossen“.</p>
+</li>
+<li><p>Wählen Sie <strong>Abbrechen</strong> aus, um zu beenden.</p>
+</li>
+</ol>
+<h3 id="put-away-to-cross-docking-and-bulk">Einlagerung zu Crossdocking und Bulk</h3>
+<p>Derzeit haben beide Arbeits-IDs das gleiche Zielkennzeichen. Um die nächsten Schritte ausführen zu können, müssen Sie die Arbeits-ID und die Zielkennzeichen-ID erhalten. Sie können diese Informationen aus den Arbeitsdetails für die Bestellposition und die Auftragsposition abrufen. Alternativ können Sie zu <strong>Lagerortverwaltung &gt; Arbeit &gt; Arbeitsdetails</strong> gehen und nach Arbeit filtern, wo der Wert von <strong>Lagerort</strong> <em>51</em> ist.</p>
+<ol>
+<li><p>Gehen Sie auf dem mobilen Gerät zu <strong>Eingehend &gt; Kaufeinlagerung</strong>, und geben Sie das Zielkennzeichen von der Arbeit ein.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>ID</strong> die Zielkennzeichen-ID aus den Arbeitsdetails ein.</p>
+<p>Die Crossdocking-Auswahlseite zeigt den Kommissionierort (<em>RECV</em>), das Zielkennzeichen (<em>Kennzeichen</em>), den Artikel (<em>A0001</em>) und die Menge (<em>3</em>).</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Geben Sie im Feld <strong>Ziel-LP</strong> ein Zielkennzeichen für die Kennzeichen-ID ein, die am Versandort eingelagert (Crossdocking) werden soll. Sie können eine beliebige Kennzeichen-ID Ihrer Wahl auswählen.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Geben Sie auf der nächsten Seite im Feld <strong>ID</strong> die Zielkennzeichen-ID ein.</p>
+</li>
+<li><p>Wählen Sie <strong>OK</strong>.</p>
+</li>
+<li><p>Bestätigen Sie die Arbeit zur Auswahl der verbleibenden Menge von 2, und wählen Sie dann <strong>OK</strong> aus.</p>
+</li>
+<li><p>Wählen Sie auf der nächsten Seite <strong>Fertig</strong> aus, um den Kommissioniervorgang zu beenden und den Einlagerungsprozess zu beginnen.</p>
+<p>Die mobile App zeigt Ihnen den Lagerplatz und das Kennzeichen an, an dem Sie den Artikel ablegen möchten.</p>
+</li>
+<li><p>Bestätigen Sie den Bulk-Lagerplatz <strong>Einlagern</strong>, indem Sie <strong>OK</strong> auswählen.</p>
+</li>
+<li><p>Bestätigen Sie auf der nächsten Seite das Crossdocking <strong>Einlagern</strong>, indem Sie <strong>OK</strong> auswählen.</p>
+<p>Sie erhalten die Nachricht „Arbeit abgeschlossen“.</p>
+</li>
+<li><p>Wählen Sie <strong>Abbrechen</strong> aus, um zu beenden.</p>
+</li>
+</ol>
+<p>Die folgende Abbildung zeigt, wie die abgeschlossene Crossdocking-Arbeit in Microsoft Dynamics 365 Supply Chain Management aussehen könnte.</p>
+<p><img src="media/PlannedCrossDockingWork.png" alt="Crossdocking-Arbeit abgeschlossen" title="Crossdocking-Arbeit abgeschlossen"></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>
