@@ -1,20 +1,18 @@
-# Willkommen auf der Dokumentation des WIKA ERP-Systems D365
+# Welcome to the docmentation of the WIKA ERP-Systems D365
 
-Auf dieser Website finden Sie die Anwenderdokumentation des ERP-Systems D365.
+On this website you will find the user documentation of the ERP system D365.
 
-Wir möchten Euch eine vollumfängliche Dokumentation des neuen ERP-Systems D365 zur Verfügung stellen. Diese Dokumentation ist Web-basiert und kann von jedem WIKA Mitarbeiter aufgerufen werden. Diese Form der Dokumentation soll die bisherigen Handbücher ersetzen.
-Zum Teil greifen wir hierfür auf die Standard Dokumentation von Microsoft zurück; zum größeren Teil werden wir unser System selbst beschreiben.
+We would like to provide you with a fully comprehensive documentation of the new ERP system D365. This documentation is web-based and can be accessed by any WIKA employee. This form of documentation is intended to replace the previous manuals. In part, we will use the standard documentation from Microsoft; for the most part, we will describe our system ourselves.
 
-In den vergangen Systemen (Ax 2009 und AX 2012) gab es immer wieder Probleme mit der Vollständigkeit der Dokumentation, da oft nur die einzelnen Masken (Fenster) beschrieben wurden und die die Zusammenhänge nicht ersichtlich wurden. Mit Zusammenhänge verstehen wir aus IT Sicht die "Klickstrecken" beziehungsweise ganzheitliche Abläufe (Prozesse) wie beispielsweise der Standardauftragsprozess (SOP = Standard Order Process).
+In the past systems (Ax 2009 and AX 2012) there were always problems with the completeness of the documentation, because often only the individual masks (windows) were described and the connections were not apparent. From an IT point of view, we understand interrelationships to mean the "click paths" or holistic procedures (processes) such as the standard order process (SOP = Standard Order Process).
 
-Daher wird die Dokumentation Prozess- und Modulbezogen aufgebaut.
+Therefore, the documentation is structured process- and module-related.
 
-Mit Prozessbezogen werden komplette Abläufe ("Klickstrecken") wie beispielsweise "Material Umlagern" über verschiedene Anwendungsmasken hinweg und aus verschiedenen Sichten dokumentiert. Es kann so komplett beschrieben werden, was alles von verschiedenen Perspektiven getan werden muss.
-Nehmen wir hier wieder den Prozess des Material umlagerns. Material wird in der Produktion benötigt. Hier entsteht ein Bedarf. Das System erstellt einen Bedarfsdecker, welcher im Lager angezeigt wird. Num wird das Material im Lager entnommen und aus dem Lager ausgebucht. In diesem Prozess sind mehrere D365 Masken und verschiedene Abteilungen betroffen. Diese können durch einen prozessbezogenen Dokumentationsansatz ganzheitlich abgebildet werden.
+Process-related means that complete processes ("click paths") such as "material transfer" are documented across different application screens and from different views. In this way, it is possible to completely describe everything that has to be done from different perspectives. Let's take the process of material transfer again. Material is needed in production. Here a demand arises. The system creates a demand cover, which is displayed in the warehouse. Num the material is taken from the warehouse and booked out of the warehouse. In this process several D365 masks and different departments are involved. These can be mapped holistically through a process-related documentation approach.
 
-Zusätzlich ist die Dokumentation Modulbezogen aufgebaut. Das heißt die Einzelnen Fachabteilungen finden Beschreibungen über ihre Arbeitsinhalte.
+In addition, the documentation is module-related. This means that the individual departments find descriptions of their work content.
 
 ## Quick Start:
-1. [WIKA D365 Prozessdokumentation](ProcessDoku/intro.md)
-1. [Englische Anwendungsdokumentation von Microsoft](articles/supply-chain/index.md)
-1. [Deutsche Anwendungsdokumentation von Microsoft (Zum Teil schon in die WIKA Prozessdokumentation mit aufgenommen)](articles_de\supply-chain\index.md)
+1. [WIKA D365 process documentation](ProcessDoku/intro.md)
+1. [English documentatation of Microsoft (Parts can be used for WIKA Documentation)](articles/supply-chain/index.md)
+1. [German documentation of Microsoft](articles_de\supply-chain\index.md)

@@ -1,24 +1,18 @@
+# Welcome Page WIKA Prozss Doku
 
-# [Prozessübersicht](href)
+## First Words
+
+## Wie finde ich mich hier zurecht?
+
+# [Prozessübersicht]
 
 
 ![Prozessübersicht](./media/Prozessübersicht.png "Prozessübersicht")
 
-[Sales Process](SalesProcess.md)
 
-## [Header1.1](href)
-# Header2
-## [Header2.1](href)
-### [Header2.1.1](href)
-## [Header2.2](href)
+Navigation
+[Sales Process](01_SalesProcess/SalesProcess.md)
 
 [bing](http://www.bing.com)
 
 [Sales Process](SalesProcess.md)
-
-[image](images/img1.jpg)
-
-Testtext
-
-![Kitten](..\images\img1.jpg "A cute kitten")
-![Example Picture](..\images\picture1.png "Example Picture")
