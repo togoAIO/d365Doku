@@ -12,6 +12,7 @@ Process-related means that complete processes ("click paths") such as "material 
 
 In addition, the documentation is module-related. This means that the individual departments find descriptions of their work content.
 
+
 ## Quick Start:
 1. [WIKA D365 process documentation](ProcessDoku/intro.md)
 1. [English documentatation of Microsoft (Parts can be used for WIKA Documentation)](articles/supply-chain/index.md)
